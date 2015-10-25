@@ -1,0 +1,409 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: MegaAtlas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .699002147, y: -.16990228, z: -7.48887203e-07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983d17c1d441e7143bebbe304c0e50f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture: {fileID: 2800000, guid: 72281799518404391835ad111721c7ee, type: 3}
+  elementNumber: 0
+  editElements: 0
+  elementsList:
+  - name: 436175737469635f41627374726163745f3036
+    UV:
+      x: .904296875
+      y: .874511719
+      width: .0844726562
+      height: .125
+    Imported: 1
+  - name: 436175737469635f41627374726163745f30365f436f6c6f72
+    UV:
+      x: .880371094
+      y: .370605469
+      width: .100097656
+      height: .125
+    Imported: 1
+  - name: 436175737469635f426c75655265645f536f6674
+    UV:
+      x: .502441406
+      y: .308105469
+      width: .125
+      height: .0625
+    Imported: 1
+  - name: 436175737469635f466f637573506f696e745f3034
+    UV:
+      x: .904296875
+      y: .748535156
+      width: .0830078125
+      height: .125
+    Imported: 1
+  - name: 436175737469635f53706f745f3035
+    UV:
+      x: .083984375
+      y: .114257812
+      width: .125
+      height: .125976562
+    Imported: 1
+  - name: 436175737469635f53706f745f3036
+    UV:
+      x: .251464844
+      y: .00048828125
+      width: .125
+      height: .113769531
+    Imported: 1
+  - name: 436175737469635f53706f745f3037
+    UV:
+      x: .377441406
+      y: .0102539062
+      width: .125
+      height: .110351562
+    Imported: 1
+  - name: 476c696e745f3031
+    UV:
+      x: .251464844
+      y: .247558594
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c696e745f3039
+    UV:
+      x: .362792969
+      y: .749511719
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c6f775f4368726f6d61
+    UV:
+      x: .778320312
+      y: .118652344
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 476c6f775f446f74
+    UV:
+      x: .83984375
+      y: .244628906
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 476c6f775f4c6172676546616c6c6f6666
+    UV:
+      x: .251464844
+      y: .498535156
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c6f775f4e6f6e65556e69666f726d5f3032
+    UV:
+      x: .00048828125
+      y: .241210938
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 497269735f44656361676f6e5f4368726f6d61
+    UV:
+      x: .754394531
+      y: .370605469
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f44656361676f6e5f536f6674
+    UV:
+      x: .713867188
+      y: .244628906
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f44656361676f6e5f536f66745375706572
+    UV:
+      x: .628417969
+      y: .370605469
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e
+    UV:
+      x: .628417969
+      y: .496582031
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f4368726f6d61
+    UV:
+      x: .778320312
+      y: .496582031
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f536f6674
+    UV:
+      x: .65234375
+      y: .0239257812
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f5375706572536f6674
+    UV:
+      x: .587890625
+      y: .149902344
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f51756164
+    UV:
+      x: .502441406
+      y: .371582031
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f517561645f4368726f6d61
+    UV:
+      x: .778320312
+      y: .622558594
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f517561645f536f6674
+    UV:
+      x: .502441406
+      y: .497558594
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f517561645f5375706572536f6674
+    UV:
+      x: .65234375
+      y: .622558594
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f547269
+    UV:
+      x: .778320312
+      y: .748535156
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f5472695f4368726f6d61
+    UV:
+      x: .502441406
+      y: .623535156
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f5472695f536f6674
+    UV:
+      x: .65234375
+      y: .748535156
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f5472695f5375706572536f6674
+    UV:
+      x: .778320312
+      y: .874511719
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 4d6973635f4f7262
+    UV:
+      x: .65234375
+      y: .874511719
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 4d6973635f537175617265
+    UV:
+      x: .461914062
+      y: .121582031
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 4d6973635f5371756172655f536f66745375706572
+    UV:
+      x: .3359375
+      y: .121582031
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 5368696d6d65725f4c6f6e675f4368726f6d615f3032
+    UV:
+      x: .111816406
+      y: .749511719
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 5368696d6d65725f576964655f4368726f6d615f3032
+    UV:
+      x: .00048828125
+      y: .4921875
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 537065637472756d5f4c6f6e67
+    UV:
+      x: .00048828125
+      y: .017578125
+      width: .213867188
+      height: .03515625
+    Imported: 1
+  - name: 537065637472756d5f506f696e745f3031
+    UV:
+      x: .209960938
+      y: .115234375
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 537065637472756d5f546869636b5f77696465
+    UV:
+      x: .00048828125
+      y: .0537109375
+      width: .0825195312
+      height: .186523438
+    Imported: 1
+  - name: 537065637472756d5f5468696e5f457874726157696465
+    UV:
+      x: .00048828125
+      y: .743164062
+      width: .110351562
+      height: .256347656
+    Imported: 1
+  - name: 537065637472756d5f5468696e5f536f6674
+    UV:
+      x: .503417969
+      y: .017578125
+      width: .0219726562
+      height: .103027344
+    Imported: 1
+  - name: 537465616b5f536f6674456e6473
+    UV:
+      x: .502441406
+      y: .275878906
+      width: .125
+      height: .03125
+    Imported: 1
+  - name: 537465616b5f5375706572536f6674456e6473
+    UV:
+      x: .526367188
+      y: .0581054688
+      width: .125
+      height: .0625
+    Imported: 1
+  - name: 53747265616b5f47726179426c7565
+    UV:
+      x: .526367188
+      y: .0258789062
+      width: .125
+      height: .03125
+    Imported: 1
+  - name: 53747265616b5f4c6f6e67426c7565
+    UV:
+      x: .00048828125
+      y: .0009765625
+      width: .25
+      height: .015625
+    Imported: 1
+  - name: 53747265616b5f4c6f6e675768697465
+    UV:
+      x: .083984375
+      y: .0615234375
+      width: .125
+      height: .015625
+    Imported: 1
+  - name: 53747265616b5f4f72616e6765
+    UV:
+      x: .083984375
+      y: .078125
+      width: .125
+      height: .03515625
+    Imported: 1
+  elementNameList:
+  - 436175737469635f41627374726163745f3036
+  - 436175737469635f41627374726163745f30365f436f6c6f72
+  - 436175737469635f426c75655265645f536f6674
+  - 436175737469635f466f637573506f696e745f3034
+  - 436175737469635f53706f745f3035
+  - 436175737469635f53706f745f3036
+  - 436175737469635f53706f745f3037
+  - 476c696e745f3031
+  - 476c696e745f3039
+  - 476c6f775f4368726f6d61
+  - 476c6f775f446f74
+  - 476c6f775f4c6172676546616c6c6f6666
+  - 476c6f775f4e6f6e65556e69666f726d5f3032
+  - 497269735f44656361676f6e5f4368726f6d61
+  - 497269735f44656361676f6e5f536f6674
+  - 497269735f44656361676f6e5f536f66745375706572
+  - 497269735f50656e7461676f6e
+  - 497269735f50656e7461676f6e5f4368726f6d61
+  - 497269735f50656e7461676f6e5f536f6674
+  - 497269735f50656e7461676f6e5f5375706572536f6674
+  - 497269735f51756164
+  - 497269735f517561645f4368726f6d61
+  - 497269735f517561645f536f6674
+  - 497269735f517561645f5375706572536f6674
+  - 497269735f547269
+  - 497269735f5472695f4368726f6d61
+  - 497269735f5472695f536f6674
+  - 497269735f5472695f5375706572536f6674
+  - 4d6973635f4f7262
+  - 4d6973635f537175617265
+  - 4d6973635f5371756172655f536f66745375706572
+  - 5368696d6d65725f4c6f6e675f4368726f6d615f3032
+  - 5368696d6d65725f576964655f4368726f6d615f3032
+  - 537065637472756d5f4c6f6e67
+  - 537065637472756d5f506f696e745f3031
+  - 537065637472756d5f546869636b5f77696465
+  - 537065637472756d5f5468696e5f457874726157696465
+  - 537065637472756d5f5468696e5f536f6674
+  - 537465616b5f536f6674456e6473
+  - 537465616b5f5375706572536f6674456e6473
+  - 53747265616b5f47726179426c7565
+  - 53747265616b5f4c6f6e67426c7565
+  - 53747265616b5f4c6f6e675768697465
+  - 53747265616b5f4f72616e6765
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1

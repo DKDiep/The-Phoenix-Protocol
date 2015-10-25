@@ -1,0 +1,249 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: IslandDemoAtlas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983d17c1d441e7143bebbe304c0e50f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture: {fileID: 2800000, guid: b96ae14a5fa164cbda52e52ab1694f94, type: 3}
+  elementNumber: 9
+  editElements: 0
+  elementsList:
+  - name: 436175737469635f53706f745f3035
+    UV:
+      x: .759765625
+      y: .622558594
+      width: .185058594
+      height: .186035156
+    Imported: 1
+  - name: 436175737469635f53706f745f3036
+    UV:
+      x: .759765625
+      y: .811035156
+      width: .205566406
+      height: .186523438
+    Imported: 1
+  - name: 476c696e745f3031
+    UV:
+      x: .507324219
+      y: .242675781
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c696e745f3039
+    UV:
+      x: .507324219
+      y: .495117188
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c696e745f3130
+    UV:
+      x: .507324219
+      y: .747558594
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c6f775f4368726f6d61
+    UV:
+      x: .254882812
+      y: .129882812
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c6f775f4c6172676546616c6c6f6666
+    UV:
+      x: .254882812
+      y: .382324219
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 476c6f775f4e6f6e65556e69666f726d5f3032
+    UV:
+      x: .254882812
+      y: .634765625
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 497269735f48657861676f6e5f4368726f6d61
+    UV:
+      x: .00244140625
+      y: .129882812
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 497269735f48657861676f6e5f536f6674
+    UV:
+      x: .759765625
+      y: .23046875
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f48657861676f6e5f5375706572536f6674
+    UV:
+      x: .759765625
+      y: .357910156
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f4368726f6d61
+    UV:
+      x: .00244140625
+      y: .382324219
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f536f6674
+    UV:
+      x: .384765625
+      y: .00244140625
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 497269735f50656e7461676f6e5f5375706572536f6674
+    UV:
+      x: .257324219
+      y: .00244140625
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 4d6973635f5371756172655f536f6674
+    UV:
+      x: .129882812
+      y: .00244140625
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 4d6973635f5371756172655f536f66745375706572
+    UV:
+      x: .00244140625
+      y: .00244140625
+      width: .125
+      height: .125
+    Imported: 1
+  - name: 5368696d6d65725f4c6f6e675f4368726f6d615f3032
+    UV:
+      x: .00244140625
+      y: .634765625
+      width: .25
+      height: .25
+    Imported: 1
+  - name: 537065637472756d5f4c6f6e67
+    UV:
+      x: .512207031
+      y: .122070312
+      width: .213867188
+      height: .03515625
+    Imported: 1
+  - name: 537065637472756d5f506f696e745f3031
+    UV:
+      x: .759765625
+      y: .485351562
+      width: .152832031
+      height: .134765625
+    Imported: 1
+  - name: 537065637472756d5f546869636b5f77696465
+    UV:
+      x: .915039062
+      y: .43359375
+      width: .0825195312
+      height: .186523438
+    Imported: 1
+  - name: 537465616b5f5375706572536f6674456e6473
+    UV:
+      x: .507324219
+      y: .177734375
+      width: .25
+      height: .0625
+    Imported: 1
+  - name: 53747265616b5f4c6f6e67426c7565
+    UV:
+      x: .507324219
+      y: .159667969
+      width: .25
+      height: .015625
+    Imported: 1
+  - name: 53747265616b5f4c6f6e675768697465
+    UV:
+      x: .759765625
+      y: .212402344
+      width: .125
+      height: .015625
+    Imported: 1
+  - name: 53747265616b5f4f72616e6765
+    UV:
+      x: .00244140625
+      y: .887207031
+      width: .391601562
+      height: .110351562
+    Imported: 1
+  elementNameList:
+  - 436175737469635f53706f745f3035
+  - 436175737469635f53706f745f3036
+  - 476c696e745f3031
+  - 476c696e745f3039
+  - 476c696e745f3130
+  - 476c6f775f4368726f6d61
+  - 476c6f775f4c6172676546616c6c6f6666
+  - 476c6f775f4e6f6e65556e69666f726d5f3032
+  - 497269735f48657861676f6e5f4368726f6d61
+  - 497269735f48657861676f6e5f536f6674
+  - 497269735f48657861676f6e5f5375706572536f6674
+  - 497269735f50656e7461676f6e5f4368726f6d61
+  - 497269735f50656e7461676f6e5f536f6674
+  - 497269735f50656e7461676f6e5f5375706572536f6674
+  - 4d6973635f5371756172655f536f6674
+  - 4d6973635f5371756172655f536f66745375706572
+  - 5368696d6d65725f4c6f6e675f4368726f6d615f3032
+  - 537065637472756d5f4c6f6e67
+  - 537065637472756d5f506f696e745f3031
+  - 537065637472756d5f546869636b5f77696465
+  - 537465616b5f5375706572536f6674456e6473
+  - 53747265616b5f4c6f6e67426c7565
+  - 53747265616b5f4c6f6e675768697465
+  - 53747265616b5f4f72616e6765
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1

@@ -1,0 +1,49 @@
+———- V1.08 —————
+
+This update is focused on making ProFlares more stable and flexible. Its now safe to save your ProFlares Setups as a prefab and instantiate them when necessary.
+
+- Official Unity5 Support
+
+- Import and export flares as Json data.
+
+- Updated Oculus support
+
+- Scale flares based on their transform
+
+- Number of bug fixes
+
+———- V1.05 —————
+
+Optimisations!!!
+
+The core of the ProFlareBatch script has seen some massive performance improvements so just updating ProFlares to v1.05 will see most use cases the CPU time spent reduce by half if not more, and this is without the culling system.
+
+The new culling system.
+
+Overview.
+
+The new culling system has been designed to improve CPU performance for scenes that use lots of flares, and a which some of them may go off screen for a period of time.
+
+ProFlares batches all flares that use the same texture into one draw call. It does this by keeping track of all the flares and building them into one mesh. This works great as it doesn't require any allocation per frame. The only down side is that flares that may be offscreen still need processing.
+
+The culling system fixes this overhead. It detects flares that are off screen and removes them from the list. Rebuilding the list is expensive so the culling system tries to do it intelligently. If a flare goes off screen it has a good chance it might come back on screen in the next few seconds. So it will not be culled before a timer has ran making sure its off screen for at least a little while. Culling one flare won’t improve performance enough so its not worth rebuilding the flares list, so the culling system waits until enough flares have been of screen for long enough before rebuilding the flares list.
+
+When a culled flare has become visible again we are forced to rebuild the flares list, but if we delay just slightly we may catch a second or more flares that might be now visible. Then the flares list is only rebuilt once.
+
+Enabling the culling system.
+
+The settings for culling system are found on you ProFlareBatch script. Turn on ‘Use Flare Culling’ to enable it.
+
+‘Cull Flares After Seconds’  : This is the length of time a flare must be of screen before it can be culled.
+
+‘Cull Flares when can cull # Flares’ : When the number of flares that can be culled is equal to or greater than this number. The Flares list is rebuilt and the offscreen flares become culled.
+
+Should culling always be on?
+
+As discussed rebuilding the Flares list does have its cost, so in some cases using culling doesn't make sense. If you only have a small number of flares and they remain mainly on screen, the culling system probably wont save you much CPU time.
+
+If your scene has lots of flares that rapidly go on and off screen, you could get to the point when Flares list is getting rebuilt too often. Experiment with the culling settings so that flares don’t get culled too quickly.
+
+Also each flare under its General Settings, has a ‘Never Cull’ setting. This will make the culling system ignore it.
+
+The ProFlareBatch inspector now displays all flares and there culling state, which is great for culling debugging.

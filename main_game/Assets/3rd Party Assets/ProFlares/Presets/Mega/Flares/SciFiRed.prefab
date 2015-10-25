@@ -1,0 +1,890 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 8
+  m_Name: SciFiRed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b6679336c128b459f37ee207e8c880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Atlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+  FlareBatches:
+  - {fileID: 0}
+  EditingAtlas: 0
+  Elements:
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 8
+    SpriteName: 476c696e745f3039
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: .680000007
+    ScaleRandom: 0
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: 0, y: 0, z: 0, w: 0}
+    position: -1
+    useRangeOffset: 0
+    SubElementPositionRange_Min: -1
+    SubElementPositionRange_Max: 1
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.919718981, y: -.173205078, z: 0}
+    Anamorphic: {x: 0, y: 0, z: 0}
+    OffsetPostion: {x: 0, y: 0, z: 0}
+    angle: 0
+    FinalAngle: 0
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: 0
+      b: 0
+      a: .933333337
+    ElementTint:
+      r: 1
+      g: 0
+      b: 0
+      a: 1
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 0
+    ScaleCurve:
+      m_Curve:
+      - time: 0
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 1
+    DynamicEdgeBoostOverride: 2.75
+    OverrideDynamicCenterBoost: 0
+    DynamicCenterBoostOverride: 1
+    OverrideDynamicEdgeBrightness: 1
+    DynamicEdgeBrightnessOverride: 1
+    OverrideDynamicCenterBrightness: 0
+    DynamicCenterBrightnessOverride: .400000006
+    subElements: []
+    size: {x: 1, y: 1}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 0
+    OverrideSetting: 1
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 0
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 9
+    SpriteName: 476c6f775f4368726f6d61
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: .209999993
+    ScaleRandom: 0
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: 0, y: 0, z: 0, w: 0}
+    position: -1
+    useRangeOffset: 0
+    SubElementPositionRange_Min: -1
+    SubElementPositionRange_Max: 1
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.919718981, y: -.173205078, z: 0}
+    Anamorphic: {x: 0, y: 0, z: 0}
+    OffsetPostion: {x: 0, y: 0, z: 0}
+    angle: 0
+    FinalAngle: 0
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: .666666687
+      b: .666666687
+      a: .311111122
+    ElementTint:
+      r: 1
+      g: .666666687
+      b: .666666687
+      a: .333333343
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 0
+    ScaleCurve:
+      m_Curve:
+      - time: 0
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 0
+    DynamicEdgeBoostOverride: 1
+    OverrideDynamicCenterBoost: 0
+    DynamicCenterBoostOverride: 1
+    OverrideDynamicEdgeBrightness: 0
+    DynamicEdgeBrightnessOverride: .400000006
+    OverrideDynamicCenterBrightness: 0
+    DynamicCenterBrightnessOverride: .400000006
+    subElements: []
+    size: {x: 1, y: 1}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 0
+    OverrideSetting: 0
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 0
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 30
+    SpriteName: 4d6973635f5371756172655f536f66745375706572
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: .800000012
+    ScaleRandom: 0
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: 0, y: 0, z: 1, w: 0}
+    position: -1
+    useRangeOffset: 1
+    SubElementPositionRange_Min: -1.8259306
+    SubElementPositionRange_Max: -1.19881189
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.846972823, y: .0585274696, z: 0}
+    Anamorphic: {x: 0, y: 1, z: 0}
+    OffsetPostion: {x: .75999999, y: .0900000036, z: 0}
+    angle: 0
+    FinalAngle: 0
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: .921568632
+      b: .788235307
+      a: .309803933
+    ElementTint:
+      r: 1
+      g: .419607848
+      b: .419607848
+      a: .129411772
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 1
+    ScaleCurve:
+      m_Curve:
+      - time: .104803488
+        value: .742483616
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+      - time: .223419681
+        value: .107334256
+        inSlope: 1.30295753
+        outSlope: 1.30295753
+        tangentMode: 0
+      - time: .658838093
+        value: .393220723
+        inSlope: 1.26630068
+        outSlope: 1.26630068
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 1
+    DynamicEdgeBoostOverride: 0
+    OverrideDynamicCenterBoost: 1
+    DynamicCenterBoostOverride: 0
+    OverrideDynamicEdgeBrightness: 1
+    DynamicEdgeBrightnessOverride: 0
+    OverrideDynamicCenterBrightness: 1
+    DynamicCenterBrightnessOverride: -.0799999982
+    subElements:
+    - color:
+        r: 1
+        g: .419607848
+        b: 0
+        a: .129411772
+      colorFinal:
+        r: 1
+        g: .419607848
+        b: 0
+        a: .12078432
+      position: -1.43472898
+      offset: {x: -.559547544, y: -.0832050741, z: 0}
+      angle: 0
+      scale: .353835464
+      random: .623807847
+      random2: .786313772
+      RandomScaleSeed: .867851257
+      RandomColorSeedR: -.847313643
+      RandomColorSeedG: -.74270916
+      RandomColorSeedB: -.524791479
+      RandomColorSeedA: .839498758
+    - color:
+        r: 1
+        g: .419607848
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: 1
+        g: .419607848
+        b: 1
+        a: .12078432
+      position: -1.76875532
+      offset: {x: -.86675787, y: -.0832050741, z: 0}
+      angle: 0
+      scale: .742483616
+      random: .0911713839
+      random2: .310703814
+      RandomScaleSeed: .085386157
+      RandomColorSeedR: .0732103586
+      RandomColorSeedG: -.52665925
+      RandomColorSeedB: .901440382
+      RandomColorSeedA: .0860565901
+    - color:
+        r: 1
+        g: .419607848
+        b: 0
+        a: .129411772
+      colorFinal:
+        r: 1
+        g: .419607848
+        b: 0
+        a: .12078432
+      position: -1.68467605
+      offset: {x: -.789428592, y: -.0832050741, z: 0}
+      angle: 0
+      scale: .109696366
+      random: .225243688
+      random2: .808409929
+      RandomScaleSeed: .95547533
+      RandomColorSeedR: .796280861
+      RandomColorSeedG: -.478786588
+      RandomColorSeedB: -.979224205
+      RandomColorSeedA: .878199816
+    - color:
+        r: 1
+        g: .419607848
+        b: .104074091
+        a: .129411772
+      colorFinal:
+        r: 1
+        g: .419607848
+        b: .104074091
+        a: .12078432
+      position: -1.57308865
+      offset: {x: -.686799526, y: -.0832050741, z: 0}
+      angle: 0
+      scale: .238850504
+      random: .403180301
+      random2: .384918749
+      RandomScaleSeed: .572030544
+      RandomColorSeedR: -.202955604
+      RandomColorSeedG: -.981858015
+      RandomColorSeedB: -.315533757
+      RandomColorSeedA: .0685254335
+    - color:
+        r: 1
+        g: .419607848
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: 1
+        g: .419607848
+        b: 1
+        a: .12078432
+      position: -1.53492773
+      offset: {x: -.651702166, y: -.0832050741, z: 0}
+      angle: 0
+      scale: .260175556
+      random: .464031637
+      random2: .768796921
+      RandomScaleSeed: .228605628
+      RandomColorSeedR: .958346844
+      RandomColorSeedG: -.285935521
+      RandomColorSeedB: .655424595
+      RandomColorSeedA: -.393622518
+    size: {x: 1, y: 1}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 0
+    OverrideSetting: 0
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 1
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 8
+    SpriteName: 476c696e745f3039
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: .730000019
+    ScaleRandom: 0
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: 0, y: 0, z: 0, w: 0}
+    position: -1
+    useRangeOffset: 0
+    SubElementPositionRange_Min: -1
+    SubElementPositionRange_Max: 1
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.919718981, y: -.173205078, z: 0}
+    Anamorphic: {x: 0, y: 0, z: 0}
+    OffsetPostion: {x: 0, y: 0, z: 0}
+    angle: 27.5
+    FinalAngle: 27.5
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: .290196091
+      b: .290196091
+      a: .933333337
+    ElementTint:
+      r: 1
+      g: .290196091
+      b: .290196091
+      a: 1
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 0
+    ScaleCurve:
+      m_Curve:
+      - time: 0
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 0
+    DynamicEdgeBoostOverride: 1
+    OverrideDynamicCenterBoost: 0
+    DynamicCenterBoostOverride: 1
+    OverrideDynamicEdgeBrightness: 0
+    DynamicEdgeBrightnessOverride: .400000006
+    OverrideDynamicCenterBrightness: 0
+    DynamicCenterBrightnessOverride: .400000006
+    subElements: []
+    size: {x: 1, y: 1}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 0
+    OverrideSetting: 0
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 0
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 30
+    SpriteName: 4d6973635f5371756172655f536f66745375706572
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: .270000011
+    ScaleRandom: 1
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: .699000001, y: .912, z: 0, w: 0}
+    position: -1
+    useRangeOffset: 1
+    SubElementPositionRange_Min: -2.87747717
+    SubElementPositionRange_Max: -1.19881201
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.846972823, y: .0585274696, z: 0}
+    Anamorphic: {x: 0, y: 1, z: 0}
+    OffsetPostion: {x: -.0900000036, y: 0, z: 0}
+    angle: 0
+    FinalAngle: 0
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: .921568632
+      b: .788235307
+      a: .309803933
+    ElementTint:
+      r: .223529413
+      g: .337254912
+      b: 1
+      a: .129411772
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 1
+    ScaleCurve:
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 1
+    DynamicEdgeBoostOverride: 0
+    OverrideDynamicCenterBoost: 1
+    DynamicCenterBoostOverride: 0
+    OverrideDynamicEdgeBrightness: 1
+    DynamicEdgeBrightnessOverride: 0
+    OverrideDynamicCenterBrightness: 1
+    DynamicCenterBrightnessOverride: -.0799999982
+    subElements:
+    - color:
+        r: 0
+        g: 0
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: 0
+        g: 0
+        b: 1
+        a: .12078432
+      position: -1.83031261
+      offset: {x: -1.77337325, y: -.173205078, z: 0}
+      angle: 0
+      scale: 1.60351193
+      random: .623807847
+      random2: .786313772
+      RandomScaleSeed: .867851257
+      RandomColorSeedR: -.847313643
+      RandomColorSeedG: -.74270916
+      RandomColorSeedB: -.524791479
+      RandomColorSeedA: .839498758
+    - color:
+        r: .274703443
+        g: 0
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: .274703443
+        g: 0
+        b: 1
+        a: .12078432
+      position: -2.72443104
+      offset: {x: -2.59571075, y: -.173205078, z: 0}
+      angle: 0
+      scale: .188890338
+      random: .0911713839
+      random2: .310703814
+      RandomScaleSeed: .085386157
+      RandomColorSeedR: .0732103586
+      RandomColorSeedG: -.52665925
+      RandomColorSeedB: .901440382
+      RandomColorSeedA: .0860565901
+    - color:
+        r: .780129731
+        g: 0
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: .780129731
+        g: 0
+        b: 1
+        a: .12078432
+      position: -2.49936843
+      offset: {x: -2.38871646, y: -.173205078, z: 0}
+      angle: 0
+      scale: .781706452
+      random: .225243688
+      random2: .808409929
+      RandomScaleSeed: .95547533
+      RandomColorSeedR: .796280861
+      RandomColorSeedG: -.478786588
+      RandomColorSeedB: -.979224205
+      RandomColorSeedA: .878199816
+    - color:
+        r: .0816634446
+        g: 0
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: .0816634446
+        g: 0
+        b: 1
+        a: .12078432
+      position: -2.20067239
+      offset: {x: -2.11400008, y: -.173205078, z: 0}
+      angle: 0
+      scale: 1.01208305
+      random: .403180301
+      random2: .384918749
+      RandomScaleSeed: .572030544
+      RandomColorSeedR: -.202955604
+      RandomColorSeedG: -.981858015
+      RandomColorSeedB: -.315533757
+      RandomColorSeedA: .0685254335
+    - color:
+        r: .893413842
+        g: .0764817148
+        b: 1
+        a: .129411772
+      colorFinal:
+        r: .893413842
+        g: .0764817148
+        b: 1
+        a: .12078432
+      position: -2.09852338
+      offset: {x: -2.02005172, y: -.173205078, z: 0}
+      angle: 0
+      scale: .875673771
+      random: .464031637
+      random2: .768796921
+      RandomScaleSeed: .228605628
+      RandomColorSeedR: .958346844
+      RandomColorSeedG: -.285935521
+      RandomColorSeedB: .655424595
+      RandomColorSeedA: -.393622518
+    size: {x: 2.07999992, y: .449999988}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 0
+    OverrideSetting: 0
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 1
+  - Editing: 0
+    Visible: 1
+    elementTextureID: 42
+    SpriteName: 53747265616b5f4c6f6e675768697465
+    flare: {fileID: 11400000}
+    flareAtlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
+    Brightness: 1
+    Scale: 1
+    ScaleRandom: 0
+    ScaleFinal: .933333337
+    RandomColorAmount: {x: 0, y: 0, z: 0, w: 0}
+    position: -1
+    useRangeOffset: 0
+    SubElementPositionRange_Min: -1
+    SubElementPositionRange_Max: 1
+    SubElementAngleRange_Min: -180
+    SubElementAngleRange_Max: 180
+    OffsetPosition: {x: -.919718981, y: -.173205078, z: 0}
+    Anamorphic: {x: 0, y: 0, z: 0}
+    OffsetPostion: {x: 0, y: 0, z: 0}
+    angle: 90
+    FinalAngle: 90
+    useRandomAngle: 0
+    useStarRotation: 0
+    AngleRandom_Min: 0
+    AngleRandom_Max: 0
+    OrientToSource: 0
+    rotateToFlare: 0
+    rotationSpeed: 0
+    rotationOverTime: 0
+    useColorRange: 0
+    ElementFinalColor:
+      r: 1
+      g: 0
+      b: 0
+      a: .311111122
+    ElementTint:
+      r: 1
+      g: 0
+      b: 0
+      a: .333333343
+    SubElementColor_Start:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    SubElementColor_End:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    useScaleCurve: 0
+    ScaleCurve:
+      m_Curve:
+      - time: 0
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .100000001
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    OverrideDynamicEdgeBoost: 0
+    DynamicEdgeBoostOverride: 1
+    OverrideDynamicCenterBoost: 0
+    DynamicCenterBoostOverride: 1
+    OverrideDynamicEdgeBrightness: 0
+    DynamicEdgeBrightnessOverride: .400000006
+    OverrideDynamicCenterBrightness: 0
+    DynamicCenterBrightnessOverride: .400000006
+    subElements: []
+    size: {x: 5.01000023, y: .159999996}
+    EditDynamicTriggering: 0
+    EditOcclusion: 0
+    ElementSetting: 0
+    OffsetSetting: 0
+    ColorSetting: 0
+    ScaleSetting: 0
+    RotationSetting: 1
+    OverrideSetting: 0
+    colorTexture: {fileID: 0}
+    colorTextureDirty: 1
+    type: 0
+  thisTransform: {fileID: 400000}
+  LensPosition: {x: .241329044, y: .413397461, z: 10}
+  EditGlobals: 1
+  GlobalScale: 100
+  GlobalBrightness: 1
+  GlobalTintColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  useMaxDistance: 1
+  useDistanceScale: 1
+  useDistanceFade: 1
+  GlobalMaxDistance: 150
+  UseAngleLimit: 0
+  maxAngle: 180
+  UseAngleScale: 0
+  UseAngleBrightness: 1
+  UseAngleCurve: 0
+  AngleCurve:
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  mask: {}
+  RaycastPhysics: 0
+  Occluded: 0
+  OccludeScale: 1
+  OccludingObject: {fileID: 0}
+  EditDynamicTriggering: 1
+  EditOcclusion: 0
+  OffScreenFadeDist: .200000003
+  useDynamicEdgeBoost: 1
+  DynamicEdgeBoost: 1.20000005
+  DynamicEdgeBrightness: .100000001
+  DynamicEdgeRange: .300000012
+  DynamicEdgeBias: -.100000001
+  DynamicEdgeCurve:
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: .5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  useDynamicCenterBoost: 1
+  DynamicCenterBoost: .100000001
+  DynamicCenterBrightness: 0
+  DynamicCenterRange: .100000001
+  DynamicCenterBias: 0
+  DisabledPlayMode: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1

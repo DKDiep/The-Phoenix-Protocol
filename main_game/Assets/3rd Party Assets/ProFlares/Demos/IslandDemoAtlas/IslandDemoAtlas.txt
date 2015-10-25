@@ -1,0 +1,204 @@
+{"frames": {
+
+"Caustic_Spot_05.psd":
+{
+	"frame": {"x":1556,"y":392,"w":379,"h":381},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":379,"h":381},
+	"sourceSize": {"w":379,"h":381}
+},
+"Caustic_Spot_06.psd":
+{
+	"frame": {"x":1556,"y":5,"w":421,"h":382},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":421,"h":382},
+	"sourceSize": {"w":421,"h":382}
+},
+"Glint_01.psd":
+{
+	"frame": {"x":1039,"y":1039,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Glint_09.psd":
+{
+	"frame": {"x":1039,"y":522,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Glint_10.psd":
+{
+	"frame": {"x":1039,"y":5,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Glow_Chroma.psd":
+{
+	"frame": {"x":522,"y":1270,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Glow_LargeFalloff.psd":
+{
+	"frame": {"x":522,"y":753,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Glow_NoneUniform_02.psd":
+{
+	"frame": {"x":522,"y":236,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Iris_Hexagon_Chroma.psd":
+{
+	"frame": {"x":5,"y":1270,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Iris_Hexagon_Soft.psd":
+{
+	"frame": {"x":1556,"y":1320,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Iris_Hexagon_SuperSoft.psd":
+{
+	"frame": {"x":1556,"y":1059,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Iris_Pentagon_Chroma.psd":
+{
+	"frame": {"x":5,"y":753,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Iris_Pentagon_Soft.psd":
+{
+	"frame": {"x":788,"y":1787,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Iris_Pentagon_SuperSoft.psd":
+{
+	"frame": {"x":527,"y":1787,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Misc_Square_Soft.psd":
+{
+	"frame": {"x":266,"y":1787,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Misc_Square_SoftSuper.psd":
+{
+	"frame": {"x":5,"y":1787,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+"Shimmer_Long_Chroma_02.psd":
+{
+	"frame": {"x":5,"y":236,"w":512,"h":512},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":512},
+	"sourceSize": {"w":512,"h":512}
+},
+"Spectrum_Long.psd":
+{
+	"frame": {"x":1049,"y":1726,"w":438,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":438,"h":72},
+	"sourceSize": {"w":438,"h":72}
+},
+"Spectrum_Point_01.psd":
+{
+	"frame": {"x":1556,"y":778,"w":313,"h":276},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":313,"h":276},
+	"sourceSize": {"w":313,"h":276}
+},
+"Spectrum_Thick_wide.psd":
+{
+	"frame": {"x":1874,"y":778,"w":169,"h":382},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":382},
+	"sourceSize": {"w":169,"h":382}
+},
+"Steak_SuperSoftEnds.psd":
+{
+	"frame": {"x":1039,"y":1556,"w":512,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":128},
+	"sourceSize": {"w":512,"h":128}
+},
+"Streak_LongBlue.psd":
+{
+	"frame": {"x":1039,"y":1689,"w":512,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":32},
+	"sourceSize": {"w":512,"h":32}
+},
+"Streak_LongWhite.psd":
+{
+	"frame": {"x":1556,"y":1581,"w":256,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":32},
+	"sourceSize": {"w":256,"h":32}
+},
+"Streak_Orange.psd":
+{
+	"frame": {"x":5,"y":5,"w":802,"h":226},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":802,"h":226},
+	"sourceSize": {"w":802,"h":226}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "IslandDemoAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:4c1985f58ca5704bd087e8be2ba14251:1/1$"
+}
+}
