@@ -6,10 +6,10 @@ public class BulletLogic : MonoBehaviour
 
 	[SerializeField] float speed = 100f;
 	GameObject player;
-
-	void Start () 
+	
+	public void SetPlayer(GameObject temp)
 	{
-		player = GameObject.Find ("PlayerShip");
+		player = temp;
 		transform.LookAt (player.transform.position); // Set to the correct rotation. Needs position predication
 		StartCoroutine ("DestroyZ");
 	}

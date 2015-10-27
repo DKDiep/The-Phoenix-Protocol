@@ -8,10 +8,10 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] float shotsPerSec = 1f;
 	[SerializeField] GameObject bullet;
 	GameObject player;
-
-	void Start () 
+	
+	public void SetPlayer(GameObject temp)
 	{
-		player = GameObject.Find ("PlayerShip");
+		player = temp;
 		StartCoroutine ("DestroyZ");
 		StartCoroutine ("Shoot");
 	}
@@ -36,7 +36,8 @@ public class EnemyLogic : MonoBehaviour
 	IEnumerator Shoot()
 	{
 		yield return new WaitForSeconds(1f/ shotsPerSec);
-		Instantiate (bullet, transform.position, Quaternion.identity);
+		GameObject temp = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
+		temp.GetComponent<BulletLogic>().SetPlayer (player);
 		StartCoroutine ("Shoot");
 	}
 }

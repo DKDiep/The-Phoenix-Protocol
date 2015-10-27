@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
 			Vector3 rand_position = new Vector3(transform.position.x + Random.Range (-400, 400), transform.position.y + Random.Range (-400, 400), transform.position.z + 200 + Random.Range (50, 1000));
 			GameObject temp = Instantiate (enemy, rand_position, transform.rotation) as GameObject;
 			temp.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
+			temp.GetComponent<EnemyLogic>().SetPlayer(this.gameObject);
 			numEnemies += 1;
 		}
 	}
