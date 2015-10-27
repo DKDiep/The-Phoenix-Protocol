@@ -199,6 +199,9 @@
      <None Include="Assets\Resources\Aubergine\Shaders\ImageEffects\Lightshafts.shader" />
      <None Include="Assets\Resources\Aubergine\Shaders\ImageEffects\Thicken.shader" />
      <None Include="Assets\3rd Party Assets\ProFlares\Presets\Mega\Flares\LastSunSet.txt" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -213,6 +216,24 @@
  </Reference>
  <Reference Include="UnityEditor.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="AmplifyColor">
+ <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyColor/Plugins/AmplifyColor.dll</HintPath>
+ </Reference>
+ <Reference Include="AmplifyColorEditor">
+ <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyColor/Plugins/Editor/AmplifyColorEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="AmplifyMotion">
+ <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyMotion/Plugins/AmplifyMotion.dll</HintPath>
+ </Reference>
+ <Reference Include="AmplifyMotionEditor">
+ <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyMotion/Plugins/Editor/AmplifyMotionEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="SSAA">
+ <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/Super Sampling (SSAA)/Data/SSAA.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -240,21 +261,6 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="SSAA">
- <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/Super Sampling (SSAA)/Data/SSAA.dll</HintPath>
- </Reference>
- <Reference Include="AmplifyMotion">
- <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyMotion/Plugins/AmplifyMotion.dll</HintPath>
- </Reference>
- <Reference Include="AmplifyMotionEditor">
- <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyMotion/Plugins/Editor/AmplifyMotionEditor.dll</HintPath>
- </Reference>
- <Reference Include="AmplifyColorEditor">
- <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyColor/Plugins/Editor/AmplifyColorEditor.dll</HintPath>
- </Reference>
- <Reference Include="AmplifyColor">
- <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyColor/Plugins/AmplifyColor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
