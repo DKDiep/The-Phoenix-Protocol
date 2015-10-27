@@ -273,33 +273,6 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 122910, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
   m_PrefabInternal: {fileID: 396275591}
---- !u!114 &1280067792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f0dcf603e9e5b4f8d31988975f4bdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visualizeSSAO: 0
-  radius: 1
-  bias: .100000001
-  bilateralDepthTolerance: .200000003
-  zThickness: 2.3499999
-  occlusionIntensity: 1.29999995
-  sampleDistributionCurve: 1.14999998
-  colorBleedAmount: 1
-  brightnessThreshold: 0
-  drawDistance: 500
-  drawDistanceFadeSize: 1
-  reduceSelfBleeding: 1
-  useDownsampling: 0
-  halfSampling: 0
-  preserveDetails: 0
-  attachedCamera: {fileID: 1280067796}
 --- !u!114 &1280067793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloomIntensity: .0500000007
   shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
-  lensDirtTexture: {fileID: 0}
+  lensDirtTexture: {fileID: 2800000, guid: 71fbb52f151bc6c45822462a368b455a, type: 3}
   lensDirtIntensity: .0500000007
   inputIsHDR: 1
 --- !u!114 &1280067794
@@ -430,7 +403,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38d339c2fa3e211408ebd9198c0f9961, type: 3}
   m_Name: 
@@ -439,3 +412,30 @@ MonoBehaviour:
   unlocked: 0
   Filter: 2
   UseDynamicOutputResolution: 0
+--- !u!114 &1280067799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1280067791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f0dcf603e9e5b4f8d31988975f4bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualizeSSAO: 0
+  radius: 1
+  bias: .100000001
+  bilateralDepthTolerance: .200000003
+  zThickness: 2.3499999
+  occlusionIntensity: 1.29999995
+  sampleDistributionCurve: 1.14999998
+  colorBleedAmount: 1
+  brightnessThreshold: 0
+  drawDistance: 500
+  drawDistanceFadeSize: 1
+  reduceSelfBleeding: 1
+  useDownsampling: 0
+  halfSampling: 0
+  preserveDetails: 0
+  attachedCamera: {fileID: 1280067796}

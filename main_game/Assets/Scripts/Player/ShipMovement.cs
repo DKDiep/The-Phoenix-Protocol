@@ -31,7 +31,7 @@ public class ShipMovement : MonoBehaviour
 		}
 		else if(Mathf.Abs (pitchVelocity) > 0) // If no key pressed, decrease velocity
 		{
-			pitchVelocity *= 20f * Time.deltaTime;
+			pitchVelocity *= 0.5f;
 			if(Mathf.Abs (pitchVelocity) < 0.001f) pitchVelocity = 0f;
 		}
 		
@@ -45,7 +45,7 @@ public class ShipMovement : MonoBehaviour
 		}
 		else if(Mathf.Abs (rollVelocity) > 0)
 		{
-			rollVelocity *= 20f * Time.deltaTime;
+			rollVelocity *= 0.5f;
 			if(Mathf.Abs (rollVelocity) < 0.001f) rollVelocity = 0f;
 		}
 		
