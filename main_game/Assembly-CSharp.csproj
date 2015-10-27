@@ -333,11 +333,17 @@
      <None Include="Assets\Resources\Aubergine\Shaders\ImageEffects\Lightshafts.shader" />
      <None Include="Assets\Resources\Aubergine\Shaders\ImageEffects\Thicken.shader" />
      <None Include="Assets\3rd Party Assets\ProFlares\Presets\Mega\Flares\LastSunSet.txt" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="AmplifyColor">
  <HintPath>/Users/marcsteene/game/main_game/Assets/3rd Party Assets/AmplifyColor/Plugins/AmplifyColor.dll</HintPath>

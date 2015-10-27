@@ -1,0 +1,129 @@
+fileFormatVersion: 2
+guid: fc987a4e4ff5d45e2bbb0dc7dfbdbbf4
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Group10693
+    100004: Group16279
+    100006: Group28736
+    100008: Group34637
+    100010: Group37097
+    100012: Group64513
+    100014: RockyIsland_06:polySurface1
+    100016: Group64514
+    100018: Group64515
+    400000: //RootNode
+    400002: Group10693
+    400004: Group16279
+    400006: Group28736
+    400008: Group34637
+    400010: Group37097
+    400012: Group64513
+    400014: RockyIsland_06:polySurface1
+    400016: Group64514
+    400018: Group64515
+    2300000: //RootNode
+    2300002: Group10693
+    2300004: Group16279
+    2300006: Group28736
+    2300008: Group34637
+    2300010: Group37097
+    2300012: Group64513
+    2300014: RockyIsland_06:polySurface1
+    2300016: Group64514
+    2300018: Group64515
+    3300000: //RootNode
+    3300002: Group10693
+    3300004: Group16279
+    3300006: Group28736
+    3300008: Group34637
+    3300010: Group37097
+    3300012: Group64513
+    3300014: RockyIsland_06:polySurface1
+    3300016: Group64514
+    3300018: Group64515
+    4300000: RockyIsland_05:polySurface1
+    4300002: RockyIsland_06:polySurface1
+    4300004: Group64513
+    4300006: Group10693
+    4300008: Group28736
+    4300010: Group34637
+    4300012: Group16279
+    4300014: Group37097
+    4300016: Group64514
+    4300018: Group64515
+    6400000: Group10693
+    6400002: Group16279
+    6400004: Group28736
+    6400006: Group34637
+    6400008: Group37097
+    6400010: Group64513
+    6400012: RockyIsland_06:polySurface1
+    6400014: Group64514
+    6400016: Group64515
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 3
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 180
+    splitTangentsAcrossUV: 1
+    normalImportMode: 1
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
