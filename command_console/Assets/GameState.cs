@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -8,31 +8,45 @@ public class GameState : MonoBehaviour {
     public int TotalPower;
     public int Health;
     public Text PowerText;
+    public Text EnginLabel;
+    public Text ShieldsLabel;
     private int remPower;
-    private bool EnginOn = true;
-    private bool ShieldsOn = true;
+    private bool upgrade = false;
+    private bool enginOn = true;
+    private bool shieldsOn = true;
     // Use this for initialization
     void Start () {
         UpdatePower();
+        EnginLabel.text = "Engin";
+    }
+
+    public void Upgrade(bool isOn)
+    {
+        upgrade = isOn;
     }
 
     public void Engin(bool isOn)
     {
-        EnginOn = isOn;
+        if (upgrade)
+        {
+            EnginLabel.text = EnginLabel.text + "I";
+            upgrade = false;
+        }
+        enginOn = isOn;
         UpdatePower();
     }
 
     public void Shields(bool isOn)
     {
-        ShieldsOn = isOn;
+        shieldsOn = isOn;
         UpdatePower();
     }
 
     void UpdatePower()
     {
         remPower = TotalPower;
-        if (EnginOn) remPower -= 3;
-        if (ShieldsOn) remPower -= 2;
+        if (enginOn) remPower -= 3;
+        if (shieldsOn) remPower -= 2;
         PowerText.text = remPower.ToString();
     }
 
