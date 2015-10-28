@@ -143,75 +143,47 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e84b65f6b68cbca4a9a9c63e390ea836, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &396275591
+--- !u!1001 &515132367
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 433844, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+    - target: {fileID: 439080, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
       propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11451544, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: maxEnemies
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463388, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: maxAsteroids
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 11463388, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11451544, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2084362, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: m_HDR
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2084362, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: far clip plane
-      value: 10000
-      objectReference: {fileID: 0}
-    - target: {fileID: 194806, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-      propertyPath: m_TagString
-      value: Player
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: c0358a3ee038b41d0b1c8b74aa1e1b26, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &923716971
 GameObject:
@@ -273,173 +245,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &1280067791 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 122910, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
-  m_PrefabInternal: {fileID: 396275591}
---- !u!114 &1280067793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c12500f3afdeb24d9444042960a4cb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloomIntensity: .0500000007
-  shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
-  lensDirtTexture: {fileID: 2800000, guid: 71fbb52f151bc6c45822462a368b455a, type: 3}
-  lensDirtIntensity: .0500000007
-  inputIsHDR: 1
---- !u!114 &1280067794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 390397f02bff7644ab045efd81d0d720, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  QualityLevel: 1
-  AutoRegisterObjs: 1
-  OverlayCameras: []
-  CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  QualitySteps: 1
-  MotionScale: 3
-  CameraMotionMult: 1
-  MinVelocity: 1
-  MaxVelocity: 10
-  DepthThreshold: .00100000005
-  WorkerThreads: 0
-  SystemThreadPool: 0
-  ForceCPUOnly: 0
-  DebugMode: 0
---- !u!114 &1280067795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9e31fdf962e3e4ca3b62ec3ecc2f4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Exposure: 1
-  UseToneMapping: 0
-  UseDithering: 0
-  QualityLevel: 1
-  BlendAmount: .5
-  LutTexture: {fileID: 2800000, guid: 985121459dea4a342b37beba48f3ab5e, type: 3}
-  LutBlendTexture: {fileID: 0}
-  MaskTexture: {fileID: 0}
-  UseDepthMask: 0
-  DepthMaskCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-  UseVolumes: 0
-  ExitVolumeBlendTime: 1
-  TriggerVolumeProxy: {fileID: 0}
-  VolumeCollisionMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  EffectFlags:
-    components: []
-  sharedInstanceID: 0b47a79f-0afa-4f7c-81c3-5b3d627f605a
---- !u!20 &1280067796 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 2084362, guid: 1623c7ac77e1042d88437bb66155eeb6,
-    type: 2}
-  m_PrefabInternal: {fileID: 396275591}
---- !u!114 &1280067797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec5688dc97c94c41a2bf37f0a513c2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hdr: 0
-  DebugPass: 0
-  Quality: 3
-  DetectionMethod: 2
-  UsePredication: 0
-  CustomPreset:
-    DiagDetection: 1
-    CornerDetection: 1
-    Threshold: .100000001
-    DepthThreshold: .00999999978
-    MaxSearchSteps: 16
-    MaxSearchStepsDiag: 8
-    CornerRounding: 25
-    LocalContrastAdaptationFactor: 2
-  CustomPredicationPreset:
-    Threshold: .00999999978
-    Scale: 2
-    Strength: .400000006
-  Shader: {fileID: 4800000, guid: 461ad39340fd1bf4e8d9fe310c58be95, type: 3}
-  AreaTex: {fileID: 2800000, guid: 7a7a7bb321416fa4d8ba53a700ae8140, type: 3}
-  SearchTex: {fileID: 2800000, guid: 3e01b396685ee1f48ac664c99ac95201, type: 3}
---- !u!114 &1280067798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d339c2fa3e211408ebd9198c0f9961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Scale: 2
-  unlocked: 0
-  Filter: 0
-  UseDynamicOutputResolution: 0
---- !u!114 &1280067799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1280067791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f0dcf603e9e5b4f8d31988975f4bdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visualizeSSAO: 0
-  radius: 1
-  bias: .100000001
-  bilateralDepthTolerance: .200000003
-  zThickness: 2.3499999
-  occlusionIntensity: 1.29999995
-  sampleDistributionCurve: 1.14999998
-  colorBleedAmount: 1
-  brightnessThreshold: 0
-  drawDistance: 500
-  drawDistanceFadeSize: 1
-  reduceSelfBleeding: 1
-  useDownsampling: 0
-  halfSampling: 0
-  preserveDetails: 0
-  attachedCamera: {fileID: 1280067796}
