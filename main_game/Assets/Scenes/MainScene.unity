@@ -516,6 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroid: {fileID: 180310, guid: 1148179f73ce04b748cdc45eb3fff301, type: 2}
   maxAsteroids: 100
+  maxVariation: 5
 --- !u!54 &1721769480
 Rigidbody:
   m_ObjectHideFlags: 0
