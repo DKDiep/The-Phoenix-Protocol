@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Debris
   - EnemyBullet
+  - EnemyShip
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX

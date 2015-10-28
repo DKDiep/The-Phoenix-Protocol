@@ -5,12 +5,14 @@ public class BulletLogic : MonoBehaviour
 {
 
 	[SerializeField] float speed = 100f;
+	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	GameObject player;
 	
 	public void SetPlayer(GameObject temp)
 	{
 		player = temp;
 		transform.LookAt (player.transform.position); // Set to the correct rotation. Needs position predication
+		transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
 		StartCoroutine ("DestroyZ");
 	}
 	

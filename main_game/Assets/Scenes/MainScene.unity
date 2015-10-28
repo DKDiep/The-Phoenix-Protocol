@@ -206,6 +206,10 @@ Prefab:
       propertyPath: far clip plane
       value: 10000
       objectReference: {fileID: 0}
+    - target: {fileID: 194806, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1623c7ac77e1042d88437bb66155eeb6, type: 2}
   m_IsPrefabParent: 0
@@ -410,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Scale: 2
   unlocked: 0
-  Filter: 2
+  Filter: 0
   UseDynamicOutputResolution: 0
 --- !u!114 &1280067799
 MonoBehaviour:
