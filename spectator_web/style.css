@@ -1,0 +1,19 @@
+#registerScreen {
+    display: none;
+}
+
+#joinCurrentScreen {
+    display: none;
+}
+
+#spectatorScreen {
+    display: none
+}
+
+#crewScreen {
+    display: none;
+}
+
+#pilotScreen {
+    display: none;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src ="coms.js"></script>
+    <script type="text/javascript" src ="init.js"></script>
+    <script type="text/javascript" src ="transition.js"></script>
+    <script type="text/javascript" src ="register.js"></script>
+</head>
+<body onload="initialiseWebPage()">
+    <div id="status">
+        Game Time: Been A While | Enemies: Enough | Ship Health: Excellent | System Status: <font color="green">Hull</font> <font color="red">Shields</font>
+    </div>
+
+    <div id="registerScreen">
+        Register:<br>
+        <input id="usernameField" type="text" />
+        <input type="button" id="registerButton" value="Join Game!" onclick="registerUser(this)"></input>
+    </div>
+
+    <div id="joinCurrentScreen">
+        There is an ongoing game. Join the fight!<br>
+        <input type="button" id="joinButton" value="Join Current Game!" onclick=""></input>
+    </div>
+
+    <div id="spectatorScreen">
+        Actions:<br>
+        <input type="button" id="spectatorAction1Button" value="action 1" onclick=""></input>
+        <input type="button" id="spectatorAction2Button" value="action 2" onclick=""></input>
+    </div>
+
+    <div id="crewScreen">
+        <p>Enemies Killed: A lot</p>
+        <p>Accuracy: Very Good!</p>
+        <p>Ammon: Inf</p>
+    </div>
+
+    <div id="pilotScreen">
+        <p>Ship Energy: A lot</p>
+        <p>Objective Progress: Close to completion</p>
+    </div>
+</body>
+</html>
