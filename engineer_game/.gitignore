@@ -8,6 +8,7 @@ Library/
 Assets/AssetStoreTools*
 ProjectSettings/
 *.asset
+*Guidlines.txt
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
