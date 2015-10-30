@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: cfc431489b1c841678e3b613e17c9b29
+timeCreated: 1441734899
+licenseType: Pro
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder:
+    TBE.Components.TBE_Environment: -250
+    TBE.Components.TBE_Initialise: -400
+    TBE.Components.TBE_InitialiseRoomModelling: -300
+    TBE.Components.TBE_RoomProperties: -200
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TBE_Components</name>
+    </assembly>
+    <members>
+        <member name="M:TBE.Components.TBE_AmbiArray.setAudioClips(UnityEngine.AudioClip,UnityEngine.AudioClip)">
+            Set the B-format audio files (split into two stereo files)
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.PlayOneShot(UnityEngine.AudioClip,UnityEngine.AudioClip)">
+            Play AudioClip as a one shot sound
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.PlayOneShot(UnityEngine.AudioClip,UnityEngine.AudioClip,System.Single)">
+            Play AudioClip as a one shot sound, with a gain modifier
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.PlayDelayed(System.Single)">
+            Play assigned AudioClip after a delay
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.Play">
+            Play assigned AudioClip
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.Stop">
+            Stop playback
+        </member>
+        <member name="M:TBE.Components.TBE_AmbiArray.Pause">
+            Pause playback
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.reverbToggle">
+            Toggle reverb zones -- the ambi array responds to Unity's reverb zones.
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.outputAudioMixerGroup">
+            Get/Set Output Audio Mixer Channel 
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.playOnAwake">
+            Toggle play on awake
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.bypassListenerEffects">
+            Toggle bypass listener effects
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.mute">
+            Toggle mute
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.loop">
+            Toggle loop
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.volume">
+            Toggle audio volume
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.pitch">
+            Get/set the pitch of the ambi array
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.clipYZ">
+            Get and set YZ AudioClip to playback
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.clipWX">
+            Get and set WX AudioClip to playback
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.time">
+            Get and set playback position in seconds
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.timeSamples">
+            Get and set playback position in samples
+        </member>
+        <member name="P:TBE.Components.TBE_AmbiArray.isPlaying">
+            Get audio playback status
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.hfReflections">
+            Get and set the amount of high frequency reflections, clamped between 0 and 1. 1 is maximum high frequencies.
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.erLevel">
+            Get and set overall amplitude of room reflections, clamped between 0 and 5 (linear gain)
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionRWall">
+            Get and set the amplutide of reflections off the right wall
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionFWall">
+            Get and set the amplutide of reflections off the front wall 
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionLWall">
+            Get and set the amplutide of reflections off the left wall
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionBWall">
+            Get and set the amplutide of reflections off the back wall
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionFloor">
+            Get and set the amplutide of reflections off the floor
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.reflectionCeiling">
+            Get and set the amplutide of reflections off the ceiling
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.diffuseZone">
+            Get and set the size of the diffuse zone. This is the area around the room where the reflections gradually diffuse and die out.
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.showGuides">
+            Show/hide the room guides
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.pivotPoint">
+            Get and set the room's pivot point (0 = corner, 1 = centre)
+        </member>
+        <member name="P:TBE.Components.TBE_RoomProperties.roomPreset">
+            Set/get room reflection presets
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.minimumDistance">
+            Get/set minimum distance. The distance after which the attenuation effect begins. Use this to control the 'size' of the sound.
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.maximumDistance">
+            Get/set maximum distance. In log mode, it is the distance after which attenuation stops. In linear mode, it is the distance at which the source is inaudible. 
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.maxDistanceMute">
+            Toggle maximum distance mute -- the distance after which the source is muted.
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.rollOffFactor">
+            Get/Set distance roll-off factor. Only applicable in logarithmic attenuation mode. A higher value results in a steeper attenuation curve. Default is 1 (6dB with doubling of distance).
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.roomToggle">
+            Toggle room modelling.
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.dopplerToggle">
+            Toggle doppler and delayed time of flight. Enabling this will disable Unity's doppler. 
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.dopplerIntensity">
+            Get/set the intensity of the doppler effect
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.selectChannel">
+            Get/set input channel selection
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.erRoomObject">
+            Get/set TBE_Room prefab object in the scene. Applicable only if auto detection of rooms is disabled.
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.autoDetectRoom">
+            Toggle auto detection of rooms
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.spatialize">
+            Toggle spatialization
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.sourcePannerType">
+            Get/set source panner type
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.roomPannerType">
+            Get/set room panner type
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.attenuationMode">
+            Get/Set the attenuation mode for the source (3Dcpetion's attenuation modes or Unity's attenuation curve)
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.customAttenuationGain">
+            If attenuationMode is set to custom, this sets the custom attenuation gain value
+        </member>
+        <member name="P:TBE.Components.TBE_SourceControl.autoRoomId">
+            Returns auto-detected room ID
+        </member>
+    </members>
+</doc>
