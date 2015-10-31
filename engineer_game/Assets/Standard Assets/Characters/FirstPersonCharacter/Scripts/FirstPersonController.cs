@@ -56,6 +56,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
             m_Jump = CrossPlatformInputManager.GetButton("Jump");
+
+            // Do forward raycast to check if there is an upgradeable object in front of the player
+            Vector3 fwd = transform.TransformDirection(Vector3.forward);
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(transform.position, fwd, out hitInfo, 10))
+            {
+                if (hitInfo.collider.CompareTag("Upgrade"))
+                {
+                    //Do Something
+                }
+            }
         }
 
 
@@ -72,8 +84,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
+            // Added movement in the up direction based on where the camera is facing
             //TODO: Change constant 2 to a variable maybe
             Vector3 desiredMove = transform.forward * m_Input.y + transform.right * m_Input.x + transform.up * (m_Input.y * -m_Camera.transform.localRotation.x * 2);
+
+            // Removed nomral calculation so that the player doesn't only move along the surface it is resting on
 
             m_MoveDir.x = desiredMove.x * speed;
             m_MoveDir.z = desiredMove.z * speed;
