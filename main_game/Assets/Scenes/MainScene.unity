@@ -608,7 +608,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 923716971}
-  m_LocalRotation: {x: .692361414, y: -.657604277, z: .273102522, w: -.116651036}
+  m_LocalRotation: {x: .692361355, y: -.657604218, z: .273102492, w: -.116651021}
   m_LocalPosition: {x: -125.900002, y: 38.2999992, z: 342.100006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -667,7 +667,7 @@ MonoBehaviour:
   m_SendPeerInfo: 0
   m_MaxDelay: .00999999978
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 121236, guid: 5a47990e5971e0a4ba4db03954f8fc10, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
