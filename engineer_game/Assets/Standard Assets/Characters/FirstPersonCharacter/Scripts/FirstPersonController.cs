@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace UnityStandardAssets.Characters.FirstPerson
@@ -25,6 +26,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        [SerializeField] private Text upgradeText;                // the upgrade text that is displayed to the player
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -48,6 +50,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_NextStep = m_StepCycle / 2f;
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
+            ResetUpgradeText();
+        }
+
+        private void ResetUpgradeText()
+        {
+            upgradeText.text = "";
         }
 
 
@@ -57,16 +65,26 @@ namespace UnityStandardAssets.Characters.FirstPerson
             RotateView();
             m_Jump = CrossPlatformInputManager.GetButton("Jump");
 
-            // Do forward raycast to check if there is an upgradeable object in front of the player
-            Vector3 fwd = transform.TransformDirection(Vector3.forward);
+            // Do forward raycast from camera to the center of the screen to see if an upgradeable object is in front of the player
+            int x = Screen.width / 2;
+            int y = Screen.height / 2;
+            Ray ray = m_Camera.ScreenPointToRay(new Vector3(x, y, 0));
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(transform.position, fwd, out hitInfo, 10))
+            if (Physics.Raycast(ray, out hitInfo, 5.0f))
             {
                 if (hitInfo.collider.CompareTag("Upgrade"))
                 {
-                    //Do Something
+                    upgradeText.text = "Press and hold E to upgrade";
                 }
+                else
+                {
+                    ResetUpgradeText();
+                }
+            }
+            else
+            {
+                ResetUpgradeText();
             }
         }
 
