@@ -6,11 +6,11 @@ import (
     "net/http"
 )
 
-const webDir string = "../spectator_web"
+const webDir string = "../phone_web"
 
 //Creates a spectator instance and adds it to the ecosystem
 func webSocketHandler(webs *websocket.Conn) {
-    spec := &Spectator{ws: webs}
+    spec := &User{ws: webs}
 
     spec.handleSpectator()
 }
