@@ -47,6 +47,8 @@ func (usr *User) handleMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "REG_USER":
         usr.registerNew(msg["data"].(string))
+    case "UPDATE_USER":
+        usr.updateUser(msg["data"].(string))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
@@ -68,6 +70,27 @@ func (usr *User) registerNew(name string) {
             "userData": map[string]interface{}{
                 "state": usr.state,
             },
+        },
+    }
+
+    usr.sendMsg(msg)
+}
+
+//Retrieves the user data and sends it to the client
+func (usr *User) updateUser(userId string) {
+    //TODO: remove dummy data retrieval
+    usr.username = userId[:len(userId)-3]
+    usr.userId = userId
+    usr.state = "SPECTATOR"
+    usr.sendUpdate()
+}
+
+//Sends a user state update
+func (usr *User) sendUpdate() {
+    msg := map[string]interface{}{
+        "type": "USER_UPDATE",
+        "data": map[string]interface{}{
+            "state": usr.state,
         },
     }
 
