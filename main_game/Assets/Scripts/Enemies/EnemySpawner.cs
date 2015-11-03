@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0;
 	[SerializeField] int maxEnemies;
+
+    public GameObject gameManager;
 	
 	// Spawn a new enemy in a random position if less than specified by maxEnemies
 	void Update () 

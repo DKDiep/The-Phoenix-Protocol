@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AsteroidLogic : MonoBehaviour 
 {
-	GameObject player;
+	public GameObject player;
 	float maxVariation; // Percentage variation in size
 	
 	public void SetPlayer(GameObject temp, float var)
