@@ -8,13 +8,15 @@ import (
 
 type User struct {
     ws       *websocket.Conn
+    listId   int
     userId   string
     username string
     state    string
 }
 
 //Listens for messages from the phone and handles them appropriately
-func (usr *User) handleSpectator() {
+//Returns when the connection is closed
+func (usr *User) handleUser() {
     receivedtext := make([]byte, 1024)
     for {
         n, err := usr.ws.Read(receivedtext)
