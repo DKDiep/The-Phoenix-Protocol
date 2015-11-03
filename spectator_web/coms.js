@@ -3,7 +3,7 @@ var serverSocket
 // Initialise the web socket connection
 function initSocket() {
     if(typeof serverSocket === 'undefined') {
-        serverSocket = new WebSocket("ws://localhost:8080/echo");
+        serverSocket = new WebSocket("ws://localhost:8080/web_socket");
 
         // After connection initialisation
         serverSocket.onopen = function() {

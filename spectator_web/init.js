@@ -23,5 +23,5 @@ function initUnregistered() {
 // Save user identification information as a cookie
 function saveUserAndUpdate(user) {
     document.cookie = "user_id="+user.id
-    updateScreen(user.data)
+    updateScreen(user.userData)
 }
