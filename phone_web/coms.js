@@ -1,7 +1,7 @@
 var serverSocket
 
 // Initialise the web socket connection
-function initSocket() {
+function initSocket(resumeInitialisation) {
     if(typeof serverSocket === 'undefined') {
         serverSocket = new WebSocket("ws://localhost:8080/web_socket");
 
@@ -9,7 +9,7 @@ function initSocket() {
         serverSocket.onopen = function() {
             // Proceed with page initialisation
             // in init.js
-            initScreen()
+            resumeInitialisation()
             console.log("Web Socket Connection initialised");
         }
 
@@ -59,7 +59,7 @@ function onMessage(event) {
 
 // Request information for an existing user
 function requestUserUpdate() {
-    var userId = getCookie("user_id")
+    var userId = Cookies.get("user_id")
     var msg = {
         type: "UPDATE_USER",
         data: userId
@@ -76,16 +76,4 @@ function requestUserCreation(username) {
     }
 
     serverSocket.send(JSON.stringify(msg));
-}
-
-// Standart function for getting a cookie
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
 }

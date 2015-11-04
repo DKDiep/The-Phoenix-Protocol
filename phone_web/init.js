@@ -1,13 +1,12 @@
 // Initialises the web page by first establishing a connection and then
 // arranging the web page
-function initialiseWebPage() {
-    // in coms.js
-    initSocket()
-}
+$( document ).ready(function() {
+    initSocket(initScreen)
+});
 
 // Starts initialisation of the web page
 function initScreen() {
-    if(document.cookie == "") {
+    if(typeof Cookies.get("user_id") === 'undefined') {
         initUnregistered()
     }
     else {
@@ -17,11 +16,11 @@ function initScreen() {
 
 // Display the page version for unregistered users
 function initUnregistered() {
-    transitionTo("registerScreen")
+    transitionTo("register")
 }
 
 // Save user identification information as a cookie
 function saveUserAndUpdate(user) {
-    document.cookie = "user_id="+user.id
+    Cookies.set("user_id", user.id)
     updateScreen(user.userData)
 }

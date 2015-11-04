@@ -3,17 +3,14 @@ var currentScreen = ""
 // Display the page as per the current user state
 function updateScreen(userData) {
     switch (userData.state) {
-        case "OFFLINE":
-            transitionTo("joinCurrentScreen")
-            break;
         case "SPECTATOR":
-            transitionTo("spectatorScreen")
+            transitionTo("spectator")
             break;
         case "CREW":
-            transitionTo("crewScreen")
+            transitionTo("crew")
             break;
-        case "PILOT":
-            transitionTo("pilotScreen")
+        case "COMMANDER":
+            transitionTo("commander")
             break;
         default:
             console.log("Unexpected User State: "+userData.state)
@@ -21,10 +18,8 @@ function updateScreen(userData) {
 }
 
 // Changes the visual elements based on the screen type
-function transitionTo(screenId) {
-    if (currentScreen != "") {
-        document.getElementById(currentScreen).style.display = "none"
-    }
-    currentScreen = screenId
-    document.getElementById(screenId).style.display = "inline"
+function transitionTo(screen_name) {
+    $('#screen').fadeOut('2000', function (){
+        $('#screen').load('/screens/'+screen_name+'.html');
+        $('#screen').fadeIn('2000')});
 }
