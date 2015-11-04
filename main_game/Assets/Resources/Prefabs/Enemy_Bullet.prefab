@@ -91,7 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   accuracy: .100000001
-  bulletColor: {r: .0758621693, g: 1, b: 0, a: 0}
+  bulletColor: {r: .293306261, g: 1, b: .0147058964, a: 0}
   xScale: 1
   yScale: 1
   zScale: 1
@@ -164,7 +164,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.r
-      value: .0758621693
+      value: .293306261
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.g
@@ -172,7 +172,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.b
-      value: 0
+      value: .0147058964
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x

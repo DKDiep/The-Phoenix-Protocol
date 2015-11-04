@@ -78,12 +78,12 @@ public class ShipMovement : MonoBehaviour
 
         pitchAngle = transform.eulerAngles.x + pitchVelocity;
 		rollAngle = transform.eulerAngles.y + rollVelocity;
-		driftVelocity = transform.eulerAngles.z % 90f; // Fixes wrapping of angles
+		/*driftVelocity = transform.eulerAngles.z % 90f; // Fixes wrapping of angles
 		if(transform.eulerAngles.z > 310f) driftVelocity *= (-1f * sidewaysSpeed * Time.deltaTime);
 		else driftVelocity *= sidewaysSpeed * 1.6f * Time.deltaTime;
-		
+		*/
 		transform.eulerAngles = new Vector3(pitchAngle, rollAngle, transform.eulerAngles.z);
-		transform.Translate (transform.forward * speed * Time.deltaTime);
+		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	
 	}
 	
