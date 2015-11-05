@@ -7,7 +7,9 @@ function updateScreen(userData) {
             transitionTo("spectator")
             break;
         case "CREW":
-            transitionTo("crew")
+            transitionTo("crew", function () {
+                updateAmmo(userData.ammo)
+            });
             break;
         case "COMMANDER":
             transitionTo("commander")
@@ -18,8 +20,8 @@ function updateScreen(userData) {
 }
 
 // Changes the visual elements based on the screen type
-function transitionTo(screen_name) {
+function transitionTo(screen_name, callback) {
     $('#screen').fadeOut('2000', function (){
         $('#screen').load('/screens/'+screen_name+'.html');
-        $('#screen').fadeIn('2000')});
+        $('#screen').fadeIn('2000', callback)});
 }
