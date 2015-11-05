@@ -1,18 +1,26 @@
-function updateAmmo(ammo) {
-    max = 20
-    border = '<div class="border bar"></div>\n'
-    filled = '<div class="item bar filled"></div>\n'
-    empty = '<div class="item bar"></div>'
-    bars = ""
-    for (i = 0; i < ammo; i++) {
-        bars += border;
-        bars += filled;
-    }
-    for (i = 0; i < max-ammo; i++) {
+var MAX_AMMO = 20
+var AMMO_RECHARGE_RATE = 500
+var ammoRechargeTimer
+var currentAmmunition = 0;
 
-        bars += border;
-        bars += empty;
+//Sets the ammunition to the specified ammount and restarts the recharge
+//timer.
+function updateAmmo(ammo) {
+    clearInterval(ammoRechargeTimer)
+    for (i = 0; i < ammo ; i++) {
+        $("#ammoSegment"+i).addClass("filled")
     }
-    bars += border;
-    $("#ammoBar").html(bars)
+    for (i = ammo; i < MAX_AMMO ; i++) {
+        $("#ammoSegment"+i).removeClass("filled")
+    }
+    currentAmmunition = ammo
+    ammoRechargeTimer = setInterval(rechargeAmmo, AMMO_RECHARGE_RATE)
+}
+
+//Fills the next empty ammo segment
+function rechargeAmmo() {
+    if (currentAmmunition < MAX_AMMO) {
+        $("#ammoSegment"+currentAmmunition).addClass("filled")
+        currentAmmunition++;
+    }
 }
