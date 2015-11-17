@@ -5,7 +5,7 @@ public class AsteroidSpawner : MonoBehaviour
 {
 
 	[SerializeField] GameObject asteroid;
-	[SerializeField] int maxAsteroids;
+	public int maxAsteroids;
 	[SerializeField] float maxVariation; // Max variation in size (0-10)
 	public static int numAsteroids = 0;
 

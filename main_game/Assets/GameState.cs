@@ -11,6 +11,11 @@ public class GameState : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        asteroidList = new List<GameObject>(); // TODO: this should use AsteroidSpawner.maxAsteroids
+        /* TODO: Doing this causes an UnassignedReferenceException on playerShip. Maybe Dillon or Marc can look at it?
+        EnemySpawner es = this.GetComponent<EnemySpawner>();
+        Debug.Log(es.maxEnemies); */
+        enemyShipList = new List<GameObject>(); // TODO: this should use EnemySpawner.maxEnemies
         playerShip = GameObject.Find("PlayerShip");
     }
 	

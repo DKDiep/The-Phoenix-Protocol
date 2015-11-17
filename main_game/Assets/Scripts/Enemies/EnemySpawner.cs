@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 	
 	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0;
-	[SerializeField] int maxEnemies;
+	public int maxEnemies;
 
     public GameObject gameManager;
     private GameState state;
