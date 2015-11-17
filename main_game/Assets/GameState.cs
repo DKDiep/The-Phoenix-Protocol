@@ -16,5 +16,6 @@ public class GameState : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Debug.Log(playerShip.transform.position.x);
+        //Debug.Log(asteroidList.Count);
 	}
 }

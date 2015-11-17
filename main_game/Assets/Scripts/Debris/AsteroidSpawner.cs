@@ -44,8 +44,8 @@ public class AsteroidSpawner : MonoBehaviour
             {
                 numAsteroids -= 1;
                 Destroy(asteroid.gameObject);
+                state.asteroidList.RemoveAt(i);
             }
-            state.asteroidList.RemoveAt(i);
         }
         StartCoroutine("Cleanup");
     }
