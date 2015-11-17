@@ -18,7 +18,7 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] bool isSuicidal; // Attempt to crash into player?
 	[SerializeField] GameObject bullet;
 
-	GameObject player;
+	public GameObject player;
 	bool shoot = false;
 	bool rechargeShield;
 	float shield;
@@ -35,25 +35,12 @@ public class EnemyLogic : MonoBehaviour
 			StartCoroutine ("Recharge Shields");
 		}
 		
-		StartCoroutine ("DestroyZ");
 		StartCoroutine ("ShootManager");
 	}
 	
 	void Update () 
 	{
 		transform.Translate (transform.forward*Time.deltaTime * speed);
-	}
-	
-	// Automatically destroy if 100 units behind player
-	IEnumerator DestroyZ()
-	{
-		yield return new WaitForSeconds(1f);
-		if(transform.position.z < player.transform.position.z - 100f)
-		{
-			EnemySpawner.numEnemies -= 1;
-			Destroy (this.gameObject);
-		}
-		StartCoroutine ("DestroyZ");
 	}
 	
 	IEnumerator ShootManager()
