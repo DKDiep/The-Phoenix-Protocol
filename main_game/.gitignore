@@ -6,6 +6,7 @@ Obj/
 UnityGenerated/
 Library/
 Assets/AssetStoreTools*
+UpgradeLog*.htm
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
