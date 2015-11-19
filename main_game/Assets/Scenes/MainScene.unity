@@ -908,6 +908,48 @@ MonoBehaviour:
   xPos: 0
   yPos: 0
   alpha: 0
+--- !u!1001 &1326243794
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1721769477
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,8 +963,6 @@ GameObject:
   - 23: {fileID: 1721769482}
   - 114: {fileID: 1721769481}
   - 54: {fileID: 1721769480}
-  - 114: {fileID: 1721769479}
-  - 114: {fileID: 1721769478}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Player
@@ -930,35 +970,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1721769478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11490344, guid: c0358a3ee038b41d0b1c8b74aa1e1b26,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1721769477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8875469371aa247ef9c189d4a1d20589, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
-  maxEnemies: 4
---- !u!114 &1721769479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11446408, guid: c0358a3ee038b41d0b1c8b74aa1e1b26,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1721769477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64e4acc166a4b4c2291365a1de7aaf7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  asteroid: {fileID: 180310, guid: 1148179f73ce04b748cdc45eb3fff301, type: 2}
-  maxAsteroids: 10
-  maxVariation: 5
 --- !u!54 &1721769480
 Rigidbody:
   m_ObjectHideFlags: 0
