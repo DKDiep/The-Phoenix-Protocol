@@ -1,5 +1,6 @@
 ﻿/*
-    2015-2016 Team Pyrolite, University of Bristol.
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
     Authors: Dillon Keith Diep, Andrei Poenaru
     Description: The game state resides solely on the server, holding a collection of data that allows clients to replicate
 */
@@ -12,9 +13,10 @@ using UnityEngine.Networking;
 public class GameState : NetworkBehaviour {
 
     private List<GameObject> asteroidList;
-    private List<GameObject> enemyShipList;
+    private List<GameObject> enemyList;
     private GameObject playerShip;
 
+    // Asteroid list getters and setters
     public List<GameObject> getAsteroidList()
     {
         return asteroidList;
@@ -40,6 +42,32 @@ public class GameState : NetworkBehaviour {
         return asteroidList[i];
     }
 
+    // Enemy list getters and setters
+    public List<GameObject> getEnemyList()
+    {
+        return enemyList;
+    }
+
+    public int getEnemyListCount()
+    {
+        return enemyList.Count;
+    }
+
+    public void addEnemyList(GameObject enemyObject)
+    {
+        enemyList.Add(enemyObject);
+    }
+
+    public void removeEnemyAt(int i)
+    {
+        enemyList.RemoveAt(i);
+    }
+
+    public GameObject getEnemyAt(int i)
+    {
+        return enemyList[i];
+    }
+
     public GameObject getPlayerShip()
     {
         return playerShip;
@@ -48,7 +76,7 @@ public class GameState : NetworkBehaviour {
     void InitializeVariables()
     {
         asteroidList = new List<GameObject>();
-        enemyShipList = new List<GameObject>();
+        enemyList = new List<GameObject>();
     }
 
     void SceneSetup()

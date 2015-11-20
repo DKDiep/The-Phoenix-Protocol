@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
+    Description: Server-side logic for enemy spawner
+*/
+
+
+using UnityEngine;
 using System.Collections;
 
 public class EnemySpawner : MonoBehaviour 
@@ -24,11 +32,12 @@ public class EnemySpawner : MonoBehaviour
 		if(numEnemies < maxEnemies)
 		{
 			Vector3 rand_position = new Vector3(transform.position.x + Random.Range (-400, 400), transform.position.y + Random.Range (-400, 400), transform.position.z + 200 + Random.Range (50, 1000));
-			GameObject temp = Instantiate (enemy, rand_position, transform.rotation) as GameObject;
-			temp.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-			//temp.GetComponent<EnemyLogic>().SetPlayer(state.playerShip);
+			GameObject enemyObject = Instantiate (enemy, rand_position, transform.rotation) as GameObject;
+			enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
+			enemyObject.GetComponent<EnemyLogic>().SetPlayer(state.getPlayerShip());
 			numEnemies += 1;
-            //state.enemyShipList.Add(temp);
+            state.addEnemyList(enemyObject);
+            //NOTIFY CLIENT
 		}
 	}
 
@@ -37,19 +46,20 @@ public class EnemySpawner : MonoBehaviour
     {
         
         yield return new WaitForSeconds(1f);
-        /*
-        for (int i = state.enemyShipList.Count - 1; i >= 0; i--)
+        
+        for (int i = state.getEnemyListCount() - 1; i >= 0; i--)
         {
-            GameObject enemyShip = state.enemyShipList[i];
-            EnemyLogic enemyLogic = enemyShip.GetComponent<EnemyLogic>();
-            if (enemyShip.transform.position.z < enemyLogic.player.transform.position.z - 100f)
+            GameObject enemyObject = state.getEnemyAt(i);
+            EnemyLogic enemyLogic = enemyObject.GetComponent<EnemyLogic>();
+            if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
             {
                 numEnemies -= 1;
-                state.enemyShipList.RemoveAt(i);
-                Destroy(enemyShip.gameObject);
+                state.removeEnemyAt(i);
+                Destroy(enemyObject.gameObject);
+                //NOTIFY CLIENT
             }
         }
         //Debug.Log(numEnemies);
-        StartCoroutine("Cleanup");*/
+        StartCoroutine("Cleanup");
     }
 }

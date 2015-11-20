@@ -1,5 +1,6 @@
 ﻿/*
-    2015-2016 Team Pyrolite, University of Bristol.
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
     Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
     Description: Server-side logic for asteroid spawner
 */
@@ -48,11 +49,11 @@ public class AsteroidSpawner : MonoBehaviour
         {
             GameObject asteroidObject = state.getAsteroidAt(i);
             AsteroidLogic asteroidLogic = asteroidObject.GetComponent<AsteroidLogic>();
-            if (asteroid.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
+            if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
             {
                 numAsteroids -= 1;
-                Destroy(asteroid.gameObject);
                 state.removeAsteroidAt(i);
+                Destroy(asteroidObject.gameObject);
                 //NOTIFY CLIENT
             }
         }
