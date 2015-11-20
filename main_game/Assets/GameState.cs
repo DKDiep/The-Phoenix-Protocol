@@ -5,22 +5,37 @@ using UnityEngine.Networking;
 
 public class GameState : NetworkBehaviour {
 
-    public List<GameObject> asteroidList;
-    public List<GameObject> enemyShipList;
-    public GameObject playerShip;
+    private List<Transform> asteroidList;
+    private List<GameObject> enemyShipList;
+    private GameObject playerShip;
 
-	// Use this for initialization
-	void Start () {
-        asteroidList = new List<GameObject>(); // TODO: this should use AsteroidSpawner.maxAsteroids
-        /* TODO: Doing this causes an UnassignedReferenceException on playerShip. Maybe Dillon or Marc can look at it?
-        EnemySpawner es = this.GetComponent<EnemySpawner>();
-        Debug.Log(es.maxEnemies); */
+    List<Transform> getAsteroidList()
+    {
+        return asteroidList;
+    }
+
+    void InitializeVariables()
+    {
+        asteroidList = new List<Transform>();
         enemyShipList = new List<GameObject>(); // TODO: this should use EnemySpawner.maxEnemies
-        playerShip = GameObject.Find("PlayerShip");
+    }
+
+    void SceneSetup()
+    {
+        //playerShip = (GameObject) Instantiate(Resources.Load("/Prefabs/PlayerShip"));
+        playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
+    }
+
+    void Start ()
+    {
+        InitializeVariables();
+
+        SceneSetup();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         //Debug.Log(playerShip.transform.position.x);
         //Debug.Log(asteroidList.Count);
         //Debug.Log(enemyShipList.Count);
