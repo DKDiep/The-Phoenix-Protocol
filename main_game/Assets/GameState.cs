@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2015-2016 Team Pyrolite, University of Bristol.
+    2015-2016 Team Pyrolite, University of Bristol.
     Authors: Dillon Keith Diep, Andrei Poenaru
     Description: The game state resides solely on the server, holding a collection of data that allows clients to replicate
 */
@@ -11,18 +11,43 @@ using UnityEngine.Networking;
 
 public class GameState : NetworkBehaviour {
 
-    private List<Transform> asteroidList;
+    private List<GameObject> asteroidList;
     private List<GameObject> enemyShipList;
     private GameObject playerShip;
 
-    List<Transform> getAsteroidList()
+    public List<GameObject> getAsteroidList()
     {
         return asteroidList;
     }
 
+    public int getAsteroidListCount()
+    {
+        return asteroidList.Count;
+    }
+
+    public void addAsteroidList(GameObject asteroidObject)
+    {
+        asteroidList.Add(asteroidObject);
+    }
+
+    public void removeAsteroidAt(int i)
+    {
+        asteroidList.RemoveAt(i);
+    }
+
+    public GameObject getAsteroidAt(int i)
+    {
+        return asteroidList[i];
+    }
+
+    public GameObject getPlayerShip()
+    {
+        return playerShip;
+    }
+
     void InitializeVariables()
     {
-        asteroidList = new List<Transform>();
+        asteroidList = new List<GameObject>();
         enemyShipList = new List<GameObject>();
     }
 
