@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*
+    Copyright 2015-2016 Team Pyrolite, University of Bristol.
+    Authors: Dillon Keith Diep, Andrei Poenaru
+    Description: The game state resides solely on the server, holding a collection of data that allows clients to replicate
+*/
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
@@ -17,12 +23,11 @@ public class GameState : NetworkBehaviour {
     void InitializeVariables()
     {
         asteroidList = new List<Transform>();
-        enemyShipList = new List<GameObject>(); // TODO: this should use EnemySpawner.maxEnemies
+        enemyShipList = new List<GameObject>();
     }
 
     void SceneSetup()
     {
-        //playerShip = (GameObject) Instantiate(Resources.Load("/Prefabs/PlayerShip"));
         playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
     }
 
