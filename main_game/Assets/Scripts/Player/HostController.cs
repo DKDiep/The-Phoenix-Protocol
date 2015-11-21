@@ -25,5 +25,6 @@ public class HostController : NetworkBehaviour {
         // Host is client Id #0
         clientsIds.Add(0);
         clientId = 0;
+        //assign clients
     }
 }
