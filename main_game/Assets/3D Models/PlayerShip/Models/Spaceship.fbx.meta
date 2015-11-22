@@ -1,0 +1,243 @@
+fileFormatVersion: 2
+guid: e192d2b488b01734ea2512bb54927516
+labels:
+- Vehicle
+- SciFi
+- Space
+- Lowpoly
+timeCreated: 1427545528
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: CaptainBridge
+    100002: Engine
+    100004: Hangar1
+    100006: Hangar2
+    100008: HullBase
+    100010: HullBottom
+    100012: HullBridgePlatform
+    100014: HullFront
+    100016: HullSides
+    100018: HullTop
+    100020: Launcher
+    100022: Launcher_001
+    100024: Launcher_002
+    100026: Launcher_003
+    100028: Launcher_004
+    100030: Launcher_005
+    100032: Launcher_006
+    100034: Launcher_007
+    100036: LeftEngine
+    100038: RightEngine
+    100040: //RootNode
+    100042: Turret
+    100044: Turret_001
+    100046: Turret_002
+    100048: Turret_003
+    100050: Turret_004
+    100052: Turret_005
+    100054: Turret_006
+    100056: TurretPlatform
+    100058: TurretPlatform_001
+    100060: TurretPlatform_002
+    100062: TurretPlatform_003
+    100064: TurretPlatform_004
+    100066: TurretPlatform_005
+    400000: CaptainBridge
+    400002: Engine
+    400004: Hangar1
+    400006: Hangar2
+    400008: HullBase
+    400010: HullBottom
+    400012: HullBridgePlatform
+    400014: HullFront
+    400016: HullSides
+    400018: HullTop
+    400020: Launcher
+    400022: Launcher_001
+    400024: Launcher_002
+    400026: Launcher_003
+    400028: Launcher_004
+    400030: Launcher_005
+    400032: Launcher_006
+    400034: Launcher_007
+    400036: LeftEngine
+    400038: RightEngine
+    400040: //RootNode
+    400042: Turret
+    400044: Turret_001
+    400046: Turret_002
+    400048: Turret_003
+    400050: Turret_004
+    400052: Turret_005
+    400054: Turret_006
+    400056: TurretPlatform
+    400058: TurretPlatform_001
+    400060: TurretPlatform_002
+    400062: TurretPlatform_003
+    400064: TurretPlatform_004
+    400066: TurretPlatform_005
+    2300000: CaptainBridge
+    2300002: Engine
+    2300004: Hangar1
+    2300006: Hangar2
+    2300008: HullBase
+    2300010: HullBottom
+    2300012: HullBridgePlatform
+    2300014: HullFront
+    2300016: HullSides
+    2300018: HullTop
+    2300020: Launcher
+    2300022: Launcher_001
+    2300024: Launcher_002
+    2300026: Launcher_003
+    2300028: Launcher_004
+    2300030: Launcher_005
+    2300032: Launcher_006
+    2300034: Launcher_007
+    2300036: LeftEngine
+    2300038: RightEngine
+    2300040: Turret
+    2300042: Turret_001
+    2300044: Turret_002
+    2300046: Turret_003
+    2300048: Turret_004
+    2300050: Turret_005
+    2300052: Turret_006
+    2300054: TurretPlatform
+    2300056: TurretPlatform_001
+    2300058: TurretPlatform_002
+    2300060: TurretPlatform_003
+    2300062: TurretPlatform_004
+    2300064: TurretPlatform_005
+    3300000: CaptainBridge
+    3300002: Engine
+    3300004: Hangar1
+    3300006: Hangar2
+    3300008: HullBase
+    3300010: HullBottom
+    3300012: HullBridgePlatform
+    3300014: HullFront
+    3300016: HullSides
+    3300018: HullTop
+    3300020: Launcher
+    3300022: Launcher_001
+    3300024: Launcher_002
+    3300026: Launcher_003
+    3300028: Launcher_004
+    3300030: Launcher_005
+    3300032: Launcher_006
+    3300034: Launcher_007
+    3300036: LeftEngine
+    3300038: RightEngine
+    3300040: Turret
+    3300042: Turret_001
+    3300044: Turret_002
+    3300046: Turret_003
+    3300048: Turret_004
+    3300050: Turret_005
+    3300052: Turret_006
+    3300054: TurretPlatform
+    3300056: TurretPlatform_001
+    3300058: TurretPlatform_002
+    3300060: TurretPlatform_003
+    3300062: TurretPlatform_004
+    3300064: TurretPlatform_005
+    4300000: RightEngine
+    4300002: Turret_006
+    4300004: Turret_004
+    4300006: Turret_005
+    4300008: Turret_003
+    4300010: Turret
+    4300012: Turret_002
+    4300014: Turret_001
+    4300016: Launcher_007
+    4300018: Launcher_006
+    4300020: Launcher_005
+    4300022: Launcher_004
+    4300024: Launcher
+    4300026: Launcher_001
+    4300028: Launcher_002
+    4300030: Launcher_003
+    4300032: Hangar2
+    4300034: Hangar1
+    4300036: HullBottom
+    4300038: Engine
+    4300040: HullFront
+    4300042: TurretPlatform_005
+    4300044: TurretPlatform_004
+    4300046: TurretPlatform_003
+    4300048: TurretPlatform
+    4300050: TurretPlatform_001
+    4300052: TurretPlatform_002
+    4300054: HullBase
+    4300056: CaptainBridge
+    4300058: LeftEngine
+    4300060: HullBridgePlatform
+    4300062: HullTop
+    4300064: HullSides
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
