@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipMovement : MonoBehaviour 
+public class ShipMovement : MonoBehaviour, INavigatable
 {
 
 	[SerializeField] float speed = 10f;
@@ -76,7 +76,27 @@ public class ShipMovement : MonoBehaviour
 		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	
 	}
-	
+
+    public void Up()
+    {
+
+    }
+
+    public void Down()
+    {
+
+    }
+
+    public void Left()
+    {
+
+    }
+
+    public void Right()
+    {
+
+    }
+
 	// If I hit something, check what it is and react accordingly
 	void OnTriggerEnter (Collider col)
 	{

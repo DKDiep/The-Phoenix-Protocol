@@ -43,11 +43,11 @@ public class ServerManager : NetworkBehaviour {
                 //networkManager.OnStartServer();
                 GameObject thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
                 NetworkServer.Spawn(thePlayer);
-
                 gameState.Setup();
 
                 GameObject playerShip = gameState.getPlayerShip();
                 NetworkServer.Spawn(playerShip);
+                thePlayer.GetComponent<PlayerController>().SetControlledCharacter(playerShip);
                 gameState.setStatus(GameState.Status.Started);
             }
         }
