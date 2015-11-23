@@ -8,13 +8,25 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
 
-public class GameState : NetworkBehaviour {
+public class GameState : MonoBehaviour {
 
+    public enum Status { Setup, Started };
+
+    private Status status = Status.Setup;
     private List<GameObject> asteroidList;
     private List<GameObject> enemyList;
     private GameObject playerShip;
+
+    public Status getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Status newStatus)
+    {
+        status = newStatus;
+    }
 
     // Asteroid list getters and setters
     public List<GameObject> getAsteroidList()
@@ -73,29 +85,20 @@ public class GameState : NetworkBehaviour {
         return playerShip;
     }
 
-    void InitializeVariables()
+    private void InitializeVariables()
     {
         asteroidList = new List<GameObject>();
         enemyList = new List<GameObject>();
     }
 
-    void SceneSetup()
+    private void SceneSetup()
     {
         playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
     }
 
-    void Start ()
+    public void Setup()
     {
         InitializeVariables();
-
         SceneSetup();
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        //Debug.Log(playerShip.transform.position.x);
-        //Debug.Log(asteroidList.Count);
-        //Debug.Log(enemyShipList.Count);
     }
 }

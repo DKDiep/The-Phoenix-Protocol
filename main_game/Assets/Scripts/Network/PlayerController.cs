@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class HostController : NetworkBehaviour {
+public class PlayerController : NetworkBehaviour {
 
     private GameObject pawn;
-    private int clientId = 0;
-    private List<int> clientsIds;
 
     GameObject GetControlledPawn()
     {
@@ -21,10 +19,6 @@ public class HostController : NetworkBehaviour {
 
     void Start()
     {
-        clientsIds = new List<int>();
-        // Host is client Id #0
-        clientsIds.Add(0);
-        clientId = 0;
-        //assign clients
+        
     }
 }
