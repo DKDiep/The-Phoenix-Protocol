@@ -14,6 +14,13 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	float slowTime = 0f;
 	float slowTime2 = 0f;
 
+    private GameObject controlObject;
+
+    public void SetControlObject(GameObject newControlObject)
+    {
+        controlObject = newControlObject;
+    }
+
 	void Update () 
 	{
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
@@ -71,9 +78,12 @@ public class ShipMovement : MonoBehaviour, INavigatable
 			slowTime2 += slowDown * Time.deltaTime;
 		}
 
-		transform.Rotate (Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
-		transform.Rotate (Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
-		transform.Translate (Vector3.forward * speed * Time.deltaTime);
+        if (controlObject != null)
+        {
+            controlObject.transform.Rotate(Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
+            controlObject.transform.Rotate(Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
+            controlObject.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
 	
 	}
 

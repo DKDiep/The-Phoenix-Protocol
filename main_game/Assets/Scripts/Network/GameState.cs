@@ -18,71 +18,76 @@ public class GameState : MonoBehaviour {
     private List<GameObject> enemyList;
     private GameObject playerShip;
 
-    public Status getStatus()
+    public Status GetStatus()
     {
         return status;
     }
 
-    public void setStatus(Status newStatus)
+    public void SetStatus(Status newStatus)
     {
         status = newStatus;
     }
 
     // Asteroid list getters and setters
-    public List<GameObject> getAsteroidList()
+    public List<GameObject> GetAsteroidList()
     {
         return asteroidList;
     }
 
-    public int getAsteroidListCount()
+    public int GetAsteroidListCount()
     {
         return asteroidList.Count;
     }
 
-    public void addAsteroidList(GameObject asteroidObject)
+    public void AddAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);
     }
 
-    public void removeAsteroidAt(int i)
+    public void RemoveAsteroidAt(int i)
     {
         asteroidList.RemoveAt(i);
     }
 
-    public GameObject getAsteroidAt(int i)
+    public GameObject GetAsteroidAt(int i)
     {
         return asteroidList[i];
     }
 
     // Enemy list getters and setters
-    public List<GameObject> getEnemyList()
+    public List<GameObject> GetEnemyList()
     {
         return enemyList;
     }
 
-    public int getEnemyListCount()
+    public int GetEnemyListCount()
     {
         return enemyList.Count;
     }
 
-    public void addEnemyList(GameObject enemyObject)
+    public void AddEnemyList(GameObject enemyObject)
     {
         enemyList.Add(enemyObject);
     }
 
-    public void removeEnemyAt(int i)
+    public void RemoveEnemyAt(int i)
     {
         enemyList.RemoveAt(i);
     }
 
-    public GameObject getEnemyAt(int i)
+    public GameObject GetEnemyAt(int i)
     {
         return enemyList[i];
     }
 
-    public GameObject getPlayerShip()
+    public GameObject GetPlayerShip()
     {
         return playerShip;
+    }
+
+    public void SetPlayerShip(GameObject newPlayerShip)
+    {
+        playerShip = newPlayerShip;
     }
 
     private void InitializeVariables()
@@ -91,14 +96,8 @@ public class GameState : MonoBehaviour {
         enemyList = new List<GameObject>();
     }
 
-    private void SceneSetup()
-    {
-        playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
-    }
-
     public void Setup()
     {
         InitializeVariables();
-        SceneSetup();
     }
 }

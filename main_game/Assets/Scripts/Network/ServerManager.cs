@@ -40,15 +40,20 @@ public class ServerManager : NetworkBehaviour {
             if (networkManager != null)
             {
                 networkManager.StartServer();
-                //networkManager.OnStartServer();
                 GameObject thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
                 NetworkServer.Spawn(thePlayer);
-                gameState.Setup();
 
-                GameObject playerShip = gameState.getPlayerShip();
+                //Spawn networked ship
+                GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
+                gameState.SetPlayerShip(playerShip);
                 NetworkServer.Spawn(playerShip);
-                thePlayer.GetComponent<PlayerController>().SetControlledCharacter(playerShip);
-                gameState.setStatus(GameState.Status.Started);
+                //Instantiate ship logic on server only
+                GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
+                playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
+
+                gameState.SetPlayerShip(playerShip);
+                thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
+                gameState.SetStatus(GameState.Status.Started);
             }
         }
     }

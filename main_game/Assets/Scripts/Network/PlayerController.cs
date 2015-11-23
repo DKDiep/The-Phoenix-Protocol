@@ -5,19 +5,19 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour {
 
-    private GameObject character;
+    private GameObject controlledObject;
 
     private Camera cameraComponent;
 
-    public GameObject GetControlledPawn()
+    public GameObject GetControlledObject()
     {
-        return character;
+        return controlledObject;
     }
 
-    public void SetControlledCharacter(GameObject characterObject)
+    public void SetControlledObject(GameObject newControlledObject)
     {
-        character = characterObject;
-        Transform cameraManager = characterObject.transform.Find("CameraManager");
+        controlledObject = newControlledObject;
+        Transform cameraManager = newControlledObject.transform.Find("CameraManager");
         if (cameraManager)
             cameraComponent = cameraManager.GetComponent<Camera>();
     }

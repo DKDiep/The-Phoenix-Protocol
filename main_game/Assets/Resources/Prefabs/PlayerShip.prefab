@@ -11,10 +11,10 @@ GameObject:
   - 33: {fileID: 3328722}
   - 65: {fileID: 6558860}
   - 23: {fileID: 2322886}
-  - 114: {fileID: 11476750}
   - 54: {fileID: 5412426}
   - 114: {fileID: 11480236}
   - 114: {fileID: 11437260}
+  - 114: {fileID: 11434882}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Player
@@ -157,6 +157,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11434882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72163860af6c7ee48a49da2242a333ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11437260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,20 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11476750
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 906ddc27714f8412798976c894241410, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  turnSpeed: 20
-  slowDown: 1
 --- !u!114 &11480236
 MonoBehaviour:
   m_ObjectHideFlags: 1

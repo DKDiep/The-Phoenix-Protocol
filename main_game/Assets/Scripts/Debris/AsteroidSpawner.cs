@@ -33,15 +33,15 @@ public class AsteroidSpawner : MonoBehaviour
 
 	void Update () 
 	{
-        if (state.getStatus() == GameState.Status.Started)
+        if (state.GetStatus() == GameState.Status.Started)
         {
             // Spawn a new asteroid in a random position if there are less than specified by maxAsteroids
             if (numAsteroids < maxAsteroids)
             {
                 Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-800, 800), transform.position.y + Random.Range(-800, 800), transform.position.z + 150 + Random.Range(50, 1000));
                 GameObject asteroidObject = Instantiate(asteroid, rand_position, Quaternion.identity) as GameObject;
-                asteroidObject.GetComponent<AsteroidLogic>().SetPlayer(state.getPlayerShip(), maxVariation);
-                state.addAsteroidList(asteroidObject);
+                asteroidObject.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
+                state.AddAsteroidList(asteroidObject);
                 numAsteroids += 1;
                 //NOTIFY CLIENT
                 //if (serverManager.clientIdCount() > 1)
@@ -59,16 +59,16 @@ public class AsteroidSpawner : MonoBehaviour
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);
-        if (state.getStatus() == GameState.Status.Started)
+        if (state.GetStatus() == GameState.Status.Started)
         {
-            for (int i = state.getAsteroidListCount() - 1; i >= 0; i--)
+            for (int i = state.GetAsteroidListCount() - 1; i >= 0; i--)
             {
-                GameObject asteroidObject = state.getAsteroidAt(i);
+                GameObject asteroidObject = state.GetAsteroidAt(i);
                 AsteroidLogic asteroidLogic = asteroidObject.GetComponent<AsteroidLogic>();
                 if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
                 {
                     numAsteroids -= 1;
-                    state.removeAsteroidAt(i);
+                    state.RemoveAsteroidAt(i);
                     Destroy(asteroidObject.gameObject);
                     //NOTIFY CLIENT
 

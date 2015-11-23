@@ -2,22 +2,22 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class UPositionSync : NetworkBehaviour
+public class URotationSync : NetworkBehaviour
 {
     [SyncVar]
-    Vector3 position;
+    Quaternion rotation;
 
-	void Update ()
+    void Update()
     {
-	    if(isServer)
+        if (isServer)
         {
             //Debug.Log("server");
-            position = gameObject.transform.position;
+            rotation = gameObject.transform.rotation;
         }
         else if (isClient)
         {
             //Debug.Log("client");
-            gameObject.transform.position = position;
+            gameObject.transform.rotation = rotation;
         }
-	}
+    }
 }

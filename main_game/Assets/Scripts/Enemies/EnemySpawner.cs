@@ -34,9 +34,9 @@ public class EnemySpawner : MonoBehaviour
 			Vector3 rand_position = new Vector3(transform.position.x + Random.Range (-400, 400), transform.position.y + Random.Range (-400, 400), transform.position.z + 200 + Random.Range (50, 1000));
 			GameObject enemyObject = Instantiate (enemy, rand_position, transform.rotation) as GameObject;
 			enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-			enemyObject.GetComponent<EnemyLogic>().SetPlayer(state.getPlayerShip());
+			enemyObject.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
 			numEnemies += 1;
-            state.addEnemyList(enemyObject);
+            state.AddEnemyList(enemyObject);
             //NOTIFY CLIENT
 		}
 	}
@@ -47,14 +47,14 @@ public class EnemySpawner : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
         
-        for (int i = state.getEnemyListCount() - 1; i >= 0; i--)
+        for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
         {
-            GameObject enemyObject = state.getEnemyAt(i);
+            GameObject enemyObject = state.GetEnemyAt(i);
             EnemyLogic enemyLogic = enemyObject.GetComponent<EnemyLogic>();
             if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
             {
                 numEnemies -= 1;
-                state.removeEnemyAt(i);
+                state.RemoveEnemyAt(i);
                 Destroy(enemyObject.gameObject);
                 //NOTIFY CLIENT
             }
