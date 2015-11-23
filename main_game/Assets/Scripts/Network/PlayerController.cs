@@ -25,5 +25,9 @@ public class PlayerController : NetworkBehaviour {
     void Start()
     {
         cameraComponent = gameObject.GetComponent<Camera>();
+        if (!isLocalPlayer)
+        {
+            cameraComponent.enabled = false;
+        }
     }
 }

@@ -16,29 +16,44 @@ public class EnemySpawner : MonoBehaviour
 	public static int numEnemies = 0;
 	public int maxEnemies;
 
-    public GameObject gameManager;
+    [SerializeField]
+    GameObject gameManager;
     private GameState state;
+    private ServerManager serverManager;
 
     void Start()
     {
         if (gameManager != null)
+        {
             state = gameManager.GetComponent<GameState>();
+            serverManager = gameManager.GetComponent<ServerManager>();
+        }
         StartCoroutine("Cleanup");
     }
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
     void Update () 
 	{
-		if(numEnemies < maxEnemies)
-		{
-			Vector3 rand_position = new Vector3(transform.position.x + Random.Range (-400, 400), transform.position.y + Random.Range (-400, 400), transform.position.z + 200 + Random.Range (50, 1000));
-			GameObject enemyObject = Instantiate (enemy, rand_position, transform.rotation) as GameObject;
-			enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-			enemyObject.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
-			numEnemies += 1;
-            state.AddEnemyList(enemyObject);
-            //NOTIFY CLIENT
-		}
+        if (state.GetStatus() == GameState.Status.Started)
+        {
+            if (numEnemies < maxEnemies)
+            {
+                Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-400, 400), transform.position.y + Random.Range(-400, 400), transform.position.z + 200 + Random.Range(50, 1000));
+                //Spawn enemy and server logic
+                GameObject enemyObject = Instantiate(enemy, rand_position, transform.rotation) as GameObject;
+                GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
+                enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
+                enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
+                serverManager.NetworkSpawn(enemyObject);
+                //parent enemyObject to find
+                enemyObjectLogic.name = "enemyObjectLogic";
+                enemyObjectLogic.transform.parent = enemyObject.transform;
+
+                enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
+                numEnemies += 1;
+                state.AddEnemyList(enemyObject);
+            }
+        }
 	}
 
     // Automatically destroy if 100 units behind player
@@ -46,17 +61,19 @@ public class EnemySpawner : MonoBehaviour
     {
         
         yield return new WaitForSeconds(1f);
-        
-        for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
+        if (state.GetStatus() == GameState.Status.Started)
         {
-            GameObject enemyObject = state.GetEnemyAt(i);
-            EnemyLogic enemyLogic = enemyObject.GetComponent<EnemyLogic>();
-            if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
+            for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
             {
-                numEnemies -= 1;
-                state.RemoveEnemyAt(i);
-                Destroy(enemyObject.gameObject);
-                //NOTIFY CLIENT
+                GameObject enemyObject = state.GetEnemyAt(i);
+                EnemyLogic enemyLogic = enemyObject.transform.Find("enemyObjectLogic").GetComponent<EnemyLogic>();
+                if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
+                {
+                    numEnemies -= 1;
+                    state.RemoveEnemyAt(i);
+                    Destroy(enemyObject.gameObject);
+                    //NOTIFY CLIENT
+                }
             }
         }
         //Debug.Log(numEnemies);

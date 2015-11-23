@@ -11,8 +11,10 @@ GameObject:
   - 33: {fileID: 3334586}
   - 136: {fileID: 13628194}
   - 23: {fileID: 2318866}
-  - 114: {fileID: 11493430}
   - 54: {fileID: 5423256}
+  - 114: {fileID: 11473720}
+  - 114: {fileID: 11455736}
+  - 114: {fileID: 11456322}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: EnemyShip
@@ -50,7 +52,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -78,7 +82,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &11493430
+--- !u!114 &11455736
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -86,22 +90,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 175856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b14e54b00991401aa182ce12da54501, type: 3}
+  m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  health: 100
-  maxRange: 1000
-  accuracy: 0
-  shotsPerSec: 3
-  shootChance: 5
-  shootPeriod: 1.25
-  percentageVariation: 50
-  shield: 0
-  shieldDelay: 0
-  shieldRechargeRate: 0
-  isSuicidal: 0
-  bullet: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+--- !u!114 &11456322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72163860af6c7ee48a49da2242a333ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11473720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 190
+    i1: 25
+    i2: 93
+    i3: 124
+    i4: 28
+    i5: 84
+    i6: 196
+    i7: 161
+    i8: 136
+    i9: 73
+    i10: 231
+    i11: 107
+    i12: 60
+    i13: 116
+    i14: 197
+    i15: 208
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!136 &13628194
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -23,9 +23,16 @@ public class EnemyLogic : MonoBehaviour
 	bool rechargeShield;
 	float shield;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
-	
-	// This function is run when the object is spawned
-	public void SetPlayer(GameObject temp)
+
+    private GameObject controlObject;
+
+    public void SetControlObject(GameObject newControlObject)
+    {
+        controlObject = newControlObject;
+    }
+
+    // This function is run when the object is spawned
+    public void SetPlayer(GameObject temp)
 	{
 		player = temp;
 		if(maxShield > 0)

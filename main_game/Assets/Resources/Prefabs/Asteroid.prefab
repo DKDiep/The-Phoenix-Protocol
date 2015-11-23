@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11445262}
   - 54: {fileID: 5455258}
   - 114: {fileID: 11466340}
+  - 114: {fileID: 11458904}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Debris
@@ -93,6 +94,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!114 &11458904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,22 +119,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 17
+    i1: 72
+    i2: 23
+    i3: 159
+    i4: 115
+    i5: 206
+    i6: 4
+    i7: 183
+    i8: 72
+    i9: 205
+    i10: 196
+    i11: 94
+    i12: 179
+    i13: 255
+    i14: 243
+    i15: 1
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!135 &13561986
