@@ -9,12 +9,7 @@ public class ServerManager : NetworkBehaviour {
     private NetworkManager networkManager;
     private int clientId = 0;
     private List<int> clientIds;
-
-    [ClientRpc]
-    public void RpcSpawn(string type)
-    {
-        Debug.Log("Spawn:" + type);
-    }
+    private GameObject thePlayer;
 
     public int clientIdCount()
     {
@@ -40,7 +35,7 @@ public class ServerManager : NetworkBehaviour {
             if (networkManager != null)
             {
                 networkManager.StartServer();
-                GameObject thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
+                thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
                 NetworkServer.Spawn(thePlayer);
 
                 //Spawn networked ship
@@ -53,7 +48,17 @@ public class ServerManager : NetworkBehaviour {
 
                 gameState.SetPlayerShip(playerShip);
                 thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
+                gameState.Setup();
                 gameState.SetStatus(GameState.Status.Started);
+            }
+        }
+
+        if (GUI.Button(new Rect(10, 550, 150, 20), "RpcSend"))
+        {
+            if (thePlayer != null)
+            {
+                Debug.Log("Calling Rpc from servermanager");
+                thePlayer.GetComponent<RpcManager>().CallRpcSend("boo");
             }
         }
     }

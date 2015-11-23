@@ -386,14 +386,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 2089173176}
   - 114: {fileID: 2089173178}
-  - 114: {fileID: 2089173177}
   m_Layer: 0
   m_Name: ClientController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2089173176
 Transform:
   m_ObjectHideFlags: 0
@@ -406,17 +405,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1668826860}
   m_RootOrder: 1
---- !u!114 &2089173177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2089173175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4f4ba916a2256d4ea2e6f3280b5f1e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2089173178
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,9 +8,9 @@ public class ClientController : NetworkBehaviour {
     public static NetworkIdentity networkIdentity;
 
     [ClientRpc]
-    void RpcSpawn(string type)
+    void RpcSend(string type)
     {
-        Debug.Log("Spawn:" + type);
+        Debug.Log("RPCSend Client:" + type);
         debugString = type;
     }
 
@@ -21,6 +21,6 @@ public class ClientController : NetworkBehaviour {
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), debugString);
+        //GUI.Label(new Rect(10, 10, 100, 20), debugString);
     }
 }

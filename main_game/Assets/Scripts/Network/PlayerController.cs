@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour {
     }
 
     public void SetControlledObject(GameObject newControlledObject)
-    {
+    {   
         controlledObject = newControlledObject;
         Transform cameraManager = newControlledObject.transform.Find("CameraManager");
         if (cameraManager)
