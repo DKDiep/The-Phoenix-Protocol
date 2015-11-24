@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipMovement : MonoBehaviour 
+public class ShipMovement : MonoBehaviour, INavigatable
 {
 
 	[SerializeField] float speed = 10f;
@@ -13,6 +13,13 @@ public class ShipMovement : MonoBehaviour
 	float rollOld;
 	float slowTime = 0f;
 	float slowTime2 = 0f;
+
+    private GameObject controlObject;
+
+    public void SetControlObject(GameObject newControlObject)
+    {
+        controlObject = newControlObject;
+    }
 
 	void Update () 
 	{
@@ -71,12 +78,35 @@ public class ShipMovement : MonoBehaviour
 			slowTime2 += slowDown * Time.deltaTime;
 		}
 
-		transform.Rotate (Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
-		transform.Rotate (Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
-		transform.Translate (Vector3.forward * speed * Time.deltaTime);
+        if (controlObject != null)
+        {
+            controlObject.transform.Rotate(Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
+            controlObject.transform.Rotate(Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
+            controlObject.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
 	
 	}
-	
+
+    public void Up()
+    {
+
+    }
+
+    public void Down()
+    {
+
+    }
+
+    public void Left()
+    {
+
+    }
+
+    public void Right()
+    {
+
+    }
+
 	// If I hit something, check what it is and react accordingly
 	void OnTriggerEnter (Collider col)
 	{
