@@ -115,7 +115,20 @@ var enemy = new Image();
       y = 100*y / window.innerHeight;
       $.each( data.objects, function( key, object ) {
         if(Math.abs(object.position.x-x) < 3 && Math.abs(object.position.y-y) < 3) {
-          console.log("You clicked " + object.type);
+          var msg = { type: "", data: "" }
+          switch(object.type) {
+            case "ship":
+              // Do nothing for clicking ships
+            break;
+            case "debris":
+              msg.type = "RES_INCREASE";
+              msg.data = object.size;
+              serverSocket.send(JSON.stringify(msg));
+            break
+            case "asteroid":
+              // Do nothing for clicking asteroids
+            break
+          }
         }
       });
     });
