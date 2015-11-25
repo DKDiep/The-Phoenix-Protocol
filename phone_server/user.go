@@ -4,8 +4,13 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
+    "math"
 )
 
+// TODO: remove this when movement simulation is no longer needed
+var incry float64 = 10
+
+// Holds user related data
 type User struct {
     ws       *websocket.Conn
     listId   int
@@ -14,8 +19,8 @@ type User struct {
     state    string
 }
 
-//Listens for messages from the phone and handles them appropriately
-//Returns when the connection is closed
+// Listens for messages from the phone and handles them appropriately
+// Returns when the connection is closed
 func (usr *User) handleUser() {
     receivedtext := make([]byte, 1024)
     for {
@@ -38,11 +43,10 @@ func (usr *User) handleUser() {
             fmt.Println(err)
         }
         usr.handleMessage(msg.(map[string]interface{}))
-
     }
 }
 
-//Multiplexes the received message based on its type
+// Multiplexes the received message based on its type
 func (usr *User) handleMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "REG_USER":
@@ -54,15 +58,15 @@ func (usr *User) handleMessage(msg map[string]interface{}) {
     }
 }
 
-//Registers a new user and sends back user state data
+// Registers a new user and sends back user state data
 func (usr *User) registerNew(name string) {
-    //register user
-    //TODO: remove this dummy registering process
+    // register user
+    // TODO: remove this dummy registering process
     usr.username = name
     usr.userId = name + "123"
     usr.state = "SPECTATOR"
 
-    //reply with identification data and current user data
+    // reply with identification data and current user data
     msg := map[string]interface{}{
         "type": "SAVE_USER",
         "data": map[string]interface{}{
@@ -76,17 +80,17 @@ func (usr *User) registerNew(name string) {
     usr.sendMsg(msg)
 }
 
-//Retrieves the user data and sends it to the client
+// Retrieves the user data and sends it to the client
 func (usr *User) updateUser(userId string) {
-    //TODO: remove dummy data retrieval
+    // TODO: remove dummy data retrieval
     usr.username = userId[:len(userId)-3]
     usr.userId = userId
     usr.state = "SPECTATOR"
-    usr.sendUpdate()
+    usr.sendStateUpdate()
 }
 
-//Sends a user state update
-func (usr *User) sendUpdate() {
+// Sends a user state update
+func (usr *User) sendStateUpdate() {
     msg := map[string]interface{}{
         "type": "USER_UPDATE",
         "data": map[string]interface{}{
@@ -97,7 +101,42 @@ func (usr *User) sendUpdate() {
     usr.sendMsg(msg)
 }
 
-//Deals with sending the message and error checking
+// Sends a user state data update
+func (usr *User) sendDataUpdate() {
+    // TODO: remove dummy data
+    incry += 0.1
+    msg := map[string]interface{}{
+        "type": "STATE_UPDATE",
+        "data": []map[string]interface{}{
+            map[string]interface{}{
+                "type": "ship",
+                "position": map[string]interface{}{
+                    "x": 10,
+                    "y": math.Mod((incry + 14), 100),
+                },
+            },
+            map[string]interface{}{
+                "type": "debris",
+                "position": map[string]interface{}{
+                    "x": 20,
+                    "y": math.Mod((incry + 53), 100),
+                },
+                "size": 10,
+            },
+            map[string]interface{}{
+                "type": "asteroid",
+                "position": map[string]interface{}{
+                    "x": 32,
+                    "y": math.Mod((incry + 15), 100),
+                },
+            },
+        },
+    }
+
+    usr.sendMsg(msg)
+}
+
+// Deals with sending the message and error checking
 func (usr *User) sendMsg(msg map[string]interface{}) {
     toSend, err := json.Marshal(msg)
     if err != nil {
