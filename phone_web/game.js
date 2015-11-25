@@ -104,30 +104,28 @@ var interval = 1000/fps;
 var delta;
 
 
-(function() {
-    // resize the canvas to fill browser window dynamically
-    window.addEventListener('resize', resizeCanvas, false);
-    window.requestAnimationFrame(frame);
-    initStars();
-    resizeCanvas();
+// resize the canvas to fill browser window dynamically
+window.addEventListener('resize', resizeCanvas, false);
+window.requestAnimationFrame(frame);
+initStars();
+resizeCanvas();
 
-    ship.src = 'img/ship.png';
-    asteroid.src = 'img/rock.png';
-    enemy.src = 'img/enemy.png';
+ship.src = 'img/ship.png';
+asteroid.src = 'img/rock.png';
+enemy.src = 'img/enemy.png';
 
-    ship.onload = function() {
-      shiploaded = 1;
-      resizeCanvas();
-    };
+ship.onload = function() {
+  shiploaded = 1;
+  resizeCanvas();
+};
 
-    asteroid.onload = function() {
-      asteroidloaded = 1;
-      resizeCanvas();
-    };
+asteroid.onload = function() {
+  asteroidloaded = 1;
+  resizeCanvas();
+};
 
-    $("#canvas").on("click", handleClick);
+$("#canvas").on("click", handleClick);
 
-})();
 
 
 function frame() {
@@ -164,6 +162,7 @@ function handleClick(e) {
           console.log("ship");
         break;
         case "debris":
+          vibrate();
           collectedResources += 2;
           msg.type = "ADD_RESOURCES";
           msg.data = 2;
@@ -187,7 +186,12 @@ function handleClick(e) {
   });
 }
 
-
+function vibrate() {
+  navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+}
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;

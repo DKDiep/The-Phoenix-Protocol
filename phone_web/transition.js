@@ -4,15 +4,18 @@ var currentScreen = ""
 function updateScreen(userData) {
     switch (userData.state) {
         case "SPECTATOR":
-            transitionTo("spectator")
+            transitionTo("spectator");
+            break;
+        case "GAME_LIMBO":
+            transitionTo("game_limbo");
             break;
         case "CREW":
             transitionTo("crew", function () {
-                updateAmmo(userData.ammo)
+                updateAmmo(userData.ammo);
             });
             break;
         case "COMMANDER":
-            transitionTo("commander")
+            transitionTo("commander");
             break;
         default:
             console.log("Unexpected User State: "+userData.state)

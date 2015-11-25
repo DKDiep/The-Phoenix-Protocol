@@ -38,7 +38,7 @@ function onMessage(event) {
             // in init.js
             saveUserAndUpdate(msg.data)
             break;
-        case "USER_UPDATE":
+        case "USER_UPDATE": // change to Update/change screen
             // in transition.js
             updateScreen(msg.data)
             break;
