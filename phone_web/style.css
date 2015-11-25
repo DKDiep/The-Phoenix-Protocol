@@ -47,11 +47,34 @@ body {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
+#status {
+  position:absolute;
+  top:0px;
+  border-style: solid;
+  border-color: rgba(100,100,100,0.4);
+  border-width: 0px 0px 2px 0px;
+  background-color: rgba(0,0,0,0.8);
+  height: auto;
+  width: 100%;
+  font-size: 20px;
+  font-family: monospace;
+  color: #ddd;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 15px;
+}
 
 
 
-
-
+.registerBox {
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 18px;
+}
 
 
 
@@ -73,4 +96,9 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 15px;
+}
+
+#canvas {
+  background-color: #030303;
+  height:100%;
 }
