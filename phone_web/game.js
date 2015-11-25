@@ -95,6 +95,15 @@ var ship = new Image();
 var asteroid = new Image();
 var enemy = new Image();
 var collectedResources = 0;
+
+
+var fps = 30;
+var now;
+var then = Date.now();
+var interval = 1000/fps;
+var delta;
+
+
 (function() {
     // resize the canvas to fill browser window dynamically
     window.addEventListener('resize', resizeCanvas, false);
@@ -122,10 +131,17 @@ var collectedResources = 0;
 
 
 function frame() {
-  removeStars();
-  moveStars();
-  drawStuff();
   window.requestAnimationFrame(frame);
+  now = Date.now();
+    delta = now - then;
+
+    if (delta > interval) {
+        then = now - (delta % interval);
+
+        removeStars();
+        moveStars();
+        drawStuff();
+    }
 }
 
 function getMouseX(e) {
@@ -183,8 +199,8 @@ function drawStuff() {
   if(asteroidloaded && shiploaded) {
     ship.width = window.innerWidth/8;
     ship.height = ship.width*1.75;
-    drawStars();
 
+    drawStars();
     ctx.drawImage(ship, (window.innerWidth-ship.width)/2, (window.innerHeight-ship.height)/2,   ship.width,  ship.height);
 
     // Draw ships and asteroids.
