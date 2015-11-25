@@ -84,7 +84,7 @@ data = {
 var numOfBigStars = 100;
 var numOfSmallStars = 350;
 var xSpeed = 0;
-var ySpeed = 2;
+var ySpeed = 10;
 var sStars = new Array();
 var bStars = new Array();
 var canvas = document.getElementById('canvas');
@@ -140,7 +140,7 @@ function getMouseY(e) {
 }
 function handleClick(e) {
   $.each( data.objects, function( key, object ) {
-    if(Math.abs(object.position.x - getMouseX(e)) < 3 && Math.abs(object.position.y - getMouseY(e)) < 3) {
+    if(Math.abs(object.position.x - getMouseX(e)) < 5 && Math.abs(object.position.y - getMouseY(e)) < 5) {
       var msg = { type: "", data: "" }
       switch(object.type) {
         case "ship":
@@ -212,34 +212,30 @@ function updateScore() {
 function drawStars() {
   $.each( bStars, function( key, star ) {
     ctx.beginPath();
-    ctx.arc(star.x * canvas.width, star.y * canvas.height, 1, 0, 2 * Math.PI, false);
-    ctx.lineWidth = (canvas.height+canvas.width)/700;
-    ctx.strokeStyle = '#fff';
-    ctx.stroke();
+    ctx.arc(star.x * canvas.width, star.y * canvas.height, (canvas.height+canvas.width)/700, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
   });
   $.each( sStars, function( key, star ) {
     ctx.beginPath();
-    ctx.arc(star.x * canvas.width, star.y * canvas.height, 1, 0, 2 * Math.PI, false);
-    ctx.lineWidth = (canvas.height+canvas.width)/1600;
-    ctx.strokeStyle = '#fff';
-    ctx.stroke();
+    ctx.arc(star.x * canvas.width, star.y * canvas.height, (canvas.height+canvas.width)/1600, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "#aaa";
+    ctx.fill();
   });
 }
 
 function removeStars() {
   $.each( bStars, function( key, star ) {
     ctx.beginPath();
-    ctx.arc(star.x * canvas.width, star.y * canvas.height, 1, 0, 2 * Math.PI, false);
-    ctx.lineWidth = (canvas.height+canvas.width)/350;
-    ctx.strokeStyle = '#000';
-    ctx.stroke();
+    ctx.arc(star.x * canvas.width, star.y * canvas.height, (canvas.height+canvas.width)/350, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "#000";
+    ctx.fill();
   });
   $.each( sStars, function( key, star ) {
     ctx.beginPath();
-    ctx.arc(star.x * canvas.width, star.y * canvas.height, 1, 0, 2 * Math.PI, false);
-    ctx.lineWidth = (canvas.height+canvas.width)/800;
-    ctx.strokeStyle = '#000';
-    ctx.stroke();
+    ctx.arc(star.x * canvas.width, star.y * canvas.height, (canvas.height+canvas.width)/800, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "#000";
+    ctx.fill();
   });
 }
 
