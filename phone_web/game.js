@@ -23,6 +23,14 @@ data = {
             "size": 10
         },
         {
+            "type": "debris",
+            "position": {
+                "x": 80,
+                "y": 70
+            },
+            "size": 10
+        },
+        {
             "type": "asteroid",
             "position": {
                 "x": 96,
@@ -86,7 +94,7 @@ var asteroidloaded = 0;
 var ship = new Image();
 var asteroid = new Image();
 var enemy = new Image();
-
+var collectedResources = 0;
 (function() {
     // resize the canvas to fill browser window dynamically
     window.addEventListener('resize', resizeCanvas, false);
@@ -108,30 +116,8 @@ var enemy = new Image();
       resizeCanvas();
     };
 
-    $("#canvas").on("click", function(e) {
-      var x = e.pageX;
-      var y = e.pageY - 20; // minus 20 as currently there is text along the top.
-      x = 100*x / window.innerWidth;
-      y = 100*y / window.innerHeight;
-      $.each( data.objects, function( key, object ) {
-        if(Math.abs(object.position.x-x) < 3 && Math.abs(object.position.y-y) < 3) {
-          var msg = { type: "", data: "" }
-          switch(object.type) {
-            case "ship":
-              // Do nothing for clicking ships
-            break;
-            case "debris":
-              msg.type = "RES_INCREASE";
-              msg.data = object.size;
-              serverSocket.send(JSON.stringify(msg));
-            break
-            case "asteroid":
-              // Do nothing for clicking asteroids
-            break
-          }
-        }
-      });
-    });
+    $("#canvas").on("click", handleClick);
+
 })();
 
 
@@ -141,6 +127,50 @@ function frame() {
   drawStuff();
   window.requestAnimationFrame(frame);
 }
+
+function getMouseX(e) {
+  var x = e.pageX;
+  x = 100*x / window.innerWidth;
+  return x;
+}
+function getMouseY(e) {
+  var x = e.pageY - 20; // minus 20 as currently there is text along the top.
+  x = 100*x / window.innerHeight;
+  return x;
+}
+function handleClick(e) {
+  $.each( data.objects, function( key, object ) {
+    if(Math.abs(object.position.x - getMouseX(e)) < 3 && Math.abs(object.position.y - getMouseY(e)) < 3) {
+      var msg = { type: "", data: "" }
+      switch(object.type) {
+        case "ship":
+          // Do nothing for clicking ships
+          console.log("ship");
+        break;
+        case "debris":
+          collectedResources += 2;
+          msg.type = "ADD_RESOURCES";
+          msg.data = 2;
+          object.size -= 2;
+          serverSocket.send(JSON.stringify(msg));
+
+          if(object.size < 1) {
+            ctx.beginPath();
+            ctx.arc((object.position.x*window.innerWidth/100) + 7.5, (object.position.y*window.innerHeight/100) + 7.5, 15, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "#000";
+            ctx.fill();
+
+            data.objects.splice(key,1);
+          }
+        break
+        case "asteroid":
+          // Do nothing for clicking asteroids
+        break
+      }
+    }
+  });
+}
+
 
 
 function resizeCanvas() {
