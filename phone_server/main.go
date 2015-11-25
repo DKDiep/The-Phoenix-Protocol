@@ -18,6 +18,13 @@ var userList *UserList = &UserList{
     update: make(chan struct{}),
 }
 
+// Main structure holding all asteroid data
+var asteroidMap *AsteroidMap = &AsteroidMap{
+    m:    make(map[int]*Asteroid),
+    delC: make(chan int),
+    addC: make(chan NewAst),
+}
+
 // Creates a user instance and adds it to the ecosystem
 func webSocketHandler(webs *websocket.Conn) {
     usr := &User{ws: webs}
@@ -33,6 +40,7 @@ func webSocketHandler(webs *websocket.Conn) {
 // Starts all necessary subroutines
 func main() {
     go userList.accessManager()
+    go asteroidMap.accessManager()
     // TODO: Run this timer only when a game session is running
     go updateTimer()
     http.Handle("/web_socket", websocket.Handler(webSocketHandler))
