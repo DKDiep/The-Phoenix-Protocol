@@ -153,7 +153,7 @@ function handleClick(e) {
           msg.data = 2;
           object.size -= 2;
           serverSocket.send(JSON.stringify(msg));
-
+          updateScore();
           if(object.size < 1) {
             ctx.beginPath();
             ctx.arc((object.position.x*window.innerWidth/100) + 7.5, (object.position.y*window.innerHeight/100) + 7.5, 15, 0, 2 * Math.PI, false);
@@ -204,6 +204,11 @@ function drawStuff() {
   }
 }
 
+function updateScore() {
+  var score = collectedResources;
+  $("#score").html(score);
+}
+
 function drawStars() {
   $.each( bStars, function( key, star ) {
     ctx.beginPath();
@@ -220,6 +225,7 @@ function drawStars() {
     ctx.stroke();
   });
 }
+
 function removeStars() {
   $.each( bStars, function( key, star ) {
     ctx.beginPath();
@@ -236,6 +242,8 @@ function removeStars() {
     ctx.stroke();
   });
 }
+
+
 function moveStars() {
   for (i = 0; i < numOfBigStars; i++) {
     bStars[i].x += xSpeed / 10000;
