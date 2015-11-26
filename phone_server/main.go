@@ -5,10 +5,15 @@ import (
     "golang.org/x/net/websocket"
     "net/http"
     "time"
+    "net"
 )
 
 const WEB_DIR string = "../phone_web"
+const GAME_SERVER_ADDRESS string = "localhost:2345"
 const DATA_UPDATE_INTERVAL time.Duration = 100 * time.Millisecond
+
+// Structure dealing with the Game Server Connection
+var gameServerConn *net.UDPConn
 
 // Main structure holding all the user
 var userList *UserList = &UserList{
@@ -39,6 +44,8 @@ func webSocketHandler(webs *websocket.Conn) {
 
 // Starts all necessary subroutines
 func main() {
+    initialiseGameServerConnection()
+    go gameServerConnectionHandler()
     go userList.accessManager()
     go asteroidMap.accessManager()
     // TODO: Run this timer only when a game session is running
@@ -47,7 +54,7 @@ func main() {
     http.Handle("/", http.FileServer(http.Dir(WEB_DIR)))
     err := http.ListenAndServe(":8080", nil)
     if err != nil {
-        panic("Error: " + err.Error())
+        panic("Error starting web server: " + err.Error())
     }
 }
 
