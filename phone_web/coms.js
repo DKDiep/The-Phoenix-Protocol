@@ -46,7 +46,7 @@ function onMessage(event) {
             //changeState(msg.data)
             break;
         case "STATE_UPDATE":
-            //updateState(msg.data)
+            data.objects = msg.data;
             break;
         case "STATISTICS_UPDATE":
             //updateStats(msg.data)
