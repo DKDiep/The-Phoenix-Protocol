@@ -15,7 +15,7 @@ GameObject:
   - 33: {fileID: 3352438}
   - 23: {fileID: 2334534}
   m_Layer: 0
-  m_Name: FPSController
+  m_Name: Engineer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
