@@ -202,7 +202,7 @@ function resizeCanvas() {
 function drawStuff() {
   if(asteroidloaded && shiploaded) {
     ship.width = window.innerWidth/8;
-    ship.height = ship.width*1.75;
+    ship.height = ship.width*2.5;
 
     drawStars();
     ctx.drawImage(ship, (window.innerWidth-ship.width)/2, (window.innerHeight-ship.height)/2,   ship.width,  ship.height);
