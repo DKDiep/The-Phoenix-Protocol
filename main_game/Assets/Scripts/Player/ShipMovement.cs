@@ -5,7 +5,8 @@ public class ShipMovement : MonoBehaviour, INavigatable
 {
 
 	[SerializeField] float speed = 10f;
-	[SerializeField] float turnSpeed = 1f;
+	[SerializeField] float turnSpeed = 0.01f;
+	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
@@ -26,8 +27,8 @@ public class ShipMovement : MonoBehaviour, INavigatable
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
 
         // Detect key presses, ensure velocity is less than some maximum, ensure the angle is constrained between some limits to avoid the player flying backwards
-        bool canPitchUp = pitchVelocity < 1f;
-        bool canPitchDown = pitchVelocity > -1f;
+		bool canPitchUp = pitchVelocity < maxTurnSpeed;
+		bool canPitchDown = pitchVelocity > maxTurnSpeed * (-1f);
         if (Input.GetKey (KeyCode.W) && canPitchUp)
 		{
 			pitchVelocity +=  (Time.deltaTime * turnSpeed);
@@ -52,8 +53,8 @@ public class ShipMovement : MonoBehaviour, INavigatable
 			slowTime += slowDown * Time.deltaTime;
 		}
 
-        bool canRollRight = rollVelocity < 1f;
-        bool canRollLeft = rollVelocity > -1f;
+        bool canRollRight = rollVelocity < maxTurnSpeed;
+        bool canRollLeft = rollVelocity > maxTurnSpeed * (-1f);
         if (Input.GetKey (KeyCode.D) && canRollRight)
 		{
 			rollVelocity += Time.deltaTime * turnSpeed;
