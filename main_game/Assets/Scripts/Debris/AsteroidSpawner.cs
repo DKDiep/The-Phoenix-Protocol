@@ -18,7 +18,6 @@ public class AsteroidSpawner : MonoBehaviour
 
     [SerializeField] GameObject gameManager;
     private GameState state;
-    private ServerManager serverManager;
 	
 	void Start ()
     {
@@ -26,7 +25,6 @@ public class AsteroidSpawner : MonoBehaviour
         if (gameManager != null)
         {
             state = gameManager.GetComponent<GameState>();
-            serverManager = gameManager.GetComponent<ServerManager>();
         }
         StartCoroutine("Cleanup");
     }
@@ -47,11 +45,6 @@ public class AsteroidSpawner : MonoBehaviour
                 //NOTIFY CLIENT
                 //if (serverManager.clientIdCount() > 1)
                 // serverManager.RpcSpawn("asteroid");
-            }
-            if (Input.GetMouseButtonDown(0) && serverManager != null)
-            {
-                //serverManager.RpcSpawn("asteroid");
-                //ClientController.networkIdentity.RPC();
             }
         }
     }

@@ -19,14 +19,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     GameObject gameManager;
     private GameState state;
-    private ServerManager serverManager;
 
     void Start()
     {
         if (gameManager != null)
         {
             state = gameManager.GetComponent<GameState>();
-            serverManager = gameManager.GetComponent<ServerManager>();
         }
         StartCoroutine("Cleanup");
     }
