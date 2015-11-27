@@ -15,6 +15,8 @@ public class GameState : MonoBehaviour {
 
     private Status status = Status.Setup;
     private List<GameObject> asteroidList;
+    private List<GameObject> newAsteroids;
+    private List<uint> removedAsteroids;
     private List<GameObject> enemyList;
     private GameObject playerShip;
 
@@ -42,10 +44,13 @@ public class GameState : MonoBehaviour {
     public void AddAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);
+        newAsteroids.Add(asteroidObject);
     }
 
     public void RemoveAsteroidAt(int i)
     {
+        bool wasDeleted = newAsteroids.Remove(asteroidList[i]);
+        if (!wasDeleted) removedAsteroids.Add((uint)asteroidList[i].GetInstanceID());
         asteroidList.RemoveAt(i);
     }
 
@@ -90,10 +95,32 @@ public class GameState : MonoBehaviour {
         playerShip = newPlayerShip;
     }
 
+    public List<GameObject> GetNewAsteroids()
+    {
+        return newAsteroids;
+    }
+
+    public void ClearNewAsteroids()
+    {
+        newAsteroids = new List<GameObject>();
+    }
+
+    public List<uint> GetRemovedAsteroids()
+    {
+        return removedAsteroids;
+    }
+
+    public void ClearRemovedAsteroids()
+    {
+        removedAsteroids = new List<uint>();
+    }
+
     private void InitializeVariables()
     {
         asteroidList = new List<GameObject>();
         enemyList = new List<GameObject>();
+        newAsteroids = new List<GameObject>();
+        removedAsteroids = new List<uint>();
     }
 
     public void Setup()
