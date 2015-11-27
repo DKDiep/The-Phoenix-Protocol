@@ -16,6 +16,11 @@ public class ServerManager : NetworkBehaviour {
         return clientIds.Count;
     }
 
+    public static void NetSpawn(GameObject spawnObject)
+    {
+        NetworkServer.Spawn(spawnObject);
+    }
+
     //Used to spawn network objects
     public void NetworkSpawn(GameObject spawnObject)
     {
