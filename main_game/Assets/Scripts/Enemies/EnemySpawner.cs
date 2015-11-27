@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
                 GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
-                serverManager.NetworkSpawn(enemyObject);
+                ServerManager.NetworkSpawn(enemyObject);
                 //parent enemyObject to find
                 enemyObjectLogic.name = "enemyObjectLogic";
                 enemyObjectLogic.transform.parent = enemyObject.transform;

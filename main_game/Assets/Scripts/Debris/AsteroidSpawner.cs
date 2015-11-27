@@ -40,7 +40,7 @@ public class AsteroidSpawner : MonoBehaviour
             {
                 Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-800, 800), transform.position.y + Random.Range(-800, 800), transform.position.z + 150 + Random.Range(50, 1000));
                 GameObject asteroidObject = Instantiate(asteroid, rand_position, Quaternion.identity) as GameObject;
-                serverManager.NetworkSpawn(asteroidObject);
+                ServerManager.NetworkSpawn(asteroidObject);
                 asteroidObject.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
                 state.AddAsteroidList(asteroidObject);
                 numAsteroids += 1;
