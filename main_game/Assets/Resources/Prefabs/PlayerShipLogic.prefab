@@ -43,6 +43,8 @@ MonoBehaviour:
   turnSpeed: 15
   maxTurnSpeed: 2.5
   slowDown: 1
+  shield: 100
+  health: 10000
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -61,6 +63,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: turnSpeed
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shield
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

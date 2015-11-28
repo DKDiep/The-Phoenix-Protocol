@@ -41,6 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1000
   accuracy: .100000001
+  damage: 40
   bulletColor: {r: 1, g: .0147058964, b: .0147058964, a: 0}
   xScale: 1
   yScale: 1
@@ -67,6 +68,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: speed
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -9,12 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 417022}
   - 33: {fileID: 3335186}
-  - 135: {fileID: 13561986}
   - 23: {fileID: 2347420}
   - 114: {fileID: 11445262}
   - 54: {fileID: 5455258}
   - 114: {fileID: 11466340}
   - 114: {fileID: 11458904}
+  - 135: {fileID: 13515764}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Debris
@@ -52,9 +52,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -94,6 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  health: 100
+  collisionDamage: 50
 --- !u!114 &11458904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,7 +137,7 @@ MonoBehaviour:
     i15: 1
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!135 &13561986
+--- !u!135 &13515764
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -147,7 +147,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .479999989
+  m_Radius: .5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
@@ -187,6 +187,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collisionDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -130,6 +130,6 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		{
 			Destroy(transform.parent.gameObject);
 		}
-		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
+		Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
 }

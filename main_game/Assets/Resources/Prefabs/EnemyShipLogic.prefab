@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b14e54b00991401aa182ce12da54501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   health: 100
   maxRange: 1000
   shotsPerSec: 3
@@ -67,6 +67,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: shootChance
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
