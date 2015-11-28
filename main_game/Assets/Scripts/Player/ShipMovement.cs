@@ -8,6 +8,8 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	[SerializeField] float turnSpeed = 0.01f;
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
+	[SerializeField] float shield;
+	[SerializeField] float health;
 	GameObject controlObject;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
@@ -107,16 +109,27 @@ public class ShipMovement : MonoBehaviour, INavigatable
 
     }
 
-	// If I hit something, check what it is and react accordingly
-	void OnTriggerEnter (Collider col)
+	public void collision(float damage)
 	{
-		if(col.gameObject.tag == "Debris")
+		if (shield > damage)
 		{
-			Debug.Log ("I hit some debris");
+			shield -= damage;
 		}
-		else if(col.gameObject.tag == "EnemyBullet")
+		else if (shield > 0)
 		{
-			Debug.Log ("I was shot by an enemy");
+			float remDamage = damage - shield;
+			shield = 0;
+			
+			health -= remDamage;
 		}
+		else if(health > damage)
+		{
+			health -= damage;
+		}
+		else
+		{
+			Destroy(transform.parent.gameObject);
+		}
+		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
 }

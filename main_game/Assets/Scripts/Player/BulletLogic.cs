@@ -6,6 +6,7 @@ public class BulletLogic : MonoBehaviour
 
 	[SerializeField] float speed = 100f;
 	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
+	[SerializeField] float damage; 
 	[SerializeField] Color bulletColor;
 	[SerializeField] float xScale;
 	[SerializeField] float yScale;
@@ -18,6 +19,12 @@ public class BulletLogic : MonoBehaviour
 	public void SetDestination(GameObject destination)
 	{
 		obj = transform.parent.gameObject;
+		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
+		rigidbody.useGravity = false;
+		rigidbody.isKinematic = true;
+		SphereCollider sphere = obj.AddComponent<SphereCollider>();
+		sphere.isTrigger = true;
+		obj.AddComponent<BulletCollision>();
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination.transform.position); // Set to the correct rotation. Needs position predication
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
@@ -25,6 +32,27 @@ public class BulletLogic : MonoBehaviour
 		rend.material.SetColor("_EmissionColor", bulletColor);;
 		StartCoroutine ("DestroyZ");
 		started = true;
+	}
+	
+	public void collision(Collider col)
+	{
+
+		if(col.gameObject.tag.Equals("Debris"))
+		{
+			Debug.Log ("A bullet has hit asteroid");
+			col.gameObject.GetComponent<AsteroidLogic>().collision(damage);
+		}
+		else if(col.gameObject.tag.Equals("EnemyShip"))
+		{
+			Debug.Log ("A bullet has hit an enemy");
+			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage);
+		}
+		else if(col.gameObject.tag.Equals("Player"))
+		{
+			Debug.Log ("A bullet has hit the player");
+			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage);
+		}
+		Destroy (obj);
 	}
 	
 	// Update is called once per frame
@@ -37,6 +65,6 @@ public class BulletLogic : MonoBehaviour
 	IEnumerator DestroyZ()
 	{
 		yield return new WaitForSeconds(10f);
-		Destroy (this.gameObject);
+		Destroy (obj);
 	}
 }

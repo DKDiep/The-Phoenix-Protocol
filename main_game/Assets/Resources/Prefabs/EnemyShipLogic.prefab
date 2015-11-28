@@ -43,7 +43,7 @@ MonoBehaviour:
   health: 100
   maxRange: 1000
   shotsPerSec: 3
-  shootChance: 5
+  shootChance: 4
   shootPeriod: 1.25
   percentageVariation: 50
   maxShield: 0
@@ -64,6 +64,10 @@ Prefab:
       propertyPath: bulletLogic
       value: 
       objectReference: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
+    - target: {fileID: 0}
+      propertyPath: shootChance
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 124810}

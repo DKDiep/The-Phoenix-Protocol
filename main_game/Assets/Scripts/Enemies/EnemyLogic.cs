@@ -100,23 +100,35 @@ public class EnemyLogic : MonoBehaviour
 		}
 	}
 	
-	// If I hit something, check what it is and react accordingly
-	void OnTriggerEnter (Collider col)
-	{
-		if(col.gameObject.tag == "Debris")
-		{
-			Debug.Log ("A Glom Fighter hit some debris");
-		}
-		else if(col.gameObject.tag == "PlayerBullet")
-		{
-			Debug.Log ("Glom Fighter was shot by the player");
-		}
-		if(health == 0) StartCoroutine ("DestroyEnemy"); // Initiate Destroy sequence
-	}
-	
 	IEnumerator DestroyEnemy()
 	{
 		yield return new WaitForSeconds(0.1f);
 		Destroy (this.gameObject);
 	}
+	
+	public void collision(float damage)
+	{
+		if (shield > damage)
+		{
+			shield -= damage;
+		}
+		else if (shield > 0)
+		{
+			float remDamage = damage - shield;
+			shield = 0;
+			
+			health -= remDamage;
+		}
+		else if(health > damage)
+		{
+			health -= damage;
+		}
+		else
+		{
+			Destroy(transform.parent.gameObject);
+		}
+		//Debug.Log ("Glom fighter was hit, has " + shield + " shield and " + health + " health");
+	}
+	
+	
 }

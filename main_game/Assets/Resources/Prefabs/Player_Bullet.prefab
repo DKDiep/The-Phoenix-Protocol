@@ -9,9 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 461020}
   - 33: {fileID: 3316352}
-  - 135: {fileID: 13547238}
   - 23: {fileID: 2339890}
-  - 54: {fileID: 5448654}
   - 114: {fileID: 11492890}
   - 114: {fileID: 11468726}
   - 114: {fileID: 11462910}
@@ -65,21 +63,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193600}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5448654
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193600}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &11462910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,18 +117,6 @@ MonoBehaviour:
     i15: 81
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!135 &13547238
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193600}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: .5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
