@@ -52,11 +52,14 @@ public class ServerManager : NetworkBehaviour {
                 GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
                 //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
                 playerShipLogic.transform.parent = playerShip.transform;
+                
+				//Instantiate ship shoot logic on server only
+				GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
+				playerShootLogic.transform.parent = playerShip.transform;
 
                 //Instantiate crosshairs
                 GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
 
-                gameState.SetPlayerShip(playerShip);
                 thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
                 gameState.Setup();
                 gameState.SetStatus(GameState.Status.Started);

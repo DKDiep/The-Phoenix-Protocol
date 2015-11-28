@@ -8,6 +8,7 @@ Library/
 Assets/AssetStoreTools*
 UpgradeLog*.htm
 ProjectSettings/
+*.app
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

@@ -76,8 +76,9 @@ public class EnemyLogic : MonoBehaviour
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 		GameObject obj = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, transform.position, Quaternion.identity) as GameObject;
-		ServerManager.NetworkSpawn(obj);
 		logic.transform.parent = obj.transform;
+		logic.GetComponent<BulletLogic>().SetDestination (player);
+		ServerManager.NetworkSpawn(obj);
 		
 		if(shoot) StartCoroutine ("Shoot");
 	}

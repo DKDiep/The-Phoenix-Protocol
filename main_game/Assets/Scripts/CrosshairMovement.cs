@@ -12,6 +12,7 @@ public class CrosshairMovement : MonoBehaviour {
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
+	public static Vector3 crosshairPosition;
 
 	// Use this for initialization
 	void Start ()
@@ -34,8 +35,6 @@ public class CrosshairMovement : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-
-
         // Get the currently controlled crosshair
         Transform selectedCrosshair = this.transform.Find("CrosshairImage" + controlling);
 
@@ -43,10 +42,10 @@ public class CrosshairMovement : MonoBehaviour {
 		if (WiimoteManager.Wiimotes.Count < 1) 
 		{
 			// Update its position to the current mouse position
-			Vector3 position = selectedCrosshair.position;
-			position.x = Input.mousePosition.x;
-			position.y = Input.mousePosition.y;
-			selectedCrosshair.position = position;
+			crosshairPosition = selectedCrosshair.position;
+			crosshairPosition.x = Input.mousePosition.x;
+			crosshairPosition.y = Input.mousePosition.y;
+			selectedCrosshair.position = crosshairPosition;
 		} 
 		else 
 		{
@@ -81,9 +80,6 @@ public class CrosshairMovement : MonoBehaviour {
 				this.init = true;
 			}  
 		}
-
-
-
     }
 
 	IEnumerator FindRemotes()
