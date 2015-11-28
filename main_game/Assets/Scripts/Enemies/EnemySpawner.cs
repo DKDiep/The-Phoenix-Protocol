@@ -43,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
                 ServerManager.NetworkSpawn(enemyObject);
+                
                 //parent enemyObject to find
                 enemyObjectLogic.name = "enemyObjectLogic";
                 enemyObjectLogic.transform.parent = enemyObject.transform;

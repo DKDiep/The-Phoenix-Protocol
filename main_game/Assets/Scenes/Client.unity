@@ -24,8 +24,8 @@ RenderSettings:
   m_AmbientEquatorColor: {r: .114, g: .125, b: .133000001, a: 1}
   m_AmbientGroundColor: {r: .0469999984, g: .0430000015, b: .0350000001, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_AmbientMode: 3
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -134,7 +134,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: .0114379181, b: .0294117928, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -286,6 +286,7 @@ MonoBehaviour:
   - {fileID: 180310, guid: 1148179f73ce04b748cdc45eb3fff301, type: 2}
   - {fileID: 146360, guid: 3324a41c9a3d85e418951c7cfd7ff5bb, type: 2}
   - {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
+  - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
