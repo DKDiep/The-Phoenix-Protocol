@@ -53,6 +53,9 @@ public class ServerManager : NetworkBehaviour {
                 playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
                 playerShipLogic.transform.parent = playerShip.transform;
 
+                //Instantiate crosshairs
+                GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
+
                 gameState.SetPlayerShip(playerShip);
                 thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
                 gameState.Setup();
