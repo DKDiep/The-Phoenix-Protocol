@@ -44,6 +44,7 @@ MonoBehaviour:
   maxRange: 1000
   shotsPerSec: 3
   shootChance: 4
+  collisionDamage: 100
   shootPeriod: 1.25
   percentageVariation: 50
   maxShield: 0
@@ -71,6 +72,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: speed
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collisionDamage
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

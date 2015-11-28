@@ -10,6 +10,7 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] float shotsPerSec = 1f;
 	[SerializeField] int shootChance; // Every .1 seconds a random int between 1 and this value is selected. Increase to reduce
 									  // likelihood of firing and vice versa
+	[SerializeField] float collisionDamage;
 	[SerializeField] float shootPeriod; // How long in seconds the enemy should shoot for when it fires
 	[SerializeField] int percentageVariation; // Percentage variation +/- in the length of the shooting period
 	[SerializeField] float maxShield; // Max recharging shield level. Set to 0 to disable shields
@@ -30,6 +31,7 @@ public class EnemyLogic : MonoBehaviour
     public void SetControlObject(GameObject newControlObject)
     {
         controlObject = newControlObject;
+        transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
 
     // This function is run when the object is spawned
@@ -129,6 +131,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 		//Debug.Log ("Glom fighter was hit, has " + shield + " shield and " + health + " health");
 	}
+
 	
 	
 }

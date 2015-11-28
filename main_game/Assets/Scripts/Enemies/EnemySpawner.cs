@@ -40,13 +40,14 @@ public class EnemySpawner : MonoBehaviour
                 //Spawn enemy and server logic
                 GameObject enemyObject = Instantiate(enemy, rand_position, transform.rotation) as GameObject;
                 GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
+                enemyObject.AddComponent<EnemyCollision>();
+				enemyObjectLogic.transform.parent = enemyObject.transform;
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
                 ServerManager.NetworkSpawn(enemyObject);
                 
                 //parent enemyObject to find
                 enemyObjectLogic.name = "enemyObjectLogic";
-                enemyObjectLogic.transform.parent = enemyObject.transform;
 
                 enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
                 numEnemies += 1;
