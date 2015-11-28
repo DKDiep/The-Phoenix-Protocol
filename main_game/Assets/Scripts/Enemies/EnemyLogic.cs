@@ -17,6 +17,7 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
 	[SerializeField] bool isSuicidal; // Attempt to crash into player?
 	[SerializeField] GameObject bullet;
+	[SerializeField] GameObject bulletLogic;
 
 	public GameObject player;
 	bool shoot = false;
@@ -47,7 +48,7 @@ public class EnemyLogic : MonoBehaviour
 	
 	void Update () 
 	{
-		transform.Translate (transform.forward*Time.deltaTime * speed);
+		controlObject.transform.Translate (transform.forward*Time.deltaTime * speed);
 	}
 	
 	IEnumerator ShootManager()
@@ -73,8 +74,11 @@ public class EnemyLogic : MonoBehaviour
 	IEnumerator Shoot()
 	{
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
-		GameObject temp = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
-		temp.GetComponent<BulletLogic>().SetPlayer (player);
+		GameObject obj = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
+		GameObject logic = Instantiate (bulletLogic, transform.position, Quaternion.identity) as GameObject;
+		ServerManager.NetworkSpawn(obj);
+		logic.transform.parent = obj.transform;
+		
 		if(shoot) StartCoroutine ("Shoot");
 	}
 	

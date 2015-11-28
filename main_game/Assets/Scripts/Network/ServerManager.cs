@@ -15,7 +15,7 @@ public class ServerManager : NetworkBehaviour {
     {
         return clientIds.Count;
     }
-    //Used to spawn network objects
+    // Used to spawn network objects
     public static void NetworkSpawn(GameObject spawnObject)
     {
         NetworkServer.Spawn(spawnObject);
@@ -27,7 +27,7 @@ public class ServerManager : NetworkBehaviour {
         // Host is client Id #0
         clientIds.Add(0);
         clientId = 0;
-        //assign clients
+        // assign clients
 
         gameState = gameObject.GetComponent<GameState>();
         networkManager = gameObject.GetComponent<NetworkManager>();
@@ -50,7 +50,7 @@ public class ServerManager : NetworkBehaviour {
 
                 //Instantiate ship logic on server only
                 GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
-                playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
+                //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
                 playerShipLogic.transform.parent = playerShip.transform;
 
                 //Instantiate crosshairs

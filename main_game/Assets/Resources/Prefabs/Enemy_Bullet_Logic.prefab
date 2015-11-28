@@ -1,70 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &124810
+--- !u!1 &136190
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 466534}
-  - 114: {fileID: 11468714}
+  - 4: {fileID: 466568}
+  - 114: {fileID: 11463736}
   m_Layer: 0
-  m_Name: EnemyShipLogic
+  m_Name: Enemy_Bullet_Logic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &466534
+--- !u!4 &466568
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 124810}
+  m_GameObject: {fileID: 136190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -178.190109, y: 153.587997, z: 710.762451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11468714
+--- !u!114 &11463736
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 124810}
+  m_GameObject: {fileID: 136190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b14e54b00991401aa182ce12da54501, type: 3}
+  m_Script: {fileID: 11500000, guid: 0219db45a99614e56af96480e105ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  health: 100
-  maxRange: 1000
-  shotsPerSec: 3
-  shootChance: 5
-  shootPeriod: 1.25
-  percentageVariation: 50
-  maxShield: 0
-  shieldDelay: 0
-  shieldRechargeRate: 0
-  isSuicidal: 0
-  bullet: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
-  bulletLogic: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
-  player: {fileID: 0}
+  speed: 100
+  accuracy: .100000001
+  bulletColor: {r: .293306261, g: 1, b: .0147058964, a: 0}
+  xScale: 1
+  yScale: 1
+  zScale: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: bulletLogic
-      value: 
-      objectReference: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
+    m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 124810}
+  m_RootGameObject: {fileID: 136190}
   m_IsPrefabParent: 1

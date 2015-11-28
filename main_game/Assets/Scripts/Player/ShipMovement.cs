@@ -8,6 +8,7 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	[SerializeField] float turnSpeed = 0.01f;
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
+	GameObject controlObject;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
 	float pitchOld;
@@ -15,11 +16,9 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	float slowTime = 0f;
 	float slowTime2 = 0f;
 
-    private GameObject controlObject;
-
-    public void SetControlObject(GameObject newControlObject)
+    void Start()
     {
-        controlObject = newControlObject;
+    	controlObject = transform.parent.gameObject;
     }
 
 	void Update () 
