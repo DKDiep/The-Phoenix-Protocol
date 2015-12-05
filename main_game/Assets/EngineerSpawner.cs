@@ -20,7 +20,6 @@ public class EngineerSpawner : MonoBehaviour {
         {
             gameState = gameManager.GetComponent<GameState>();
             serverManager = gameManager.GetComponent<ServerManager>();
-            Debug.Log("Fuck you cunt shit dick!");
         }
 	}
 	
@@ -30,9 +29,8 @@ public class EngineerSpawner : MonoBehaviour {
         if (gameState.GetStatus() == GameState.Status.Started && numEngineers <= maxEngineers)
         {
             GameObject engineer = (GameObject)Instantiate(engineerPrefab, new Vector3(0,0,0), Quaternion.identity);
-            serverManager.NetworkSpawn(engineer);
+            ServerManager.NetworkSpawn(engineer);
             numEngineers++;
-            Debug.Log("Spawnded an fucking engineer you fucking cunt prick!");
         }
 	}
 }
