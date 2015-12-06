@@ -43,6 +43,7 @@ public class CommandConsoleState : MonoBehaviour {
         GunsButton.SetActive(false);
         EngineButton.SetActive(false);
         mass = 100;
+        print("command console started");
     }
 
     public void Upgrade(bool isOn)

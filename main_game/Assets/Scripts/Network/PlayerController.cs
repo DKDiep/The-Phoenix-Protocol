@@ -39,7 +39,7 @@ public class PlayerController : NetworkBehaviour {
     {
         if (isServer)
         {
-            ship = GameObject.Find("PlayerShip");
+            ship = GameObject.Find("PlayerController");
             shipMovement = ship.GetComponent<ShipMovement>();
         }
         // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
