@@ -42,6 +42,7 @@ MonoBehaviour:
   _Atlas: {fileID: 11400000, guid: cb9d833d9a9304870b9f6bad04ea93e3, type: 2}
   FlareBatches: []
   EditingAtlas: 0
+  isVisible: 1
   Elements:
   - Editing: 1
     Visible: 1
@@ -74,28 +75,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: .588235319
-      b: .352941185
-      a: .591733336
-    ElementTint:
-      r: 1
-      g: .588235319
-      b: .352941185
-      a: 1
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: .588235319, b: .352941185, a: .591733336}
+    ElementTint: {r: 1, g: .588235319, b: .352941185, a: 1}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -166,28 +152,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .309803933
-    ElementTint:
-      r: 1
-      g: .368627459
-      b: 0
-      a: .196078435
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .309803933}
+    ElementTint: {r: 1, g: .368627459, b: 0, a: .196078435}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -215,16 +186,8 @@ MonoBehaviour:
     OverrideDynamicCenterBrightness: 0
     DynamicCenterBrightnessOverride: .400000006
     subElements:
-    - color:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .196078435
-      colorFinal:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .116026148
+    - color: {r: 1, g: .368627459, b: 0, a: .196078435}
+      colorFinal: {r: 1, g: .368627459, b: 0, a: .116026148}
       position: -.793063641
       offset: {x: -.919718981, y: -.173205078, z: 0}
       angle: 136.064728
@@ -236,16 +199,8 @@ MonoBehaviour:
       RandomColorSeedG: .227150321
       RandomColorSeedB: .548223495
       RandomColorSeedA: -.0817607641
-    - color:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .196078435
-      colorFinal:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .116026148
+    - color: {r: 1, g: .368627459, b: 0, a: .196078435}
+      colorFinal: {r: 1, g: .368627459, b: 0, a: .116026148}
       position: -.969134808
       offset: {x: -.919718981, y: -.173205078, z: 0}
       angle: 178.524185
@@ -257,16 +212,8 @@ MonoBehaviour:
       RandomColorSeedG: .892279863
       RandomColorSeedB: -.738343477
       RandomColorSeedA: .73737812
-    - color:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .196078435
-      colorFinal:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .116026148
+    - color: {r: 1, g: .368627459, b: 0, a: .196078435}
+      colorFinal: {r: 1, g: .368627459, b: 0, a: .116026148}
       position: .527563095
       offset: {x: -.919718981, y: -.173205078, z: 0}
       angle: 223.629669
@@ -278,16 +225,8 @@ MonoBehaviour:
       RandomColorSeedG: .9579041
       RandomColorSeedB: .0332561731
       RandomColorSeedA: -.839485168
-    - color:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .196078435
-      colorFinal:
-        r: 1
-        g: .368627459
-        b: 0
-        a: .116026148
+    - color: {r: 1, g: .368627459, b: 0, a: .196078435}
+      colorFinal: {r: 1, g: .368627459, b: 0, a: .116026148}
       position: -.407683969
       offset: {x: -.919718981, y: -.173205078, z: 0}
       angle: 290.346619
@@ -342,28 +281,13 @@ MonoBehaviour:
     rotationSpeed: 29.3600006
     rotationOverTime: -1.01999998
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: .372549027
-      b: .0862745121
-      a: .19724445
-    ElementTint:
-      r: 1
-      g: .372549027
-      b: .0862745121
-      a: .333333343
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: .372549027, b: .0862745121, a: .19724445}
+    ElementTint: {r: 1, g: .372549027, b: .0862745121, a: .333333343}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -391,16 +315,8 @@ MonoBehaviour:
     OverrideDynamicCenterBrightness: 0
     DynamicCenterBrightnessOverride: .400000006
     subElements:
-    - color:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
-      colorFinal:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
+    - color: {r: 1, g: 1, b: 1, a: 1}
+      colorFinal: {r: 1, g: 1, b: 1, a: 1}
       position: -.997833252
       offset: {x: -.0968620479, y: .180619344, z: 0}
       angle: 0
@@ -412,16 +328,8 @@ MonoBehaviour:
       RandomColorSeedG: .448608369
       RandomColorSeedB: .88361001
       RandomColorSeedA: .5
-    - color:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
-      colorFinal:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
+    - color: {r: 1, g: 1, b: 1, a: 1}
+      colorFinal: {r: 1, g: 1, b: 1, a: 1}
       position: .145352483
       offset: {x: .0141097112, y: -.0263104793, z: 0}
       angle: 0
@@ -433,16 +341,8 @@ MonoBehaviour:
       RandomColorSeedG: -.0325294733
       RandomColorSeedB: -.0356901884
       RandomColorSeedA: .5
-    - color:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
-      colorFinal:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
+    - color: {r: 1, g: 1, b: 1, a: 1}
+      colorFinal: {r: 1, g: 1, b: 1, a: 1}
       position: .401277781
       offset: {x: .0389529876, y: -.0726359189, z: 0}
       angle: 0
@@ -454,16 +354,8 @@ MonoBehaviour:
       RandomColorSeedG: -.5703125
       RandomColorSeedB: .982399702
       RandomColorSeedA: .5
-    - color:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
-      colorFinal:
-        r: 1
-        g: 1
-        b: 1
-        a: 1
+    - color: {r: 1, g: 1, b: 1, a: 1}
+      colorFinal: {r: 1, g: 1, b: 1, a: 1}
       position: .715352535
       offset: {x: .0694409683, y: -.129487082, z: 0}
       angle: 0
@@ -518,28 +410,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .334155321
-    ElementTint:
-      r: 1
-      g: 1
-      b: 1
-      a: .564705908
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .334155321}
+    ElementTint: {r: 1, g: 1, b: 1, a: .564705908}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -610,28 +487,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .309803933
-    ElementTint:
-      r: .0196078438
-      g: .490196079
-      b: .662745118
-      a: .129411772
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .309803933}
+    ElementTint: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -659,16 +521,8 @@ MonoBehaviour:
     OverrideDynamicCenterBrightness: 1
     DynamicCenterBrightnessOverride: -.300000012
     subElements:
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.06945932
       offset: {x: .983602047, y: -.203205079, z: 0}
       angle: 0
@@ -680,16 +534,8 @@ MonoBehaviour:
       RandomColorSeedG: .184969068
       RandomColorSeedB: -.000445008278
       RandomColorSeedA: .5
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.37409413
       offset: {x: 1.26378047, y: -.203205079, z: 0}
       angle: 0
@@ -701,16 +547,8 @@ MonoBehaviour:
       RandomColorSeedG: .0324927568
       RandomColorSeedB: -.657173395
       RandomColorSeedA: .5
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .882336736
       offset: {x: .811501861, y: -.203205079, z: 0}
       angle: 0
@@ -722,16 +560,8 @@ MonoBehaviour:
       RandomColorSeedG: -.615221739
       RandomColorSeedB: -.280572772
       RandomColorSeedA: .5
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.73571873
       offset: {x: 1.59637344, y: -.203205079, z: 0}
       angle: 0
@@ -743,16 +573,8 @@ MonoBehaviour:
       RandomColorSeedG: .905552387
       RandomColorSeedB: .273794621
       RandomColorSeedA: .5
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: -.155285373
       offset: {x: -.142818898, y: -.203205079, z: 0}
       angle: 0
@@ -764,16 +586,8 @@ MonoBehaviour:
       RandomColorSeedG: -.258597732
       RandomColorSeedB: -.126462579
       RandomColorSeedA: .5
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: -.596521735
       offset: {x: -.548632383, y: -.203205079, z: 0}
       angle: 0
@@ -785,16 +599,8 @@ MonoBehaviour:
       RandomColorSeedG: .050629735
       RandomColorSeedB: .362698525
       RandomColorSeedA: -.859180212
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .882470667
       offset: {x: .811625004, y: -.203205079, z: 0}
       angle: 0
@@ -806,16 +612,8 @@ MonoBehaviour:
       RandomColorSeedG: -.819434166
       RandomColorSeedB: -.55207634
       RandomColorSeedA: -.654916763
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .936916769
       offset: {x: .861700118, y: -.203205079, z: 0}
       angle: 0
@@ -827,16 +625,8 @@ MonoBehaviour:
       RandomColorSeedG: -.10959661
       RandomColorSeedB: .0690203905
       RandomColorSeedA: .134988189
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .414728314
       offset: {x: .381433517, y: -.203205079, z: 0}
       angle: 0
@@ -848,16 +638,8 @@ MonoBehaviour:
       RandomColorSeedG: .619271755
       RandomColorSeedB: .280050248
       RandomColorSeedA: .769279718
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.80699265
       offset: {x: 1.66192544, y: -.203205079, z: 0}
       angle: 0
@@ -869,16 +651,8 @@ MonoBehaviour:
       RandomColorSeedG: -.69009304
       RandomColorSeedB: -.796450615
       RandomColorSeedA: .391265363
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.22502148
       offset: {x: 1.12667549, y: -.203205079, z: 0}
       angle: 0
@@ -890,16 +664,8 @@ MonoBehaviour:
       RandomColorSeedG: .200094819
       RandomColorSeedB: -.210296512
       RandomColorSeedA: .706944704
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .963347673
       offset: {x: .886009157, y: -.203205079, z: 0}
       angle: 0
@@ -911,16 +677,8 @@ MonoBehaviour:
       RandomColorSeedG: -.610232353
       RandomColorSeedB: .7146523
       RandomColorSeedA: .744147778
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.2104764
       offset: {x: 1.11329818, y: -.203205079, z: 0}
       angle: 0
@@ -932,16 +690,8 @@ MonoBehaviour:
       RandomColorSeedG: -.194374442
       RandomColorSeedB: -.632514954
       RandomColorSeedA: .755922079
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .681140542
       offset: {x: .62645787, y: -.203205079, z: 0}
       angle: 0
@@ -953,16 +703,8 @@ MonoBehaviour:
       RandomColorSeedG: -.894438028
       RandomColorSeedB: .119104743
       RandomColorSeedA: .535116196
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .646110594
       offset: {x: .594240189, y: -.203205079, z: 0}
       angle: 0
@@ -974,16 +716,8 @@ MonoBehaviour:
       RandomColorSeedG: .495665759
       RandomColorSeedB: -.310450912
       RandomColorSeedA: -.832672358
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.06684899
       offset: {x: .981201291, y: -.203205079, z: 0}
       angle: 0
@@ -995,16 +729,8 @@ MonoBehaviour:
       RandomColorSeedG: -.669386387
       RandomColorSeedB: -.431177258
       RandomColorSeedA: .370264739
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: -.252616942
       offset: {x: -.232336596, y: -.203205079, z: 0}
       angle: 0
@@ -1016,16 +742,8 @@ MonoBehaviour:
       RandomColorSeedG: .563442945
       RandomColorSeedB: -.360820174
       RandomColorSeedA: -.908804655
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: 1.19438767
       offset: {x: 1.09850097, y: -.203205079, z: 0}
       angle: 0
@@ -1037,16 +755,8 @@ MonoBehaviour:
       RandomColorSeedG: .435512513
       RandomColorSeedB: .125368476
       RandomColorSeedA: .676619291
-    - color:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .129411772
-      colorFinal:
-        r: .0196078438
-        g: .490196079
-        b: .662745118
-        a: .0765772536
+    - color: {r: .0196078438, g: .490196079, b: .662745118, a: .129411772}
+      colorFinal: {r: .0196078438, g: .490196079, b: .662745118, a: .0765772536}
       position: .257907569
       offset: {x: .23720248, y: -.203205079, z: 0}
       angle: 0
@@ -1101,28 +811,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .309803933
-    ElementTint:
-      r: .843137264
-      g: .494117647
-      b: .298039228
-      a: .0784313753
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .309803933}
+    ElementTint: {r: .843137264, g: .494117647, b: .298039228, a: .0784313753}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 1
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -1150,16 +845,8 @@ MonoBehaviour:
     OverrideDynamicCenterBrightness: 1
     DynamicCenterBrightnessOverride: -.0700000003
     subElements:
-    - color:
-        r: .853130996
-        g: .494117647
-        b: .0481328554
-        a: .0784313753
-      colorFinal:
-        r: .853130996
-        g: .494117647
-        b: .0481328554
-        a: .04641046
+    - color: {r: .853130996, g: .494117647, b: .0481328554, a: .0784313753}
+      colorFinal: {r: .853130996, g: .494117647, b: .0481328554, a: .04641046}
       position: 1.32057238
       offset: {x: 1.2145555, y: -.173205078, z: 0}
       angle: 0
@@ -1171,16 +858,8 @@ MonoBehaviour:
       RandomColorSeedG: -.824477196
       RandomColorSeedB: -.494864106
       RandomColorSeedA: -.871273279
-    - color:
-        r: .809881628
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .809881628
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .809881628, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .809881628, g: .494117647, b: 0, a: .04641046}
       position: 1.0175761
       offset: {x: .935884058, y: -.173205078, z: 0}
       angle: 0
@@ -1192,16 +871,8 @@ MonoBehaviour:
       RandomColorSeedG: .923440933
       RandomColorSeedB: -.849496841
       RandomColorSeedA: .00979197025
-    - color:
-        r: .798166037
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .798166037
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .798166037, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .798166037, g: .494117647, b: 0, a: .04641046}
       position: 1.31619918
       offset: {x: 1.21053338, y: -.173205078, z: 0}
       angle: 0
@@ -1213,16 +884,8 @@ MonoBehaviour:
       RandomColorSeedG: -.345501065
       RandomColorSeedB: -.731738091
       RandomColorSeedA: .234004378
-    - color:
-        r: .839452684
-        g: .494117647
-        b: .471309096
-        a: .0784313753
-      colorFinal:
-        r: .839452684
-        g: .494117647
-        b: .471309096
-        a: .04641046
+    - color: {r: .839452684, g: .494117647, b: .471309096, a: .0784313753}
+      colorFinal: {r: .839452684, g: .494117647, b: .471309096, a: .04641046}
       position: -.101397775
       offset: {x: -.093257457, y: -.173205078, z: 0}
       angle: 0
@@ -1234,16 +897,8 @@ MonoBehaviour:
       RandomColorSeedG: .828083754
       RandomColorSeedB: .343108624
       RandomColorSeedA: .00726997852
-    - color:
-        r: .841844559
-        g: .494117647
-        b: .377164781
-        a: .0784313753
-      colorFinal:
-        r: .841844559
-        g: .494117647
-        b: .377164781
-        a: .04641046
+    - color: {r: .841844559, g: .494117647, b: .377164781, a: .0784313753}
+      colorFinal: {r: .841844559, g: .494117647, b: .377164781, a: .04641046}
       position: .108290732
       offset: {x: .0995970443, y: -.173205078, z: 0}
       angle: 0
@@ -1255,16 +910,8 @@ MonoBehaviour:
       RandomColorSeedG: -.0909515619
       RandomColorSeedB: .156684279
       RandomColorSeedA: .732322931
-    - color:
-        r: .839900494
-        g: .494117647
-        b: .776765108
-        a: .0784313753
-      colorFinal:
-        r: .839900494
-        g: .494117647
-        b: .776765108
-        a: .04641046
+    - color: {r: .839900494, g: .494117647, b: .776765108, a: .0784313753}
+      colorFinal: {r: .839900494, g: .494117647, b: .776765108, a: .04641046}
       position: -.283496559
       offset: {x: -.260737181, y: -.173205078, z: 0}
       angle: 0
@@ -1276,16 +923,8 @@ MonoBehaviour:
       RandomColorSeedG: -.0157371759
       RandomColorSeedB: .947972059
       RandomColorSeedA: -.126146197
-    - color:
-        r: .894930899
-        g: .494117647
-        b: .713318884
-        a: .0784313753
-      colorFinal:
-        r: .894930899
-        g: .494117647
-        b: .713318884
-        a: .04641046
+    - color: {r: .894930899, g: .494117647, b: .713318884, a: .0784313753}
+      colorFinal: {r: .894930899, g: .494117647, b: .713318884, a: .04641046}
       position: .787346959
       offset: {x: .724137962, y: -.173205078, z: 0}
       angle: 0
@@ -1297,16 +936,8 @@ MonoBehaviour:
       RandomColorSeedG: .602629662
       RandomColorSeedB: .822335958
       RandomColorSeedA: .0664771795
-    - color:
-        r: .879493296
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .879493296
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .879493296, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .879493296, g: .494117647, b: 0, a: .04641046}
       position: .903761387
       offset: {x: .831206501, y: -.173205078, z: 0}
       angle: 0
@@ -1318,16 +949,8 @@ MonoBehaviour:
       RandomColorSeedG: -.805123091
       RandomColorSeedB: -.593588829
       RandomColorSeedA: -.725735188
-    - color:
-        r: .880774975
-        g: .494117647
-        b: .530439138
-        a: .0784313753
-      colorFinal:
-        r: .880774975
-        g: .494117647
-        b: .530439138
-        a: .04641046
+    - color: {r: .880774975, g: .494117647, b: .530439138, a: .0784313753}
+      colorFinal: {r: .880774975, g: .494117647, b: .530439138, a: .04641046}
       position: .925741613
       offset: {x: .851422131, y: -.173205078, z: 0}
       angle: 0
@@ -1339,16 +962,8 @@ MonoBehaviour:
       RandomColorSeedG: .92482686
       RandomColorSeedB: .460197896
       RandomColorSeedA: .21477139
-    - color:
-        r: .816104949
-        g: .494117647
-        b: .685409963
-        a: .0784313753
-      colorFinal:
-        r: .816104949
-        g: .494117647
-        b: .685409963
-        a: .04641046
+    - color: {r: .816104949, g: .494117647, b: .685409963, a: .0784313753}
+      colorFinal: {r: .816104949, g: .494117647, b: .685409963, a: .04641046}
       position: .463112056
       offset: {x: .425932944, y: -.173205078, z: 0}
       angle: 0
@@ -1360,16 +975,8 @@ MonoBehaviour:
       RandomColorSeedG: -.671497345
       RandomColorSeedB: .76707077
       RandomColorSeedA: .883101463
-    - color:
-        r: .88983357
-        g: .494117647
-        b: .798057973
-        a: .0784313753
-      colorFinal:
-        r: .88983357
-        g: .494117647
-        b: .798057973
-        a: .04641046
+    - color: {r: .88983357, g: .494117647, b: .798057973, a: .0784313753}
+      colorFinal: {r: .88983357, g: .494117647, b: .798057973, a: .04641046}
       position: 1.3903749
       offset: {x: 1.27875423, y: -.173205078, z: 0}
       angle: 0
@@ -1381,16 +988,8 @@ MonoBehaviour:
       RandomColorSeedG: .505469084
       RandomColorSeedB: .990136147
       RandomColorSeedA: .585419893
-    - color:
-        r: .848846972
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .848846972
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .848846972, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .848846972, g: .494117647, b: 0, a: .04641046}
       position: .164119855
       offset: {x: .150944144, y: -.173205078, z: 0}
       angle: 0
@@ -1402,16 +1001,8 @@ MonoBehaviour:
       RandomColorSeedG: -.639583111
       RandomColorSeedB: -.95980835
       RandomColorSeedA: -.269540668
-    - color:
-        r: .792440295
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .792440295
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .792440295, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .792440295, g: .494117647, b: 0, a: .04641046}
       position: .376466453
       offset: {x: .346243352, y: -.173205078, z: 0}
       angle: 0
@@ -1423,16 +1014,8 @@ MonoBehaviour:
       RandomColorSeedG: -.0599392653
       RandomColorSeedB: -.736712217
       RandomColorSeedA: .267300814
-    - color:
-        r: .890922666
-        g: .494117647
-        b: 0
-        a: .0784313753
-      colorFinal:
-        r: .890922666
-        g: .494117647
-        b: 0
-        a: .04641046
+    - color: {r: .890922666, g: .494117647, b: 0, a: .0784313753}
+      colorFinal: {r: .890922666, g: .494117647, b: 0, a: .04641046}
       position: .281919748
       offset: {x: .25928694, y: -.173205078, z: 0}
       angle: 0
@@ -1487,28 +1070,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .0765772536
-    ElementTint:
-      r: 1
-      g: 1
-      b: 1
-      a: .129411772
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .0765772536}
+    ElementTint: {r: 1, g: 1, b: 1, a: .129411772}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 0
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -1579,28 +1147,13 @@ MonoBehaviour:
     rotationSpeed: 0
     rotationOverTime: 0
     useColorRange: 0
-    ElementFinalColor:
-      r: 1
-      g: 1
-      b: 1
-      a: .309803933
-    ElementTint:
-      r: 1
-      g: .474509805
-      b: .356862754
-      a: .0784313753
-    SubElementColor_Start:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
-    SubElementColor_End:
-      r: 1
-      g: 1
-      b: 1
-      a: 1
+    ElementFinalColor: {r: 1, g: 1, b: 1, a: .309803933}
+    ElementTint: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+    SubElementColor_Start: {r: 1, g: 1, b: 1, a: 1}
+    SubElementColor_End: {r: 1, g: 1, b: 1, a: 1}
     useScaleCurve: 1
     ScaleCurve:
+      serializedVersion: 2
       m_Curve:
       - time: 0
         value: .100000001
@@ -1628,16 +1181,8 @@ MonoBehaviour:
     OverrideDynamicCenterBrightness: 1
     DynamicCenterBrightnessOverride: -.0700000003
     subElements:
-    - color:
-        r: .986998141
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: .986998141
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: .986998141, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: .986998141, g: .474509805, b: .356862754, a: .04641046}
       position: .861957431
       offset: {x: .792758584, y: .149295405, z: 0}
       angle: 0
@@ -1649,16 +1194,8 @@ MonoBehaviour:
       RandomColorSeedG: -.317279696
       RandomColorSeedB: .667400837
       RandomColorSeedA: -.660284519
-    - color:
-        r: .956005335
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: .956005335
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: .956005335, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: .956005335, g: .474509805, b: .356862754, a: .04641046}
       position: 1.3458643
       offset: {x: 1.23781693, y: .233110532, z: 0}
       angle: 0
@@ -1670,16 +1207,8 @@ MonoBehaviour:
       RandomColorSeedG: -.00474607944
       RandomColorSeedB: .252458066
       RandomColorSeedA: -.35984695
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: 1.3428973
       offset: {x: 1.23508811, y: .232596636, z: 0}
       angle: 0
@@ -1691,16 +1220,8 @@ MonoBehaviour:
       RandomColorSeedG: -.0572570562
       RandomColorSeedB: .643036604
       RandomColorSeedA: .885558605
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: .279805064
       offset: {x: .257342041, y: .0484636575, z: 0}
       angle: 0
@@ -1712,16 +1233,8 @@ MonoBehaviour:
       RandomColorSeedG: .753755093
       RandomColorSeedB: .834210396
       RandomColorSeedA: .242136836
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: -.283403397
       offset: {x: -.260651469, y: -.049086906, z: 0}
       angle: 0
@@ -1733,16 +1246,8 @@ MonoBehaviour:
       RandomColorSeedG: -.925156355
       RandomColorSeedB: -.00971615314
       RandomColorSeedA: .40292713
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: 1.26292706
       offset: {x: 1.161538, y: .218745381, z: 0}
       angle: 0
@@ -1754,16 +1259,8 @@ MonoBehaviour:
       RandomColorSeedG: -.555974245
       RandomColorSeedB: -.829424858
       RandomColorSeedA: -.686658382
-    - color:
-        r: .99388957
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: .99388957
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: .99388957, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: .99388957, g: .474509805, b: .356862754, a: .04641046}
       position: -.178955853
       offset: {x: -.164589092, y: -.0309960619, z: 0}
       angle: 0
@@ -1775,16 +1272,8 @@ MonoBehaviour:
       RandomColorSeedG: .675198317
       RandomColorSeedB: -.130110621
       RandomColorSeedA: .168665767
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: -.214312449
       offset: {x: -.197107226, y: -.0371200033, z: 0}
       angle: 0
@@ -1796,16 +1285,8 @@ MonoBehaviour:
       RandomColorSeedG: -.550536156
       RandomColorSeedB: .734408617
       RandomColorSeedA: -.209804416
-    - color:
-        r: .996113777
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: .996113777
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: .996113777, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: .996113777, g: .474509805, b: .356862754, a: .04641046}
       position: .703609884
       offset: {x: .647123337, y: .121868804, z: 0}
       angle: 0
@@ -1817,16 +1298,8 @@ MonoBehaviour:
       RandomColorSeedG: .0826815367
       RandomColorSeedB: -.846921921
       RandomColorSeedA: -.662194729
-    - color:
-        r: .979137361
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: .979137361
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: .979137361, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: .979137361, g: .474509805, b: .356862754, a: .04641046}
       position: .965408206
       offset: {x: .887904227, y: .167213604, z: 0}
       angle: 0
@@ -1838,16 +1311,8 @@ MonoBehaviour:
       RandomColorSeedG: -.173316598
       RandomColorSeedB: .860729218
       RandomColorSeedA: -.491662383
-    - color:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .0784313753
-      colorFinal:
-        r: 1
-        g: .474509805
-        b: .356862754
-        a: .04641046
+    - color: {r: 1, g: .474509805, b: .356862754, a: .0784313753}
+      colorFinal: {r: 1, g: .474509805, b: .356862754, a: .04641046}
       position: .0798781142
       offset: {x: .0734654143, y: .0138352951, z: 0}
       angle: 0
@@ -1875,12 +1340,9 @@ MonoBehaviour:
   LensPosition: {x: .241329044, y: .413397461, z: 10}
   EditGlobals: 1
   GlobalScale: 64
+  MultiplyScaleByTransformScale: 0
   GlobalBrightness: .634000003
-  GlobalTintColor:
-    r: 1
-    g: 1
-    b: 1
-    a: .634000003
+  GlobalTintColor: {r: 1, g: 1, b: 1, a: .634000003}
   useMaxDistance: 1
   useDistanceScale: 1
   useDistanceFade: 1
@@ -1891,6 +1353,7 @@ MonoBehaviour:
   UseAngleBrightness: 1
   UseAngleCurve: 0
   AngleCurve:
+    serializedVersion: 2
     m_Curve:
     - time: 0
       value: 0
@@ -1904,13 +1367,16 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-  mask: {}
+  mask:
+    serializedVersion: 2
+    m_Bits: 1
   RaycastPhysics: 0
   Occluded: 0
   OccludeScale: 1
   OccludingObject: {fileID: 0}
   EditDynamicTriggering: 0
   EditOcclusion: 0
+  IoSetting: 0
   OffScreenFadeDist: .200000003
   useDynamicEdgeBoost: 1
   DynamicEdgeBoost: 1.20000005
@@ -1918,6 +1384,7 @@ MonoBehaviour:
   DynamicEdgeRange: .300000012
   DynamicEdgeBias: -.100000001
   DynamicEdgeCurve:
+    serializedVersion: 2
     m_Curve:
     - time: 0
       value: 0
@@ -1941,7 +1408,7 @@ MonoBehaviour:
   DynamicCenterBrightness: 0
   DynamicCenterRange: .200000003
   DynamicCenterBias: 0
-  ExtraSources: []
+  neverCull: 0
   DisabledPlayMode: 0
 --- !u!1001 &100100000
 Prefab:

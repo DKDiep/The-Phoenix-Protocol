@@ -4,7 +4,7 @@ using System.Collections;
 public class ShipMovement : MonoBehaviour, INavigatable
 {
 
-	[SerializeField] float speed = 10f;
+	[SerializeField] public float speed = 10f;
 	[SerializeField] float turnSpeed = 0.01f;
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
