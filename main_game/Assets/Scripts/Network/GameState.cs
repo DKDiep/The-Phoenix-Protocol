@@ -17,6 +17,14 @@ public class GameState : MonoBehaviour {
     private List<GameObject> asteroidList;
     private List<GameObject> enemyList;
     private GameObject playerShip;
+    
+    void Update()
+    {
+    	if(Input.GetKeyDown (KeyCode.Escape))
+    	{
+    		Application.Quit ();
+    	}
+    }
 
     public Status GetStatus()
     {
