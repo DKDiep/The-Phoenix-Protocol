@@ -408,6 +408,7 @@ GameObject:
   - 124: {fileID: 12484966}
   - 114: {fileID: 11417412}
   - 114: {fileID: 11402598}
+  - 81: {fileID: 8101308}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -2947,6 +2948,13 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300034, guid: e192d2b488b01734ea2512bb54927516, type: 3}
+--- !u!81 &8101308
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
 --- !u!92 &9295236
 Behaviour:
   m_ObjectHideFlags: 1
