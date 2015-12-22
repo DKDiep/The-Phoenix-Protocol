@@ -124,9 +124,17 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &175392920 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
+  m_PrefabInternal: {fileID: 175392919}
 --- !u!1 &1124164512
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,8 +148,8 @@ GameObject:
   - 124: {fileID: 1124164514}
   - 81: {fileID: 1124164513}
   m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
+  m_Name: MenuCam
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,6 +259,7 @@ GameObject:
   - 114: {fileID: 1668826864}
   - 114: {fileID: 1668826863}
   - 114: {fileID: 1668826861}
+  - 114: {fileID: 1668826862}
   m_Layer: 0
   m_Name: ClientManager
   m_TagString: Untagged
@@ -283,6 +292,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23f33996daff884baf424d7e355acbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1668826862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1668826859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14330fe1deafe4d09b9c9bcfa92cb341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waiting: {fileID: 2800000, guid: 25cd483f946184b17a57db689d93848e, type: 3}
+  menuCam: {fileID: 1124164512}
+  debug: {fileID: 175392920}
 --- !u!114 &1668826863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  showGUI: 1
+  showGUI: 0
   offsetX: 0
   offsetY: 0
 --- !u!114 &1668826864

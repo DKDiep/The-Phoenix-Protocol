@@ -10,6 +10,11 @@ public class ServerManager : NetworkBehaviour {
     private int clientId = 0;
     private List<int> clientIds;
     private GameObject thePlayer;
+    [SerializeField] Camera menuCam;
+    [SerializeField] GameObject menuBG;
+    [SerializeField] Texture2D play0;
+	[SerializeField] Texture2D play1;
+    bool gameStarted;
 
     public int clientIdCount()
     {
@@ -27,7 +32,10 @@ public class ServerManager : NetworkBehaviour {
         // Host is client Id #0
         clientIds.Add(0);
         clientId = 0;
+        gameStarted = false;
         // assign clients
+        
+        Cursor.visible = true;
 
         gameState = gameObject.GetComponent<GameState>();
         networkManager = gameObject.GetComponent<NetworkManager>();
@@ -35,7 +43,9 @@ public class ServerManager : NetworkBehaviour {
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(10, 400, 150, 100), "Start Game"))
+    if(!gameStarted)
+    {
+        if (GUI.Button(new Rect((Screen.width / 2) - 75, (Screen.height / 2) - 50, 150, 100), "Start Game"))
         {
             if (networkManager != null)
             {
@@ -63,6 +73,10 @@ public class ServerManager : NetworkBehaviour {
                 thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
                 gameState.Setup();
                 gameState.SetStatus(GameState.Status.Started);
+                Destroy (menuCam.gameObject);
+                Destroy (menuBG.gameObject);
+                gameStarted = true;
+                Cursor.visible = false;
             }
         }
 
@@ -73,6 +87,7 @@ public class ServerManager : NetworkBehaviour {
                 Debug.Log("Calling Rpc from servermanager");
                 thePlayer.GetComponent<RpcManager>().CallRpcSend("boo");
             }
+        }
         }
     }
 
