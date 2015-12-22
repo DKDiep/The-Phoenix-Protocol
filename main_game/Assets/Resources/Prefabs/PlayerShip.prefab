@@ -399,6 +399,15 @@ GameObject:
   - 20: {fileID: 2038666}
   - 114: {fileID: 11468624}
   - 92: {fileID: 9295236}
+  - 114: {fileID: 11443890}
+  - 114: {fileID: 11415550}
+  - 114: {fileID: 11499444}
+  - 114: {fileID: 11444764}
+  - 114: {fileID: 11481540}
+  - 114: {fileID: 11424830}
+  - 124: {fileID: 12484966}
+  - 114: {fileID: 11417412}
+  - 114: {fileID: 11402598}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -1377,7 +1386,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 0
+  m_HDR: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
@@ -2945,6 +2954,110 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152044}
   m_Enabled: 1
+--- !u!114 &11402598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec5688dc97c94c41a2bf37f0a513c2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hdr: 0
+  DebugPass: 0
+  Quality: 3
+  DetectionMethod: 2
+  UsePredication: 0
+  CustomPreset:
+    DiagDetection: 1
+    CornerDetection: 1
+    Threshold: .100000001
+    DepthThreshold: .00999999978
+    MaxSearchSteps: 16
+    MaxSearchStepsDiag: 8
+    CornerRounding: 25
+    LocalContrastAdaptationFactor: 2
+  CustomPredicationPreset:
+    Threshold: .00999999978
+    Scale: 2
+    Strength: .400000006
+  Shader: {fileID: 4800000, guid: 461ad39340fd1bf4e8d9fe310c58be95, type: 3}
+  AreaTex: {fileID: 2800000, guid: 7a7a7bb321416fa4d8ba53a700ae8140, type: 3}
+  SearchTex: {fileID: 2800000, guid: 3e01b396685ee1f48ac664c99ac95201, type: 3}
+--- !u!114 &11415550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d339c2fa3e211408ebd9198c0f9961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scale: 2
+  unlocked: 0
+  Filter: 0
+  UseDynamicOutputResolution: 0
+--- !u!114 &11417412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309aa686d8a1ace4faaedac6176225f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3.56999993
+  darkness: .49000001
+--- !u!114 &11424830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9e31fdf962e3e4ca3b62ec3ecc2f4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Exposure: 1
+  UseToneMapping: 0
+  UseDithering: 0
+  QualityLevel: 1
+  BlendAmount: .5
+  LutTexture: {fileID: 2800000, guid: ae2a8ef8c1b5eb849a89b462e10de3ae, type: 3}
+  LutBlendTexture: {fileID: 0}
+  MaskTexture: {fileID: 0}
+  UseDepthMask: 0
+  DepthMaskCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  UseVolumes: 0
+  ExitVolumeBlendTime: 1
+  TriggerVolumeProxy: {fileID: 0}
+  VolumeCollisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  EffectFlags:
+    components: []
+  sharedInstanceID: da54bdca-0536-4224-9b89-ffef63de851a
 --- !u!114 &11434882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2967,6 +3080,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11443890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a802a02f197647fcbbfda5e40c83481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11444764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390397f02bff7644ab045efd81d0d720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QualityLevel: 1
+  AutoRegisterObjs: 1
+  OverlayCameras: []
+  CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  QualitySteps: 1
+  MotionScale: 3
+  CameraMotionMult: 1
+  MinVelocity: 1
+  MaxVelocity: 10
+  DepthThreshold: .00100000005
+  WorkerThreads: 0
+  SystemThreadPool: 0
+  ForceCPUOnly: 0
+  DebugMode: 0
 --- !u!114 &11468624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3011,6 +3162,56 @@ MonoBehaviour:
     i15: 187
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11481540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c12500f3afdeb24d9444042960a4cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloomIntensity: .0500000007
+  shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
+  lensDirtTexture: {fileID: 2800000, guid: 6b7c529a5819ad9419e59727c0f34041, type: 3}
+  lensDirtIntensity: .0500000007
+  inputIsHDR: 0
+--- !u!114 &11499444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f0dcf603e9e5b4f8d31988975f4bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualizeSSAO: 0
+  radius: 1
+  bias: .100000001
+  bilateralDepthTolerance: .200000003
+  zThickness: 2.3499999
+  occlusionIntensity: 1.29999995
+  sampleDistributionCurve: 1.14999998
+  colorBleedAmount: 1
+  brightnessThreshold: 0
+  drawDistance: 500
+  drawDistanceFadeSize: 1
+  reduceSelfBleeding: 1
+  useDownsampling: 0
+  halfSampling: 0
+  preserveDetails: 0
+  attachedCamera: {fileID: 0}
+--- !u!124 &12484966
+Behaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
 --- !u!198 &19804242
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -6354,6 +6555,58 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_HDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lensDirtTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6b7c529a5819ad9419e59727c0f34041, type: 3}
+    - target: {fileID: 0}
+      propertyPath: LutTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: ae2a8ef8c1b5eb849a89b462e10de3ae, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: BlendAmount
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LutBlendTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: UseToneMapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: UseDithering
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: radius
+      value: 3.56999993
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: darkness
+      value: .49000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Hdr
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Quality
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DetectionMethod
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
