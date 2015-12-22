@@ -38,13 +38,17 @@ public class AsteroidSpawner : MonoBehaviour
             {
                 Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-800, 800), transform.position.y + Random.Range(-800, 800), transform.position.z + 150 + Random.Range(50, 1000));
                 GameObject asteroidObject = Instantiate(asteroid, rand_position, Quaternion.identity) as GameObject;
-                ServerManager.NetworkSpawn(asteroidObject);
-                asteroidObject.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
+				GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
+				asteroidLogic.transform.parent = asteroidObject.transform;
+                asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
+				asteroidObject.AddComponent<AsteroidCollision>();
+				SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
+				sphere.isTrigger = true;
+				Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
+				rigid.isKinematic = true;
                 state.AddAsteroidList(asteroidObject);
+				ServerManager.NetworkSpawn(asteroidObject);
                 numAsteroids += 1;
-                //NOTIFY CLIENT
-                //if (serverManager.clientIdCount() > 1)
-                // serverManager.RpcSpawn("asteroid");
             }
         }
     }

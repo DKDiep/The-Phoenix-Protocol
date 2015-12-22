@@ -40,7 +40,7 @@ public class BulletLogic : MonoBehaviour
 		if(col.gameObject.tag.Equals("Debris"))
 		{
 			Debug.Log ("A bullet has hit asteroid");
-			col.gameObject.GetComponent<AsteroidLogic>().collision(damage);
+			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
 		}
 		else if(col.gameObject.tag.Equals("EnemyShip"))
 		{
