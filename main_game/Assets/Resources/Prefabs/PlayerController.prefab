@@ -10,8 +10,8 @@ GameObject:
   - 4: {fileID: 427122}
   - 114: {fileID: 11439904}
   - 114: {fileID: 11412276}
-  - 20: {fileID: 2093900}
   - 114: {fileID: 11469332}
+  - 20: {fileID: 2046162}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!20 &2093900
+--- !u!20 &2046162
 Camera:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
