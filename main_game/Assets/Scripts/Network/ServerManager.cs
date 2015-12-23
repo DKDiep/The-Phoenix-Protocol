@@ -83,6 +83,12 @@ public class ServerManager : NetworkBehaviour {
                 gameState.AddEngineerList(engineer2);
                 ServerManager.NetworkSpawn(engineer2);
 
+                GameObject engineerController1 = Instantiate(Resources.Load("Prefabs/EngineerController", typeof(GameObject))) as GameObject;
+                GameObject engineerController2 = Instantiate(Resources.Load("Prefabs/EngineerController", typeof(GameObject))) as GameObject;
+
+                engineerController1.transform.parent = engineer1.transform;
+                engineerController2.transform.parent = engineer2.transform;
+
                 //Start the game
                 gameState.SetStatus(GameState.Status.Started);
                 Destroy (menuCam.gameObject);
