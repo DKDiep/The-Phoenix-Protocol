@@ -28,6 +28,9 @@ public class EnemyLogic : MonoBehaviour
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 	bool draw = false;
 
+	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
+	GameObject shootAnchor;
+
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
 
@@ -44,7 +47,7 @@ public class EnemyLogic : MonoBehaviour
 		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.parent.position);
 		screenPos = GUIUtility.ScreenToGUIPoint(screenPos);
 		float size = Mathf.Clamp(128f / (distance / 100f),0,128);
-		//Debug.Log(size);
+
 		if(distance < 750 && draw && myRender.isVisible) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
     }
 
@@ -58,6 +61,11 @@ public class EnemyLogic : MonoBehaviour
 			shield = maxShield;
 			lastShieldCheck = shield;
 			StartCoroutine ("Recharge Shields");
+		}
+
+		foreach(Transform child in this.transform.parent)
+		{
+			if(child.gameObject.name.Equals("ShootAnchor")) shootAnchor = child.gameObject;
 		}
 		
 		StartCoroutine ("ShootManager");
@@ -76,6 +84,8 @@ public class EnemyLogic : MonoBehaviour
 		prevPos = currentPos;
 		currentPos = player.transform.position;
 		distance = Vector3.Distance(transform.position, player.transform.position);
+
+
 	}
 	
 	IEnumerator ShootManager()
@@ -87,8 +97,9 @@ public class EnemyLogic : MonoBehaviour
 			{
 				shoot = true;
 				StartCoroutine ("Shoot");
-				StartCoroutine ("ShootManager");
 			}
+			StartCoroutine ("ShootManager");
+
 		}
 		else
 		{
@@ -101,9 +112,10 @@ public class EnemyLogic : MonoBehaviour
 	IEnumerator Shoot()
 	{
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
-		GameObject obj = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
-		GameObject logic = Instantiate (bulletLogic, transform.position, Quaternion.identity) as GameObject;
+		GameObject obj = Instantiate (bullet, shootAnchor.transform.position, Quaternion.identity) as GameObject;
+		GameObject logic = Instantiate (bulletLogic, shootAnchor.transform.position, Quaternion.identity) as GameObject;
 		logic.transform.parent = obj.transform;
+		logic.transform.localPosition = Vector3.zero;
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
@@ -130,12 +142,6 @@ public class EnemyLogic : MonoBehaviour
 		}
 	}
 	
-	IEnumerator DestroyEnemy()
-	{
-		yield return new WaitForSeconds(0.1f);
-		Destroy (this.gameObject);
-	}
-	
 	public void collision(float damage)
 	{
 		if (shield > damage)
@@ -157,6 +163,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			Destroy(transform.parent.gameObject);
 		}
+
 		//Debug.Log ("Glom fighter was hit, has " + shield + " shield and " + health + " health");
 	}
 
