@@ -16,7 +16,7 @@ public class BulletLogic : MonoBehaviour
 	GameObject destination;
 	bool started = false;
 
-	public void SetDestination(GameObject destination)
+	public void SetDestination(Vector3 destination)
 	{
 		obj = transform.parent.gameObject;
 		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
@@ -26,7 +26,7 @@ public class BulletLogic : MonoBehaviour
 		sphere.isTrigger = true;
 		obj.AddComponent<BulletCollision>();
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
-		obj.transform.LookAt (destination.transform.position); // Set to the correct rotation. Needs position predication
+		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
 		Renderer rend = obj.GetComponent<Renderer>();
 		rend.material.SetColor("_EmissionColor", bulletColor);;

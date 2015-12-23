@@ -22,7 +22,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -43,7 +43,7 @@ MonoBehaviour:
   health: 100
   maxRange: 1000
   shotsPerSec: 3
-  shootChance: 4
+  shootChance: 3
   collisionDamage: 20
   shootPeriod: 1.25
   percentageVariation: 50
@@ -67,7 +67,7 @@ Prefab:
       objectReference: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
     - target: {fileID: 0}
       propertyPath: shootChance
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
@@ -76,6 +76,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: collisionDamage
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

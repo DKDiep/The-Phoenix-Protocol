@@ -26,6 +26,8 @@ public class EnemyLogic : MonoBehaviour
 	float shield;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 
+	Vector3 prevPos, currentPos;
+
     private GameObject controlObject;
 
     public void SetControlObject(GameObject newControlObject)
@@ -51,6 +53,8 @@ public class EnemyLogic : MonoBehaviour
 	void Update () 
 	{
 		controlObject.transform.Translate (transform.forward*Time.deltaTime * speed);
+		prevPos = currentPos;
+		currentPos = player.transform.position;
 	}
 	
 	IEnumerator ShootManager()
@@ -79,7 +83,11 @@ public class EnemyLogic : MonoBehaviour
 		GameObject obj = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, transform.position, Quaternion.identity) as GameObject;
 		logic.transform.parent = obj.transform;
-		logic.GetComponent<BulletLogic>().SetDestination (player);
+		float distance = Vector3.Distance(transform.position, player.transform.position);
+
+		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
+
+		logic.GetComponent<BulletLogic>().SetDestination (destination);
 		ServerManager.NetworkSpawn(obj);
 		
 		if(shoot) StartCoroutine ("Shoot");

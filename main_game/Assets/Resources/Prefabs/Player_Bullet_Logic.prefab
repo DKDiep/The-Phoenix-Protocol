@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -178.190109, y: 153.587997, z: 710.762451}
+  m_LocalPosition: {x: -178.19011, y: 153.588, z: 710.76245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -39,10 +39,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0219db45a99614e56af96480e105ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1000
-  accuracy: .100000001
+  speed: 1200
+  accuracy: 0.1
   damage: 40
-  bulletColor: {r: 1, g: .0147058964, b: .0147058964, a: 0}
+  bulletColor: {r: 1, g: 0.014705896, b: 0.014705896, a: 0}
   xScale: 1
   yScale: 1
   zScale: 1
@@ -67,7 +67,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 1000
+      value: 1200
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage

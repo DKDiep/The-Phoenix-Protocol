@@ -36,7 +36,7 @@ public class PlayerShooting : MonoBehaviour
 			GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 			GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 			logic.transform.parent = obj.transform;
-			logic.GetComponent<BulletLogic>().SetDestination (target);
+			logic.GetComponent<BulletLogic>().SetDestination (target.transform.position);
 			ServerManager.NetworkSpawn(obj);
 			canShoot = false;
 			StartCoroutine("Delay");
