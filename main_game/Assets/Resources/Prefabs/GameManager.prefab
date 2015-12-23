@@ -72,6 +72,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709c2beba7a3bb04b9c3c4a4710796a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuCam: {fileID: 0}
+  menuBG: {fileID: 0}
+  play0: {fileID: 0}
+  play1: {fileID: 0}
 --- !u!114 &11443150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,8 +149,7 @@ MonoBehaviour:
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
-  m_SendPeerInfo: 0
-  m_MaxDelay: .00999999978
+  m_MaxDelay: 0.01
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 184796, guid: bea72a5b6bc1c4e43892789d82b4de0e, type: 2}
   m_AutoCreatePlayer: 1
@@ -174,7 +177,14 @@ MonoBehaviour:
     m_MaxCombinedReliableMessageCount: 10
     m_MaxSentMessageQueueSize: 128
     m_IsAcksLong: 0
+    m_UsePlatformSpecificProtocols: 0
     m_Channels: []
+  m_GlobalConfig:
+    m_ThreadAwakeTimeout: 1
+    m_ReactorModel: 0
+    m_ReactorMaximumReceivedMessages: 1024
+    m_ReactorMaximumSentMessages: 1024
+    m_MaxPacketSize: 2000
   m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0

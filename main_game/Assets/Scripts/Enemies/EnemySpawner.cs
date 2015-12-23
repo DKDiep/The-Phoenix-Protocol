@@ -42,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
                 GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
                 enemyObject.AddComponent<EnemyCollision>();
 				enemyObjectLogic.transform.parent = enemyObject.transform;
+				enemyObjectLogic.transform.localPosition = Vector3.zero;
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
                 ServerManager.NetworkSpawn(enemyObject);
@@ -66,14 +67,14 @@ public class EnemySpawner : MonoBehaviour
             for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
             {
                 GameObject enemyObject = state.GetEnemyAt(i);
-                EnemyLogic enemyLogic = enemyObject.transform.Find("enemyObjectLogic").GetComponent<EnemyLogic>();
-                if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
+                //EnemyLogic enemyLogic = enemyObject.transform.Find("enemyObjectLogic").GetComponent<EnemyLogic>();
+                /*if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
                 {
                     numEnemies -= 1;
                     state.RemoveEnemyAt(i);
                     Destroy(enemyObject.gameObject);
                     //NOTIFY CLIENT
-                }
+                }*/
             }
         }
         //Debug.Log(numEnemies);

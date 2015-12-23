@@ -19,14 +19,17 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] bool isSuicidal; // Attempt to crash into player?
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
+	[SerializeField] Texture2D target;
 
 	public GameObject player;
 	bool shoot = false;
 	bool rechargeShield;
-	float shield;
+	float shield, distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
+	bool draw = false;
 
 	Vector3 prevPos, currentPos;
+	Renderer myRender;
 
     private GameObject controlObject;
 
@@ -36,10 +39,20 @@ public class EnemyLogic : MonoBehaviour
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
 
+    void OnGUI()
+    {
+		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.parent.position);
+		screenPos = GUIUtility.ScreenToGUIPoint(screenPos);
+		float size = Mathf.Clamp(128f / (distance / 100f),0,128);
+		//Debug.Log(size);
+		if(distance < 750 && draw && myRender.isVisible) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
+    }
+
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
 	{
 		player = temp;
+		myRender = transform.parent.gameObject.GetComponent<Renderer>();
 		if(maxShield > 0)
 		{
 			shield = maxShield;
@@ -48,13 +61,21 @@ public class EnemyLogic : MonoBehaviour
 		}
 		
 		StartCoroutine ("ShootManager");
+		StartCoroutine("DrawDelay");
+	}
+
+	IEnumerator DrawDelay()
+	{
+		yield return new WaitForSeconds(1f);
+		draw = true;
 	}
 	
 	void Update () 
 	{
-		controlObject.transform.Translate (transform.forward*Time.deltaTime * speed);
+		controlObject.transform.Translate (controlObject.transform.forward*Time.deltaTime * speed);
 		prevPos = currentPos;
 		currentPos = player.transform.position;
+		distance = Vector3.Distance(transform.position, player.transform.position);
 	}
 	
 	IEnumerator ShootManager()
@@ -83,7 +104,6 @@ public class EnemyLogic : MonoBehaviour
 		GameObject obj = Instantiate (bullet, transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, transform.position, Quaternion.identity) as GameObject;
 		logic.transform.parent = obj.transform;
-		float distance = Vector3.Distance(transform.position, player.transform.position);
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
@@ -104,8 +124,8 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
-			yield return new WaitForSeconds(shieldDelay);
 			lastShieldCheck = shield;
+			yield return new WaitForSeconds(shieldDelay);
 			StartCoroutine ("RechargeShields");
 		}
 	}
