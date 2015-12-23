@@ -42,8 +42,9 @@ MonoBehaviour:
   bullet: {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
   bulletLogic: {fileID: 136190, guid: 963cc59b6ac094abd9bd7a70ab1fd92e, type: 2}
   xOffset: 0
-  yOffset: -6.46000004
-  zOffset: 10.3400002
+  yOffset: -6.46
+  zOffset: 10.34
+  rateOfFire: 0.05
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -74,6 +75,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: zOffset
       value: 10.3400002
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rateOfFire
+      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
