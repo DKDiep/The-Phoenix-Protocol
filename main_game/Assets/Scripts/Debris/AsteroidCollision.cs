@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AsteroidCollision : MonoBehaviour {
 
-	float collisionDamage = 50f;
+	float collisionDamage = 10f;
 
 	void OnTriggerEnter (Collider col)
 	{
