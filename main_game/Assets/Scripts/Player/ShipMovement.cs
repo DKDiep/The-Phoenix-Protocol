@@ -136,44 +136,44 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		else if (yRot > 30f && yRot < 60f)
 		{
 			up = true;
-			right = true;
+			right = false;
 			down = false;
-			left = false;
+			left = true;
 		}
 		else if (yRot < 330f && yRot > 300f)
 		{
 			up = true;
-			right = false;
+			right = true;
 			down = false;
-			left = true;
+			left = false;
 		}
 		else if (yRot > 60f && yRot < 120f)
 		{
 			up = false;
-			right = true;
+			right = false;
 			down = false;
-			left = false;
+			left = true;
 		}
 		else if (yRot < 300f && yRot > 270f)
 		{
 			up = false;
-			right = false;
+			right = true;
 			down = false;
-			left = true;
+			left = false;
 		}
 		else if (yRot > 120f && yRot < 150f)
+		{
+			up = false;
+			right = false;
+			down = true;
+			left = true;
+		}
+		else if (yRot < 270f && yRot > 240f)
 		{
 			up = false;
 			right = true;
 			down = true;
 			left = false;
-		}
-		else if (yRot < 270f && yRot > 240f)
-		{
-			up = false;
-			right = false;
-			down = true;
-			left = true;
 		}
 		else if (yRot > 150f && yRot < 180f)
 		{
