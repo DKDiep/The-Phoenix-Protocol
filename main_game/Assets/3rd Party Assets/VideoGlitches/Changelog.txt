@@ -1,0 +1,24 @@
+Video Glitches 1.5
+--------------------------
+- New effect 'VHS Pause'.
+
+Video Glitches 1.4
+--------------------------
+- New effect 'Old Tape'.
+- Brightness, contrast and gamma controls for all effects.
+
+Video Glitches 1.3
+--------------------------
+- New effect 'Spectrum Offset'.
+
+Video Glitches 1.2
+--------------------------
+- New effect 'RGB Display'.
+
+Video Glitches 1.1
+--------------------------
+- New effect 'Black and White Distortion'.
+
+Video Glitches 1.0
+--------------------------
+- Initial release.

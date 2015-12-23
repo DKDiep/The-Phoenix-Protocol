@@ -1,0 +1,10 @@
+===Filmic Tonemapping 1.2 Uptate 1 Notes===
+
+-> You will need to erase your previous Filmic Tonemapping DELUXE folder
+-> before updating to version 1.2U1 : Some Files had to be renamed
+	
+Updates:
+* Fixed a compatibility issue with Xbox One
+* Fixed a compatibility issue with AMD Cards when developing with Dx9
+* The menu item "Add Eyadaptation" not adding the component have been fixed
+* Fixed an issue When undoing parameters in the eye adaptation component
