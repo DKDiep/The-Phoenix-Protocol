@@ -63,14 +63,14 @@ public class AsteroidSpawner : MonoBehaviour
             {
                 GameObject asteroidObject = state.GetAsteroidAt(i);
                 AsteroidLogic asteroidLogic = asteroidObject.GetComponent<AsteroidLogic>();
-                if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
+/*                if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
                 {
                     numAsteroids -= 1;
                     state.RemoveAsteroidAt(i);
                     Destroy(asteroidObject.gameObject);
                     //NOTIFY CLIENT
 
-                }
+                }*/
             }
         }
         StartCoroutine("Cleanup");

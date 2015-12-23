@@ -408,9 +408,11 @@ GameObject:
   - 114: {fileID: 11485970}
   - 114: {fileID: 11424830}
   - 124: {fileID: 12484966}
+  - 114: {fileID: 11404480}
   - 114: {fileID: 11417412}
   - 114: {fileID: 11402598}
   - 81: {fileID: 8101308}
+  - 114: {fileID: 11441254}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -604,6 +606,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424114}
+  - 114: {fileID: 11499536}
   m_Layer: 0
   m_Name: Spaceship
   m_TagString: Player
@@ -844,7 +847,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1053.4739, y: 439.41217, z: 553.6019}
+  m_LocalPosition: {x: -107.014366, y: -37.544655, z: 164.60265}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 462984}
@@ -3066,6 +3069,23 @@ MonoBehaviour:
   Shader: {fileID: 4800000, guid: 461ad39340fd1bf4e8d9fe310c58be95, type: 3}
   AreaTex: {fileID: 2800000, guid: 7a7a7bb321416fa4d8ba53a700ae8140, type: 3}
   SearchTex: {fileID: 2800000, guid: 3e01b396685ee1f48ac664c99ac95201, type: 3}
+--- !u!114 &11404480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04b569a0395e5f44a36a916f220bf0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amount: 0
+  brightness: 0
+  contrast: 0
+  gamma: 1
+  strength: 1
+  steps: 5
 --- !u!114 &11415550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3159,6 +3179,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11441254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af32ec29f2fdc4606b0c4a3b03f86bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11443890
@@ -3341,7 +3372,22 @@ MonoBehaviour:
   useDownsampling: 0
   halfSampling: 0
   preserveDetails: 0
-  attachedCamera: {fileID: 0}
+  attachedCamera: {fileID: 2038666}
+--- !u!114 &11499536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a9dbc5c7c577e0498a6b5c8fc433605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 2100000, guid: 06b1d4eab9fd7cb48bfbe01c432cc604, type: 2}
+  effectMode: 0
+  effectActivation: 0
+  hideObject: 0
 --- !u!124 &12484966
 Behaviour:
   m_ObjectHideFlags: 1
@@ -8154,6 +8200,10 @@ Prefab:
       propertyPath: m_Mode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: effect
+      value: 
+      objectReference: {fileID: 2100000, guid: 06b1d4eab9fd7cb48bfbe01c432cc604, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146360}

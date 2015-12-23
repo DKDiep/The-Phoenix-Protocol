@@ -23,6 +23,11 @@ public class ShipMovement : MonoBehaviour, INavigatable
     	controlObject = transform.parent.gameObject;
     }
 
+    public float GetHealth()
+    {
+    	return health;
+    }
+
 	void Update () 
 	{
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
