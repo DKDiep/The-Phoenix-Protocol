@@ -50,7 +50,7 @@ public class BulletLogic : MonoBehaviour
 		else if(col.gameObject.tag.Equals("Player"))
 		{
 			Debug.Log ("A bullet has hit the player");
-			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage);
+			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
 		}
 		Destroy (obj);
 	}

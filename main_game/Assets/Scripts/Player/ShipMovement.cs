@@ -17,10 +17,13 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	float rollOld;
 	float slowTime = 0f;
 	float slowTime2 = 0f;
+	bool left, right, up, down;
+	DamageEffects myDamage;
 
     void Start()
     {
     	controlObject = transform.parent.gameObject;
+    	myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
     }
 
     public float GetHealth()
@@ -114,8 +117,112 @@ public class ShipMovement : MonoBehaviour, INavigatable
 
     }
 
-	public void collision(float damage)
+	public void collision(float damage, float yRot)
 	{
+		yRot += transform.eulerAngles.y - 180f;
+
+		if(yRot < 0f)
+         yRot = yRot + (360f * (int) ((yRot / 360f) + 1));
+     else if(yRot > 360f)
+         yRot = yRot - (360f * (int) (yRot / 360f));
+
+		if(yRot < 30f || yRot > 330f)
+		{
+			up = true;
+			down = false;
+			left = false;
+			right = false;
+		}
+		else if (yRot > 30f && yRot < 60f)
+		{
+			up = true;
+			right = true;
+			down = false;
+			left = false;
+		}
+		else if (yRot < 330f && yRot > 300f)
+		{
+			up = true;
+			right = false;
+			down = false;
+			left = true;
+		}
+		else if (yRot > 60f && yRot < 120f)
+		{
+			up = false;
+			right = true;
+			down = false;
+			left = false;
+		}
+		else if (yRot < 300f && yRot > 270f)
+		{
+			up = false;
+			right = false;
+			down = false;
+			left = true;
+		}
+		else if (yRot > 120f && yRot < 150f)
+		{
+			up = false;
+			right = true;
+			down = true;
+			left = false;
+		}
+		else if (yRot < 270f && yRot > 240f)
+		{
+			up = false;
+			right = false;
+			down = true;
+			left = true;
+		}
+		else if (yRot > 150f && yRot < 180f)
+		{
+			up = false;
+			right = false;
+			down = true;
+			left = false;
+		}
+		else if (yRot < 240f && yRot > 210f)
+		{
+			up = false;
+			right = false;
+			down = true;
+			left = false;
+		}
+
+		if(left && !(up || down))
+		{
+			myDamage.Damage(0,damage);
+		}
+		else if(right && !(up || down))
+		{
+			myDamage.Damage(2,damage);
+		}
+		else if(left && up)
+		{
+			myDamage.Damage(4,damage);
+		}
+		else if(left && down)
+		{
+			myDamage.Damage(6,damage);
+		}
+		else if(right && up)
+		{
+			myDamage.Damage(5,damage);
+		}
+		else if(right && down)
+		{
+			myDamage.Damage(7,damage);
+		}
+		if(up && !(left || right))
+		{
+			myDamage.Damage(1,damage);
+		}
+		else if(down && !(up || down))
+		{
+			myDamage.Damage(3,damage);
+		}
+
 		if (shield > damage)
 		{
 			shield -= damage;
@@ -135,6 +242,6 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		{
 			Destroy(transform.parent.gameObject);
 		}
-		Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
+		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
 }

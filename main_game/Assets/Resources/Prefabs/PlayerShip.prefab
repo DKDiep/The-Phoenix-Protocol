@@ -846,7 +846,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -73.9073, y: 69.1726, z: 291.41812}
+  m_LocalPosition: {x: -1432.8444, y: 852.4231, z: 735.91473}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 462984}
@@ -3191,6 +3191,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af32ec29f2fdc4606b0c4a3b03f86bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  left: {fileID: 2800000, guid: d63c656995a4e4ebc8612f858f5b5e3e, type: 3}
+  right: {fileID: 2800000, guid: 60edac5e0a26243709d1ff85b32c2496, type: 3}
+  up: {fileID: 2800000, guid: 846201617fa21478e81a2761c182234d, type: 3}
+  down: {fileID: 2800000, guid: c9e11885fbd184860810d2b828af8eb9, type: 3}
+  topLeft: {fileID: 2800000, guid: c536c1039a66441c8a789ce2ac452b90, type: 3}
+  topRight: {fileID: 2800000, guid: 7710d40f177ae4f888b52690ce9f7165, type: 3}
+  bottomLeft: {fileID: 2800000, guid: 43b952d22f8d04a1d9b428fa21c3d9c1, type: 3}
+  bottomRight: {fileID: 2800000, guid: a6cfc6be73dc64bd190d7e0bbf3b3662, type: 3}
 --- !u!114 &11443890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3288,7 +3296,7 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
   lensDirtTexture: {fileID: 2800000, guid: 6b7c529a5819ad9419e59727c0f34041, type: 3}
   lensDirtIntensity: 0.05
-  inputIsHDR: 0
+  inputIsHDR: 1
 --- !u!114 &11485970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3334,10 +3342,10 @@ MonoBehaviour:
     m_AverageThresholdMin: 0.8
     m_AverageThresholdMax: 0.98
     m_HistLogMin: -7.643856
-    m_HistLogMax: 2.321928
-    m_HistCoefs: {x: 0, y: 0, z: 0, w: 0}
-    m_CurrentWidth: 0
-    m_CurrentHeight: 0
+    m_HistLogMax: 2
+    m_HistCoefs: {x: 0.10369296, y: 0.7926141, z: 0.005, w: 4}
+    m_CurrentWidth: 187
+    m_CurrentHeight: 105
     m_HistogramList:
     - {fileID: 0}
     m_BrightnessRT: {fileID: 0}
