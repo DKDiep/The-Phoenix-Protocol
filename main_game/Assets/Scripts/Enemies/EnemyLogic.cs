@@ -55,6 +55,7 @@ public class EnemyLogic : MonoBehaviour
     public void SetPlayer(GameObject temp)
 	{
 		player = temp;
+		state = 0;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
 		if(maxShield > 0)
 		{
@@ -84,6 +85,11 @@ public class EnemyLogic : MonoBehaviour
 		prevPos = currentPos;
 		currentPos = player.transform.position;
 		distance = Vector3.Distance(transform.position, player.transform.position);
+
+		if(state == 0)
+		{
+			controlObject.transform.LookAt(player.transform.position);
+		}
 
 
 	}
