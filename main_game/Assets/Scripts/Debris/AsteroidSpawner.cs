@@ -41,7 +41,8 @@ public class AsteroidSpawner : MonoBehaviour
 				GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 				asteroidLogic.transform.parent = asteroidObject.transform;
                 asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
-				asteroidObject.AddComponent<AsteroidCollision>();
+                asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
+                asteroidObject.AddComponent<AsteroidCollision>();
 				SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
 				sphere.isTrigger = true;
 				Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
@@ -62,15 +63,15 @@ public class AsteroidSpawner : MonoBehaviour
             for (int i = state.GetAsteroidListCount() - 1; i >= 0; i--)
             {
                 GameObject asteroidObject = state.GetAsteroidAt(i);
-                //AsteroidLogic asteroidLogic = asteroidObject.GetComponentInChildren<AsteroidLogic>();
-/*                if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
+                AsteroidLogic asteroidLogic = asteroidObject.GetComponentInChildren<AsteroidLogic>();
+                if (asteroidObject.transform.position.z < asteroidLogic.player.transform.position.z - 100f)
                 {
                     numAsteroids -= 1;
                     state.RemoveAsteroidAt(i);
                     Destroy(asteroidObject.gameObject);
                     //NOTIFY CLIENT
 
-                }*/
+                }
             }
         }
         StartCoroutine("Cleanup");
