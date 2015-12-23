@@ -8,8 +8,15 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	[SerializeField] float turnSpeed = 0.01f;
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
-	[SerializeField] float shield;
+	float shield;
+	[SerializeField] float maxShield; // Max recharging shield level. Set to 0 to disable shields
+	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
+	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
 	[SerializeField] float health;
+
+	bool rechargeShield;
+	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
+
 	GameObject controlObject;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
@@ -24,7 +31,27 @@ public class ShipMovement : MonoBehaviour, INavigatable
     {
     	controlObject = transform.parent.gameObject;
     	myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
+    	shield = maxShield;
+    	lastShieldCheck = shield;
+		StartCoroutine ("RechargeShields");
     }
+
+	IEnumerator RechargeShields()
+	{
+		if(lastShieldCheck == shield && shield < maxShield)
+		{
+			shield += shieldRechargeRate / 10f;
+			lastShieldCheck = shield;
+			yield return new WaitForSeconds(0.1f);
+			StartCoroutine ("RechargeShields");
+		}
+		else
+		{
+			lastShieldCheck = shield;
+			yield return new WaitForSeconds(shieldDelay);
+			StartCoroutine ("RechargeShields");
+		}
+	}
 
     public float GetHealth()
     {
@@ -242,6 +269,6 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		{
 			Destroy(transform.parent.gameObject);
 		}
-		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
+		Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
 }
