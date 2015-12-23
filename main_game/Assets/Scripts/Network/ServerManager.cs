@@ -70,8 +70,20 @@ public class ServerManager : NetworkBehaviour {
                 //Instantiate crosshairs
                 GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
 
+                //Set up the game state
                 thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
                 gameState.Setup();
+
+                //Spawn two networked engineers
+                GameObject engineer1 = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject))) as GameObject;
+                gameState.AddEngineerList(engineer1);
+                ServerManager.NetworkSpawn(engineer1);
+
+                GameObject engineer2 = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject))) as GameObject;
+                gameState.AddEngineerList(engineer2);
+                ServerManager.NetworkSpawn(engineer2);
+
+                //Start the game
                 gameState.SetStatus(GameState.Status.Started);
                 Destroy (menuCam.gameObject);
                 Destroy (menuBG.gameObject);
