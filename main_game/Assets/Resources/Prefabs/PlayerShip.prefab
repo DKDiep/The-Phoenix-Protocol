@@ -606,7 +606,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424114}
-  - 114: {fileID: 11499536}
   m_Layer: 0
   m_Name: Spaceship
   m_TagString: Player
@@ -847,7 +846,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -107.014366, y: -37.544655, z: 164.60265}
+  m_LocalPosition: {x: -73.9073, y: 69.1726, z: 291.41812}
   m_LocalScale: {x: 1, y: 1, z: 3}
   m_Children:
   - {fileID: 462984}
@@ -3373,21 +3372,6 @@ MonoBehaviour:
   halfSampling: 0
   preserveDetails: 0
   attachedCamera: {fileID: 2038666}
---- !u!114 &11499536
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 184130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a9dbc5c7c577e0498a6b5c8fc433605, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect: {fileID: 2100000, guid: 06b1d4eab9fd7cb48bfbe01c432cc604, type: 2}
-  effectMode: 0
-  effectActivation: 0
-  hideObject: 0
 --- !u!124 &12484966
 Behaviour:
   m_ObjectHideFlags: 1
