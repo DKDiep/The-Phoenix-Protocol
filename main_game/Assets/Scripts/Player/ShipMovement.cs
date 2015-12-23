@@ -267,7 +267,7 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		}
 		else
 		{
-			Destroy(transform.parent.gameObject);
+			//Destroy(transform.parent.gameObject);
 		}
 		Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
