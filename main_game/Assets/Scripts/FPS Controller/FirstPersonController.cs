@@ -5,8 +5,6 @@ using Random = UnityEngine.Random;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
-    [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
         [SerializeField] private bool m_IsWalking;
@@ -20,40 +18,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private bool m_UseFovKick;
         [SerializeField] private bool m_UseHeadBob;
         [SerializeField] private float m_StepInterval;
-        [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
-        [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
-        [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
-        [SerializeField] private Text upgradeText;                // the upgrade text that is displayed to the player
 
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
         private Vector2 m_Input;
         private Vector3 m_MoveDir = Vector3.zero;
-        private CharacterController m_CharacterController;
         private CollisionFlags m_CollisionFlags;
         private bool m_PreviouslyGrounded;
         private float m_StepCycle;
         private float m_NextStep;
-        private AudioSource m_AudioSource;
 
         // Use this for initialization
         private void Start()
         {
-            m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_StepCycle = 0f;
             m_NextStep = m_StepCycle / 2f;
-            m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform, m_Camera.transform);
-            ResetUpgradeText();
         }
-
-        private void ResetUpgradeText()
-        {
-            upgradeText.text = "";
-        }
-
 
         // Update is called once per frame
         private void Update()
@@ -67,31 +50,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
             Ray ray = m_Camera.ScreenPointToRay(new Vector3(x, y, 0));
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, 5.0f))
-            {
-                if (hitInfo.collider.CompareTag("Upgrade"))
-                {
-                    upgradeText.text = "Press and hold E to upgrade";
-                }
-                else
-                {
-                    ResetUpgradeText();
-                }
-            }
-            else
-            {
-                ResetUpgradeText();
-            }
+            // TODO: Move this client side
+            //if (Physics.Raycast(ray, out hitInfo, 5.0f))
+            //{
+            //    if (hitInfo.collider.CompareTag("Upgrade"))
+            //    {
+            //        upgradeText.text = "Press and hold E to upgrade";
+            //    }
+            //    else
+            //    {
+            //        ResetUpgradeText();
+            //    }
+            //}
+            //else
+            //{
+            //    ResetUpgradeText();
+            //}
         }
-
-
-        private void PlayLandingSound()
-        {
-            m_AudioSource.clip = m_LandSound;
-            m_AudioSource.Play();
-            m_NextStep = m_StepCycle + .5f;
-        }
-
 
         private void FixedUpdate()
         {
@@ -111,28 +86,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (m_Jump)
             {
                 m_MoveDir.y += m_JumpSpeed;
-                PlayJumpSound();
             }
 
-            m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+            //m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
             ProgressStepCycle(speed);
         }
 
-
-        private void PlayJumpSound()
-        {
-            m_AudioSource.clip = m_JumpSound;
-            m_AudioSource.Play();
-        }
-
-
         private void ProgressStepCycle(float speed)
         {
-            if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
-            {
-                m_StepCycle += (m_CharacterController.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
-                             Time.fixedDeltaTime;
-            }
+            //if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
+            //{
+            //    m_StepCycle += (m_CharacterController.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
+            //                 Time.fixedDeltaTime;
+            //}
 
             if (!(m_StepCycle > m_NextStep))
             {
@@ -140,25 +106,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_NextStep = m_StepCycle + m_StepInterval;
-
-            PlayFootStepAudio();
-        }
-
-
-        private void PlayFootStepAudio()
-        {
-            if (!m_CharacterController.isGrounded)
-            {
-                return;
-            }
-            // pick & play a random footstep sound from the array,
-            // excluding sound at index 0
-            int n = Random.Range(1, m_FootstepSounds.Length);
-            m_AudioSource.clip = m_FootstepSounds[n];
-            m_AudioSource.PlayOneShot(m_AudioSource.clip);
-            // move picked sound to index 0 so it's not picked next time
-            m_FootstepSounds[n] = m_FootstepSounds[0];
-            m_FootstepSounds[0] = m_AudioSource.clip;
         }
 
         private void GetInput(out float speed)
@@ -213,7 +160,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 return;
             }
-            body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
+            //body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }
