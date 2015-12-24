@@ -45,6 +45,7 @@ MonoBehaviour:
   yOffset: -6.46
   zOffset: 10.34
   rateOfFire: 0.05
+  hitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -80,6 +81,10 @@ Prefab:
       propertyPath: rateOfFire
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitmarker
+      value: 
+      objectReference: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144904}

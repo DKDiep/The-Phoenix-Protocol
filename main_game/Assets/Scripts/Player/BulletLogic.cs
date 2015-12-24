@@ -11,10 +11,11 @@ public class BulletLogic : MonoBehaviour
 	[SerializeField] float xScale;
 	[SerializeField] float yScale;
 	[SerializeField] float zScale;
-	GameObject player;
 	GameObject obj;
 	GameObject destination;
+	PlayerShooting player;
 	bool started = false;
+	int playerId;
 
 	public void SetDestination(Vector3 destination)
 	{
@@ -33,9 +34,17 @@ public class BulletLogic : MonoBehaviour
 		StartCoroutine ("DestroyZ");
 		started = true;
 	}
+
+	public void SetID(PlayerShooting playerObj, int id)
+	{
+		playerId = id;
+		player = playerObj;
+	}
 	
 	public void collision(Collider col)
 	{
+
+		if(playerId == 1) player.HitMarker();
 
 		if(col.gameObject.tag.Equals("Debris"))
 		{
