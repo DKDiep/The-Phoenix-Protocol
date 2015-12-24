@@ -81,7 +81,6 @@ public class EnemyLogic : MonoBehaviour
 	
 	void Update () 
 	{
-		controlObject.transform.Translate (controlObject.transform.forward*Time.deltaTime * speed);
 		prevPos = currentPos;
 		currentPos = player.transform.position;
 		distance = Vector3.Distance(transform.position, player.transform.position);
@@ -89,9 +88,9 @@ public class EnemyLogic : MonoBehaviour
 		if(state == 0)
 		{
 			controlObject.transform.LookAt(player.transform.position);
+			controlObject.transform.Translate (controlObject.transform.forward*Time.deltaTime * speed);
+			controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x + 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
 		}
-
-
 	}
 	
 	IEnumerator ShootManager()
@@ -99,7 +98,7 @@ public class EnemyLogic : MonoBehaviour
 		if(!shoot)
 		{
 			yield return new WaitForSeconds(0.1f);
-			if(Random.Range (1, shootChance) == 1)
+			if(Random.Range (1, shootChance) == 1 && distance < maxRange)
 			{
 				shoot = true;
 				StartCoroutine ("Shoot");
