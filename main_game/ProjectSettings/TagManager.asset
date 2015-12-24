@@ -8,6 +8,14 @@ TagManager:
   - EnemyBullet
   - EnemyShip
   - PlayerBullet
+  - SpaceScene_PlanetRings
+  - SpaceScene_LocalStar
+  - SpaceScene_Galaxy
+  - SpaceScene_Nebula
+  - SpaceScene_Planet
+  - SpaceScene_Moon
+  - Thruster
+  - SpaceScene_Camera
   layers:
   - Default
   - TransparentFX
@@ -29,7 +37,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - DeepSpace
   - 
   - 
   - 
