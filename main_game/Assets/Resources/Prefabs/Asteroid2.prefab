@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11466340}
   - 114: {fileID: 11458904}
   m_Layer: 0
-  m_Name: Asteroid
+  m_Name: Asteroid2
   m_TagString: Debris
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1014.57257, y: 442.856628, z: 582.227661}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -41,7 +41,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 35d7a25f79c36a141864172989a3bf70, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -49,8 +49,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -61,7 +63,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180310}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: d9afdead69a0a6141a294b57322fbeeb, type: 3}
 --- !u!114 &11458904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -87,22 +89,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 17
-    i1: 72
-    i2: 23
-    i3: 159
-    i4: 115
-    i5: 206
-    i6: 4
-    i7: 183
-    i8: 72
-    i9: 205
-    i10: 196
-    i11: 94
-    i12: 179
-    i13: 255
-    i14: 243
-    i15: 1
+    i0: 250
+    i1: 110
+    i2: 95
+    i3: 59
+    i4: 145
+    i5: 159
+    i6: 36
+    i7: 133
+    i8: 122
+    i9: 165
+    i10: 236
+    i11: 133
+    i12: 225
+    i13: 23
+    i14: 57
+    i15: 198
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
@@ -156,6 +158,10 @@ Prefab:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 180310}
