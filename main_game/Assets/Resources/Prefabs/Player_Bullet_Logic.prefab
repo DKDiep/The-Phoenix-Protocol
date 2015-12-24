@@ -42,10 +42,10 @@ MonoBehaviour:
   speed: 1200
   accuracy: 0.1
   damage: 40
-  bulletColor: {r: 1, g: 0.014705896, b: 0.014705896, a: 0}
-  xScale: 1
-  yScale: 1
-  zScale: 1
+  bulletColor: {r: 0.89705884, g: 0.3897566, b: 0, a: 0}
+  xScale: 0.5
+  yScale: 0.5
+  zScale: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -55,15 +55,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: bulletColor.r
-      value: 1
+      value: 0.89705884
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.g
-      value: .0147058964
+      value: 0.3897566
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.b
-      value: .0147058964
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
@@ -72,6 +72,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: damage
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: zScale
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: xScale
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: yScale
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
