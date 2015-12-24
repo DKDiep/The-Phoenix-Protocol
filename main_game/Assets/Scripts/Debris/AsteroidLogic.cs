@@ -6,6 +6,9 @@ public class AsteroidLogic : MonoBehaviour
 	public GameObject player;
 	float maxVariation; // Percentage variation in size
 	[SerializeField] float health;
+	[SerializeField] float minSpeed;
+	[SerializeField] float maxSpeed;
+	float speed;
     private GameState gameState;
 	
 	public void SetPlayer(GameObject temp, float var)
@@ -14,6 +17,12 @@ public class AsteroidLogic : MonoBehaviour
 		maxVariation = var;
 		transform.parent.localScale = new Vector3(10f + Random.Range (-var, var), 10f + Random.Range (-var, var),10f + Random.Range (-var, var));
 		transform.parent.rotation = Random.rotation;
+		speed = Random.Range(minSpeed,maxSpeed);
+	}
+
+	void Update()
+	{
+		transform.parent.Rotate(transform.parent.forward * speed * Time.deltaTime);
 	}
 
     public void SetStateReference(GameState state)
