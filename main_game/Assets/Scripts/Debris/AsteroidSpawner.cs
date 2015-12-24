@@ -47,7 +47,7 @@ public class AsteroidSpawner : MonoBehaviour
                 GameObject asteroidObject = Instantiate(asteroid, rand_position, Quaternion.identity) as GameObject;
 				GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 				asteroidLogic.transform.parent = asteroidObject.transform;
-                asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation);
+                asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
                 asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
                 asteroidObject.AddComponent<AsteroidCollision>();
 				SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();

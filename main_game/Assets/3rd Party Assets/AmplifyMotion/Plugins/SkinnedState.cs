@@ -65,6 +65,8 @@ internal class SkinnedState : AmplifyMotion.MotionState
 	private bool m_useFallback;
 	private bool m_useGPU = false;
 
+	private static HashSet<AmplifyMotionObjectBase> m_uniqueWarnings = new HashSet<AmplifyMotionObjectBase>();
+
 	public SkinnedState( AmplifyMotionCamera owner, AmplifyMotionObjectBase obj )
 		: base( owner, obj )
 	{
@@ -73,6 +75,17 @@ internal class SkinnedState : AmplifyMotion.MotionState
 
 	internal override void Initialize()
 	{
+		if ( !m_renderer.sharedMesh.isReadable )
+		{
+			if ( !m_uniqueWarnings.Contains( m_obj ) )
+			{
+				Debug.LogWarning( "[AmplifyMotion] Read/Write Import Setting disabled in object " + m_obj.name + ". Skipping." );
+				m_uniqueWarnings.Add( m_obj );
+			}
+			m_error = true;
+			return;
+		}
+
 		// find out if we're forced to use the fallback path
 		Transform[] bones = m_renderer.bones;
 		m_useFallback = ( bones == null || bones.Length == 0 );
@@ -191,13 +204,15 @@ internal class SkinnedState : AmplifyMotion.MotionState
 			m_gpuBoneTexWidth = Mathf.NextPowerOfTwo( m_boneCount );
 			m_gpuBoneTexHeight = 4;
 			m_gpuVertexTexWidth = Mathf.NextPowerOfTwo( Mathf.CeilToInt( Mathf.Sqrt( m_vertexCount ) ) );
-			m_gpuVertexTexHeight = Mathf.NextPowerOfTwo( m_vertexCount / m_gpuVertexTexWidth );
+			m_gpuVertexTexHeight = Mathf.NextPowerOfTwo( Mathf.CeilToInt( m_vertexCount / ( float ) m_gpuVertexTexWidth ) );
 
 			// gpu skin deform material
 			m_gpuSkinDeformMat = new Material( Shader.Find( "Hidden/Amplify Motion/GPUSkinDeform" ) ) { hideFlags = HideFlags.DontSave };
 
 			// bone matrix texture
 			m_gpuBones = new Texture2D( m_gpuBoneTexWidth, m_gpuBoneTexHeight, TextureFormat.RGBAFloat, false, true );
+			m_gpuBones.hideFlags = HideFlags.DontSave;
+			m_gpuBones.name = "AM-" + m_obj.name + "-Bones";
 			m_gpuBones.filterMode = FilterMode.Point;
 
 			m_gpuBoneData = new Color[ m_gpuBoneTexWidth * m_gpuBoneTexHeight ];
@@ -210,6 +225,8 @@ internal class SkinnedState : AmplifyMotion.MotionState
 			boneIDWFormat = ( m_weightCount == 4 ) ? TextureFormat.RGBAHalf : boneIDWFormat;
 
 			m_gpuBoneIndices = new Texture2D( m_gpuVertexTexWidth, m_gpuVertexTexHeight, boneIDWFormat, false, true );
+			m_gpuBoneIndices.hideFlags = HideFlags.DontSave;
+			m_gpuBoneIndices.name = "AM-" + m_obj.name + "-Bones";
 			m_gpuBoneIndices.filterMode = FilterMode.Point;
 			m_gpuBoneIndices.wrapMode = TextureWrapMode.Clamp;
 
@@ -233,6 +250,8 @@ internal class SkinnedState : AmplifyMotion.MotionState
 			for ( int w = 0; w < m_weightCount; w++ )
 			{
 				m_gpuBaseVertices[ w ] = new Texture2D( m_gpuVertexTexWidth, m_gpuVertexTexHeight, TextureFormat.RGBAFloat, false, true );
+				m_gpuBaseVertices[ w ].hideFlags = HideFlags.DontSave;
+				m_gpuBaseVertices[ w ].name = "AM-" + m_obj.name + "-BaseVerts";
 				m_gpuBaseVertices[ w ].filterMode = FilterMode.Point;
 			}
 
@@ -257,11 +276,15 @@ internal class SkinnedState : AmplifyMotion.MotionState
 
 			// create output/target vertex render textures
 			m_gpuPrevVertices = new RenderTexture( m_gpuVertexTexWidth, m_gpuVertexTexHeight, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear );
+			m_gpuPrevVertices.hideFlags = HideFlags.DontSave;
+			m_gpuPrevVertices.name = "AM-" + m_obj.name + "-PrevVerts";
 			m_gpuPrevVertices.filterMode = FilterMode.Point;
 			m_gpuPrevVertices.wrapMode = TextureWrapMode.Clamp;
 			m_gpuPrevVertices.Create();
 
 			m_gpuCurrVertices = new RenderTexture( m_gpuVertexTexWidth, m_gpuVertexTexHeight, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear );
+			m_gpuCurrVertices.hideFlags = HideFlags.DontSave;
+			m_gpuCurrVertices.name = "AM-" + m_obj.name + "-CurrVerts";
 			m_gpuCurrVertices.filterMode = FilterMode.Point;
 			m_gpuCurrVertices.wrapMode = TextureWrapMode.Clamp;
 			m_gpuCurrVertices.Create();
@@ -324,7 +347,7 @@ internal class SkinnedState : AmplifyMotion.MotionState
 
 		if ( m_gpuBaseVertices != null )
 		{
-			for ( int i = 0; i < m_gpuBaseVertices.Length; i++  )
+			for ( int i = 0; i < m_gpuBaseVertices.Length; i++ )
 				Texture2D.DestroyImmediate( m_gpuBaseVertices[ i ] );
 			m_gpuBaseVertices = null;
 		}
@@ -332,6 +355,7 @@ internal class SkinnedState : AmplifyMotion.MotionState
 		if ( m_gpuPrevVertices != null )
 		{
 			RenderTexture.active = null;
+			m_gpuPrevVertices.Release();
 			RenderTexture.DestroyImmediate( m_gpuPrevVertices );
 			m_gpuPrevVertices = null;
 		}
@@ -339,6 +363,7 @@ internal class SkinnedState : AmplifyMotion.MotionState
 		if ( m_gpuCurrVertices != null )
 		{
 			RenderTexture.active = null;
+			m_gpuCurrVertices.Release();
 			RenderTexture.DestroyImmediate( m_gpuCurrVertices );
 			m_gpuCurrVertices = null;
 		}
@@ -783,12 +808,13 @@ internal class SkinnedState : AmplifyMotion.MotionState
 				MaterialDesc matDesc = m_sharedMaterials[ i ];
 				int pass = basePass + ( matDesc.coverage ? 1 : 0 );
 
-				matDesc.propertyBlock.Clear();
 				if ( matDesc.coverage )
 				{
-					matDesc.propertyBlock.AddTexture( "_MainTex", matDesc.material.mainTexture );
+					Texture mainTex = matDesc.material.mainTexture;
+					if ( mainTex != null )
+						matDesc.propertyBlock.SetTexture( "_MainTex", mainTex );
 					if ( matDesc.cutoff )
-						matDesc.propertyBlock.AddFloat( "_Cutoff", matDesc.material.GetFloat( "_Cutoff" ) );
+						matDesc.propertyBlock.SetFloat( "_Cutoff", matDesc.material.GetFloat( "_Cutoff" ) );
 				}
 
 				renderCB.DrawMesh( m_clonedMesh, m_currLocalToWorld, m_owner.Instance.SkinnedVectorsMaterial, i, pass, matDesc.propertyBlock );

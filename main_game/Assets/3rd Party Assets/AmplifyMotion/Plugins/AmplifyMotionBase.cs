@@ -269,10 +269,10 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 	RenderTexture CreateRenderTexture( string name, int depth, RenderTextureFormat fmt, RenderTextureReadWrite rw, FilterMode fm )
 	{
 		RenderTexture rt = new RenderTexture( m_width, m_height, depth, fmt, rw );
+		rt.hideFlags = HideFlags.DontSave;
 		rt.name = name;
 		rt.wrapMode = TextureWrapMode.Clamp;
 		rt.filterMode = fm;
-		rt.hideFlags = HideFlags.DontSave;
 		rt.Create();
 		return rt;
 	}
@@ -281,6 +281,8 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 	{
 		if ( rt != null )
 		{
+			RenderTexture.active = null;
+			rt.Release();
 			DestroyImmediate( rt );
 			rt = null;
 		}
@@ -331,7 +333,7 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 		}
 
 		if ( m_motionRT == null  )
-			m_motionRT = CreateRenderTexture( "Motion", 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear, FilterMode.Point );
+			m_motionRT = CreateRenderTexture( "AM-MotionVectors", 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear, FilterMode.Point );
 
 	#if UNITY_4
 		if ( m_dummyTex == null )
@@ -629,51 +631,51 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 			return false;
 
 		// Ignore invalid materials; Ignore static batches
-		Renderer renderer = null;
-		if ( gameObj.GetComponent<ParticleSystem>() != null && !autoReg )
+		Renderer renderer = gameObj.GetComponent<Renderer>();
+		if ( renderer == null || renderer.sharedMaterials == null || renderer.isPartOfStaticBatch )
+			return false;
+
+		// Ignore disabled renderer
+		if ( !renderer.enabled )
+			return false;
+
+		// Ignore if visible only for shadows
+	#if !UNITY_4
+		if ( renderer.shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly )
+			return false;
+	#endif
+
+		if ( renderer.GetType() == typeof( SpriteRenderer ) )
 		{
-			return true;
+			return false;
 		}
 		else
 		{
-			renderer = gameObj.GetComponent<Renderer>();
-
-			// Ignore invalid or unsupported renderers
-			if ( renderer == null || renderer.sharedMaterials == null || renderer.isPartOfStaticBatch )
+			// Ignore unsupported RenderType
+			if ( !FindValidTag( renderer.sharedMaterials ) )
 				return false;
 
-			// Ignore disabled renderer
-			if ( !renderer.enabled )
-				return false;
-
-			// Ignore if visible only for shadows
-		#if !UNITY_4
-			if ( renderer.shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly )
-				return false;
+		#if UNITY_4
+			if ( renderer.GetType() == typeof( ClothRenderer ) )
+			{
+				if ( gameObj.GetComponent<InteractiveCloth>().tearFactor != 0.0f )
+					Debug.LogWarning( "[AmplifyMotion] Tearable cloth objects are not supported at this time. Ignoring cloth object \"" + renderer.name + "\"" );
+				else
+					return true;
+			}
 		#endif
 
-			if ( renderer.GetType() == typeof( SpriteRenderer ) )
+			// Only valid and supported renderers
+			Type type = renderer.GetType();
+			if ( type == typeof( MeshRenderer ) || type == typeof( SkinnedMeshRenderer ) )
 			{
-				return false;
+				return true;
 			}
-			else
+			if ( type == typeof( ParticleSystemRenderer ) && !autoReg )
 			{
-				// Ignore unsupported RenderType
-				if ( !FindValidTag( renderer.sharedMaterials ) )
-					return false;
-
-			#if UNITY_4
-				if ( renderer.GetType() == typeof( ClothRenderer ) )
-				{
-					if ( gameObj.GetComponent<InteractiveCloth>().tearFactor != 0.0f )
-						Debug.LogWarning( "[AmplifyMotion] Tearable cloth objects are not supported at this time. Ignoring cloth object \"" + renderer.name + "\"" );
-					else
-						return true;
-				}
-			#endif
-
-				if ( renderer.GetType() == typeof( MeshRenderer ) || renderer.GetType() == typeof( SkinnedMeshRenderer ) )
-					return true;
+				// Only supported ParticleSystem modes
+				ParticleSystemRenderMode mode = ( renderer as ParticleSystemRenderer ).renderMode;
+				return ( mode == ParticleSystemRenderMode.Mesh || mode == ParticleSystemRenderMode.Billboard );
 			}
 		}
 
@@ -1018,11 +1020,13 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 		if ( mobile )
 		{
 			depthRT = RenderTexture.GetTemporary( m_width, m_height, 0, RenderTextureFormat.ARGB32 );
+			depthRT.name = "AM-DepthTemp";
 			depthRT.wrapMode = TextureWrapMode.Clamp;
 			depthRT.filterMode = FilterMode.Point;
 		}
 
 		RenderTexture combinedRT = RenderTexture.GetTemporary( m_width, m_height, 0, source.format );
+		combinedRT.name = "AM-CombinedTemp";
 		combinedRT.wrapMode = TextureWrapMode.Clamp;
 		combinedRT.filterMode = FilterMode.Point;
 
@@ -1041,6 +1045,7 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 		if ( QualitySteps > 1 )
 		{
 			RenderTexture temp = RenderTexture.GetTemporary( m_width, m_height, 0, source.format );
+			temp.name = "AM-CombinedTemp2";
 			temp.filterMode = FilterMode.Point;
 
 			float step = 1.0f / QualitySteps;
@@ -1104,16 +1109,17 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 		blurStep.x = MaxVelocity / 1000.0f;
 		blurStep.y = MaxVelocity / 1000.0f;
 
-		RenderTexture tempRT = null;
+		RenderTexture dilatedRT = null;
 		if ( QualitySettings.antiAliasing > 1 )
 		{
-			tempRT = RenderTexture.GetTemporary( m_width, m_height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear );
-			tempRT.filterMode = FilterMode.Point;
+			dilatedRT = RenderTexture.GetTemporary( m_width, m_height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear );
+			dilatedRT.name = "AM-DilatedTemp";
+			dilatedRT.filterMode = FilterMode.Point;
 
 			m_dilationMaterial.SetTexture( "_MotionTex", m_motionRT );
-			Graphics.Blit( m_motionRT, tempRT, m_dilationMaterial, 0 );
-			m_dilationMaterial.SetTexture( "_MotionTex", tempRT );
-			Graphics.Blit( tempRT, m_motionRT, m_dilationMaterial, 1 );
+			Graphics.Blit( m_motionRT, dilatedRT, m_dilationMaterial, 0 );
+			m_dilationMaterial.SetTexture( "_MotionTex", dilatedRT );
+			Graphics.Blit( dilatedRT, m_motionRT, m_dilationMaterial, 1 );
 		}
 
 		if ( DebugMode )
@@ -1126,8 +1132,8 @@ public class AmplifyMotionEffectBase : MonoBehaviour
 			ApplyMotionBlur( source, destination, blurStep );
 		}
 
-		if ( tempRT != null )
-			RenderTexture.ReleaseTemporary( tempRT );
+		if ( dilatedRT != null )
+			RenderTexture.ReleaseTemporary( dilatedRT );
 	}
 
 #if TRIAL

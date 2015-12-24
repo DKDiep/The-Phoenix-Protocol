@@ -42,6 +42,8 @@ internal class ClothState : AmplifyMotion.MotionState
 	private bool m_starting;
 	private bool m_wasVisible;
 
+	private static HashSet<AmplifyMotionObjectBase> m_uniqueWarnings = new HashSet<AmplifyMotionObjectBase>();
+
 	public ClothState( AmplifyMotionCamera owner, AmplifyMotionObjectBase obj )
 		: base( owner, obj )
 	{
@@ -56,7 +58,11 @@ internal class ClothState : AmplifyMotion.MotionState
 	{
 		if ( m_cloth.vertices == null )
 		{
-			Debug.LogError( "[AmplifyMotion] Invalid " + m_cloth.GetType().Name + " Vertices on object " + m_obj.name );
+			if ( !m_uniqueWarnings.Contains( m_obj ) )
+			{
+				Debug.LogWarning( "[AmplifyMotion] Invalid " + m_cloth.GetType().Name + " vertices in object " + m_obj.name + ". Skipping." );
+				m_uniqueWarnings.Add( m_obj );
+			}
 			m_error = true;
 			return;
 		}
@@ -266,12 +272,13 @@ internal class ClothState : AmplifyMotion.MotionState
 				MaterialDesc matDesc = m_sharedMaterials[ i ];
 				int pass = qualityPass + ( matDesc.coverage ? 1 : 0 );
 
-				matDesc.propertyBlock.Clear();
 				if ( matDesc.coverage )
 				{
-					matDesc.propertyBlock.AddTexture( "_MainTex", matDesc.material.mainTexture );
+					Texture mainTex = matDesc.material.mainTexture;
+					if ( mainTex != null )
+						matDesc.propertyBlock.SetTexture( "_MainTex", mainTex );
 					if ( matDesc.cutoff )
-						matDesc.propertyBlock.AddFloat( "_Cutoff", matDesc.material.GetFloat( "_Cutoff" ) );
+						matDesc.propertyBlock.SetFloat( "_Cutoff", matDesc.material.GetFloat( "_Cutoff" ) );
 				}
 
 				renderCB.DrawMesh( m_clonedMesh, m_currLocalToWorld, m_owner.Instance.ClothVectorsMaterial, i, pass, matDesc.propertyBlock );

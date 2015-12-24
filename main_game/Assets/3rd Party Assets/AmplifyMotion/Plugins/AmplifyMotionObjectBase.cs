@@ -24,7 +24,9 @@ public enum ObjectType
 	Solid,
 	Skinned,
 	Cloth,
+#if !UNITY_4
 	Particle
+#endif
 }
 
 [Serializable]
@@ -65,7 +67,7 @@ internal abstract class MotionState
 
 	internal virtual void Initialize() { m_initialized = true; }
 	internal virtual void Shutdown() {}
-	
+
 	internal virtual void AsyncUpdate() {}
 #if UNITY_4
 	internal abstract void UpdateTransform( bool starting );
@@ -76,6 +78,8 @@ internal abstract class MotionState
 #endif
 	internal virtual void RenderDebugHUD() {}
 
+	private static HashSet<Material> m_materialWarnings = new HashSet<Material>();
+
 	protected MaterialDesc[] ProcessSharedMaterials( Material[] mats )
 	{
 		MaterialDesc[] matsDesc = new MaterialDesc [ mats.Length ];
@@ -84,12 +88,20 @@ internal abstract class MotionState
 			matsDesc[ i ].material = mats[ i ];
 			bool legacyCoverage = ( mats[ i ].GetTag( "RenderType", false ) == "TransparentCutout" );
 		#if UNITY_4
-			matsDesc[ i ].coverage = legacyCoverage;
+			bool isCoverage = legacyCoverage;
+			matsDesc[ i ].coverage = mats[ i ].HasProperty( "_MainTex" ) && isCoverage;
 		#else
+			bool isCoverage = legacyCoverage || mats[ i ].IsKeywordEnabled( "_ALPHATEST_ON" );
 			matsDesc[ i ].propertyBlock = new MaterialPropertyBlock();
-			matsDesc[ i ].coverage = legacyCoverage || mats[ i ].IsKeywordEnabled( "_ALPHATEST_ON" );
+			matsDesc[ i ].coverage = mats[ i ].HasProperty( "_MainTex" ) && isCoverage;
 		#endif
 			matsDesc[ i ].cutoff = mats[ i ].HasProperty( "_Cutoff" );
+
+			if ( isCoverage && !matsDesc[ i ].coverage && !m_materialWarnings.Contains( matsDesc[ i ].material ) )
+			{
+				Debug.LogWarning( "[AmplifyMotion] TransparentCutout material \"" + matsDesc[ i ].material.name + "\" {" + matsDesc[ i ].material.shader.name + "} not using _MainTex standard property." );
+				m_materialWarnings.Add( matsDesc[ i ].material );
+			}
 		}
 		return matsDesc;
 	}
@@ -139,21 +151,16 @@ internal abstract class MotionState
 [AddComponentMenu( "" )]
 public class AmplifyMotionObjectBase : MonoBehaviour
 {
-	[Serializable]
-	public class ParticleSystemDescriptor
+	public enum MinMaxCurveState
 	{
-		public bool sizeOverLifeTimeActive;
-		public AnimationCurve curveSizeOverLifeTime;
-
-		public bool sizeBySpeedActive;
-		public AnimationCurve curveBySpeed;
-		public float speedRangeMin;
-		public float speedRangeMax;
+		Scalar = 0,
+		Curve = 1,
+		TwoCurves = 2,
+		TwoScalars = 3
 	}
 
 	internal static bool ApplyToChildren = true;
 	[SerializeField] private bool m_applyToChildren = ApplyToChildren;
-	[SerializeField,HideInInspector] private ParticleSystemDescriptor m_particleSystemDesc = new ParticleSystemDescriptor();
 
 	private AmplifyMotion.ObjectType m_type = AmplifyMotion.ObjectType.None;
 	private Dictionary<Camera, AmplifyMotion.MotionState> m_states = new Dictionary<Camera, AmplifyMotion.MotionState>();
@@ -165,7 +172,6 @@ public class AmplifyMotionObjectBase : MonoBehaviour
 	internal int ObjectId { get { return m_objectId; } }
 
 	public AmplifyMotion.ObjectType Type { get { return m_type; } }
-	public ParticleSystemDescriptor ParticleSystemDesc { get { return m_particleSystemDesc; } }
 
 	internal void RegisterCamera( AmplifyMotionCamera camera )
 	{
@@ -181,8 +187,10 @@ public class AmplifyMotionObjectBase : MonoBehaviour
 					state = new AmplifyMotion.SkinnedState( camera, this );	break;
 				case AmplifyMotion.ObjectType.Cloth:
 					state = new AmplifyMotion.ClothState( camera, this ); break;
+			#if !UNITY_4
 				case AmplifyMotion.ObjectType.Particle:
 					state = new AmplifyMotion.ParticleState( camera, this ); break;
+			#endif
 				default:
 					throw new Exception( "[AmplifyMotion] Invalid object type." );
 			}
@@ -213,13 +221,16 @@ public class AmplifyMotionObjectBase : MonoBehaviour
 		Renderer renderer = GetComponent<Renderer>();
 		if ( AmplifyMotionEffectBase.CanRegister( gameObject, false ) )
 		{
+		#if !UNITY_4
 			ParticleSystem particleRenderer = GetComponent<ParticleSystem>();
 			if ( particleRenderer != null )
 			{
 				m_type = AmplifyMotion.ObjectType.Particle;
 				AmplifyMotionEffectBase.RegisterObject( this );
 			}
-			else if ( renderer != null )
+			else
+		#endif
+			if ( renderer != null )
 			{
 				// At this point, Renderer is guaranteed to be one of the following
 				if ( renderer.GetType() == typeof( MeshRenderer ) )

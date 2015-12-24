@@ -29,18 +29,21 @@ public class AmplifyMotionCamera : MonoBehaviour
 	internal Matrix4x4 PrevViewProjMatrixRT;
 	internal Matrix4x4 ViewProjMatrixRT;
 
+	internal Transform Transform;
+
 	private bool m_linked = false;
 	private bool m_initialized = false;
 	private bool m_starting = true;
 
-	private Camera m_camera;
 	private bool m_autoStep = true;
 	private bool m_step = false;
 	private bool m_overlay = false;
+	private Camera m_camera;
 
 	public bool Initialized { get { return m_initialized; } }
 	public bool AutoStep { get { return m_autoStep; } }
 	public bool Overlay { get { return m_overlay; } }
+	public Camera Camera { get { return m_camera; } }
 
 	private int m_prevFrameCount = 0;
 
@@ -86,6 +89,11 @@ public class AmplifyMotionCamera : MonoBehaviour
 		m_step = false;
 		UpdateMatrices();
 		m_initialized = true;
+	}
+
+	void Awake()
+	{
+		Transform = transform;
 	}
 
 	void OnEnable()
@@ -167,7 +175,7 @@ public class AmplifyMotionCamera : MonoBehaviour
 	{
 		if ( !m_initialized )
 			Initialize();
-		
+
 		if ( m_affectedObjectsChanged )
 			UpdateAffectedObjects();
 

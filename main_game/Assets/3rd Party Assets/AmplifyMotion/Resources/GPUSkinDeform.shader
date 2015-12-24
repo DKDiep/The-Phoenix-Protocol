@@ -5,6 +5,7 @@ Shader "Hidden/Amplify Motion/GPUSkinDeform" {
 	Properties { }
 	CGINCLUDE
 		#pragma target 3.0
+		#pragma glsl
 		#include "UnityCG.cginc"
 
 		sampler2D _AM_BONE_TEX;

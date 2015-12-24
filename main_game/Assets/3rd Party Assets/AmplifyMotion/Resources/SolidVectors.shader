@@ -47,7 +47,7 @@ Shader "Hidden/Amplify Motion/SolidVectors" {
 		#endif
 
 			if ( mobile )
-				o.motion = SolidMotionVector( pos_prev, pos_curr, _AM_OBJECT_ID );					
+				o.motion = SolidMotionVector( pos_prev, pos_curr, _AM_OBJECT_ID );
 			else
 			{
 				o.pos_prev = pos_prev;
@@ -81,9 +81,9 @@ Shader "Hidden/Amplify Motion/SolidVectors" {
 				return SolidMotionVector( i.pos_prev, i.pos_curr, _AM_OBJECT_ID );
 		}
 	ENDCG
-	SubShader {		
+	SubShader {
 		Tags { "RenderType"="Opaque" }
-		Blend Off Cull Off Fog { Mode off }	
+		Blend Off Cull Off Fog { Mode off }
 		ZTest LEqual ZWrite On
 		Pass {
 			Name "MOB_OPAQUE"

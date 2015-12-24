@@ -10,10 +10,10 @@ namespace AmplifyMotion
 	public class VersionInfo
 	{
 		public const byte Major = 1;
-		public const byte Minor = 6;
+		public const byte Minor = 7;
 		public const byte Release = 0;
 
-		private static string StageSuffix = "_dev014";
+		private static string StageSuffix = "_dev006";
 
 	#if TRIAL
 		private static string TrialSuffix = " Trial";

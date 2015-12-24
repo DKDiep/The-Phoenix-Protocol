@@ -43,6 +43,9 @@ MonoBehaviour:
   health: 100
   minSpeed: 5
   maxSpeed: 50
+  destroyed1: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
+  destroyed2: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
+  destroyed3: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -58,6 +61,18 @@ Prefab:
       propertyPath: maxSpeed
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: destroyed1
+      value: 
+      objectReference: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
+    - target: {fileID: 0}
+      propertyPath: destroyed2
+      value: 
+      objectReference: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
+    - target: {fileID: 0}
+      propertyPath: destroyed3
+      value: 
+      objectReference: {fileID: 111116, guid: aea404bdb6adc475ab78db28a61a0f90, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176114}

@@ -7,8 +7,6 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 		_Cutoff ("Alpha cutoff", Range(0,1)) = 0.25
 	}
 	CGINCLUDE
-		#pragma fragmentoption ARB_precision_hint_fastest
-		#pragma target 3.0
 		#include "Shared.cginc"
 
 		struct appdata_t
@@ -39,6 +37,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			float4 prev_vertex = float4( v.prev_vertex.xyz, 1 );
 			float4 curr_vertex = float4( v.vertex.xyz, 1 );
 
+		#if UNITY_VERSION >= 500
 			if ( gpu )
 			{
 				prev_vertex = 0;
@@ -48,6 +47,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 				prev_vertex += tex2Dlod( _AM_PREV_VERTEX_TEX, float4( indexCoords, 0, 0 ) );
 				curr_vertex += tex2Dlod( _AM_CURR_VERTEX_TEX, float4( indexCoords, 0, 0 ) );
 			}
+		#endif
 
 			float4 pos = o.pos = mul( UNITY_MATRIX_MVP, curr_vertex );
 			float4 pos_prev = mul( _AM_MATRIX_PREV_MVP, prev_vertex );
@@ -107,6 +107,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 2.0
 				v2f vert( appdata_t v ) { return vert_base( v, true, false ); }
 				half4 frag( v2f v ) : SV_Target { return frag_opaque( v, true ); }
 			ENDCG
@@ -116,6 +117,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 2.0
 				v2f vert( appdata_t v ) { return vert_base( v, true, false ); }
 				half4 frag( v2f v ) : SV_Target { return frag_cutout( v, true ); }
 			ENDCG
@@ -125,6 +127,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 2.0
 				v2f vert( appdata_t v ) { return vert_base( v, false, false ); }
 				half4 frag( v2f v ) : SV_Target { return frag_opaque( v, false ); }
 			ENDCG
@@ -134,6 +137,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 2.0
 				v2f vert( appdata_t v ) { return vert_base( v, false, false ); }
 				half4 frag( v2f v ) : SV_Target { return frag_cutout( v, false ); }
 			ENDCG
@@ -145,6 +149,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 3.0
 				v2f vert( appdata_t v ) { return vert_base( v, true, true ); }
 				half4 frag( v2f v ) : SV_Target { return frag_opaque( v, true ); }
 			ENDCG
@@ -154,6 +159,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 3.0
 				v2f vert( appdata_t v ) { return vert_base( v, true, true ); }
 				half4 frag( v2f v ) : SV_Target { return frag_cutout( v, true ); }
 			ENDCG
@@ -163,6 +169,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 3.0
 				v2f vert( appdata_t v ) { return vert_base( v, false, true ); }
 				half4 frag( v2f v ) : SV_Target { return frag_opaque( v, false ); }
 			ENDCG
@@ -172,6 +179,7 @@ Shader "Hidden/Amplify Motion/SkinnedVectors" {
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma target 3.0
 				v2f vert( appdata_t v ) { return vert_base( v, false, true ); }
 				half4 frag( v2f v ) : SV_Target { return frag_cutout( v, false ); }
 			ENDCG
