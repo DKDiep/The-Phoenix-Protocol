@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 417636}
   - 114: {fileID: 11436550}
   - 114: {fileID: 11473902}
-  - 114: {fileID: 11497718}
   m_Layer: 0
   m_Name: EngineerController
   m_TagString: Untagged
@@ -71,17 +70,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a29d830325a156d45855089dd8f0c04b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11497718
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153220}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8f1548ad25ddb8468b4310d50c1d21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &100100000

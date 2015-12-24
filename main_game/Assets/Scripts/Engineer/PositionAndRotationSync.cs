@@ -14,13 +14,11 @@ public class PositionAndRotationSync : NetworkBehaviour
     {
         if (isServer)
         {
-            //Debug.Log("server");
             rotation = gameObject.transform.rotation;
             position = gameObject.transform.position;
         }
         else if (isClient)
         {
-            //Debug.Log("client");
             gameObject.transform.rotation = rotation;
             gameObject.transform.position = position;
         }
