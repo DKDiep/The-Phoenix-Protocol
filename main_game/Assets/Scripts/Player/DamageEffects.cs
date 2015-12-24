@@ -4,7 +4,7 @@ using System.Collections;
 public class DamageEffects : MonoBehaviour 
 {
 
-	VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
+	//VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
 	ShipMovement myMove;
 	float health, alpha;
 	int direction;
@@ -20,7 +20,7 @@ public class DamageEffects : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
+		//lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
 		myMove = GameObject.Find("PlayerShipLogic(Clone)").GetComponent<ShipMovement>();
 	}
 	
