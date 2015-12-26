@@ -26,6 +26,7 @@ public class ShipMovement : MonoBehaviour, INavigatable
 	float slowTime2 = 0f;
 	bool left, right, up, down;
 	DamageEffects myDamage;
+  ShieldEffects myShield;
 
     void Start()
     {
@@ -33,7 +34,8 @@ public class ShipMovement : MonoBehaviour, INavigatable
     	myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
     	shield = maxShield;
     	lastShieldCheck = shield;
-		StartCoroutine ("RechargeShields");
+		  StartCoroutine ("RechargeShields");
+      myShield = GameObject.Find("Shield").GetComponent<ShieldEffects>();
     }
 
 	IEnumerator RechargeShields()
@@ -253,12 +255,13 @@ public class ShipMovement : MonoBehaviour, INavigatable
 		if (shield > damage)
 		{
 			shield -= damage;
+      myShield.Impact(shield);
 		}
 		else if (shield > 0)
 		{
 			float remDamage = damage - shield;
 			shield = 0;
-			
+			myShield.ShieldDown();
 			health -= remDamage;
 		}
 		else if(health > damage)

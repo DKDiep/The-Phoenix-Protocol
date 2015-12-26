@@ -8,6 +8,7 @@ public class BulletLogic : MonoBehaviour
 	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	[SerializeField] float damage; 
 	[SerializeField] Color bulletColor;
+  [SerializeField] GameObject impact;
 	[SerializeField] float xScale;
 	[SerializeField] float yScale;
 	[SerializeField] float zScale;
@@ -22,7 +23,8 @@ public class BulletLogic : MonoBehaviour
 		obj = transform.parent.gameObject;
 		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
 		rigidbody.useGravity = false;
-		rigidbody.isKinematic = true;
+		rigidbody.isKinematic = false;
+    rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 		SphereCollider sphere = obj.AddComponent<SphereCollider>();
 		sphere.isTrigger = true;
 		obj.AddComponent<BulletCollision>();
@@ -61,6 +63,7 @@ public class BulletLogic : MonoBehaviour
 			//Debug.Log ("A bullet has hit the player");
 			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
 		}
+    GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
 		Destroy (obj);
 	}
 	
