@@ -37,14 +37,14 @@ public class PlayerShooting : MonoBehaviour
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if(Physics.Raycast(ray,out hit))
+        if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
         {
         	target.transform.position = hit.transform.position;
         }
         else
         {
-			target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(CrosshairMovement.crosshairPosition.x, CrosshairMovement.crosshairPosition.y, 1000));
-			target.transform.Translate (transform.forward * (-10f));
+			    target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(CrosshairMovement.crosshairPosition.x, CrosshairMovement.crosshairPosition.y, 1000));
+			    target.transform.Translate (transform.forward * (-10f));
         }
 
 			GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
