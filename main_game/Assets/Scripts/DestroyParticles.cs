@@ -6,7 +6,7 @@
  
      private void Start()
      {
-         Destroy(gameObject, GetComponent<ParticleSystem>().duration); 
+         Destroy(gameObject, 6f); 
      }
      
  }
