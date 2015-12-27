@@ -43,7 +43,7 @@ MonoBehaviour:
   accuracy: 0.1
   damage: 40
   bulletColor: {r: 0.89705884, g: 0.3897566, b: 0, a: 0}
-  impact: {fileID: 100004, guid: e586c637033b3fa459c49d66f9ce4d6c, type: 2}
+  impact: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   xScale: 0.5
   yScale: 0.5
   zScale: 2
@@ -89,7 +89,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: impact
       value: 
-      objectReference: {fileID: 100004, guid: e586c637033b3fa459c49d66f9ce4d6c, type: 2}
+      objectReference: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136190}

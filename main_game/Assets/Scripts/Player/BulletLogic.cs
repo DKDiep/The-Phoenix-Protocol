@@ -31,8 +31,12 @@ public class BulletLogic : MonoBehaviour
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
-		Renderer rend = obj.GetComponent<Renderer>();
-		rend.material.SetColor("_EmissionColor", bulletColor);;
+		Renderer[] rend = obj.GetComponentsInChildren<Renderer>();
+    for(int i = 0; i < rend.Length; i++)
+    {
+      rend[i].material.SetColor("_TintColor", bulletColor);
+    }
+		
 		StartCoroutine ("DestroyZ");
 		started = true;
 	}
@@ -64,6 +68,14 @@ public class BulletLogic : MonoBehaviour
 			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
 		}
     GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
+    impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
+    impactTemp.GetComponent<Light>().color = bulletColor;
+
+    Renderer[] rend = impactTemp.GetComponentsInChildren<Renderer>();
+    for(int i = 0; i < rend.Length; i++)
+    {
+      rend[i].material.SetColor("_TintColor", bulletColor);
+    }
 		Destroy (obj);
 	}
 	
