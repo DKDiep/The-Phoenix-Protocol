@@ -8,9 +8,8 @@ public class AsteroidLogic : MonoBehaviour
 	[SerializeField] float health;
 	[SerializeField] float minSpeed;
 	[SerializeField] float maxSpeed;
-	[SerializeField] GameObject destroyed1;
-	[SerializeField] GameObject destroyed2;
-	[SerializeField] GameObject destroyed3;
+	[SerializeField] GameObject destroyEffect;
+
 	float speed;
 	int type;
     private GameState gameState;
@@ -40,22 +39,10 @@ public class AsteroidLogic : MonoBehaviour
 		health -= damage;
         if (health <= 0)
         {
-        	//SpawnDebris();
+      Instantiate(destroyEffect, transform.position, transform.rotation);
 			gameState.RemoveAsteroid(transform.parent.gameObject);
         Destroy(transform.parent.gameObject);	
 
         }
-	}
-
-	void SpawnDebris()
-	{
-		GameObject obj;
-		if(type == 0) obj = destroyed1;
-		else if(type == 1) obj = destroyed2;
-		else obj = destroyed3;
-
-		GameObject debris = Instantiate(obj, transform.position, transform.rotation) as GameObject;
-		gameState.RemoveAsteroid(transform.parent.gameObject);
-        Destroy(transform.parent.gameObject);	
 	}
 }

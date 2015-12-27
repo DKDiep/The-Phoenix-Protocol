@@ -76,7 +76,7 @@ public class BulletLogic : MonoBehaviour
 	// Destroy if 100 units behind player
 	IEnumerator DestroyZ()
 	{
-		yield return new WaitForSeconds(10f);
+		yield return new WaitForSeconds(4f);
 		Destroy (obj);
 	}
 }
