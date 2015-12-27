@@ -11,6 +11,7 @@ public class ToggleGraphics : MonoBehaviour
 	AmplifyColorEffect color;
 	Aubergine.PP_Vignette vignette;
 	Smaa.SMAA smaa;
+  UnityStandardAssets.ImageEffects.SunShafts shafts;
 	
 
 	// Use this for initialization
@@ -24,6 +25,8 @@ public class ToggleGraphics : MonoBehaviour
 		color = GetComponent<AmplifyColorEffect>();
 		vignette = GetComponent<Aubergine.PP_Vignette>();
 		smaa = GetComponent<Smaa.SMAA>();
+    shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
+    shafts.sunTransform = GameObject.Find("StarLight").transform;
 		
 		UpdateGraphics ();
 		

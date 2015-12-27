@@ -639,10 +639,11 @@ GameObject:
   - 92: {fileID: 9295236}
   - 114: {fileID: 11443890}
   - 114: {fileID: 11415550}
+  - 114: {fileID: 11486988}
   - 114: {fileID: 11499444}
-  - 114: {fileID: 11444764}
   - 114: {fileID: 11492108}
   - 114: {fileID: 11481540}
+  - 114: {fileID: 11444764}
   - 114: {fileID: 11485970}
   - 114: {fileID: 11424830}
   - 114: {fileID: 11404480}
@@ -782,7 +783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &166266
 GameObject:
   m_ObjectHideFlags: 1
@@ -4402,7 +4403,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152044}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38d339c2fa3e211408ebd9198c0f9961, type: 3}
   m_Name: 
@@ -4643,6 +4644,29 @@ MonoBehaviour:
     m_ShoulderCoef: {x: 0.70231867, y: 0.833, z: -0.21069562, w: 0.36799997}
   m_Tint: {r: 1, g: 1, b: 1, a: 1}
   m_Mode: 2
+--- !u!114 &11486988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e318a6043c1cb4a8ce1c8805bab930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 2
+  screenBlendMode: 0
+  sunTransform: {fileID: 0}
+  radialBlurIterations: 2
+  sunColor: {r: 0.7205882, g: 0.16399592, b: 0, a: 1}
+  sunThreshold: {r: 0.87, g: 0.74, b: 0.65, a: 1}
+  sunShaftBlurRadius: 4.39
+  sunShaftIntensity: 0.5
+  maxRadius: 0.16500002
+  useDepthTexture: 1
+  sunShaftsShader: {fileID: 4800000, guid: d3b1c8c1036784176946f5cfbfb7fe4c, type: 3}
+  simpleClearShader: {fileID: 4800000, guid: f688f89ed5eb847c5b19c934a0f1e772, type: 3}
 --- !u!114 &11489664
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12588,6 +12612,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: far clip plane
       value: 50000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: resolution
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sunColor.r
+      value: 0.7205882
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sunColor.g
+      value: 0.16399592
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sunColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sunShaftIntensity
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sunShaftBlurRadius
+      value: 4.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxRadius
+      value: 0.16500002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

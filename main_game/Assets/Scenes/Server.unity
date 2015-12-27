@@ -282,6 +282,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11473784, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
+      propertyPath: deviceGroupToggle
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
@@ -648,6 +652,10 @@ Prefab:
     - target: {fileID: 10800002, guid: dae3a69ba80cc1c45b07291a5e798cb2, type: 2}
       propertyPath: m_Shadows.m_Type
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: dae3a69ba80cc1c45b07291a5e798cb2, type: 2}
+      propertyPath: m_Name
+      value: StarLight
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dae3a69ba80cc1c45b07291a5e798cb2, type: 2}
