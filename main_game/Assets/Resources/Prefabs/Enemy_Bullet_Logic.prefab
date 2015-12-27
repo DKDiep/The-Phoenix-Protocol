@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -178.19011, y: 153.588, z: 710.76245}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   accuracy: 0.1
   damage: 1
   bulletColor: {r: 0.29330626, g: 1, b: 0.014705896, a: 0}
-  impact: {fileID: 100004, guid: e586c637033b3fa459c49d66f9ce4d6c, type: 2}
+  impact: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   xScale: 1
   yScale: 1
   zScale: 1
