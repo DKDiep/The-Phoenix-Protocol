@@ -112,7 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64e4acc166a4b4c2291365a1de7aaf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroid: {fileID: 180310, guid: 1148179f73ce04b748cdc45eb3fff301, type: 2}
+  asteroid1: {fileID: 0}
+  asteroid2: {fileID: 0}
+  asteroid3: {fileID: 0}
   maxAsteroids: 100
   maxVariation: 5
   gameManager: {fileID: 156512}

@@ -27,8 +27,7 @@ GameObject:
   - 4: {fileID: 442040}
   - 114: {fileID: 11424728}
   - 114: {fileID: 11434830}
-  - 114: {fileID: 11476102}
-  - 114: {fileID: 11401806}
+  - 114: {fileID: 11476934}
   m_Layer: 0
   m_Name: AsteroidExplode
   m_TagString: Untagged
@@ -244,17 +243,6 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11401806
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72163860af6c7ee48a49da2242a333ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11402330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,7 +303,7 @@ MonoBehaviour:
     i15: 188
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11476102
+--- !u!114 &11476934
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -323,9 +311,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 112660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!198 &19808866
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7687,7 +7684,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_SendInterval
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 112660}

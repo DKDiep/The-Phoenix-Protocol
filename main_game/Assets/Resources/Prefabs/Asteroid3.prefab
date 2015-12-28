@@ -11,8 +11,8 @@ GameObject:
   - 33: {fileID: 3335186}
   - 23: {fileID: 2347420}
   - 114: {fileID: 11466340}
-  - 114: {fileID: 11458904}
-  - 114: {fileID: 11413096}
+  - 114: {fileID: 11414114}
+  - 114: {fileID: 11448340}
   m_Layer: 0
   m_Name: Asteroid3
   m_TagString: Debris
@@ -65,7 +65,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180310}
   m_Mesh: {fileID: 4300000, guid: c7c613d6a78041349b94f12970604a3c, type: 3}
---- !u!114 &11413096
+--- !u!114 &11414114
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -73,10 +73,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 180310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72163860af6c7ee48a49da2242a333ad, type: 3}
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11458904
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.09090909
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &11448340
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -84,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 180310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11466340
@@ -174,6 +183,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_SendInterval
+      value: 0.09090909
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 180310}
