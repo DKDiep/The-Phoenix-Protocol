@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [Serializable]
-public class MouseLook
+public class MouseLook : MonoBehaviour
 {
     public float XSensitivity = 2f;
     public float YSensitivity = 2f;
@@ -20,6 +20,8 @@ public class MouseLook
 
     public void Init(Transform character, Transform camera)
     {
+        Debug.Log(character);
+        Debug.Log(camera);
         m_CharacterTargetRot = character.localRotation;
         m_CameraTargetRot = camera.localRotation;
     }

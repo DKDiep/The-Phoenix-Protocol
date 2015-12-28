@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11489132}
   - 114: {fileID: 11402522}
   - 114: {fileID: 11458680}
+  - 114: {fileID: 11446836}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -29,8 +30,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 140.7, y: 12.8, z: -46.5}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -134,6 +135,24 @@ MonoBehaviour:
     i15: 192
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11446836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e60a97f2c87ae41b6cdc1055d78cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XSensitivity: 2
+  YSensitivity: 2
+  clampVerticalRotation: 1
+  MinimumX: -90
+  MaximumX: 90
+  smooth: 0
+  smoothTime: 5
 --- !u!114 &11458680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -145,6 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29d830325a156d45855089dd8f0c04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upMultiplier: 0
+  isWalking: 0
+  walkSpeed: 0
+  runSpeed: 0
+  jumpSpeed: 0
+  m_StepInterval: 0
+  upgradeText: {fileID: 0}
 --- !u!114 &11489132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,6 +229,11 @@ Prefab:
       propertyPath: m_SendInterval
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Mouselook
+      value: 
+      objectReference: {fileID: 11439114, guid: c9265433b8bdf924eae6cfcd80d38a15,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}

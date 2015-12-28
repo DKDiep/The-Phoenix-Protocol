@@ -8,6 +8,7 @@ public class EngineerMenu : MonoBehaviour {
     [SerializeField] GameObject debug;
 
     NetworkClient client;
+    GameObject ship;
     GameState gameState;
     NetworkManager manager;
 
@@ -16,6 +17,21 @@ public class EngineerMenu : MonoBehaviour {
     {
         gameState = gameObject.GetComponent<GameState>();
         manager = gameObject.GetComponent<NetworkManager>();
+    }
+
+    // Sketchy method to detect when client game has started. Needs replacing.
+    void Update()
+    {
+        if (ship != null)
+        {
+            Destroy(menuCam);
+            debug.SetActive(true);
+            Destroy(this);
+        }
+        else
+        {
+            ship = GameObject.Find("PlayerShip(Clone)");
+        }
     }
 
     void OnGUI()

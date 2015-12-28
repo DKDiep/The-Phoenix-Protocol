@@ -32,10 +32,11 @@ public class EngineerMovement : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        m_Camera = Camera.main;
+        m_Camera = gameObject.GetComponent<Camera>();
         m_StepCycle = 0f;
         m_NextStep = m_StepCycle / 2f;
         m_MouseLook.Init(transform, m_Camera.transform);
+        controller = gameObject.transform.parent.GetComponent<EngineerController>();
     }
 
     // Update is called once per frame
@@ -75,7 +76,7 @@ public class EngineerMovement : MonoBehaviour
         // Move the player if they have moved
         if (m_Input.x != 0 && m_Input.y != 0)
         {
-            controller.CmdMove(m_Input, m_Jump, !m_IsWalking);
+            //controller.CmdMove(m_Input, m_Jump, !m_IsWalking);
         }
        
 
@@ -136,7 +137,7 @@ public class EngineerMovement : MonoBehaviour
     {
         m_MouseLook.LookRotation(transform, m_Camera.transform);
         // Send the rotaion to the server
-        controller.CmdSetRotation(transform.rotation);
+        //controller.CmdSetRotation(transform.rotation);
     }
 
 
@@ -158,6 +159,6 @@ public class EngineerMovement : MonoBehaviour
 
     private void ResetUpgradeText()
     {
-        upgradeText.text = "";
+       // upgradeText.text = "";
     }
 }
