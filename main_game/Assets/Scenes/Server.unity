@@ -271,6 +271,30 @@ Prefab:
       propertyPath: reflection
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: minDistance
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: maxDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: maxAsteroids
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: minDistance
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: maxDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: maxEnemies
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
   m_IsPrefabParent: 0

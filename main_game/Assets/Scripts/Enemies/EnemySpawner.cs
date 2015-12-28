@@ -15,8 +15,11 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0;
 	public int maxEnemies;
+    [SerializeField] float minDistance;
+    [SerializeField] float maxDistance;
     [SerializeField] GameObject gameManager;
     private GameState state;
+    GameObject player;
 
     void Start()
     {
@@ -24,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
         {
             state = gameManager.GetComponent<GameState>();
         }
+        player = null;
         StartCoroutine("Cleanup");
     }
 
@@ -32,11 +36,16 @@ public class EnemySpawner : MonoBehaviour
 	{
         if (state.GetStatus() == GameState.Status.Started)
         {
+            if(player == null) player = state.GetPlayerShip();
             if (numEnemies < maxEnemies)
             {
-                Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-400, 400), transform.position.y + Random.Range(-400, 400), transform.position.z + 200 + Random.Range(50, 1000));
+                GameObject temp = new GameObject();
+                temp.transform.position = player.transform.position;
+                temp.transform.rotation = Random.rotation;
+                temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
+
                 //Spawn enemy and server logic
-                GameObject enemyObject = Instantiate(enemy, rand_position, transform.rotation) as GameObject;
+                GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
                 GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
                 enemyObject.AddComponent<EnemyCollision>();
 				enemyObjectLogic.transform.parent = enemyObject.transform;

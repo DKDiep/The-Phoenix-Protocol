@@ -17,6 +17,10 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] GameObject gameManager;
     [SerializeField] int maxAsteroids;
     [SerializeField] float maxVariation; // Max variation in size (0-10)
+    [SerializeField] float minDistance;
+    [SerializeField] float maxDistance;
+
+    GameObject player;
 
     public static int numAsteroids = 0;
     private GameState state;
@@ -25,6 +29,7 @@ public class AsteroidSpawner : MonoBehaviour
     {
         // Set game state reference
         if (gameManager != null) state = gameManager.GetComponent<GameState>();
+        player = null;
         StartCoroutine("Cleanup");
     }
 
@@ -32,10 +37,15 @@ public class AsteroidSpawner : MonoBehaviour
     {
         if (state.GetStatus() == GameState.Status.Started)
         {
+            if(player == null) player = state.GetPlayerShip();
             // Spawn a new asteroid in a random position if there are less than specified by maxAsteroids
             if (numAsteroids < maxAsteroids)
             {
-                Vector3 rand_position = new Vector3(transform.position.x + Random.Range(-800, 800), transform.position.y + Random.Range(-800, 800), transform.position.z + 150 + Random.Range(50, 1000));
+                GameObject temp = new GameObject();
+                temp.transform.position = player.transform.position;
+                temp.transform.rotation = Random.rotation;
+                temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
+
                 int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
                 GameObject asteroid;
 
@@ -43,7 +53,7 @@ public class AsteroidSpawner : MonoBehaviour
                 else if(rnd == 1) asteroid = asteroid2;
                 else asteroid = asteroid3;
 
-                GameObject asteroidObject = Instantiate(asteroid, rand_position, Quaternion.identity) as GameObject;
+                GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
     			GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
     			asteroidLogic.transform.parent = asteroidObject.transform;
                 asteroidLogic.transform.localPosition = Vector3.zero;
@@ -61,7 +71,6 @@ public class AsteroidSpawner : MonoBehaviour
         }
     }
 
-    // Automatically destroy if 100 units behind the player
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);
