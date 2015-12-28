@@ -26,14 +26,14 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] bool isSuicidal; // Attempt to crash into player?
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
-	[SerializeField] Texture2D target;
     [SerializeField] GameObject destroyEffect;
 
 	public GameObject player;
 	bool shoot = false;
 	bool rechargeShield;
-    bool draw = false;
-	float shield, distance;
+    public bool draw = false;
+	float shield;
+    public float distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
 
@@ -48,15 +48,7 @@ public class EnemyLogic : MonoBehaviour
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
 
-    // Draw target over enemy
-    void OnGUI()
-    {
-		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.parent.position);
-		screenPos = GUIUtility.ScreenToGUIPoint(screenPos);
-		float size = Mathf.Clamp(128f / (distance / 100f),0,128);
 
-		if(distance < 750 && draw && myRender.isVisible) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
-    }
 
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
@@ -173,8 +165,8 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
-      Instantiate(destroyEffect, transform.position, transform.rotation);
-      ServerManager.NetworkSpawn(destroyEffect);
+            GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+            ServerManager.NetworkSpawn(temp);
 			Destroy(transform.parent.gameObject);
 		}
 

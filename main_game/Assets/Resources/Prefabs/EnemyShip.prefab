@@ -30,6 +30,7 @@ GameObject:
   - 114: {fileID: 11473720}
   - 114: {fileID: 11430852}
   - 114: {fileID: 11401510}
+  - 114: {fileID: 11456970}
   m_Layer: 0
   m_Name: EnemyShip
   m_TagString: EnemyShip
@@ -141,6 +142,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11456970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b20b28856ef6433eb50f86a9c9e0d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2800000, guid: b4fe3082412f541df9543f015195fd80, type: 3}
 --- !u!114 &11473720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,6 +270,10 @@ Prefab:
       propertyPath: m_SendInterval
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2800000, guid: b4fe3082412f541df9543f015195fd80, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175856}

@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0
+  m_SendInterval: 1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -7687,7 +7687,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
