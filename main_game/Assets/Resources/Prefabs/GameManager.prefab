@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
   maxEnemies: 40
+  minDistance: 0
+  maxDistance: 0
   gameManager: {fileID: 156512}
 --- !u!114 &11445604
 MonoBehaviour:
@@ -115,9 +117,11 @@ MonoBehaviour:
   asteroid1: {fileID: 0}
   asteroid2: {fileID: 0}
   asteroid3: {fileID: 0}
+  gameManager: {fileID: 156512}
   maxAsteroids: 100
   maxVariation: 5
-  gameManager: {fileID: 156512}
+  minDistance: 0
+  maxDistance: 0
 --- !u!114 &11487072
 MonoBehaviour:
   m_ObjectHideFlags: 1

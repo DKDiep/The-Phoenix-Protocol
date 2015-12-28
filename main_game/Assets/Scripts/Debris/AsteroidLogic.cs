@@ -10,18 +10,18 @@ using System.Collections;
 
 public class AsteroidLogic : MonoBehaviour 
 {
-	public GameObject player;
-  public float speed;
+    public GameObject player;
+    public float speed;
 
-  int type; // Defines which of the 3 asteroid prefabs is used
-	float maxVariation; // Percentage variation in size
+    int type; // Defines which of the 3 asteroid prefabs is used
+    float maxVariation; // Percentage variation in size
 
-	[SerializeField] float health;
-	[SerializeField] float minSpeed;
-	[SerializeField] float maxSpeed;
-	[SerializeField] GameObject destroyEffect;
+    [SerializeField] float health;
+    [SerializeField] float minSpeed;
+    [SerializeField] float maxSpeed;
+    [SerializeField] GameObject destroyEffect;
 
-  private GameState gameState;
+    private GameState gameState;
 	
 	public void SetPlayer(GameObject temp, float var, int rnd)
 	{
@@ -39,15 +39,15 @@ public class AsteroidLogic : MonoBehaviour
   }
 
   public void collision (float damage)
-	{
-		health -= damage;
+  {
+        health -= damage;
 
-    if (health <= 0)
-    {
-      Instantiate(destroyEffect, transform.position, transform.rotation);
-      ServerManager.NetworkSpawn(destroyEffect);
-      gameState.RemoveAsteroid(transform.parent.gameObject);
-      Destroy(transform.parent.gameObject);	
-    }
-	}
+        if (health <= 0)
+        {
+            GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+            ServerManager.NetworkSpawn(temp);
+            gameState.RemoveAsteroid(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject);	
+        }
+   }
 }
