@@ -28,6 +28,7 @@ public class EngineerController : NetworkBehaviour {
     public void CmdSetRotation(Quaternion rotation)
     {
         currRotation = rotation;
+        gameObject.transform.rotation = currRotation;
     }
 
     [Command]
@@ -46,6 +47,7 @@ public class EngineerController : NetworkBehaviour {
             actualMove.y += jumpSpeed;
         }
 
+        gameObject.transform.Translate(actualMove);
         //m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
         //ProgressStepCycle(speed);
     }
