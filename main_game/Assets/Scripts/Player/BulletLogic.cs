@@ -4,7 +4,7 @@ using System.Collections;
 public class BulletLogic : MonoBehaviour 
 {
 
-	[SerializeField] float speed = 100f;
+	public float speed = 100f;
 	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	[SerializeField] float damage; 
 	[SerializeField] Color bulletColor;
@@ -78,12 +78,6 @@ public class BulletLogic : MonoBehaviour
     }
     ServerManager.NetworkSpawn(impactTemp);
 		Destroy (obj);
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		if(started) obj.transform.position += obj.transform.forward * Time.deltaTime * speed;
 	}
 	
 	// Destroy if 100 units behind player
