@@ -189,7 +189,7 @@ Prefab:
       objectReference: {fileID: 184796, guid: bea72a5b6bc1c4e43892789d82b4de0e, type: 2}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_AutoCreatePlayer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_OnlineScene
