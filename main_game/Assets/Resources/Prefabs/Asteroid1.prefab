@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11466340}
   - 114: {fileID: 11433254}
   - 114: {fileID: 11407462}
+  - 114: {fileID: 11482462}
   m_Layer: 0
   m_Name: Asteroid1
   m_TagString: Debris
@@ -88,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0.09090909
+  m_SendInterval: 0
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -128,6 +129,17 @@ MonoBehaviour:
     i15: 119
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11482462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b274329d808ad47b5a5a80f7c816528c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -185,7 +197,7 @@ Prefab:
       objectReference: {fileID: 4300000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
     - target: {fileID: 0}
       propertyPath: m_SendInterval
-      value: 0.09090909
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

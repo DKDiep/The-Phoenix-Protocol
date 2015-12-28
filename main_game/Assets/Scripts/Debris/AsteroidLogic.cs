@@ -10,7 +10,7 @@ public class AsteroidLogic : MonoBehaviour
 	[SerializeField] float maxSpeed;
 	[SerializeField] GameObject destroyEffect;
 
-	float speed;
+	public float speed;
 	int type;
     private GameState gameState;
 	
@@ -22,11 +22,6 @@ public class AsteroidLogic : MonoBehaviour
 		transform.parent.localScale = new Vector3(10f + Random.Range (-var, var), 10f + Random.Range (-var, var),10f + Random.Range (-var, var));
 		transform.parent.rotation = Random.rotation;
 		speed = Random.Range(minSpeed,maxSpeed);
-	}
-
-	void Update()
-	{
-		transform.parent.Rotate(transform.parent.forward * speed * Time.deltaTime);
 	}
 
     public void SetStateReference(GameState state)
