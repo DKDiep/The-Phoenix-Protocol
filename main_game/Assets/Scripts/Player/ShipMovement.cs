@@ -221,35 +221,35 @@ public class ShipMovement : MonoBehaviour, INavigatable
 
 		if(left && !(up || down))
 		{
-			myDamage.Damage(0,damage);
+			myDamage.Damage(0,damage, health);
 		}
 		else if(right && !(up || down))
 		{
-			myDamage.Damage(2,damage);
+      myDamage.Damage(2,damage, health);
 		}
 		else if(left && up)
 		{
-			myDamage.Damage(4,damage);
+      myDamage.Damage(4,damage, health);
 		}
 		else if(left && down)
 		{
-			myDamage.Damage(6,damage);
+      myDamage.Damage(6,damage, health);
 		}
 		else if(right && up)
 		{
-			myDamage.Damage(5,damage);
+      myDamage.Damage(5,damage, health);
 		}
 		else if(right && down)
 		{
-			myDamage.Damage(7,damage);
+      myDamage.Damage(7,damage, health);
 		}
 		if(up && !(left || right))
 		{
-			myDamage.Damage(1,damage);
+      myDamage.Damage(1,damage, health);
 		}
 		else if(down && !(up || down))
 		{
-			myDamage.Damage(3,damage);
+      myDamage.Damage(3,damage, health);
 		}
 
 		if (shield > damage)

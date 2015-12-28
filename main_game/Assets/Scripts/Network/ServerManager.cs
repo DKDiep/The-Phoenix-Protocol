@@ -14,7 +14,6 @@ public class ServerManager : NetworkBehaviour {
     [SerializeField] GameObject menuBG;
     [SerializeField] Texture2D play0;
 	[SerializeField] Texture2D play1;
-  [SerializeField] GameObject reflection;
     bool gameStarted;
 
     public int clientIdCount()
@@ -96,7 +95,6 @@ public class ServerManager : NetworkBehaviour {
                 Destroy (menuBG.gameObject);
                 gameStarted = true;
                 Cursor.visible = false;
-                reflection.SetActive(true);
             }
         }
 

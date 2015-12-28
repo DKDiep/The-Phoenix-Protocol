@@ -7,6 +7,7 @@ public class DamageEffects : MonoBehaviour
 
 	VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
 	ShipMovement myMove;
+  GameObject player;
 	float health, alpha;
 	int direction;
 	[SerializeField] Texture2D left;
@@ -22,15 +23,17 @@ public class DamageEffects : MonoBehaviour
 	void Start () 
 	{
 		lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
-		myMove = GameObject.Find("PlayerShipLogic(Clone)").GetComponent<ShipMovement>();
+    player = GameObject.Find("PlayerShipLogic(Clone)");
+    if(player != null)
+    {
+      myMove = player.GetComponent<ShipMovement>();
+    }
+
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		health = myMove.GetHealth();
-		lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
-
 		if(alpha > 0f)
 		{
 			alpha -= 4f * Time.deltaTime;
@@ -50,8 +53,10 @@ public class DamageEffects : MonoBehaviour
 		if(direction == 7) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), bottomRight, ScaleMode.StretchToFill);
 	}
 
-	public void Damage(int dir, float damage)
+	public void Damage(int dir, float damage, float hp)
 	{
+    health = hp;
+    lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
 		direction = dir;
 		alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}
