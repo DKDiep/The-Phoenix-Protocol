@@ -168,6 +168,7 @@ public class EnemyLogic : MonoBehaviour
 		else
 		{
       Instantiate(destroyEffect, transform.position, transform.rotation);
+      ServerManager.NetworkSpawn(destroyEffect);
 			Destroy(transform.parent.gameObject);
 		}
 

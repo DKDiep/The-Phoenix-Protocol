@@ -26,6 +26,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 442040}
   - 114: {fileID: 11424728}
+  - 114: {fileID: 11434830}
+  - 114: {fileID: 11476102}
+  - 114: {fileID: 11401806}
   m_Layer: 0
   m_Name: AsteroidExplode
   m_TagString: Untagged
@@ -241,6 +244,17 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11401806
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72163860af6c7ee48a49da2242a333ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11402330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -267,6 +281,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de98edeceeb7e436985362fdc6f8e034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11434830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 77
+    i1: 151
+    i2: 171
+    i3: 201
+    i4: 224
+    i5: 251
+    i6: 132
+    i7: 117
+    i8: 202
+    i9: 242
+    i10: 209
+    i11: 182
+    i12: 79
+    i13: 218
+    i14: 60
+    i15: 188
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11476102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06dcf5007a8c70844984773588236bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &19808866

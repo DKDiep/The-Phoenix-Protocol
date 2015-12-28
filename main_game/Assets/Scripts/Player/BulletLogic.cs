@@ -76,6 +76,7 @@ public class BulletLogic : MonoBehaviour
     {
       rend[i].material.SetColor("_TintColor", bulletColor);
     }
+    ServerManager.NetworkSpawn(impactTemp);
 		Destroy (obj);
 	}
 	

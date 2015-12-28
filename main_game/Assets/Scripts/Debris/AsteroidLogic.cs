@@ -39,10 +39,10 @@ public class AsteroidLogic : MonoBehaviour
 		health -= damage;
         if (health <= 0)
         {
-      Instantiate(destroyEffect, transform.position, transform.rotation);
-			gameState.RemoveAsteroid(transform.parent.gameObject);
-        Destroy(transform.parent.gameObject);	
-
+          Instantiate(destroyEffect, transform.position, transform.rotation);
+          ServerManager.NetworkSpawn(destroyEffect);
+			    gameState.RemoveAsteroid(transform.parent.gameObject);
+          Destroy(transform.parent.gameObject);	
         }
 	}
 }
