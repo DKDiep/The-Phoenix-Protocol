@@ -1,8 +1,15 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Handles the detection of collisions between an asteroid and another object
+*/
+
+using UnityEngine;
 using System.Collections;
 
-public class AsteroidCollision : MonoBehaviour {
-
+public class AsteroidCollision : MonoBehaviour 
+{
 	float collisionDamage = 10f;
 
 	void OnTriggerEnter (Collider col)

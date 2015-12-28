@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Control enemy ship attributes and AI
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class EnemyLogic : MonoBehaviour 
@@ -20,21 +27,19 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] Texture2D target;
-  [SerializeField] GameObject destroyEffect;
+    [SerializeField] GameObject destroyEffect;
 
 	public GameObject player;
 	bool shoot = false;
 	bool rechargeShield;
+    bool draw = false;
 	float shield, distance;
-	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
-	bool draw = false;
-
+	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
-	GameObject shootAnchor;
 
+    GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
-
     private GameObject controlObject;
 
     public void SetControlObject(GameObject newControlObject)
@@ -43,6 +48,7 @@ public class EnemyLogic : MonoBehaviour
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
 
+    // Draw target over enemy
     void OnGUI()
     {
 		Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.parent.position);
@@ -174,7 +180,4 @@ public class EnemyLogic : MonoBehaviour
 
 		//Debug.Log ("Glom fighter was hit, has " + shield + " shield and " + health + " health");
 	}
-
-	
-	
 }

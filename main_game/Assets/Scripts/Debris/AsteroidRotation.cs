@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Causes client-side rotation of asteroid based on speed sent from server
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -9,15 +16,12 @@ public class AsteroidRotation : NetworkBehaviour
 
   void Start ()
   {
-      if(isServer)
-       {
-            speed = GetComponentInChildren<AsteroidLogic>().speed;
-       }
+    if(isServer) speed = GetComponentInChildren<AsteroidLogic>().speed;
   }
 	
-	// Update is called once per frame
   void Update()
   {
     transform.Rotate(transform.forward * speed * Time.deltaTime);
   }
+
 }

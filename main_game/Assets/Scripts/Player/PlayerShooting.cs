@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene, Andrei Poenaru
+    Description: Handles targeting and spawning of player bullets
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class PlayerShooting : MonoBehaviour 
@@ -8,6 +15,7 @@ public class PlayerShooting : MonoBehaviour
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
 	[SerializeField] Texture2D hitmarker;
+
 	GameObject bulletAnchor;
 	GameObject target;
 	bool canShoot, showMarker;
@@ -36,16 +44,17 @@ public class PlayerShooting : MonoBehaviour
 		if(Input.GetMouseButton (0) && canShoot)
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
-        {
-        	target.transform.position = hit.transform.position;
-        }
-        else
-        {
-			    target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(CrosshairMovement.crosshairPosition.x, CrosshairMovement.crosshairPosition.y, 1000));
-			    target.transform.Translate (transform.forward * (-10f));
-        }
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
+            {
+            	target.transform.position = hit.transform.position;
+            }
+            else
+            {
+    			    target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(CrosshairMovement.crosshairPosition.x, CrosshairMovement.crosshairPosition.y, 1000));
+    			    target.transform.Translate (transform.forward * (-10f));
+            }
 
 			GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 			GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;

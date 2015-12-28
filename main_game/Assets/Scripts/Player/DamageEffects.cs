@@ -1,16 +1,23 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Displays visual warnings when health is low and direction from which the player was hit
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
 public class DamageEffects : MonoBehaviour 
 {
-
 	VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
 	ShipMovement myMove;
-  GameObject player;
+    GameObject player;
 	float health, alpha;
 	int direction;
-	[SerializeField] Texture2D left;
+
+    [SerializeField] Texture2D left;
 	[SerializeField] Texture2D right;
 	[SerializeField] Texture2D up;
 	[SerializeField] Texture2D down;
@@ -23,21 +30,16 @@ public class DamageEffects : MonoBehaviour
 	void Start () 
 	{
 		lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
-    player = GameObject.Find("PlayerShipLogic(Clone)");
-    if(player != null)
-    {
-      myMove = player.GetComponent<ShipMovement>();
-    }
+        player = GameObject.Find("PlayerShipLogic(Clone)");
 
-	}
+        if(player != null) myMove = player.GetComponent<ShipMovement>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(alpha > 0f)
-		{
-			alpha -= 4f * Time.deltaTime;
-		}
+		if(alpha > 0f) alpha -= 4f * Time.deltaTime;
 	}
 
 	void OnGUI()
@@ -55,8 +57,8 @@ public class DamageEffects : MonoBehaviour
 
 	public void Damage(int dir, float damage, float hp)
 	{
-    health = hp;
-    lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
+        health = hp;
+        lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
 		direction = dir;
 		alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}

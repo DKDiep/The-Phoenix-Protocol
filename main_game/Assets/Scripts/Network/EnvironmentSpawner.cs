@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Spawn environment object
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class EnvironmentSpawner : MonoBehaviour 
@@ -9,14 +16,14 @@ public class EnvironmentSpawner : MonoBehaviour
 
 	// Use this for initialization
 	void Start () 
-  {
-    state = transform.parent.gameObject.GetComponent<GameState>();
+    {
+        state = transform.parent.gameObject.GetComponent<GameState>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
-  {
-    if (state.GetStatus() == GameState.Status.Started)
+    {
+        if (state.GetStatus() == GameState.Status.Started)
         {
           Instantiate(spaceScene, Vector3.zero, Quaternion.identity);
           ServerManager.NetworkSpawn(spaceScene);

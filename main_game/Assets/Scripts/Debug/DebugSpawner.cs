@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DebugSpawner : MonoBehaviour {
-
-	[SerializeField]
-	GameObject gameManager;
+public class DebugSpawner : MonoBehaviour 
+{
+	[SerializeField] GameObject gameManager;
+    [SerializeField] GameObject myCounter;
 	private GameState state;
-	[SerializeField] GameObject myCounter;
 	bool debug = false;
-
-	// Use this for initialization
-	void Start () {
+    
+	void Start () 
+    {
 		if (gameManager != null)
 		{
 			state = gameManager.GetComponent<GameState>();
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
 		if (state.GetStatus() == GameState.Status.Started)

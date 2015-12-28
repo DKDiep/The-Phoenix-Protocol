@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Alter shield material when hit by bullet
+*/
+
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -11,10 +18,10 @@ public class ShieldEffects : MonoBehaviour
   [SerializeField] Material field;
   Color fullShield;
   Color emptyShield;
-  Renderer myMat;
-  float shieldAlpha;
   Color fading;
   Color startFade;
+  Renderer myMat;
+  float shieldAlpha;
   float meshOffset;
   bool burstShield;
 
@@ -84,19 +91,19 @@ public class ShieldEffects : MonoBehaviour
 
     public void Impact(float value)
     {
-      Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
-      startFade = shieldCol;
-       myMat.material.SetColor("_InnerTint", shieldCol);
-       myMat.material.SetColor("_OuterTint", shieldCol);
-       shieldAlpha = 1f;
+        Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
+        startFade = shieldCol;
+        myMat.material.SetColor("_InnerTint", shieldCol);
+        myMat.material.SetColor("_OuterTint", shieldCol);
+        shieldAlpha = 1f;
     }
 
     public void ShieldDown()
     {
-      meshOffset = 0.05f;
-      burstShield = true;
-      myMat.material.SetColor("_InnerTint", emptyShield);
-      myMat.material.SetColor("_OuterTint", emptyShield);
-      shieldAlpha = 1f;
+        meshOffset = 0.05f;
+        burstShield = true;
+        myMat.material.SetColor("_InnerTint", emptyShield);
+        myMat.material.SetColor("_OuterTint", emptyShield);
+        shieldAlpha = 1f;
     }
 }

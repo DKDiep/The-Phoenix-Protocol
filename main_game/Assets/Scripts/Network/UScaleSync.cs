@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Synchronise object scale when spawned on the server
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 

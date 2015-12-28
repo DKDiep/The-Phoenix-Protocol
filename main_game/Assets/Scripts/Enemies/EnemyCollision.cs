@@ -1,17 +1,24 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Damage the player upon collision with an enemy
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class EnemyCollision : MonoBehaviour 
 {
 
-	public float collisionDamage;
+    public float collisionDamage;
 
-	void OnTriggerEnter (Collider col)
-	{
-		if(col.gameObject.tag.Equals ("Player"))
-		{
-			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
-			Destroy (this.gameObject);
-		}
-	}
+    void OnTriggerEnter (Collider col)
+    {
+    	if(col.gameObject.tag.Equals ("Player"))
+    	{
+    		col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
+    		Destroy (this.gameObject);
+    	}
+    }
 }

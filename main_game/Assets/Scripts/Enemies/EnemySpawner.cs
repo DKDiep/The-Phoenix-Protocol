@@ -15,9 +15,7 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0;
 	public int maxEnemies;
-
-    [SerializeField]
-    GameObject gameManager;
+    [SerializeField] GameObject gameManager;
     private GameState state;
 
     void Start()
@@ -56,25 +54,19 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 	}
-
-    // Automatically destroy if 100 units behind player
+    
     IEnumerator Cleanup()
     {
-        
         yield return new WaitForSeconds(1f);
         if (state.GetStatus() == GameState.Status.Started)
         {
             for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
             {
                 GameObject enemyObject = state.GetEnemyAt(i);
-                //EnemyLogic enemyLogic = enemyObject.transform.Find("enemyObjectLogic").GetComponent<EnemyLogic>();
-                /*if (enemyObject.transform.position.z < enemyLogic.player.transform.position.z - 100f)
+                if(enemyObject == null)
                 {
-                    numEnemies -= 1;
-                    state.RemoveEnemyAt(i);
-                    Destroy(enemyObject.gameObject);
-                    //NOTIFY CLIENT
-                }*/
+                  state.RemoveEnemyAt(i);
+                }
             }
         }
         //Debug.Log(numEnemies);

@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Client side bullet movement
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -9,14 +16,9 @@ public class BulletMove : NetworkBehaviour
 
   void Start ()
   {
-      if(isServer)
-       {
-            speed = GetComponentInChildren<BulletLogic>().speed;
-       }
+      if(isServer) speed = GetComponentInChildren<BulletLogic>().speed;
   }
-	
-	// Update is called once per frame
-  // Update is called once per frame
+
   void Update () 
   {
     transform.position += transform.forward * Time.deltaTime * speed;

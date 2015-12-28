@@ -1,7 +1,15 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Smooth camera movement
+*/
+
+using UnityEngine;
 using System.Collections;
 
-public class SmoothCamera : MonoBehaviour {
+public class SmoothCamera : MonoBehaviour 
+{
 
 GameObject parent;
 [SerializeField] float damping;

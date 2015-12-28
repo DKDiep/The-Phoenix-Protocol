@@ -1,9 +1,17 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Disables post processing effects by default to increase FPS during development
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class ToggleGraphics : MonoBehaviour 
 {
 	bool enableGraphics;
+
 	SuperSampling_SSAA ssaa;
 	SESSAO sessao;
 	AmplifyMotionEffect motion;
@@ -11,10 +19,8 @@ public class ToggleGraphics : MonoBehaviour
 	AmplifyColorEffect color;
 	Aubergine.PP_Vignette vignette;
 	Smaa.SMAA smaa;
-  UnityStandardAssets.ImageEffects.SunShafts shafts;
+    UnityStandardAssets.ImageEffects.SunShafts shafts;
 	
-
-	// Use this for initialization
 	void Start () 
 	{
 		enableGraphics = true;
@@ -25,8 +31,8 @@ public class ToggleGraphics : MonoBehaviour
 		color = GetComponent<AmplifyColorEffect>();
 		vignette = GetComponent<Aubergine.PP_Vignette>();
 		smaa = GetComponent<Smaa.SMAA>();
-    shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
-    shafts.sunTransform = GameObject.Find("StarLight").transform;
+        shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
+        shafts.sunTransform = GameObject.Find("StarLight").transform;
 		
 		UpdateGraphics ();
 		
@@ -44,8 +50,7 @@ public class ToggleGraphics : MonoBehaviour
 		vignette.enabled = enableGraphics;
 		smaa.enabled = enableGraphics;
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
 		if(Input.GetKeyDown (KeyCode.Alpha1))
