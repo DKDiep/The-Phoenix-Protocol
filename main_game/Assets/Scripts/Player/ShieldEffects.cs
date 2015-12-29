@@ -7,12 +7,13 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 
 
-public class ShieldEffects : MonoBehaviour 
+public class ShieldEffects : NetworkBehaviour
 {
 
   [SerializeField] Material field;
@@ -28,6 +29,7 @@ public class ShieldEffects : MonoBehaviour
     void Start() 
     {
         // Combine seperate mesh elements together and add shield material
+        /*
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         int i = 0;
@@ -42,14 +44,19 @@ public class ShieldEffects : MonoBehaviour
 
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
         transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
-        transform.gameObject.active = true;
 
+        AssetDatabase.CreateAsset( transform.GetComponent<MeshFilter>().mesh, "Assets/Resources/testMesh.asset" );
+        AssetDatabase.SaveAssets();
+
+        transform.gameObject.active = true;
+        */
+        transform.parent = GameObject.Find("PlayerShip(Clone)").transform;
+        transform.localPosition = new Vector3(0, 0.1300001f, -0.01466703f);
         this.gameObject.GetComponent<Renderer>().material = field;
         myMat = this.gameObject.GetComponent<Renderer>();
         myMat.material.SetColor("_InnerTint", new Color(0.0f,0.0f,0.0f,0.0f));
         myMat.material.SetColor("_OuterTint", new Color(0.0f,0.0f,0.0f,0.0f));
         myMat.material.SetFloat("_Offset", 0.05f);
-        transform.localPosition = new Vector3(0, 5.96f, -6.54f);
 
         fullShield = new Color(0.20f, 0.57f, 1.0f);
         emptyShield = new Color(0.76f, 0.12f, 0.12f);
@@ -71,7 +78,7 @@ public class ShieldEffects : MonoBehaviour
       {
         if(meshOffset < 300 || shieldAlpha > 0f)
         {
-          meshOffset += 300f * Time.deltaTime;
+          meshOffset += 400f * Time.deltaTime;
           myMat.material.SetFloat("_Offset", meshOffset);
           shieldAlpha -= 2f * Time.deltaTime;
           Color shieldCol = Color.Lerp(Color.black, emptyShield, shieldAlpha);
@@ -96,6 +103,7 @@ public class ShieldEffects : MonoBehaviour
         myMat.material.SetColor("_InnerTint", shieldCol);
         myMat.material.SetColor("_OuterTint", shieldCol);
         shieldAlpha = 1f;
+        RpcClientImpact(value);
     }
 
     public void ShieldDown()
@@ -105,5 +113,27 @@ public class ShieldEffects : MonoBehaviour
         myMat.material.SetColor("_InnerTint", emptyShield);
         myMat.material.SetColor("_OuterTint", emptyShield);
         shieldAlpha = 1f;
+        RpcClientShieldDown();
     }
+
+    [ClientRpc]
+    void RpcClientImpact(float value)
+    {
+        Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
+        startFade = shieldCol;
+        myMat.material.SetColor("_InnerTint", shieldCol);
+        myMat.material.SetColor("_OuterTint", shieldCol);
+        shieldAlpha = 1f;
+    }
+
+    [ClientRpc]
+    void RpcClientShieldDown()
+    {
+        meshOffset = 0.05f;
+        burstShield = true;
+        myMat.material.SetColor("_InnerTint", emptyShield);
+        myMat.material.SetColor("_OuterTint", emptyShield);
+        shieldAlpha = 1f;
+    }
+
 }

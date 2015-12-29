@@ -32,7 +32,7 @@ public class ShipMovement : MonoBehaviour
 	float slowTime2 = 0f;
 	bool left, right, up, down;
 	DamageEffects myDamage;
-    ShieldEffects myShield;
+    ShieldEffects myShield = null;
 
     void Start()
     {
@@ -41,7 +41,6 @@ public class ShipMovement : MonoBehaviour
     	shield = maxShield;
     	lastShieldCheck = shield;
 		StartCoroutine ("RechargeShields");
-        myShield = GameObject.Find("Shield").GetComponent<ShieldEffects>();
     }
 
 	IEnumerator RechargeShields()
@@ -64,6 +63,11 @@ public class ShipMovement : MonoBehaviour
     public float GetHealth()
     {
     	return health;
+    }
+
+    public void StartGame()
+    {
+        myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
     }
 
 	void Update () 

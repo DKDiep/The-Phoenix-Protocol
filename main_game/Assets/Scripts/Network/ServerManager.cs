@@ -57,6 +57,10 @@ public class ServerManager : NetworkBehaviour {
             gameState.SetPlayerShip(playerShip);
             ServerManager.NetworkSpawn(playerShip);
 
+            //Spawn shield
+            GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
+            ServerManager.NetworkSpawn(playerShield);
+
             //Spawn camera manager
             GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
             ServerManager.NetworkSpawn(playerCamera);
@@ -79,6 +83,7 @@ public class ServerManager : NetworkBehaviour {
             gameState.Setup();
 
             //Start the game
+            playerShip.GetComponentInChildren<ShipMovement>().StartGame();
             gameState.SetStatus(GameState.Status.Started);
             gameStarted = true;
     }

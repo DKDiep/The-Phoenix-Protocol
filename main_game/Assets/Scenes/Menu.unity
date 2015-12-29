@@ -95,6 +95,7 @@ GameObject:
   - 4: {fileID: 1218444128}
   - 114: {fileID: 1218444126}
   - 114: {fileID: 1218444125}
+  - 114: {fileID: 1218444127}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -145,20 +146,19 @@ MonoBehaviour:
   m_OfflineScene: Menu
   m_OnlineScene: Main_Game
   m_SpawnPrefabs:
-  - {fileID: 0}
+  - {fileID: 156500, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
   - {fileID: 146360, guid: 3324a41c9a3d85e418951c7cfd7ff5bb, type: 2}
+  - {fileID: 106102, guid: 21ba94df7f0384a34a33b75572308701, type: 2}
+  - {fileID: 151974, guid: c53f46860ef764cb1a0107dd0d3716fa, type: 2}
   - {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
   - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   - {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
   - {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
   - {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
   - {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
-  - {fileID: 0}
   - {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
-  - {fileID: 156500, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
   - {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
   - {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
-  - {fileID: 106102, guid: 21ba94df7f0384a34a33b75572308701, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -198,6 +198,17 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
+--- !u!114 &1218444127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218444124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b368e052edd946fe884cc9bec1ddb3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1218444128
 Transform:
   m_ObjectHideFlags: 0
