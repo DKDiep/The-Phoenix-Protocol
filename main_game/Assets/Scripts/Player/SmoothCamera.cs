@@ -17,7 +17,7 @@ GameObject parent;
 	// Use this for initialization
 	void Start () 
 	{
-		parent = GameObject.Find("PlayerShip(Clone)");
+		parent = transform.parent.gameObject;
 		transform.parent = null; // unlink from parent
 	}
 	

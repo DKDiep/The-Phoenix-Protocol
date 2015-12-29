@@ -394,6 +394,7 @@ GameObject:
   - 114: {fileID: 11480236}
   - 114: {fileID: 11478246}
   - 114: {fileID: 11411368}
+  - 114: {fileID: 11425176}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: Player
@@ -2983,7 +2984,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
+  m_TransformSyncMode: 1
   m_SendInterval: 0.1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
@@ -2992,6 +2993,18 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &11425176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be5e33915e952b4cac8186b1a6f8f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_applyToChildren: 1
 --- !u!114 &11426810
 MonoBehaviour:
   m_ObjectHideFlags: 1

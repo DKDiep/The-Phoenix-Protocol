@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11459462}
   - 114: {fileID: 11457882}
   - 114: {fileID: 11481434}
+  - 114: {fileID: 11422098}
   m_Layer: 0
   m_Name: Asteroid2
   m_TagString: Debris
@@ -66,6 +67,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 180310}
   m_Mesh: {fileID: 4300000, guid: d9afdead69a0a6141a294b57322fbeeb, type: 3}
+--- !u!114 &11422098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be5e33915e952b4cac8186b1a6f8f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_applyToChildren: 1
 --- !u!114 &11457882
 MonoBehaviour:
   m_ObjectHideFlags: 1
