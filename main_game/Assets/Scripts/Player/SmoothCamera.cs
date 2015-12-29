@@ -18,7 +18,7 @@ GameObject parent;
 	void Start () 
 	{
 		parent = GameObject.Find("PlayerShip(Clone)");
-		//transform.parent = null; // unlink from parent
+		transform.parent = null; // unlink from parent
 	}
 	
 	// Update is called once per frame
