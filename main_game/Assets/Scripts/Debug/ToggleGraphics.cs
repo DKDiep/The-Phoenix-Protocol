@@ -32,7 +32,6 @@ public class ToggleGraphics : MonoBehaviour
 		vignette = GetComponent<Aubergine.PP_Vignette>();
 		smaa = GetComponent<Smaa.SMAA>();
         shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
-        shafts.sunTransform = GameObject.Find("StarLight").transform;
 		
 		UpdateGraphics ();
 		
@@ -49,6 +48,8 @@ public class ToggleGraphics : MonoBehaviour
 		color.enabled = enableGraphics;
 		vignette.enabled = enableGraphics;
 		smaa.enabled = enableGraphics;
+        shafts.enabled = enableGraphics;
+        if(GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
 	}
 
 	void Update () 

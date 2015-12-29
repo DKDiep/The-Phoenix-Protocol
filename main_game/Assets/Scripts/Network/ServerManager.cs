@@ -10,11 +10,8 @@ public class ServerManager : NetworkBehaviour {
     private int clientId = 0;
     private List<int> clientIds;
     private GameObject thePlayer;
-    [SerializeField] Camera menuCam;
-    [SerializeField] GameObject menuBG;
-    [SerializeField] Texture2D play0;
-	[SerializeField] Texture2D play1;
     bool gameStarted;
+    GameObject spawner;
 
     public int clientIdCount()
     {
@@ -28,70 +25,57 @@ public class ServerManager : NetworkBehaviour {
 
     void Start()
     {
-        clientIds = new List<int>();
-        // Host is client Id #0
-        clientIds.Add(0);
-        clientId = 0;
-        gameStarted = false;
-        // assign clients
-        
-        Cursor.visible = true;
+        Cursor.visible = false;
+        //networkManager = gameObject.GetComponent<NetworkManager>();
 
-        gameState = gameObject.GetComponent<GameState>();
-        networkManager = gameObject.GetComponent<NetworkManager>();
+        if(MainMenu.startServer)
+        {
+            clientIds = new List<int>();
+            // Host is client Id #0
+            clientIds.Add(0);
+            clientId = 0;
+            gameStarted = false;
+            // assign clients
+            gameState = gameObject.GetComponent<GameState>();
+            this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            StartGame();
+        }
+        else
+        {
+            //networkManager.StartClient();
+        }
     }
 
-    void OnGUI()
+    void StartGame()
     {
-    if(!gameStarted)
-    {
-        if (GUI.Button(new Rect((Screen.width / 2) - 75, (Screen.height / 2) - 50, 150, 100), "Start Game"))
-        {
-            if (networkManager != null)
-            {
-                networkManager.StartServer();
-                thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
-                ServerManager.NetworkSpawn(thePlayer);
+            //networkManager.StartServer();
+            thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
+            ServerManager.NetworkSpawn(thePlayer);
 
-                //Spawn networked ship
-                GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
-                gameState.SetPlayerShip(playerShip);
-                ServerManager.NetworkSpawn(playerShip);
+            //Spawn networked ship
+            GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
+            gameState.SetPlayerShip(playerShip);
+            ServerManager.NetworkSpawn(playerShip);
 
-                //Instantiate ship logic on server only
-                GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
-                //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
-                playerShipLogic.transform.parent = playerShip.transform;
-                
-				//Instantiate ship shoot logic on server only
-				GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
-				playerShootLogic.transform.parent = playerShip.transform;
+            //Instantiate ship logic on server only
+            GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
+            //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
+            playerShipLogic.transform.parent = playerShip.transform;
+            
+            //Instantiate ship shoot logic on server only
+            GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
+            playerShootLogic.transform.parent = playerShip.transform;
 
-                //Instantiate crosshairs
-                GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
+            //Instantiate crosshairs
+            GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
 
-                //Set up the game state
-                thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
-                gameState.Setup();
+            //Set up the game state
+            thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
+            gameState.Setup();
 
-                //Start the game
-                gameState.SetStatus(GameState.Status.Started);
-                Destroy (menuCam.gameObject);
-                Destroy (menuBG.gameObject);
-                gameStarted = true;
-                Cursor.visible = false;
-            }
-        }
-
-        if (GUI.Button(new Rect(10, 550, 150, 20), "RpcSend"))
-        {
-            if (thePlayer != null)
-            {
-                Debug.Log("Calling Rpc from servermanager");
-                thePlayer.GetComponent<RpcManager>().CallRpcSend("boo");
-            }
-        }
-        }
+            //Start the game
+            gameState.SetStatus(GameState.Status.Started);
+            gameStarted = true;
     }
 
 }

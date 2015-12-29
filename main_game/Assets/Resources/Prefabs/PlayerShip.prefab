@@ -4572,6 +4572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a802a02f197647fcbbfda5e40c83481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shaftObject: {fileID: 141694, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
 --- !u!114 &11444764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12698,6 +12699,10 @@ Prefab:
       propertyPath: m_SendInterval
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shaftObject
+      value: 
+      objectReference: {fileID: 141694, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146360}
