@@ -57,6 +57,11 @@ public class ServerManager : NetworkBehaviour {
             gameState.SetPlayerShip(playerShip);
             ServerManager.NetworkSpawn(playerShip);
 
+            //Spawn camera manager
+            GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+            ServerManager.NetworkSpawn(playerCamera);
+            playerCamera.transform.parent = playerShip.transform;
+
             //Instantiate ship logic on server only
             GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
             //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);

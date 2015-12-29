@@ -17,8 +17,8 @@ GameObject parent;
 	// Use this for initialization
 	void Start () 
 	{
-		parent = transform.parent.gameObject; // cache parent game object
-		transform.parent = null; // unlink from parent
+		parent = GameObject.Find("PlayerShip(Clone)");
+		//transform.parent = null; // unlink from parent
 	}
 	
 	// Update is called once per frame

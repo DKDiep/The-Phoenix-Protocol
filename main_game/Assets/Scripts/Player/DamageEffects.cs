@@ -9,11 +9,9 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class DamageEffects : MonoBehaviour 
+public class DamageEffects : NetworkBehaviour
 {
 	VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
-	ShipMovement myMove;
-    GameObject player;
 	float health, alpha;
 	int direction;
 
@@ -30,10 +28,6 @@ public class DamageEffects : MonoBehaviour
 	void Start () 
 	{
 		lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
-        player = GameObject.Find("PlayerShipLogic(Clone)");
-
-        if(player != null) myMove = player.GetComponent<ShipMovement>();
-
     }
 	
 	// Update is called once per frame
@@ -61,7 +55,17 @@ public class DamageEffects : MonoBehaviour
         lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
 		direction = dir;
 		alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
+        RpcUpdateClientDamage(dir,damage,hp);
 	}
+
+    [ClientRpc]
+    void RpcUpdateClientDamage(int dir, float damage, float hp)
+    {
+        health = hp;
+        lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 2f;
+        direction = dir;
+        alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
+    }
 }
 
 
