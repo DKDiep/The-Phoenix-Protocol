@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float maxDistance;
     [SerializeField] GameObject gameManager;
     private GameState state;
-    GameObject player;
+    GameObject player, temp;
 
     void Start()
     {
@@ -28,6 +28,8 @@ public class EnemySpawner : MonoBehaviour
             state = gameManager.GetComponent<GameState>();
         }
         player = null;
+        temp = new GameObject();
+        temp.name = "EnemySpawnLocation";
         StartCoroutine("Cleanup");
     }
 
@@ -39,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
             if(player == null) player = state.GetPlayerShip();
             if (numEnemies < maxEnemies)
             {
-                GameObject temp = new GameObject();
                 temp.transform.position = player.transform.position;
                 temp.transform.rotation = Random.rotation;
                 temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
@@ -53,9 +54,6 @@ public class EnemySpawner : MonoBehaviour
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetControlObject(enemyObject);
                 enemyObjectLogic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
                 ServerManager.NetworkSpawn(enemyObject);
-                
-                //parent enemyObject to find
-                enemyObjectLogic.name = "enemyObjectLogic";
 
                 enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
                 numEnemies += 1;

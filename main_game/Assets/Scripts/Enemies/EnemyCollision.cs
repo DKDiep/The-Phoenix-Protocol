@@ -28,7 +28,7 @@ public class EnemyCollision : MonoBehaviour
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {
-            col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
+            col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(1000f);
             myLogic.collision(collisionDamage);
         }
     }

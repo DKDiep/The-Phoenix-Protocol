@@ -20,7 +20,7 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] float minDistance;
     [SerializeField] float maxDistance;
 
-    GameObject player;
+    GameObject player, temp, asteroid;
 
     public static int numAsteroids = 0;
     private GameState state;
@@ -30,6 +30,8 @@ public class AsteroidSpawner : MonoBehaviour
         // Set game state reference
         if (gameManager != null) state = gameManager.GetComponent<GameState>();
         player = null;
+        temp = new GameObject();
+        temp.name = "AsteroidSpawnLocation";
         StartCoroutine("Cleanup");
     }
 
@@ -41,13 +43,11 @@ public class AsteroidSpawner : MonoBehaviour
             // Spawn a new asteroid in a random position if there are less than specified by maxAsteroids
             if (numAsteroids < maxAsteroids)
             {
-                GameObject temp = new GameObject();
                 temp.transform.position = player.transform.position;
                 temp.transform.rotation = Random.rotation;
                 temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
 
                 int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
-                GameObject asteroid;
 
                 if(rnd == 0) asteroid = asteroid1;
                 else if(rnd == 1) asteroid = asteroid2;
