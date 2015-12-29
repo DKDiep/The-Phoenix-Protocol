@@ -43,7 +43,7 @@ public class ToggleGraphics : MonoBehaviour
 		Debug.Log ("Graphics are now " + enableGraphics);
 		ssaa.enabled = false;
 		sessao.enabled = enableGraphics;
-		//motion.enabled = enableGraphics;
+		motion.enabled = enableGraphics;
 		bloom.enabled = enableGraphics;
 		color.enabled = enableGraphics;
 		vignette.enabled = enableGraphics;
