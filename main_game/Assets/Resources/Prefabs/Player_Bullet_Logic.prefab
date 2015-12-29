@@ -42,7 +42,7 @@ MonoBehaviour:
   speed: 1200
   accuracy: 0.1
   damage: 40
-  bulletColor: {r: 0.89705884, g: 0.3897566, b: 0, a: 0}
+  bulletColor: {r: 0.29411763, g: 0.53265727, b: 1, a: 0}
   impact: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   xScale: 0.5
   yScale: 0.5
@@ -56,15 +56,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: bulletColor.r
-      value: 0.89705884
+      value: 0.29411763
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.g
-      value: 0.3897566
+      value: 0.53265727
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: bulletColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
