@@ -72,10 +72,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709c2beba7a3bb04b9c3c4a4710796a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuCam: {fileID: 0}
-  menuBG: {fileID: 0}
-  play0: {fileID: 0}
-  play1: {fileID: 0}
 --- !u!114 &11443150
 MonoBehaviour:
   m_ObjectHideFlags: 1

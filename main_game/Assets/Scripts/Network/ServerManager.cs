@@ -12,6 +12,7 @@ public class ServerManager : NetworkBehaviour {
     private GameObject thePlayer;
     bool gameStarted;
     GameObject spawner;
+    GameObject playerCamera;
 
     public int clientIdCount()
     {
@@ -25,7 +26,7 @@ public class ServerManager : NetworkBehaviour {
 
     void Start()
     {
-        Cursor.visible = false;
+        Cursor.visible = true; //leave as true for development, false for production
         //networkManager = gameObject.GetComponent<NetworkManager>();
 
         if(MainMenu.startServer)
@@ -38,7 +39,8 @@ public class ServerManager : NetworkBehaviour {
             // assign clients
             gameState = gameObject.GetComponent<GameState>();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            StartGame();
+            CreateServerSetup();
+            //StartGame();
         }
         else
         {
@@ -46,7 +48,13 @@ public class ServerManager : NetworkBehaviour {
         }
     }
 
-    void StartGame()
+    void CreateServerSetup()
+    {
+        //Spawn server lobby
+        GameObject serverSetupCamera = Instantiate(Resources.Load("Prefabs/ServerSetupCamera", typeof(GameObject))) as GameObject;
+    }
+
+    public void StartGame()
     {
             //networkManager.StartServer();
             thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
@@ -61,10 +69,11 @@ public class ServerManager : NetworkBehaviour {
             GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
             ServerManager.NetworkSpawn(playerShield);
 
-            //Spawn camera manager
-            GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-            ServerManager.NetworkSpawn(playerCamera);
-            playerCamera.transform.parent = playerShip.transform;
+        //Parent camera to player ship
+        //Spawn camera manager
+        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(playerCamera);
+        playerCamera.transform.parent = playerShip.transform;
 
             //Instantiate ship logic on server only
             GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
