@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1218444128}
   - 114: {fileID: 1218444126}
-  - 114: {fileID: 1218444125}
   - 114: {fileID: 1218444127}
   m_Layer: 0
   m_Name: NetworkManager
@@ -103,22 +102,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1218444125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11487072, guid: 283a8cdc71c027648a1e2f20be436ea0,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1218444124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 227461547, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  showGUI: 0
-  offsetX: 0
-  offsetY: 0
 --- !u!114 &1218444126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +170,7 @@ MonoBehaviour:
     m_ReactorMaximumReceivedMessages: 1024
     m_ReactorMaximumSentMessages: 1024
     m_MaxPacketSize: 2000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1

@@ -17,15 +17,19 @@ GameObject parent;
 	// Use this for initialization
 	void Start () 
 	{
-		parent = transform.parent.gameObject;
+        if (transform.parent != null)
+		    parent = transform.parent.gameObject;
 		transform.parent = null; // unlink from parent
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () 
 	{
-		transform.position = parent.transform.position;
-		Quaternion rotation = parent.transform.rotation;
-		transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+        if (parent != null)
+        {
+            transform.position = parent.transform.position;
+            Quaternion rotation = parent.transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
+        }
 	}
 }
