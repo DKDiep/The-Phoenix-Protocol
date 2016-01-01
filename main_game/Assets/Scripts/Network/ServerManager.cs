@@ -55,40 +55,23 @@ public class ServerManager : NetworkBehaviour {
         GameObject serverSetupCamera = Instantiate(Resources.Load("Prefabs/ServerSetupCamera", typeof(GameObject))) as GameObject;
     }
 
-    [ClientRpc]
-    void RpcClientStart()
-    {
-        /*GameObject playerShip = GameObject.Find("PlayerShip(Clone)");
-        if (playerShip != null)
-        {
-            GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-            playerCamera.transform.parent = playerShip.transform;
-        }*/
-        Debug.Log("spawn");
-    }
-
     public void StartGame()
     {
-        //networkManager.StartServer();
-        //thePlayer = Instantiate(Resources.Load("Prefabs/PlayerController", typeof(GameObject))) as GameObject;
-        //ServerManager.NetworkSpawn(thePlayer);
+        //Get player controller
         if (ClientScene.localPlayers[0].IsValid)
             thePlayer = ClientScene.localPlayers[0].gameObject;
-        else
-            Debug.Log("No player");
+
         //Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
 
+        //Instantiate local cameras for players after spawning ship
+        thePlayer.GetComponent<PlayerController>().CallSetCamera();
+
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(playerShield);
-
-        //Spawn camera manager
-        GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-        ServerManager.NetworkSpawn(playerCamera); // Not required, expensive
-        playerCamera.transform.parent = playerShip.transform;
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;

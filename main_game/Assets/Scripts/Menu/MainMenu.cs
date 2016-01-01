@@ -16,9 +16,7 @@ public class MainMenu : NetworkBehaviour
     public void CreateGame()
     {
         startServer = true;
-        //manager.StartServer();
         manager.StartHost();
-        //NetworkServer.SetClientReady(conn);
     }
 
     public void JoinGame()

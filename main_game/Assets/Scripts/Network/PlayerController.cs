@@ -13,6 +13,7 @@ using UnityEngine.Networking;
 public class PlayerController : NetworkBehaviour {
 
     private GameObject controlledObject;
+    private string role = "camera";
 
     public GameObject GetControlledObject()
     {
@@ -22,20 +23,28 @@ public class PlayerController : NetworkBehaviour {
     public void SetControlledObject(GameObject newControlledObject)
     {   
         controlledObject = newControlledObject;
-        Transform cameraManager = newControlledObject.transform.Find("CameraManager");
     }
 
-    public void SetCamera()
+    [ClientRpc]
+    public void RpcSetCamera()
     {
-        if (isLocalPlayer)
+        /*GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        if (role == "camera")
         {
+            Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
+            if (Network.isClient)
+            {
+                playerCamera.transform.localRotation = Quaternion.Euler(0, 180, 0);
+                Debug.Log("ye");
+            }
+            playerCamera.transform.parent = shipTransform;
         }
+        Debug.Log(this.netId);*/
     }
 
-    void Awake()
+    public void CallSetCamera()
     {
-        //DontDestroyOnLoad(gameObject);
-        //Debug.Log("don'tdestroy");
+        RpcSetCamera();
     }
 
     void Start()
@@ -43,6 +52,7 @@ public class PlayerController : NetworkBehaviour {
         if (isLocalPlayer)
         {
             Debug.Log("Local Player");
+            GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
         }
         else
         {
