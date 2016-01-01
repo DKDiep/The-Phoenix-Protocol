@@ -28,7 +28,7 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSetCamera()
     {
-        /*GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
         if (role == "camera")
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
@@ -39,7 +39,7 @@ public class PlayerController : NetworkBehaviour {
             }
             playerCamera.transform.parent = shipTransform;
         }
-        Debug.Log(this.netId);*/
+        Debug.Log(this.netId);
     }
 
     public void CallSetCamera()
@@ -52,7 +52,6 @@ public class PlayerController : NetworkBehaviour {
         if (isLocalPlayer)
         {
             Debug.Log("Local Player");
-            GameObject playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
         }
         else
         {
