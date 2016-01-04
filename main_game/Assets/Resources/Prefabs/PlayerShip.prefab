@@ -868,7 +868,7 @@ Transform:
   m_GameObject: {fileID: 146360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 431742}
   - {fileID: 470096}
@@ -1147,7 +1147,7 @@ Transform:
   m_GameObject: {fileID: 106964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -5.95, z: 2.132}
-  m_LocalScale: {x: 1, y: 1, z: 0.33333334}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 440540}
   - {fileID: 439458}
@@ -1271,7 +1271,7 @@ Transform:
   m_GameObject: {fileID: 124280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.06, y: -6.27, z: 10.239}
-  m_LocalScale: {x: 1, y: 1, z: 0.333}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 417234}
   m_RootOrder: 2
@@ -7936,6 +7936,10 @@ Prefab:
       propertyPath: shaftObject
       value: 
       objectReference: {fileID: 141694, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146360}
