@@ -15,7 +15,7 @@ public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
-    private List<int> clientIds;
+    private Dictionary<int, int> clientIds;
     private GameObject thePlayer;
     bool gameStarted;
     GameObject spawner;
@@ -40,9 +40,9 @@ public class ServerManager : NetworkBehaviour {
             // Register handler for the get role message
             NetworkServer.RegisterHandler(789, OnClientPickRole);
 
-            clientIds = new List<int>();
-            // Host is client Id #0
-            clientIds.Add(0);
+            clientIds = new Dictionary<int,int>();
+            // Host is client Id #0. Using -1 as the role for the Host
+            clientIds.Add(0,-1);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -60,15 +60,8 @@ public class ServerManager : NetworkBehaviour {
 
         if (msg.role == (int) RoleEnum.ENGINEER)
         {
-            // Spawn the engineer object
-            GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject))) as GameObject;
-            gameState.AddEngineerList(engineer);
-            NetworkSpawn(engineer);
-
-            // Let the client know of the object it controls
-            ControlledObjectMessage response = new ControlledObjectMessage();
-            response.controlledObject = engineer;
-            NetworkServer.SendToClient(netMsg.conn.connectionId, 890, response);
+            // Add the engineer client to the client ID list, with the engineer role
+            clientIds.Add(netMsg.conn.connectionId, msg.role);
         }
         else if (msg.role == (int) RoleEnum.CAMERA)
         {
@@ -93,13 +86,24 @@ public class ServerManager : NetworkBehaviour {
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
 
-        // Set the location of the engineers
+        // Get the engineer start position
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
-        List<GameObject> engineers = gameState.GetEngineerList();
 
-        foreach (GameObject engineer in engineers)
+        // Spawn the engineers at the engineer start position
+        foreach (KeyValuePair<int,int> client in clientIds)
         {
-            engineer.transform.position = engineerStartPos.transform.position;
+            if (client.Value == (int) RoleEnum.ENGINEER)
+            {
+                GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
+                    engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
+                gameState.AddEngineerList(engineer);
+                NetworkSpawn(engineer);
+
+                // Let the client know of the object it controls
+                ControlledObjectMessage response = new ControlledObjectMessage();
+                response.controlledObject = engineer;
+                NetworkServer.SendToClient(client.Key, 890, response);
+            }
         }
 
         //Instantiate local cameras for players after spawning ship

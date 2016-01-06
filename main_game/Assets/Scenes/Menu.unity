@@ -1034,6 +1034,7 @@ GameObject:
   - 4: {fileID: 1218444128}
   - 114: {fileID: 1218444126}
   - 114: {fileID: 1218444127}
+  - 114: {fileID: 1218444125}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1041,6 +1042,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1218444125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218444124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b466b23056989044ba1bf1381bdc46e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1218444126
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,6 +60,10 @@ public class PlayerController : NetworkBehaviour {
             multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
             multiCamera.SetActive(false);
         }
+        else if (role == "engineer")
+        {
+            Debug.Log("I am engineer");
+        }
     }
 
     public void CallSetCamera()

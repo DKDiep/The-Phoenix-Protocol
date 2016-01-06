@@ -8,11 +8,12 @@ public class MainMenu : NetworkBehaviour
 
     public static bool startServer;
     NetworkManager manager;
-    NetworkClient client = null;
+    MessageHandler messageHandler;
 
     void Start()
     {
         manager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        messageHandler = manager.transform.GetComponent<MessageHandler>();
     }
 
     public void CreateGame()
@@ -30,31 +31,18 @@ public class MainMenu : NetworkBehaviour
     public void JoinAsEngineer()
     {
         startServer = false;
-        client = manager.StartClient();
+        NetworkClient client = manager.StartClient();
+
+        //Set the client for the message handler
+        messageHandler.SetClient(client);
 
         // Register a handler for Owner messages. This message
         // tells the client which object it controls
-        client.RegisterHandler(890, OnServerOwner);
+        client.RegisterHandler(890, messageHandler.OnServerOwner);
 
         // Register handler for connection message. This is received when the
         // server and client establish a connection
-        client.RegisterHandler(MsgType.Connect, OnClientConnect);
-    }
-
-    private void OnClientConnect(NetworkMessage netMsg)
-    {
-        // Tell the server we want to be an engineer
-        PickRoleMessage message = new PickRoleMessage();
-        message.role = (int)RoleEnum.ENGINEER;
-        client.Send(789, message);
-    }
-
-    private void OnServerOwner(NetworkMessage netMsg)
-    {
-        if (ClientScene.localPlayers[0].IsValid)
-            ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>().SetRole("engineer");
-
-        GameObject obj = netMsg.reader.ReadGameObject();
+        client.RegisterHandler(MsgType.Connect, messageHandler.OnClientConnect);
     }
 
     public void ShowOptions()
