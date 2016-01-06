@@ -9,9 +9,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 public class ServerManager : NetworkBehaviour {
-
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
@@ -37,6 +37,9 @@ public class ServerManager : NetworkBehaviour {
 
         if(MainMenu.startServer)
         {
+            // Register handler for the get role message
+            NetworkServer.RegisterHandler(789, OnClientPickRole);
+
             clientIds = new List<int>();
             // Host is client Id #0
             clientIds.Add(0);
@@ -44,8 +47,32 @@ public class ServerManager : NetworkBehaviour {
             gameStarted = false;
             // assign clients
             gameState = gameObject.GetComponent<GameState>();
+            // Set up the game state
+            gameState.Setup();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
             CreateServerSetup();
+        }
+    }
+
+    private void OnClientPickRole(NetworkMessage netMsg)
+    {
+        PickRoleMessage msg = netMsg.ReadMessage<PickRoleMessage>();
+
+        if (msg.role == (int) RoleEnum.ENGINEER)
+        {
+            // Spawn the engineer object
+            GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject))) as GameObject;
+            gameState.AddEngineerList(engineer);
+            NetworkSpawn(engineer);
+
+            // Let the client know of the object it controls
+            ControlledObjectMessage response = new ControlledObjectMessage();
+            response.controlledObject = engineer;
+            NetworkServer.SendToClient(netMsg.conn.connectionId, 890, response);
+        }
+        else if (msg.role == (int) RoleEnum.CAMERA)
+        {
+            // Do camera things
         }
     }
 
@@ -65,6 +92,15 @@ public class ServerManager : NetworkBehaviour {
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
+
+        // Set the location of the engineers
+        NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
+        List<GameObject> engineers = gameState.GetEngineerList();
+
+        foreach (GameObject engineer in engineers)
+        {
+            engineer.transform.position = engineerStartPos.transform.position;
+        }
 
         //Instantiate local cameras for players after spawning ship
         thePlayer.GetComponent<PlayerController>().CallSetCamera();
@@ -87,7 +123,6 @@ public class ServerManager : NetworkBehaviour {
 
         //Set up the game state
         thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
-        gameState.Setup();
 
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();

@@ -67,6 +67,11 @@ public class PlayerController : NetworkBehaviour {
         RpcSetCamera();
     }
 
+    public void SetRole(string newRole)
+    {
+        role = newRole;
+    }
+
     void Start()
     {
         if (isLocalPlayer)
