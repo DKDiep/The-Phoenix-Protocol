@@ -30,8 +30,13 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSetCamera()
     {
+        PlayerController controller = null;
+
+        if (ClientScene.localPlayers[0].IsValid)
+            controller = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-        if (role == "camera")
+        if (controller.role == "camera")
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             if (Network.isClient)
@@ -60,7 +65,7 @@ public class PlayerController : NetworkBehaviour {
             multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
             multiCamera.SetActive(false);
         }
-        else if (role == "engineer")
+        else if (controller.role == "engineer")
         {
             Debug.Log("I am engineer");
         }
