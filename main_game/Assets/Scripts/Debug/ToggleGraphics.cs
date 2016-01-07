@@ -32,6 +32,7 @@ public class ToggleGraphics : MonoBehaviour
 		vignette = GetComponent<Aubergine.PP_Vignette>();
 		smaa = GetComponent<Smaa.SMAA>();
         shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
+        SSAA.internal_SSAA.filter = SSAA.SSAAFilter.BilinearDefault;
 		
 		UpdateGraphics ();
 		
@@ -41,7 +42,7 @@ public class ToggleGraphics : MonoBehaviour
 	{
 		enableGraphics = !enableGraphics;
 		Debug.Log ("Graphics are now " + enableGraphics);
-		ssaa.enabled = false;
+		ssaa.enabled = enableGraphics;
 		sessao.enabled = enableGraphics;
 		motion.enabled = enableGraphics;
 		bloom.enabled = enableGraphics;

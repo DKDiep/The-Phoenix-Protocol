@@ -43,6 +43,7 @@ public class PlayerController : NetworkBehaviour {
             // **** Temporary duplicate camera to compute multi-screen rotation ****
             multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
             multiCamera.transform.parent = shipTransform;
+            multiCamera.gameObject.name = "MultiCam";
             // Get camera frustum planes
             Camera cam = multiCamera.GetComponent<Camera>();
             // Calculate frustum height at far clipping plane using field of view
