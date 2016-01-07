@@ -72,9 +72,6 @@ public class EngineerController : NetworkBehaviour {
     // Update is called once per frame
     public void EngUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
         RotateView();
         jump = Input.GetButton("Jump");
 
@@ -103,9 +100,6 @@ public class EngineerController : NetworkBehaviour {
 
     public void EngFixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
         float speed;
         GetInput(out speed);
 
