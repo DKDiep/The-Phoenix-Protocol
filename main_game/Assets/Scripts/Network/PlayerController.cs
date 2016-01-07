@@ -16,6 +16,8 @@ public class PlayerController : NetworkBehaviour {
     private string role = "camera";
     private GameObject playerCamera;
     private GameObject multiCamera;
+    private EngineerController engController;
+    private PlayerController localController = null;
 
     public GameObject GetControlledObject()
     {
@@ -30,13 +32,11 @@ public class PlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSetCamera()
     {
-        PlayerController controller = null;
-
         if (ClientScene.localPlayers[0].IsValid)
-            controller = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-        if (controller.role == "camera")
+        if (localController.role == "camera")
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             if (Network.isClient)
@@ -65,10 +65,38 @@ public class PlayerController : NetworkBehaviour {
             multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
             multiCamera.SetActive(false);
         }
-        else if (controller.role == "engineer")
+        else if (localController.role == "engineer")
         {
-            Debug.Log("I am engineer");
+            // Set the camera's parent as the engineer instance
+            playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
+            playerCamera.transform.parent = localController.controlledObject.transform;
+
+            // Set the controlled object for the server side PlayerController
+            controlledObject = localController.controlledObject;
+            engController = controlledObject.GetComponent<EngineerController>();
+
+            // Set values for the client side PlayerController
+            localController.engController = localController.controlledObject.GetComponent<EngineerController>();
+            localController.engController.Initialize(playerCamera);
         }
+    }
+
+    private void Update()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (role == "engineer")
+            engController.EngUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (role == "engineer")
+            engController.EngFixedUpdate();
     }
 
     public void CallSetCamera()

@@ -20,8 +20,6 @@ public class MouseLook : MonoBehaviour
 
     public void Init(Transform character, Transform camera)
     {
-        Debug.Log(character);
-        Debug.Log(camera);
         m_CharacterTargetRot = character.localRotation;
         m_CameraTargetRot = camera.localRotation;
     }

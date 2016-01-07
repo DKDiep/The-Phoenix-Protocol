@@ -62,33 +62,15 @@ public class EngineerController : NetworkBehaviour {
     }
 
     //Initialize player instance and local game here. Kind of a replacement for Start()
-    public override void OnStartLocalPlayer()
+    public void Initialize(GameObject cam)
     {
-        base.OnStartLocalPlayer();
-
-        //Disable all cameras first
-        foreach (Camera cam in Camera.allCameras)
-        {
-            cam.enabled = false;
-        }
-
-        //Disable all AudioListeners
-        foreach (AudioListener l in Resources.FindObjectsOfTypeAll<AudioListener>())
-        {
-            l.enabled = false;
-        }
-
-        GameObject cameraObj = GameObject.Instantiate(Resources.Load("Prefabs/EngineerCamera", typeof(GameObject))) as GameObject; // add camera
-        cameraObj.transform.localPosition = new Vector3(0, 0.8f);
-        cameraObj.transform.parent = gameObject.transform;
-        camera = cameraObj.GetComponent<Camera>();
+        camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
-
         mouseLook.Init(transform, camera.transform);
     }
 
     // Update is called once per frame
-    private void Update()
+    public void EngUpdate()
     {
         if (!isLocalPlayer)
             return;
@@ -119,7 +101,7 @@ public class EngineerController : NetworkBehaviour {
         }
     }
 
-    private void FixedUpdate()
+    public void EngFixedUpdate()
     {
         if (!isLocalPlayer)
             return;

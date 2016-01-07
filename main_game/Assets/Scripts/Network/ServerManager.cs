@@ -94,9 +94,12 @@ public class ServerManager : NetworkBehaviour {
         {
             if (client.Value == (int) RoleEnum.ENGINEER)
             {
+                // Create the engineer object
                 GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
                     engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
                 gameState.AddEngineerList(engineer);
+
+                // Spawn the engineer
                 NetworkSpawn(engineer);
 
                 // Let the client know of the object it controls
