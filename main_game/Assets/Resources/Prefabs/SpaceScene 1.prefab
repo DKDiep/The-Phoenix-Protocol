@@ -134,25 +134,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &148666
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 406494}
-  - 20: {fileID: 2093824}
-  - 124: {fileID: 12470134}
-  - 45: {fileID: 4584876}
-  - 114: {fileID: 11499096}
-  m_Layer: 20
-  m_Name: SpaceCamera
-  m_TagString: SpaceScene_Camera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &154838
 GameObject:
   m_ObjectHideFlags: 1
@@ -334,19 +315,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 5
---- !u!4 &406494
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148666}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 446230}
-  m_RootOrder: 0
+  m_RootOrder: 4
 --- !u!4 &412440
 Transform:
   m_ObjectHideFlags: 1
@@ -407,7 +376,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &443820
 Transform:
   m_ObjectHideFlags: 1
@@ -419,7 +388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!4 &446230
 Transform:
   m_ObjectHideFlags: 1
@@ -430,7 +399,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 406494}
   - {fileID: 475072}
   - {fileID: 441318}
   - {fileID: 478178}
@@ -453,7 +421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!4 &449882
 Transform:
   m_ObjectHideFlags: 1
@@ -489,7 +457,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!4 &474926
 Transform:
   m_ObjectHideFlags: 1
@@ -513,7 +481,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &477696
 Transform:
   m_ObjectHideFlags: 1
@@ -542,7 +510,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!4 &484244
 Transform:
   m_ObjectHideFlags: 1
@@ -555,7 +523,7 @@ Transform:
   m_Children:
   - {fileID: 477696}
   m_Father: {fileID: 446230}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!4 &498266
 Transform:
   m_ObjectHideFlags: 1
@@ -568,41 +536,7 @@ Transform:
   m_Children:
   - {fileID: 424860}
   m_Father: {fileID: 446230}
-  m_RootOrder: 7
---- !u!20 &2093824
-Camera:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148666}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.01
-  far clip plane: 2000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 100
-  m_Depth: -2
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 1048576
-  m_RenderingPath: 1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
+  m_RootOrder: 6
 --- !u!23 &2303262
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -834,14 +768,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163114}
   m_Mesh: {fileID: 4300000, guid: 810181cad882d5c41b65f7f7a815125e, type: 3}
---- !u!45 &4584876
-Skybox:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148666}
-  m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 1b5d6dd22ac4aca47817c7ef59058665, type: 2}
 --- !u!108 &10880680
 Light:
   m_ObjectHideFlags: 1
@@ -1103,27 +1029,6 @@ MonoBehaviour:
     i15: 218
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11499096
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28cf8eae3e06f8645acc10652e8ff25b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentCamera: {fileID: 0}
-  inheritFOV: 1
-  relativeSpeed: 0
---- !u!124 &12470134
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148666}
-  m_Enabled: 1
 --- !u!198 &19815510
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -5710,6 +5615,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
