@@ -39,12 +39,12 @@ GameObject:
   - 114: {fileID: 11402096}
   - 114: {fileID: 11444728}
   - 114: {fileID: 11426972}
+  - 114: {fileID: 11457318}
   - 114: {fileID: 11431622}
   - 124: {fileID: 12422896}
-  - 114: {fileID: 11457318}
+  - 114: {fileID: 11472320}
   - 81: {fileID: 8164376}
   - 114: {fileID: 11465172}
-  - 114: {fileID: 11472320}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -148,7 +148,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106102}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!92 &9244524
 Behaviour:
   m_ObjectHideFlags: 1
