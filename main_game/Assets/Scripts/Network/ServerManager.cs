@@ -85,6 +85,10 @@ public class ServerManager : NetworkBehaviour {
         //Instantiate crosshairs
         GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
 
+        //GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
+       // minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;
+        //minimap.GetComponentInChildren<bl_MMCompass>().Target = playerShip.transform;
+
         //Set up the game state
         thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
         gameState.Setup();
