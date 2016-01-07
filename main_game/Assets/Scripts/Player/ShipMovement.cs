@@ -37,7 +37,6 @@ public class ShipMovement : MonoBehaviour
     void Start()
     {
     	controlObject = transform.parent.gameObject;
-    	//myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
     	shield = maxShield;
     	lastShieldCheck = shield;
 		StartCoroutine ("RechargeShields");
@@ -208,7 +207,9 @@ public class ShipMovement : MonoBehaviour
 			left = false;
 		}
 
-		/*if(left && !(up || down))
+        if(myDamage == null) myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
+
+		if(left && !(up || down))
 		{
 			myDamage.Damage(0,damage, health);
 		}
@@ -239,7 +240,7 @@ public class ShipMovement : MonoBehaviour
 		else if(down && !(up || down))
 		{
             myDamage.Damage(3,damage, health);
-		}*/
+		}
 
 		if (shield > damage)
 		{
@@ -261,6 +262,6 @@ public class ShipMovement : MonoBehaviour
 		{
 			//Destroy(transform.parent.gameObject);
 		}
-		Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
+		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
 	}
 }

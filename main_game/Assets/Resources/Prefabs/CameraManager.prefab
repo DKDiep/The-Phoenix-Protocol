@@ -43,6 +43,8 @@ GameObject:
   - 124: {fileID: 12422896}
   - 114: {fileID: 11457318}
   - 81: {fileID: 8164376}
+  - 114: {fileID: 11465172}
+  - 114: {fileID: 11472320}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -293,12 +295,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106102}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98c56a384eaf4454e822f3a4ee6af528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damping: 20
+  damping: 100
 --- !u!114 &11444728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -421,6 +423,57 @@ MonoBehaviour:
   driftSpeedMultiplier: 1
   fadeParticles: 1
   distanceFade: 0.5
+--- !u!114 &11465172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 33
+    i1: 186
+    i2: 148
+    i3: 223
+    i4: 127
+    i5: 3
+    i6: 132
+    i7: 163
+    i8: 74
+    i9: 51
+    i10: 183
+    i11: 85
+    i12: 114
+    i13: 48
+    i14: 135
+    i15: 1
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11472320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af32ec29f2fdc4606b0c4a3b03f86bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  left: {fileID: 2800000, guid: d63c656995a4e4ebc8612f858f5b5e3e, type: 3}
+  right: {fileID: 2800000, guid: 60edac5e0a26243709d1ff85b32c2496, type: 3}
+  up: {fileID: 2800000, guid: 846201617fa21478e81a2761c182234d, type: 3}
+  down: {fileID: 2800000, guid: c9e11885fbd184860810d2b828af8eb9, type: 3}
+  topLeft: {fileID: 2800000, guid: c536c1039a66441c8a789ce2ac452b90, type: 3}
+  topRight: {fileID: 2800000, guid: 7710d40f177ae4f888b52690ce9f7165, type: 3}
+  bottomLeft: {fileID: 2800000, guid: 43b952d22f8d04a1d9b428fa21c3d9c1, type: 3}
+  bottomRight: {fileID: 2800000, guid: a6cfc6be73dc64bd190d7e0bbf3b3662, type: 3}
 --- !u!114 &11476154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3536,7 +3589,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
@@ -3545,6 +3598,42 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: far clip plane
       value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: left
+      value: 
+      objectReference: {fileID: 2800000, guid: d63c656995a4e4ebc8612f858f5b5e3e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: right
+      value: 
+      objectReference: {fileID: 2800000, guid: 60edac5e0a26243709d1ff85b32c2496, type: 3}
+    - target: {fileID: 0}
+      propertyPath: up
+      value: 
+      objectReference: {fileID: 2800000, guid: 846201617fa21478e81a2761c182234d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: down
+      value: 
+      objectReference: {fileID: 2800000, guid: c9e11885fbd184860810d2b828af8eb9, type: 3}
+    - target: {fileID: 0}
+      propertyPath: topLeft
+      value: 
+      objectReference: {fileID: 2800000, guid: c536c1039a66441c8a789ce2ac452b90, type: 3}
+    - target: {fileID: 0}
+      propertyPath: topRight
+      value: 
+      objectReference: {fileID: 2800000, guid: 7710d40f177ae4f888b52690ce9f7165, type: 3}
+    - target: {fileID: 0}
+      propertyPath: bottomLeft
+      value: 
+      objectReference: {fileID: 2800000, guid: 43b952d22f8d04a1d9b428fa21c3d9c1, type: 3}
+    - target: {fileID: 0}
+      propertyPath: bottomRight
+      value: 
+      objectReference: {fileID: 2800000, guid: a6cfc6be73dc64bd190d7e0bbf3b3662, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damping
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

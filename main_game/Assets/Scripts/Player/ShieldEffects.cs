@@ -51,7 +51,7 @@ public class ShieldEffects : NetworkBehaviour
         transform.gameObject.active = true;
         */
         transform.parent = GameObject.Find("PlayerShip(Clone)").transform;
-        transform.localPosition = new Vector3(0, 0.1300001f, -0.01466703f);
+        transform.localPosition = new Vector3(0, 0.04f, -4.3f);
         this.gameObject.GetComponent<Renderer>().material = field;
         myMat = this.gameObject.GetComponent<Renderer>();
         myMat.material.SetColor("_InnerTint", new Color(0.0f,0.0f,0.0f,0.0f));
