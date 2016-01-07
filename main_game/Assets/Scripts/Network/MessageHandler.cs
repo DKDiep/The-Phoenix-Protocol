@@ -21,6 +21,20 @@ public class MessageHandler : MonoBehaviour {
 
     public void OnServerOwner(NetworkMessage netMsg)
     {
-        Debug.Log(ClientScene.localPlayers.Count);
+        PlayerController controller = null;
+
+        if (ClientScene.localPlayers[0].IsValid)
+            controller = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+        else
+            return;
+
+        ControlledObjectMessage msg = netMsg.ReadMessage<ControlledObjectMessage>();
+        GameObject obj = msg.controlledObject;
+
+        if (obj != null)
+        {
+            controller.SetRole("engineer");
+            controller.SetControlledObject(obj);
+        }
     }
 }

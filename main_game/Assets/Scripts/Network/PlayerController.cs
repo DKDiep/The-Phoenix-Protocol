@@ -73,7 +73,7 @@ public class PlayerController : NetworkBehaviour {
 
     public void SetRole(string newRole)
     {
-        role = newRole;
+        this.role = newRole;
     }
 
     void Start()
