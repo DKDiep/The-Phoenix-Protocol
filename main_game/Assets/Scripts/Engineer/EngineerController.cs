@@ -151,7 +151,7 @@ public class EngineerController : NetworkBehaviour {
     {
         mouseLook.LookRotation(transform, camera.transform);
         // Send the rotaion to the server
-        CmdSetRotation(transform.rotation);
+        //CmdSetRotation(transform.rotation);
     }
 
 

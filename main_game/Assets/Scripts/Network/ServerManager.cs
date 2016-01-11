@@ -15,14 +15,15 @@ public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
-    private Dictionary<int, int> clientIds;
+    private Dictionary<int, int> clientIdsToRole;
+    private Dictionary<int, NetworkConnection> clientIdsToConn;
     private GameObject thePlayer;
     bool gameStarted;
     GameObject spawner;
 
     public int clientIdCount()
     {
-        return clientIds.Count;
+        return clientIdsToRole.Count;
     }
     // Used to spawn network objects
     public static void NetworkSpawn(GameObject spawnObject)
@@ -40,9 +41,10 @@ public class ServerManager : NetworkBehaviour {
             // Register handler for the get role message
             NetworkServer.RegisterHandler(789, OnClientPickRole);
 
-            clientIds = new Dictionary<int,int>();
+            clientIdsToRole = new Dictionary<int,int>();
+            clientIdsToConn = new Dictionary<int, NetworkConnection>();
             // Host is client Id #0. Using -1 as the role for the Host
-            clientIds.Add(0,-1);
+            clientIdsToRole.Add(0,-1);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -61,7 +63,8 @@ public class ServerManager : NetworkBehaviour {
         if (msg.role == (int) RoleEnum.ENGINEER)
         {
             // Add the engineer client to the client ID list, with the engineer role
-            clientIds.Add(netMsg.conn.connectionId, msg.role);
+            clientIdsToRole.Add(netMsg.conn.connectionId, msg.role);
+            clientIdsToConn.Add(netMsg.conn.connectionId, netMsg.conn);
         }
         else if (msg.role == (int) RoleEnum.CAMERA)
         {
@@ -90,7 +93,7 @@ public class ServerManager : NetworkBehaviour {
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
         // Spawn the engineers at the engineer start position
-        foreach (KeyValuePair<int,int> client in clientIds)
+        foreach (KeyValuePair<int,int> client in clientIdsToRole)
         {
             if (client.Value == (int) RoleEnum.ENGINEER)
             {
@@ -99,8 +102,8 @@ public class ServerManager : NetworkBehaviour {
                     engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
                 gameState.AddEngineerList(engineer);
 
-                // Spawn the engineer
-                NetworkSpawn(engineer);
+                // Spawn the engineer with local authority
+                NetworkServer.SpawnWithClientAuthority(engineer, clientIdsToConn[client.Key]);
 
                 // Let the client know of the object it controls
                 ControlledObjectMessage response = new ControlledObjectMessage();
