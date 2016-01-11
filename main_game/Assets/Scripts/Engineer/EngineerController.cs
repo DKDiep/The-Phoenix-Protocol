@@ -30,19 +30,22 @@ public class EngineerController : NetworkBehaviour {
         {
             gameObject.transform.rotation = Quaternion.identity;
         }
+
+        walkSpeed = 2;
+        runSpeed = walkSpeed * 2;
+        jumpSpeed = walkSpeed;
+        upMultiplier = jumpSpeed / 2;
     }
 
     [Command]
     void CmdSetRotation(Quaternion rotation)
     {
-        Debug.Log("Setting rotation");
         gameObject.transform.rotation = rotation;
     }
 
     [Command]
     void CmdMove(Vector2 movement, bool jumping, bool sprinting)
     {
-        Debug.Log("Moving");
         // always move along the camera forward as it is the direction that it being aimed at
         Vector3 desiredMove = transform.forward * movement.y + transform.right * movement.x +
             transform.up * (movement.y * gameObject.transform.rotation.x * upMultiplier);
@@ -104,9 +107,26 @@ public class EngineerController : NetworkBehaviour {
         GetInput(out speed);
 
         // Move the player if they have moved
-        if (input.x != 0 && input.y != 0)
+        if (input.x != 0 || input.y != 0)
         {
-            CmdMove(input, jump, !isWalking);
+            //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
+
+            //TEMPORARILY MOVED HERE
+            // always move along the camera forward as it is the direction that it being aimed at
+            Vector3 desiredMove = transform.forward * input.y + transform.right * input.x +
+                transform.up * (input.y * gameObject.transform.rotation.x * upMultiplier);
+
+            Vector3 actualMove;
+            actualMove.x = desiredMove.x * speed;
+            actualMove.z = desiredMove.z * speed;
+            actualMove.y = desiredMove.y * speed;
+
+            if (jump)
+            {
+                actualMove.y += jumpSpeed;
+            }
+
+            gameObject.transform.Translate(actualMove);
         }
 
         ProgressStepCycle(speed);
@@ -151,7 +171,7 @@ public class EngineerController : NetworkBehaviour {
     {
         mouseLook.LookRotation(transform, camera.transform);
         // Send the rotaion to the server
-        //CmdSetRotation(transform.rotation);
+        //CmdSetRotation(transform.rotation);  UNCOMMENT TO SEE NETWORK ISSUES
     }
 
 
