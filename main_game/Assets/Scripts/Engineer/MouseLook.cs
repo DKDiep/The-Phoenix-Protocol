@@ -20,8 +20,6 @@ public class MouseLook : MonoBehaviour
 
     public void Init(Transform character, Transform camera)
     {
-        Debug.Log(character);
-        Debug.Log(camera);
         m_CharacterTargetRot = character.localRotation;
         m_CameraTargetRot = camera.localRotation;
     }
@@ -32,8 +30,8 @@ public class MouseLook : MonoBehaviour
         float yRot = Input.GetAxis("Mouse X") * XSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * YSensitivity;
 
-        m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
-        m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
+        m_CharacterTargetRot *= Quaternion.Euler (-xRot, yRot, 0f);
+        //m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
 
         if(clampVerticalRotation)
             m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
@@ -42,13 +40,15 @@ public class MouseLook : MonoBehaviour
         {
             character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
                 smoothTime * Time.deltaTime);
-            camera.localRotation = Quaternion.Slerp (camera.localRotation, m_CameraTargetRot,
-                smoothTime * Time.deltaTime);
+            //camera.localRotation = Quaternion.Slerp (camera.localRotation, m_CameraTargetRot,
+                //smoothTime * Time.deltaTime);
+            camera.localRotation = character.localRotation;
         }
         else
         {
             character.localRotation = m_CharacterTargetRot;
-            camera.localRotation = m_CameraTargetRot;
+            //camera.localRotation = m_CameraTargetRot;
+            camera.localRotation = character.localRotation;
         }
     }
 
