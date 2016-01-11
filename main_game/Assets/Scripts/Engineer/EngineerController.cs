@@ -107,7 +107,7 @@ public class EngineerController : NetworkBehaviour {
         GetInput(out speed);
 
         // Move the player if they have moved
-        if (input.x != 0 || input.y != 0)
+        if (input.x != 0 || input.y != 0 || jump == true)
         {
             //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
 
