@@ -113,8 +113,7 @@ public class EngineerController : NetworkBehaviour {
 
             //TEMPORARILY MOVED HERE
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = transform.forward * input.y + transform.right * input.x +
-                transform.up * (input.y * gameObject.transform.rotation.x * upMultiplier);
+            Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
 
             Vector3 actualMove;
             actualMove.x = desiredMove.x * speed;
@@ -126,7 +125,7 @@ public class EngineerController : NetworkBehaviour {
                 actualMove.y += jumpSpeed;
             }
 
-            gameObject.transform.Translate(actualMove);
+            transform.position += actualMove;
         }
 
         ProgressStepCycle(speed);
