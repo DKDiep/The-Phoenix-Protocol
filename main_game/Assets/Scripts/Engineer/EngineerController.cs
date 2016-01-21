@@ -30,19 +30,22 @@ public class EngineerController : NetworkBehaviour {
         {
             gameObject.transform.rotation = Quaternion.identity;
         }
+
+        walkSpeed = 2;
+        runSpeed = walkSpeed * 2;
+        jumpSpeed = walkSpeed;
+        upMultiplier = jumpSpeed / 2;
     }
 
     [Command]
     void CmdSetRotation(Quaternion rotation)
     {
-        Debug.Log("Setting rotation");
         gameObject.transform.rotation = rotation;
     }
 
     [Command]
     void CmdMove(Vector2 movement, bool jumping, bool sprinting)
     {
-        Debug.Log("Moving");
         // always move along the camera forward as it is the direction that it being aimed at
         Vector3 desiredMove = transform.forward * movement.y + transform.right * movement.x +
             transform.up * (movement.y * gameObject.transform.rotation.x * upMultiplier);
@@ -62,37 +65,16 @@ public class EngineerController : NetworkBehaviour {
     }
 
     //Initialize player instance and local game here. Kind of a replacement for Start()
-    public override void OnStartLocalPlayer()
+    public void Initialize(GameObject cam)
     {
-        base.OnStartLocalPlayer();
-
-        //Disable all cameras first
-        foreach (Camera cam in Camera.allCameras)
-        {
-            cam.enabled = false;
-        }
-
-        //Disable all AudioListeners
-        foreach (AudioListener l in Resources.FindObjectsOfTypeAll<AudioListener>())
-        {
-            l.enabled = false;
-        }
-
-        GameObject cameraObj = GameObject.Instantiate(Resources.Load("Prefabs/EngineerCamera", typeof(GameObject))) as GameObject; // add camera
-        cameraObj.transform.localPosition = new Vector3(0, 0.8f);
-        cameraObj.transform.parent = gameObject.transform;
-        camera = cameraObj.GetComponent<Camera>();
+        camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
-
         mouseLook.Init(transform, camera.transform);
     }
 
     // Update is called once per frame
-    private void Update()
+    public void EngUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
         RotateView();
         jump = Input.GetButton("Jump");
 
@@ -119,18 +101,31 @@ public class EngineerController : NetworkBehaviour {
         }
     }
 
-    private void FixedUpdate()
+    public void EngFixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
         float speed;
         GetInput(out speed);
 
         // Move the player if they have moved
-        if (input.x != 0 && input.y != 0)
+        if (input.x != 0 || input.y != 0 || jump == true)
         {
-            CmdMove(input, jump, !isWalking);
+            //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
+
+            //TEMPORARILY MOVED HERE
+            // always move along the camera forward as it is the direction that it being aimed at
+            Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
+
+            Vector3 actualMove;
+            actualMove.x = desiredMove.x * speed;
+            actualMove.z = desiredMove.z * speed;
+            actualMove.y = desiredMove.y * speed;
+
+            if (jump)
+            {
+                actualMove.y += jumpSpeed;
+            }
+
+            transform.position += actualMove;
         }
 
         ProgressStepCycle(speed);
@@ -175,7 +170,7 @@ public class EngineerController : NetworkBehaviour {
     {
         mouseLook.LookRotation(transform, camera.transform);
         // Send the rotaion to the server
-        CmdSetRotation(transform.rotation);
+        //CmdSetRotation(transform.rotation);  UNCOMMENT TO SEE NETWORK ISSUES
     }
 
 
