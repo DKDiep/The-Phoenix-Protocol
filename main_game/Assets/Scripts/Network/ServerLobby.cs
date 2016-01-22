@@ -7,11 +7,14 @@ using System.Collections;
 public class ServerLobby : MonoBehaviour {
     ServerManager serverManager;
     [SerializeField]
-    public Button button;
+    public GameObject canvasObject;
+    private Button button;
+
     // Use this for initialization
     void Start ()
     {
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
+        button = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
         button.onClick.AddListener(() => onClickStartButton() );
     }
 	
