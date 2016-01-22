@@ -59,9 +59,6 @@ public class PlayerController : NetworkBehaviour {
             Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
             Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
             Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-            // align
-            //Vector3 v = ofr - ofl;
-            //multiCamera.transform.localRotation = Quaternion.FromToRotation(Vector3.forward, v);
             Quaternion q = Quaternion.FromToRotation(ofr, ofl);
             multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
             multiCamera.SetActive(false);
@@ -112,13 +109,7 @@ public class PlayerController : NetworkBehaviour {
 
     void Start()
     {
-        if (isLocalPlayer)
-        {
-            Debug.Log("Local Player");
-        }
-        else
-        {
-            Debug.Log("Non-Local Player");
-        }
+        // Notify manager of joining
+        Debug.Log("Player Controller created");
     }
 }
