@@ -8,20 +8,20 @@ public class ServerLobby : MonoBehaviour {
     ServerManager serverManager;
     [SerializeField]
     public GameObject canvasObject;
-    private Button button;
+    private Button startButton;
 
     // Use this for initialization
     void Start ()
     {
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
-        button = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
-        button.onClick.AddListener(() => onClickStartButton() );
+        startButton = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
+        startButton.onClick.AddListener(() => onClickStartButton() );
     }
 	
 	public void onClickStartButton ()
     {
         serverManager.StartGame();
-        button.onClick.RemoveAllListeners();
+        startButton.onClick.RemoveAllListeners();
         Destroy(this.gameObject);
     }
 }
