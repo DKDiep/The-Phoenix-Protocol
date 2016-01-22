@@ -108,8 +108,23 @@ public class PlayerController : NetworkBehaviour {
     }
 
     void Start()
-    {
-        // Notify manager of joining
+    { 
+        // Get lobby script
         Debug.Log("Player Controller created");
+        GameObject lobbyObject = GameObject.Find("ServerLobby(Clone)");
+        ServerLobby serverLobby;
+        if (lobbyObject != null)
+        {
+            serverLobby = GameObject.Find("ServerLobby(Clone)").GetComponent<ServerLobby>();
+            if (serverLobby != null)
+            {
+                // Notify manager and lobby of joining
+                serverLobby.playerJoin(netId.Value);
+            }
+        }
+        else
+        {
+            Debug.Log("Server lobby not found, cannot set up.");
+        }
     }
 }

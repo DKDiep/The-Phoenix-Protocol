@@ -75,7 +75,7 @@ public class ServerManager : NetworkBehaviour {
     void CreateServerSetup()
     {
         //Spawn server lobby
-        GameObject serverSetupCamera = Instantiate(Resources.Load("Prefabs/ServerSetupCamera", typeof(GameObject))) as GameObject;
+        GameObject serverSetupCamera = Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject))) as GameObject;
     }
 
     public void StartGame()

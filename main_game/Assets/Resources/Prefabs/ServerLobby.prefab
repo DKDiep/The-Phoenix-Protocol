@@ -31,7 +31,7 @@ GameObject:
   - 81: {fileID: 8183322}
   - 114: {fileID: 11456740}
   m_Layer: 0
-  m_Name: ServerSetupCamera
+  m_Name: ServerLobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,8 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad880d5ffb6b0c54095cdb9b80e8c149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 11431744}
-  canvas: {fileID: 22377390}
+  canvasObject: {fileID: 188442}
 --- !u!114 &11461270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -524,6 +523,10 @@ Prefab:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 22377390}
+    - target: {fileID: 0}
+      propertyPath: canvasObject
+      value: 
+      objectReference: {fileID: 188442}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 119260}
