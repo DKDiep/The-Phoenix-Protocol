@@ -7,7 +7,10 @@ using System.Collections;
 public class ServerLobby : MonoBehaviour {
     ServerManager serverManager;
     [SerializeField]
-    public GameObject canvasObject;
+    private GameObject canvasObject;
+    [SerializeField]
+    private GameObject engineerPanel;
+    [SerializeField]
     private Button startButton;
 
     private int count = 0;
@@ -16,7 +19,7 @@ public class ServerLobby : MonoBehaviour {
     void Start ()
     {
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
-        startButton = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
+        //startButton = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
         startButton.onClick.AddListener(() => onClickStartButton() );
     }
 	
@@ -32,9 +35,9 @@ public class ServerLobby : MonoBehaviour {
     {
         // Create token for new player
         GameObject playerToken = Instantiate(Resources.Load("Prefabs/PlayerToken", typeof(GameObject))) as GameObject;
-        playerToken.transform.parent = canvasObject.transform;
+        playerToken.transform.parent = engineerPanel.transform;
         playerToken.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); ;
-        playerToken.transform.localPosition = new Vector3(0.0f,0.0f,0.0f);
+        //playerToken.transform.localPosition = new Vector3(0.0f,0.0f,0.0f);
 
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+netId.ToString();
         //player.setCount(count);
