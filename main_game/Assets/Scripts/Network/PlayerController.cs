@@ -119,7 +119,7 @@ public class PlayerController : NetworkBehaviour {
             if (serverLobby != null)
             {
                 // Notify manager and lobby of joining
-                serverLobby.playerJoin(netId.Value);
+                serverLobby.playerJoin(gameObject);
             }
         }
         else
