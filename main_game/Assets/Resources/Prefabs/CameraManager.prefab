@@ -126,7 +126,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 5000
+  far clip plane: 50000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -3606,7 +3606,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: far clip plane
-      value: 5000
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: left
