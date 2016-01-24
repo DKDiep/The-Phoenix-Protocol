@@ -88,7 +88,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			controlObject.transform.LookAt(player.transform.position);
 			controlObject.transform.Translate (controlObject.transform.forward*Time.deltaTime * speed);
-			controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x + 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
+            controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
 		}
 	}
 	
