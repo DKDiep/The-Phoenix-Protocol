@@ -73,7 +73,7 @@ public class PlayerShooting : MonoBehaviour
 				// if finished reading data from remote
 				if (remote.ReadWiimoteData () > 0) 
 				{
-					if (remote.Button.b) 
+					if (remote.Button.b && canShoot) 
 					{
 						ShootBullet ();
 					}
