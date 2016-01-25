@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using System.Collections;
+using WiimoteApi;
+using System;
 
 public class PlayerShooting : MonoBehaviour 
 {
@@ -20,6 +22,8 @@ public class PlayerShooting : MonoBehaviour
 	GameObject target;
 	bool canShoot, showMarker;
 	float alpha;
+	// Wii remote initialise
+	private bool init = true;
 
 	// Use this for initialization
 	void Start () 
@@ -41,41 +45,85 @@ public class PlayerShooting : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Input.GetMouseButton (0) && canShoot)
+		// Use mouse if there are no wii remotes.
+		if (WiimoteManager.Wiimotes.Count < 1) 
 		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+			if(Input.GetMouseButton (0) && canShoot)
+			{
+				ShootBullet ();
+			}
+		} 
+		else 
+		{
+				
+			Wiimote remote;
+			try 
+			{
+				// Only for the one remote at the moment.
+				remote = WiimoteManager.Wiimotes [0];
 
-            if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
-            {
-            	target.transform.position = hit.transform.position;
-            }
-            else
-            {
-    			    target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(CrosshairMovement.crosshairPosition.x, CrosshairMovement.crosshairPosition.y, 1000));
-    			    target.transform.Translate (transform.forward * (-10f));
-            }
+				// Setup remote at beginning or when it disconnects.
+				if (this.init) 
+				{
+					remote.SendPlayerLED (true, false, false, false);
+					remote.SetupIRCamera (IRDataType.BASIC);
+					this.init = false;
+				}
 
-			GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
-			GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
-			logic.GetComponent<BulletLogic>().SetID(this, 1);
-			logic.transform.parent = obj.transform;
-			logic.GetComponent<BulletLogic>().SetDestination (target.transform.position);
-			ServerManager.NetworkSpawn(obj);
-			canShoot = false;
-			StartCoroutine("Delay");
+				// if finished reading data from remote
+				if (remote.ReadWiimoteData () > 0) 
+				{
+					if (remote.Button.b) 
+					{
+						ShootBullet ();
+					}
+				}
+			} 
+			catch (Exception e) 
+			{
+				WiimoteManager.FindWiimotes ();
+				this.init = true;
+			}  
 		}
-
+			
 		if(alpha > 0)
 		{
 			alpha -= 5f * Time.deltaTime;
 		}
 	}
 
+	void ShootBullet() 
+	{
+		// Currently only works for first player
+		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
+
+		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
+		RaycastHit hit;
+
+		if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
+		{
+			target.transform.position = hit.transform.position;
+		}
+		else
+		{
+			target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+			target.transform.Translate (transform.forward * (-10f));
+		}
+
+		GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
+		GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
+		logic.GetComponent<BulletLogic>().SetID(this, 1);
+		logic.transform.parent = obj.transform;
+		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position);
+		ServerManager.NetworkSpawn(obj);
+		canShoot = false;
+		StartCoroutine("Delay");
+	}
 	void OnGUI()
 	{
+		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
 		GUI.color = new Color(1,1,1,alpha);
-		if(showMarker) GUI.DrawTexture(new Rect(Input.mousePosition.x - 32, Screen.height - Input.mousePosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
+		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
 	}
 
 	public void HitMarker()

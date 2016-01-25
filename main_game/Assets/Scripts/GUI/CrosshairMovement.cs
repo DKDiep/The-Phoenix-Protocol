@@ -12,7 +12,7 @@ public class CrosshairMovement : MonoBehaviour {
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
-	public static Vector3 crosshairPosition;
+	public Vector3 crosshairPosition;
 
 	// Use this for initialization
 	void Start ()
@@ -24,13 +24,14 @@ public class CrosshairMovement : MonoBehaviour {
     void Update()
     {
         // Check to see if any of the crosshair keys have been pressed
-        for (int i = 0; i < N_CROSSHAIRS; i++)
-            if (Input.GetKeyDown(i.ToString()))
-            {
-                controlling = i;
-                Debug.Log("Controlling " + i);
-            }
-
+		for (int i = 0; i < N_CROSSHAIRS; i++) 
+		{
+			if (Input.GetKeyDown (i.ToString ())) 
+			{
+				controlling = i-1;
+				Debug.Log ("Controlling " + controlling);
+			}
+		}
     }
 
 	void FixedUpdate ()
@@ -42,10 +43,10 @@ public class CrosshairMovement : MonoBehaviour {
 		if (WiimoteManager.Wiimotes.Count < 1) 
 		{
 			// Update its position to the current mouse position
-			crosshairPosition = selectedCrosshair.position;
-			crosshairPosition.x = Input.mousePosition.x;
-			crosshairPosition.y = Input.mousePosition.y;
-			selectedCrosshair.position = crosshairPosition;
+			this.crosshairPosition = selectedCrosshair.position;
+			this.crosshairPosition.x = Input.mousePosition.x;
+			this.crosshairPosition.y = Input.mousePosition.y;
+			selectedCrosshair.position = this.crosshairPosition;
 		} 
 		else 
 		{
