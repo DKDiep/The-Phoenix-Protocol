@@ -24,7 +24,7 @@ public class CrosshairMovement : MonoBehaviour {
     void Update()
     {
         // Check to see if any of the crosshair keys have been pressed
-		for (int i = 0; i < N_CROSSHAIRS; i++) 
+		for (int i = 1; i <= N_CROSSHAIRS; i++) 
 		{
 			if (Input.GetKeyDown (i.ToString ())) 
 			{
