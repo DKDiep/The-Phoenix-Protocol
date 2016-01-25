@@ -14,8 +14,12 @@ public class SmoothCamera : MonoBehaviour
 GameObject parent;
 [SerializeField] float damping;
 
-	// Use this for initialization
-	void Start () 
+	/*********
+    NOTE:
+    Functionally removed as this script prevents unique camera transform
+    Remove or update when camera implementation is complete
+    **********/
+	/*void Start () 
 	{
         if (transform.parent != null)
 		    parent = transform.parent.gameObject;
@@ -31,5 +35,5 @@ GameObject parent;
             Quaternion rotation = parent.transform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * damping);
         }
-	}
+	}*/
 }

@@ -42,9 +42,9 @@ public class ServerLobby : MonoBehaviour {
         // Create token for new player
         GameObject playerToken = Instantiate(Resources.Load("Prefabs/PlayerToken", typeof(GameObject))) as GameObject;
         playerToken.transform.parent = cameraPanel.transform;
-        playerToken.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f); ;
-        //playerToken.transform.localPosition = new Vector3(0.0f,0.0f,0.0f);
-
+        playerToken.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        // Reference player controller to change variables with token
+        playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
         //player.setCount(count);
     }

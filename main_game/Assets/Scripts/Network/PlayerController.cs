@@ -14,6 +14,7 @@ public class PlayerController : NetworkBehaviour {
 
     private GameObject controlledObject;
     private string role = "camera";
+    private int orientation = 0;
     private GameObject playerCamera;
     private GameObject multiCamera;
     private EngineerController engController;
@@ -45,6 +46,7 @@ public class PlayerController : NetworkBehaviour {
             }
             playerCamera.transform.parent = shipTransform;
 
+            
             // **** Temporary duplicate camera to compute multi-screen rotation ****
             multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
             multiCamera.transform.parent = shipTransform;
@@ -59,7 +61,9 @@ public class PlayerController : NetworkBehaviour {
             Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
             Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
             Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-            Quaternion q = Quaternion.FromToRotation(ofr, ofl);
+            Quaternion q = Quaternion.FromToRotation(ofl, ofr);
+            Vector3 r = q.eulerAngles;
+            Debug.Log(r);
             multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
             multiCamera.SetActive(false);
         }
@@ -105,6 +109,11 @@ public class PlayerController : NetworkBehaviour {
     public void SetRole(string newRole)
     {
         this.role = newRole;
+    }
+
+    public void SetOrientation(int newOrientation)
+    {
+        orientation = newOrientation;
     }
 
     void Start()
