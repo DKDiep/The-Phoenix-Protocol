@@ -7,13 +7,15 @@ public class CrosshairMovement : MonoBehaviour {
 
     private int controlling = 0;
     private const int N_CROSSHAIRS = 4;
-
+	float posReadDelay = 0.0001f;
 	private bool init = true;
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
+	bool canMove = true;
 	public Vector3 crosshairPosition;
-
+	private Vector3 oldCrosshairPosition;
+	float oldAccel, newAccel;
 	// Use this for initialization
 	void Start ()
     {
@@ -65,13 +67,35 @@ public class CrosshairMovement : MonoBehaviour {
 				if (remote.ReadWiimoteData () > 0) 
 				{ 
 					float[] pointer = remote.Ir.GetPointingPosition ();
-					
-					if(pointer[0] != -1 && pointer[1] != -1) 
+
+					// If not able to move, run smoothing
+					if(!canMove) 
 					{
-						Vector3 position = selectedCrosshair.position;
-						position.x = pointer[0] * Screen.width;
-						position.y = pointer[1] * Screen.height;
-						selectedCrosshair.position = position;
+						
+					} 
+					else 
+					{
+						if(pointer[0] != -1 && pointer[1] != -1) 
+						{
+							
+
+							oldAccel = newAccel;
+							newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
+							Debug.Log(Math.Abs(newAccel - oldAccel));
+							// If there is little movement, don't bother doing this. (Should stop shaking)
+							if(Math.Abs(newAccel - oldAccel) > 0.03) 
+							{
+								oldCrosshairPosition = crosshairPosition;
+								Vector3 position = selectedCrosshair.position;
+								position.x = pointer[0] * Screen.width;
+								position.y = pointer[1] * Screen.height;
+								crosshairPosition = position;
+								//Debug.Log(oldCrosshairPosition-crosshairPosition);
+								selectedCrosshair.position = oldCrosshairPosition;
+								canMove = false;
+								StartCoroutine("Delay");
+							}
+						}
 					}
 				}
 			} 
@@ -87,6 +111,12 @@ public class CrosshairMovement : MonoBehaviour {
 	{	
 		WiimoteManager.FindWiimotes ();
 		yield return new WaitForSeconds(5f);
+	}
+
+	IEnumerator Delay()
+	{
+		yield return new WaitForSeconds(posReadDelay);
+		canMove = true;
 	}
 
 }
