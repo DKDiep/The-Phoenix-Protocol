@@ -18,10 +18,9 @@ public class ServerLobby : MonoBehaviour {
     private int count = 0;
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
-        //startButton = canvasObject.transform.Find("StartButton").gameObject.GetComponent<Button>();
         startButton.onClick.AddListener(() => onClickStartButton() );
     }
 	
@@ -33,6 +32,7 @@ public class ServerLobby : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
+    // This method is only called on server via command
     public void playerJoin(GameObject playerObject)
     {
         // Get player and set default role
@@ -47,5 +47,12 @@ public class ServerLobby : MonoBehaviour {
         playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
         //player.setCount(count);
+
+        /* Keep this for scene setup if necessary
+        if (ClientScene.localPlayers[0].IsValid)
+        {
+            if (playerObject == ClientScene.localPlayers[0].gameObject)
+                serverManager.InitialiseScene();
+        }*/
     }
 }

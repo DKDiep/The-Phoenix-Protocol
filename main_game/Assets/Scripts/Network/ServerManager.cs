@@ -17,7 +17,7 @@ public class ServerManager : NetworkBehaviour {
     private int clientId = 0;
     private Dictionary<int, int> clientIdsToRole;
     private Dictionary<int, NetworkConnection> clientIdsToConn;
-    private GameObject thePlayer;
+    private PlayerController playerController;
     bool gameStarted;
     GameObject spawner;
 
@@ -72,22 +72,28 @@ public class ServerManager : NetworkBehaviour {
         }
     }
 
-    void CreateServerSetup()
+    private void CreateServerSetup()
     {
         //Spawn server lobby
-        GameObject serverSetupCamera = Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject))) as GameObject;
+        GameObject serverLobby = Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject))) as GameObject;
     }
 
     public void StartGame()
     {
-        //Get player controller
-        if (ClientScene.localPlayers[0].IsValid)
-            thePlayer = ClientScene.localPlayers[0].gameObject;
-
         //Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
+
+        //On start, RPC every player to mount camera on ship
+        if (ClientScene.localPlayers[0].IsValid)
+            playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+        if (playerController != null)
+            playerController.RpcSetCamera();
+
+        //Transform cameraTransform = GameObject.Find("CameraManager(Clone)").transform;
+        //cameraTransform.parent = playerShip.transform;
 
         // Get the engineer start position
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
@@ -111,10 +117,7 @@ public class ServerManager : NetworkBehaviour {
                 NetworkServer.SendToClient(client.Key, 890, response);
             }
         }
-
-        //Instantiate local cameras for players after spawning ship
-        thePlayer.GetComponent<PlayerController>().CallSetCamera();
-
+        
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(playerShield);
@@ -136,7 +139,7 @@ public class ServerManager : NetworkBehaviour {
         //minimap.GetComponentInChildren<bl_MMCompass>().Target = playerShip.transform;
 
         //Set up the game state
-        thePlayer.GetComponent<PlayerController>().SetControlledObject(playerShip);
+        playerController.SetControlledObject(playerShip);
 
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();

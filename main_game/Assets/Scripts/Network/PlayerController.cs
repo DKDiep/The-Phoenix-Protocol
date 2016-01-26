@@ -30,26 +30,23 @@ public class PlayerController : NetworkBehaviour {
         controlledObject = newControlledObject;
     }
 
+    /********
+        RpcSetCamera is depreciated for camera, engineer game may require updating
+    *********/
     [ClientRpc]
     public void RpcSetCamera()
     {
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        playerCamera = GameObject.Find("CameraManager(Clone)");
         if (localController.role == "camera")
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
-            if (Network.isClient)
-            {
-                playerCamera.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            }
             playerCamera.transform.parent = shipTransform;
 
-            
             // **** Temporary duplicate camera to compute multi-screen rotation ****
             multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-            multiCamera.transform.parent = shipTransform;
             multiCamera.gameObject.name = "MultiCam";
             // Get camera frustum planes
             Camera cam = multiCamera.GetComponent<Camera>();
@@ -81,6 +78,26 @@ public class PlayerController : NetworkBehaviour {
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
             localController.engController.Initialize(playerCamera);
         }
+    }
+
+    public void CreateCamera()
+    {
+        // **** Temporary duplicate camera to compute multi-screen rotation ****
+        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        // Get camera frustum planes
+        Camera cam = playerCamera.GetComponent<Camera>();
+        // Calculate frustum height at far clipping plane using field of view
+        float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        // Calculate frustum width using height and camera aspect
+        float frustumWidth = frustumHeight * cam.aspect;
+        // Calculate left and right vectors of frustum
+        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
+        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
+        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
+       /* Quaternion q = Quaternion.FromToRotation(ofl, ofr);
+        Vector3 r = q.eulerAngles;
+        Debug.Log(r);
+        playerCamera.transform.localRotation = q * playerCamera.transform.localRotation;*/
     }
 
     private void Update()
@@ -117,9 +134,18 @@ public class PlayerController : NetworkBehaviour {
     }
 
     void Start()
-    { 
+    {   //Each client request server command
+        if (isLocalPlayer)
+        {
+            CmdJoin();
+            CreateCamera();
+        }
+    }
+
+    [Command]
+    void CmdJoin()
+    {
         // Get lobby script
-        Debug.Log("Player Controller created");
         GameObject lobbyObject = GameObject.Find("ServerLobby(Clone)");
         ServerLobby serverLobby;
         if (lobbyObject != null)
