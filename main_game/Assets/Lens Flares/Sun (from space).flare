@@ -26,7 +26,7 @@ Flare:
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: .200000003
+    m_Position: 0.2
     m_Size: 25
     m_Color: {r: 1, g: 1, b: 1, a: 1}
     m_UseLightColor: 0
@@ -34,7 +34,7 @@ Flare:
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: .200000003
+    m_Position: 0.2
     m_Size: 5
     m_Color: {r: 1, g: 1, b: 1, a: 1}
     m_UseLightColor: 0
@@ -42,15 +42,15 @@ Flare:
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: -.5
+    m_Position: -0.5
     m_Size: 12
-    m_Color: {r: .246153831, g: .246153831, b: .246153831, a: 1}
+    m_Color: {r: 0.24615383, g: 0.24615383, b: 0.24615383, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: .300000012
+    m_Position: 0.3
     m_Size: 12
     m_Color: {r: 1, g: 1, b: 1, a: 1}
     m_UseLightColor: 0
@@ -58,9 +58,9 @@ Flare:
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 3
-    m_Position: .300000012
+    m_Position: 0.3
     m_Size: 40
-    m_Color: {r: .0923076868, g: .0923076868, b: .0923076868, a: 1}
+    m_Color: {r: 0.09230769, g: 0.09230769, b: 0.09230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -68,7 +68,7 @@ Flare:
   - m_ImageIndex: 3
     m_Position: 2
     m_Size: 60
-    m_Color: {r: .0769230723, g: .0769230723, b: .0769230723, a: 1}
+    m_Color: {r: 0.07692307, g: 0.07692307, b: 0.07692307, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -76,7 +76,7 @@ Flare:
   - m_ImageIndex: 4
     m_Position: 1.5
     m_Size: 15
-    m_Color: {r: .0538461804, g: .0538461804, b: .0538461804, a: 1}
+    m_Color: {r: 0.05384618, g: 0.05384618, b: 0.05384618, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -84,15 +84,15 @@ Flare:
   - m_ImageIndex: 4
     m_Position: 1
     m_Size: 30
-    m_Color: {r: .0153846145, g: .0153846145, b: .0153846145, a: 1}
+    m_Color: {r: 0.0153846145, g: 0.0153846145, b: 0.0153846145, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 4
-    m_Position: -.25
+    m_Position: -0.25
     m_Size: 15
-    m_Color: {r: .123076916, g: .123076916, b: .123076916, a: 1}
+    m_Color: {r: 0.123076916, g: 0.123076916, b: 0.123076916, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -100,23 +100,23 @@ Flare:
   - m_ImageIndex: 2
     m_Position: 1
     m_Size: 5
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: 1.39999998
+    m_Position: 1.4
     m_Size: 4
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: 1.29999995
+    m_Position: 1.3
     m_Size: 5
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -124,7 +124,7 @@ Flare:
   - m_ImageIndex: 2
     m_Position: 1.75
     m_Size: 15
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
@@ -132,39 +132,39 @@ Flare:
   - m_ImageIndex: 2
     m_Position: 2
     m_Size: 2
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: -.5
+    m_Position: -0.5
     m_Size: 5
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: 1.64999998
+    m_Position: 1.65
     m_Size: 8
-    m_Color: {r: .107692301, g: .107692301, b: .107692301, a: 1}
+    m_Color: {r: 0.1076923, g: 0.1076923, b: 0.1076923, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: .5
+    m_Position: 0.5
     m_Size: 10
-    m_Color: {r: .13846153, g: .13846153, b: .13846153, a: 1}
+    m_Color: {r: 0.13846153, g: 0.13846153, b: 0.13846153, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1
     m_Fade: 1
   - m_ImageIndex: 2
-    m_Position: .400000006
+    m_Position: 0.4
     m_Size: 3
-    m_Color: {r: .323076904, g: .323076904, b: .323076904, a: 1}
+    m_Color: {r: 0.3230769, g: 0.3230769, b: 0.3230769, a: 1}
     m_UseLightColor: 0
     m_Rotate: 1
     m_Zoom: 1

@@ -18,7 +18,16 @@ public class GameState : MonoBehaviour {
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
     private List<GameObject> enemyList;
+    private List<GameObject> engineerList;
     private GameObject playerShip;
+    
+    void Update()
+    {
+    	if(Input.GetKeyDown (KeyCode.Escape))
+    	{
+    		Application.Quit ();
+    	}
+    }
 
     public Status GetStatus()
     {
@@ -45,6 +54,11 @@ public class GameState : MonoBehaviour {
     {
         asteroidList.Add(asteroidObject);
         newAsteroids.Add(asteroidObject);
+    }
+
+    public void RemoveAsteroid(GameObject removeObject)
+    {
+        asteroidList.Remove(removeObject);
     }
 
     public void RemoveAsteroidAt(int i)
@@ -85,6 +99,32 @@ public class GameState : MonoBehaviour {
         return enemyList[i];
     }
 
+    // Engineer list getters and setters
+    public List<GameObject> GetEngineerList()
+    {
+        return engineerList;
+    }
+
+    public int GetEngineerCount()
+    {
+        return engineerList.Count;
+    }
+
+    public void AddEngineerList(GameObject engineerObject)
+    {
+        engineerList.Add(engineerObject);
+    }
+
+    public void RemoveEngineerAt(int i)
+    {
+        engineerList.RemoveAt(i);
+    }
+
+    public GameObject GetEngineerAt(int i)
+    {
+        return engineerList[i];
+    }
+
     public GameObject GetPlayerShip()
     {
         return playerShip;
@@ -121,6 +161,7 @@ public class GameState : MonoBehaviour {
         enemyList = new List<GameObject>();
         newAsteroids = new List<GameObject>();
         removedAsteroids = new List<uint>();
+        engineerList = new List<GameObject>();
     }
 
     public void Setup()
