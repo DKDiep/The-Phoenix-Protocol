@@ -10,7 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class PlayerController : NetworkBehaviour {
+public class PlayerController : NetworkBehaviour
+{
 
     private GameObject controlledObject;
     private string role = "camera";
@@ -21,19 +22,26 @@ public class PlayerController : NetworkBehaviour {
     private PlayerController localController = null;
     private int index = 0;
 
+    public GameObject thing;
+    // Private to each instance of script
+    private GameObject ship;
+    private CommandConsoleState thingscript;
+    private int shieldsLevel = 0;
+    private int gunsLevel = 0;
+    private int enginesLevel = 0;
+    ShipMovement shipMovement;
+    public void test() { print("gotplayer"); }
+
     public GameObject GetControlledObject()
     {
         return controlledObject;
     }
 
     public void SetControlledObject(GameObject newControlledObject)
-    {   
+    {
         controlledObject = newControlledObject;
     }
 
-    /********
-        RpcSetCamera is depreciated for camera, engineer game may require updating
-    *********/
     [ClientRpc]
     public void RpcSetCamera()
     {
@@ -61,30 +69,28 @@ public class PlayerController : NetworkBehaviour {
             localController.engController.Initialize(playerCamera);
         }
     }
-
+    
     public void CreateCamera()
     {
-        // **** Temporary duplicate camera to compute multi-screen rotation ****
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+    }
 
-        /*// **** Temporary duplicate camera to compute multi-screen rotation ****
-        multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-        multiCamera.gameObject.name = "MultiCam";
-        //multiCamera.transform.parent = shipTransform;
-        // Get camera frustum planes
-        Camera cam = multiCamera.GetComponent<Camera>();
-        // Calculate frustum height at far clipping plane using field of view
-        float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        // Calculate frustum width using height and camera aspect
-        float frustumWidth = frustumHeight * cam.aspect;
-        // Calculate left and right vectors of frustum
-        Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
-        Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-        Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-        Vector3 r = q.eulerAngles;
-        Debug.Log(r);
-        multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;*/
+    [Command]
+    public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
+    {
+        switch (where)
+        {
+            case 0:
+                shieldsLevel++;
+                break;
+            case 1:
+                gunsLevel++;
+                break;
+            case 2:
+                enginesLevel++;
+                //shipMovement.speed += 15; <-- commented upon merge as speed is no longer accessible
+                break;
+        }
     }
 
     private void Update()
@@ -130,7 +136,23 @@ public class PlayerController : NetworkBehaviour {
     }
 
     void Start()
-    {   //Each client request server command
+    {   
+        //Each client request server command
+        if (isServer)
+        {
+            //ship = GameObject.Find("PlayerShipLogic(Clone)");
+            //shipMovement = ship.GetComponent<ShipMovement>();
+        }
+        // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
+        print("player appears");
+        if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
+        {
+            thing = GameObject.Find("StuffManager");
+            thingscript = thing.GetComponent<CommandConsoleState>();
+            //thingscript.test();
+            thingscript.gimme(this);
+        }
+
         if (isLocalPlayer)
         {
             CreateCamera();
@@ -157,5 +179,11 @@ public class PlayerController : NetworkBehaviour {
         {
             Debug.Log("Server lobby not found, cannot set up.");
         }
+    }
+
+    // OnGUI draws to screen and is called every few frames
+    void OnGUI()
+    {
+        GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
     }
 }
