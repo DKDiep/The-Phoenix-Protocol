@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 466534}
   - 114: {fileID: 11468714}
+  - 114: {fileID: 11410870}
   m_Layer: 0
   m_Name: EnemyShipLogic
   m_TagString: Untagged
@@ -22,12 +23,37 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 124810}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11410870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124810}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f131dd35d296fca4e90efc4ed717e48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GraphicPrefab: {fileID: 197840, guid: 2b4fb31f6472842468de0a7249d7b8da, type: 2}
+  Target: {fileID: 0}
+  OffSet: {x: 0, y: 0, z: 0}
+  Icon: {fileID: 21300086, guid: b2ff3b281537fbc4d91af3e848afde5c, type: 3}
+  DeathIcon: {fileID: 0}
+  IconColor: {r: 1, g: 1, b: 1, a: 0.9}
+  Size: 20
+  isInteractable: 1
+  InfoItem: Info Icon here
+  OffScreen: 1
+  BorderOffScreen: 0.01
+  OffScreenSize: 10
+  RenderDelay: 0.3
+  m_Effect: 2
 --- !u!114 &11468714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,26 +65,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b14e54b00991401aa182ce12da54501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   health: 100
-  maxRange: 1000
-  shotsPerSec: 3
-  shootChance: 5
-  shootPeriod: 1.25
+  maxRange: 900
+  shotsPerSec: 6
+  shootChance: 50
+  collisionDamage: 20
+  shootPeriod: 0.5
   percentageVariation: 50
   maxShield: 0
   shieldDelay: 0
   shieldRechargeRate: 0
   isSuicidal: 0
   bullet: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+  bulletLogic: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
+  destroyEffect: {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
   player: {fileID: 0}
+  draw: 0
+  distance: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: bulletLogic
+      value: 
+      objectReference: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
+    - target: {fileID: 0}
+      propertyPath: shootChance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collisionDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2800000, guid: b4fe3082412f541df9543f015195fd80, type: 3}
+    - target: {fileID: 0}
+      propertyPath: maxRange
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shotsPerSec
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shootPeriod
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: destroyEffect
+      value: 
+      objectReference: {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 21300086, guid: b2ff3b281537fbc4d91af3e848afde5c,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: GraphicPrefab
+      value: 
+      objectReference: {fileID: 197840, guid: 2b4fb31f6472842468de0a7249d7b8da, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 124810}

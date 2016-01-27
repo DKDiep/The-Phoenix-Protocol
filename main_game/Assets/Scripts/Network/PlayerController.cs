@@ -1,13 +1,36 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene, Luke Bryant
+    Description: Networked player entity, input management and RPCs
+*/
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class PlayerController : NetworkBehaviour {
+public class PlayerController : NetworkBehaviour
+{
 
     private GameObject controlledObject;
+    private string role = "camera";
+    private int orientation = 0;
+    private GameObject playerCamera;
+    private GameObject multiCamera;
+    private EngineerController engController;
+    private PlayerController localController = null;
+    private int index = 0;
 
-    private Camera cameraComponent;
+    public GameObject thing;
+    // Private to each instance of script
+    private GameObject ship;
+    private CommandConsoleState thingscript;
+    private int shieldsLevel = 0;
+    private int gunsLevel = 0;
+    private int enginesLevel = 0;
+    ShipMovement shipMovement;
+    public void test() { print("gotplayer"); }
 
     public GameObject GetControlledObject()
     {
@@ -15,19 +38,152 @@ public class PlayerController : NetworkBehaviour {
     }
 
     public void SetControlledObject(GameObject newControlledObject)
-    {   
+    {
         controlledObject = newControlledObject;
-        Transform cameraManager = newControlledObject.transform.Find("CameraManager");
-        if (cameraManager)
-            cameraComponent = cameraManager.GetComponent<Camera>();
+    }
+
+    [ClientRpc]
+    public void RpcSetCamera()
+    {
+        if (ClientScene.localPlayers[0].IsValid)
+            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+        playerCamera = GameObject.Find("CameraManager(Clone)");
+        if (localController.role == "camera")
+        {
+            Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
+            playerCamera.transform.parent = shipTransform;
+        }
+        else if (localController.role == "engineer")
+        {
+            // Set the camera's parent as the engineer instance
+            playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
+            playerCamera.transform.parent = localController.controlledObject.transform;
+
+            // Set the controlled object for the server side PlayerController
+            controlledObject = localController.controlledObject;
+            engController = controlledObject.GetComponent<EngineerController>();
+
+            // Set values for the client side PlayerController
+            localController.engController = localController.controlledObject.GetComponent<EngineerController>();
+            localController.engController.Initialize(playerCamera);
+        }
+    }
+    
+    public void CreateCamera()
+    {
+        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+    }
+
+    [Command]
+    public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
+    {
+        switch (where)
+        {
+            case 0:
+                shieldsLevel++;
+                break;
+            case 1:
+                gunsLevel++;
+                break;
+            case 2:
+                enginesLevel++;
+                //shipMovement.speed += 15; <-- commented upon merge as speed is no longer accessible
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (role == "engineer")
+            engController.EngUpdate();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isLocalPlayer)
+            return;
+
+        if (role == "engineer")
+            engController.EngFixedUpdate();
+    }
+
+    public void SetRole(string newRole)
+    {
+        this.role = newRole;
+    }
+
+    [ClientRpc]
+    public void RpcRotateCamera(float yRotate, uint receivedId)
+    {
+        // Change only local camera
+        if (isLocalPlayer && netId.Value == receivedId)
+        {
+            Debug.Log("setting yRotate: " + yRotate);
+            Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
+            playerCamera.transform.localRotation = q;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcSetCameraIndex(int newIndex)
+    {
+        index = newIndex;
+        Debug.Log("netId " + netId + " now has index " + index);
     }
 
     void Start()
-    {
-        cameraComponent = gameObject.GetComponent<Camera>();
-        if (!isLocalPlayer)
+    {   
+        //Each client request server command
+        if (isServer)
         {
-            cameraComponent.enabled = false;
+            //ship = GameObject.Find("PlayerShipLogic(Clone)");
+            //shipMovement = ship.GetComponent<ShipMovement>();
         }
+        // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
+        print("player appears");
+        if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
+        {
+            thing = GameObject.Find("StuffManager");
+            thingscript = thing.GetComponent<CommandConsoleState>();
+            //thingscript.test();
+            thingscript.gimme(this);
+        }
+
+        if (isLocalPlayer)
+        {
+            CreateCamera();
+            CmdJoin();
+        }
+    }
+
+    [Command]
+    void CmdJoin()
+    {
+        // Get lobby script
+        GameObject lobbyObject = GameObject.Find("ServerLobby(Clone)");
+        ServerLobby serverLobby;
+        if (lobbyObject != null)
+        {
+            serverLobby = GameObject.Find("ServerLobby(Clone)").GetComponent<ServerLobby>();
+            if (serverLobby != null)
+            {
+                // Notify manager and lobby of joining
+                serverLobby.playerJoin(gameObject);
+            }
+        }
+        else
+        {
+            Debug.Log("Server lobby not found, cannot set up.");
+        }
+    }
+
+    // OnGUI draws to screen and is called every few frames
+    void OnGUI()
+    {
+        GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
     }
 }
