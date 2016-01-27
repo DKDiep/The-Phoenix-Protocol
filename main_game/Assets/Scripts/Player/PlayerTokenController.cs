@@ -24,12 +24,12 @@ public class PlayerTokenController : MonoBehaviour {
         {
             if (value > 0.5)
             {
-                playerController.SetOrientation(1);
+                //playerController.SetOrientation(1);
                 Debug.Log("Right");
             }
             else
             {
-                playerController.SetOrientation(-1);
+                //playerController.SetOrientation(-1);
                 Debug.Log("Left");
             }
         }

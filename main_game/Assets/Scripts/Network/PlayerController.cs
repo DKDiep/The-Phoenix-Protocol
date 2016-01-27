@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour {
     private GameObject multiCamera;
     private EngineerController engController;
     private PlayerController localController = null;
+    private int index = 0;
 
     public GameObject GetControlledObject()
     {
@@ -44,25 +45,6 @@ public class PlayerController : NetworkBehaviour {
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             playerCamera.transform.parent = shipTransform;
-
-            // **** Temporary duplicate camera to compute multi-screen rotation ****
-            multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-            multiCamera.gameObject.name = "MultiCam";
-            // Get camera frustum planes
-            Camera cam = multiCamera.GetComponent<Camera>();
-            // Calculate frustum height at far clipping plane using field of view
-            float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-            // Calculate frustum width using height and camera aspect
-            float frustumWidth = frustumHeight * cam.aspect;
-            // Calculate left and right vectors of frustum
-            Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
-            Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-            Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-            Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-            Vector3 r = q.eulerAngles;
-            Debug.Log(r);
-            multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
-            multiCamera.SetActive(false);
         }
         else if (localController.role == "engineer")
         {
@@ -84,20 +66,25 @@ public class PlayerController : NetworkBehaviour {
     {
         // **** Temporary duplicate camera to compute multi-screen rotation ****
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+
+        /*// **** Temporary duplicate camera to compute multi-screen rotation ****
+        multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        multiCamera.gameObject.name = "MultiCam";
+        //multiCamera.transform.parent = shipTransform;
         // Get camera frustum planes
-        Camera cam = playerCamera.GetComponent<Camera>();
+        Camera cam = multiCamera.GetComponent<Camera>();
         // Calculate frustum height at far clipping plane using field of view
         float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
         // Calculate frustum width using height and camera aspect
         float frustumWidth = frustumHeight * cam.aspect;
         // Calculate left and right vectors of frustum
-        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
-        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-       /* Quaternion q = Quaternion.FromToRotation(ofl, ofr);
+        Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
+        Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
+        Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
+        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
         Vector3 r = q.eulerAngles;
         Debug.Log(r);
-        playerCamera.transform.localRotation = q * playerCamera.transform.localRotation;*/
+        multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;*/
     }
 
     private void Update()
@@ -118,27 +105,36 @@ public class PlayerController : NetworkBehaviour {
             engController.EngFixedUpdate();
     }
 
-    public void CallSetCamera()
-    {
-        RpcSetCamera();
-    }
-
     public void SetRole(string newRole)
     {
         this.role = newRole;
     }
 
-    public void SetOrientation(int newOrientation)
+    [ClientRpc]
+    public void RpcRotateCamera(float yRotate, uint receivedId)
     {
-        orientation = newOrientation;
+        // Change only local camera
+        if (isLocalPlayer && netId.Value == receivedId)
+        {
+            Debug.Log("setting yRotate: " + yRotate);
+            Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
+            playerCamera.transform.localRotation = q;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcSetCameraIndex(int newIndex)
+    {
+        index = newIndex;
+        Debug.Log("netId " + netId + " now has index " + index);
     }
 
     void Start()
     {   //Each client request server command
         if (isLocalPlayer)
         {
-            CmdJoin();
             CreateCamera();
+            CmdJoin();
         }
     }
 
