@@ -50,7 +50,7 @@ public class ToggleGraphics : MonoBehaviour
 		vignette.enabled = enableGraphics;
 		smaa.enabled = enableGraphics;
         shafts.enabled = enableGraphics;
-        if(GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
+       
 	}
 
 	void Update () 
@@ -59,5 +59,6 @@ public class ToggleGraphics : MonoBehaviour
 		{
 			UpdateGraphics();
 		}
+        if(shafts.sunTransform == null && GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
 	}
 }

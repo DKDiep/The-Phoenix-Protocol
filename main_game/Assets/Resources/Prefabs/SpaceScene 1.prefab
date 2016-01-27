@@ -1065,7 +1065,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5490.52, y: 4210.292, z: -539.5683}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 461106}
@@ -2643,7 +2643,7 @@ Light:
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: 11d9f10221f75734f95263c68f6e58ab, type: 2}
+  m_Flare: {fileID: 12100000, guid: 176b914ac842a0142a61d9bef26f230c, type: 2}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
