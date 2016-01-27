@@ -23,7 +23,7 @@ public class ToggleGraphics : MonoBehaviour
 	
 	void Start () 
 	{
-		enableGraphics = true;
+		enableGraphics = false;
 		ssaa = GetComponent<SuperSampling_SSAA>();
 		sessao = GetComponent<SESSAO>();
 		motion = GetComponent<AmplifyMotionEffect>();
