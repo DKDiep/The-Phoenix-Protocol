@@ -19,7 +19,7 @@ public class UDPServer : MonoBehaviour
 
     void Start()
     {
-        //Debug.Log("Starting UDP server.");
+        Debug.Log("Starting UDP server.");
         socket = new UdpClient(listenPort);
         phoneServer = new IPEndPoint(IPAddress.Any, 0);
         state = this.gameObject.GetComponent<GameState>();
