@@ -57,6 +57,7 @@ public class EnemyLogic : MonoBehaviour
 		player = temp;
 		state = 0;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
+        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
 		if(maxShield > 0)
 		{
@@ -90,7 +91,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			controlObject.transform.LookAt(player.transform.position);
 			controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
-            controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, randomZ);
+            controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
 		}
 	}
 	
