@@ -15,10 +15,12 @@ public class PlayerController : NetworkBehaviour
 
     private GameObject controlledObject;
     private string role = "camera";
+    private int orientation = 0;
     private GameObject playerCamera;
     private GameObject multiCamera;
     private EngineerController engController;
     private PlayerController localController = null;
+    private int index = 0;
 
     public GameObject thing;
     // Private to each instance of script
@@ -46,36 +48,11 @@ public class PlayerController : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        playerCamera = GameObject.Find("CameraManager(Clone)");
         if (localController.role == "camera")
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
-            if (Network.isClient)
-            {
-                playerCamera.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            }
             playerCamera.transform.parent = shipTransform;
-
-            // **** Temporary duplicate camera to compute multi-screen rotation ****
-            multiCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-            multiCamera.transform.parent = shipTransform;
-            multiCamera.gameObject.name = "MultiCam";
-            // Get camera frustum planes
-            Camera cam = multiCamera.GetComponent<Camera>();
-            // Calculate frustum height at far clipping plane using field of view
-            float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-            // Calculate frustum width using height and camera aspect
-            float frustumWidth = frustumHeight * cam.aspect;
-            // Calculate left and right vectors of frustum
-            Vector3 of = (multiCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - multiCamera.transform.localPosition;
-            Vector3 ofr = of + (multiCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-            Vector3 ofl = of + (multiCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-            // align
-            //Vector3 v = ofr - ofl;
-            //multiCamera.transform.localRotation = Quaternion.FromToRotation(Vector3.forward, v);
-            Quaternion q = Quaternion.FromToRotation(ofr, ofl);
-            multiCamera.transform.localRotation = q * multiCamera.transform.localRotation;
-            multiCamera.SetActive(false);
         }
         else if (localController.role == "engineer")
         {
@@ -92,6 +69,11 @@ public class PlayerController : NetworkBehaviour
             localController.engController.Initialize(playerCamera);
         }
     }
+    
+    public void CreateCamera()
+    {
+        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+    }
 
     [Command]
     public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
@@ -106,11 +88,10 @@ public class PlayerController : NetworkBehaviour
                 break;
             case 2:
                 enginesLevel++;
-                shipMovement.speed += 15;
+                //shipMovement.speed += 15; <-- commented upon merge as speed is no longer accessible
                 break;
         }
     }
-
 
     private void Update()
     {
@@ -130,26 +111,41 @@ public class PlayerController : NetworkBehaviour
             engController.EngFixedUpdate();
     }
 
-    public void CallSetCamera()
-    {
-        RpcSetCamera();
-    }
-
     public void SetRole(string newRole)
     {
         this.role = newRole;
     }
 
-    void Start()
+    [ClientRpc]
+    public void RpcRotateCamera(float yRotate, uint receivedId)
     {
+        // Change only local camera
+        if (isLocalPlayer && netId.Value == receivedId)
+        {
+            Debug.Log("setting yRotate: " + yRotate);
+            Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
+            playerCamera.transform.localRotation = q;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcSetCameraIndex(int newIndex)
+    {
+        index = newIndex;
+        Debug.Log("netId " + netId + " now has index " + index);
+    }
+
+    void Start()
+    {   
+        //Each client request server command
         if (isServer)
         {
-            ship = GameObject.Find("PlayerShipLogic(Clone)");
-            shipMovement = ship.GetComponent<ShipMovement>();
+            //ship = GameObject.Find("PlayerShipLogic(Clone)");
+            //shipMovement = ship.GetComponent<ShipMovement>();
         }
         // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
         print("player appears");
-        if (isClient)
+        if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
         {
             thing = GameObject.Find("StuffManager");
             thingscript = thing.GetComponent<CommandConsoleState>();
@@ -159,13 +155,32 @@ public class PlayerController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            Debug.Log("Local Player");
+            CreateCamera();
+            CmdJoin();
+        }
+    }
+
+    [Command]
+    void CmdJoin()
+    {
+        // Get lobby script
+        GameObject lobbyObject = GameObject.Find("ServerLobby(Clone)");
+        ServerLobby serverLobby;
+        if (lobbyObject != null)
+        {
+            serverLobby = GameObject.Find("ServerLobby(Clone)").GetComponent<ServerLobby>();
+            if (serverLobby != null)
+            {
+                // Notify manager and lobby of joining
+                serverLobby.playerJoin(gameObject);
+            }
         }
         else
         {
-            Debug.Log("Non-Local Player");
+            Debug.Log("Server lobby not found, cannot set up.");
         }
     }
+
     // OnGUI draws to screen and is called every few frames
     void OnGUI()
     {
