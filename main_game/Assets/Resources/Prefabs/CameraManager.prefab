@@ -45,6 +45,7 @@ GameObject:
   - 81: {fileID: 8164376}
   - 114: {fileID: 11465172}
   - 45: {fileID: 4507344}
+  - 164: {fileID: 16460914}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -548,6 +549,29 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106102}
   m_Enabled: 1
+--- !u!164 &16460914
+AudioReverbFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106102}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: -1000
+  m_RoomHF: -476
+  m_RoomRolloff: 0
+  m_DecayTime: 4.32
+  m_DecayHFRatio: 0.59
+  m_ReflectionsLevel: -789
+  m_ReverbLevel: -289
+  m_ReverbDelay: 0.03
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 7
 --- !u!198 &19833976
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3654,6 +3678,42 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: sizeMultiplier
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Room
+      value: -1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_RoomHF
+      value: -476
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_RoomRolloff
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DecayTime
+      value: 4.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DecayHFRatio
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReflectionsLevel
+      value: -789
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReverbLevel
+      value: -289
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReverbDelay
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReverbPreset
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
