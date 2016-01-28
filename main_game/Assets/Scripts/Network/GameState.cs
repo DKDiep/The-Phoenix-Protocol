@@ -56,11 +56,13 @@ public class GameState : MonoBehaviour {
     public void RemoveAsteroid(GameObject removeObject)
     {
         asteroidList.Remove(removeObject);
+        AsteroidSpawner.numAsteroids--;
     }
 
     public void RemoveAsteroidAt(int i)
     {
         asteroidList.RemoveAt(i);
+        AsteroidSpawner.numAsteroids--;
     }
 
     public GameObject GetAsteroidAt(int i)
