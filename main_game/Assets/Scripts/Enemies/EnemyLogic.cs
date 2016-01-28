@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyLogic : MonoBehaviour 
 {
@@ -45,13 +46,13 @@ public class EnemyLogic : MonoBehaviour
 	Renderer myRender;
     private GameObject controlObject;
 
+	private List<GameObject> aiWaypoints;
+
     public void SetControlObject(GameObject newControlObject)
     {
         controlObject = newControlObject;
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
-
-
 
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
@@ -77,6 +78,19 @@ public class EnemyLogic : MonoBehaviour
 		
 		StartCoroutine ("ShootManager");
 		StartCoroutine("DrawDelay");
+	}
+
+	// Set the waypoints to follow when engaging the player
+	public void SetAIWaypoints(List<GameObject> waypoints)
+	{
+		aiWaypoints = waypoints;
+
+		if (Debug.isDebugBuild)
+		{
+			Color randomColor = new Color (Random.value, Random.value, Random.value, 1.0f);
+			foreach (GameObject waypoint in aiWaypoints)
+				waypoint.GetComponent<MeshRenderer> ().material.color = randomColor;
+		}
 	}
 
 	IEnumerator DrawDelay()
