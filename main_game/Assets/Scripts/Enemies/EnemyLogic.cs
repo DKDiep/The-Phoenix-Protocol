@@ -38,15 +38,25 @@ public class EnemyLogic : MonoBehaviour
 	float shield;
     public float distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
-	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
-    float randomZ;
+	float randomZ;
 
-    GameObject shootAnchor;
+	GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
-    private GameObject controlObject;
+	private GameObject controlObject;
+
+	int state;
+	private const int STATE_SEEK_PLAYER    = 0;
+	private const int STATE_AVOID_OBSTACLE = 1;
+	private const int STATE_COOLDOWN       = 2;
+	private const int STATE_ENGAGE_PLAYER  = 3;
+	private const int ENGAGE_DISTANCE      = 650;
 
 	private List<GameObject> aiWaypoints;
+	private GameObject currentWaypoint               = null;
+	private const float AI_WAYPOINT_ROTATION_SPEED   = 0.5f;
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 2.5f;
+	private float lastYRot;
 
     public void SetControlObject(GameObject newControlObject)
     {
@@ -60,7 +70,7 @@ public class EnemyLogic : MonoBehaviour
         mySrc = GetComponent<AudioSource>();
         mySrc.clip = fireSnd;
 		player = temp;
-		state = 0;
+		state = STATE_SEEK_PLAYER;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
@@ -101,16 +111,67 @@ public class EnemyLogic : MonoBehaviour
 	
 	void Update () 
 	{
-		prevPos = currentPos;
+		prevPos    = currentPos;
 		currentPos = player.transform.position;
-		distance = Vector3.Distance(transform.position, player.transform.position);
+		distance   = Vector3.Distance(transform.position, player.transform.position);
 
-		if(state == 0)
+		if (state == STATE_SEEK_PLAYER && distance <= ENGAGE_DISTANCE)
 		{
-			controlObject.transform.LookAt(player.transform.position);
-			controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
-            controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
-		}
+			state = STATE_ENGAGE_PLAYER;
+			currentWaypoint = GetNextWaypoint ();
+		} 
+		else if (state == STATE_ENGAGE_PLAYER && distance > ENGAGE_DISTANCE)
+		{
+			state = STATE_SEEK_PLAYER;
+		} 
+
+		if (state == STATE_ENGAGE_PLAYER)
+			MoveTowardsCurrentWaypoint ();
+		else // if (state == STATE_SEEK_PLAYER)
+			MoveTowardsPlayer();
+	}
+
+	// When not engaged, try and get closer to the player
+	void MoveTowardsPlayer()
+	{
+		controlObject.transform.LookAt(player.transform.position);
+		controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
+		controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y,
+			controlObject.transform.eulerAngles.z);
+	}
+
+	// Get the next engagement waypoint to follow, which should be different from the previous one
+	GameObject GetNextWaypoint()
+	{
+		GameObject nextWaypoint;
+
+		do
+		{
+			int r = Random.Range (0, aiWaypoints.Count);
+			nextWaypoint = aiWaypoints [r];
+		} while (nextWaypoint.Equals (currentWaypoint));
+
+		return nextWaypoint;
+	}
+
+	// When engaged with the player ship, move between waypoints
+	void MoveTowardsCurrentWaypoint()
+	{
+		
+		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
+		Quaternion rotation = Quaternion.LookRotation (relativePos, Vector3.forward); // TODO: when we get a proper ship, remove the upwards parameter
+
+		// Turn and bank
+		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
+			Time.deltaTime * AI_WAYPOINT_ROTATION_SPEED);
+		float yRot = Mathf.Clamp (lastYRot - controlObject.transform.localEulerAngles.y, 0, 3);
+		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
+		lastYRot = controlObject.transform.localEulerAngles.y;
+
+		controlObject.transform.Translate (0, Time.deltaTime * speed * (-1), 0); // TODO: when we get a proper ship, move it forwards
+
+		if (Vector3.Distance (controlObject.transform.position, currentWaypoint.transform.position) < AI_WAYPOINT_REACHED_DISTANCE)
+			currentWaypoint = GetNextWaypoint ();
 	}
 	
 	IEnumerator ShootManager()
