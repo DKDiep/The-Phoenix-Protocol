@@ -22,6 +22,6 @@ public class RpcManager : NetworkBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 500, 100, 20), debugString);
+        //GUI.Label(new Rect(10, 500, 100, 20), debugString);
     }
 }

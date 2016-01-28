@@ -27,6 +27,8 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
     [SerializeField] GameObject destroyEffect;
+    [SerializeField] AudioClip fireSnd;
+    AudioSource mySrc;
 
 	public GameObject player;
 	bool shoot = false;
@@ -54,6 +56,8 @@ public class EnemyLogic : MonoBehaviour
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
 	{
+        mySrc = GetComponent<AudioSource>();
+        mySrc.clip = fireSnd;
 		player = temp;
 		state = 0;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
@@ -128,7 +132,7 @@ public class EnemyLogic : MonoBehaviour
 
 		logic.GetComponent<BulletLogic>().SetDestination (destination);
 		ServerManager.NetworkSpawn(obj);
-		
+        mySrc.Play();
 		if(shoot) StartCoroutine ("Shoot");
 	}
 	

@@ -92,6 +92,9 @@ public class ServerManager : NetworkBehaviour {
         if (playerController != null)
             playerController.RpcSetCamera();
 
+        // Spawn music controller only on server
+        Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject)));
+
         // Get the engineer start position
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
