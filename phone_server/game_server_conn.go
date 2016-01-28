@@ -55,6 +55,8 @@ func decodeGameServerMessage(rawData []byte ) {
     }
 
     switch msg["type"].(string) {
+    case "SHP_UPD":
+        updateShipData(msg["data"].(map[string]interface{}))
     case "NEW_AST":
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
@@ -63,6 +65,15 @@ func decodeGameServerMessage(rawData []byte ) {
     default:
         fmt.Println("Received unexpected message from Game Server of type: ", msg["type"])
     }
+}
+
+// Updates the ship data with the received values
+func updateShipData(data map[string]interface{}) {
+    newShipData := &PlayerShip{
+        posX: int(data["x"].(float64)),
+        posY: int(data["y"].(float64)),
+    }
+    playerShip.setShipData(newShipData)
 }
 
 // Adds asteroids to the local data structure

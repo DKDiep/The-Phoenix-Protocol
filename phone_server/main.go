@@ -15,6 +15,12 @@ const DATA_UPDATE_INTERVAL time.Duration = 1000 * time.Millisecond
 // Structure dealing with the Game Server Connection
 var gameServerConn *net.UDPConn
 
+var playerShip *PlayerShipController = &PlayerShipController{
+    data: &PlayerShip{},
+    setC: make(chan *PlayerShip),
+    getC: make(chan *PlayerShip),
+}
+
 // Main structure holding all the user
 var userList *UserList = &UserList{
     l:      make([]*User, 0, 20),
@@ -47,6 +53,7 @@ func webSocketHandler(webs *websocket.Conn) {
 func main() {
     initialiseGameServerConnection()
     go gameServerConnectionHandler()
+    go playerShip.accessManager()
     go userList.accessManager()
     go asteroidMap.accessManager()
     // TODO: Run this timer only when a game session is running
