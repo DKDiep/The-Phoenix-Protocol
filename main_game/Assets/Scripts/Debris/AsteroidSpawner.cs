@@ -81,7 +81,7 @@ public class AsteroidSpawner : MonoBehaviour
                 GameObject asteroidObject = state.GetAsteroidAt(i);
                 if(asteroidObject == null)
                 {
-                  state.RemoveAsteroidAt(i);
+                    state.RemoveAsteroidAt(i);
                 }
             }
         }

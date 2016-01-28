@@ -260,6 +260,7 @@ public class ShipMovement : MonoBehaviour
 		}
 		else
 		{
+            health = 0;
 			//Destroy(transform.parent.gameObject);
 		}
 		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");

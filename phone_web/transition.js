@@ -4,7 +4,9 @@ var currentScreen = ""
 function updateScreen(userData) {
     switch (userData.state) {
         case "SPECTATOR":
-            transitionTo("spectator");
+            transitionTo("spectator", function() {
+              startGame();
+            });
             break;
         case "GAME_LIMBO":
             transitionTo("game_limbo");

@@ -22,10 +22,10 @@ public class PlayerController : NetworkBehaviour
     private PlayerController localController = null;
     private int index = 0;
 
-    public GameObject thing;
+    public GameObject commandConsoleGameObject;
     // Private to each instance of script
     private GameObject ship;
-    private CommandConsoleState thingscript;
+    private CommandConsoleState commandConsoleState;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
     private int enginesLevel = 0;
@@ -147,10 +147,10 @@ public class PlayerController : NetworkBehaviour
         print("player appears");
         if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
         {
-            thing = GameObject.Find("StuffManager");
-            thingscript = thing.GetComponent<CommandConsoleState>();
-            //thingscript.test();
-            thingscript.gimme(this);
+            commandConsoleGameObject = GameObject.Find("StuffManager");
+            commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
+            //commandConsoleState.test();
+            commandConsoleState.gimme(this);
         }
 
         if (isLocalPlayer)

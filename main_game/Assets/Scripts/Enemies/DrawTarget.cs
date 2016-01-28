@@ -45,6 +45,6 @@ public class DrawTarget : NetworkBehaviour
         screenPos = GUIUtility.ScreenToGUIPoint(screenPos);
         float size = Mathf.Clamp(128f / (distance / 100f),0,128);
 
-        if(distance < 750 && draw && myRender) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
+        if(distance < 1250 && distance > 5 && draw && myRender) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
     }
 }

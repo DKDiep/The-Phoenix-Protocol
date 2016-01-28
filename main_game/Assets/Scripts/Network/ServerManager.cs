@@ -92,9 +92,6 @@ public class ServerManager : NetworkBehaviour {
         if (playerController != null)
             playerController.RpcSetCamera();
 
-        //Transform cameraTransform = GameObject.Find("CameraManager(Clone)").transform;
-        //cameraTransform.parent = playerShip.transform;
-
         // Get the engineer start position
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
