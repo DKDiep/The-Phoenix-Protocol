@@ -56,10 +56,24 @@ public class UDPServer : MonoBehaviour
         {
             if(!phoneServer.Address.Equals(IPAddress.Any))
             {
+                SendShipPosition();
                 SendNewAsteroids();
                 SendRemovedAsteroids();
             }
             yield return new WaitForSeconds(0.07f);
+        }
+    }
+
+    private void SendShipPosition()
+    {
+        GameObject playerShip = state.GetPlayerShip();
+        if (playerShip != null)
+        {
+            string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
+                             "\"x\":"  + playerShip.transform.position.x +
+                             ",\"y\":" + playerShip.transform.position.z +
+                             "}}";
+            SendMsg(jsonMsg);
         }
     }
 
@@ -71,7 +85,7 @@ public class UDPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"NEW_AST\",\"data\":[";
             foreach (GameObject ast in newAsteroids)
             {
-                jsonMsg += "{\"id\": " + (uint)ast.GetInstanceID() +
+                jsonMsg += "{\"id\":" + (uint)ast.GetInstanceID() +
                             ",\"x\":" + ast.transform.position.x +
                             ",\"y\":" + ast.transform.position.z +
                             "},";
