@@ -57,7 +57,9 @@ public class GameState : MonoBehaviour {
     }
 
     public void RemoveAsteroid(GameObject removeObject)
-    {
+    {        
+        bool wasDeleted = newAsteroids.Remove(removeObject);
+        if (!wasDeleted) removedAsteroids.Add((uint)removeObject.GetInstanceID());
         asteroidList.Remove(removeObject);
         AsteroidSpawner.numAsteroids--;
     }
