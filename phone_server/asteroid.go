@@ -1,5 +1,9 @@
 package main
 
+import(
+    "fmt"
+)
+
 // Holds asteroid data
 type Asteroid struct {
     posX int
@@ -11,6 +15,7 @@ type AsteroidMap struct {
     m    map[int]*Asteroid
     delC chan int
     addC chan NewAst
+    copy chan map[int]Asteroid
 }
 
 // Wrapper of asteroid data, sent on a channel
@@ -21,12 +26,18 @@ type NewAst struct {
 
 // Manages concurrent access to the asteroid map data structure
 func (asteroids *AsteroidMap) accessManager() {
+    fmt.Println("Starting Asteroid accessManager.")
     for {
         select {
         case id := <-asteroids.delC:
             delete(asteroids.m, id)
         case new := <-asteroids.addC:
             asteroids.m[new.id] = new.ast
+        case newCopy := <-asteroids.copy:
+            for k, v := range asteroids.m {
+                newCopy[k] = *v
+            }
+            asteroids.copy <- nil
         }
     }
 }

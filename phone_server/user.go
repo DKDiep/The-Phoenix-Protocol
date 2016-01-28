@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
-    "math"
+    //"math"
 )
 
 // TODO: remove this when movement simulation is no longer needed
@@ -102,36 +102,50 @@ func (usr *User) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (usr *User) sendDataUpdate() {
+func (usr *User) sendDataUpdate(asteroids map[int]Asteroid) {
     // TODO: remove dummy data
-    incry += 0.1
-    msg := map[string]interface{}{
-        "type": "STATE_UPDATE",
-        "data": []map[string]interface{}{
-            map[string]interface{}{
-                "type": "ship",
+    msg := make(map[string]interface{})
+    msg["type"] = "STATE_UPDATE"
+    //dataLen := len(asteroids)
+    dataSegment := make([]map[string]interface{}, 0)
+    for _, ast := range asteroids {
+        dataSegment = append(dataSegment, map[string]interface{}{
+            "type": "asteroid",
                 "position": map[string]interface{}{
-                    "x": 10,
-                    "y": math.Mod((incry + 14), 100),
+                    "x": float64(ast.posX)/5,
+                    "y": float64(ast.posY)/5,
                 },
-            },
-            map[string]interface{}{
-                "type": "debris",
-                "position": map[string]interface{}{
-                    "x": 20,
-                    "y": math.Mod((incry + 53), 100),
-                },
-                "size": 10,
-            },
-            map[string]interface{}{
-                "type": "asteroid",
-                "position": map[string]interface{}{
-                    "x": 32,
-                    "y": math.Mod((incry + 15), 100),
-                },
-            },
-        },
+        })
     }
+    msg["data"] = dataSegment
+    // incry += 0.1
+    // msg := map[string]interface{}{
+    //     "type": "STATE_UPDATE",
+    //     "data": []map[string]interface{}{
+    //         map[string]interface{}{
+    //             "type": "ship",
+    //             "position": map[string]interface{}{
+    //                 "x": 10,
+    //                 "y": math.Mod((incry + 14), 100),
+    //             },
+    //         },
+    //         map[string]interface{}{
+    //             "type": "debris",
+    //             "position": map[string]interface{}{
+    //                 "x": 20,
+    //                 "y": math.Mod((incry + 53), 100),
+    //             },
+    //             "size": 10,
+    //         },
+    //         map[string]interface{}{
+    //             "type": "asteroid",
+    //             "position": map[string]interface{}{
+    //                 "x": 32,
+    //                 "y": math.Mod((incry + 15), 100),
+    //             },
+    //         },
+    //     },
+    // }
 
     usr.sendMsg(msg)
 }
@@ -143,7 +157,7 @@ func (usr *User) sendMsg(msg map[string]interface{}) {
         fmt.Println("Error sendMsg(): Failed to marshal JSON: ", err)
     }
 
-    fmt.Println("Sent: ", string(toSend))
+    //fmt.Println("Sent: ", string(toSend))
 
     _, err = usr.ws.Write(toSend)
     if err != nil {

@@ -40,7 +40,9 @@ func gameServerConnectionHandler() {
             fmt.Println("Retrying.")
             gameServerConn.Write([]byte("INIT\n"))
         } else {
-            go decodeGameServerMessage(receivedMsg[:n])
+            toDecode := make([]byte, n)
+            copy(toDecode, receivedMsg[:n])
+            go decodeGameServerMessage(toDecode)
         }
     }
 }
@@ -53,7 +55,7 @@ func decodeGameServerMessage(rawData []byte ) {
     }
 
     switch msg["type"].(string) {
-    case "ADD_AST":
+    case "NEW_AST":
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))

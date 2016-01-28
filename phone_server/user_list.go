@@ -1,5 +1,9 @@
 package main
 
+import (
+    "fmt"
+)
+
 // The collection of all users
 type UserList struct {
     l      []*User
@@ -10,6 +14,7 @@ type UserList struct {
 
 // Manages concurrent access to the user list data structure
 func (users *UserList) accessManager() {
+    fmt.Println("Starting User accessManager.")
     for {
         select {
         // request to add
@@ -42,7 +47,10 @@ func (users *UserList) remove(usr *User) {
 // Sends a state data update to all users
 func (users *UserList) updateData() {
     // TODO: calculate coordinates in client side space
+    asteroidData := make(map[int]Asteroid)
+    asteroidMap.copy <- asteroidData
+    <- asteroidMap.copy
     for _, usr := range users.l {
-        usr.sendDataUpdate()
+        usr.sendDataUpdate(asteroidData)
     }
 }

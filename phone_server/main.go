@@ -1,7 +1,7 @@
 package main
 
 import (
-    //"fmt"
+    "fmt"
     "golang.org/x/net/websocket"
     "net/http"
     "time"
@@ -9,8 +9,8 @@ import (
 )
 
 const WEB_DIR string = "../phone_web"
-const GAME_SERVER_ADDRESS string = "localhost:2345"
-const DATA_UPDATE_INTERVAL time.Duration = 100 * time.Millisecond
+const GAME_SERVER_ADDRESS string = "192.168.56.1:2345"
+const DATA_UPDATE_INTERVAL time.Duration = 1000 * time.Millisecond
 
 // Structure dealing with the Game Server Connection
 var gameServerConn *net.UDPConn
@@ -28,6 +28,7 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
     m:    make(map[int]*Asteroid),
     delC: make(chan int),
     addC: make(chan NewAst),
+    copy: make(chan map[int]Asteroid),
 }
 
 // Creates a user instance and adds it to the ecosystem
@@ -52,6 +53,7 @@ func main() {
     go updateTimer()
     http.Handle("/web_socket", websocket.Handler(webSocketHandler))
     http.Handle("/", http.FileServer(http.Dir(WEB_DIR)))
+    fmt.Println("Starting Web Server.")
     err := http.ListenAndServe(":8080", nil)
     if err != nil {
         panic("Error starting web server: " + err.Error())
