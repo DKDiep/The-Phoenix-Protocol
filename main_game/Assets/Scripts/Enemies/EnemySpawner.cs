@@ -86,18 +86,39 @@ public class EnemySpawner : MonoBehaviour
 		int n_waypoints = maxEnemies * AI_GEN_WAYPOINTS_FACTOR;
 		aiWaypoints = new List<GameObject> (n_waypoints);
 
+		// Get the bounds of all (important) ship parts
+		List<Bounds> bounds = new List<Bounds> ();
+		Transform spaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
+		foreach (Transform child in spaceshipModel)
+		{
+			GameObject gameObject = child.gameObject;
+			if (gameObject.name.Contains ("Engine") || gameObject.name.Contains ("Hull") || gameObject.name.Equals ("CaptainBridge"))
+				bounds.Add (gameObject.GetComponent<Renderer> ().bounds);
+		}
+
 		GameObject waypoint;
+		bool intersects;
 
 		for (int i = 0; i < n_waypoints; i++)
 		{
-			if (Debug.isDebugBuild)
-				waypoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			else
-				waypoint = new GameObject ();
-			waypoint.transform.localScale = waypoint.transform.localScale / 25;
-			waypoint.transform.position = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
-			waypoint.transform.Translate(AI_WAYPOINT_SHIFT_UP); // Shift the waypoints a upwards a little, otherwise too many end up under the ship
-			waypoint.transform.parent = player.transform;
+			// Randomly generate a waypoint around the player, but discard it if it's inside the ship
+			do
+			{
+				if (Debug.isDebugBuild)
+					waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+				else
+					waypoint = new GameObject ();
+				waypoint.transform.localScale = waypoint.transform.localScale / 25;
+				waypoint.transform.position = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
+				waypoint.transform.Translate (AI_WAYPOINT_SHIFT_UP); // Shift the waypoints a upwards a little, otherwise too many end up under the ship
+				waypoint.transform.parent = player.transform;
+
+				// Check if the waypoint intersects any of the the player ship parts
+				intersects = false;
+				for (int j = 0; j < bounds.Count && !intersects; j++)
+					if (bounds[j].Contains(waypoint.transform.position))
+						intersects = true;
+			} while(intersects);
 
 			aiWaypoints.Add (waypoint);
 		}
