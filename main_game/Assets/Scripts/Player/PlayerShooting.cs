@@ -17,6 +17,8 @@ public class PlayerShooting : MonoBehaviour
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
 	[SerializeField] Texture2D hitmarker;
+    [SerializeField] AudioClip fireSnd;
+    AudioSource mySrc;
 
 	GameObject bulletAnchor;
 	GameObject target;
@@ -28,6 +30,8 @@ public class PlayerShooting : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+        mySrc = GetComponent<AudioSource>();
+        mySrc.clip = fireSnd;
 		canShoot = true;
 		showMarker = false;
 		alpha = 0;
@@ -96,6 +100,7 @@ public class PlayerShooting : MonoBehaviour
 	{
 		// Currently only works for first player
 		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
+        mySrc.Play();
 
 		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
 		RaycastHit hit;

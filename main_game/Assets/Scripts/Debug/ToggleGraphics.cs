@@ -23,7 +23,7 @@ public class ToggleGraphics : MonoBehaviour
 	
 	void Start () 
 	{
-		enableGraphics = true;
+		enableGraphics = false;
 		ssaa = GetComponent<SuperSampling_SSAA>();
 		sessao = GetComponent<SESSAO>();
 		motion = GetComponent<AmplifyMotionEffect>();
@@ -50,7 +50,7 @@ public class ToggleGraphics : MonoBehaviour
 		vignette.enabled = enableGraphics;
 		smaa.enabled = enableGraphics;
         shafts.enabled = enableGraphics;
-        if(GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
+       
 	}
 
 	void Update () 
@@ -59,5 +59,6 @@ public class ToggleGraphics : MonoBehaviour
 		{
 			UpdateGraphics();
 		}
+        if(shafts.sunTransform == null && GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
 	}
 }

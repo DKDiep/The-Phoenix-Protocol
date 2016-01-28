@@ -36,6 +36,7 @@ public class EnemyLogic : MonoBehaviour
     public float distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
+    float randomZ;
 
     GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
@@ -56,6 +57,8 @@ public class EnemyLogic : MonoBehaviour
 		player = temp;
 		state = 0;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
+        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
+        randomZ = Random.Range(0f,359f);
 		if(maxShield > 0)
 		{
 			shield = maxShield;
@@ -87,7 +90,7 @@ public class EnemyLogic : MonoBehaviour
 		if(state == 0)
 		{
 			controlObject.transform.LookAt(player.transform.position);
-			controlObject.transform.Translate (controlObject.transform.forward*Time.deltaTime * speed);
+			controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
             controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
 		}
 	}
