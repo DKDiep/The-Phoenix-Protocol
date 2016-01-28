@@ -1,4 +1,5 @@
-var serverSocket
+var serverSocket;
+var disconectTimer;
 
 // Initialise the web socket connection
 function initSocket(resumeInitialisation) {
@@ -7,10 +8,12 @@ function initSocket(resumeInitialisation) {
 
         // After connection initialisation
         serverSocket.onopen = function() {
+            clearInterval(disconectTimer);
             // Proceed with page initialisation
             // in init.js
             resumeInitialisation()
             console.log("Web Socket Connection initialised");
+
         }
 
         // Receiving from server
@@ -18,12 +21,17 @@ function initSocket(resumeInitialisation) {
 
         // Web Socket Error
         serverSocket.onerror = function(e) {
-            conosle.log("Web Socket Error: "+e.data)
+            conosle.log("Web Socket Error: "+e.data);
         }
 
         // After closing the connection
         serverSocket.onclose = function() {
-            console.log("Web Socket Connection Closed")
+            serverSocket = undefined;
+            console.log("Web Socket Connection Closed");
+            disconectTimer = setInterval(function() {
+              // this will connect to server without a user accociated with the websocket.
+              initSocket()
+            }, 1000)
         }
     }
 }
@@ -46,7 +54,7 @@ function onMessage(event) {
             //changeState(msg.data)
             break;
         case "STATE_UPDATE":
-            //updateState(msg.data)
+            data.objects = msg.data;
             break;
         case "STATISTICS_UPDATE":
             //updateStats(msg.data)
