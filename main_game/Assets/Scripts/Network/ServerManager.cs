@@ -138,6 +138,10 @@ public class ServerManager : NetworkBehaviour {
         //Set up the game state
         playerController.SetControlledObject(playerShip);
 
+
+		//Reset Player's scores
+		gameState.ResetPlayerScores();
+
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.SetStatus(GameState.Status.Started);

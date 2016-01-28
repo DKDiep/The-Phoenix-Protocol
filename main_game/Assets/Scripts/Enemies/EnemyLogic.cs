@@ -27,6 +27,8 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
     [SerializeField] GameObject destroyEffect;
+	[SerializeField] GameObject gameManager;
+	private GameState gameState;
 
 	public GameObject player;
 	bool shoot = false;
@@ -42,6 +44,15 @@ public class EnemyLogic : MonoBehaviour
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
     private GameObject controlObject;
+
+	void Start () 
+	{
+		if (gameManager != null)
+		{
+			gameState = gameManager.GetComponent<GameState>();
+			gameState.ResetPlayerScores();
+		}
+	}
 
     public void SetControlObject(GameObject newControlObject)
     {
@@ -126,12 +137,12 @@ public class EnemyLogic : MonoBehaviour
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination);
+		logic.GetComponent<BulletLogic>().SetDestination (destination, false);
 		ServerManager.NetworkSpawn(obj);
 		
 		if(shoot) StartCoroutine ("Shoot");
 	}
-	
+
 	IEnumerator RechargeShields()
 	{
 		if(lastShieldCheck == shield)
@@ -149,7 +160,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 	}
 	
-	public void collision(float damage)
+	public void collision(float damage, int playerId)
 	{
 		if (shield > damage)
 		{
@@ -168,6 +179,13 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
+			if(playerId != -1) 
+			{
+				// Update player score
+				gameState.AddPlayerScore(playerId, 10);
+			}
+
+			// Destroy Object
             GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
 			Destroy(transform.parent.gameObject);

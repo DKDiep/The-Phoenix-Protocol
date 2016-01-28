@@ -19,13 +19,16 @@ public class BulletLogic : MonoBehaviour
 	[SerializeField] float xScale;
 	[SerializeField] float yScale;
 	[SerializeField] float zScale;
+
 	GameObject obj;
 	GameObject destination;
 	PlayerShooting player;
 	bool started = false;
 	int playerId;
 
-	public void SetDestination(Vector3 destination)
+
+
+	public void SetDestination(Vector3 destination, bool isPlayer)
 	{
 		obj = transform.parent.gameObject;
 		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
@@ -34,7 +37,14 @@ public class BulletLogic : MonoBehaviour
         rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 		SphereCollider sphere = obj.AddComponent<SphereCollider>();
 		sphere.isTrigger = true;
-		obj.AddComponent<BulletCollision>();
+
+		if(isPlayer) 
+		{
+			obj.AddComponent<BulletCollision>().playerId = playerId;
+		} else {
+			obj.AddComponent<BulletCollision>();
+		}
+
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
@@ -49,20 +59,21 @@ public class BulletLogic : MonoBehaviour
 		player = playerObj;
 	}
 	
-	public void collision(Collider col)
+	public void collision(Collider col, int bulletPlayerId)
 	{
-
-        if(playerId == 1) player.HitMarker();
+		if(player != null) 
+		{
+        player.HitMarker();
+		}
 
         if(col.gameObject.tag.Equals("Debris"))
-        {
-        //Debug.Log ("A bullet has hit asteroid");
-        col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
+		{
+			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
         }
         else if(col.gameObject.tag.Equals("EnemyShip"))
         {
-        //Debug.Log ("A bullet has hit an enemy");
-        col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage);
+        	//Debug.Log ("A bullet has hit an enemy");
+			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage, bulletPlayerId);
         }
         else if(col.gameObject.tag.Equals("Player"))
         {

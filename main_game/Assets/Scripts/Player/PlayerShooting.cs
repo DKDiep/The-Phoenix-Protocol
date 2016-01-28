@@ -125,9 +125,9 @@ public class PlayerShooting : MonoBehaviour
 
 		GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
-		logic.GetComponent<BulletLogic>().SetID(this, 1);
+		logic.GetComponent<BulletLogic>().SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position);
+		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true);
 		ServerManager.NetworkSpawn(obj);
 		canShoot = false;
 		StartCoroutine("Delay");
@@ -147,7 +147,7 @@ public class PlayerShooting : MonoBehaviour
 	}
 	void OnGUI()
 	{
-		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
+		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + currentPlayerId).transform.position;
 		GUI.color = new Color(1,1,1,alpha);
 		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
 	}
