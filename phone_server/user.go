@@ -7,9 +7,6 @@ import (
     //"math"
 )
 
-// TODO: remove this when movement simulation is no longer needed
-var incry float64 = 10
-
 // Holds user related data
 type User struct {
     ws       *websocket.Conn
@@ -103,7 +100,7 @@ func (usr *User) sendStateUpdate() {
 
 // Sends a user state data update
 func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
-    // TODO: remove dummy data
+    // TODO: add other objects
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
     //dataLen := len(asteroids)
@@ -112,8 +109,8 @@ func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "asteroid",
             "position": map[string]interface{}{
-                "x": float64(ast.posX),
-                "y": float64(ast.posY),
+                "x": ast.posX,
+                "y": ast.posY,
             },
         })
     }

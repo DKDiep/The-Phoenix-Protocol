@@ -6,8 +6,8 @@ import (
 
 // Holds asteroid data
 type Asteroid struct {
-    posX int
-    posY int
+    posX float64
+    posY float64
 }
 
 // The collection of all asteroids

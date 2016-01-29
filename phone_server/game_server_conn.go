@@ -70,8 +70,8 @@ func decodeGameServerMessage(rawData []byte) {
 // Updates the ship data with the received values
 func updateShipData(data map[string]interface{}) {
     newShipData := &PlayerShip{
-        posX: int(data["x"].(float64)),
-        posY: int(data["y"].(float64)),
+        posX: data["x"].(float64),
+        posY: data["y"].(float64),
         rot:  data["rot"].(float64),
     }
     playerShip.setShipData(newShipData)
@@ -83,8 +83,8 @@ func addAsteroids(data []interface{}) {
         asteroid := d.(map[string]interface{})
         asteroidMap.add(int(asteroid["id"].(float64)),
             &Asteroid{
-                posX: int(asteroid["x"].(float64)),
-                posY: int(asteroid["y"].(float64)),
+                posX: asteroid["x"].(float64),
+                posY: asteroid["y"].(float64),
             })
     }
 }

@@ -6,8 +6,8 @@ import (
 
 // Player ship data holding structure
 type PlayerShip struct {
-    posX int
-    posY int
+    posX float64
+    posY float64
     rot  float64
 }
 
