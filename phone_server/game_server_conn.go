@@ -1,20 +1,20 @@
 package main
 
-import(
-    "net"
-    "fmt"
-    "time"
+import (
     "encoding/json"
+    "fmt"
+    "net"
+    "time"
 )
 
 // Sets up the connection structure and sends a greeting
 func initialiseGameServerConnection() {
     serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS)
-	if err != nil {
+    if err != nil {
         panic("Error resolving game server address: " + err.Error())
     }
 
-	gameServerConn, err = net.DialUDP("udp", nil, serverAddr)
+    gameServerConn, err = net.DialUDP("udp", nil, serverAddr)
     if err != nil {
         panic("Error connecting to game server: " + err.Error())
     }
@@ -34,8 +34,8 @@ func gameServerConnectionHandler() {
         n, err := gameServerConn.Read(receivedMsg)
         if err != nil {
             wait := 5
-            fmt.Println("Game Server Connection Error: ",err)
-            fmt.Println("Retrying in",wait,"seconds.")
+            fmt.Println("Game Server Connection Error: ", err)
+            fmt.Println("Retrying in", wait, "seconds.")
             time.Sleep(time.Duration(wait) * time.Second)
             fmt.Println("Retrying.")
             gameServerConn.Write([]byte("INIT\n"))
@@ -48,7 +48,7 @@ func gameServerConnectionHandler() {
 }
 
 // Deals with the message payload based on its type
-func decodeGameServerMessage(rawData []byte ) {
+func decodeGameServerMessage(rawData []byte) {
     var msg map[string]interface{}
     if err := json.Unmarshal(rawData, &msg); err != nil {
         fmt.Println(err)
@@ -72,6 +72,7 @@ func updateShipData(data map[string]interface{}) {
     newShipData := &PlayerShip{
         posX: int(data["x"].(float64)),
         posY: int(data["y"].(float64)),
+        rot:  data["rot"].(float64),
     }
     playerShip.setShipData(newShipData)
 }
@@ -81,10 +82,10 @@ func addAsteroids(data []interface{}) {
     for _, d := range data {
         asteroid := d.(map[string]interface{})
         asteroidMap.add(int(asteroid["id"].(float64)),
-                        &Asteroid{
-                            posX: int(asteroid["x"].(float64)),
-                            posY: int(asteroid["y"].(float64)),
-                        })
+            &Asteroid{
+                posX: int(asteroid["x"].(float64)),
+                posY: int(asteroid["y"].(float64)),
+            })
     }
 }
 

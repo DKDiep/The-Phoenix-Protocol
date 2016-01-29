@@ -3,14 +3,14 @@ package main
 import (
     "fmt"
     "golang.org/x/net/websocket"
+    "net"
     "net/http"
     "time"
-    "net"
 )
 
 const WEB_DIR string = "../phone_web"
 const GAME_SERVER_ADDRESS string = "192.168.56.1:2345"
-const DATA_UPDATE_INTERVAL time.Duration = 1000 * time.Millisecond
+const DATA_UPDATE_INTERVAL time.Duration = 200 * time.Millisecond
 
 // Structure dealing with the Game Server Connection
 var gameServerConn *net.UDPConn
@@ -23,18 +23,18 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Main structure holding all the user
 var userList *UserList = &UserList{
-    l:      make([]*User, 0, 20),
-    delC:   make(chan *User),
-    addC:   make(chan *User),
-    update: make(chan struct{}),
+    l:       make([]*User, 0, 20),
+    delC:    make(chan *User),
+    addC:    make(chan *User),
+    updateC: make(chan struct{}),
 }
 
 // Main structure holding all asteroid data
 var asteroidMap *AsteroidMap = &AsteroidMap{
-    m:    make(map[int]*Asteroid),
-    delC: make(chan int),
-    addC: make(chan NewAst),
-    copy: make(chan map[int]Asteroid),
+    m:     make(map[int]*Asteroid),
+    delC:  make(chan int),
+    addC:  make(chan NewAst),
+    copyC: make(chan map[int]*Asteroid),
 }
 
 // Creates a user instance and adds it to the ecosystem
@@ -72,6 +72,6 @@ func updateTimer() {
     ticker := time.NewTicker(DATA_UPDATE_INTERVAL)
     for {
         <-ticker.C
-        userList.update <- struct{}{}
+        userList.updateC <- struct{}{}
     }
 }

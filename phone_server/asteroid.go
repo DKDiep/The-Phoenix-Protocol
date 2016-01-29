@@ -1,6 +1,6 @@
 package main
 
-import(
+import (
     "fmt"
 )
 
@@ -12,10 +12,10 @@ type Asteroid struct {
 
 // The collection of all asteroids
 type AsteroidMap struct {
-    m    map[int]*Asteroid
-    delC chan int
-    addC chan NewAst
-    copy chan map[int]Asteroid
+    m     map[int]*Asteroid
+    delC  chan int
+    addC  chan NewAst
+    copyC chan map[int]*Asteroid
 }
 
 // Wrapper of asteroid data, sent on a channel
@@ -33,11 +33,13 @@ func (asteroids *AsteroidMap) accessManager() {
             delete(asteroids.m, id)
         case new := <-asteroids.addC:
             asteroids.m[new.id] = new.ast
-        case newCopy := <-asteroids.copy:
+        case <-asteroids.copyC:
+            newCopy := make(map[int]*Asteroid)
             for k, v := range asteroids.m {
-                newCopy[k] = *v
+                astCopy := *v
+                newCopy[k] = &astCopy
             }
-            asteroids.copy <- nil
+            asteroids.copyC <- newCopy
         }
     }
 }

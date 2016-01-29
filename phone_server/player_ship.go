@@ -1,17 +1,18 @@
 package main
 
-import(
+import (
     "fmt"
 )
 
 // Player ship data holding structure
-type PlayerShip struct{
+type PlayerShip struct {
     posX int
     posY int
+    rot  float64
 }
 
 // Wrapper around the player ship object handling concurrency
-type PlayerShipController struct{
+type PlayerShipController struct {
     data *PlayerShip
     setC chan *PlayerShip
     getC chan *PlayerShip
@@ -38,6 +39,6 @@ func (plrShip *PlayerShipController) setShipData(data *PlayerShip) {
 
 // Request a copy of the ship data
 func (plrShip *PlayerShipController) getShipData() *PlayerShip {
-    plrShip.getC <-nil
+    plrShip.getC <- nil
     return <-plrShip.getC
 }

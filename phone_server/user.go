@@ -102,7 +102,7 @@ func (usr *User) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (usr *User) sendDataUpdate(asteroids map[int]Asteroid) {
+func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
     // TODO: remove dummy data
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
@@ -111,10 +111,10 @@ func (usr *User) sendDataUpdate(asteroids map[int]Asteroid) {
     for _, ast := range asteroids {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "asteroid",
-                "position": map[string]interface{}{
-                    "x": float64(ast.posX)/5,
-                    "y": float64(ast.posY)/5,
-                },
+            "position": map[string]interface{}{
+                "x": float64(ast.posX),
+                "y": float64(ast.posY),
+            },
         })
     }
     msg["data"] = dataSegment
