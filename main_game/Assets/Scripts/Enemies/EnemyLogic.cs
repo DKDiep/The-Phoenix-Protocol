@@ -27,7 +27,11 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
     [SerializeField] GameObject destroyEffect;
+    [SerializeField] AudioClip fireSnd;
 
+    AudioSource mySrc;
+	private ServerManager serverManager;
+	private GameState gameState;
 	public GameObject player;
 	bool shoot = false;
 	bool rechargeShield;
@@ -38,10 +42,19 @@ public class EnemyLogic : MonoBehaviour
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
     float randomZ;
 
+
+
     GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
     private GameObject controlObject;
+
+	void Start () 
+	{
+		GameObject server = GameObject.Find("GameManager");
+		serverManager = server.GetComponent<ServerManager>();
+		gameState = server.GetComponent<GameState>();
+	}
 
     public void SetControlObject(GameObject newControlObject)
     {
@@ -54,6 +67,8 @@ public class EnemyLogic : MonoBehaviour
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
 	{
+        mySrc = GetComponent<AudioSource>();
+        mySrc.clip = fireSnd;
 		player = temp;
 		state = 0;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
@@ -126,12 +141,12 @@ public class EnemyLogic : MonoBehaviour
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination);
+		logic.GetComponent<BulletLogic>().SetDestination (destination, false);
 		ServerManager.NetworkSpawn(obj);
-		
+        mySrc.Play();
 		if(shoot) StartCoroutine ("Shoot");
 	}
-	
+
 	IEnumerator RechargeShields()
 	{
 		if(lastShieldCheck == shield)
@@ -149,7 +164,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 	}
 	
-	public void collision(float damage)
+	public void collision(float damage, int playerId)
 	{
 		if (shield > damage)
 		{
@@ -168,6 +183,13 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
+			if(playerId != -1) 
+			{
+				// Update player score
+				gameState.AddPlayerScore(playerId, 10);
+			}
+
+			// Destroy Object
             GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
 			Destroy(transform.parent.gameObject);

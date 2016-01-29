@@ -184,6 +184,6 @@ public class PlayerController : NetworkBehaviour
     // OnGUI draws to screen and is called every few frames
     void OnGUI()
     {
-        GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
+        //GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
     }
 }

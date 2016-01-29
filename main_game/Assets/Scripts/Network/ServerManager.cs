@@ -92,6 +92,9 @@ public class ServerManager : NetworkBehaviour {
         if (playerController != null)
             playerController.RpcSetCamera();
 
+        // Spawn music controller only on server
+        Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject)));
+
         // Get the engineer start position
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
@@ -137,6 +140,10 @@ public class ServerManager : NetworkBehaviour {
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
+
+
+		//Reset Player's scores
+		gameState.ResetPlayerScores();
 
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();

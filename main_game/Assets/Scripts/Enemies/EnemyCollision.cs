@@ -24,12 +24,12 @@ public class EnemyCollision : MonoBehaviour
     	if(col.gameObject.tag.Equals ("Player"))
     	{
     		col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
-            myLogic.collision(1000f);
+            myLogic.collision(1000f, -1);
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {
             col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(1000f);
-            myLogic.collision(collisionDamage);
+            myLogic.collision(collisionDamage, -1);
         }
     }
 }

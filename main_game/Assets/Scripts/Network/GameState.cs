@@ -20,7 +20,8 @@ public class GameState : MonoBehaviour {
     private List<GameObject> enemyList;
     private List<GameObject> engineerList;
     private GameObject playerShip;
-
+	private int[] playerScore;
+    
     void Update()
     {
     	if(Input.GetKeyDown (KeyCode.Escape))
@@ -166,10 +167,25 @@ public class GameState : MonoBehaviour {
         newAsteroids = new List<GameObject>();
         removedAsteroids = new List<uint>();
         engineerList = new List<GameObject>();
+		playerScore = new int[4];
+		ResetPlayerScores();
     }
 
     public void Setup()
     {
         InitializeVariables();
     }
+
+	public void ResetPlayerScores() 
+	{
+		for(int id = 0; id < 4; id++) 
+		{
+			playerScore[id] = 0;
+		}
+	}
+	public void AddPlayerScore(int id, int score) 
+	{
+		playerScore[id] += score;
+		Debug.Log("Score for player " + id + " is now " + playerScore[id]);
+	}
 }
