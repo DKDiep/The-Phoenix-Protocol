@@ -27,6 +27,9 @@ public class PlayerShooting : MonoBehaviour
 	// Wii remote initialise
 	private bool init = true;
 
+	// Which player are we controlling via the mouse. (For debugging different players)
+	private int currentPlayerId = 0;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -49,12 +52,16 @@ public class PlayerShooting : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+
+		SwitchPlayers();
+
+
 		// Use mouse if there are no wii remotes.
 		if (WiimoteManager.Wiimotes.Count < 1) 
 		{
 			if(Input.GetMouseButton (0) && canShoot)
 			{
-				ShootBullet ();
+				ShootBullet (currentPlayerId);
 			}
 		} 
 		else 
@@ -79,7 +86,8 @@ public class PlayerShooting : MonoBehaviour
 				{
 					if (remote.Button.b && canShoot) 
 					{
-						ShootBullet ();
+						// Shoot bullet for player 0
+						ShootBullet (0);
 					}
 				}
 			} 
@@ -96,10 +104,10 @@ public class PlayerShooting : MonoBehaviour
 		}
 	}
 
-	void ShootBullet() 
+	// Shoot a bullet for a specific player
+	void ShootBullet(int playerId) 
 	{
-		// Currently only works for first player
-		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
+		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + playerId).transform.position;
         mySrc.Play();
 
 		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
@@ -117,16 +125,29 @@ public class PlayerShooting : MonoBehaviour
 
 		GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
-		logic.GetComponent<BulletLogic>().SetID(this, 1);
+		logic.GetComponent<BulletLogic>().SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position);
+		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true);
 		ServerManager.NetworkSpawn(obj);
 		canShoot = false;
 		StartCoroutine("Delay");
 	}
+
+	// Switch between players using keys 1-4, for debugging different player shooting.
+	void SwitchPlayers() 
+	{
+		// Loop through 4 players
+		for (int i = 1; i <= 4; i++) 
+		{
+			if (Input.GetKeyDown (i.ToString ())) 
+			{
+				currentPlayerId = i-1;
+			}
+		}
+	}
 	void OnGUI()
 	{
-		Vector3 crosshairPosition = GameObject.Find("CrosshairImage0").transform.position;
+		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + currentPlayerId).transform.position;
 		GUI.color = new Color(1,1,1,alpha);
 		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
 	}
