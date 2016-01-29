@@ -27,7 +27,7 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject bulletLogic;
     [SerializeField] GameObject destroyEffect;
-	[SerializeField] GameObject gameManager;
+	private ServerManager serverManager;
 	private GameState gameState;
 
 	public GameObject player;
@@ -40,6 +40,8 @@ public class EnemyLogic : MonoBehaviour
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
     float randomZ;
 
+
+
     GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
 	Renderer myRender;
@@ -47,11 +49,9 @@ public class EnemyLogic : MonoBehaviour
 
 	void Start () 
 	{
-		if (gameManager != null)
-		{
-			gameState = gameManager.GetComponent<GameState>();
-			gameState.ResetPlayerScores();
-		}
+		GameObject server = GameObject.Find("GameManager");
+		serverManager = server.GetComponent<ServerManager>();
+		gameState = server.GetComponent<GameState>();
 	}
 
     public void SetControlObject(GameObject newControlObject)
