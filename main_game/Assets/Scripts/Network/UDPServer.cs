@@ -72,6 +72,7 @@ public class UDPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
                              "\"x\":"  + playerShip.transform.position.x +
                              ",\"y\":" + playerShip.transform.position.z +
+                             ",\"rot\":" + playerShip.transform.eulerAngles.y +
                              "}}";
             SendMsg(jsonMsg);
         }
