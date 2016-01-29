@@ -12,12 +12,9 @@ using System.Collections.Generic;
 public class EnemyLogic : MonoBehaviour 
 {
 
-	[SerializeField] float speed = 10f;
+	[SerializeField] float speed = 15f;
 	[SerializeField] float health;
-	[SerializeField] float maxRange; // Must be at least this close to shoot at player
 	[SerializeField] float shotsPerSec = 1f;
-	[SerializeField] int shootChance; // Every .1 seconds a random int between 1 and this value is selected. Increase to reduce
-									  // likelihood of firing and vice versa
 	[SerializeField] float collisionDamage;
 	[SerializeField] float shootPeriod; // How long in seconds the enemy should shoot for when it fires
 	[SerializeField] int percentageVariation; // Percentage variation +/- in the length of the shooting period
@@ -32,7 +29,7 @@ public class EnemyLogic : MonoBehaviour
     AudioSource mySrc;
 
 	public GameObject player;
-	bool shoot = false;
+	bool shoot = false, angleGoodForShooting = false;
 	bool rechargeShield;
     public bool draw = false;
 	float shield;
@@ -54,8 +51,9 @@ public class EnemyLogic : MonoBehaviour
 
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
-	private const float AI_WAYPOINT_ROTATION_SPEED   = 0.5f;
+	private const float AI_WAYPOINT_ROTATION_SPEED   = 1f;
 	private const float AI_WAYPOINT_REACHED_DISTANCE = 2.5f;
+	private const float AI_SHOOT_MAX_ANGLE           = 50f;
 	private float lastYRot;
 
     public void SetControlObject(GameObject newControlObject)
@@ -115,6 +113,7 @@ public class EnemyLogic : MonoBehaviour
 		currentPos = player.transform.position;
 		distance   = Vector3.Distance(transform.position, player.transform.position);
 
+		// Engage player when close enough, otherwise catch up to them
 		if (state == STATE_SEEK_PLAYER && distance <= ENGAGE_DISTANCE)
 		{
 			state = STATE_ENGAGE_PLAYER;
@@ -126,9 +125,20 @@ public class EnemyLogic : MonoBehaviour
 		} 
 
 		if (state == STATE_ENGAGE_PLAYER)
+		{
 			MoveTowardsCurrentWaypoint ();
+
+			// Check if the angle is good for shooting
+			Vector3 direction    = player.transform.position - controlObject.transform.position;
+			float angle          = Vector3.Angle (-controlObject.transform.up, direction);
+			angleGoodForShooting = (angle < AI_SHOOT_MAX_ANGLE) || (angle > (180-AI_SHOOT_MAX_ANGLE));
+		}
 		else // if (state == STATE_SEEK_PLAYER)
-			MoveTowardsPlayer();
+		{
+			angleGoodForShooting = false;
+			MoveTowardsPlayer ();
+		}
+
 	}
 
 	// When not engaged, try and get closer to the player
@@ -176,23 +186,19 @@ public class EnemyLogic : MonoBehaviour
 	
 	IEnumerator ShootManager()
 	{
-		if(!shoot)
+		if(!shoot && angleGoodForShooting)
 		{
 			yield return new WaitForSeconds(0.1f);
-			if(Random.Range (1, shootChance) == 1 && distance < maxRange)
-			{
-				shoot = true;
-				StartCoroutine ("Shoot");
-			}
-			StartCoroutine ("ShootManager");
-
+			shoot = true;
+			StartCoroutine ("Shoot");
 		}
 		else
 		{
 			yield return new WaitForSeconds(shootPeriod * (Random.Range (100-percentageVariation, 100+percentageVariation) / 100f));
 			shoot = false;
-			StartCoroutine ("ShootManager");
 		}
+
+		StartCoroutine ("ShootManager");
 	}
 	
 	IEnumerator Shoot()
