@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: db02f5bba28f2794da37a4c9f9936160
+guid: 138b2365eb190ff44b632b3438a9d741
 AudioImporter:
   serializedVersion: 6
   defaultSettings:
@@ -11,6 +11,7 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
   3D: 1
