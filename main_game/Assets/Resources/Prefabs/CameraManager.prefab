@@ -288,7 +288,7 @@ MonoBehaviour:
   OverlayCameras: []
   CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966271
   QualitySteps: 1
   MotionScale: 2
   CameraMotionMult: 1
@@ -3750,6 +3750,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: showGizmos
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CullingMask.m_Bits
+      value: 4294966271
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

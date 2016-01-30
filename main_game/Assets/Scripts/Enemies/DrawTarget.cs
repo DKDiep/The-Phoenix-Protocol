@@ -40,11 +40,24 @@ public class DrawTarget : NetworkBehaviour
     // Draw target over enemy
     void OnGUI()
     {
-        if(distance < 800 && distance > 5 && draw && myRender)
+        if(distance < 800 && distance > 5 && draw)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
-            float size = Mathf.Clamp(128f / (distance / 100f),0,128); // Set size of target based on distance
-            GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
+            /*Vector3 testPos = Camera.main.WorldToViewportPoint(transform.position); 
+
+            if(testPos.x < 0 || testPos.x > 1 || testPos.y < 0 || testPos.y > 1) myRender = false;
+            else myRender = true;*/
+
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            if(GeometryUtility.TestPlanesAABB(planes, myRenderer.bounds))
+                myRender = true;
+            else myRender = false;
+
+            if(myRender)
+            {
+                float size = Mathf.Clamp(128f / (distance / 100f),0,128); // Set size of target based on distance
+                GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
+            }
         } 
     }
 }

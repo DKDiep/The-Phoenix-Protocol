@@ -10,7 +10,7 @@ GameObject:
   - 224: {fileID: 22453870}
   - 222: {fileID: 22275774}
   - 114: {fileID: 11461304}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 224: {fileID: 22433316}
   - 222: {fileID: 22214092}
   - 114: {fileID: 11473228}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 222: {fileID: 22270920}
   - 114: {fileID: 11482588}
   - 114: {fileID: 11404502}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - 114: {fileID: 11487322}
   - 225: {fileID: 22540512}
   - 95: {fileID: 9598290}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - 224: {fileID: 22467594}
   - 222: {fileID: 22277628}
   - 114: {fileID: 11404854}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - 224: {fileID: 22470400}
   - 222: {fileID: 22216496}
   - 114: {fileID: 11484250}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - 224: {fileID: 22420230}
   - 222: {fileID: 22230802}
   - 114: {fileID: 11408130}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Item 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 22467954}
   - 114: {fileID: 11440218}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: WorldSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   - 222: {fileID: 22202910}
   - 114: {fileID: 11453630}
   - 114: {fileID: 11455158}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Plus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - 4: {fileID: 436830}
   - 114: {fileID: 11417828}
   - 114: {fileID: 11454676}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - 224: {fileID: 22473614}
   - 222: {fileID: 22204970}
   - 114: {fileID: 11476106}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - 222: {fileID: 22227354}
   - 114: {fileID: 11462710}
   - 114: {fileID: 11424024}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: W
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - 223: {fileID: 22399354}
   - 114: {fileID: 11448438}
   - 114: {fileID: 11448916}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMapCanvas3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - 222: {fileID: 22253000}
   - 114: {fileID: 11427726}
   - 114: {fileID: 11494958}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Minus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   - 222: {fileID: 22294176}
   - 114: {fileID: 11499364}
   - 114: {fileID: 11420920}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   - 224: {fileID: 22464732}
   - 222: {fileID: 22225270}
   - 114: {fileID: 11412356}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Item 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   - 222: {fileID: 22231076}
   - 114: {fileID: 11474048}
   - 114: {fileID: 11460360}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: N
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   - 224: {fileID: 22457094}
   - 222: {fileID: 22220060}
   - 114: {fileID: 11410316}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   - 224: {fileID: 22474330}
   - 222: {fileID: 22235996}
   - 114: {fileID: 11476452}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Botton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22435188}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Botton Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 436862}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ GameObject:
   - 224: {fileID: 22407662}
   - 222: {fileID: 22279766}
   - 114: {fileID: 11451226}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +387,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 22440048}
   - 225: {fileID: 22554560}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22408120}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   - 222: {fileID: 22234948}
   - 114: {fileID: 11404386}
   - 114: {fileID: 11408690}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: CompassBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,13 +438,13 @@ GameObject:
   - 222: {fileID: 22281440}
   - 114: {fileID: 11484950}
   - 114: {fileID: 11456844}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: PlayerIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &157206
 GameObject:
   m_ObjectHideFlags: 1
@@ -456,7 +456,7 @@ GameObject:
   - 222: {fileID: 22264942}
   - 114: {fileID: 11400030}
   - 114: {fileID: 11469096}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - 224: {fileID: 22415906}
   - 222: {fileID: 22275136}
   - 114: {fileID: 11414722}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Item 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,7 +488,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22473844}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Top Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   - 224: {fileID: 22485366}
   - 225: {fileID: 22560746}
   - 95: {fileID: 9575096}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: BottonBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   - 222: {fileID: 22209242}
   - 114: {fileID: 11442572}
   - 114: {fileID: 11414846}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +542,7 @@ GameObject:
   - 114: {fileID: 11475612}
   - 114: {fileID: 11498576}
   - 225: {fileID: 22541458}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Compass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   - 222: {fileID: 22213172}
   - 114: {fileID: 11417850}
   - 114: {fileID: 11491788}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: GoToTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,7 @@ GameObject:
   - 222: {fileID: 22211672}
   - 114: {fileID: 11478372}
   - 114: {fileID: 11446188}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +595,7 @@ GameObject:
   - 224: {fileID: 22429014}
   - 222: {fileID: 22260824}
   - 114: {fileID: 11492012}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +613,7 @@ GameObject:
   - 222: {fileID: 22298598}
   - 114: {fileID: 11490002}
   - 114: {fileID: 11432070}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - DragArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ GameObject:
   - 224: {fileID: 22489256}
   - 225: {fileID: 22502748}
   - 95: {fileID: 9581990}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: InfoPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,7 +647,7 @@ GameObject:
   - 224: {fileID: 22413550}
   - 222: {fileID: 22209070}
   - 114: {fileID: 11469726}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ GameObject:
   - 224: {fileID: 22431088}
   - 222: {fileID: 22291106}
   - 114: {fileID: 11441826}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +680,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 458632}
   - 20: {fileID: 2031970}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MiniMapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ GameObject:
   - 222: {fileID: 22260106}
   - 114: {fileID: 11456238}
   - 225: {fileID: 22559416}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,7 +715,7 @@ GameObject:
   - 224: {fileID: 22470970}
   - 222: {fileID: 22270764}
   - 114: {fileID: 11420192}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +734,7 @@ GameObject:
   - 114: {fileID: 11418684}
   - 114: {fileID: 11456200}
   - 114: {fileID: 11488638}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: MiniMap - Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -751,7 +751,7 @@ GameObject:
   - 224: {fileID: 22461850}
   - 222: {fileID: 22275132}
   - 114: {fileID: 11444502}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   - 222: {fileID: 22231306}
   - 114: {fileID: 11414582}
   - 114: {fileID: 11443956}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: focus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -825,7 +825,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19607845, g: 0.19607845, b: 0.19607845, a: 0.28627452}
+  m_BackGroundColor: {r: 0.053471018, g: 0.12126383, b: 0.16911763, a: 0.28627452}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -833,10 +833,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 500
+  far clip plane: 50000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.89
+  orthographic size: 100
   m_Depth: 2
   m_CullingMask:
     serializedVersion: 2
@@ -1191,24 +1191,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: {fileID: 0}
-  LevelName: Example Level
+  LevelName: 
   MiniMapLayer: 10
-  ToogleKey: 101
+  ToogleKey: 0
   MMCamera: {fileID: 2031970}
   m_Type: 0
   m_Mode: 1
   scrollSensitivity: 3
   maxHeight: 60
   minHeight: 7
-  IncreaseHeightKey: 270
-  DecreaseHeightKey: 269
+  IncreaseHeightKey: 0
+  DecreaseHeightKey: 0
   LerpHeight: 7
   useCompassRotation: 0
   CompassSize: 175
   DynamicRotation: 1
   SmoothRotation: 1
   LerpRotation: 12
-  ShowLevelName: 1
+  ShowLevelName: 0
   ShowPanelInfo: 1
   HitEffectSpeed: 1.5
   BottonAnimator: {fileID: 9575096}
@@ -1219,8 +1219,8 @@ MonoBehaviour:
   FullMapSize: {x: 589, y: 314}
   LerpTransition: 8
   GetWorldRect: 
-  CanDragMiniMap: 1
-  DragOnlyOnFullScreen: 1
+  CanDragMiniMap: 0
+  DragOnlyOnFullScreen: 0
   ResetOffSetOnChange: 1
   DragMovementSpeed: {x: 22, y: 22}
   MaxOffSetPosition: {x: 215, y: 175}
@@ -3447,6 +3447,46 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SizeDelta.y
       value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LevelName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ToogleKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: IncreaseHeightKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DecreaseHeightKey
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DynamicRotation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CanDragMiniMap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DragOnlyOnFullScreen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ShowLevelName
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Mode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

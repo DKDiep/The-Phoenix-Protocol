@@ -196,6 +196,7 @@ public class EnemyLogic : MonoBehaviour
 			// Destroy Object
             GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
+            GetComponent<bl_MiniMapItem>().DestroyItem(true);
 			Destroy(transform.parent.gameObject);
 		}
 	}

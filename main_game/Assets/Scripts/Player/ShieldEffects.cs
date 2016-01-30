@@ -6,7 +6,7 @@
 */
 
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -122,7 +122,7 @@ public class ShieldEffects : NetworkBehaviour
         shieldAlpha = 1f;
     }
 
-    // Generate a mesh from children
+    /* Generate a mesh from children
     private void GenerateMesh()
     {
         // Combine seperate mesh elements together and add shield material
@@ -147,6 +147,6 @@ public class ShieldEffects : NetworkBehaviour
 
         transform.gameObject.active = true;
 
-    }
+    }*/
 
 }
