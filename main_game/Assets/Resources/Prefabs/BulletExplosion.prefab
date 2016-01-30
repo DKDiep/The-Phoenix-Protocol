@@ -32,7 +32,6 @@ GameObject:
   - 114: {fileID: 11403512}
   - 114: {fileID: 11469736}
   - 114: {fileID: 11420922}
-  - 114: {fileID: 11423632}
   - 82: {fileID: 8298028}
   m_Layer: 0
   m_Name: BulletExplosion
@@ -235,18 +234,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &11423632
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3be5e33915e952b4cac8186b1a6f8f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_applyToChildren: 1
 --- !u!114 &11469736
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -10,7 +10,6 @@ using System.Collections;
 
 public class BulletLogic : MonoBehaviour 
 {
-
 	public float speed = 100f; // Bullet speed
 	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	[SerializeField] float damage; 
@@ -21,14 +20,15 @@ public class BulletLogic : MonoBehaviour
 	[SerializeField] float zScale;
 
 	GameObject obj;
-	GameObject destination;
+	GameObject destination, playerObj;
 	PlayerShooting player;
 	bool started = false;
 	int playerId;
 
     // Initialise object when spawned
-	public void SetDestination(Vector3 destination, bool isPlayer)
+	public void SetDestination(Vector3 destination, bool isPlayer, GameObject playerObj2)
 	{
+        playerObj = playerObj2;
 		obj = transform.parent.gameObject;
 		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
 		rigidbody.useGravity = false;
@@ -40,7 +40,9 @@ public class BulletLogic : MonoBehaviour
 		if(isPlayer) 
 		{
 			obj.AddComponent<BulletCollision>().playerId = playerId;
-		} else {
+		} 
+        else 
+        {
 			obj.AddComponent<BulletCollision>();
 		}
 
@@ -81,17 +83,20 @@ public class BulletLogic : MonoBehaviour
             col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
         }
 
-        GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
-        impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
-        impactTemp.GetComponent<Light>().color = bulletColor;
-
+        if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
+        {
+            GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
+            //impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
+            //impactTemp.GetComponent<Light>().color = bulletColor;
+        
         /*Renderer[] rend = impactTemp.GetComponentsInChildren<Renderer>();
         for(int i = 0; i < rend.Length; i++)
         {
             rend[i].material.SetColor("_TintColor", bulletColor);
         }*/
 
-        ServerManager.NetworkSpawn(impactTemp);
+            ServerManager.NetworkSpawn(impactTemp);
+        }
         Destroy (obj);
     }
 

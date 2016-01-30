@@ -144,9 +144,9 @@ public class EnemyLogic : MonoBehaviour
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination, false);
+		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player);
 		ServerManager.NetworkSpawn(obj);
-        if(distance < 300f) mySrc.Play();
+        if(distance < 300f) mySrc.PlayOneShot(fireSnd);
 		if(shoot) StartCoroutine ("Shoot");
 	}
 

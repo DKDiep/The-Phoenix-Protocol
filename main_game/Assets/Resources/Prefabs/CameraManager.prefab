@@ -46,6 +46,7 @@ GameObject:
   - 114: {fileID: 11465172}
   - 45: {fileID: 4507344}
   - 164: {fileID: 16460914}
+  - 114: {fileID: 11445910}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -343,6 +344,33 @@ MonoBehaviour:
   EffectFlags:
     components: []
   sharedInstanceID: da54bdca-0536-4224-9b89-ffef63de851a
+--- !u!114 &11445910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bcfd2fd47552724d8e1ab10c355e5b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableAudioOcclusion: 0
+  phaseWidth: 140
+  fadeStartAngle: 83
+  fadeEndAngle: 136
+  maxFadeMix: 0.048
+  decayTime: 0.62
+  interauralDelay: 1
+  occlusionDamping: 0.5
+  rearEq:
+  - 1.25
+  - 0.75
+  - 0.5
+  occlusionEq:
+  - 1
+  - 0.5
+  - 0.125
 --- !u!114 &11457318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -555,7 +583,7 @@ AudioReverbFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106102}
-  m_Enabled: 1
+  m_Enabled: 0
   m_DryLevel: 0
   m_Room: -1000
   m_RoomHF: -476
@@ -3609,7 +3637,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
@@ -3714,6 +3742,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_ReverbPreset
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enableAudioOcclusion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: showGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

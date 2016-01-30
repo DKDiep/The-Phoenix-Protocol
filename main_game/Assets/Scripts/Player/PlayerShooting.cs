@@ -119,7 +119,7 @@ public class PlayerShooting : MonoBehaviour
 	{
 		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
 
-        mySrc.Play();
+        mySrc.PlayOneShot(fireSnd);
 
 		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
 		RaycastHit hit;
@@ -138,7 +138,7 @@ public class PlayerShooting : MonoBehaviour
 		GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
 		logic.GetComponent<BulletLogic>().SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true);
+		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true, this.gameObject);
 		ServerManager.NetworkSpawn(obj);
 		canShoot = false;
 		StartCoroutine("Delay");
