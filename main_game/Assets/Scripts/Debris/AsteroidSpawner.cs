@@ -19,7 +19,7 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] float minDistance; // Minimum distance to the player that an asteroid can spawn
     [SerializeField] float maxDistance; // Maximum distance to the player that an asteroid can spawn
 
-    GameObject player, temp, asteroid;
+    GameObject player, temp, asteroid, logic;
     public static int numAsteroids = 0;
     private GameState state;
 
@@ -29,6 +29,7 @@ public class AsteroidSpawner : MonoBehaviour
         if (gameManager != null) state = gameManager.GetComponent<GameState>();
         player = null;
         temp = new GameObject(); // A temporary game object to spawn asteroids on
+        logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
         temp.name = "AsteroidSpawnLocation";
         StartCoroutine("Cleanup");
     }
@@ -55,7 +56,7 @@ public class AsteroidSpawner : MonoBehaviour
 
                 // Spawn object and logic
                 GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
-    			GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
+                GameObject asteroidLogic = Instantiate(logic, temp.transform.position, Quaternion.identity) as GameObject;
 
                 // Initialise logic
     			asteroidLogic.transform.parent = asteroidObject.transform;

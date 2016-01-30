@@ -16,9 +16,22 @@ public class CrosshairMovement : MonoBehaviour {
 	public Vector3 crosshairPosition;
 	private Vector3 oldCrosshairPosition;
 	float oldAccel, newAccel;
+    GameObject[] crosshairs;
+
 	// Use this for initialization
 	void Start ()
     {
+        GameObject crosshairContainer = GameObject.Find("Crosshairs");
+
+        crosshairs = new GameObject[4];
+
+        // Find crosshairs
+        for(int i = 0; i < 4; ++i)
+        {
+            crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
+        }
+
+
 		StartCoroutine(FindRemotes());
 	}
 	
@@ -39,7 +52,7 @@ public class CrosshairMovement : MonoBehaviour {
 	void FixedUpdate ()
     {
         // Get the currently controlled crosshair
-        Transform selectedCrosshair = this.transform.Find("CrosshairImage" + controlling);
+        Transform selectedCrosshair = crosshairs[controlling].transform;
 
 		// Control crosshair by mouse if there is no wii remote connected.
 		if (WiimoteManager.Wiimotes.Count < 1) 

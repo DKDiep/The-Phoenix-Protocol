@@ -24,6 +24,8 @@ public class PlayerShooting : MonoBehaviour
 	GameObject target;
 	bool canShoot, showMarker;
 	float alpha;
+    Vector3 crosshairPosition;
+    GameObject[] crosshairs;
 
 	// Wii remote initialise
 	private bool init = true;
@@ -40,6 +42,15 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 0;
 		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
+        GameObject crosshairContainer = GameObject.Find("Crosshairs");
+
+        crosshairs = new GameObject[4];
+
+        // Find crosshair images
+        for(int i = 0; i < 4; ++i)
+        {
+            crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
+        }
 
         // Find bullet anchor
         foreach(Transform child in transform.parent)
@@ -106,7 +117,8 @@ public class PlayerShooting : MonoBehaviour
 	// Shoot a bullet for a specific player
 	void ShootBullet(int playerId) 
 	{
-		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + playerId).transform.position;
+		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
+
         mySrc.Play();
 
 		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
@@ -147,8 +159,8 @@ public class PlayerShooting : MonoBehaviour
 
 	void OnGUI()
 	{
-		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + currentPlayerId).transform.position;
 		GUI.color = new Color(1,1,1,alpha);
+        crosshairPosition = crosshairs[currentPlayerId].transform.position;
 		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
 	}
 

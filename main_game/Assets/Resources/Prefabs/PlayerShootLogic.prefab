@@ -130,6 +130,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: crosshairs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: bullet
       value: 
       objectReference: {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
@@ -189,6 +193,22 @@ Prefab:
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: crosshairs.Array.data[0]
+      value: 
+      objectReference: {fileID: 109658, guid: 67082f2c8d74546c9b18c8907916a80e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: crosshairs.Array.data[1]
+      value: 
+      objectReference: {fileID: 198164, guid: 67082f2c8d74546c9b18c8907916a80e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: crosshairs.Array.data[2]
+      value: 
+      objectReference: {fileID: 124812, guid: 67082f2c8d74546c9b18c8907916a80e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: crosshairs.Array.data[3]
+      value: 
+      objectReference: {fileID: 175010, guid: 67082f2c8d74546c9b18c8907916a80e, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144904}

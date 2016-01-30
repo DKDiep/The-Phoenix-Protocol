@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float maxDistance;
     [SerializeField] GameObject gameManager;
     private GameState state;
-    GameObject player, temp;
+    GameObject player, temp, logic;
 
     void Start()
     {
@@ -38,7 +38,12 @@ public class EnemySpawner : MonoBehaviour
 	{
         if (state.GetStatus() == GameState.Status.Started)
         {
-            if(player == null) player = state.GetPlayerShip();
+            if(player == null)
+            {
+                player = state.GetPlayerShip();
+                logic = Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject)) as GameObject;
+                //logic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
+            } 
             if (numEnemies < maxEnemies)
             {
                 // Set spawn position based on input attributes
@@ -48,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
                 // Spawn enemy and server logic
                 GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
-                GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
+                GameObject enemyObjectLogic = Instantiate(logic, temp.transform.position, transform.rotation) as GameObject;
 
                 // Set up enemy with components, spawn on network
                 enemyObject.AddComponent<EnemyCollision>();

@@ -47,7 +47,7 @@ public class BulletLogic : MonoBehaviour
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
-    	obj.GetComponent<BulletMove>().SetColor(bulletColor);
+    	//obj.GetComponent<BulletMove>().SetColor(bulletColor);
 		StartCoroutine ("DestroyObject");
 		started = true;
 	}
@@ -85,11 +85,11 @@ public class BulletLogic : MonoBehaviour
         impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
         impactTemp.GetComponent<Light>().color = bulletColor;
 
-        Renderer[] rend = impactTemp.GetComponentsInChildren<Renderer>();
+        /*Renderer[] rend = impactTemp.GetComponentsInChildren<Renderer>();
         for(int i = 0; i < rend.Length; i++)
         {
             rend[i].material.SetColor("_TintColor", bulletColor);
-        }
+        }*/
 
         ServerManager.NetworkSpawn(impactTemp);
         Destroy (obj);

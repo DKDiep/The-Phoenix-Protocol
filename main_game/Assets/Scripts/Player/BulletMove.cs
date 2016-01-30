@@ -13,8 +13,8 @@ public class BulletMove : NetworkBehaviour
 {
 
   [SyncVar] float speed;
-  [SyncVar] Color bulletColor;
-  [SyncVar] bool ready = false;
+  //[SyncVar] Color bulletColor;
+  //[SyncVar] bool ready = false;
 
   void Start ()
   {
@@ -23,7 +23,7 @@ public class BulletMove : NetworkBehaviour
 
   void Update () 
   {
-    if(ready)
+    /*if(ready)
     {
         Renderer[] rend = GetComponentsInChildren<Renderer>();
 
@@ -32,14 +32,14 @@ public class BulletMove : NetworkBehaviour
             rend[i].material.SetColor("_TintColor", bulletColor);
         }
         ready = false;
-    }
+    }*/
 
     transform.position += transform.forward * Time.deltaTime * speed;
   }
 
-  public void SetColor(Color bullet)
+ /* public void SetColor(Color bullet)
   {
     bulletColor = bullet;
     ready = true;
-  }
+  }*/
 }
