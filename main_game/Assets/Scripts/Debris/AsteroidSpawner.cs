@@ -10,18 +10,16 @@ using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour 
 {
-
-    [SerializeField] GameObject asteroid1;
+    [SerializeField] GameObject asteroid1; // 3 asteroid objects for the 3 different models
     [SerializeField] GameObject asteroid2;
     [SerializeField] GameObject asteroid3;
     [SerializeField] GameObject gameManager;
-    [SerializeField] int maxAsteroids;
+    [SerializeField] int maxAsteroids; // Maximum number of asteroids that can exist simultaneously
     [SerializeField] float maxVariation; // Max variation in size (0-10)
-    [SerializeField] float minDistance;
-    [SerializeField] float maxDistance;
+    [SerializeField] float minDistance; // Minimum distance to the player that an asteroid can spawn
+    [SerializeField] float maxDistance; // Maximum distance to the player that an asteroid can spawn
 
     GameObject player, temp, asteroid;
-
     public static int numAsteroids = 0;
     private GameState state;
 
@@ -30,7 +28,7 @@ public class AsteroidSpawner : MonoBehaviour
         // Set game state reference
         if (gameManager != null) state = gameManager.GetComponent<GameState>();
         player = null;
-        temp = new GameObject();
+        temp = new GameObject(); // A temporary game object to spawn asteroids on
         temp.name = "AsteroidSpawnLocation";
         StartCoroutine("Cleanup");
     }
@@ -40,9 +38,11 @@ public class AsteroidSpawner : MonoBehaviour
         if (state.GetStatus() == GameState.Status.Started)
         {
             if(player == null) player = state.GetPlayerShip();
+
             // Spawn a new asteroid in a random position if there are less than specified by maxAsteroids
             if (numAsteroids < maxAsteroids)
             {
+                // The temp object is positioned randomly within the bounds set by minDistance and maxDistance
                 temp.transform.position = player.transform.position;
                 temp.transform.rotation = Random.rotation;
                 temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
@@ -53,17 +53,24 @@ public class AsteroidSpawner : MonoBehaviour
                 else if(rnd == 1) asteroid = asteroid2;
                 else asteroid = asteroid3;
 
+                // Spawn object and logic
                 GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
     			GameObject asteroidLogic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
+
+                // Initialise logic
     			asteroidLogic.transform.parent = asteroidObject.transform;
                 asteroidLogic.transform.localPosition = Vector3.zero;
                 asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
                 asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
                 asteroidObject.AddComponent<AsteroidCollision>();
+
+                // Add collider and rigidbody
     			SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
     			sphere.isTrigger = true;
     			Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
     			rigid.isKinematic = true;
+
+                // Spawn on the network and add to GameState
                 state.AddAsteroidList(asteroidObject);
     			ServerManager.NetworkSpawn(asteroidObject);
                 numAsteroids += 1;
@@ -71,6 +78,7 @@ public class AsteroidSpawner : MonoBehaviour
         }
     }
 
+    // Remove asteroid from GameState if destroyed
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);

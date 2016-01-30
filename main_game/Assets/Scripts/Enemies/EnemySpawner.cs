@@ -5,7 +5,6 @@
     Description: Server-side logic for enemy spawner
 */
 
-
 using UnityEngine;
 using System.Collections;
 
@@ -13,8 +12,8 @@ public class EnemySpawner : MonoBehaviour
 {
 	
 	[SerializeField] GameObject enemy;
-	public static int numEnemies = 0;
-	public int maxEnemies;
+	public static int numEnemies = 0; // Number of currently active enemies
+	public int maxEnemies; // Maximum number of enemies at a time
     [SerializeField] float minDistance;
     [SerializeField] float maxDistance;
     [SerializeField] GameObject gameManager;
@@ -27,8 +26,9 @@ public class EnemySpawner : MonoBehaviour
         {
             state = gameManager.GetComponent<GameState>();
         }
+
         player = null;
-        temp = new GameObject();
+        temp = new GameObject(); // Create temporary object to spawn enemies at
         temp.name = "EnemySpawnLocation";
         StartCoroutine("Cleanup");
     }
@@ -41,13 +41,16 @@ public class EnemySpawner : MonoBehaviour
             if(player == null) player = state.GetPlayerShip();
             if (numEnemies < maxEnemies)
             {
+                // Set spawn position based on input attributes
                 temp.transform.position = player.transform.position;
                 temp.transform.rotation = Random.rotation;
                 temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
 
-                //Spawn enemy and server logic
+                // Spawn enemy and server logic
                 GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
                 GameObject enemyObjectLogic = Instantiate(Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject))) as GameObject;
+
+                // Set up enemy with components, spawn on network
                 enemyObject.AddComponent<EnemyCollision>();
 				enemyObjectLogic.transform.parent = enemyObject.transform;
 				enemyObjectLogic.transform.localPosition = Vector3.zero;
@@ -61,7 +64,8 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 	}
-    
+
+    // Remove destroyed enemies from Game State
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);
@@ -76,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
-        //Debug.Log(numEnemies);
+
         StartCoroutine("Cleanup");
     }
 }

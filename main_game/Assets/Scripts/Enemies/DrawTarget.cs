@@ -12,14 +12,13 @@ using UnityEngine.Networking;
 public class DrawTarget : NetworkBehaviour 
 {
 
-    [SerializeField] Texture2D target;
+    [SerializeField] Texture2D target; // Target texture
     [SyncVar] float distance;
     [SyncVar] bool draw;
     [SyncVar] bool myRender;
     EnemyLogic myLogic;
     Renderer myRenderer;
 
-	// Use this for initialization
 	void Start () 
     {
         myRenderer = GetComponent<Renderer>();
@@ -27,7 +26,7 @@ public class DrawTarget : NetworkBehaviour
         if(isServer) myLogic = GetComponentInChildren<EnemyLogic>();
 	}
 	
-	// Update is called once per frame
+	// Transmit values to clients
 	void Update () 
     {
         if(isServer)
@@ -41,9 +40,9 @@ public class DrawTarget : NetworkBehaviour
     // Draw target over enemy
     void OnGUI()
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
         screenPos = GUIUtility.ScreenToGUIPoint(screenPos);
-        float size = Mathf.Clamp(128f / (distance / 100f),0,128);
+        float size = Mathf.Clamp(128f / (distance / 100f),0,128); // Set size of target based on distance
 
         if(distance < 1250 && distance > 5 && draw && myRender) GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
     }

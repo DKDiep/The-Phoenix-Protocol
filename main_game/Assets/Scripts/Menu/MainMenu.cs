@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene, Dillon Diep
+    Description: Basic menu system
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;

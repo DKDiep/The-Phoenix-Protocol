@@ -40,9 +40,7 @@ public class EnemyLogic : MonoBehaviour
     public float distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
 	int state; // 0 = fly towards player, 1 = avoid object, 2 = cooldown
-    float randomZ;
-
-
+    float randomZ; // A random Z angle to give the enemies some uniqueness
 
     GameObject shootAnchor;
 	Vector3 prevPos, currentPos;
@@ -62,8 +60,6 @@ public class EnemyLogic : MonoBehaviour
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
     }
 
-
-
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
 	{
@@ -74,14 +70,16 @@ public class EnemyLogic : MonoBehaviour
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
-		if(maxShield > 0)
+
+        if(maxShield > 0)
 		{
 			shield = maxShield;
 			lastShieldCheck = shield;
 			StartCoroutine ("Recharge Shields");
 		}
 
-		foreach(Transform child in this.transform.parent)
+        // Find location to spawn bullets at
+        foreach(Transform child in this.transform.parent)
 		{
 			if(child.gameObject.name.Equals("ShootAnchor")) shootAnchor = child.gameObject;
 		}
@@ -90,6 +88,7 @@ public class EnemyLogic : MonoBehaviour
 		StartCoroutine("DrawDelay");
 	}
 
+    // Avoids null reference during initial spawning
 	IEnumerator DrawDelay()
 	{
 		yield return new WaitForSeconds(1f);
@@ -102,6 +101,7 @@ public class EnemyLogic : MonoBehaviour
 		currentPos = player.transform.position;
 		distance = Vector3.Distance(transform.position, player.transform.position);
 
+        // Default behaviour
 		if(state == 0)
 		{
 			controlObject.transform.LookAt(player.transform.position);
@@ -109,19 +109,21 @@ public class EnemyLogic : MonoBehaviour
             controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y, controlObject.transform.eulerAngles.z);
 		}
 	}
-	
+
+    // Control shooting based on attributes
 	IEnumerator ShootManager()
 	{
 		if(!shoot)
 		{
 			yield return new WaitForSeconds(0.1f);
+
 			if(Random.Range (1, shootChance) == 1 && distance < maxRange)
 			{
 				shoot = true;
 				StartCoroutine ("Shoot");
 			}
-			StartCoroutine ("ShootManager");
 
+			StartCoroutine ("ShootManager");
 		}
 		else
 		{
@@ -130,7 +132,8 @@ public class EnemyLogic : MonoBehaviour
 			StartCoroutine ("ShootManager");
 		}
 	}
-	
+
+    // Spawn bullet, use predication, and player sound
 	IEnumerator Shoot()
 	{
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
@@ -163,7 +166,8 @@ public class EnemyLogic : MonoBehaviour
 			StartCoroutine ("RechargeShields");
 		}
 	}
-	
+
+    // Detect collisions with other game objects
 	public void collision(float damage, int playerId)
 	{
 		if (shield > damage)
@@ -194,7 +198,5 @@ public class EnemyLogic : MonoBehaviour
             ServerManager.NetworkSpawn(temp);
 			Destroy(transform.parent.gameObject);
 		}
-
-		//Debug.Log ("Glom fighter was hit, has " + shield + " shield and " + health + " health");
 	}
 }

@@ -13,24 +13,24 @@ using System;
 public class PlayerShooting : MonoBehaviour 
 {
 
-	[SerializeField] GameObject bullet;
+	[SerializeField] GameObject bullet; // Bullet prefab to use
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
-	[SerializeField] Texture2D hitmarker;
-    [SerializeField] AudioClip fireSnd;
+	[SerializeField] Texture2D hitmarker; // Hitmarker texture
+    [SerializeField] AudioClip fireSnd; // Sound to make when firing
     AudioSource mySrc;
 
 	GameObject bulletAnchor;
 	GameObject target;
 	bool canShoot, showMarker;
 	float alpha;
+
 	// Wii remote initialise
 	private bool init = true;
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
-
-	// Use this for initialization
+    
 	void Start () 
 	{
         mySrc = GetComponent<AudioSource>();
@@ -40,7 +40,9 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 0;
 		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
-		foreach(Transform child in transform.parent)
+
+        // Find bullet anchor
+        foreach(Transform child in transform.parent)
 		{
 			if(child.name.Equals ("BulletAnchor"))
 			{
@@ -48,13 +50,10 @@ public class PlayerShooting : MonoBehaviour
 			}
 		}
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
-
-		SwitchPlayers();
-
+        SwitchPlayers();
 
 		// Use mouse if there are no wii remotes.
 		if (WiimoteManager.Wiimotes.Count < 1) 
@@ -66,7 +65,6 @@ public class PlayerShooting : MonoBehaviour
 		} 
 		else 
 		{
-				
 			Wiimote remote;
 			try 
 			{
@@ -97,7 +95,8 @@ public class PlayerShooting : MonoBehaviour
 				this.init = true;
 			}  
 		}
-			
+
+        // Control alpha of hitmarker
 		if(alpha > 0)
 		{
 			alpha -= 5f * Time.deltaTime;
@@ -145,6 +144,7 @@ public class PlayerShooting : MonoBehaviour
 			}
 		}
 	}
+
 	void OnGUI()
 	{
 		Vector3 crosshairPosition = GameObject.Find("CrosshairImage" + currentPlayerId).transform.position;
@@ -152,6 +152,7 @@ public class PlayerShooting : MonoBehaviour
 		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
 	}
 
+    // Show hitmarker when an enemy is hit
 	public void HitMarker()
 	{
 		showMarker = true;
@@ -159,12 +160,14 @@ public class PlayerShooting : MonoBehaviour
 		StartCoroutine("HideMarker");
 	}
 
+    // Stop drawing hitmarker after certain time limit
 	IEnumerator HideMarker()
 	{
 		yield return new WaitForSeconds(2f);
 		showMarker = false;
 	}
 
+    // Delay before player can shoot again
 	IEnumerator Delay()
 	{
 		yield return new WaitForSeconds(rateOfFire);

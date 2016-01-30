@@ -18,6 +18,7 @@ public class AsteroidCollision : MonoBehaviour
         myLogic = GetComponentInChildren<AsteroidLogic>();
     }
 
+    // Cause damage if collided with
 	void OnTriggerEnter (Collider col)
 	{
 		if(col.gameObject.tag.Equals ("Player"))

@@ -1,7 +1,13 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Full screen color fade in and out
+*/
+
+using UnityEngine;
 using System.Collections;
 
-// Flexible script that allows the fading of 2D textures
 public class FadeTexture : MonoBehaviour 
 {
 	[SerializeField] Texture2D texture;
@@ -31,13 +37,14 @@ public class FadeTexture : MonoBehaviour
 	
 	void OnGUI()
 	{
-		fading.a = alpha;
-		GUI.color = fading;
+		fading.a = alpha; // Set a color's alpha value
+		GUI.color = fading; // Set the texture color
 		if(fullScreen) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), texture, ScaleMode.StretchToFill);
 		else if(centered) GUI.DrawTexture (new Rect ((Screen.width / 2) - (texture.width / 2) + xPos, (Screen.height / 2) - (texture.height / 2) + yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
 		else GUI.DrawTexture (new Rect (xPos, yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
 	}
-	
+
+    // Controls when fading is triggered
 	IEnumerator Fading()
 	{
 		yield return new WaitForSeconds(enterWait);

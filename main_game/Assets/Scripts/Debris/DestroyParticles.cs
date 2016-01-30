@@ -2,7 +2,7 @@
     2015-2016 Team Pyrolite
     Project "Sky Base"
     Authors: Marc Steene
-    Description: Destroys particle effects upon completion
+    Description: Plays a sound then destroys particle effects upon completion
 */
 
 using UnityEngine;
@@ -15,11 +15,13 @@ public class DestroyParticles : MonoBehaviour
 
     private void Start()
     {
-        if(snd != null){
+        if(snd != null)
+        {
             mySrc = GetComponent<AudioSource>();
             mySrc.clip = snd;
             mySrc.Play();
         }
-        Destroy(gameObject, 6f); 
+
+        Destroy(gameObject, 6f); // Destroys the object after 6 seconds
     }
 }

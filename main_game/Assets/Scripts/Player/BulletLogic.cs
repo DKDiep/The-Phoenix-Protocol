@@ -11,7 +11,7 @@ using System.Collections;
 public class BulletLogic : MonoBehaviour 
 {
 
-	public float speed = 100f;
+	public float speed = 100f; // Bullet speed
 	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	[SerializeField] float damage; 
 	[SerializeField] Color bulletColor;
@@ -26,8 +26,7 @@ public class BulletLogic : MonoBehaviour
 	bool started = false;
 	int playerId;
 
-
-
+    // Initialise object when spawned
 	public void SetDestination(Vector3 destination, bool isPlayer)
 	{
 		obj = transform.parent.gameObject;
@@ -58,12 +57,13 @@ public class BulletLogic : MonoBehaviour
 		playerId = id;
 		player = playerObj;
 	}
-	
+
+    // Control logic when a collision is detected
 	public void collision(Collider col, int bulletPlayerId)
 	{
 		if(player != null) 
 		{
-        player.HitMarker();
+            player.HitMarker();
 		}
 
         if(col.gameObject.tag.Equals("Debris"))
@@ -77,9 +77,10 @@ public class BulletLogic : MonoBehaviour
         }
         else if(col.gameObject.tag.Equals("Player"))
         {
-        //Debug.Log ("A bullet has hit the player");
-        col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
+            //Debug.Log ("A bullet has hit the player");
+            col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
         }
+
         GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
         impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
         impactTemp.GetComponent<Light>().color = bulletColor;
@@ -89,13 +90,15 @@ public class BulletLogic : MonoBehaviour
         {
             rend[i].material.SetColor("_TintColor", bulletColor);
         }
+
         ServerManager.NetworkSpawn(impactTemp);
         Destroy (obj);
-        }
+    }
 
-        IEnumerator DestroyObject()
-        {
-            yield return new WaitForSeconds(4f);
-            Destroy (obj);
-        }
+    // Automatically destroy bullet after 4 seconds
+    IEnumerator DestroyObject()
+    {
+        yield return new WaitForSeconds(4f);
+        Destroy (obj);
+    }
 }

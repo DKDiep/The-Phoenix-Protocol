@@ -19,10 +19,11 @@ public class AsteroidLogic : MonoBehaviour
     [SerializeField] float health;
     [SerializeField] float minSpeed;
     [SerializeField] float maxSpeed;
-    [SerializeField] GameObject destroyEffect;
+    [SerializeField] GameObject destroyEffect; // The prefab to spawn when destroyed
 
     private GameState gameState;
-	
+
+    // Initialise player, size, and speed
 	public void SetPlayer(GameObject temp, float var, int rnd)
 	{
 		player = temp;
@@ -38,6 +39,7 @@ public class AsteroidLogic : MonoBehaviour
     gameState = state;
   }
 
+  // Allows asteroid to take damage and spawns destroy effect
   public void collision (float damage)
   {
         health -= damage;

@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Stores array of music files with a public function to play them
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class MusicManager : MonoBehaviour 

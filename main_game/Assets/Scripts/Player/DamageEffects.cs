@@ -15,6 +15,7 @@ public class DamageEffects : NetworkBehaviour
 	float health, alpha;
 	int direction;
 
+    // Directional damage textures
     [SerializeField] Texture2D left;
 	[SerializeField] Texture2D right;
 	[SerializeField] Texture2D up;
@@ -23,14 +24,13 @@ public class DamageEffects : NetworkBehaviour
 	[SerializeField] Texture2D topRight;
 	[SerializeField] Texture2D bottomLeft;
 	[SerializeField] Texture2D bottomRight;
-
-	// Use this for initialization
+    
 	void Start () 
 	{
 		lowHealth = GetComponent<VideoGlitches.VideoGlitchSpectrumOffset>();
     }
-	
-	// Update is called once per frame
+
+    // Fades out damage textures
 	void Update () 
 	{
 		if(alpha > 0f) alpha -= 4f * Time.deltaTime;
@@ -38,7 +38,8 @@ public class DamageEffects : NetworkBehaviour
 
 	void OnGUI()
 	{
-		GUI.color = new Color(1f,1f,1f,alpha);
+		GUI.color = new Color(1f,1f,1f,alpha); // Set texture alpha value
+        // Texture to show depends on direction
 		if(direction == 0) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), left, ScaleMode.StretchToFill);
 		if(direction == 1) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), up, ScaleMode.StretchToFill);
 		if(direction == 2) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), right, ScaleMode.StretchToFill);
@@ -55,17 +56,7 @@ public class DamageEffects : NetworkBehaviour
         lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 1.5f;
 		direction = dir;
 		alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
-        //RpcUpdateClientDamage(dir,damage,hp);
 	}
-
-    [ClientRpc]
-    void RpcUpdateClientDamage(int dir, float damage, float hp)
-    {
-        health = hp;
-        lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f) * 1.5f;
-        direction = dir;
-        alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
-    }
 }
 
 

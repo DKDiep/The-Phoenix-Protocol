@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Spawns each prefab once to cache it in memory
+*/
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
 public class PrefetchPrefabs : MonoBehaviour 
 {
-
     NetworkManager networkManager;
 
 	// Use this for initialization
@@ -24,10 +30,5 @@ public class PrefetchPrefabs : MonoBehaviour
             } 
 
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }

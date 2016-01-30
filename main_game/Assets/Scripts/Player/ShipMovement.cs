@@ -34,6 +34,7 @@ public class ShipMovement : MonoBehaviour
 	DamageEffects myDamage;
     ShieldEffects myShield = null;
 
+    // Initialise object
     void Start()
     {
     	controlObject = transform.parent.gameObject;
@@ -44,7 +45,7 @@ public class ShipMovement : MonoBehaviour
 
 	IEnumerator RechargeShields()
 	{
-		if(lastShieldCheck == shield && shield < maxShield)
+		if(lastShieldCheck == shield && shield < maxShield) // Ensure shield is below max value and the player hasn't been hit
 		{
 			shield += shieldRechargeRate / 10f;
 			lastShieldCheck = shield;
@@ -76,6 +77,8 @@ public class ShipMovement : MonoBehaviour
         // Detect key presses, ensure velocity is less than some maximum, ensure the angle is constrained between some limits to avoid the player flying backwards
 		bool canPitchUp = pitchVelocity < maxTurnSpeed;
 		bool canPitchDown = pitchVelocity > maxTurnSpeed * (-1f);
+
+        // Control movement. slowTime used to make ship smoothly decrease velocity when key unpressed
         if (Input.GetKey (KeyCode.W) && canPitchUp)
 		{
 			pitchVelocity +=  (Time.deltaTime * turnSpeed);
@@ -102,6 +105,7 @@ public class ShipMovement : MonoBehaviour
 
         bool canRollRight = rollVelocity < maxTurnSpeed;
         bool canRollLeft = rollVelocity > maxTurnSpeed * (-1f);
+
         if (Input.GetKey (KeyCode.D) && canRollRight)
 		{
 			rollVelocity += Time.deltaTime * turnSpeed;
@@ -126,6 +130,7 @@ public class ShipMovement : MonoBehaviour
 			slowTime2 += slowDown * Time.deltaTime;
 		}
 
+        // Move parent object
         if (controlObject != null)
         {
             controlObject.transform.Rotate(Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
@@ -209,6 +214,7 @@ public class ShipMovement : MonoBehaviour
 
         if(myDamage == null) myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
 
+        // Show directional damage effect
 		if(left && !(up || down))
 		{
 			myDamage.Damage(0,damage, health);
@@ -242,6 +248,7 @@ public class ShipMovement : MonoBehaviour
             myDamage.Damage(3,damage, health);
 		}
 
+        // Control damage to player
 		if (shield > damage)
 		{
 			shield -= damage;
