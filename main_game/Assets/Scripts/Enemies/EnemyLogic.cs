@@ -143,7 +143,7 @@ public class EnemyLogic : MonoBehaviour
 
 		logic.GetComponent<BulletLogic>().SetDestination (destination, false);
 		ServerManager.NetworkSpawn(obj);
-        mySrc.Play();
+        if(distance < 300f) mySrc.Play();
 		if(shoot) StartCoroutine ("Shoot");
 	}
 
