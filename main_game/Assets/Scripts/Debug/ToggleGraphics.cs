@@ -10,7 +10,7 @@ using System.Collections;
 
 public class ToggleGraphics : MonoBehaviour 
 {
-	bool enableGraphics;
+	bool enableGraphics, swap;
 
 	SuperSampling_SSAA ssaa;
 	SESSAO sessao;
@@ -20,10 +20,12 @@ public class ToggleGraphics : MonoBehaviour
 	Aubergine.PP_Vignette vignette;
 	Smaa.SMAA smaa;
     UnityStandardAssets.ImageEffects.SunShafts shafts;
+    LightShafts volumetricLighting;
 	
 	void Start () 
 	{
-		enableGraphics = false;
+		enableGraphics = true;
+        swap = false;
 		ssaa = GetComponent<SuperSampling_SSAA>();
 		sessao = GetComponent<SESSAO>();
 		motion = GetComponent<AmplifyMotionEffect>();
@@ -44,12 +46,17 @@ public class ToggleGraphics : MonoBehaviour
 		Debug.Log ("Graphics are now " + enableGraphics);
 		ssaa.enabled = false;
 		sessao.enabled = enableGraphics;
-		motion.enabled = enableGraphics;
+		motion.enabled = false;
 		bloom.enabled = enableGraphics;
 		color.enabled = enableGraphics;
-		vignette.enabled = enableGraphics;
+		vignette.enabled = false;
 		smaa.enabled = enableGraphics;
         shafts.enabled = enableGraphics;
+        if(volumetricLighting != null) volumetricLighting.enabled = enableGraphics;
+        else
+        {
+            swap = true;
+        }
        
 	}
 
@@ -59,6 +66,17 @@ public class ToggleGraphics : MonoBehaviour
 		{
 			UpdateGraphics();
 		}
-        if(shafts.sunTransform == null && GameObject.Find("StarLight") != null) shafts.sunTransform = GameObject.Find("StarLight").transform;
+
+        if(swap && volumetricLighting != null)
+        {
+            volumetricLighting.enabled = enableGraphics;
+            swap = false; 
+        }
+
+        if(shafts.sunTransform == null && GameObject.Find("StarLight") != null)
+        {
+            shafts.sunTransform = GameObject.Find("StarLight").transform;
+            volumetricLighting = GameObject.Find("StarLight").GetComponent<LightShafts>();
+        } 
 	}
 }

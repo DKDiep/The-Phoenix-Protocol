@@ -18,7 +18,7 @@ public partial class LightShafts : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x + 35,player.transform.position.y + 74,player.transform.position.z -163);
+        transform.position = new Vector3(player.transform.position.x + 229,player.transform.position.y - 50,player.transform.position.z + 121);
     }
     
 

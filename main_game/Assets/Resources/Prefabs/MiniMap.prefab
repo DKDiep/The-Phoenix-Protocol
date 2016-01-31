@@ -408,7 +408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &149518
 GameObject:
   m_ObjectHideFlags: 1
@@ -680,6 +680,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 458632}
   - 20: {fileID: 2031970}
+  - 45: {fileID: 4536880}
   m_Layer: 10
   m_Name: MiniMapCamera
   m_TagString: Untagged
@@ -824,7 +825,7 @@ Camera:
   m_GameObject: {fileID: 190176}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.053471018, g: 0.12126383, b: 0.16911763, a: 0.28627452}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -850,6 +851,14 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!45 &4536880
+Skybox:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190176}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 05a7e1a8702132043b730a13cd0b3447, type: 2}
 --- !u!95 &9575096
 Animator:
   serializedVersion: 3

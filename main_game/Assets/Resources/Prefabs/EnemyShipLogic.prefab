@@ -121,7 +121,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 185a3afce2f4f25469cacef47f4ac8d0, type: 3}
   DeathIcon: {fileID: 0}
   IconColor: {r: 0.5588235, g: 0, b: 0, a: 0.9}
-  Size: 20
+  Size: 10
   isInteractable: 0
   InfoItem: Info Icon here
   OffScreen: 1
@@ -142,9 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 25
   health: 100
-  maxRange: 900
   shotsPerSec: 6
-  shootChance: 50
   collisionDamage: 20
   shootPeriod: 0.5
   percentageVariation: 50
@@ -274,6 +272,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Effect
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Size
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
