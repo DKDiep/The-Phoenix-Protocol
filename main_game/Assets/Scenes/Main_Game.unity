@@ -343,6 +343,10 @@ Prefab:
       propertyPath: m_Channels.Array.data[0]
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: maxVariation
+      value: 35
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11487072, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
     - {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
@@ -579,7 +583,7 @@ Transform:
   - {fileID: 2090560807}
   - {fileID: 959685851}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &1924423020 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}

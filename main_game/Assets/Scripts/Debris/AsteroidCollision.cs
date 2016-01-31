@@ -10,12 +10,17 @@ using System.Collections;
 
 public class AsteroidCollision : MonoBehaviour 
 {
-	float collisionDamage = 10f;
+	float collisionDamage;
     AsteroidLogic myLogic;
 
     void Start()
     {
         myLogic = GetComponentInChildren<AsteroidLogic>();
+    }
+
+    public void SetCollisionDamage(float dmg)
+    {
+        collisionDamage = dmg;
     }
 
     // Cause damage if collided with

@@ -40,7 +40,7 @@ public class DrawTarget : NetworkBehaviour
     // Draw target over enemy
     void OnGUI()
     {
-        if(distance < 800 && distance > 5 && draw)
+        if(distance < 600 && distance > 5 && draw)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
             /*Vector3 testPos = Camera.main.WorldToViewportPoint(transform.position); 

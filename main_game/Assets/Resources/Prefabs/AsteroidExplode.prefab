@@ -361,7 +361,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de98edeceeb7e436985362fdc6f8e034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snd: {fileID: 8300000, guid: 399e04d30e249114aab4d020ba619c11, type: 3}
+  snd:
+  - {fileID: 8300000, guid: 399e04d30e249114aab4d020ba619c11, type: 3}
+  - {fileID: 8300000, guid: 17b8d7eb5f890f24e99e9aca3bee2587, type: 3}
+  - {fileID: 8300000, guid: e4b9da47652c87e4395f7129b45c1cf3, type: 3}
+  - {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
 --- !u!114 &11434830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7777,6 +7781,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: snd.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: rolloffCustomCurve.m_Curve.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -7980,6 +7988,22 @@ Prefab:
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[9].outSlope
       value: -0.002000801
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: snd.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 399e04d30e249114aab4d020ba619c11, type: 3}
+    - target: {fileID: 0}
+      propertyPath: snd.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 17b8d7eb5f890f24e99e9aca3bee2587, type: 3}
+    - target: {fileID: 0}
+      propertyPath: snd.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: e4b9da47652c87e4395f7129b45c1cf3, type: 3}
+    - target: {fileID: 0}
+      propertyPath: snd.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 112660}

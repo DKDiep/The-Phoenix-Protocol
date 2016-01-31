@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
 	// TODO: the AI constants probably need to be tweaked
 	private const int AI_WAYPOINTS_PER_ENEMY      = 5;
 	private const int AI_GEN_WAYPOINTS_FACTOR     = 3;
-	private const int AI_WAYPOINT_RADIUS          = 400;
+	private const int AI_WAYPOINT_RADIUS          = 200;
 	private readonly Vector3 AI_WAYPOINT_SHIFT_UP = new Vector3 (0, 8, 0);
 	private List<GameObject> aiWaypoints;
 

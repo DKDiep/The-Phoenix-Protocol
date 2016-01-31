@@ -10,7 +10,7 @@ using System.Collections;
  
 public class DestroyParticles : MonoBehaviour
 {
-    [SerializeField] AudioClip snd;
+    [SerializeField] AudioClip[] snd;
     AudioSource mySrc;
 
     private void Start()
@@ -18,7 +18,8 @@ public class DestroyParticles : MonoBehaviour
         if(snd != null)
         {
             mySrc = GetComponent<AudioSource>();
-            mySrc.clip = snd;
+            int rnd = Random.Range(0, snd.Length);
+            mySrc.clip = snd[rnd];
             mySrc.Play();
         }
 
