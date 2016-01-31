@@ -215,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snd:
   - {fileID: 8300000, guid: 138b2365eb190ff44b632b3438a9d741, type: 3}
+  randomPitch: 1
 --- !u!114 &11420922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4641,6 +4642,14 @@ Prefab:
       propertyPath: snd.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 138b2365eb190ff44b632b3438a9d741, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: randomPitch
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108576}

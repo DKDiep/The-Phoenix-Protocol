@@ -11,6 +11,7 @@ using System.Collections;
 public class DestroyParticles : MonoBehaviour
 {
     [SerializeField] AudioClip[] snd;
+    [SerializeField] bool randomPitch;
     AudioSource mySrc;
 
     private void Start()
@@ -20,6 +21,7 @@ public class DestroyParticles : MonoBehaviour
             mySrc = GetComponent<AudioSource>();
             int rnd = Random.Range(0, snd.Length);
             mySrc.clip = snd[rnd];
+            if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
             mySrc.Play();
         }
 

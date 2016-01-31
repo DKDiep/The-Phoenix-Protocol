@@ -154,6 +154,7 @@ MonoBehaviour:
   bulletLogic: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
   destroyEffect: {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
   fireSnd: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00, type: 3}
+  randomPitch: 1
   player: {fileID: 0}
   draw: 0
   distance: 0
@@ -276,6 +277,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Size
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: randomPitch
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

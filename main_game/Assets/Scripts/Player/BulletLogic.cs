@@ -20,14 +20,20 @@ public class BulletLogic : MonoBehaviour
 	[SerializeField] float zScale;
 
 	GameObject obj;
-	GameObject destination, playerObj;
+	GameObject playerObj;
+    Vector3 destination;
 	PlayerShooting player;
 	bool started = false;
+    bool enableSound = false;
 	int playerId;
+    float distance;
+    AudioSource mySrc;
+    [SerializeField] AudioClip sound;
 
     // Initialise object when spawned
-	public void SetDestination(Vector3 destination, bool isPlayer, GameObject playerObj2)
+	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2)
 	{
+        destination = dest;
         playerObj = playerObj2;
 		obj = transform.parent.gameObject;
 		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
@@ -44,6 +50,8 @@ public class BulletLogic : MonoBehaviour
         else 
         {
 			obj.AddComponent<BulletCollision>();
+            enableSound = true;
+            mySrc = GetComponent<AudioSource>();
 		}
 
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
@@ -53,6 +61,19 @@ public class BulletLogic : MonoBehaviour
 		StartCoroutine ("DestroyObject");
 		started = true;
 	}
+
+    void Update()
+    {
+        if(enableSound)
+        {
+            distance = Vector3.Distance(transform.position, destination);
+            if(distance < 150)
+            {
+                mySrc.PlayOneShot(sound);
+                enableSound = false;
+            }
+        }
+    }
 
 	public void SetID(PlayerShooting playerObj, int id)
 	{

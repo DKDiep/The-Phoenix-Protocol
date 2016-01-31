@@ -26,6 +26,7 @@ public class EnemyLogic : MonoBehaviour
 	[SerializeField] GameObject bulletLogic;
     [SerializeField] GameObject destroyEffect;
     [SerializeField] AudioClip fireSnd;
+    [SerializeField] bool randomPitch;
 
     AudioSource mySrc;
 	private ServerManager serverManager;
@@ -338,6 +339,7 @@ public class EnemyLogic : MonoBehaviour
 
 		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player);
 		ServerManager.NetworkSpawn(obj);
+        if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
         if(distance < 300f) mySrc.PlayOneShot(fireSnd);
 		if(shoot) StartCoroutine ("Shoot");
 	}

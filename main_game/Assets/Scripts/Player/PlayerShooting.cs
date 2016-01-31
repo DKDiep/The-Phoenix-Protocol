@@ -19,6 +19,7 @@ public class PlayerShooting : MonoBehaviour
 	[SerializeField] Texture2D hitmarker; // Hitmarker texture
     [SerializeField] AudioClip fireSnd; // Sound to make when firing
     AudioSource mySrc;
+    [SerializeField] bool randomPitch;
 
 	GameObject bulletAnchor;
 	GameObject target;
@@ -119,6 +120,7 @@ public class PlayerShooting : MonoBehaviour
 	{
 		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
 
+        if(randomPitch) mySrc.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
         mySrc.PlayOneShot(fireSnd);
 
 		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
