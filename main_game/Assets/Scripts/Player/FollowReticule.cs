@@ -40,6 +40,6 @@ public class FollowReticule : MonoBehaviour
         transform.rotation = targetRotation;
 
         // Angle correction
-        transform.localEulerAngles = new Vector3(270f,  transform.localEulerAngles.y - 90f,  transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(270f,  transform.localEulerAngles.y + 270f,  transform.localEulerAngles.z);
         }
     }
