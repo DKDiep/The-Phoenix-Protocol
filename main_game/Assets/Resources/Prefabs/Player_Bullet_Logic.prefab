@@ -39,15 +39,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0219db45a99614e56af96480e105ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1200
+  speed: 600
   accuracy: 0.1
-  damage: 40
+  damage: 30
   bulletColor: {r: 0.29411763, g: 0.53265727, b: 1, a: 0}
   impact: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   xScale: 0.5
   yScale: 0.5
   zScale: 2
-  gameManager: {fileID: 156512, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+  sound: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -69,11 +69,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 1200
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: zScale

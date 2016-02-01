@@ -21,7 +21,7 @@ public class PlayerShooting : MonoBehaviour
     AudioSource mySrc;
     [SerializeField] bool randomPitch;
 
-	GameObject bulletAnchor;
+	GameObject[] bulletAnchor;
 	GameObject target;
 	bool canShoot, showMarker;
 	float alpha;
@@ -53,14 +53,13 @@ public class PlayerShooting : MonoBehaviour
             crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
         }
 
-        // Find bullet anchor
-        foreach(Transform child in transform.parent)
-		{
-			if(child.name.Equals ("BulletAnchor"))
-			{
-				bulletAnchor = child.gameObject;
-			}
-		}
+        bulletAnchor = new GameObject[4];
+
+        // Find crosshair images
+        for(int i = 1; i <= 4; ++i)
+        {
+            bulletAnchor[i-1] = GameObject.Find("BulletAnchor" + i.ToString());
+        }
 	}
 
 	void Update () 
@@ -136,8 +135,8 @@ public class PlayerShooting : MonoBehaviour
 			target.transform.Translate (transform.forward * (-10f));
 		}
 
-		GameObject obj = Instantiate (bullet, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
-		GameObject logic = Instantiate (bulletLogic, bulletAnchor.transform.position, Quaternion.identity) as GameObject;
+		GameObject obj = Instantiate (bullet, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
+		GameObject logic = Instantiate (bulletLogic, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
 		logic.GetComponent<BulletLogic>().SetID(this, playerId);
 		logic.transform.parent = obj.transform;
 		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true, this.gameObject);
