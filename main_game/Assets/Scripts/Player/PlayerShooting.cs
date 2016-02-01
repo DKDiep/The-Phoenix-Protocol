@@ -20,6 +20,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] AudioClip fireSnd; // Sound to make when firing
     AudioSource mySrc;
     [SerializeField] bool randomPitch;
+    [SerializeField] GameObject muzzleFlash;
 
 	GameObject[] bulletAnchor;
 	GameObject target;
@@ -140,7 +141,11 @@ public class PlayerShooting : MonoBehaviour
 		logic.GetComponent<BulletLogic>().SetID(this, playerId);
 		logic.transform.parent = obj.transform;
 		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true, this.gameObject);
-		ServerManager.NetworkSpawn(obj);
+
+        GameObject muzzle = Instantiate (muzzleFlash, bulletAnchor[playerId].transform.position, bulletAnchor[playerId].transform.rotation) as GameObject;
+        muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
+
+        ServerManager.NetworkSpawn(obj);
 		canShoot = false;
 		StartCoroutine("Delay");
 	}

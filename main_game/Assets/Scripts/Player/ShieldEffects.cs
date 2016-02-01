@@ -30,7 +30,7 @@ public class ShieldEffects : NetworkBehaviour
     {
         // Initialise shield parent and position
         transform.parent = GameObject.Find("PlayerShip(Clone)").transform;
-        transform.localPosition = new Vector3(0, 0.04f, -4.3f);
+        transform.localPosition = new Vector3(0, 0, 0);
         this.gameObject.GetComponent<Renderer>().material = field;
 
         // Set colours
