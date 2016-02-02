@@ -313,8 +313,8 @@ MonoBehaviour:
   UseToneMapping: 0
   UseDithering: 0
   QualityLevel: 1
-  BlendAmount: 0.7
-  LutTexture: {fileID: 2800000, guid: ae2a8ef8c1b5eb849a89b462e10de3ae, type: 3}
+  BlendAmount: 0.6
+  LutTexture: {fileID: 2800000, guid: 985121459dea4a342b37beba48f3ab5e, type: 3}
   LutBlendTexture: {fileID: 0}
   MaskTexture: {fileID: 0}
   UseDepthMask: 0
@@ -3817,8 +3817,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: BlendAmount
-      value: 0.7
+      value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LutTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 985121459dea4a342b37beba48f3ab5e, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106102}
