@@ -3,16 +3,23 @@
     Project "Sky Base"
     Authors: Marc Steene, Andrei Poenaru
     Description: Control enemy ship attributes and AI
+		
+    Relevant Documentation:
+	  * Enemy AI:    https://bitbucket.org/pyrolite/game/wiki/Enemy%20AI
+      * Enemy Types: https://bitbucket.org/pyrolite/game/wiki/Enemy%20Types
 */
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyLogic : MonoBehaviour 
+public class EnemyLogic : MonoBehaviour
 {
 
-	internal float speed = 15f;
+	/* These fields are set when assigning a type to the enemy. They should not be initilaised manually.
+	 * Please use the internal modifier for all of them to make it clear that they are set somewhere else in code,
+	 * and to prevent them from showing up in the Unity Editor, which would cause confusion. */
+	internal float speed;
 	internal float maxHealth;
 	internal float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	internal float collisionDamage;
@@ -40,7 +47,7 @@ public class EnemyLogic : MonoBehaviour
 	internal float health;
 	private float shield;
     public float distance;
-	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
+	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
     float randomZ; // A random Z angle to give the enemies some uniqueness
 
 	GameObject shootAnchor;
@@ -79,7 +86,7 @@ public class EnemyLogic : MonoBehaviour
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
 	private const int AI_OBSTACLE_AVOID_ROTATION   = 60;
 
-	void Start () 
+	void Start ()
 	{
 		GameObject server = GameObject.Find("GameManager");
 		serverManager = server.GetComponent<ServerManager>();
@@ -118,7 +125,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			if(child.gameObject.name.Equals("ShootAnchor")) shootAnchor = child.gameObject;
 		}
-		
+
 		StartCoroutine ("ShootManager");
 		StartCoroutine("DrawDelay");
 
@@ -145,14 +152,14 @@ public class EnemyLogic : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		draw = true;
 	}
-	
-	void Update () 
+
+	void Update ()
 	{
 		// If this enemy has gone mad, its sole purpose is to crash into the player
 		if (isSuicidal)
 		{
 			MoveTowardsPlayer ();
-			return; 
+			return;
 		}
 
 		// Check to see if this enemy is going mad this frame
@@ -204,11 +211,11 @@ public class EnemyLogic : MonoBehaviour
 		{
 			state = STATE_ENGAGE_PLAYER;
 			currentWaypoint = GetNextWaypoint ();
-		} 
+		}
 		else if (state == STATE_ENGAGE_PLAYER && distance > ENGAGE_DISTANCE)
 		{
 			state = STATE_SEEK_PLAYER;
-		} 
+		}
 
 		if (state == STATE_ENGAGE_PLAYER)
 		{
@@ -253,7 +260,7 @@ public class EnemyLogic : MonoBehaviour
 	// When engaged with the player ship, move between waypoints, returning true when the waypoint is reached
 	bool MoveTowardsCurrentWaypoint()
 	{
-		
+
 		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
 		Quaternion rotation = Quaternion.LookRotation (relativePos, Vector3.forward); // TODO: when we get a proper ship, remove the upwards parameter
 
@@ -274,7 +281,7 @@ public class EnemyLogic : MonoBehaviour
 
 		return false;
 	}
-	
+
 	// Check if the enemy is about to collide with an object
 	// Returns the tag of the object, or null if there is no collision about to happen
 	string CheckObstacleAhead()
@@ -294,7 +301,7 @@ public class EnemyLogic : MonoBehaviour
 		// Uncomment to show a ray when a collision is detected
 		if (hitLeft)
 		{
-			/*Debug.DrawRay (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, 
+			/*Debug.DrawRay (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right,
 				-AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.up, Color.magenta, 3, false);*/
 			return hitInfoLeft.collider.gameObject.tag;
 		}
@@ -304,11 +311,11 @@ public class EnemyLogic : MonoBehaviour
 				-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.magenta, 3, false);*/
 			return hitInfoRight.collider.gameObject.tag;
 		}
-		else 
+		else
 			return null;
 
 		// Uncomment to debug raycasting parameters
-		/*Debug.DrawRay(objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right, 
+		/*Debug.DrawRay(objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
 			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);
 		Debug.DrawRay(objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
 			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);
@@ -317,7 +324,7 @@ public class EnemyLogic : MonoBehaviour
 		Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
 			+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
 	}
-		
+
 	// Control shooting based on attributes
 	IEnumerator ShootManager()
 	{
@@ -382,7 +389,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			float remDamage = damage - shield;
 			shield = 0;
-			
+
 			health -= remDamage;
 		}
 		else if(health > damage)
@@ -391,7 +398,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
-			if(playerId != -1) 
+			if(playerId != -1)
 			{
 				// Update player score
 				gameState.AddPlayerScore(playerId, 10);
