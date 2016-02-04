@@ -13,15 +13,30 @@ public class AsteroidLogic : MonoBehaviour
     public GameObject player;
     public float speed;
 
-    int type; // Defines which of the 3 asteroid prefabs is used
-    float maxVariation; // Percentage variation in size
+	// Defines which of the 3 asteroid prefabs is used
+    int type; 
+	// Percentage variation in size
+    float maxVariation; 
+
+	// The amount of resources dropped by the asteroid
+	private int droppedResources;
+	// The maximum number of resources that can be dropped by an asteroid. 
+	private const int MAX_DROPPED_RESOURCES = 20;
+
 
     [SerializeField] float health;
     [SerializeField] float minSpeed;
     [SerializeField] float maxSpeed;
-    [SerializeField] GameObject destroyEffect; // The prefab to spawn when destroyed
+	// The prefab to spawn when destroyed
+    [SerializeField] GameObject destroyEffect;
 
     private GameState gameState;
+
+
+	void Start() {
+		droppedResources = System.Convert.ToInt32(Random.Range (0, MAX_DROPPED_RESOURCES));
+	}
+
 
     // Initialise player, size, and speed
 	public void SetPlayer(GameObject temp, float var, int rnd)
@@ -49,6 +64,9 @@ public class AsteroidLogic : MonoBehaviour
 
         if (health <= 0)
         {
+			// Ship automatically collects resources from destroyed asteroids. 
+			gameState.AddShipResources(droppedResources);
+		
             GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
             gameState.RemoveAsteroid(transform.parent.gameObject);
