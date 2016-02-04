@@ -99,12 +99,24 @@ func (usr *User) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
+func (usr *User) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Asteroid) {
     // TODO: add other objects
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
-    //dataLen := len(asteroids)
     dataSegment := make([]map[string]interface{}, 0)
+
+    // Add enemies to the message
+    for _, enemy := range enemies {
+        dataSegment = append(dataSegment, map[string]interface{}{
+            "type": "ship",
+            "position": map[string]interface{}{
+                "x": enemy.posX,
+                "y": enemy.posY,
+            },
+        })
+    }
+
+    // Add asteroids to the message
     for _, ast := range asteroids {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "asteroid",
@@ -114,6 +126,7 @@ func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
             },
         })
     }
+
     msg["data"] = dataSegment
     // incry += 0.1
     // msg := map[string]interface{}{

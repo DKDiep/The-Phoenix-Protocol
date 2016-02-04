@@ -47,10 +47,13 @@ func (users *UserList) remove(usr *User) {
 
 // Sends a state data update to all users
 func (users *UserList) updateData() {
-    asteroidMap.copyC <- nil
     playerShip.getC <- nil
-    asteroidData := <-asteroidMap.copyC
+    enemyMap.copyC <- nil
+    asteroidMap.copyC <- nil
+    enemyData := <-enemyMap.copyC
     playerShipData := <-playerShip.getC
+    asteroidData := <-asteroidMap.copyC
+
     // Transform asteroid coordinates into phone screen space
     for _, asteroid := range asteroidData {
         // Centre grid around player ship
@@ -63,8 +66,22 @@ func (users *UserList) updateData() {
         asteroid.posX = newX + 50
         asteroid.posY = newY + 50
     }
+
+    // Transform enemy coordinates into phone screen space
+    for _, enemy := range enemyData {
+        // Centre grid around player ship
+        enemy.posX -= playerShipData.posX
+        enemy.posY -= playerShipData.posY
+        // Rotate grid so ship is pointing north on the screen
+        newX := enemy.posX*math.Cos((180+playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((180+playerShipData.rot)*(math.Pi/180))
+        newY := enemy.posX*math.Sin((180+playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((180+playerShipData.rot)*(math.Pi/180))
+        // Translate grid so ship is in the centre
+        enemy.posX = newX + 50
+        enemy.posY = newY + 50
+    }
+
     // Send updated data
     for _, usr := range users.l {
-        usr.sendDataUpdate(asteroidData)
+        usr.sendDataUpdate(enemyData, asteroidData)
     }
 }

@@ -15,6 +15,7 @@ const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
 // Structure dealing with the Game Server Connection
 var gameServerConn *net.UDPConn
 
+// Holds the player ship data and modification channels
 var playerShip *PlayerShipController = &PlayerShipController{
     data: &PlayerShip{},
     setC: make(chan *PlayerShip),

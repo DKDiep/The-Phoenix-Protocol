@@ -81,6 +81,7 @@ func updateShipData(data map[string]interface{}) {
     playerShip.setShipData(newShipData)
 }
 
+// Updates the enemy data with the most recent
 func setEnemies(data []interface{}) {
     for _, d := range data {
         enemy := d.(map[string]interface{})
