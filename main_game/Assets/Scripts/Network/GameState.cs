@@ -13,6 +13,9 @@ public class GameState : MonoBehaviour {
 
     public enum Status { Setup, Started };
 
+	// The amount of resources the player starts off with.
+	private const int BASE_SHIP_RESOURCES = 100;
+
     private Status status = Status.Setup;
     private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
@@ -21,6 +24,13 @@ public class GameState : MonoBehaviour {
     private List<GameObject> engineerList;
     private GameObject playerShip;
 	private int[] playerScore;
+
+	// The total ship resources that has been collected over the whole game.
+	// This is used for the final score.
+	private int totalShipResources = BASE_SHIP_RESOURCES;
+
+	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
+	private int currentShipResources = BASE_SHIP_RESOURCES;
     
     void Update()
     {
@@ -187,5 +197,35 @@ public class GameState : MonoBehaviour {
 	{
 		playerScore[id] += score;
 		Debug.Log("Score for player " + id + " is now " + playerScore[id]);
+	}
+
+	/*
+	 * Gets the current ship resources
+	*/
+	public int GetShipResources() {
+		return currentShipResources;
+	}
+
+	/*
+	 * Gets the total ship resources for the whole game
+	*/
+	public int GetTotalShipResources() {
+		return totalShipResources;
+	}
+
+	/*
+	 * Adds a value to the total ship resources
+	*/
+	public void AddShipResources(int resources) {
+		currentShipResources += resources;
+		totalShipResources += resources;
+		Debug.Log("Current Reaources:  " + currentShipResources);
+	}
+
+	/*
+	 * Subtracts a value to the total ship resources
+	*/
+	public void UseShipResources(int resources) {
+		currentShipResources -= resources;
 	}
 }

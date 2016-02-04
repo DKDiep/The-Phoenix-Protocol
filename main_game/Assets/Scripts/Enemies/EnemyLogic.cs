@@ -394,6 +394,9 @@ public class EnemyLogic : MonoBehaviour
 				gameState.AddPlayerScore(playerId, 10);
 			}
 
+			// Automatically collect resources from enemy ship
+			gameState.AddShipResources(droppedResources);
+
 			// Destroy Object
             GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
