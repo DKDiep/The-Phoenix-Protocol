@@ -23,6 +23,7 @@ func (usr *User) handleUser() {
     for {
         n, err := usr.ws.Read(receivedtext)
 
+        // stop listening for activity if an error occurs
         if err != nil {
             if err.Error() == "EOF" {
                 fmt.Println("Connection Closed, EOF received")
@@ -32,18 +33,20 @@ func (usr *User) handleUser() {
             return
         }
 
+        //TODO: remove when no longer needed
         fmt.Println("Received: ", string(receivedtext[:n]))
 
+        // decode JSON
         var msg interface{}
-
         if err := json.Unmarshal(receivedtext[:n], &msg); err != nil {
             fmt.Println(err)
         }
+
         usr.handleMessage(msg.(map[string]interface{}))
     }
 }
 
-// Multiplexes the received message based on its type
+// Multiplexes the decoding of the received message based on its type
 func (usr *User) handleMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "REG_USER":
@@ -99,12 +102,24 @@ func (usr *User) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
+func (usr *User) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Asteroid) {
     // TODO: add other objects
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
-    //dataLen := len(asteroids)
     dataSegment := make([]map[string]interface{}, 0)
+
+    // Add enemies to the message
+    for _, enemy := range enemies {
+        dataSegment = append(dataSegment, map[string]interface{}{
+            "type": "ship",
+            "position": map[string]interface{}{
+                "x": enemy.posX,
+                "y": enemy.posY,
+            },
+        })
+    }
+
+    // Add asteroids to the message
     for _, ast := range asteroids {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "asteroid",
@@ -114,6 +129,7 @@ func (usr *User) sendDataUpdate(asteroids map[int]*Asteroid) {
             },
         })
     }
+
     msg["data"] = dataSegment
     // incry += 0.1
     // msg := map[string]interface{}{

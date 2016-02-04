@@ -60,6 +60,8 @@ public class UDPServer : MonoBehaviour
             if(!phoneServer.Address.Equals(IPAddress.Any))
             {
                 SendShipPosition();
+                SendEnemies();
+                SendRemovedEnemies();
                 SendNewAsteroids();
                 SendRemovedAsteroids();
             }
@@ -115,6 +117,42 @@ public class UDPServer : MonoBehaviour
             jsonMsg += "]}";
             SendMsg(jsonMsg);
             state.ClearRemovedAsteroids();
+        }
+    }
+    
+    private void SendEnemies()
+    {
+        List<GameObject> enemies = state.GetEnemyList();
+        if(enemies != null && enemies.Count > 0)
+        {
+            string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
+            foreach (GameObject enemy in enemies)
+            {
+                jsonMsg += "{\"id\":" + (uint)enemy.GetInstanceID() +
+                            ",\"x\":" + enemy.transform.position.x +
+                            ",\"y\":" + enemy.transform.position.z +
+                            "},";
+            }
+            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+            jsonMsg += "]}";
+            SendMsg(jsonMsg);
+        }
+    }
+    
+    private void SendRemovedEnemies()
+    {
+        List<uint> removedEnemies = state.GetRemovedEnemies();
+        if (removedEnemies != null && removedEnemies.Count > 0)
+        {
+            string jsonMsg = "{\"type\":\"RMV_ENM\",\"data\":[";
+            foreach (uint id in removedEnemies)
+            {
+                jsonMsg += id + ",";
+            }
+            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+            jsonMsg += "]}";
+            SendMsg(jsonMsg);
+            state.ClearRemovedEnemies();
         }
     }
 

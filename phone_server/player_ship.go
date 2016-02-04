@@ -14,8 +14,8 @@ type PlayerShip struct {
 // Wrapper around the player ship object handling concurrency
 type PlayerShipController struct {
     data *PlayerShip
-    setC chan *PlayerShip
-    getC chan *PlayerShip
+    setC chan *PlayerShip // channel for requesting the updating of ship data
+    getC chan *PlayerShip // channel for getting a copy of the ship data
 }
 
 // Manages concurrent access to the player ship data structure
@@ -23,8 +23,10 @@ func (plrShip *PlayerShipController) accessManager() {
     fmt.Println("Starting Player Ship accessManager.")
     for {
         select {
+        // setting of the ship data
         case new := <-plrShip.setC:
             plrShip.data = new
+        // sending a copy of the ship data
         case <-plrShip.getC:
             toSend := *plrShip.data
             plrShip.getC <- &toSend
