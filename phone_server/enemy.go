@@ -56,3 +56,9 @@ func (enemies *EnemyMap) set(id int, data *Enemy) {
 func (enemies *EnemyMap) remove(id int) {
     enemies.delC <- id
 }
+
+// Request a copy of the enemy map
+func (enemies *EnemyMap) getCopy() map[int]*Enemy{
+    enemies.copyC <- nil
+    return <-enemies.copyC
+}

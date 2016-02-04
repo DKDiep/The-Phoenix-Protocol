@@ -47,12 +47,9 @@ func (users *UserList) remove(usr *User) {
 
 // Sends a state data update to all users
 func (users *UserList) updateData() {
-    playerShip.getC <- nil
-    enemyMap.copyC <- nil
-    asteroidMap.copyC <- nil
-    enemyData := <-enemyMap.copyC
-    playerShipData := <-playerShip.getC
-    asteroidData := <-asteroidMap.copyC
+    playerShipData := playerShip.getShipData()
+    enemyData := enemyMap.getCopy()
+    asteroidData := asteroidMap.getCopy()
 
     // Transform asteroid coordinates into phone screen space
     for _, asteroid := range asteroidData {

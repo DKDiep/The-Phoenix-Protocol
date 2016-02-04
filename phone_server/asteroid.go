@@ -56,3 +56,10 @@ func (asteroids *AsteroidMap) add(id int, data *Asteroid) {
 func (asteroids *AsteroidMap) remove(id int) {
     asteroids.delC <- id
 }
+
+// Request a copy of the asteroid map
+// TODO: get a copy of  the asteroids that are whithin a certain distance
+func (asteroids *AsteroidMap) getCopy() map[int]*Asteroid{
+    asteroids.copyC <- nil
+    return <-asteroids.copyC
+}
