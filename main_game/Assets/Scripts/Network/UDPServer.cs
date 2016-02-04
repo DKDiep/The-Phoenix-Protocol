@@ -132,7 +132,6 @@ public class UDPServer : MonoBehaviour
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
             jsonMsg += "]}";
-            Debug.Log(jsonMsg);
             SendMsg(jsonMsg);
         }
     }
@@ -149,7 +148,6 @@ public class UDPServer : MonoBehaviour
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
             jsonMsg += "]}";
-            Debug.Log(jsonMsg);
             SendMsg(jsonMsg);
             state.ClearRemovedEnemies();
         }
