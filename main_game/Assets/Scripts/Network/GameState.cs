@@ -14,6 +14,7 @@ public class GameState : MonoBehaviour {
     public enum Status { Setup, Started };
 
 	// The amount of resources the player starts off with.
+	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
 	private const int BASE_SHIP_RESOURCES = 100;
 
     private Status status = Status.Setup;
