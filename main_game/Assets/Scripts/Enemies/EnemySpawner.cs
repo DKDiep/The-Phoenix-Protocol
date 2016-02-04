@@ -3,15 +3,19 @@
     Project "Sky Base"
     Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
     Description: Server-side logic for enemy spawner
+
+	Relevant Documentation:
+	  * Enemy AI:    https://bitbucket.org/pyrolite/game/wiki/Enemy%20AI
+      * Enemy Types: https://bitbucket.org/pyrolite/game/wiki/Enemy%20Types
 */
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemySpawner : MonoBehaviour 
+public class EnemySpawner : MonoBehaviour
 {
-	
+
 	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0; // Number of currently active enemies
 	public int maxEnemies; // Maximum number of enemies at a time
@@ -56,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
 	}
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
-    void Update () 
+    void Update ()
 	{
         if (state.GetStatus() == GameState.Status.Started)
         {
@@ -67,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
                 //logic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
 
 				CreateAIWaypoints ();
-            } 
+            }
 
             if (numEnemies < maxEnemies)
             {
@@ -84,7 +88,7 @@ public class EnemySpawner : MonoBehaviour
                 enemyObject.AddComponent<EnemyCollision>();
 				enemyObjectLogic.transform.parent = enemyObject.transform;
 				enemyObjectLogic.transform.localPosition = Vector3.zero;
-                
+
 				EnemyLogic enemyObjectLogicComponent = enemyObjectLogic.GetComponent<EnemyLogic> ();
 				ApplyEnemyType (enemyObjectLogicComponent, Random.Range(0, enemyTypeList.Count)); // random enemy type
 				enemyObjectLogicComponent.SetControlObject(enemyObject);
@@ -99,7 +103,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 	}
-		
+
 	// Generate a list of waypoints around the player to guide the enemy ships
 	// Each enemy spawned will get some waypoints from this list
 	private void CreateAIWaypoints()
@@ -158,13 +162,13 @@ public class EnemySpawner : MonoBehaviour
 			{
 				r = Random.Range (0, n_waypoints);
 			} while(waypoints.Contains(aiWaypoints[r]));
-				
+
 			waypoints.Add (aiWaypoints [r]);
 		}
 
 		return waypoints;
 	}
-    
+
 	// Remove destroyed enemies from Game State
     IEnumerator Cleanup()
     {
@@ -207,7 +211,7 @@ public class EnemySpawner : MonoBehaviour
 		EnemyProperties props = GetPropertiesOfType (type);
 		ApplyEnemyType (enemy, props);
 	}
-		
+
 	private static void ApplyEnemyType (EnemyLogic enemy, int index)
 	{
 		ApplyEnemyType (enemy, enemyTypeList [index]);
