@@ -22,6 +22,7 @@ public class GameState : MonoBehaviour {
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
     private List<GameObject> enemyList;
+    private List<uint> removedEnemies;
     private List<GameObject> engineerList;
     private GameObject playerShip;
 	private int[] playerScore;
@@ -107,12 +108,14 @@ public class GameState : MonoBehaviour {
 
     public void RemoveEnemyAt(int i)
     {
+        removedEnemies.Add((uint)enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
     }
 
-	public void RemoveEnemy (GameObject enemy)
+	public void RemoveEnemy(GameObject enemy)
 	{
-		enemyList.Remove (enemy);
+        removedEnemies.Add((uint)enemy.GetInstanceID());
+		enemyList.Remove(enemy);
 		EnemySpawner.numEnemies--;
 	}
 
@@ -176,13 +179,24 @@ public class GameState : MonoBehaviour {
     {
         removedAsteroids = new List<uint>();
     }
+    
+    public List<uint> GetRemovedEnemies()
+    {
+        return removedEnemies;
+    }
+    
+    public void ClearRemovedEnemies()
+    {
+        removedEnemies = new List<uint>();
+    }
 
     private void InitializeVariables()
     {
-        asteroidList = new List<GameObject>();
-        enemyList = new List<GameObject>();
+        asteroidList = new List<GameObject>();        
         newAsteroids = new List<GameObject>();
         removedAsteroids = new List<uint>();
+        enemyList = new List<GameObject>();
+        removedEnemies = new List<uint>();
         engineerList = new List<GameObject>();
 		playerScore = new int[4];
 		ResetPlayerScores();
