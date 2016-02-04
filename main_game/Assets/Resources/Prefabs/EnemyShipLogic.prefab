@@ -140,15 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b14e54b00991401aa182ce12da54501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  health: 100
   shotsPerSec: 6
-  collisionDamage: 15
   shootPeriod: 0.5
   percentageVariation: 50
-  maxShield: 0
-  shieldDelay: 0
-  shieldRechargeRate: 0
+  shieldDelay: 2
+  shieldRechargeRate: 1
   isSuicidal: 0
   bullet: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   bulletLogic: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
@@ -280,6 +276,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: randomPitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldRechargeRate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

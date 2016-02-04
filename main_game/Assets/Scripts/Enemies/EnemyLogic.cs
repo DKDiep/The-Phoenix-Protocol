@@ -12,13 +12,15 @@ using System.Collections.Generic;
 public class EnemyLogic : MonoBehaviour 
 {
 
-	[SerializeField] float speed = 15f;
-	[SerializeField] float health;
+	internal float speed = 15f;
+	internal float maxHealth;
+	internal float maxShield; // Max recharging shield level. Set to 0 to disable shields
+	internal float collisionDamage;
+	internal EnemyType type;
+
 	[SerializeField] float shotsPerSec = 1f;
-	[SerializeField] float collisionDamage;
 	[SerializeField] float shootPeriod; // How long in seconds the enemy should shoot for when it fires
 	[SerializeField] int percentageVariation; // Percentage variation +/- in the length of the shooting period
-	[SerializeField] float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
 	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
 	[SerializeField] bool isSuicidal; // Attempt to crash into player?
@@ -35,7 +37,8 @@ public class EnemyLogic : MonoBehaviour
 	bool shoot = false, angleGoodForShooting = false;
 	bool rechargeShield;
     public bool draw = false;
-	float shield;
+	internal float health;
+	private float shield;
     public float distance;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking   
     float randomZ; // A random Z angle to give the enemies some uniqueness
@@ -47,7 +50,7 @@ public class EnemyLogic : MonoBehaviour
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
 	private int droppedResources;
-	private const int DROP_RESOURCE_RANGE = 80;
+	private const int DROP_RESOURCE_RANGE = 100;
 
 	// The probability than the enemy goes suicidal, assumming a check per frame @ 60 fps for 10 minutes
 	private const double MADNESS_PROB = 0.999999720824043; // 1% probability
@@ -83,7 +86,7 @@ public class EnemyLogic : MonoBehaviour
 		gameState = server.GetComponent<GameState>();
 
 		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
-		droppedResources = System.Convert.ToInt32(health + maxShield + Random.Range (-DROP_RESOURCE_RANGE, DROP_RESOURCE_RANGE + 1));
+		droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -107,7 +110,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			shield = maxShield;
 			lastShieldCheck = shield;
-			StartCoroutine ("Recharge Shields");
+			StartCoroutine ("RechargeShields");
 		}
 
         // Find location to spawn bullets at

@@ -28,6 +28,8 @@ public class EnemySpawner : MonoBehaviour
 	private readonly Vector3 AI_WAYPOINT_SHIFT_UP = new Vector3 (0, 8, 0);
 	private List<GameObject> aiWaypoints;
 
+	private static List<EnemyProperties> enemyTypeList = null;
+
     void Start()
     {
         if (gameManager != null)
@@ -39,7 +41,19 @@ public class EnemySpawner : MonoBehaviour
         temp = new GameObject(); // Create temporary object to spawn enemies at
         temp.name = "EnemySpawnLocation";
         StartCoroutine("Cleanup");
+
+		if (enemyTypeList == null)
+			InitialiseEnemyTypes ();
     }
+
+	// Create an EnemyProperties object for each type of enemy that will be used
+	private static void InitialiseEnemyTypes()
+	{
+		enemyTypeList = new List<EnemyProperties>();
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Fighter, 100, 0, 15, 15)); // This is the "default" enemy we had before introducing types
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Tank, 200, 50, 50, 10));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Assassin, 50, 20, 5, 30));
+	}
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
     void Update () 
@@ -72,6 +86,7 @@ public class EnemySpawner : MonoBehaviour
 				enemyObjectLogic.transform.localPosition = Vector3.zero;
                 
 				EnemyLogic enemyObjectLogicComponent = enemyObjectLogic.GetComponent<EnemyLogic> ();
+				ApplyEnemyType (enemyObjectLogicComponent, Random.Range(0, enemyTypeList.Count)); // random enemy type
 				enemyObjectLogicComponent.SetControlObject(enemyObject);
 				enemyObjectLogicComponent.SetPlayer(state.GetPlayerShip());
 				enemyObjectLogicComponent.SetAIWaypoints (GetAIWaypointsForEnemy ());
@@ -168,4 +183,64 @@ public class EnemySpawner : MonoBehaviour
 
         StartCoroutine("Cleanup");
     }
+
+	// This class holds the various atributes of an enemy. Each enemy type will be be represented by a separate instance
+	// TODO: the enemies should look differently based on their type
+	private class EnemyProperties
+	{
+		public int maxHealth, maxShield, collisionDamage, speed;
+		public EnemyType Type { get; private set; }
+
+		public EnemyProperties(EnemyType type, int maxHelath, int maxShield, int collisionDamage, int speed)
+		{
+			this.Type            = type;
+			this.maxHealth       = maxHealth;
+			this.maxShield       = maxShield;
+			this.collisionDamage = collisionDamage;
+			this.speed           = speed;
+		}
+	}
+
+	// Apply properties to an enemy object, i.e. make it be of certain type
+	private static void ApplyEnemyType (EnemyLogic enemy, EnemyType type)
+	{
+		EnemyProperties props = GetPropertiesOfType (type);
+		ApplyEnemyType (enemy, props);
+	}
+		
+	private static void ApplyEnemyType (EnemyLogic enemy, int index)
+	{
+		ApplyEnemyType (enemy, enemyTypeList [index]);
+	}
+
+	private static void ApplyEnemyType (EnemyLogic enemy, EnemyProperties props)
+	{
+		enemy.maxHealth       = props.maxHealth;
+		enemy.health          = props.maxHealth;
+		enemy.maxShield       = props.maxShield;
+		enemy.speed           = props.speed;
+		enemy.collisionDamage = props.collisionDamage;
+		enemy.type            = props.Type;
+	}
+
+	private static EnemyProperties GetPropertiesOfType(EnemyType type)
+	{
+		foreach (EnemyProperties props in enemyTypeList)
+		{
+			if (props.Type == type)
+				return props;
+		}
+
+		// If our code is correct, this should never happen
+		Debug.LogError("Tried to spawn invalid enemy type: " + type.ToString());
+		return null;
+	}
+}
+
+// The types of enemies available. Each type should have its properties initialised before it's used
+public enum EnemyType
+{
+	Fighter,
+	Tank,
+	Assassin
 }
