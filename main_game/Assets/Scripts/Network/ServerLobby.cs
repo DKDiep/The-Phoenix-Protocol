@@ -37,10 +37,10 @@ public class ServerLobby : MonoBehaviour {
         GameObject server = GameObject.Find("GameManager");
         serverManager = server.GetComponent<ServerManager>();
         gameState = server.GetComponent<GameState>();
-        startButton.onClick.AddListener(() => onClickStartButton() );
+        startButton.onClick.AddListener(() => OnClickStartButton() );
     }
 	
-	public void onClickStartButton ()
+	public void OnClickStartButton ()
     {
         // Pass lobby information to server
         serverManager.StartGame();
@@ -49,7 +49,7 @@ public class ServerLobby : MonoBehaviour {
     }
 
     // This method is only called on server via command
-    public void playerJoin(GameObject playerObject)
+    public void PlayerJoin(GameObject playerObject)
     {
         // Get player and set default role
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
