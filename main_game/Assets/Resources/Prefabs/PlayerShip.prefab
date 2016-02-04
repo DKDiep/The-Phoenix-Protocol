@@ -3251,6 +3251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByPlayerId: 3
 --- !u!114 &11426810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3316,6 +3317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByPlayerId: 2
 --- !u!114 &11486174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3327,6 +3329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByPlayerId: 1
 --- !u!114 &11486776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3338,6 +3341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByPlayerId: 0
 --- !u!114 &11496452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8278,6 +8282,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: controlledByPlayerId
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
