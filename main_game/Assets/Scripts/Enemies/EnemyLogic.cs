@@ -45,6 +45,10 @@ public class EnemyLogic : MonoBehaviour
 	Renderer myRender;
 	private GameObject controlObject;
 
+	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
+	private int droppedResources;
+	private const int DROP_RESOURCE_RANGE = 80;
+
 	// The probability than the enemy goes suicidal, assumming a check per frame @ 60 fps for 10 minutes
 	private const double MADNESS_PROB = 0.999999720824043; // 1% probability
 	private System.Random sysRand;
@@ -77,6 +81,9 @@ public class EnemyLogic : MonoBehaviour
 		GameObject server = GameObject.Find("GameManager");
 		serverManager = server.GetComponent<ServerManager>();
 		gameState = server.GetComponent<GameState>();
+
+		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
+		droppedResources = System.Convert.ToInt32(health + maxShield + Random.Range (-DROP_RESOURCE_RANGE, DROP_RESOURCE_RANGE + 1));
 	}
 
     public void SetControlObject(GameObject newControlObject)
