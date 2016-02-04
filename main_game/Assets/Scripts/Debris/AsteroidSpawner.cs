@@ -23,6 +23,8 @@ public class AsteroidSpawner : MonoBehaviour
     public static int numAsteroids = 0;
     private GameState state;
 
+	private const int SPAWN_MAX_PER_FRAME = 30;
+
     void Start ()
     {
         // Set game state reference
@@ -40,44 +42,48 @@ public class AsteroidSpawner : MonoBehaviour
         {
             if(player == null) player = state.GetPlayerShip();
 
-            // Spawn a new asteroid in a random position if there are less than specified by maxAsteroids
-            if (numAsteroids < maxAsteroids)
-            {
-                // The temp object is positioned randomly within the bounds set by minDistance and maxDistance
-                temp.transform.position = player.transform.position;
-                temp.transform.rotation = Random.rotation;
-                temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
-
-                int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
-
-                if(rnd == 0) asteroid = asteroid1;
-                else if(rnd == 1) asteroid = asteroid2;
-                else asteroid = asteroid3;
-
-                // Spawn object and logic
-                GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
-                GameObject asteroidLogic = Instantiate(logic, temp.transform.position, Quaternion.identity) as GameObject;
-
-                // Initialise logic
-    			asteroidLogic.transform.parent = asteroidObject.transform;
-                asteroidLogic.transform.localPosition = Vector3.zero;
-                asteroidObject.AddComponent<AsteroidCollision>();
-                asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
-                asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
-
-                // Add collider and rigidbody
-    			SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
-    			sphere.isTrigger = true;
-    			Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
-    			rigid.isKinematic = true;
-
-                // Spawn on the network and add to GameState
-                state.AddAsteroidList(asteroidObject);
-    			ServerManager.NetworkSpawn(asteroidObject);
-                numAsteroids += 1;
-            }
+			// Spawn up to SPAWN_MAX_PER_FRAME asteroids in a random position if there are less than specified by maxAsteroids
+			for (int i = 0; i < SPAWN_MAX_PER_FRAME && numAsteroids < maxAsteroids; i++)
+				SpawnAsteroid ();
         }
     }
+
+	// Spawn a single asteroid
+	private void SpawnAsteroid()
+	{
+		// The temp object is positioned randomly within the bounds set by minDistance and maxDistance
+		temp.transform.position = player.transform.position;
+		temp.transform.rotation = Random.rotation;
+		temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
+
+		int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
+
+		if(rnd == 0) asteroid = asteroid1;
+		else if(rnd == 1) asteroid = asteroid2;
+		else asteroid = asteroid3;
+
+		// Spawn object and logic
+		GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
+		GameObject asteroidLogic = Instantiate(logic, temp.transform.position, Quaternion.identity) as GameObject;
+
+		// Initialise logic
+		asteroidLogic.transform.parent = asteroidObject.transform;
+		asteroidLogic.transform.localPosition = Vector3.zero;
+		asteroidObject.AddComponent<AsteroidCollision>();
+		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
+		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
+
+		// Add collider and rigidbody
+		SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
+		sphere.isTrigger = true;
+		Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
+		rigid.isKinematic = true;
+
+		// Spawn on the network and add to GameState
+		state.AddAsteroidList(asteroidObject);
+		ServerManager.NetworkSpawn(asteroidObject);
+		numAsteroids += 1;
+	}
 
     // Remove asteroid from GameState if destroyed
     IEnumerator Cleanup()
