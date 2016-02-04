@@ -23,6 +23,7 @@ func (usr *User) handleUser() {
     for {
         n, err := usr.ws.Read(receivedtext)
 
+        // stop listening for activity if an error occurs
         if err != nil {
             if err.Error() == "EOF" {
                 fmt.Println("Connection Closed, EOF received")
@@ -32,18 +33,20 @@ func (usr *User) handleUser() {
             return
         }
 
+        //TODO: remove when no longer needed
         fmt.Println("Received: ", string(receivedtext[:n]))
 
+        // decode JSON
         var msg interface{}
-
         if err := json.Unmarshal(receivedtext[:n], &msg); err != nil {
             fmt.Println(err)
         }
+
         usr.handleMessage(msg.(map[string]interface{}))
     }
 }
 
-// Multiplexes the received message based on its type
+// Multiplexes the decoding of the received message based on its type
 func (usr *User) handleMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "REG_USER":

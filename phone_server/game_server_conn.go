@@ -8,6 +8,8 @@ import (
 )
 
 // Sets up the connection structure and sends a greeting
+// Note: the pacnics in here will only trigger if it fails to send
+// the UDP packet but they will NOT trigger if the packet is undelivered
 func initialiseGameServerConnection() {
     serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS)
     if err != nil {
@@ -26,9 +28,11 @@ func initialiseGameServerConnection() {
 }
 
 // Listens for new data and retries to connect in case of server outtage
+// Note: the retry procedure worked when tested with netcat but it seems
+// to not work when communicating with Unity, reason unknown
 func gameServerConnectionHandler() {
     defer gameServerConn.Close()
-    receivedMsg := make([]byte, 5120)
+    receivedMsg := make([]byte, 5120) // allocate a 5KB buffer
 
     for {
         n, err := gameServerConn.Read(receivedMsg)
@@ -81,7 +85,7 @@ func updateShipData(data map[string]interface{}) {
     playerShip.setShipData(newShipData)
 }
 
-// Updates the enemy data with the most recent
+// Updates the enemy data with the given values
 func setEnemies(data []interface{}) {
     for _, d := range data {
         enemy := d.(map[string]interface{})
@@ -93,7 +97,7 @@ func setEnemies(data []interface{}) {
     }
 }
 
-// Removes asteroids from the local data structure
+// Removes enemies from the local data structure
 func removeEnemies(data []interface{}) {
     for _, id := range data {
         enemyMap.remove(int(id.(float64)))

@@ -8,9 +8,9 @@ import (
 // The collection of all users
 type UserList struct {
     l       []*User
-    addC    chan *User
-    delC    chan *User
-    updateC chan struct{}
+    addC    chan *User // channel for requesting addition of a user
+    delC    chan *User // channel for requeston deletion of a user
+    updateC chan struct{} // channel for triggering the broadcast of up to date data
 }
 
 // Manages concurrent access to the user list data structure
@@ -60,11 +60,11 @@ func (users *UserList) updateData() {
         asteroid.posX -= playerShipData.posX
         asteroid.posY -= playerShipData.posY
         // Rotate grid so ship is pointing north on the screen
-        newX := asteroid.posX*math.Cos((180+playerShipData.rot)*(math.Pi/180)) - asteroid.posY*math.Sin((180+playerShipData.rot)*(math.Pi/180))
-        newY := asteroid.posX*math.Sin((180+playerShipData.rot)*(math.Pi/180)) + asteroid.posY*math.Cos((180+playerShipData.rot)*(math.Pi/180))
+        newX := asteroid.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - asteroid.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
+        newY := asteroid.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + asteroid.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
         // Translate grid so ship is in the centre
         asteroid.posX = newX + 50
-        asteroid.posY = newY + 50
+        asteroid.posY = -(newY) + 50 // flip Y to match rendering orientation
     }
 
     // Transform enemy coordinates into phone screen space
@@ -73,11 +73,11 @@ func (users *UserList) updateData() {
         enemy.posX -= playerShipData.posX
         enemy.posY -= playerShipData.posY
         // Rotate grid so ship is pointing north on the screen
-        newX := enemy.posX*math.Cos((180+playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((180+playerShipData.rot)*(math.Pi/180))
-        newY := enemy.posX*math.Sin((180+playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((180+playerShipData.rot)*(math.Pi/180))
+        newX := enemy.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
+        newY := enemy.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
         // Translate grid so ship is in the centre
         enemy.posX = newX + 50
-        enemy.posY = newY + 50
+        enemy.posY = -(newY) + 50 // flip Y to match rendering orientation
     }
 
     // Send updated data
