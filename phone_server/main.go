@@ -29,6 +29,14 @@ var userList *UserList = &UserList{
     updateC: make(chan struct{}),
 }
 
+// Main structure holding all enemy data
+var enemyMap *EnemyMap = &EnemyMap{
+    m:     make(map[int]*Enemy),
+    delC:  make(chan int),
+    setC:  make(chan NewEnemy),
+    copyC: make(chan map[int]*Enemy),
+}
+
 // Main structure holding all asteroid data
 var asteroidMap *AsteroidMap = &AsteroidMap{
     m:     make(map[int]*Asteroid),
@@ -53,9 +61,10 @@ func webSocketHandler(webs *websocket.Conn) {
 func main() {
     initialiseGameServerConnection()
     go gameServerConnectionHandler()
-    go playerShip.accessManager()
     go userList.accessManager()
+    go playerShip.accessManager()
     go asteroidMap.accessManager()
+    go enemyMap.accessManager()
     // TODO: Run this timer only when a game session is running
     go updateTimer()
     http.Handle("/web_socket", websocket.Handler(webSocketHandler))

@@ -57,6 +57,10 @@ func decodeGameServerMessage(rawData []byte) {
     switch msg["type"].(string) {
     case "SHP_UPD":
         updateShipData(msg["data"].(map[string]interface{}))
+    case "ENM_UPD":
+        setEnemies(msg["data"].([]interface{}))
+    case "RMV_ENM":
+        removeEnemies(msg["data"].([]interface{}))
     case "NEW_AST":
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
@@ -75,6 +79,24 @@ func updateShipData(data map[string]interface{}) {
         rot:  data["rot"].(float64),
     }
     playerShip.setShipData(newShipData)
+}
+
+func setEnemies(data []interface{}) {
+    for _, d := range data {
+        enemy := d.(map[string]interface{})
+        enemyMap.set(int(enemy["id"].(float64)),
+            &Enemy{
+                posX: enemy["x"].(float64),
+                posY: enemy["y"].(float64),
+            })
+    }
+}
+
+// Removes asteroids from the local data structure
+func removeEnemies(data []interface{}) {
+    for _, id := range data {
+        enemyMap.remove(int(id.(float64)))
+    }
 }
 
 // Adds asteroids to the local data structure
