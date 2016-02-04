@@ -113,7 +113,7 @@ public class EnemySpawner : MonoBehaviour
 				if (Debug.isDebugBuild)
 					waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 				else
-					waypoint = new GameObject ();
+					waypoint = new GameObject ("AIWaypoint");
 				waypoint.transform.localScale = waypoint.transform.localScale / 25;
 				waypoint.transform.position = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
 				waypoint.transform.Translate (AI_WAYPOINT_SHIFT_UP); // Shift the waypoints a upwards a little, otherwise too many end up under the ship
