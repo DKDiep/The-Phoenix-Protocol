@@ -10,6 +10,9 @@ using System.Collections;
 
 public class FollowReticule : MonoBehaviour 
 {
+
+	[SerializeField] int controlledByPlayerId;
+
 	// Empty game object to use as the target position
     GameObject targetPoint; 
 
@@ -36,8 +39,7 @@ public class FollowReticule : MonoBehaviour
  
     void FixedUpdate () 
     {
-		// Currently only for player 0, needs to be updated for each player. 
-		Ray ray = Camera.main.ScreenPointToRay(crosshairs[0].transform.position);
+		Ray ray = Camera.main.ScreenPointToRay(crosshairs[controlledByPlayerId].transform.position);
         RaycastHit hit;
 
         if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
@@ -46,7 +48,7 @@ public class FollowReticule : MonoBehaviour
         }
         else
         {
-			targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[0].transform.position.x, crosshairs[0].transform.position.y, 1000));
+			targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));
             targetPoint.transform.Translate (transform.parent.transform.forward * (-10f));
         }
 
