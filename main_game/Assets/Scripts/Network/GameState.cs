@@ -110,6 +110,12 @@ public class GameState : MonoBehaviour {
         enemyList.RemoveAt(i);
     }
 
+	public void RemoveEnemy (GameObject enemy)
+	{
+		enemyList.Remove (enemy);
+		EnemySpawner.numEnemies--;
+	}
+
     public GameObject GetEnemyAt(int i)
     {
         return enemyList[i];
