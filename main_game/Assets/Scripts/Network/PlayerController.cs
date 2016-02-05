@@ -111,11 +111,6 @@ public class PlayerController : NetworkBehaviour
             engController.EngFixedUpdate();
     }
 
-    public void SetRole(string newRole)
-    {
-        this.role = newRole;
-    }
-
     [ClientRpc]
     public void RpcSetRole(string newRole)
     {

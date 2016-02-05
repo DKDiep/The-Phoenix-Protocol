@@ -57,7 +57,7 @@ public class ServerLobby : MonoBehaviour {
     {
         // Get player and set default role
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        playerController.SetRole("camera");
+        playerController.RpcSetRole("camera");
 
         // Create token for new player
         GameObject playerToken = Instantiate(Resources.Load("Prefabs/PlayerToken", typeof(GameObject))) as GameObject;
@@ -123,7 +123,7 @@ public class ServerLobby : MonoBehaviour {
             // Parent to closest panel
             playerToken.transform.SetParent(cameraPanel.transform, false);
             // Set new role using referenced player controller
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().SetRole("camera");
+            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("camera");
             // Sort into closest order
             // Set order variables
         }
