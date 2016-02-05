@@ -26,6 +26,7 @@ public class PlayerController : NetworkBehaviour
     // Private to each instance of script
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
+    private GameObject gameManager;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
     private int enginesLevel = 0;
@@ -75,6 +76,7 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             commandConsoleState.test();
             commandConsoleState.givePlayerControllerReference(this);
+            gameManager = GameObject.Find("GameManager");
         }
     }
     
