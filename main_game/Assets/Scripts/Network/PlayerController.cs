@@ -149,10 +149,10 @@ public class PlayerController : NetworkBehaviour
         print("player appears");
         if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
         {
-            commandConsoleGameObject = GameObject.Find("StuffManager");
+            commandConsoleGameObject = Instantiate(Resources.Load("Resources/Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
-            //commandConsoleState.test();
-            commandConsoleState.gimme(this);
+            commandConsoleState.test();
+            commandConsoleState.givePlayerControllerReference(this);
         }
 
         if (isLocalPlayer)
