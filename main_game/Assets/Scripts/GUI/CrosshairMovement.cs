@@ -15,6 +15,7 @@ public class CrosshairMovement : MonoBehaviour {
 	bool canMove = true;
 	public Vector3 crosshairPosition;
 	private Vector3 oldCrosshairPosition;
+	private Vector3 crosshairPositionTmp;
 	float oldAccel, newAccel;
     GameObject[] crosshairs;
 
@@ -47,6 +48,23 @@ public class CrosshairMovement : MonoBehaviour {
 				Debug.Log ("Controlling " + controlling);
 			}
 		}
+		Transform selectedCrosshair = crosshairs[controlling].transform;
+
+		//time delta time
+		if(crosshairPositionTmp == oldCrosshairPosition) 
+		{
+			if(Math.Abs(selectedCrosshair.position.x) < Math.Abs(crosshairPosition.x) &&
+			   Math.Abs(selectedCrosshair.position.y) < Math.Abs(crosshairPosition.y)) 
+			{
+				selectedCrosshair.position = selectedCrosshair.position + (crosshairPosition/50);
+			}
+		} 
+		else 
+		{
+			selectedCrosshair.position = oldCrosshairPosition;
+			crosshairPositionTmp = oldCrosshairPosition;
+		}
+
     }
 
 	void FixedUpdate ()
@@ -94,7 +112,6 @@ public class CrosshairMovement : MonoBehaviour {
 
 							oldAccel = newAccel;
 							newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
-							Debug.Log(Math.Abs(newAccel - oldAccel));
 							// If there is little movement, don't bother doing this. (Should stop shaking)
 							if(Math.Abs(newAccel - oldAccel) > 0.03) 
 							{
@@ -104,7 +121,6 @@ public class CrosshairMovement : MonoBehaviour {
 								position.y = pointer[1] * Screen.height;
 								crosshairPosition = position;
 								//Debug.Log(oldCrosshairPosition-crosshairPosition);
-								selectedCrosshair.position = oldCrosshairPosition;
 								canMove = false;
 								StartCoroutine("Delay");
 							}
