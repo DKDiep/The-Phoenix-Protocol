@@ -86,7 +86,9 @@ public class ServerLobby : MonoBehaviour {
         Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
         Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
         Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-        Quaternion q;
+        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
+        float y = q.eulerAngles.y;
+        float rotateAngle;
 
         if (right == -1)
         {
@@ -98,16 +100,18 @@ public class ServerLobby : MonoBehaviour {
             {
                 right = right + 1;
                 playerController.RpcSetCameraIndex(right);
-                q = Quaternion.FromToRotation(ofl, ofr);
+                rotateAngle = y * right;
+                playerToken.transform.SetAsLastSibling();
             }
             else
             {
                 left = left - 1;
                 playerController.RpcSetCameraIndex(left);
-                q = Quaternion.FromToRotation(ofr, ofl);
+                rotateAngle = y * left;
+                playerToken.transform.SetAsFirstSibling();
             }
             Vector3 r = q.eulerAngles;
-            playerController.RpcRotateCamera(r.y, playerController.netId.Value);
+            playerController.RpcRotateCamera(rotateAngle, playerController.netId.Value);
         }
     }
 
