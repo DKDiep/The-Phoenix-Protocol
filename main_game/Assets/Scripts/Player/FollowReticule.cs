@@ -14,9 +14,9 @@ public class FollowReticule : MonoBehaviour
 	[SerializeField] int controlledByPlayerId;
 
 	// Empty game object to use as the target position
-    GameObject targetPoint; 
-
-	GameObject[] crosshairs;
+    GameObject targetPoint;
+    GameObject crosshairContainer;
+    GameObject[] crosshairs;
 
     // Initialise temporary object
     void Start()
@@ -24,39 +24,44 @@ public class FollowReticule : MonoBehaviour
         targetPoint = new GameObject();
         targetPoint.name = "AimTarget";
 
-		GameObject crosshairContainer = GameObject.Find("Crosshairs");
+		crosshairContainer = GameObject.Find("Crosshairs");
 
-		crosshairs = new GameObject[4];
+        if (crosshairContainer != null)
+        {
+            crosshairs = new GameObject[4];
 
-		// Find crosshair images
-		for(int i = 0; i < 4; ++i)
-		{
-			crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
-		}
-
+            // Find crosshair images
+            for (int i = 0; i < 4; ++i)
+            {
+                crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
+            }
+        }
 
     }
- 
-    void FixedUpdate () 
+
+    void FixedUpdate()
     {
-		Ray ray = Camera.main.ScreenPointToRay(crosshairs[controlledByPlayerId].transform.position);
-        RaycastHit hit;
-
-        if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
+        if (crosshairContainer != null)
         {
-            targetPoint.transform.position = hit.transform.position;
-        }
-        else
-        {
-			targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));
-            targetPoint.transform.Translate (transform.parent.transform.forward * (-10f));
-        }
+            Ray ray = Camera.main.ScreenPointToRay(crosshairs[controlledByPlayerId].transform.position);
+            RaycastHit hit;
 
-        Quaternion targetRotation = Quaternion.LookRotation(targetPoint.transform.position - transform.position);
+            if (Physics.Raycast(ray, out hit) && !hit.transform.gameObject.tag.Equals("Player"))
+            {
+                targetPoint.transform.position = hit.transform.position;
+            }
+            else
+            {
+                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));
+                targetPoint.transform.Translate(transform.parent.transform.forward * (-10f));
+            }
 
-        transform.rotation = targetRotation;
+            Quaternion targetRotation = Quaternion.LookRotation(targetPoint.transform.position - transform.position);
 
-        // Angle correction
-        transform.localEulerAngles = new Vector3(270f,  transform.localEulerAngles.y - 90f,  transform.localEulerAngles.z);
+            transform.rotation = targetRotation;
+
+            // Angle correction
+            transform.localEulerAngles = new Vector3(270f, transform.localEulerAngles.y - 90f, transform.localEulerAngles.z);
+            }
         }
     }

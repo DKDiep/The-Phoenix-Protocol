@@ -43,8 +43,9 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcSetCamera()
+    public void RpcRoleInit()
     {
+        print("inside rpcRoleInit");
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
@@ -67,6 +68,13 @@ public class PlayerController : NetworkBehaviour
             // Set values for the client side PlayerController
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
             localController.engController.Initialize(playerCamera);
+        }
+        else if(localController.role == "commander")
+        {
+            commandConsoleGameObject = Instantiate(Resources.Load("Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
+            commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
+            commandConsoleState.test();
+            commandConsoleState.givePlayerControllerReference(this);
         }
     }
     
@@ -145,16 +153,7 @@ public class PlayerController : NetworkBehaviour
             //ship = GameObject.Find("PlayerShipLogic(Clone)");
             //shipMovement = ship.GetComponent<ShipMovement>();
         }
-        // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
-        print("player appears");
-        if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
-        {
-            commandConsoleGameObject = Instantiate(Resources.Load("Resources/Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
-            commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
-            commandConsoleState.test();
-            commandConsoleState.givePlayerControllerReference(this);
-        }
-
+        
         if (isLocalPlayer)
         {
             CreateCamera();

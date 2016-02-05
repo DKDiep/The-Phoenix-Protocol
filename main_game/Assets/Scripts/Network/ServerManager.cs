@@ -90,7 +90,8 @@ public class ServerManager : NetworkBehaviour {
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         if (playerController != null)
-            playerController.RpcSetCamera();
+            print("calling rpcroleinit");
+            playerController.RpcRoleInit();
 
         // Spawn music controller only on server
         Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject)));
@@ -141,7 +142,6 @@ public class ServerManager : NetworkBehaviour {
         //Set up the game state
         playerController.SetControlledObject(playerShip);
 
-
 		//Reset Player's scores
 		gameState.ResetPlayerScores();
 
@@ -150,5 +150,4 @@ public class ServerManager : NetworkBehaviour {
         gameState.SetStatus(GameState.Status.Started);
         gameStarted = true;
     }
-
 }
