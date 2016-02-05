@@ -20,18 +20,27 @@ public class MainMenu : NetworkBehaviour
     void Start()
     {
         manager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        messageHandler = manager.GetComponent<MessageHandler>();
     }
 
     public void CreateGame()
     {
         startServer = true;
-        manager.StartHost();
+        SetHandler(manager.StartHost());
     }
 
     public void JoinGame()
     {
         startServer = false;
-        manager.StartClient();
+        SetHandler(manager.StartClient());
+    }
+
+    private void SetHandler(NetworkClient client)
+    {
+        messageHandler.SetClient(client);
+
+        // Register handler for the Owner message from the server to the client
+        client.RegisterHandler(890, messageHandler.OnServerOwner);
     }
 
     public void ShowOptions()

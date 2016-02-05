@@ -49,6 +49,17 @@ public class ServerLobby : MonoBehaviour {
 	public void OnClickStartButton ()
     {
         // Pass lobby information to server
+        PlayerTokenController[] engTokens = engineerPanel.transform.GetComponentsInChildren<PlayerTokenController>();
+        short[] engControllerIds = new short[engTokens.Length];
+
+        int i = 0;
+        foreach (PlayerTokenController engToken in engTokens)
+        {
+            engControllerIds[i] = engToken.GetPlayerController().playerControllerId;
+            i++;
+        }
+        serverManager.SetEngineers(engControllerIds);
+
         serverManager.StartGame();
         startButton.onClick.RemoveAllListeners();
         Destroy(this.gameObject);

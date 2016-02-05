@@ -15,15 +15,16 @@ public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
-    private Dictionary<int, int> clientIdsToRole;
-    private Dictionary<int, NetworkConnection> clientIdsToConn;
+    private Dictionary<int, int> controllerIdToRole;
+    private Dictionary<int, NetworkConnection> controllerIdToConn;
     private PlayerController playerController;
+    private NetworkMessageDelegate originalAddPlayerHandler;
     bool gameStarted;
     GameObject spawner;
 
     public int clientIdCount()
     {
-        return clientIdsToRole.Count;
+        return controllerIdToRole.Count;
     }
     // Used to spawn network objects
     public static void NetworkSpawn(GameObject spawnObject)
@@ -38,13 +39,15 @@ public class ServerManager : NetworkBehaviour {
 
         if(MainMenu.startServer)
         {
-            // Register handler for the get role message
-            NetworkServer.RegisterHandler(789, OnClientPickRole);
+            // Save the original add player handler to save ourselves some work
+            // and register a new one
+            originalAddPlayerHandler = NetworkServer.handlers[MsgType.AddPlayer];
+            NetworkServer.RegisterHandler(MsgType.AddPlayer, OnClientAddPlayer);
 
-            clientIdsToRole = new Dictionary<int,int>();
-            clientIdsToConn = new Dictionary<int, NetworkConnection>();
+            controllerIdToRole = new Dictionary<int,int>();
+            controllerIdToConn = new Dictionary<int, NetworkConnection>();
             // Host is client Id #0. Using -1 as the role for the Host
-            clientIdsToRole.Add(0,-1);
+            controllerIdToRole.Add(0,-1);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -56,19 +59,25 @@ public class ServerManager : NetworkBehaviour {
         }
     }
 
-    private void OnClientPickRole(NetworkMessage netMsg)
+    // Called automatically by Unity when a player joins
+    private void OnClientAddPlayer(NetworkMessage netMsg)
     {
-        PickRoleMessage msg = netMsg.ReadMessage<PickRoleMessage>();
+        AddPlayerMessage msg = netMsg.ReadMessage<AddPlayerMessage>();
+        controllerIdToConn.Add(msg.playerControllerId, netMsg.conn);
 
-        if (msg.role == (int) RoleEnum.ENGINEER)
+        originalAddPlayerHandler(netMsg);
+    }
+
+    // Takes the list of player controller IDs that will be engineers
+    // and updates the map of <ControllerID, Role>
+    public void SetEngineers(short[] playerControllerIds)
+    {
+        foreach (short id in playerControllerIds)
         {
-            // Add the engineer client to the client ID list, with the engineer role
-            clientIdsToRole.Add(netMsg.conn.connectionId, msg.role);
-            clientIdsToConn.Add(netMsg.conn.connectionId, netMsg.conn);
-        }
-        else if (msg.role == (int) RoleEnum.CAMERA)
-        {
-            // Do camera things
+            if (id != 0)
+                controllerIdToRole.Add(id, (int)RoleEnum.ENGINEER);
+            else
+                Debug.LogError("The host cannot be an engineer!");
         }
     }
 
@@ -85,6 +94,29 @@ public class ServerManager : NetworkBehaviour {
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
 
+        // Get the engineer start position
+        NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
+
+        // Spawn the engineers at the engineer start position
+        foreach (KeyValuePair<int, int> client in controllerIdToRole)
+        {
+            if (client.Value == (int)RoleEnum.ENGINEER)
+            {
+                // Create the engineer object
+                GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
+                    engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
+                gameState.AddEngineerList(engineer);
+
+                // Spawn the engineer with local authority
+                NetworkServer.SpawnWithClientAuthority(engineer, controllerIdToConn[client.Key]);
+
+                // Let the client know of the object it controls
+                ControlledObjectMessage response = new ControlledObjectMessage();
+                response.controlledObject = engineer;
+                NetworkServer.SendToClient(client.Key, 890, response);
+            }
+        }
+
         //On start, RPC every player to mount camera on ship
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
@@ -95,29 +127,6 @@ public class ServerManager : NetworkBehaviour {
 
         // Spawn music controller only on server
         Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject)));
-
-        // Get the engineer start position
-        NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
-
-        // Spawn the engineers at the engineer start position
-        foreach (KeyValuePair<int,int> client in clientIdsToRole)
-        {
-            if (client.Value == (int) RoleEnum.ENGINEER)
-            {
-                // Create the engineer object
-                GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
-                    engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
-                gameState.AddEngineerList(engineer);
-
-                // Spawn the engineer with local authority
-                NetworkServer.SpawnWithClientAuthority(engineer, clientIdsToConn[client.Key]);
-
-                // Let the client know of the object it controls
-                ControlledObjectMessage response = new ControlledObjectMessage();
-                response.controlledObject = engineer;
-                NetworkServer.SendToClient(client.Key, 890, response);
-            }
-        }
         
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
