@@ -48,11 +48,12 @@ public class PlayerController : NetworkBehaviour
     public void RpcRoleInit()
     {
         print("inside rpcRoleInit");
+        if (ClientScene.localPlayers[0].IsValid)
+            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         // This RPC is only called once the game has started so we update the variable
         gameStarted = true;
-        if (ClientScene.localPlayers[0].IsValid)
-            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+        localController.gameStarted = true;
 
         playerCamera = GameObject.Find("CameraManager(Clone)");
         if (localController.role == "camera")
@@ -108,7 +109,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        // Make sure the server doesn't execute this and thtat the game has started
+        // Make sure the server doesn't execute this and that the game has started
         if (!isLocalPlayer || !gameStarted)
             return;
 
@@ -118,7 +119,7 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        // Make sure the server doesn't execute this and thtat the game has started
+        // Make sure the server doesn't execute this and that the game has started
         if (!isLocalPlayer || !gameStarted)
             return;
 

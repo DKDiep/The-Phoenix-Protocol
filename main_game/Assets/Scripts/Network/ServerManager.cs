@@ -15,8 +15,8 @@ public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
-    private Dictionary<int, int> controllerIdToRole;
-    private Dictionary<int, NetworkConnection> controllerIdToConn;
+    private Dictionary<uint, int> netIdToRole;
+    private Dictionary<uint, NetworkConnection> netIdToConn;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     bool gameStarted;
@@ -24,7 +24,7 @@ public class ServerManager : NetworkBehaviour {
 
     public int clientIdCount()
     {
-        return controllerIdToRole.Count;
+        return netIdToRole.Count;
     }
     // Used to spawn network objects
     public static void NetworkSpawn(GameObject spawnObject)
@@ -44,10 +44,10 @@ public class ServerManager : NetworkBehaviour {
             originalAddPlayerHandler = NetworkServer.handlers[MsgType.AddPlayer];
             NetworkServer.RegisterHandler(MsgType.AddPlayer, OnClientAddPlayer);
 
-            controllerIdToRole = new Dictionary<int,int>();
-            controllerIdToConn = new Dictionary<int, NetworkConnection>();
+            netIdToRole = new Dictionary<uint,int>();
+            netIdToConn = new Dictionary<uint, NetworkConnection>();
             // Host is client Id #0. Using -1 as the role for the Host
-            controllerIdToRole.Add(0,-1);
+            netIdToRole.Add(0,-1);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -62,20 +62,21 @@ public class ServerManager : NetworkBehaviour {
     // Called automatically by Unity when a player joins
     private void OnClientAddPlayer(NetworkMessage netMsg)
     {
-        AddPlayerMessage msg = netMsg.ReadMessage<AddPlayerMessage>();
-        controllerIdToConn.Add(msg.playerControllerId, netMsg.conn);
-
         originalAddPlayerHandler(netMsg);
+
+        uint netId = netMsg.conn.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value;
+        netIdToConn.Add(netId, netMsg.conn);
+        Debug.Log(netId);
     }
 
     // Takes the list of player controller IDs that will be engineers
     // and updates the map of <ControllerID, Role>
-    public void SetEngineers(short[] playerControllerIds)
+    public void SetEngineers(uint[] playerControllerIds)
     {
-        foreach (short id in playerControllerIds)
+        foreach (uint id in playerControllerIds)
         {
             if (id != 0)
-                controllerIdToRole.Add(id, (int)RoleEnum.ENGINEER);
+                netIdToRole.Add(id, (int)RoleEnum.ENGINEER);
             else
                 Debug.LogError("The host cannot be an engineer!");
         }
@@ -98,7 +99,7 @@ public class ServerManager : NetworkBehaviour {
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
         // Spawn the engineers at the engineer start position
-        foreach (KeyValuePair<int, int> client in controllerIdToRole)
+        foreach (KeyValuePair<uint, int> client in netIdToRole)
         {
             if (client.Value == (int)RoleEnum.ENGINEER)
             {
@@ -108,12 +109,12 @@ public class ServerManager : NetworkBehaviour {
                 gameState.AddEngineerList(engineer);
 
                 // Spawn the engineer with local authority
-                NetworkServer.SpawnWithClientAuthority(engineer, controllerIdToConn[client.Key]);
+                NetworkServer.SpawnWithClientAuthority(engineer, netIdToConn[client.Key]);
 
                 // Let the client know of the object it controls
                 ControlledObjectMessage response = new ControlledObjectMessage();
                 response.controlledObject = engineer;
-                NetworkServer.SendToClient(client.Key, 890, response);
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, 890, response);
             }
         }
 
