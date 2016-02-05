@@ -69,12 +69,6 @@ public class ServerLobby : MonoBehaviour {
         playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
 
-        EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.EndDrag;
-        entry.callback.AddListener((eventData) => { SortToken(playerToken); });
-        trigger.triggers.Add(entry);
-
         GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
         // Get camera frustum planes
         Camera cam = playerCamera.GetComponent<Camera>();
@@ -96,6 +90,18 @@ public class ServerLobby : MonoBehaviour {
         }
         else
         {
+            // Only allow clients to be dragged
+            EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
+            EventTrigger.Entry entryRelease = new EventTrigger.Entry();
+            entryRelease.eventID = EventTriggerType.EndDrag;
+            entryRelease.callback.AddListener((eventData) => { SortToken(playerToken); });
+            trigger.triggers.Add(entryRelease);
+
+            EventTrigger.Entry entryDrag = new EventTrigger.Entry();
+            entryDrag.eventID = EventTriggerType.Drag;
+            entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
+            trigger.triggers.Add(entryDrag);
+
             if (right == -left)
             {
                 right = right + 1;
@@ -132,7 +138,7 @@ public class ServerLobby : MonoBehaviour {
             // Set new role using referenced player controller
             playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("camera");
             // Sort into closest order
-            /*int index = 0;
+            int index = 0;
             for (int i = 0; i < cameraPanel.transform.childCount; i++)
             {
                 Vector3 childPosition = cameraPanel.transform.GetChild(i).position;
@@ -143,7 +149,7 @@ public class ServerLobby : MonoBehaviour {
             }
             // Set order
             playerToken.transform.SetSiblingIndex(index);
-            Debug.Log(index);*/
+            Debug.Log(index);
         }
         else if (distanceEngineer < distanceCommand)
         {
