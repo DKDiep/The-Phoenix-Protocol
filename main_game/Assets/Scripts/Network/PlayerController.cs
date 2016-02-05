@@ -27,6 +27,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
+    private bool gameStarted = false;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
     private int enginesLevel = 0;
@@ -47,6 +48,9 @@ public class PlayerController : NetworkBehaviour
     public void RpcRoleInit()
     {
         print("inside rpcRoleInit");
+
+        // This RPC is only called once the game has started so we update the variable
+        gameStarted = true;
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
@@ -76,7 +80,6 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             commandConsoleState.test();
             commandConsoleState.givePlayerControllerReference(this);
-            gameManager = GameObject.Find("GameManager");
         }
     }
     
@@ -105,7 +108,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and thtat the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
@@ -114,7 +118,8 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and thtat the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
@@ -148,7 +153,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     void Start()
-    {   
+    {
         //Each client request server command
         if (isServer)
         {
