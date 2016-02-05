@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class ServerLobby : MonoBehaviour {
     private ServerManager serverManager;
@@ -35,9 +36,12 @@ public class ServerLobby : MonoBehaviour {
     void Awake ()
     {
         GameObject server = GameObject.Find("GameManager");
-        serverManager = server.GetComponent<ServerManager>();
-        gameState = server.GetComponent<GameState>();
-        startButton.onClick.AddListener(() => OnClickStartButton() );
+        if (server != null)
+        {
+            serverManager = server.GetComponent<ServerManager>();
+            gameState = server.GetComponent<GameState>();
+            startButton.onClick.AddListener(() => OnClickStartButton());
+        }
     }
 	
 	public void OnClickStartButton ()
@@ -63,8 +67,11 @@ public class ServerLobby : MonoBehaviour {
         playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
 
-        //CameraOrientation cameraOrientation = new CameraOrientation();
-        //OrientationDictionary.Add(playerController.netId.Value, cameraOrientation);
+        EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.EndDrag;
+        entry.callback.AddListener((eventData) => { SortToken(playerToken); });
+        trigger.triggers.Add(entry);
 
         GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
         // Get camera frustum planes
@@ -102,8 +109,31 @@ public class ServerLobby : MonoBehaviour {
         }
     }
 
-    public float GetRotation()
+    public void SortToken(GameObject playerToken)
     {
-        return 0.0f;
+        //playerToken.transform.parent = null;
+        Debug.Log(playerToken.transform.position);
+        // assign role based on proximity to panel
+        Vector3 position = playerToken.transform.position;
+        float distanceCamera = Vector3.Distance(position, cameraPanel.transform.position);
+        float distanceEngineer = Vector3.Distance(position, engineerPanel.transform.position);
+        if ( distanceCamera < distanceEngineer )
+        {
+            Debug.Log("camera");
+            // Parent to closest panel
+            playerToken.transform.SetParent(cameraPanel.transform, false);
+            // Set new role using referenced player controller
+            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().SetRole("camera");
+            // Sort into closest order
+            // Set order variables
+        }
+        else
+        {
+            Debug.Log("engineer");
+            playerToken.transform.SetParent(engineerPanel.transform, false); 
+            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+        }
+        // Rebuild auto layout
+        LayoutRebuilder.MarkLayoutForRebuild(playerToken.transform as RectTransform);
     }
 }

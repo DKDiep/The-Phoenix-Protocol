@@ -117,6 +117,13 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void RpcSetRole(string newRole)
+    {
+        role = newRole;
+        Debug.Log("Role set: "+ role);
+    }
+
+    [ClientRpc]
     public void RpcRotateCamera(float yRotate, uint receivedId)
     {
         // Change only local camera
