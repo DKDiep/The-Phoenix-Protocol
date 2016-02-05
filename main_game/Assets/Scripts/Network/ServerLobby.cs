@@ -14,6 +14,8 @@ public class ServerLobby : MonoBehaviour {
     [SerializeField]
     private GameObject engineerPanel;
     [SerializeField]
+    private GameObject commandPanel;
+    [SerializeField]
     private Button startButton;
 
     // For camera index on join
@@ -117,7 +119,8 @@ public class ServerLobby : MonoBehaviour {
         Vector3 position = playerToken.transform.position;
         float distanceCamera = Vector3.Distance(position, cameraPanel.transform.position);
         float distanceEngineer = Vector3.Distance(position, engineerPanel.transform.position);
-        if ( distanceCamera < distanceEngineer )
+        float distanceCommand = Vector3.Distance(position, commandPanel.transform.position);
+        if (distanceCamera < distanceEngineer && distanceCamera < distanceCommand)
         {
             Debug.Log("camera");
             // Parent to closest panel
@@ -125,13 +128,30 @@ public class ServerLobby : MonoBehaviour {
             // Set new role using referenced player controller
             playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("camera");
             // Sort into closest order
-            // Set order variables
+            /*int index = 0;
+            for (int i = 0; i < cameraPanel.transform.childCount; i++)
+            {
+                Vector3 childPosition = cameraPanel.transform.GetChild(i).position;
+                if (position.x > childPosition.x )
+                {
+                    index = i;
+                }
+            }
+            // Set order
+            playerToken.transform.SetSiblingIndex(index);
+            Debug.Log(index);*/
         }
-        else
+        else if (distanceEngineer < distanceCommand)
         {
             Debug.Log("engineer");
             playerToken.transform.SetParent(engineerPanel.transform, false); 
             playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+        }
+        else
+        {
+            Debug.Log("commander");
+            playerToken.transform.SetParent(commandPanel.transform, false);
+            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
         }
         // Rebuild auto layout
         LayoutRebuilder.MarkLayoutForRebuild(playerToken.transform as RectTransform);
