@@ -17,6 +17,9 @@ public class GameState : MonoBehaviour {
 	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
 	private const int BASE_SHIP_RESOURCES = 100;
 
+	// The starting health value of the ship
+	private const float INITIAL_SHIP_HEALTH = 100;
+
     private Status status = Status.Setup;
     private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
@@ -33,6 +36,9 @@ public class GameState : MonoBehaviour {
 
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
 	private int currentShipResources = BASE_SHIP_RESOURCES;
+
+	// The health of the ship. 
+	private float shipHealth = INITIAL_SHIP_HEALTH;
     
     void Update()
     {
@@ -223,30 +229,59 @@ public class GameState : MonoBehaviour {
 	/*
 	 * Gets the current ship resources
 	*/
-	public int GetShipResources() {
+	public int GetShipResources() 
+	{
 		return currentShipResources;
 	}
 
 	/*
 	 * Gets the total ship resources for the whole game
 	*/
-	public int GetTotalShipResources() {
+	public int GetTotalShipResources() 
+	{
 		return totalShipResources;
 	}
 
 	/*
 	 * Adds a value to the total ship resources
 	*/
-	public void AddShipResources(int resources) {
+	public void AddShipResources(int resources) 
+	{
 		currentShipResources += resources;
 		totalShipResources += resources;
-		Debug.Log("Current Reaources:  " + currentShipResources);
+		//Debug.Log("Current Reaources:  " + currentShipResources);
 	}
 
 	/*
 	 * Subtracts a value to the total ship resources
 	*/
-	public void UseShipResources(int resources) {
+	public void UseShipResources(int resources) 
+	{
 		currentShipResources -= resources;
+	}
+
+	/*
+	 * Gets the ships health
+	*/
+	public float GetShipHealth() 
+	{
+		return shipHealth;
+	}
+		
+	/*
+	 * Sets the ships health to a specific value
+	*/
+	public void SetShipHealth(float value) 
+	{
+		shipHealth = value;
+	}
+
+	/*
+	 * Reduces the ships health by a specific value
+	*/
+	public void ReduceShipHealth(float value) 
+	{
+		shipHealth -= value;
+		Debug.Log("Ships health is now: " + shipHealth);
 	}
 }

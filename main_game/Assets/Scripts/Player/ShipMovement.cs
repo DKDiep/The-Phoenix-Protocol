@@ -18,11 +18,13 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
 	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
-	[SerializeField] float health;
 
 	bool rechargeShield;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 	GameObject controlObject;
+	private GameState gameState;
+
+
     float shield;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
@@ -37,6 +39,9 @@ public class ShipMovement : MonoBehaviour
     // Initialise object
     void Start()
     {
+		GameObject server = GameObject.Find("GameManager");
+		gameState = server.GetComponent<GameState>();
+
     	controlObject = transform.parent.gameObject;
     	shield = maxShield;
     	lastShieldCheck = shield;
@@ -59,12 +64,7 @@ public class ShipMovement : MonoBehaviour
 			StartCoroutine ("RechargeShields");
 		}
 	}
-
-    public float GetHealth()
-    {
-    	return health;
-    }
-
+		
     public void StartGame()
     {
         myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
@@ -217,35 +217,35 @@ public class ShipMovement : MonoBehaviour
         // Show directional damage effect
 		if(left && !(up || down))
 		{
-			myDamage.Damage(0,damage, health);
+			myDamage.Damage(0,damage, gameState.GetShipHealth());
 		}
 		else if(right && !(up || down))
 		{
-            myDamage.Damage(2,damage, health);
+			myDamage.Damage(2,damage, gameState.GetShipHealth());
 		}
 		else if(left && up)
 		{
-            myDamage.Damage(4,damage, health);
+			myDamage.Damage(4,damage, gameState.GetShipHealth());
 		}
 		else if(left && down)
 		{
-            myDamage.Damage(6,damage, health);
+			myDamage.Damage(6,damage, gameState.GetShipHealth());
 		}
 		else if(right && up)
 		{
-            myDamage.Damage(5,damage, health);
+			myDamage.Damage(5,damage, gameState.GetShipHealth());
 		}
 		else if(right && down)
 		{
-            myDamage.Damage(7,damage, health);
+			myDamage.Damage(7,damage, gameState.GetShipHealth());
 		}
 		if(up && !(left || right))
 		{
-            myDamage.Damage(1,damage, health);
+			myDamage.Damage(1,damage, gameState.GetShipHealth());
 		}
 		else if(down && !(up || down))
 		{
-            myDamage.Damage(3,damage, health);
+			myDamage.Damage(3,damage, gameState.GetShipHealth());
 		}
 
         // Control damage to player
@@ -259,17 +259,17 @@ public class ShipMovement : MonoBehaviour
 			float remDamage = damage - shield;
 			shield = 0;
 			myShield.ShieldDown();
-			health -= remDamage;
+			gameState.ReduceShipHealth(remDamage);
 		}
-		else if(health > damage)
+		else if(gameState.GetShipHealth() > damage)
 		{
-			health -= damage;
+			gameState.ReduceShipHealth(damage);
 		}
 		else
 		{
-            health = 0;
+			gameState.SetShipHealth(0);
 			//Destroy(transform.parent.gameObject);
 		}
-		//Debug.Log ("Player was hit, has " + shield + " shield and " + health + " health");
+		//Debug.Log ("Player was hit, has " + shield + " shield and " + gameState.GetShipHealth() + " health");
 	}
 }
