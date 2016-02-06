@@ -18,6 +18,8 @@ public class ServerLobby : MonoBehaviour {
     [SerializeField]
     private Button startButton;
 
+    private uint serverId;
+
     // For camera index on join
     private int left = 0, right = -1;
 
@@ -44,9 +46,11 @@ public class ServerLobby : MonoBehaviour {
             gameState = server.GetComponent<GameState>();
             startButton.onClick.AddListener(() => OnClickStartButton());
         }
+
+        // On awake only the server player exists
     }
-	
-	public void OnClickStartButton ()
+
+    public void OnClickStartButton ()
     {
         // Pass lobby information to server
         serverManager.StartGame();
@@ -68,6 +72,17 @@ public class ServerLobby : MonoBehaviour {
         // Reference player controller to change variables with token
         playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
+        
+        EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
+        EventTrigger.Entry entryRelease = new EventTrigger.Entry();
+        entryRelease.eventID = EventTriggerType.EndDrag;
+        entryRelease.callback.AddListener((eventData) => { SortToken(playerToken); });
+        trigger.triggers.Add(entryRelease);
+
+        EventTrigger.Entry entryDrag = new EventTrigger.Entry();
+        entryDrag.eventID = EventTriggerType.Drag;
+        entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
+        trigger.triggers.Add(entryDrag);
 
         GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
         // Get camera frustum planes
@@ -87,21 +102,10 @@ public class ServerLobby : MonoBehaviour {
         if (right == -1)
         {
             right = 0;
+            serverId = playerObject.GetComponent<PlayerController>().netId.Value;
         }
         else
         {
-            // Only allow clients to be dragged
-            EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
-            EventTrigger.Entry entryRelease = new EventTrigger.Entry();
-            entryRelease.eventID = EventTriggerType.EndDrag;
-            entryRelease.callback.AddListener((eventData) => { SortToken(playerToken); });
-            trigger.triggers.Add(entryRelease);
-
-            EventTrigger.Entry entryDrag = new EventTrigger.Entry();
-            entryDrag.eventID = EventTriggerType.Drag;
-            entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
-            trigger.triggers.Add(entryDrag);
-
             if (right == -left)
             {
                 right = right + 1;
@@ -142,26 +146,29 @@ public class ServerLobby : MonoBehaviour {
             for (int i = 0; i < cameraPanel.transform.childCount; i++)
             {
                 Vector3 childPosition = cameraPanel.transform.GetChild(i).position;
-                if (position.x > childPosition.x )
+                if (position.x > childPosition.x)
                 {
                     index = i;
                 }
             }
-            // Set order
+            // Place in order
             playerToken.transform.SetSiblingIndex(index);
             Debug.Log(index);
         }
-        else if (distanceEngineer < distanceCommand)
+        else if (serverId != playerToken.GetComponent<PlayerTokenController>().GetPlayerController().netId.Value) // Server must be main camera
         {
-            Debug.Log("engineer");
-            playerToken.transform.SetParent(engineerPanel.transform, false); 
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
-        }
-        else
-        {
-            Debug.Log("commander");
-            playerToken.transform.SetParent(commandPanel.transform, false);
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
+            if (distanceEngineer < distanceCommand)
+            {
+                Debug.Log("engineer");
+                playerToken.transform.SetParent(engineerPanel.transform, false);
+                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+            }
+            else if (commandPanel.transform.childCount == 0) // Only assign if there is no commander
+            {
+                Debug.Log("commander");
+                playerToken.transform.SetParent(commandPanel.transform, false);
+                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
+            }
         }
         // Rebuild auto layout
         LayoutRebuilder.MarkLayoutForRebuild(playerToken.transform as RectTransform);
