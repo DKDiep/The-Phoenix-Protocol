@@ -15,7 +15,6 @@ public class ToggleGraphics : MonoBehaviour
 	SESSAO sessao;
 	SENaturalBloomAndDirtyLens bloom;
 	AmplifyColorEffect color;
-	Aubergine.PP_Vignette vignette;
 	Smaa.SMAA smaa;
     UnityStandardAssets.ImageEffects.SunShafts shafts;
     LightShafts volumetricLighting;
@@ -27,7 +26,6 @@ public class ToggleGraphics : MonoBehaviour
 		sessao = GetComponent<SESSAO>();
 		bloom = GetComponent<SENaturalBloomAndDirtyLens>();
 		color = GetComponent<AmplifyColorEffect>();
-		vignette = GetComponent<Aubergine.PP_Vignette>();
 		smaa = GetComponent<Smaa.SMAA>();
         shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
 		
@@ -42,7 +40,6 @@ public class ToggleGraphics : MonoBehaviour
 		sessao.enabled = enableGraphics;
 		bloom.enabled = enableGraphics;
 		color.enabled = enableGraphics;
-		vignette.enabled = false;
 		smaa.enabled = enableGraphics;
         shafts.enabled = enableGraphics;
         if(volumetricLighting != null) volumetricLighting.enabled = enableGraphics;
