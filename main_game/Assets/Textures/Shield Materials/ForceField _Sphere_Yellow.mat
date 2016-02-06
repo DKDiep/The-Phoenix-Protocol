@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: ForceField _Sphere_Yellow
+  m_Shader: {fileID: 4800000, guid: 91b391f1148d1994582c28136f950f38, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FieldTex
+        second:
+          m_Texture: {fileID: 2800000, guid: ab082be8f862ae34daccbb05eb3609ea, type: 3}
+          m_Scale: {x: 6, y: 3}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShieldTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Scale
+        second: 12.56
+      data:
+        first:
+          name: _InvFade
+        second: 1.3448215
+      data:
+        first:
+          name: _Offset
+        second: 0.025
+      data:
+        first:
+          name: _FieldPanSpeed
+        second: 1
+      data:
+        first:
+          name: _InnterOffset
+        second: 3
+      data:
+        first:
+          name: _InnerPow
+        second: 4
+      data:
+        first:
+          name: _FieldBG
+        second: 0.5
+      data:
+        first:
+          name: _FieldSparks
+        second: 1
+      data:
+        first:
+          name: _OutterOffset
+        second: 3
+      data:
+        first:
+          name: _OutterPow
+        second: 3
+      data:
+        first:
+          name: _FieldBGPow
+        second: 8.408929
+      data:
+        first:
+          name: _Size
+        second: 5
+      data:
+        first:
+          name: _Pow
+        second: 5
+      data:
+        first:
+          name: _InnterSize
+        second: 5
+      data:
+        first:
+          name: _OutterSize
+        second: 4
+      data:
+        first:
+          name: _ShieldBG
+        second: 0.1
+      data:
+        first:
+          name: _ShieldBGPow
+        second: 2
+      data:
+        first:
+          name: _ShieldPanSpeed
+        second: 1
+      data:
+        first:
+          name: _FieldSparksPow
+        second: 2
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+      data:
+        first:
+          name: _InnerTint
+        second: {r: 1, g: 0.9944219, b: 0.9632353, a: 0.09411765}
+      data:
+        first:
+          name: _OuterTint
+        second: {r: 1, g: 0.6967545, b: 0.1544118, a: 0.15294118}
+      data:
+        first:
+          name: _Pos_0
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_1
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_2
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_3
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_4
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_5
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_6
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_7
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_8
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_9
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_10
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_11
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_12
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_13
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_14
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_15
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_16
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_17
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_18
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_19
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_20
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_21
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_22
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Pos_23
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _OutterTint
+        second: {r: 1, g: 0.7241379, b: 0, a: 0.05882353}
+      data:
+        first:
+          name: _FieldColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Pos_a
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _FieldTint_A
+        second: {r: 0.49264705, g: 0.8110548, b: 1, a: 1}
+      data:
+        first:
+          name: _FieldTing_B
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FieldTint_B
+        second: {r: 0.8206897, g: 1, b: 0, a: 1}
+      data:
+        first:
+          name: _FieldTint
+        second: {r: 1, g: 0.83823526, b: 0.83823526, a: 1}

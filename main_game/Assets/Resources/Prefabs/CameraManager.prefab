@@ -37,7 +37,6 @@ GameObject:
   - 114: {fileID: 11444728}
   - 114: {fileID: 11426972}
   - 114: {fileID: 11457318}
-  - 114: {fileID: 11431622}
   - 124: {fileID: 12422896}
   - 114: {fileID: 11472320}
   - 81: {fileID: 8164376}
@@ -241,19 +240,6 @@ MonoBehaviour:
   gamma: 1
   strength: 0.315
   steps: 5
---- !u!114 &11431622
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106102}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309aa686d8a1ace4faaedac6176225f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 3.57
-  darkness: 0.49
 --- !u!114 &11444728
 MonoBehaviour:
   m_ObjectHideFlags: 1
