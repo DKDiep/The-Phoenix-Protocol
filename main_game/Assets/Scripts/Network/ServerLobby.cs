@@ -98,46 +98,6 @@ public class ServerLobby : MonoBehaviour {
         entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
         trigger.triggers.Add(entryDrag);
 
-        /*GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
-        // Get camera frustum planes
-        Camera cam = playerCamera.GetComponent<Camera>();
-        // Calculate frustum height at far clipping plane using field of view
-        float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        // Calculate frustum width using height and camera aspect
-        float frustumWidth = frustumHeight * cam.aspect;
-        // Calculate left and right vectors of frustum
-        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
-        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-        float y = q.eulerAngles.y;
-        float rotateAngle;
-
-        if (right == -1)
-        {
-            right = 0;
-            serverId = playerObject.GetComponent<PlayerController>().netId.Value;
-        }
-        else
-        {
-            if (right == -left)
-            {
-                right = right + 1;
-                playerController.RpcSetCameraIndex(right);
-                rotateAngle = y * right;
-                playerToken.transform.SetAsLastSibling();
-            }
-            else
-            {
-                left = left - 1;
-                playerController.RpcSetCameraIndex(left);
-                rotateAngle = y * left;
-                playerToken.transform.SetAsFirstSibling();
-            }
-            Vector3 r = q.eulerAngles;
-            playerController.RpcRotateCamera(rotateAngle, playerController.netId.Value);
-        }*/
-
         if (right == -1)
         {
             right = 0;
