@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  turnSpeed: 15
+  turnSpeed: 5
   maxTurnSpeed: 2.5
   slowDown: 1
   maxShield: 100
@@ -64,7 +64,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: turnSpeed
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: health
