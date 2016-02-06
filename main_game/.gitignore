@@ -8,7 +8,6 @@ Library/
 Assets/AssetStoreTools*
 Assets/3rd Party Assets
 UpgradeLog*.htm
-ProjectSettings/
 *.app
 
 # ===================================== #
