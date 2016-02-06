@@ -63,6 +63,9 @@ public class PlayerController : NetworkBehaviour
         }
         else if (localController.role == "engineer")
         {
+            // Reset the camera rotation which was set in the lobby
+            playerCamera.transform.localRotation = Quaternion.identity;
+
             // Set the camera's parent as the engineer instance
             playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
             playerCamera.transform.parent = localController.controlledObject.transform;
