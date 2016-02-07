@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e20c9a844f2f31443bd6951154373af7
+guid: 0a467157368b64647b45d5f19788f49e
 labels:
 - Galaxy
 TextureImporter:
@@ -37,6 +37,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1

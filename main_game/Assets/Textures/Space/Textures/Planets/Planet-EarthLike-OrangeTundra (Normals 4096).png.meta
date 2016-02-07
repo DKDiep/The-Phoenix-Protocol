@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 91fba7958baf8d04aae459c3cdab041d
+guid: e1af6e4ecbcc5064ca04cd3c41b06bc1
 labels:
 - Planet
 TextureImporter:
@@ -37,6 +37,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1

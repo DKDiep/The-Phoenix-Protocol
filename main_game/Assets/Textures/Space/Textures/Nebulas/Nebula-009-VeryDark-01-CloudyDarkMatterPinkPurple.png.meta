@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 789880a68c077c645a799e36ba7e70bd
+guid: e35d39323aff7f049a84670ac1c25745
 labels:
 - Nebulae
 - Nebula
@@ -38,6 +38,7 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1

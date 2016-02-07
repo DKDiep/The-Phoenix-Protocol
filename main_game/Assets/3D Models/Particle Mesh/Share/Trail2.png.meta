@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ecc7b48572fee747a7ea20fa129308b
+guid: 9c79e8ef44e3f00448d69c93f27f4cbe
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
@@ -15,7 +15,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: 0.25
+    heightScale: .25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 1
@@ -40,7 +40,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
@@ -48,7 +48,6 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites: []
-    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
