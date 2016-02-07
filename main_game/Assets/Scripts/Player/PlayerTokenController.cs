@@ -18,7 +18,12 @@ public class PlayerTokenController : MonoBehaviour {
         playerController = playerObject.GetComponent<PlayerController>();
     }
 
-    public void onScrollBar(float value)
+    public PlayerController GetPlayerController()
+    {
+        return playerController;
+    }
+
+    public void OnScrollBar(float value)
     {
         if (playerController != null)
         {
@@ -33,5 +38,10 @@ public class PlayerTokenController : MonoBehaviour {
                 Debug.Log("Left");
             }
         }
+    }
+
+    public void OnDrag()
+    {
+        transform.position = Input.mousePosition;
     }
 }
