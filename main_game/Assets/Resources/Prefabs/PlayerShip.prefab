@@ -340,7 +340,7 @@ GameObject:
   - 23: {fileID: 2330748}
   m_Layer: 0
   m_Name: TurretBase (4)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,7 +410,7 @@ GameObject:
   - 23: {fileID: 2313642}
   m_Layer: 0
   m_Name: TurretBase (5)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -427,7 +427,7 @@ GameObject:
   - 23: {fileID: 2337300}
   m_Layer: 0
   m_Name: TurretBase (2)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -609,7 +609,7 @@ GameObject:
   - 23: {fileID: 2347790}
   m_Layer: 0
   m_Name: TurretBase (1)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -626,7 +626,7 @@ GameObject:
   - 23: {fileID: 2301168}
   m_Layer: 0
   m_Name: TurretBase
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -732,7 +732,7 @@ GameObject:
   - 23: {fileID: 2321762}
   m_Layer: 0
   m_Name: TurretBase (3)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3629,7 +3629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByPlayerId: 3
+  controlledByPlayerId: 2
 --- !u!114 &11426810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3695,7 +3695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6f6a224cd8741bfbf10a1517e4e274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByPlayerId: 2
+  controlledByPlayerId: 3
 --- !u!114 &11486174
 MonoBehaviour:
   m_ObjectHideFlags: 1

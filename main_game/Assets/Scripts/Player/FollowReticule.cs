@@ -21,8 +21,9 @@ public class FollowReticule : MonoBehaviour
     // Initialise temporary object
     void Start()
     {
-        targetPoint = new GameObject();
-        targetPoint.name = "AimTarget";
+        //targetPoint = new GameObject();
+        targetPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        targetPoint.name = "AimTarget" + controlledByPlayerId.ToString();
 
 		GameObject crosshairContainer = GameObject.Find("Crosshairs");
 
@@ -52,10 +53,7 @@ public class FollowReticule : MonoBehaviour
             targetPoint.transform.Translate (transform.parent.transform.forward * (-10f));
         }
 
-        Quaternion targetRotation = Quaternion.LookRotation(targetPoint.transform.position - transform.position);
-
-        transform.rotation = targetRotation;
-
+        transform.LookAt(targetPoint.transform.position);
         // Angle correction
         transform.localEulerAngles = new Vector3(270f,  transform.localEulerAngles.y - 90f,  transform.localEulerAngles.z);
         }
