@@ -3,6 +3,9 @@
     Project "Sky Base"
     Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
     Description: Server-side logic for asteroid spawner
+
+	Relevant Documentation:
+	  * Asteroid Fields:    https://bitbucket.org/pyrolite/game/wiki/Asteroid%20Fields
 */
 
 using UnityEngine;
@@ -19,20 +22,25 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] float minDistance; // Minimum distance to the player that an asteroid can spawn
     [SerializeField] float maxDistance; // Maximum distance to the player that an asteroid can spawn
 
-    GameObject player, temp, asteroid, logic;
+    GameObject player, spawnLocation, asteroid, logic;
     public static int numAsteroids = 0;
     private GameState state;
 
 	private const int SPAWN_MAX_PER_FRAME = 30;
+
+	private const float AVG_SIZE             = 43.6f; // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
+	private const float FIELD_SPACING_FACTOR = 2f;    // Higher values make asteroid fields more sparse. TODO: This value looks good, but is quite expensive
+
+	private bool fieldSpawned = false;
 
     void Start ()
     {
         // Set game state reference
         if (gameManager != null) state = gameManager.GetComponent<GameState>();
         player = null;
-        temp = new GameObject(); // A temporary game object to spawn asteroids on
+        spawnLocation = new GameObject(); // A temporary game object to spawn asteroids on
         logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
-        temp.name = "AsteroidSpawnLocation";
+		spawnLocation.name = "AsteroidSpawnLocation";
         StartCoroutine("Cleanup");
     }
 
@@ -44,18 +52,30 @@ public class AsteroidSpawner : MonoBehaviour
 
 			// Spawn up to SPAWN_MAX_PER_FRAME asteroids in a random position if there are less than specified by maxAsteroids
 			for (int i = 0; i < SPAWN_MAX_PER_FRAME && numAsteroids < maxAsteroids; i++)
+			{
+				// The spawn location is positioned randomly within the bounds set by minDistance and maxDistance
+				spawnLocation.transform.position = player.transform.position;
+				spawnLocation.transform.rotation = Random.rotation;
+				spawnLocation.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
+
 				SpawnAsteroid ();
+			}
+
+			// Create a demo asteroid field
+			// TODO: this is for demonstration purposes only and should be removed in the final game
+			if (numAsteroids >= maxAsteroids && !fieldSpawned)
+			{
+				Vector3 count = new Vector3(10, 3, 10);
+				CreateAsteroidField(player.transform.position - Vector3.right * 1000, count);
+				fieldSpawned = true;
+			}
         }
     }
 
-	// Spawn a single asteroid
+	// Spawn a single asteroid at the spawn location
+	// aka "How to Kill Paralellism in a Nutshell"
 	private void SpawnAsteroid()
 	{
-		// The temp object is positioned randomly within the bounds set by minDistance and maxDistance
-		temp.transform.position = player.transform.position;
-		temp.transform.rotation = Random.rotation;
-		temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
-
 		int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
 
 		if(rnd == 0) asteroid = asteroid1;
@@ -63,8 +83,8 @@ public class AsteroidSpawner : MonoBehaviour
 		else asteroid = asteroid3;
 
 		// Spawn object and logic
-		GameObject asteroidObject = Instantiate(asteroid, temp.transform.position, Quaternion.identity) as GameObject;
-		GameObject asteroidLogic = Instantiate(logic, temp.transform.position, Quaternion.identity) as GameObject;
+		GameObject asteroidObject = Instantiate(asteroid, spawnLocation.transform.position, Quaternion.identity) as GameObject;
+		GameObject asteroidLogic = Instantiate(logic, spawnLocation.transform.position, Quaternion.identity) as GameObject;
 
 		// Initialise logic
 		asteroidLogic.transform.parent = asteroidObject.transform;
@@ -83,6 +103,35 @@ public class AsteroidSpawner : MonoBehaviour
 		state.AddAsteroidList(asteroidObject);
 		ServerManager.NetworkSpawn(asteroidObject);
 		numAsteroids += 1;
+	}
+
+	// Create an asteroid field of the default density around a specified poistion and with a set number of asteroids
+	private void CreateAsteroidField(Vector3 position, Vector3 count)
+	{
+		Vector3 size = new Vector3(count.x * AVG_SIZE, count.y * AVG_SIZE, count.z * AVG_SIZE) * FIELD_SPACING_FACTOR;
+		int numAsteroids = System.Convert.ToInt32(count.x * count.y * count.z);
+		Vector3 spawnPosition = new Vector3();
+
+		for (int i = 0; i < numAsteroids; i++)
+		{
+			// Get a random position inside the field
+			spawnPosition.x = position.x + Random.Range(-size.x / 2, size.x / 2);
+			spawnPosition.y = position.y + Random.Range(-size.y / 2, size.y / 2);
+			spawnPosition.z = position.z + Random.Range(-size.z / 2, size.z / 2);
+
+			spawnLocation.transform.position = spawnPosition;
+
+			SpawnAsteroid();
+		}
+	}
+
+	// Create an asteroid field centred around position with specified dimensions and density
+	private void CreateAsteroidField(Vector3 position, Vector3 size, float density)
+	{
+		Vector3 count = new Vector3(size.x / AVG_SIZE, size.z / AVG_SIZE, size.z / AVG_SIZE);
+		count *= density / FIELD_SPACING_FACTOR;
+
+		CreateAsteroidField(position, count);
 	}
 
     // Remove asteroid from GameState if destroyed
