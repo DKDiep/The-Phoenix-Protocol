@@ -18,6 +18,9 @@ public class ServerLobby : MonoBehaviour {
     [SerializeField]
     private Button startButton;
 
+    private uint serverId;
+    private uint centreIndex = 0;
+
     // For camera index on join
     private int left = 0, right = -1;
 
@@ -44,11 +47,26 @@ public class ServerLobby : MonoBehaviour {
             gameState = server.GetComponent<GameState>();
             startButton.onClick.AddListener(() => OnClickStartButton());
         }
+
+        // On awake only the server player exists
     }
-	
-	public void OnClickStartButton ()
+
+    public void OnClickStartButton ()
     {
         // Pass lobby information to server
+        PlayerTokenController[] engTokens = engineerPanel.transform.GetComponentsInChildren<PlayerTokenController>();
+        uint[] engControllerIds = new uint[engTokens.Length];
+
+        int i = 0;
+        foreach (PlayerTokenController engToken in engTokens)
+        {
+            engControllerIds[i] = engToken.GetPlayerController().netId.Value;
+            i++;
+        }
+        // Tell the server which clients will be engineers
+        serverManager.SetEngineers(engControllerIds);
+
+        // Start the game
         serverManager.StartGame();
         startButton.onClick.RemoveAllListeners();
         Destroy(this.gameObject);
@@ -68,51 +86,38 @@ public class ServerLobby : MonoBehaviour {
         // Reference player controller to change variables with token
         playerToken.GetComponent<PlayerTokenController>().SetPlayerController(playerObject);
         playerToken.transform.Find("UserId").GetComponent<Text>().text = "NetId: "+playerController.netId.ToString();
-
+        
         EventTrigger trigger = playerToken.GetComponent<EventTrigger>();
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.EndDrag;
-        entry.callback.AddListener((eventData) => { SortToken(playerToken); });
-        trigger.triggers.Add(entry);
+        EventTrigger.Entry entryRelease = new EventTrigger.Entry();
+        entryRelease.eventID = EventTriggerType.EndDrag;
+        entryRelease.callback.AddListener((eventData) => { SortToken(playerToken); });
+        trigger.triggers.Add(entryRelease);
 
-        GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
-        // Get camera frustum planes
-        Camera cam = playerCamera.GetComponent<Camera>();
-        // Calculate frustum height at far clipping plane using field of view
-        float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        // Calculate frustum width using height and camera aspect
-        float frustumWidth = frustumHeight * cam.aspect;
-        // Calculate left and right vectors of frustum
-        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
-        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
-        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-        float y = q.eulerAngles.y;
-        float rotateAngle;
+        EventTrigger.Entry entryDrag = new EventTrigger.Entry();
+        entryDrag.eventID = EventTriggerType.Drag;
+        entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
+        trigger.triggers.Add(entryDrag);
 
         if (right == -1)
         {
             right = 0;
+            serverId = playerObject.GetComponent<PlayerController>().netId.Value;
         }
         else
         {
             if (right == -left)
             {
                 right = right + 1;
-                playerController.RpcSetCameraIndex(right);
-                rotateAngle = y * right;
                 playerToken.transform.SetAsLastSibling();
             }
             else
             {
                 left = left - 1;
-                playerController.RpcSetCameraIndex(left);
-                rotateAngle = y * left;
                 playerToken.transform.SetAsFirstSibling();
             }
-            Vector3 r = q.eulerAngles;
-            playerController.RpcRotateCamera(rotateAngle, playerController.netId.Value);
         }
+
+        UpdateCameras();
     }
 
     public void SortToken(GameObject playerToken)
@@ -132,32 +137,91 @@ public class ServerLobby : MonoBehaviour {
             // Set new role using referenced player controller
             playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("camera");
             // Sort into closest order
-            /*int index = 0;
+            int index = 0;
             for (int i = 0; i < cameraPanel.transform.childCount; i++)
             {
                 Vector3 childPosition = cameraPanel.transform.GetChild(i).position;
-                if (position.x > childPosition.x )
+                if (position.x > childPosition.x)
                 {
                     index = i;
                 }
             }
-            // Set order
+            // Place in order
             playerToken.transform.SetSiblingIndex(index);
-            Debug.Log(index);*/
         }
-        else if (distanceEngineer < distanceCommand)
+        else if (serverId != playerToken.GetComponent<PlayerTokenController>().GetPlayerController().netId.Value) // Server must be main camera
         {
-            Debug.Log("engineer");
-            playerToken.transform.SetParent(engineerPanel.transform, false); 
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+            if (distanceEngineer < distanceCommand)
+            {
+                Debug.Log("engineer");
+                playerToken.transform.SetParent(engineerPanel.transform, false);
+                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+            }
+            else if (commandPanel.transform.childCount == 0) // Only assign if there is no commander
+            {
+                Debug.Log("commander");
+                playerToken.transform.SetParent(commandPanel.transform, false);
+                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
+            }
         }
-        else
-        {
-            Debug.Log("commander");
-            playerToken.transform.SetParent(commandPanel.transform, false);
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
-        }
+
         // Rebuild auto layout
         LayoutRebuilder.MarkLayoutForRebuild(playerToken.transform as RectTransform);
+        // Update cameras for preview
+        UpdateCameras();
+    }
+
+    private void UpdateCameras()
+    {
+        // Work out standard rotation for each index
+        GameObject playerCamera = GameObject.Find("CameraManager(Clone)");
+        // Get camera frustum planes
+        Camera cam = playerCamera.GetComponent<Camera>();
+        // Calculate frustum height at far clipping plane using field of view
+        float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        // Calculate frustum width using height and camera aspect
+        float frustumWidth = frustumHeight * cam.aspect;
+        // Calculate left and right vectors of frustum
+        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
+        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
+        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
+        Quaternion q = Quaternion.FromToRotation(ofl, ofr);
+        float y = q.eulerAngles.y;
+        float rotateAngle;
+        int centreIndex = 0;
+
+        for (int i = 0; i < cameraPanel.transform.childCount; i++)
+        {
+            PlayerController playerController = cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
+            // get index of centre server)
+            if (playerController.netId.Value == serverId)
+            {
+                centreIndex = i;
+            }
+        }
+
+        for (int i = 0; i < cameraPanel.transform.childCount; i++)
+        {
+            int index = i - centreIndex;
+            PlayerController playerController = cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
+            playerController.RpcSetCameraIndex(index);
+            rotateAngle = y * (index);
+            playerController.RpcRotateCamera(rotateAngle, playerController.netId.Value);
+        }
+
+        // Reset camera for other roles
+        for (int i = 0; i < engineerPanel.transform.childCount; i++)
+        {
+            PlayerController playerController = engineerPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
+            playerController.RpcSetCameraIndex(0);
+            playerController.RpcRotateCamera(0.0f, playerController.netId.Value);
+        }
+        
+        for (int i = 0; i < commandPanel.transform.childCount; i++)
+        {
+            PlayerController playerController = commandPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
+            playerController.RpcSetCameraIndex(0);
+            playerController.RpcRotateCamera(0.0f, playerController.netId.Value);
+        }
     }
 }

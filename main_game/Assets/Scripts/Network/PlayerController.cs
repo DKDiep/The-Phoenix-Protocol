@@ -27,6 +27,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
+    private bool gameStarted = false;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
     private int enginesLevel = 0;
@@ -50,6 +51,10 @@ public class PlayerController : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
+        // This RPC is only called once the game has started so we update the variable
+        gameStarted = true;
+        localController.gameStarted = true;
+
         playerCamera = GameObject.Find("CameraManager(Clone)");
         if (localController.role == "camera")
         {
@@ -58,6 +63,9 @@ public class PlayerController : NetworkBehaviour
         }
         else if (localController.role == "engineer")
         {
+            // Reset the camera rotation which was set in the lobby
+            playerCamera.transform.localRotation = Quaternion.identity;
+
             // Set the camera's parent as the engineer instance
             playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
             playerCamera.transform.parent = localController.controlledObject.transform;
@@ -76,7 +84,6 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             commandConsoleState.test();
             commandConsoleState.givePlayerControllerReference(this);
-            gameManager = GameObject.Find("GameManager");
         }
     }
     
@@ -105,7 +112,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and that the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
@@ -114,7 +122,8 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and that the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
@@ -128,6 +137,7 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("Role set: "+ role);
     }
 
+    // RpcRotateCamera sets orientation using the yRotate, it is not a relative rotation
     [ClientRpc]
     public void RpcRotateCamera(float yRotate, uint receivedId)
     {
@@ -148,7 +158,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     void Start()
-    {   
+    {
         //Each client request server command
         if (isServer)
         {

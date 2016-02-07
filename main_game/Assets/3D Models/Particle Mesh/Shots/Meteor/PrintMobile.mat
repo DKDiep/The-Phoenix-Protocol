@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: PrintMobile
+  m_Shader: {fileID: 4800000, guid: 7682ab5e936afcb469d7fef4d5adf6eb, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 7419a869e3f6cfd4eacbe83aa327bc1c, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Core
+        second:
+          m_Texture: {fileID: 2800000, guid: 2fab2b08a7fd59a4c9b317f3356954c8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Mask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _InvFade
+        second: 3
+      data:
+        first:
+          name: _ColorStrength
+        second: 25
+      data:
+        first:
+          name: _Range
+        second: 2
+      data:
+        first:
+          name: _TintStrength
+        second: 2
+      data:
+        first:
+          name: _CoreStrength
+        second: 5
+      data:
+        first:
+          name: _CutOutLightCore
+        second: 0.32142857
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: 1, g: 0.36822182, b: 0, a: 1}
+      data:
+        first:
+          name: _CoreColor
+        second: {r: 1, g: 0.8381339, b: 0.6911765, a: 0.47058824}
