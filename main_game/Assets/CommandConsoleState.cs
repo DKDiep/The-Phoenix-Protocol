@@ -54,7 +54,7 @@ public class CommandConsoleState : MonoBehaviour {
         EngineButton.SetActive(upgrade);
     }
 
-    public void gimme(PlayerController playerControl)
+    public void givePlayerControllerReference(PlayerController playerControl)
     {
         playerControlScript = playerControl;
         playerControlScript.test();

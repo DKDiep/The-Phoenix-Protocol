@@ -33,7 +33,6 @@ public class MessageHandler : MonoBehaviour {
 
         if (obj != null)
         {
-            controller.SetRole("engineer");
             controller.SetControlledObject(obj);
         }
     }

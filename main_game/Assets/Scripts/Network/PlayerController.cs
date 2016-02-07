@@ -26,6 +26,8 @@ public class PlayerController : NetworkBehaviour
     // Private to each instance of script
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
+    private GameObject gameManager;
+    private bool gameStarted = false;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
     private int enginesLevel = 0;
@@ -43,10 +45,15 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcSetCamera()
+    public void RpcRoleInit()
     {
+        print("inside rpcRoleInit");
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+        // This RPC is only called once the game has started so we update the variable
+        gameStarted = true;
+        localController.gameStarted = true;
 
         playerCamera = GameObject.Find("CameraManager(Clone)");
         if (localController.role == "camera")
@@ -56,6 +63,9 @@ public class PlayerController : NetworkBehaviour
         }
         else if (localController.role == "engineer")
         {
+            // Reset the camera rotation which was set in the lobby
+            playerCamera.transform.localRotation = Quaternion.identity;
+
             // Set the camera's parent as the engineer instance
             playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
             playerCamera.transform.parent = localController.controlledObject.transform;
@@ -67,6 +77,13 @@ public class PlayerController : NetworkBehaviour
             // Set values for the client side PlayerController
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
             localController.engController.Initialize(playerCamera);
+        }
+        else if(localController.role == "commander")
+        {
+            commandConsoleGameObject = Instantiate(Resources.Load("Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
+            commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
+            commandConsoleState.test();
+            commandConsoleState.givePlayerControllerReference(this);
         }
     }
     
@@ -95,7 +112,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and that the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
@@ -104,18 +122,22 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        // Make sure the server doesn't execute this and that the game has started
+        if (!isLocalPlayer || !gameStarted)
             return;
 
         if (role == "engineer")
             engController.EngFixedUpdate();
     }
 
-    public void SetRole(string newRole)
+    [ClientRpc]
+    public void RpcSetRole(string newRole)
     {
-        this.role = newRole;
+        role = newRole;
+        Debug.Log("Role set: "+ role);
     }
 
+    // RpcRotateCamera sets orientation using the yRotate, it is not a relative rotation
     [ClientRpc]
     public void RpcRotateCamera(float yRotate, uint receivedId)
     {
@@ -136,23 +158,14 @@ public class PlayerController : NetworkBehaviour
     }
 
     void Start()
-    {   
+    {
         //Each client request server command
         if (isServer)
         {
             //ship = GameObject.Find("PlayerShipLogic(Clone)");
             //shipMovement = ship.GetComponent<ShipMovement>();
         }
-        // Look for gameObject called "PlayerShip", returns null if not found. MainScene will find, TestNetworkScene won't.
-        print("player appears");
-        if (isClient && role != "camera") // whoever created this please fix, and adhere to development standards
-        {
-            commandConsoleGameObject = GameObject.Find("StuffManager");
-            commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
-            //commandConsoleState.test();
-            commandConsoleState.gimme(this);
-        }
-
+        
         if (isLocalPlayer)
         {
             CreateCamera();
@@ -172,7 +185,7 @@ public class PlayerController : NetworkBehaviour
             if (serverLobby != null)
             {
                 // Notify manager and lobby of joining
-                serverLobby.playerJoin(gameObject);
+                serverLobby.PlayerJoin(gameObject);
             }
         }
         else
