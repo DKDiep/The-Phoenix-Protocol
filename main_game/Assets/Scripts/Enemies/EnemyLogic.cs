@@ -75,7 +75,7 @@ public class EnemyLogic : MonoBehaviour
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
 	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
-	private const float AI_WAYPOINT_REACHED_DISTANCE = 70f;   // Distance when a waypoint is considered reached
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 80f;   // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
@@ -200,6 +200,11 @@ public class EnemyLogic : MonoBehaviour
 			}
 		}
 
+		// Check if the angle is good for shooting
+		Vector3 direction = player.transform.position - controlObject.transform.position;
+		float angle = Vector3.Angle(-controlObject.transform.up, direction);
+		angleGoodForShooting = (distance < ENGAGE_DISTANCE) && (angle < AI_SHOOT_MAX_ANGLE);
+
 
 		// Avoid obsctales if needed
 		if (state == STATE_AVOID_OBSTACLE)
@@ -226,11 +231,6 @@ public class EnemyLogic : MonoBehaviour
 			if (state == STATE_ENGAGE_PLAYER)
 			{
 				MoveTowardsCurrentWaypoint();
-
-				// Check if the angle is good for shooting
-				Vector3 direction = player.transform.position - controlObject.transform.position;
-				float angle = Vector3.Angle(-controlObject.transform.up, direction);
-				angleGoodForShooting = (angle < AI_SHOOT_MAX_ANGLE) || (angle > (180 - AI_SHOOT_MAX_ANGLE));
 			}
 			else // if (state == STATE_SEEK_PLAYER)
 			{
