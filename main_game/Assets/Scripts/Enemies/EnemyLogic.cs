@@ -75,18 +75,17 @@ public class EnemyLogic : MonoBehaviour
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
 	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
-	private const float AI_WAYPOINT_REACHED_DISTANCE = 60f;   // Distance when a waypoint is considered reached
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 70f;   // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
 	private const int AI_OBSTACLE_RAY_FRONT_OFFSET = 15;
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 225;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 250;
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
 	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
 	private const int AI_OBSTACLE_AVOID_ROTATION   = 75;
-	private int avoidDirection;
 
 	void Start ()
 	{
@@ -96,8 +95,6 @@ public class EnemyLogic : MonoBehaviour
 
 		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
 		droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
-
-		avoidDirection = Random.value < 0.5 ? 1 : -1; // Randoly determine which side this enemy uses to avoid obstacles
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -181,12 +178,12 @@ public class EnemyLogic : MonoBehaviour
 		distance   = Vector3.Distance(transform.position, player.transform.position);
 
 		// Check if about to collide with something
-		string obstacleTag = CheckObstacleAhead();
-		if (obstacleTag != null)
+		AvoidInfo obstacleInfo = CheckObstacleAhead();
+		if (!obstacleInfo.IsNone())
 		{
 			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
 			// Otherwise, temporarily change direction
-			if (obstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
 				currentWaypoint = GetNextWaypoint();
 			else
 			{
@@ -194,9 +191,9 @@ public class EnemyLogic : MonoBehaviour
 
 				// Create a temp waypoint to follow in order to avoid the asteroid
 				// TODO: when we get a proper ship, rotation axes need to be changed
-				// TODO: rotate in the direction indicated by the hit side
 				GameObject avoidWaypoint = new GameObject ();
 				avoidWaypoint.transform.position = controlObject.transform.position;
+				int avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
 				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
@@ -294,7 +291,7 @@ public class EnemyLogic : MonoBehaviour
 
 	// Check if the enemy is about to collide with an object
 	// Returns the tag of the object, or null if there is no collision about to happen
-	string CheckObstacleAhead()
+	private AvoidInfo CheckObstacleAhead()
 	{
 		Transform objectTransform = controlObject.transform;
 		bool hitLeft, hitRight;
@@ -313,16 +310,16 @@ public class EnemyLogic : MonoBehaviour
 		{
 			/*Debug.DrawRay (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right,
 				-AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.up, Color.magenta, 3, false);*/
-			return hitInfoLeft.collider.gameObject.tag;
+			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
 		}
 		else if (hitRight)
 		{
 			/*Debug.DrawRay(objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
 				-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.magenta, 3, false);*/
-			return hitInfoRight.collider.gameObject.tag;
+			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
 		}
 		else
-			return null;
+			return AvoidInfo.None();
 
 		// Uncomment to debug raycasting parameters
 		/*Debug.DrawRay(objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
@@ -424,6 +421,46 @@ public class EnemyLogic : MonoBehaviour
 			gameState.RemoveEnemy (controlObject.gameObject);
             GetComponent<bl_MiniMapItem>().DestroyItem(true);
 			Destroy(transform.parent.gameObject);
+		}
+	}
+
+	// Class that shows obstacle detection info to be used for avoiding moves
+	private class AvoidInfo
+	{
+		public enum AvoidSide { None, Left, Right }
+
+		public string ObstacleTag { get; private set; } // The tag of the detected obstacle
+		public AvoidSide Side { get; private set; }     // The side of the ship that the obstacle is coming up on
+
+		private static AvoidInfo noneInfo = null;
+
+		// Create an object showing no obstacle info
+		private AvoidInfo()
+		{
+			this.ObstacleTag = null;
+			this.Side        = AvoidSide.None;
+		}
+
+		// Create an object containing info about a collision
+		public AvoidInfo(string obstacleTag, AvoidSide side)
+		{
+			this.ObstacleTag = obstacleTag;
+			this.Side        = side;
+		}
+			
+		// Get an object containing no obstacle info
+		public static AvoidInfo None()
+		{
+			if (noneInfo == null)
+				noneInfo = new AvoidInfo();
+
+			return noneInfo;
+		}
+
+		// Check if this object contains no collision info
+		public bool IsNone()
+		{
+			return this == noneInfo;
 		}
 	}
 }
