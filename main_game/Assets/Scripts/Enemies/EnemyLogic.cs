@@ -74,17 +74,19 @@ public class EnemyLogic : MonoBehaviour
 	// Waypoints are used to move around the player when close enough
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
-	private const float AI_WAYPOINT_ROTATION_SPEED   = 1f;   // Turning speed when following waypoints
-	private const float AI_WAYPOINT_REACHED_DISTANCE = 4f;   // Distance when a waypoint is considered reached
+	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 60f;   // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
 	private const int AI_OBSTACLE_RAY_FRONT_OFFSET = 15;
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 85;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 225;
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
-	private const int AI_OBSTACLE_AVOID_ROTATION   = 60;
+	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
+	private const int AI_OBSTACLE_AVOID_ROTATION   = 75;
+	private int avoidDirection;
 
 	void Start ()
 	{
@@ -94,6 +96,8 @@ public class EnemyLogic : MonoBehaviour
 
 		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
 		droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
+
+		avoidDirection = Random.value < 0.5 ? 1 : -1; // Randoly determine which side this enemy uses to avoid obstacles
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -168,7 +172,9 @@ public class EnemyLogic : MonoBehaviour
 		 * We use C#'s random instead of Unity's because we need double precision. */
 		double madnessCheck = sysRand.NextDouble ();
 		if (madnessCheck > MADNESS_PROB)
+		{
 			isSuicidal = true;
+		}
 
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
@@ -178,58 +184,62 @@ public class EnemyLogic : MonoBehaviour
 		string obstacleTag = CheckObstacleAhead();
 		if (obstacleTag != null)
 		{
-			// If about to collide with an asteroid, temporarily change direction
-			// Otherwise, go towards a different waypoint - it's very likely the other guy will not go the same way
-			if (CheckObstacleAhead ().Equals (AI_OBSTACLE_TAG_DEBRIS))
+			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
+			// Otherwise, temporarily change direction
+			if (obstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+				currentWaypoint = GetNextWaypoint();
+			else
 			{
 				state = STATE_AVOID_OBSTACLE;
 
 				// Create a temp waypoint to follow in order to avoid the asteroid
 				// TODO: when we get a proper ship, rotation axes need to be changed
+				// TODO: rotate in the direction indicated by the hit side
 				GameObject avoidWaypoint = new GameObject ();
 				avoidWaypoint.transform.position = controlObject.transform.position;
-				int leftOrRight = Random.value < 0.5 ? 1 : -1; // Randoly determine if turning left or right
-				avoidWaypoint.transform.Rotate (0, leftOrRight * AI_OBSTACLE_AVOID_ROTATION, 0);
+				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
 			}
-			else
-				currentWaypoint = GetNextWaypoint ();
 		}
 
 
-		// Avoid obsctales if needed, engage player when close enough, otherwise catch up to them
+		// Avoid obsctales if needed
 		if (state == STATE_AVOID_OBSTACLE)
 		{
-			bool finishedAvoiding = MoveTowardsCurrentWaypoint ();
+			bool finishedAvoiding = MoveTowardsCurrentWaypoint();
 
 			// When the temporary avoid waypoint is reached, return to seeking the player
 			if (finishedAvoiding)
 				state = STATE_SEEK_PLAYER;
 		}
-		else if (state == STATE_SEEK_PLAYER && distance <= ENGAGE_DISTANCE)
+		else
 		{
-			state = STATE_ENGAGE_PLAYER;
-			currentWaypoint = GetNextWaypoint ();
-		}
-		else if (state == STATE_ENGAGE_PLAYER && distance > ENGAGE_DISTANCE)
-		{
-			state = STATE_SEEK_PLAYER;
-		}
+			// Engage player when close enough, otherwise catch up to them
+			if (state == STATE_SEEK_PLAYER && distance <= ENGAGE_DISTANCE)
+			{
+				state = STATE_ENGAGE_PLAYER;
+				currentWaypoint = GetNextWaypoint();
+			}
+			else if (state == STATE_ENGAGE_PLAYER && distance > ENGAGE_DISTANCE)
+			{
+				state = STATE_SEEK_PLAYER;
+			}
 
-		if (state == STATE_ENGAGE_PLAYER)
-		{
-			MoveTowardsCurrentWaypoint ();
+			if (state == STATE_ENGAGE_PLAYER)
+			{
+				MoveTowardsCurrentWaypoint();
 
-			// Check if the angle is good for shooting
-			Vector3 direction    = player.transform.position - controlObject.transform.position;
-			float angle          = Vector3.Angle (-controlObject.transform.up, direction);
-			angleGoodForShooting = (angle < AI_SHOOT_MAX_ANGLE) || (angle > (180-AI_SHOOT_MAX_ANGLE));
-		}
-		else // if (state == STATE_SEEK_PLAYER)
-		{
-			angleGoodForShooting = false;
-			MoveTowardsPlayer ();
+				// Check if the angle is good for shooting
+				Vector3 direction = player.transform.position - controlObject.transform.position;
+				float angle = Vector3.Angle(-controlObject.transform.up, direction);
+				angleGoodForShooting = (angle < AI_SHOOT_MAX_ANGLE) || (angle > (180 - AI_SHOOT_MAX_ANGLE));
+			}
+			else // if (state == STATE_SEEK_PLAYER)
+			{
+				angleGoodForShooting = false;
+				MoveTowardsPlayer();
+			}
 		}
 
 	}
@@ -318,8 +328,8 @@ public class EnemyLogic : MonoBehaviour
 		/*Debug.DrawRay(objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
 			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);
 		Debug.DrawRay(objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
-			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);
-		Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
+			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);*/
+		/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
 			-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
 		Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
 			+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
