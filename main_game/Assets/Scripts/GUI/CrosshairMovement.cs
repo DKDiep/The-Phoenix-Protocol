@@ -40,14 +40,21 @@ public class CrosshairMovement : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
+		Transform selectedCrosshair;
+
 		// If there is a wii remote connected.
 		if (WiimoteManager.Wiimotes.Count > 0) 
 		{
 			// Loop through each wii remote id
 			for(int remoteId = 0; remoteId < WiimoteManager.Wiimotes.Count; remoteId++) 
 			{
+				selectedCrosshair = crosshairs[remoteId].transform;
+
+				// Fixes some strange bug where the z value gets set to a rediculous value.
+				oldCrosshairPosition[remoteId].z = 0.0f;
+				crosshairPosition[remoteId].z = 0.0f;
+
 				// Do some interpolation to help smoothing
-				Transform selectedCrosshair = crosshairs[remoteId].transform;
 				if(crosshairPositionTmp[remoteId] == oldCrosshairPosition[remoteId]) 
 				{
 					if(Math.Abs(selectedCrosshair.position.x) < Math.Abs(crosshairPosition[remoteId].x) &&
@@ -61,6 +68,7 @@ public class CrosshairMovement : MonoBehaviour {
 					selectedCrosshair.position = oldCrosshairPosition[remoteId];
 					crosshairPositionTmp[remoteId] = oldCrosshairPosition[remoteId];
 				}
+
 			}
 		} 
 		else 
