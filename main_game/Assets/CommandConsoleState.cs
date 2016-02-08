@@ -9,14 +9,20 @@ public class CommandConsoleState : MonoBehaviour {
     public int Health;
     public Text PowerText;
     public Text MassText;
-    public Text EnginLabel;
+    public Text EngineLabel;
     public Text ShieldsLabel;
     public Text ShieldsUpgradeLabel;
     public Text GunsUpgradeLabel;
     public Text EngineUpgradeLabel;
+    public Text PopUpText;
     public GameObject ShieldsButton;
     public GameObject GunsButton;
     public GameObject EngineButton;
+    public GameObject PopUp;
+    public GameObject LevelCounter1;
+    public GameObject LevelCounter2;
+    public GameObject LevelCounter3;
+    public GameObject LevelCounter4;
     private PlayerController playerControlScript;
     private int remPower;
     private int mass;
@@ -38,6 +44,13 @@ public class CommandConsoleState : MonoBehaviour {
         ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
         GunsUpgradeLabel.text = gunsLevel * 100 + "M";
         EngineUpgradeLabel.text = engineLevel * 100 + "M";
+        print("setting popuptext");
+        LevelCounter1.SetActive(true);
+        LevelCounter2.SetActive(false);
+        LevelCounter3.SetActive(false);
+        LevelCounter4.SetActive(false);
+        PopUpText.text = "nufink";
+        PopUp.SetActive(false);
         //ShieldsLabel.text = "Component got";
         ShieldsButton.SetActive(false);
         GunsButton.SetActive(false);
@@ -69,7 +82,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         if (upgrade)
         {
-            EnginLabel.text = EnginLabel.text + "I";
+            EngineLabel.text = EngineLabel.text + "I";
             upgrade = false;
         }
         //enginOn = isOn;
@@ -93,6 +106,40 @@ public class CommandConsoleState : MonoBehaviour {
         UpdatePower();
     }
 
+    public void systemPopUp(int system)
+    {
+        switch (system)
+        {
+            case 0:
+                PopUpText.text = "Shields";
+                showLevelCounters(shieldsLevel);
+                break;
+            case 1:
+                PopUpText.text = "Guns";
+                print("calling showLevelCounters(gunslevel) = " + gunsLevel);
+                showLevelCounters(gunsLevel);
+                break;
+            case 2:
+                showLevelCounters(engineLevel);
+                PopUpText.text = "Engines";
+                break;
+        }
+        PopUp.SetActive(true);
+    }
+
+    //Enables/disables level counter objects such that there are <level> of them visible
+    private void showLevelCounters(int level)
+    {
+        LevelCounter1.SetActive(false);
+        LevelCounter2.SetActive(false);
+        LevelCounter3.SetActive(false);
+        LevelCounter4.SetActive(false);
+        if (level > 0) LevelCounter1.SetActive(true);
+        if (level > 1) LevelCounter2.SetActive(true);
+        if (level > 2) LevelCounter3.SetActive(true);
+        if (level > 3) LevelCounter4.SetActive(true);
+    }
+
     public void Shields(bool isOn)
     {
         shieldsOn = isOn;
@@ -111,6 +158,7 @@ public class CommandConsoleState : MonoBehaviour {
                     mass -= 100 * shieldsLevel;
                     shieldsLevel++;
                     ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
+                    showLevelCounters(shieldsLevel);
                     playerControlScript.CmdUpgrade(0);
                 }
                 break;
@@ -120,6 +168,8 @@ public class CommandConsoleState : MonoBehaviour {
                     mass -= 100 * gunsLevel;
                     gunsLevel++;
                     GunsUpgradeLabel.text = gunsLevel * 100 + "M";
+                    showLevelCounters(gunsLevel);
+
                 }
                 break;
             case 2:
@@ -129,9 +179,9 @@ public class CommandConsoleState : MonoBehaviour {
                     engineLevel++;
                     playerControlScript.CmdUpgrade(2);
                     EngineUpgradeLabel.text = engineLevel * 100 + "M";
+                    showLevelCounters(gunsLevel);
                 }
                 break;
-
         }
         upgrade = false;
         UpdateMass();
