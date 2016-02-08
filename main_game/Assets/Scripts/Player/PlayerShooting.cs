@@ -29,8 +29,6 @@ public class PlayerShooting : MonoBehaviour
     Vector3 crosshairPosition;
     GameObject[] crosshairs;
 
-	// Wii remote initialise
-	private bool init = true;
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
@@ -77,35 +75,28 @@ public class PlayerShooting : MonoBehaviour
 		} 
 		else 
 		{
-			Wiimote remote;
-			try 
+			int remoteId = 0;
+			// Loop through all connected wii remotes
+			foreach(Wiimote remote in WiimoteManager.Wiimotes) 
 			{
-				// Only for the one remote at the moment.
-				remote = WiimoteManager.Wiimotes [0];
-
-				// Setup remote at beginning or when it disconnects.
-				if (this.init) 
+				try 
 				{
-					remote.SendPlayerLED (true, false, false, false);
-					remote.SetupIRCamera (IRDataType.BASIC);
-					this.init = false;
-				}
-
-				// if finished reading data from remote
-				if (remote.ReadWiimoteData () > 0) 
-				{
-					if (remote.Button.b && canShoot) 
+					// if finished reading data from remote
+					if (remote.ReadWiimoteData () > 0) 
 					{
-						// Shoot bullet for player 0
-						ShootBullet (0);
+						if (remote.Button.b && canShoot) 
+						{
+							// Shoot bullet for the player associated with the remote
+							ShootBullet (remoteId);
+						}
 					}
-				}
-			} 
-			catch (Exception e) 
-			{
-				WiimoteManager.FindWiimotes ();
-				this.init = true;
-			}  
+				} 
+				catch (Exception e) 
+				{
+					WiimoteManager.FindWiimotes ();
+				}  
+				remoteId++;
+			}
 		}
 
         // Control alpha of hitmarker
