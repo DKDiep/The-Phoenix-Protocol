@@ -140,6 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b274329d808ad47b5a5a80f7c816528c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highPoly: {fileID: 4300000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
+  medPoly: {fileID: 4300000, guid: 2f51652ba34c20f4a8e8fa346a336e62, type: 3}
+  lowPoly: {fileID: 4300000, guid: b27b5d116dd538e42bf6866db49d7e14, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -199,6 +202,18 @@ Prefab:
       propertyPath: m_SendInterval
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: highPoly
+      value: 
+      objectReference: {fileID: 4300000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
+    - target: {fileID: 0}
+      propertyPath: medPoly
+      value: 
+      objectReference: {fileID: 4300000, guid: 2f51652ba34c20f4a8e8fa346a336e62, type: 3}
+    - target: {fileID: 0}
+      propertyPath: lowPoly
+      value: 
+      objectReference: {fileID: 4300000, guid: b27b5d116dd538e42bf6866db49d7e14, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 180310}
