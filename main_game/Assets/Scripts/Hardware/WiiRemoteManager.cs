@@ -8,15 +8,18 @@ public class WiiRemoteManager : MonoBehaviour {
 	
 	public void RumbleAll(float rumbleTime) 
 	{
-		// Start rumble on all wii remotes
-		foreach(Wiimote remote in WiimoteManager.Wiimotes) 
+		if (WiimoteManager.Wiimotes.Count > 0) 
 		{
-			remote.RumbleOn = true; 
-			remote.SendStatusInfoRequest(); 
-		}
+			// Start rumble on all wii remotes
+			foreach(Wiimote remote in WiimoteManager.Wiimotes) 
+			{
+				remote.RumbleOn = true; 
+				remote.SendStatusInfoRequest(); 
+			}
 
-		// `It's rumble time baby`
-		StartCoroutine("DelayRumble", rumbleTime);
+			// `It's rumble time baby`
+			StartCoroutine("DelayRumble", rumbleTime);
+		}
 	 
 	}
 
