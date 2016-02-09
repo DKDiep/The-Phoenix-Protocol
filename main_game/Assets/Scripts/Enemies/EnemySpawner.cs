@@ -26,9 +26,9 @@ public class EnemySpawner : MonoBehaviour
     GameObject player, temp, logic;
 
 	// TODO: the AI constants probably need to be tweaked
-	private const int AI_WAYPOINTS_PER_ENEMY      = 5;
-	private const int AI_GEN_WAYPOINTS_FACTOR     = 3;
-	private const int AI_WAYPOINT_RADIUS          = 200;
+	private const int AI_WAYPOINTS_PER_ENEMY      = 10;
+	private const int AI_GEN_WAYPOINTS_FACTOR     = 8;
+	private const int AI_WAYPOINT_RADIUS          = 125;
 	private readonly Vector3 AI_WAYPOINT_SHIFT_UP = new Vector3 (0, 8, 0);
 	private List<GameObject> aiWaypoints;
 
@@ -129,11 +129,14 @@ public class EnemySpawner : MonoBehaviour
 			// Randomly generate a waypoint around the player, but discard it if it's inside the ship
 			do
 			{
-				if (Debug.isDebugBuild)
+				/* Uncomment this to see waypoints as spheres
+				 * if (Debug.isDebugBuild)
+				   {
 					waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-				else
-					waypoint = new GameObject ("AIWaypoint");
-				waypoint.transform.localScale = waypoint.transform.localScale / 25;
+					waypoint.transform.localScale = waypoint.transform.localScale / 25;
+				   }
+				else*/
+				waypoint = new GameObject ("AIWaypoint");
 				waypoint.transform.position = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
 				waypoint.transform.Translate (AI_WAYPOINT_SHIFT_UP); // Shift the waypoints a upwards a little, otherwise too many end up under the ship
 				waypoint.transform.parent = player.transform;

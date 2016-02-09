@@ -69,23 +69,23 @@ public class EnemyLogic : MonoBehaviour
 	private const int STATE_AVOID_OBSTACLE = 1;
 	private const int STATE_COOLDOWN       = 2;
 	private const int STATE_ENGAGE_PLAYER  = 3;
-	private const int ENGAGE_DISTANCE      = 650;
+	private const int ENGAGE_DISTANCE      = 400;
 
 	// Waypoints are used to move around the player when close enough
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
 	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
-	private const float AI_WAYPOINT_REACHED_DISTANCE = 80f;   // Distance when a waypoint is considered reached
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;   // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
 	private const int AI_OBSTACLE_RAY_FRONT_OFFSET = 15;
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 250;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 200;
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
 	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
-	private const int AI_OBSTACLE_AVOID_ROTATION   = 75;
+	private const int AI_OBSTACLE_AVOID_ROTATION   = 45;
 
 	void Start ()
 	{
@@ -138,13 +138,6 @@ public class EnemyLogic : MonoBehaviour
 	public void SetAIWaypoints(List<GameObject> waypoints)
 	{
 		aiWaypoints = waypoints;
-
-		if (Debug.isDebugBuild)
-		{
-			Color randomColor = new Color (Random.value, Random.value, Random.value, 1.0f);
-			foreach (GameObject waypoint in aiWaypoints)
-				waypoint.GetComponent<MeshRenderer> ().material.color = randomColor;
-		}
 	}
 
     // Avoids null reference during initial spawning
@@ -197,6 +190,12 @@ public class EnemyLogic : MonoBehaviour
 				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
+
+				// Uncomment this to visualise the waypoint
+				// If there is more than one enemy, this probably doesn't help much
+				/*GameObject visibleWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+				visibleWaypoint.transform.position   = currentWaypoint.transform.position;
+				visibleWaypoint.transform.localScale = visibleWaypoint.transform.localScale * 5;*/
 			}
 		}
 
@@ -269,7 +268,10 @@ public class EnemyLogic : MonoBehaviour
 	{
 
 		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
-		Quaternion rotation = Quaternion.LookRotation (relativePos, Vector3.forward); // TODO: when we get a proper ship, remove the upwards parameter
+
+		// TODO: when we get a proper ship, remove the upwards parameter and the extra rotation
+		Quaternion rotation = Quaternion.LookRotation (relativePos, Vector3.forward);
+		rotation *= Quaternion.Euler(-Vector3.right * 90);
 
 		// Turn and bank
 		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
@@ -280,7 +282,8 @@ public class EnemyLogic : MonoBehaviour
 
 		controlObject.transform.Translate (0, Time.deltaTime * speed * (-1), 0); // TODO: when we get a proper ship, move it forwards
 
-		if (Vector3.Distance (controlObject.transform.position, currentWaypoint.transform.position) < AI_WAYPOINT_REACHED_DISTANCE)
+		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
+		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
 		{
 			currentWaypoint = GetNextWaypoint ();
 			return true;
