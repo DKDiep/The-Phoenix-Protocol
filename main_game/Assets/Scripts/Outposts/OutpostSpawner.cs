@@ -33,8 +33,8 @@ public class OutpostSpawner : MonoBehaviour
 					player = gameState.GetPlayerShip();
 				}
 				spawnLocation.transform.position = player.transform.position;
-				spawnLocation.transform.rotation = Random.rotation;
-				spawnLocation.transform.Translate(transform.forward * Random.Range(500,1000));
+				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(0,360), Random.Range(0,360));
+				spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
 
 				SpawnOutpost ();
 				numberOfOutposts--;
