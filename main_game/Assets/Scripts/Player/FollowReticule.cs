@@ -21,8 +21,8 @@ public class FollowReticule : MonoBehaviour
     // Initialise temporary object
     void Start()
     {
-        //targetPoint = new GameObject();
-        targetPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        targetPoint = new GameObject();
+        //targetPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         targetPoint.name = "AimTarget" + controlledByPlayerId.ToString();
 
 		crosshairContainer = GameObject.Find("Crosshairs");
