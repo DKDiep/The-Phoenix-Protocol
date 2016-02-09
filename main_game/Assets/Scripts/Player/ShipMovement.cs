@@ -23,7 +23,7 @@ public class ShipMovement : MonoBehaviour
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 	GameObject controlObject;
 	private GameState gameState;
-
+	private WiiRemoteManager wii;
 
     float shield;
 	float pitchVelocity = 0f;
@@ -36,16 +36,24 @@ public class ShipMovement : MonoBehaviour
 	DamageEffects myDamage;
     ShieldEffects myShield = null;
 
+
+
     // Initialise object
     void Start()
     {
+		
 		GameObject server = GameObject.Find("GameManager");
 		gameState = server.GetComponent<GameState>();
+
+		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
+		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
     	controlObject = transform.parent.gameObject;
     	shield = maxShield;
     	lastShieldCheck = shield;
 		StartCoroutine ("RechargeShields");
+
+
     }
 
 	IEnumerator RechargeShields()
@@ -143,6 +151,8 @@ public class ShipMovement : MonoBehaviour
     // Calculate direction of hit and decrement shields or health
 	public void collision(float damage, float yRot)
 	{
+		wii.RumbleAll(5);
+
 		yRot += transform.eulerAngles.y - 180f;
 
 		if(yRot < 0f) yRot = yRot + (360f * (int) ((yRot / 360f) + 1));
