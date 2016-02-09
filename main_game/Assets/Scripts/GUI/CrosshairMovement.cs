@@ -6,30 +6,50 @@ using System;
 public class CrosshairMovement : MonoBehaviour {
 
     private int controlling = 0;
-    private const int N_CROSSHAIRS = 4;
+	private int numberOfCrossHairs;
 	float posReadDelay = 0.0001f;
-	private bool[] init = new bool[N_CROSSHAIRS];
+	private bool[] init;
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
 	bool canMove = true;
-	public Vector3[] crosshairPosition = new Vector3[N_CROSSHAIRS];
-	private Vector3[] oldCrosshairPosition = new Vector3[N_CROSSHAIRS];
-	private Vector3[] crosshairPositionTmp = new Vector3[N_CROSSHAIRS];
+	public Vector3[] crosshairPosition;
+	private Vector3[] oldCrosshairPosition;
+	private Vector3[] crosshairPositionTmp;
 	float oldAccel, newAccel;
     GameObject[] crosshairs;
+	WiiRemoteManager wii;
 
 	// Use this for initialization
 	void Start ()
     {
-        GameObject crosshairContainer = GameObject.Find("Crosshairs");
+		GameObject crosshairContainer = GameObject.Find("Crosshairs");
 
-        crosshairs = new GameObject[4];
+		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
+		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
+		// Get number of connected wii remotes
+		numberOfCrossHairs = wii.GetNumberOfRemotes();
+
+		// If there are no wii remotes connected, set the default to 2
+		if(numberOfCrossHairs == 0) numberOfCrossHairs = 2;
+
+
+		crosshairPosition = new Vector3[numberOfCrossHairs];
+		oldCrosshairPosition = new Vector3[numberOfCrossHairs];
+		crosshairPositionTmp = new Vector3[numberOfCrossHairs];
+
+
+		init = new bool[4];
+		crosshairs = new GameObject[4];
+			
         // Find crosshairs
-        for(int i = 0; i < 4; ++i)
+		for(int i = 0; i < 4; ++i)
         {
-            crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
+			crosshairs[i] = GameObject.Find("CrosshairImage"+i);
+			// Hide crosshairs we are not using
+			if(i >= numberOfCrossHairs) crosshairs[i].SetActive(false);
+
 			init[i] = true;
         }
 			
@@ -74,7 +94,7 @@ public class CrosshairMovement : MonoBehaviour {
 		else 
 		{
 			// Check to see if any of the crosshair keys have been pressed
-			for (int i = 1; i <= N_CROSSHAIRS; i++) 
+			for (int i = 1; i <= numberOfCrossHairs; i++) 
 			{
 				if (Input.GetKeyDown (i.ToString ())) 
 				{

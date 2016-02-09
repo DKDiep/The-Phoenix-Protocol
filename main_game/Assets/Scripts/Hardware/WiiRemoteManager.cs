@@ -23,6 +23,11 @@ public class WiiRemoteManager : MonoBehaviour {
 	 
 	}
 
+	public int GetNumberOfRemotes() 
+	{
+		return WiimoteManager.Wiimotes.Count;
+	}
+
 	IEnumerator DelayRumble(float delay)
 	{
 		yield return new WaitForSeconds(delay/1000);
