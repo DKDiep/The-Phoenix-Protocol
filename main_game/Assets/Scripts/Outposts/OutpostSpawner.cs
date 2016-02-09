@@ -61,7 +61,7 @@ public class OutpostSpawner : MonoBehaviour
 		outpostObject.AddComponent<OutpostCollision>();
 
 		//outpostLogic.GetComponent<OutpostLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
-		//outpostLogic.GetComponent<OutpostLogic>().SetStateReference(gameState);
+		outpostLogic.GetComponent<OutpostLogic>().SetStateReference(gameState);
 
 		// Add collider and rigidbody
 		SphereCollider sphere = outpostObject.AddComponent<SphereCollider>();

@@ -249,7 +249,7 @@ public class GameState : MonoBehaviour {
 	{
 		currentShipResources += resources;
 		totalShipResources += resources;
-		//Debug.Log("Current Reaources:  " + currentShipResources);
+		Debug.Log("Current Reaources:  " + currentShipResources + " (Increased by " + resources + ")");
 	}
 
 	/*
