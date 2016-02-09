@@ -86,6 +86,8 @@ public class EnemyLogic : MonoBehaviour
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
 	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
 	private const int AI_OBSTACLE_AVOID_ROTATION   = 45;
+	private int previousAvoidDirection             = 0;
+	private int avoidDirection;
 
 	void Start ()
 	{
@@ -182,18 +184,25 @@ public class EnemyLogic : MonoBehaviour
 			// Otherwise, temporarily change direction
 			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
 			{
-				state           = STATE_ENGAGE_PLAYER;
-				currentWaypoint = GetNextWaypoint();
+				state                  = STATE_ENGAGE_PLAYER;
+				previousAvoidDirection = 0;
+				currentWaypoint        = GetNextWaypoint();
 			}
 			else
 			{
 				state = STATE_AVOID_OBSTACLE;
 
+				// If already avoiding an obstacle, keep the same direction
+				// Otherwise, decided based on the side the obstacle is closest to
+				if (previousAvoidDirection != 0)
+					avoidDirection = previousAvoidDirection;
+				else
+					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
+
 				// Create a temp waypoint to follow in order to avoid the asteroid
 				// TODO: when we get a proper ship, rotation axes need to be changed
 				GameObject avoidWaypoint = new GameObject ();
 				avoidWaypoint.transform.position = controlObject.transform.position;
-				int avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
 				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
@@ -219,7 +228,10 @@ public class EnemyLogic : MonoBehaviour
 
 			// When the temporary avoid waypoint is reached, return to seeking the player
 			if (finishedAvoiding)
-				state = STATE_SEEK_PLAYER;
+			{
+				state                  = STATE_SEEK_PLAYER;
+				previousAvoidDirection = 0;
+			}
 		}
 		else
 		{
