@@ -174,10 +174,17 @@ public class EnemyLogic : MonoBehaviour
 		AvoidInfo obstacleInfo = CheckObstacleAhead();
 		if (!obstacleInfo.IsNone())
 		{
+			// If already avoiding an obsctale, clear the previous waypoint before creating another one
+			if (state == STATE_AVOID_OBSTACLE)
+				Destroy(currentWaypoint);
+
 			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
 			// Otherwise, temporarily change direction
 			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+			{
+				state           = STATE_ENGAGE_PLAYER;
 				currentWaypoint = GetNextWaypoint();
+			}
 			else
 			{
 				state = STATE_AVOID_OBSTACLE;
@@ -258,7 +265,7 @@ public class EnemyLogic : MonoBehaviour
 		{
 			int r = Random.Range (0, aiWaypoints.Count);
 			nextWaypoint = aiWaypoints [r];
-		} while (nextWaypoint.Equals (currentWaypoint));
+		} while (currentWaypoint != null && nextWaypoint.Equals (currentWaypoint));
 
 		return nextWaypoint;
 	}
@@ -266,7 +273,6 @@ public class EnemyLogic : MonoBehaviour
 	// When engaged with the player ship, move between waypoints, returning true when the waypoint is reached
 	bool MoveTowardsCurrentWaypoint()
 	{
-
 		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
 
 		// TODO: when we get a proper ship, remove the upwards parameter and the extra rotation
@@ -285,7 +291,11 @@ public class EnemyLogic : MonoBehaviour
 		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
 		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
 		{
-			currentWaypoint = GetNextWaypoint ();
+			// If the reached waypoint is an avoid waypoint, it is not needed any more
+			if (state == STATE_AVOID_OBSTACLE)
+				Destroy(currentWaypoint);
+			
+			currentWaypoint = GetNextWaypoint();
 			return true;
 		}
 
