@@ -420,6 +420,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &547959174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 547959171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256b0c6fd6913454299c5d950310690f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outpost1: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
+  collectionDistance: 5
 --- !u!1 &959685850
 GameObject:
   m_ObjectHideFlags: 0
