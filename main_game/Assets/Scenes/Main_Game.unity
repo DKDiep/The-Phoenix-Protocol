@@ -393,6 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outpost1: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
+  collectionDistance: 10
 --- !u!1 &959685850
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,9 @@ public class OutpostSpawner : MonoBehaviour
 {
 	[SerializeField] GameObject outpost1;
 
+	// The distance from the outpost the ship has to be in order to collect resources
+	[SerializeField] float collectionDistance;
+
 	GameObject player, outpost, logic, spawnLocation;
 	private GameState gameState;
 	private int numberOfOutposts = 5;
@@ -34,6 +37,7 @@ public class OutpostSpawner : MonoBehaviour
 				}
 				spawnLocation.transform.position = player.transform.position;
 				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(0,360), Random.Range(0,360));
+
 				spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
 
 				SpawnOutpost ();
@@ -61,7 +65,11 @@ public class OutpostSpawner : MonoBehaviour
 
 		// Add collider and rigidbody
 		SphereCollider sphere = outpostObject.AddComponent<SphereCollider>();
+
+		// Change radius that the player picks up resources
+		sphere.radius = collectionDistance;
 		sphere.isTrigger = true;
+
 		Rigidbody rigid = outpostObject.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;
 
