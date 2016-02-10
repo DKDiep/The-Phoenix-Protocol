@@ -115,10 +115,10 @@ public class CrosshairMovement : MonoBehaviour {
 		if (WiimoteManager.Wiimotes.Count < 1) 
 		{
 			// Update its position to the current mouse position
-			this.crosshairPosition[0] = selectedCrosshair.position;
-			this.crosshairPosition[0].x = Input.mousePosition.x;
-			this.crosshairPosition[0].y = Input.mousePosition.y;
-			selectedCrosshair.position = this.crosshairPosition[0];
+			Vector3 currentPosition = selectedCrosshair.position;
+			currentPosition.x = Input.mousePosition.x;
+			currentPosition.y = Input.mousePosition.y;
+			selectedCrosshair.position = currentPosition;
 		} 
 		else 
 		{
