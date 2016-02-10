@@ -8,8 +8,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class GameState : MonoBehaviour {
+public class GameState : NetworkBehaviour {
 
     public enum Status { Setup, Started };
 

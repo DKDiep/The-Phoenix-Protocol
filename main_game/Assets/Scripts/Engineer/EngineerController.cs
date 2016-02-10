@@ -14,6 +14,7 @@ public class EngineerController : NetworkBehaviour {
     [SerializeField] private float m_StepInterval;
     [SerializeField] private Text upgradeText;
 
+    private PlayerController myController;
     private Camera camera;
     private MouseLook mouseLook;
     private bool jump;
@@ -65,11 +66,13 @@ public class EngineerController : NetworkBehaviour {
     }
 
     //Initialize player instance and local game here. Kind of a replacement for Start()
-    public void Initialize(GameObject cam)
+    public void Initialize(GameObject cam, PlayerController controller)
     {
         camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
         mouseLook.Init(transform, camera.transform);
+
+        myController = controller;
     }
 
     // Update is called once per frame

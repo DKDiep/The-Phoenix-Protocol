@@ -27,6 +27,7 @@ public class PlayerController : NetworkBehaviour
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
+    private GameState gameState;
     private bool gameStarted = false;
     private int shieldsLevel = 0;
     private int gunsLevel = 0;
@@ -76,7 +77,7 @@ public class PlayerController : NetworkBehaviour
 
             // Set values for the client side PlayerController
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
-            localController.engController.Initialize(playerCamera);
+            localController.engController.Initialize(playerCamera, localController);
         }
         else if(localController.role == "commander")
         {
@@ -159,13 +160,17 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
+        // Get the game manager and game state at start
+        gameManager = GameObject.Find("GameManager");
+        gameState = gameManager.GetComponent<GameState>();
+
         //Each client request server command
         if (isServer)
         {
             //ship = GameObject.Find("PlayerShipLogic(Clone)");
             //shipMovement = ship.GetComponent<ShipMovement>();
         }
-        
+
         if (isLocalPlayer)
         {
             CreateCamera();
