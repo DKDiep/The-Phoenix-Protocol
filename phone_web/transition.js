@@ -8,8 +8,8 @@ function updateScreen(userData) {
               startGame();
             });
             break;
-        case "GAME_LIMBO":
-            transitionTo("game_limbo");
+        case "PROMOTION":
+            transitionTo("promotion");
             break;
         case "CREW":
             transitionTo("crew", function () {

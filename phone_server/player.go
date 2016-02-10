@@ -1,17 +1,18 @@
 package main
 
-type PlayerType int
+type PlayerState int
 
 const (
-    SPECTATOR PlayerType = iota
+    SPECTATOR PlayerState = iota
     OFFICER
     COMMANDER
+    PROMOTION
 )
 
 // Holds player related data
 type Player struct {
     userName string
-    role     PlayerType
+    state     PlayerState
     score    int
     user     *User
 }
@@ -114,13 +115,15 @@ func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Ast
 // Get a string representing the state, used as instruction for the phone
 // web page transitions
 func (plr *Player) getStateString() (out string) {
-    switch plr.role {
+    switch plr.state {
     case SPECTATOR:
         out = "SPECTATOR"
     case OFFICER:
         out = "OFFICER"
     case COMMANDER:
         out = "COMMANDER"
+    case PROMOTION:
+        out = "PROMOTION"
     }
 
     return

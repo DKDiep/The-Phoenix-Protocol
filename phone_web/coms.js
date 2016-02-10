@@ -44,14 +44,8 @@ function onMessage(event) {
             // in transition.js
             updateScreen(msg.data)
             break;
-        case "STATE_CHANGE":
-            //changeState(msg.data)
-            break;
         case "STATE_UPDATE":
             data.objects = msg.data;
-            break;
-        case "STATISTICS_UPDATE":
-            //updateStats(msg.data)
             break;
         default:
             console.log("Received unexpected message type: "+msg.type)
@@ -75,6 +69,24 @@ function requestUserCreation(username) {
     var msg = {
         type: "REG_USER",
         data: username
+    }
+
+    serverSocket.send(JSON.stringify(msg));
+}
+
+function acceptPromotion() {
+    var msg = {
+        type: "PROM",
+        data: true
+    }
+
+    serverSocket.send(JSON.stringify(msg));
+}
+
+function declinePromotion() {
+    var msg = {
+        type: "PROM",
+        data: false
     }
 
     serverSocket.send(JSON.stringify(msg));

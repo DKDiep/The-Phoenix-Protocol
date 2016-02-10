@@ -71,7 +71,7 @@ func (usr *User) registerNew(name string) {
     // register user
     playerId := registerPlayer(name)
     // associate a player with this user and add it to the game
-    newPlr := &Player{userName: name, role: SPECTATOR, score: 0, user: usr}
+    newPlr := &Player{userName: name, state: SPECTATOR, score: 0, user: usr}
     usr.player = newPlr
     playerMap.add(playerId, newPlr)
 
@@ -108,7 +108,7 @@ func (usr *User) updateUser(playerId string) {
         // otherwise assign a new player to the user
     } else {
         name := getPlayerName(playerId)
-        newPlr := &Player{userName: name, role: SPECTATOR, score: 0, user: usr}
+        newPlr := &Player{userName: name, state: SPECTATOR, score: 0, user: usr}
         usr.player = newPlr
         playerMap.add(playerId, newPlr)
     }
