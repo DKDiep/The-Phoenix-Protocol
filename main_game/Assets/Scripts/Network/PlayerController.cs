@@ -29,9 +29,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject gameManager;
     private GameState gameState;
     private bool gameStarted = false;
-    private int shieldsLevel = 0;
-    private int gunsLevel = 0;
-    private int enginesLevel = 0;
     ShipMovement shipMovement;
     public void test() { print("gotplayer"); }
 
@@ -83,7 +80,6 @@ public class PlayerController : NetworkBehaviour
         {
             commandConsoleGameObject = Instantiate(Resources.Load("Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
-            commandConsoleState.test();
             commandConsoleState.givePlayerControllerReference(this);
         }
     }
@@ -96,21 +92,9 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
     {
-        switch (where)
-        {
-            case 0:
-                shieldsLevel++;
-                break;
-            case 1:
-                gunsLevel++;
-                break;
-            case 2:
-                enginesLevel++;
-                //shipMovement.speed += 15; <-- commented upon merge as speed is no longer accessible
-                break;
-        }
+		// Send request to command console to perform upgrade	
     }
-
+		
     private void Update()
     {
         // Make sure the server doesn't execute this and that the game has started

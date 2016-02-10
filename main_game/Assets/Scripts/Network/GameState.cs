@@ -19,7 +19,7 @@ public class GameState : NetworkBehaviour {
 	private const int BASE_SHIP_RESOURCES = 100;
 
 	// The starting health value of the ship
-	private const float INITIAL_SHIP_HEALTH = 100;
+	private const float INITIAL_SHIP_HEALTH = 80;
 
     private Status status = Status.Setup;
     private List<GameObject> asteroidList;
@@ -36,9 +36,11 @@ public class GameState : NetworkBehaviour {
 	private int totalShipResources = BASE_SHIP_RESOURCES;
 
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
+	[SyncVar]
 	private int currentShipResources = BASE_SHIP_RESOURCES;
 
 	// The health of the ship. 
+	[SyncVar]
 	private float shipHealth = INITIAL_SHIP_HEALTH;
     
     void Update()
@@ -250,7 +252,6 @@ public class GameState : NetworkBehaviour {
 	{
 		currentShipResources += resources;
 		totalShipResources += resources;
-		Debug.Log("Current Reaources:  " + currentShipResources + " (Increased by " + resources + ")");
 	}
 
 	/*
