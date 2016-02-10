@@ -26,7 +26,7 @@ type NewAst struct {
 
 // Manages concurrent access to the asteroid map data structure
 func (asteroids *AsteroidMap) accessManager() {
-    fmt.Println("Starting Asteroid accessManager.")
+    fmt.Println("Starting Asteroid Map accessManager.")
     for {
         select {
         // deletion of asteroid

@@ -32,7 +32,7 @@ func initialiseGameServerConnection() {
 // to not work when communicating with Unity, reason unknown
 func gameServerConnectionHandler() {
     defer gameServerConn.Close()
-    receivedMsg := make([]byte, 5120) // allocate a 5KB buffer
+    receivedMsg := make([]byte, 51200) // allocate a 50KB buffer
 
     for {
         n, err := gameServerConn.Read(receivedMsg)

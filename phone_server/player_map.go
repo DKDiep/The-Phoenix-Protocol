@@ -5,48 +5,53 @@ import (
     "math"
 )
 
-// The collection of all users
-type UserList struct {
-    l       []*User
-    addC    chan *User // channel for requesting addition of a user
-    delC    chan *User // channel for requeston deletion of a user
+// The collection of all players, manages concurrent acces
+type PlayerMap struct {
+    m       map[string]*Player
+    addC    chan NewPlr
+    plrC    chan struct{} // used for player specific actions
     updateC chan struct{} // channel for triggering the broadcast of up to date data
 }
 
-// Manages concurrent access to the user list data structure
-func (users *UserList) accessManager() {
-    fmt.Println("Starting User accessManager.")
+// A wrapper around data needed for user addition
+type NewPlr struct {
+    id  string
+    plr *Player
+}
+
+// Manages concurrent access to the player map data structure
+func (players *PlayerMap) accessManager() {
+    fmt.Println("Starting Player Map accessManager.")
     for {
         select {
-        // request to add
-        case usr := <-users.addC:
-            usr.listId = len(userList.l)
-            users.l = append(userList.l, usr)
-        // request to delete
-        case usr := <-users.delC:
-            i := usr.listId
-            userList.l[i] = userList.l[len(userList.l)-1] // replace with last
-            userList.l[i].listId = i                      // update listId of user
-            userList.l = userList.l[:len(userList.l)-1]   // trim last
+        // addition of player
+        case new := <-players.addC:
+            players.m[new.id] = new.plr
+        // blocks the manager, used for user specific actions
+        case <-players.plrC:
+            <-players.plrC
         // request to update all users
-        case <-users.updateC:
-            users.updateData()
+        case <-players.updateC:
+            players.updateData()
         }
     }
 }
 
-// Request a user addition
-func (users *UserList) add(usr *User) {
-    users.addC <- usr
+// Wrapper used for user addition
+func (players *PlayerMap) add(id string, plr *Player) {
+    players.addC <- NewPlr{id, plr}
 }
 
-// Request a user deletion
-func (users *UserList) remove(usr *User) {
-    users.delC <- usr
+// Wrapper used for retrieving a user
+func (players *PlayerMap) get(playerId string) *Player {
+    players.plrC <- struct{}{}
+    plr := players.m[playerId]
+    players.plrC <- struct{}{}
+    return plr
 }
 
-// Sends a state data update to all users
-func (users *UserList) updateData() {
+// Sends a state data update to all players
+func (players *PlayerMap) updateData() {
     playerShipData := playerShip.getShipData()
     enemyData := enemyMap.getCopy()
     asteroidData := asteroidMap.getCopy()
@@ -78,7 +83,7 @@ func (users *UserList) updateData() {
     }
 
     // Send updated data
-    for _, usr := range users.l {
-        usr.sendDataUpdate(enemyData, asteroidData)
+    for _, plr := range players.m {
+        plr.sendDataUpdate(enemyData, asteroidData)
     }
 }

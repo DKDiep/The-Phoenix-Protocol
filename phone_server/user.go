@@ -8,12 +8,10 @@ import (
 )
 
 // Holds user related data
+// A user represents a connection and deals with message passing
 type User struct {
-    ws       *websocket.Conn
-    listId   int
-    userId   string
-    username string
-    state    string
+    ws     *websocket.Conn
+    player *Player
 }
 
 // Listens for messages from the phone and handles them appropriately
@@ -42,12 +40,20 @@ func (usr *User) handleUser() {
             fmt.Println(err)
         }
 
-        usr.handleMessage(msg.(map[string]interface{}))
+        // close the connection from this side if we encounter a problem
+        succes := usr.handleMessage(msg.(map[string]interface{}))
+        if !succes {
+            return
+        }
     }
 }
 
 // Multiplexes the decoding of the received message based on its type
-func (usr *User) handleMessage(msg map[string]interface{}) {
+func (usr *User) handleMessage(msg map[string]interface{}) bool {
+    // Prevents people from fucking up things by opening multiple tabs
+    if usr.player != nil && usr.player.user != usr {
+        return false
+    }
     switch msg["type"].(string) {
     case "REG_USER":
         usr.registerNew(msg["data"].(string))
@@ -56,111 +62,65 @@ func (usr *User) handleMessage(msg map[string]interface{}) {
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
+
+    return true
 }
 
 // Registers a new user and sends back user state data
 func (usr *User) registerNew(name string) {
     // register user
-    // TODO: remove this dummy registering process
-    usr.username = name
-    usr.userId = name + "123"
-    usr.state = "SPECTATOR"
+    playerId := registerPlayer(name)
+    // associate a player with this user and add it to the game
+    newPlr := &Player{userName: name, role: SPECTATOR, score: 0, user: usr}
+    usr.player = newPlr
+    playerMap.add(playerId, newPlr)
+
+    stateSting := newPlr.getStateString()
 
     // reply with identification data and current user data
     msg := map[string]interface{}{
         "type": "SAVE_USER",
         "data": map[string]interface{}{
-            "id": usr.userId,
+            "id": playerId,
             "userData": map[string]interface{}{
-                "state": usr.state,
+                "state": stateSting,
             },
         },
     }
 
     usr.sendMsg(msg)
+}
+
+// Placeholder function for registering a user in a database
+func registerPlayer(userName string) (id string) {
+    // TODO: remove this dummy registering process
+    return userName + "123"
 }
 
 // Retrieves the user data and sends it to the client
-func (usr *User) updateUser(userId string) {
+func (usr *User) updateUser(playerId string) {
+    // check if the user has already joined the game
+    plr := playerMap.get(playerId)
+    // if so associate this user with the player
+    if plr != nil {
+        usr.player = plr
+        plr.setUser(usr)
+        // otherwise assign a new player to the user
+    } else {
+        name := getPlayerName(playerId)
+        newPlr := &Player{userName: name, role: SPECTATOR, score: 0, user: usr}
+        usr.player = newPlr
+        playerMap.add(playerId, newPlr)
+    }
+
+    // inform the user of the current player state
+    usr.player.sendStateUpdate()
+}
+
+// placeholder function for retrieving player data based on a playerId
+func getPlayerName(playerId string) (name string) {
     // TODO: remove dummy data retrieval
-    usr.username = userId[:len(userId)-3]
-    usr.userId = userId
-    usr.state = "SPECTATOR"
-    usr.sendStateUpdate()
-}
-
-// Sends a user state update
-func (usr *User) sendStateUpdate() {
-    msg := map[string]interface{}{
-        "type": "USER_UPDATE",
-        "data": map[string]interface{}{
-            "state": usr.state,
-        },
-    }
-
-    usr.sendMsg(msg)
-}
-
-// Sends a user state data update
-func (usr *User) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Asteroid) {
-    // TODO: add other objects
-    msg := make(map[string]interface{})
-    msg["type"] = "STATE_UPDATE"
-    dataSegment := make([]map[string]interface{}, 0)
-
-    // Add enemies to the message
-    for _, enemy := range enemies {
-        dataSegment = append(dataSegment, map[string]interface{}{
-            "type": "ship",
-            "position": map[string]interface{}{
-                "x": enemy.posX,
-                "y": enemy.posY,
-            },
-        })
-    }
-
-    // Add asteroids to the message
-    for _, ast := range asteroids {
-        dataSegment = append(dataSegment, map[string]interface{}{
-            "type": "asteroid",
-            "position": map[string]interface{}{
-                "x": ast.posX,
-                "y": ast.posY,
-            },
-        })
-    }
-
-    msg["data"] = dataSegment
-    // incry += 0.1
-    // msg := map[string]interface{}{
-    //     "type": "STATE_UPDATE",
-    //     "data": []map[string]interface{}{
-    //         map[string]interface{}{
-    //             "type": "ship",
-    //             "position": map[string]interface{}{
-    //                 "x": 10,
-    //                 "y": math.Mod((incry + 14), 100),
-    //             },
-    //         },
-    //         map[string]interface{}{
-    //             "type": "debris",
-    //             "position": map[string]interface{}{
-    //                 "x": 20,
-    //                 "y": math.Mod((incry + 53), 100),
-    //             },
-    //             "size": 10,
-    //         },
-    //         map[string]interface{}{
-    //             "type": "asteroid",
-    //             "position": map[string]interface{}{
-    //                 "x": 32,
-    //                 "y": math.Mod((incry + 15), 100),
-    //             },
-    //         },
-    //     },
-    // }
-
-    usr.sendMsg(msg)
+    return playerId[:len(playerId)-3]
 }
 
 // Deals with sending the message and error checking
@@ -175,5 +135,8 @@ func (usr *User) sendMsg(msg map[string]interface{}) {
     _, err = usr.ws.Write(toSend)
     if err != nil {
         fmt.Println("Error sendMsg(): Failed to send to client: ", err)
+        // close connection
+        usr.player.unsetUserIfEquals(usr)
+        usr.ws.Close()
     }
 }

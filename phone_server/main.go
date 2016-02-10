@@ -22,11 +22,11 @@ var playerShip *PlayerShipController = &PlayerShipController{
     getC: make(chan *PlayerShip),
 }
 
-// Main structure holding all the user
-var userList *UserList = &UserList{
-    l:       make([]*User, 0, 20),
-    delC:    make(chan *User),
-    addC:    make(chan *User),
+// Holds the player data and modification channels
+var playerMap *PlayerMap = &PlayerMap{
+    m:       make(map[string]*Player),
+    addC:    make(chan NewPlr),
+    plrC:    make(chan struct{}),
     updateC: make(chan struct{}),
 }
 
@@ -49,20 +49,21 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
 // Creates a user instance and adds it to the ecosystem
 func webSocketHandler(webs *websocket.Conn) {
     usr := &User{ws: webs}
-    //add user
-    userList.add(usr)
 
     usr.handleUser()
 
-    //remove user when the connection is closed
-    userList.remove(usr)
+    // remove user when the connection is closed
+    // deassociate this user with its respective player
+    if usr.player != nil {
+        usr.player.unsetUserIfEquals(usr)
+    }
 }
 
 // Starts all necessary subroutines
 func main() {
     initialiseGameServerConnection()
     go gameServerConnectionHandler()
-    go userList.accessManager()
+    go playerMap.accessManager()
     go playerShip.accessManager()
     go asteroidMap.accessManager()
     go enemyMap.accessManager()
@@ -82,6 +83,6 @@ func updateTimer() {
     ticker := time.NewTicker(DATA_UPDATE_INTERVAL)
     for {
         <-ticker.C
-        userList.updateC <- struct{}{}
+        playerMap.updateC <- struct{}{}
     }
 }

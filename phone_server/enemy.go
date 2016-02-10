@@ -13,20 +13,20 @@ type Enemy struct {
 // The collection of all enemies
 type EnemyMap struct {
     m     map[int]*Enemy
-    delC  chan int // channel for requesting the deletion of an enemy
-    setC  chan NewEnemy // channel for requesting the updating of an enemy
+    delC  chan int            // channel for requesting the deletion of an enemy
+    setC  chan NewEnemy       // channel for requesting the updating of an enemy
     copyC chan map[int]*Enemy // channel for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
 type NewEnemy struct {
-    id  int
+    id    int
     enemy *Enemy
 }
 
 // Manages concurrent access to the enemy map data structure
 func (enemies *EnemyMap) accessManager() {
-    fmt.Println("Starting Enemy accessManager.")
+    fmt.Println("Starting Enemy Map accessManager.")
     for {
         select {
         // deletion of an enemy
@@ -58,7 +58,7 @@ func (enemies *EnemyMap) remove(id int) {
 }
 
 // Request a copy of the enemy map
-func (enemies *EnemyMap) getCopy() map[int]*Enemy{
+func (enemies *EnemyMap) getCopy() map[int]*Enemy {
     enemies.copyC <- nil
     return <-enemies.copyC
 }
