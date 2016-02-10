@@ -34,9 +34,13 @@ public class CommandConsoleState : MonoBehaviour {
     private int engineLevel = 1;
     private int gunsLevel = 1;
     private double second = 0; 
-
+	GameObject ship;
     // Use this for initialization
     void Start () {
+
+		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
+		ship.AddComponent<ConsoleShipControl>();
+
         mass = 0;
         remPower = 0;
         UpdatePower();
