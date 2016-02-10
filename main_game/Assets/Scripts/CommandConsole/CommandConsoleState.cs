@@ -4,28 +4,32 @@ using UnityEngine.UI;
 
 
 public class CommandConsoleState : MonoBehaviour {
-    public Canvas canvas;
-    public int TotalPower;
-    public int Health;
-    public Text PowerText;
-    public Text MassText;
-    public Text EngineLabel;
-    public Text ShieldsLabel;
-    public Text ShieldsUpgradeLabel;
-    public Text GunsUpgradeLabel;
-    public Text EngineUpgradeLabel;
-    public Text PopUpText;
-    public GameObject ShieldsButton;
-    public GameObject GunsButton;
-    public GameObject EngineButton;
-    public GameObject PopUp;
-    public GameObject LevelCounter1;
-    public GameObject LevelCounter2;
-    public GameObject LevelCounter3;
-    public GameObject LevelCounter4;
-    private PlayerController playerControlScript;
-    private int remPower;
-    private int mass;
+	[SerializeField] private Canvas canvas;
+	[SerializeField] private Text HealthText;
+	[SerializeField] private Text ResourcesText;
+	[SerializeField] private Text EngineLabel;
+	[SerializeField] private Text ShieldsLabel;
+	[SerializeField] private Text ShieldsUpgradeLabel;
+	[SerializeField] private Text GunsUpgradeLabel;
+	[SerializeField] private Text EngineUpgradeLabel;
+	[SerializeField] private Text PopUpText;
+	[SerializeField] private GameObject ShieldsButton;
+	[SerializeField] private GameObject GunsButton;
+	[SerializeField] private GameObject EngineButton;
+	[SerializeField] private GameObject PopUp;
+	[SerializeField] private GameObject LevelCounter1;
+	[SerializeField] private GameObject LevelCounter2;
+	[SerializeField] private GameObject LevelCounter3;
+	[SerializeField] private GameObject LevelCounter4;
+
+    private PlayerController playerController;
+	private GameObject ship;
+	private GameState gameState;
+
+	// Local copies of the ships values
+    private int shipResources;
+	private float shipHealth;
+
     private bool upgrade = true;
     private bool engineOn = true;
     private bool shieldsOn = true;
@@ -34,44 +38,41 @@ public class CommandConsoleState : MonoBehaviour {
     private int engineLevel = 1;
     private int gunsLevel = 1;
     private double second = 0; 
-	GameObject ship;
-    // Use this for initialization
-    void Start () {
 
+
+    void Start () {
+		GameObject server = GameObject.Find("GameManager");
+		gameState = server.GetComponent<GameState>();
+
+		// Load the ship model into the scene. 
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
 		ship.AddComponent<ConsoleShipControl>();
 
-        mass = 0;
-        remPower = 0;
-        UpdatePower();
-        UpdateMass();
+
+		shipResources = 100;
+        UpdateResources();
+
         ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
         GunsUpgradeLabel.text = gunsLevel * 100 + "M";
         EngineUpgradeLabel.text = engineLevel * 100 + "M";
-        print("setting popuptext");
         LevelCounter1.SetActive(true);
         LevelCounter2.SetActive(false);
         LevelCounter3.SetActive(false);
         LevelCounter4.SetActive(false);
+
         PopUpText.text = "nufink";
         PopUp.SetActive(false);
-        //ShieldsLabel.text = "Component got";
+        
         ShieldsButton.SetActive(true);
         GunsButton.SetActive(true);
         EngineButton.SetActive(true);
-        mass = 100;
-        print("command console started");
+
     }
 
-    public void givePlayerControllerReference(PlayerController playerControl)
+    public void givePlayerControllerReference(PlayerController controller)
     {
-        playerControlScript = playerControl;
-        playerControlScript.test();
-    }
-
-    public void test()
-    {
-        print("blehhrsh");
+        playerController = controller;
+		playerController.test();
     }
 
     public void Engin(bool isOn)
@@ -81,27 +82,8 @@ public class CommandConsoleState : MonoBehaviour {
             EngineLabel.text = EngineLabel.text + " I";
             upgrade = false;
         }
-        //enginOn = isOn;
-        UpdatePower();
     }
-
-    //Called whenever power is toggled on a system  0 = Shields, 1 = Guns, 2 = Engines
-    public void PowerToggle(int system)
-    {
-        switch(system){
-            case 0:
-                shieldsOn = !shieldsOn;
-                break;
-            case 1:
-                gunsOn = !gunsOn;
-                break;
-            case 2:
-                engineOn = !engineOn;
-                break;
-        }
-        UpdatePower();
-    }
-
+		
     public void systemPopUp(int system)
     {
         switch (system)
@@ -139,7 +121,6 @@ public class CommandConsoleState : MonoBehaviour {
     public void Shields(bool isOn)
     {
         shieldsOn = isOn;
-        UpdatePower();
     }
     
 
@@ -149,19 +130,19 @@ public class CommandConsoleState : MonoBehaviour {
         switch (where)
         {
             case 0:
-                if(mass >= 100 * shieldsLevel)
+			if(shipResources >= 100 * shieldsLevel)
                 {
-                    mass -= 100 * shieldsLevel;
+				shipResources -= 100 * shieldsLevel;
                     shieldsLevel++;
                     ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
                     showLevelCounters(shieldsLevel);
-                    playerControlScript.CmdUpgrade(0);
+					playerController.CmdUpgrade(0);
                 }
                 break;
             case 1:
-                if(mass >= 100 * gunsLevel)
+			if(shipResources >= 100 * gunsLevel)
                 {
-                    mass -= 100 * gunsLevel;
+				shipResources -= 100 * gunsLevel;
                     gunsLevel++;
                     GunsUpgradeLabel.text = gunsLevel * 100 + "M";
                     showLevelCounters(gunsLevel);
@@ -169,53 +150,29 @@ public class CommandConsoleState : MonoBehaviour {
                 }
                 break;
             case 2:
-                if (mass >= 100 * engineLevel)
+			if (shipResources >= 100 * engineLevel)
                 {
-                    mass -= 100 * engineLevel;
+				shipResources -= 100 * engineLevel;
                     engineLevel++;
-                    playerControlScript.CmdUpgrade(2);
+					playerController.CmdUpgrade(2);
                     EngineUpgradeLabel.text = engineLevel * 100 + "M";
                     showLevelCounters(gunsLevel);
                 }
                 break;
         }
         upgrade = false;
-        UpdateMass();
+        UpdateResources();
+    }
+		
+    void UpdateResources()
+    {
+		ResourcesText.text = "Resources:  " + shipResources;
     }
 
-   /* private GameObject Level(int where)
-    {
-        switch (where)
-        {
-            case 0:
-                return shieldsLevel;
-                break;
-            case 1:
-                return gunsLevel;
-                break;
-            case 2:
-                return engineLevel;
-                break;
-        }
-    }*/
-
-
-    void UpdatePower()
-    {
-        remPower = TotalPower;
-        if (engineOn) remPower -= 3;
-        if (shieldsOn) remPower -= 2;
-        if (gunsOn) remPower -= 5;
-        PowerText.text = "Power: " + remPower;
-        //player = GetComponentInParent<PlayerControl>();
-        //if (player != null) print("player != null");
-        //else print("player is null");
-    }
-
-    void UpdateMass()
-    {
-        MassText.text = "Mass:  " + mass;
-    }
+	void UpdateHealth()
+	{
+		HealthText.text = "Health:  " + shipHealth;
+	}
 
 
     void FixedUpdate ()
@@ -223,9 +180,12 @@ public class CommandConsoleState : MonoBehaviour {
         second += Time.deltaTime;
         if(second >= 1)
         {
-            mass += 5;
+			shipResources = gameState.GetShipResources();
+			shipHealth = gameState.GetShipHealth();
+			Debug.Log(shipHealth);
             second = 0;
-            UpdateMass();
+            UpdateResources();
+			UpdateHealth();
         }
     }
 

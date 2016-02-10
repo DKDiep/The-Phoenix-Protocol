@@ -390,7 +390,7 @@ GameObject:
   - 222: {fileID: 22215300}
   - 114: {fileID: 11419530}
   m_Layer: 5
-  m_Name: PowerText
+  m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,7 +547,7 @@ GameObject:
   - 222: {fileID: 22298524}
   - 114: {fileID: 11440858}
   m_Layer: 5
-  m_Name: MassText
+  m_Name: ResourcesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -653,10 +653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 22306176}
-  TotalPower: 0
   Health: 0
-  PowerText: {fileID: 11419530}
-  MassText: {fileID: 11440858}
+  HealthText: {fileID: 11419530}
+  ResourcesText: {fileID: 11440858}
   EngineLabel: {fileID: 11443422}
   ShieldsLabel: {fileID: 11426960}
   ShieldsUpgradeLabel: {fileID: 11456180}
@@ -739,7 +738,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Engines
+  m_Text: Shields
 --- !u!114 &11416912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -842,7 +841,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Power: -8'
+  m_Text: 'Health: 100'
 --- !u!114 &11423654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1137,16 +1136,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 024cb03b6316f0d4a8085a37d988d6a4, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Mass:  100'
+  m_Text: 'Resources: 100'
 --- !u!114 &11443250
 MonoBehaviour:
   m_ObjectHideFlags: 1
