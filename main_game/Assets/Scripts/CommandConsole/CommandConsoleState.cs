@@ -26,7 +26,7 @@ public class CommandConsoleState : MonoBehaviour {
     private PlayerController playerControlScript;
     private int remPower;
     private int mass;
-    private bool upgrade = false;
+    private bool upgrade = true;
     private bool engineOn = true;
     private bool shieldsOn = true;
     private bool gunsOn = true;
@@ -52,19 +52,11 @@ public class CommandConsoleState : MonoBehaviour {
         PopUpText.text = "nufink";
         PopUp.SetActive(false);
         //ShieldsLabel.text = "Component got";
-        ShieldsButton.SetActive(false);
-        GunsButton.SetActive(false);
-        EngineButton.SetActive(false);
+        ShieldsButton.SetActive(true);
+        GunsButton.SetActive(true);
+        EngineButton.SetActive(true);
         mass = 100;
         print("command console started");
-    }
-
-    public void Upgrade(bool isOn)
-    {
-        upgrade = !upgrade;
-        ShieldsButton.SetActive(upgrade);
-        GunsButton.SetActive(upgrade);
-        EngineButton.SetActive(upgrade);
     }
 
     public void givePlayerControllerReference(PlayerController playerControl)
@@ -82,7 +74,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         if (upgrade)
         {
-            EngineLabel.text = EngineLabel.text + "I";
+            EngineLabel.text = EngineLabel.text + " I";
             upgrade = false;
         }
         //enginOn = isOn;
