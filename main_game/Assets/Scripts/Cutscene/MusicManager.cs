@@ -19,6 +19,17 @@ public class MusicManager : MonoBehaviour
         GetComponent<AudioSource>().Play ();
     }
 
+	void Update()
+	{
+		if (Input.GetKeyDown ("m") )
+		{
+			// Mute all sounds in game
+			AudioListener.volume = 1 - AudioListener.volume;
+			// Mute just the music
+			//GetComponent<AudioSource>().mute = !GetComponent<AudioSource>().mute;
+		}
+	}
+
 	// Plays a music track with ID as input	
 	public void PlayMusic(int id)
 	{
