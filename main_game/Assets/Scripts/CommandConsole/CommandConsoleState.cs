@@ -78,7 +78,6 @@ public class CommandConsoleState : MonoBehaviour {
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
-		playerController.test();
     }
 
     public void Engin(bool isOn)
@@ -100,7 +99,6 @@ public class CommandConsoleState : MonoBehaviour {
                 break;
             case 1:
                 PopUpText.text = "Guns";
-                print("calling showLevelCounters(gunslevel) = " + gunsLevel);
                 showLevelCounters(gunsLevel);
                 break;
             case 2:
