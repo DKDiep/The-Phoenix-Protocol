@@ -21,6 +21,10 @@ public class GameState : NetworkBehaviour {
 	// The starting health value of the ship
 	private const float INITIAL_SHIP_HEALTH = 100;
 
+	private const float INITIAL_SHIP_SPEED = 10;
+	private const float INITIAL_SHIP_MAXSHIELDS = 100;
+	private const float INITIAL_SHIP_SHIELD_RECHARGERATE = 10;
+
     private Status status = Status.Setup;
 
     private List<GameObject> asteroidList;
@@ -37,6 +41,14 @@ public class GameState : NetworkBehaviour {
 
     private GameObject playerShip;
 	private int[] playerScore;
+
+	// Ship variables used for modifying the ships behaviour
+	private float shipSpeed = INITIAL_SHIP_SPEED;
+
+	private float shipMaxShields = INITIAL_SHIP_MAXSHIELDS;
+	// We set this to the max shields as we assume we start off with max shields.
+	private float shipShield = INITIAL_SHIP_MAXSHIELDS;
+	private float shipShieldRechargeRate = INITIAL_SHIP_SHIELD_RECHARGERATE;
 
 	// The total ship resources that has been collected over the whole game.
 	// This is used for the final score.
@@ -345,7 +357,47 @@ public class GameState : NetworkBehaviour {
 	*/
 	public void ReduceShipHealth(float value) 
 	{
-		shipHealth -= value;
-		Debug.Log("Ships health is now: " + shipHealth);
+		shipHealth -= value;	}
+		
+
+	public float GetShipSpeed()
+	{
+		return shipSpeed;
 	}
+
+	public void SetShipSpeed(float speed)
+	{
+		shipSpeed = speed;
+	}
+
+	public float GetShipMaxShields()
+	{
+		return shipMaxShields;
+	}
+
+	public void SetShipMaxShields(float shield)
+	{
+		shipMaxShields = shield;
+	}
+
+	public float GetShipShield()
+	{
+		return shipShield;
+	}
+
+	public void SetShipShield(float shield)
+	{
+		shipShield = shield;
+	}
+
+	public float GetShipShieldRechargeRate()
+	{
+		return shipShieldRechargeRate;
+	}
+
+	public void SetShipShieldRechargeRate(float shieldRechargeRate)
+	{
+		shipShieldRechargeRate = shieldRechargeRate;
+	}
+
 }
