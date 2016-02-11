@@ -49,8 +49,12 @@ public class CommandConsoleState : MonoBehaviour {
 		ship.AddComponent<ConsoleShipControl>();
 
 
-		shipResources = 100;
+		// Get starting values for resources and health
+		shipResources = gameState.GetShipResources();
+		shipHealth = gameState.GetShipHealth();
         UpdateResources();
+		UpdateHealth();
+
 
         ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
         GunsUpgradeLabel.text = gunsLevel * 100 + "M";
@@ -60,7 +64,9 @@ public class CommandConsoleState : MonoBehaviour {
         LevelCounter3.SetActive(false);
         LevelCounter4.SetActive(false);
 
-        PopUpText.text = "nufink";
+
+		// Hide the popup by default
+        PopUpText.text = "";
         PopUp.SetActive(false);
         
         ShieldsButton.SetActive(true);
@@ -125,7 +131,7 @@ public class CommandConsoleState : MonoBehaviour {
     
 
     //Called whenever an upgrade is purchased (by clicking yellow button) 0 = Shields, 1 = Guns, 2 = Engines
-    public void ThingUpgrade(int where)
+    public void UpgradeShip(int where)
     {
         switch (where)
         {
@@ -180,12 +186,13 @@ public class CommandConsoleState : MonoBehaviour {
         second += Time.deltaTime;
         if(second >= 1)
         {
+			// Get resources and health from the gamestate.
 			shipResources = gameState.GetShipResources();
 			shipHealth = gameState.GetShipHealth();
-			Debug.Log(shipHealth);
-            second = 0;
-            UpdateResources();
+			UpdateResources();
 			UpdateHealth();
+
+            second = 0;
         }
     }
 
@@ -194,7 +201,7 @@ public class CommandConsoleState : MonoBehaviour {
        
     }
 
-        // Update is called once per frame
+    // Update is called once per frame
     void Update () {
         
 	}

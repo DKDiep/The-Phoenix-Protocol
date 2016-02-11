@@ -43,7 +43,7 @@ MonoBehaviour:
   turnSpeed: 5
   maxTurnSpeed: 2.5
   slowDown: 1
-  maxShield: 1
+  maxShield: 100
   shieldDelay: 5
   shieldRechargeRate: 10
 --- !u!1001 &100100000
@@ -79,7 +79,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxShield
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldDelay

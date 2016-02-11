@@ -19,7 +19,7 @@ public class GameState : NetworkBehaviour {
 	private const int BASE_SHIP_RESOURCES = 100;
 
 	// The starting health value of the ship
-	private const float INITIAL_SHIP_HEALTH = 80;
+	private const float INITIAL_SHIP_HEALTH = 100;
 
     private Status status = Status.Setup;
     private List<GameObject> asteroidList;
