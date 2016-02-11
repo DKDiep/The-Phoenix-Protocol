@@ -22,12 +22,19 @@ public class GameState : NetworkBehaviour {
 	private const float INITIAL_SHIP_HEALTH = 100;
 
     private Status status = Status.Setup;
+
     private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
+
     private List<GameObject> enemyList;
     private List<uint> removedEnemies;
     private List<GameObject> engineerList;
+
+	private List<GameObject> outpostList;
+
+	private GameObject portal;
+
     private GameObject playerShip;
 	private int[] playerScore;
 
@@ -61,7 +68,10 @@ public class GameState : NetworkBehaviour {
         status = newStatus;
     }
 
-    // Asteroid list getters and setters
+
+	/*
+	 *  Getters and setters for Asteroid list
+	 */
     public List<GameObject> GetAsteroidList()
     {
         return asteroidList;
@@ -98,8 +108,11 @@ public class GameState : NetworkBehaviour {
     {
         return asteroidList[i];
     }
+		
 
-    // Enemy list getters and setters
+	/*
+	 *  Getters and setters for enemy list
+	 */
     public List<GameObject> GetEnemyList()
     {
         return enemyList;
@@ -132,8 +145,11 @@ public class GameState : NetworkBehaviour {
     {
         return enemyList[i];
     }
+		
 
-    // Engineer list getters and setters
+	/*
+	 *  Getters and setters for Engineer list
+	 */
     public List<GameObject> GetEngineerList()
     {
         return engineerList;
@@ -159,6 +175,45 @@ public class GameState : NetworkBehaviour {
         return engineerList[i];
     }
 
+
+	/*
+	 *  Getters and setters for outpost list
+	 */
+	public List<GameObject> GetOutpostList()
+	{
+		return outpostList;
+	}
+
+	public int GetOutpostListCount()
+	{
+		return outpostList.Count;
+	}
+
+	public void AddOutpostList(GameObject outpostObject)
+	{
+		outpostList.Add(outpostObject);
+	}
+
+	public void RemoveOutpostAt(int i)
+	{
+		outpostList.RemoveAt(i);
+	}
+
+	public GameObject GetOutpostAt(int i)
+	{
+		return outpostList[i];
+	}
+
+	public GameObject GetPortal()
+	{
+		return portal;
+	}
+
+	public void SetPortal(GameObject portalObject)
+	{
+		portal = portalObject;
+	}
+		
     public GameObject GetPlayerShip()
     {
         return playerShip;
@@ -207,6 +262,7 @@ public class GameState : NetworkBehaviour {
         enemyList = new List<GameObject>();
         removedEnemies = new List<uint>();
         engineerList = new List<GameObject>();
+		outpostList = new List<GameObject>();
 		playerScore = new int[4];
 		ResetPlayerScores();
     }
@@ -223,6 +279,7 @@ public class GameState : NetworkBehaviour {
 			playerScore[id] = 0;
 		}
 	}
+
 	public void AddPlayerScore(int id, int score) 
 	{
 		playerScore[id] += score;

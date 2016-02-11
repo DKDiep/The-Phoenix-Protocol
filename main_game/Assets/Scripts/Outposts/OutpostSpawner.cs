@@ -72,7 +72,7 @@ public class OutpostSpawner : MonoBehaviour
 
 		Rigidbody rigid = outpostObject.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;
-
+		gameState.AddOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
 
 	}

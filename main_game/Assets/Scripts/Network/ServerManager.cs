@@ -142,6 +142,7 @@ public class ServerManager : NetworkBehaviour {
 		sphere.isTrigger = true;
 		Rigidbody rigid = portal.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;
+		gameState.SetPortal(portal);
 		ServerManager.NetworkSpawn(portal);
 
 
