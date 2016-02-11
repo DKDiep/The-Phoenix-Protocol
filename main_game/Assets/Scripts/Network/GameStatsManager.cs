@@ -20,16 +20,23 @@ public class GameStatsManager : MonoBehaviour {
             if (state != null)
             {
                 int[] playerScores = state.GetPlayerScores();
-                string jsonMsg = "playerscores\":[";
+                string jsonMsg = "{\"playerscores\":[";
                 if (playerScores != null)
                 {
-                    foreach (uint id in playerScores)
+                    /*foreach (uint id in playerScores)
                     {
                         jsonMsg += "{" + id + "," + playerScores[id] + "},";
                     }
                     jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
                     jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
                     jsonMsg += "}]";
+                    print(jsonMsg);*/
+                    foreach (uint id in playerScores)
+                    {
+                        jsonMsg += playerScores[id] + ",";
+                    }
+                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                    jsonMsg += "]}";
                     print(jsonMsg);
                     string url = "http://localhost:8080/bar";
                     WWWForm form = new WWWForm();
