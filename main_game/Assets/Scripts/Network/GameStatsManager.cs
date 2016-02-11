@@ -31,9 +31,9 @@ public class GameStatsManager : MonoBehaviour {
                     jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
                     jsonMsg += "}]";
                     print(jsonMsg);*/
-                    foreach (uint id in playerScores)
+                    foreach (uint playerScore in playerScores)
                     {
-                        jsonMsg += playerScores[id] + ",";
+						jsonMsg += playerScore + ",";
                     }
                     jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
                     jsonMsg += "]}";
