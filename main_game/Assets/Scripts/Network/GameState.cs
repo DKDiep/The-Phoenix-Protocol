@@ -42,7 +42,7 @@ public class GameState : NetworkBehaviour {
 	// The health of the ship. 
 	[SyncVar]
 	private float shipHealth = INITIAL_SHIP_HEALTH;
-    
+
     void Update()
     {
     	if(Input.GetKeyDown (KeyCode.Escape))

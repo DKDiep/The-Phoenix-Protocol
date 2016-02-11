@@ -22,6 +22,13 @@ public class EngineerController : NetworkBehaviour {
     private CollisionFlags m_CollisionFlags;
     private float m_StepCycle;
     private float m_NextStep;
+    private string upgradeString;
+    private string repairString;
+    private bool canUpgrade;
+    private bool canRepair;
+    private bool pressedUpgrade;
+    private bool pressedRepair;
+
 
 	// Use this for initialization
     void Start()
@@ -73,6 +80,19 @@ public class EngineerController : NetworkBehaviour {
         mouseLook.Init(transform, camera.transform);
 
         myController = controller;
+
+        // Set the upgrade and repair strings depending on wheter
+        // a controller is used or the keyboard is used
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            upgradeString = "Press LT to upgrade";
+            repairString = "Press RT to repair";
+        }
+        else
+        {
+            upgradeString = "Press Mouse1 to upgrade";
+            repairString = "Press Mouse2 to repair";
+        }
     }
 
     // Update is called once per frame
@@ -80,23 +100,32 @@ public class EngineerController : NetworkBehaviour {
     {
         RotateView();
         jump = Input.GetButton("Jump");
+        pressedUpgrade = Input.GetButton("Upgrade");
+        pressedRepair = Input.GetButton("Repair");
 
         // Do forward raycast from camera to the center of the screen to see if an upgradeable object is in front of the player
         int x = Screen.width / 2;
         int y = Screen.height / 2;
         Ray ray = camera.ScreenPointToRay(new Vector3(x, y, 0));
         RaycastHit hitInfo;
+        canUpgrade = false;
+        canRepair = false;
 
         if (Physics.Raycast(ray, out hitInfo, 5.0f))
         {
             if (hitInfo.collider.CompareTag("Upgrade"))
-            {
-                upgradeText.text = "Press and hold E to upgrade";
-            }
+                canUpgrade = true;
+            if (hitInfo.collider.CompareTag("Repair"))
+                canRepair = true;
+
+            if (canUpgrade && canRepair)
+                upgradeText.text = upgradeString + " OR " + repairString;
+            else if (canUpgrade)
+                upgradeText.text = upgradeString;
+            else if (canRepair)
+                upgradeText.text = repairString;
             else
-            {
                 ResetUpgradeText();
-            }
         }
         else
         {
@@ -130,6 +159,13 @@ public class EngineerController : NetworkBehaviour {
 
             transform.position += actualMove;
         }
+
+        // Do upgrades/repairs
+        if (canUpgrade && pressedUpgrade)
+            Debug.Log("Upgrade");
+
+        if (canRepair && pressedRepair)
+            Debug.Log("Repair");
 
         ProgressStepCycle(speed);
     }
