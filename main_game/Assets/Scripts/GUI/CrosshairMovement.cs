@@ -20,6 +20,12 @@ public class CrosshairMovement : MonoBehaviour {
     GameObject[] crosshairs;
 	WiiRemoteManager wii;
 
+	// Autoaiming looks for objects inside a sphere in front of the player
+	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
+	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
+	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
+	private const int AUTOAIM_ADVANCE_OFFSET      = 10;  // The distance at which to aim in front of the target to account for bullet speed
+
 	// Use this for initialization
 	void Start ()
     {
@@ -118,7 +124,13 @@ public class CrosshairMovement : MonoBehaviour {
 			Vector3 currentPosition = selectedCrosshair.position;
 			currentPosition.x = Input.mousePosition.x;
 			currentPosition.y = Input.mousePosition.y;
-			selectedCrosshair.position = currentPosition;
+
+			// If there's an autoaim target in range, use that instead of the cursor position
+			Target target = GetClosestTarget(currentPosition);
+			if (!target.IsNone())
+				selectedCrosshair.position = Camera.main.WorldToScreenPoint(target.GetAimPosition());
+			else
+				selectedCrosshair.position = currentPosition;
 		} 
 		else 
 		{
@@ -160,8 +172,14 @@ public class CrosshairMovement : MonoBehaviour {
 									Vector3 position = selectedCrosshair.position;
 									position.x = pointer[0] * Screen.width;
 									position.y = pointer[1] * Screen.height;
-									crosshairPosition[remoteId] = position;
-									
+
+									// If there's an autoaim target in range, use that instead of the pointing position
+									// TODO: this is not tested with a Wiimote and might interfere with smoothing
+									Target target = GetClosestTarget(position);
+									if (!target.IsNone())
+										crosshairPosition[remoteId] = Camera.main.WorldToScreenPoint(target.GetAimPosition());
+									else
+										crosshairPosition[remoteId] = position;
 
 									canMove = false;
 									StartCoroutine("Delay");
@@ -191,6 +209,106 @@ public class CrosshairMovement : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(posReadDelay);
 		canMove = true;
+	}
+
+	// Get the target closest to where the player is aiming (within bounds)
+	private Target GetClosestTarget(Vector3 aimPosition)
+	{
+		// Cast a ray from the crosshair
+		Ray ray = Camera.main.ScreenPointToRay(aimPosition);
+
+		// Find the objects in a sphere in front of the player
+		// TODO: use layers to remove the physics cost
+		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS);
+		Collider closestCol = null;
+		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
+		foreach (Collider col in cols)
+		{
+			// Find the asteroid or enemy closest to the aiming direction and within the distance threshold from the aiming direction
+			if (col.CompareTag("Debris") || col.CompareTag("EnemyShip"))
+			{
+				float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
+
+				if (aimDirectionDistance < minDistance)
+				{
+					closestCol = col;
+					minDistance = aimDirectionDistance;
+				}
+			}
+		}
+			
+		// If a target is found, return it 
+		if (closestCol != null)
+		{
+			// targetGizmoLoc = closestCol.transform.position; // Uncomment this to use with target gizmos
+			return new Target(closestCol.gameObject, minDistance);
+		}
+
+		targetGizmoLoc = Vector3.zero;
+		return Target.None;
+	}
+		
+	// Uncomment below for visual debug cues
+	private Vector3 targetGizmoLoc;
+	void OnDrawGizmos()
+	{
+		// Debug aim sphere
+		/*Ray ray = Camera.main.ScreenPointToRay(crosshairs[controlling].transform.position);
+		Gizmos.color = Color.magenta;
+		Gizmos.DrawWireSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS);*/
+
+		// Debug target
+		/*Gizmos.color = Color.cyan;
+		if (targetGizmoLoc != Vector3.zero)
+			Gizmos.DrawSphere(targetGizmoLoc, 20);*/
+	}
+
+	private class Target
+	{
+		public GameObject Object { get; private set; }
+		public Vector3 Position { get; private set; }
+		public float Distance { get; private set; }
+
+		private static readonly Target noTarget;
+		public static Target None
+		{
+			get { return noTarget; }
+		}
+
+		private Target() : this(null, 0) { }
+
+		static Target()
+		{
+			noTarget = new Target();
+		}
+
+		public Target (GameObject obj, float distance)
+		{
+			this.Object   = obj;
+			this.Distance = distance;
+
+			if (obj != null)
+				this.Position = obj.transform.position;
+			else
+				this.Position = Vector3.zero;
+		}
+
+		// Check if this object doesn't represent any target
+		public bool IsNone()
+		{
+			return this.Equals(noTarget);
+		}
+
+		// Get the aim position of this object. For ships, this will be a little in front of their current position to account for their movement
+		public Vector3 GetAimPosition()
+		{
+			if (this.Object.CompareTag("EnemyShip"))
+				// TODO: When we get a proper enemy ship, update the forward direction
+				// TODO: We might need to aim a bit more in front
+				return this.Position - this.Object.transform.up * AUTOAIM_ADVANCE_OFFSET;
+			else
+				return this.Position;
+		}
 	}
 
 }
