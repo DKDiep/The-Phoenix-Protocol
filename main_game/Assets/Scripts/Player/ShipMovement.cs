@@ -10,14 +10,10 @@ using System.Collections;
 
 public class ShipMovement : MonoBehaviour
 {
-
-	[SerializeField] float speed = 10f;
 	[SerializeField] float turnSpeed = 0.01f;
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
-	[SerializeField] float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
-	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
 
 	bool rechargeShield;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
@@ -25,7 +21,6 @@ public class ShipMovement : MonoBehaviour
 	private GameState gameState;
 	private WiiRemoteManager wii;
 
-    float shield;
 	float pitchVelocity = 0f;
 	float rollVelocity = 0f;
 	float pitchOld;
@@ -49,8 +44,8 @@ public class ShipMovement : MonoBehaviour
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
     	controlObject = transform.parent.gameObject;
-    	shield = maxShield;
-    	lastShieldCheck = shield;
+		gameState.SetShipShield(gameState.GetShipMaxShields());
+		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine ("RechargeShields");
 
 
@@ -58,16 +53,17 @@ public class ShipMovement : MonoBehaviour
 
 	IEnumerator RechargeShields()
 	{
-		if(lastShieldCheck == shield && shield < maxShield) // Ensure shield is below max value and the player hasn't been hit
+		if(lastShieldCheck == gameState.GetShipShield() && 
+		   gameState.GetShipShield() < gameState.GetShipMaxShields()) // Ensure shield is below max value and the player hasn't been hit
 		{
-			shield += shieldRechargeRate / 10f;
-			lastShieldCheck = shield;
+			gameState.SetShipShield(gameState.GetShipShield() + (gameState.GetShipShieldRechargeRate() / 10f));
+			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(0.1f);
 			StartCoroutine ("RechargeShields");
 		}
 		else
 		{
-			lastShieldCheck = shield;
+			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(shieldDelay);
 			StartCoroutine ("RechargeShields");
 		}
@@ -143,7 +139,7 @@ public class ShipMovement : MonoBehaviour
         {
             controlObject.transform.Rotate(Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
             controlObject.transform.Rotate(Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
-            controlObject.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+			controlObject.transform.Translate(Vector3.forward * gameState.GetShipSpeed() * Time.deltaTime);
         }
 	
 	}
@@ -259,15 +255,15 @@ public class ShipMovement : MonoBehaviour
 		}
 
         // Control damage to player
-		if (shield > damage)
+		if (gameState.GetShipShield() > damage)
 		{
-			shield -= damage;
-            myShield.Impact(shield);
+			gameState.SetShipShield(gameState.GetShipShield() - damage);
+			myShield.Impact(gameState.GetShipShield());
 		}
-		else if (shield > 0)
+		else if (gameState.GetShipShield() > 0)
 		{
-			float remDamage = damage - shield;
-			shield = 0;
+			float remDamage = damage - gameState.GetShipShield();
+			gameState.SetShipShield(0);
 			myShield.ShieldDown();
 			gameState.ReduceShipHealth(remDamage);
 		}
