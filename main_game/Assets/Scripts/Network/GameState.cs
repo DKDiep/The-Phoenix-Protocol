@@ -286,10 +286,15 @@ public class GameState : NetworkBehaviour {
 		Debug.Log("Score for player " + id + " is now " + playerScore[id]);
 	}
 
-	/*
+    public int[] GetPlayerScores()
+    {
+        return playerScore;
+    }
+
+    /*
 	 * Gets the current ship resources
 	*/
-	public int GetShipResources() 
+    public int GetShipResources() 
 	{
 		return currentShipResources;
 	}
