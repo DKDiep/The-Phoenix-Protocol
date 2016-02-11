@@ -30,7 +30,6 @@ public class PlayerController : NetworkBehaviour
     private GameState gameState;
     private bool gameStarted = false;
     ShipMovement shipMovement;
-    public void test() { print("gotplayer"); }
 
     public GameObject GetControlledObject()
     {
@@ -45,7 +44,6 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcRoleInit()
     {
-        print("inside rpcRoleInit");
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
