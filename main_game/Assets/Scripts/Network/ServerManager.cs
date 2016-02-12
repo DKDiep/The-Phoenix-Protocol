@@ -160,7 +160,7 @@ public class ServerManager : NetworkBehaviour {
 
         GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
         minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;
-        minimap.GetComponentInChildren<bl_MMCompass>().Target = playerShip.transform;
+        minimap.GetComponentInChildren<bl_MMCompass>().target = playerShip.transform;
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);

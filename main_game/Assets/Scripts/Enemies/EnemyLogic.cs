@@ -444,7 +444,7 @@ public class EnemyLogic : MonoBehaviour
             ServerManager.NetworkSpawn(temp);
 
 			gameState.RemoveEnemy (controlObject.gameObject);
-            GetComponent<bl_MiniMapItem>().DestroyItem(true);
+            GetComponent<bl_MiniMapItem>().DestroyItem();
 			Destroy(transform.parent.gameObject);
 		}
 	}

@@ -1,45 +1,34 @@
-﻿using UnityEngine;
+﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Attach to an object to display it on the MiniMap
+*/
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class bl_MiniMapItem : MonoBehaviour {
-
-    [Separator("TARGET")]
-    [Tooltip("UI Prefab")]
+public class bl_MiniMapItem : MonoBehaviour 
+{
     public GameObject GraphicPrefab = null;
-    [Tooltip("Transform to UI Icon will be follow")]
     public Transform Target = null;
-    [Tooltip("Custom Position from target position")]
     public Vector3 OffSet = Vector3.zero;
-    [Space(5)]
-    [Separator("ICON")]
+
     public Sprite Icon = null;
-    public Sprite DeathIcon = null;
     public Color IconColor = new Color(1, 1, 1, 0.9f);
     public float Size = 20;
-    [Separator("ICON BUTTON")]
-    [Tooltip("UI can interact when press it?")]
-    [CustomToggle("is Interactable")]
-    public bool isInteractable = true;
-    public string InfoItem = "Info Icon here";
-    [Space(5)]
-    [Separator("SETTINGS")]
-    [Tooltip("Can Icon show when is off screen?")]
-    [CustomToggle("Off Screen")]
-    public bool OffScreen = true;
+
+    bool isInteractable = false;
+    bool OffScreen = true;
     public float BorderOffScreen = 0.01f;
     public float OffScreenSize = 10;
-    [Tooltip("Time before render/show item in minimap after instance")]
     [Range(0,3)]public float RenderDelay = 0.3f;
-    public ItemEffect m_Effect = ItemEffect.None;
-    //Privates
+
     private Image Graphic = null;
     private RectTransform RectRoot;
     private GameObject cacheItem = null;
 
-    /// <summary>
-    /// Get all requiered component in start
-    /// </summary>
     void Start()
     {
         if (bl_MiniMap.MapUIRoot != null)
@@ -47,17 +36,14 @@ public class bl_MiniMapItem : MonoBehaviour {
             Target = transform.parent;
             CreateIcon();
         }
-        else { Debug.Log("You need a MiniMap in scene for use MiniMap Items."); }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     void CreateIcon()
     {
         //Instantiate UI in canvas
         cacheItem = Instantiate(GraphicPrefab) as GameObject;
         RectRoot = bl_MiniMapUtils.GetMiniMap().MMUIRoot;
+
         //SetUp Icon UI
         Graphic = cacheItem.GetComponent<Image>();
         if (Icon != null) { Graphic.sprite = Icon; Graphic.color = IconColor; }
@@ -65,17 +51,14 @@ public class bl_MiniMapItem : MonoBehaviour {
         Graphic.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         cacheItem.GetComponent<CanvasGroup>().interactable = isInteractable;
         if (Target == null) { Target = this.GetComponent<Transform>(); }
-        StartEffect();
+
         bl_IconItem ii = cacheItem.GetComponent<bl_IconItem>();
         ii.DelayStart(RenderDelay);
-        ii.GetInfoItem(InfoItem);
+
     }
-    /// <summary>
-    /// 
-    /// </summary>
+
     void Update()
     {
-        //If a component missing, return for avoid bugs.
         if (Target == null)
             return;
         if (Graphic == null)
@@ -89,14 +72,10 @@ public class bl_MiniMapItem : MonoBehaviour {
         //Calculate the position of target and convert into position of screen
         Vector2 position = new Vector2((vp2.x * RectRoot.sizeDelta.x) - (RectRoot.sizeDelta.x * 0.5f),
             (vp2.y * RectRoot.sizeDelta.y) - (RectRoot.sizeDelta.y * 0.5f));
-        //if show off screen
-        if (OffScreen)
-        {
             //Calculate the max and min distance to move the UI
             //this clamp in the RectRoot sizeDela for border
             position.x = Mathf.Clamp(position.x, -((RectRoot.sizeDelta.x * 0.5f) - BorderOffScreen), ((RectRoot.sizeDelta.x * 0.5f) - BorderOffScreen));
             position.y = Mathf.Clamp(position.y, -((RectRoot.sizeDelta.y * 0.5f) - BorderOffScreen), ((RectRoot.sizeDelta.y * 0.5f) - BorderOffScreen));
-        }
         
         //calculate the position of UI again, determine if offscreen
         //if offscreen reduce the size
@@ -148,54 +127,14 @@ public class bl_MiniMapItem : MonoBehaviour {
         Quaternion r = Quaternion.identity;
         //r.y = Target.rotation.y;
 
-
         rt.localRotation = r;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void StartEffect()
+    public void DestroyItem()
     {
-        Animator a = Graphic.GetComponent<Animator>();
-        if (m_Effect == ItemEffect.Pulsing)
-        {
-            a.SetInteger("Type", 2);
-        }
-        else if (m_Effect == ItemEffect.Fade)
-        {
-            a.SetInteger("Type", 1);
-        }
+            Graphic.GetComponent<bl_IconItem>().DestroyIcon();
     }
-    /// <summary>
-    /// When player or the target die,desactive,remove,etc..
-    /// call this for remove the item UI from Map
-    /// for change to other icon and desactive in certain time
-    /// or destroy inmediate
-    /// </summary>
-    /// <param name="inmediate"></param>
-    public void DestroyItem(bool inmediate)
-    {
-        if (Graphic == null)
-        {
-            Debug.Log("Graphic Item of " + this.name + " not exist in scene");
-            return;
-        }
 
-        if (DeathIcon == null || inmediate)
-        {
-            Graphic.GetComponent<bl_IconItem>().DestroyIcon(inmediate);
-        }
-        else
-        {
-            Graphic.GetComponent<bl_IconItem>().DestroyIcon(inmediate,DeathIcon);
-        }
-    }
-    /// <summary>
-    /// Call this for hide item in miniMap
-    /// For show again just call "ShowItem()"
-    /// NOTE: For destroy item call "DestroyItem(bool inmediate)" instant this.
-    /// </summary>
     public void HideItem()
     {
         if (cacheItem != null)
@@ -207,9 +146,7 @@ public class bl_MiniMapItem : MonoBehaviour {
             Debug.Log("There is no item to disable.");
         }
     }
-    /// <summary>
-    /// Call this for show again the item in miniMap when is hiden
-    /// </summary>
+
     public void ShowItem()
     {
         if (cacheItem != null)
@@ -222,18 +159,6 @@ public class bl_MiniMapItem : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// If you need destroy icon when this gameObject is destroy.
-    /// enable the following lines.
-    /// </summary>
-    /*void OnDestroy()
-    {
-        DestroyItem(true);
-    }*/
-
-    /// <summary>
-    /// 
-    /// </summary>
     public Vector3 TargetPosition
     {
         get
