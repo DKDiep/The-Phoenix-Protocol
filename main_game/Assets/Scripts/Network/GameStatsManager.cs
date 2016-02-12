@@ -23,21 +23,17 @@ public class GameStatsManager : MonoBehaviour {
                 string jsonMsg = "{\"playerscores\":[";
                 if (playerScores != null)
                 {
-                    /*foreach (uint id in playerScores)
-                    {
-                        jsonMsg += "{" + id + "," + playerScores[id] + "},";
-                    }
-                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-                    jsonMsg += "}]";
-                    print(jsonMsg);*/
                     foreach (uint playerScore in playerScores)
                     {
 						jsonMsg += playerScore + ",";
                     }
                     jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-                    jsonMsg += "]}";
-                    print(jsonMsg);
+                    jsonMsg += "],";
+                    jsonMsg += "\"totalShipResources\": " + state.GetTotalShipResources() + ",";
+                    jsonMsg += "\"shipResources\": " + state.GetShipResources() + ",";
+                    jsonMsg += "\"shipHealth\": " + state.GetShipHealth();
+                    jsonMsg += "}";
+                    //print(jsonMsg);
                     string url = "http://localhost:8080/bar";
                     WWWForm form = new WWWForm();
                     form.AddField("JSON:", jsonMsg);
@@ -52,7 +48,7 @@ public class GameStatsManager : MonoBehaviour {
                         //Debug.Log("WWW Error: " + www.error);
                     }
                 }
-                else print("playerscores is null");
+                else //print("playerscores is null");
             }
             yield return new WaitForSeconds(5);
         }
