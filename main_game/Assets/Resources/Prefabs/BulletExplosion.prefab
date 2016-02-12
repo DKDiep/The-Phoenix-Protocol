@@ -33,7 +33,7 @@ GameObject:
   - 114: {fileID: 11469736}
   - 114: {fileID: 11420922}
   - 82: {fileID: 8298028}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BulletExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,6 +216,7 @@ MonoBehaviour:
   snd:
   - {fileID: 8300000, guid: 138b2365eb190ff44b632b3438a9d741, type: 3}
   randomPitch: 1
+  hasLight: 0
 --- !u!114 &11420922
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -114,7 +114,7 @@ GameObject:
   - 114: {fileID: 11435502}
   - 114: {fileID: 11446864}
   - 82: {fileID: 8257214}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyExplode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,6 +419,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e4b9da47652c87e4395f7129b45c1cf3, type: 3}
   - {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
   randomPitch: 0
+  hasLight: 0
 --- !u!198 &19807578
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -29,7 +29,7 @@ GameObject:
   - 114: {fileID: 11434830}
   - 114: {fileID: 11476934}
   - 82: {fileID: 8258574}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AsteroidExplode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,6 +367,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e4b9da47652c87e4395f7129b45c1cf3, type: 3}
   - {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
   randomPitch: 0
+  hasLight: 0
 --- !u!114 &11434830
 MonoBehaviour:
   m_ObjectHideFlags: 1
