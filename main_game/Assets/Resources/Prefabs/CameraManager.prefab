@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Logic:
     m_MinimumExposure: 0.4
-    m_MaximumExposure: 8
+    m_MaximumExposure: 6
     m_Range: 4
     m_AdaptationSpeedUp: 2
     m_AdaptationSpeedDown: 2
@@ -654,6 +654,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Quality
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Logic.m_MaximumExposure
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
