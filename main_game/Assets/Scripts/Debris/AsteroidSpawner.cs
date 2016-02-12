@@ -26,7 +26,7 @@ public class AsteroidSpawner : MonoBehaviour
     public static int numAsteroids = 0;
     private GameState state;
 
-	private int SPAWN_MAX_PER_FRAME = 30;
+	private const int SPAWN_MAX_PER_FRAME = 30;
 
 	private const float AVG_SIZE             = 43.6f; // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
 	private const float FIELD_SPACING_FACTOR = 2f;    // Higher values make asteroid fields more sparse. TODO: This value looks good, but is quite expensive
@@ -41,7 +41,6 @@ public class AsteroidSpawner : MonoBehaviour
         spawnLocation = new GameObject(); // A temporary game object to spawn asteroids on
         logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 		spawnLocation.name = "AsteroidSpawnLocation";
-        if(SPAWN_MAX_PER_FRAME > numAsteroids) SPAWN_MAX_PER_FRAME = maxAsteroids;
         StartCoroutine("Cleanup");
     }
 
