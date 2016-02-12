@@ -41,7 +41,7 @@ public class AsteroidSpawner : MonoBehaviour
         spawnLocation = new GameObject(); // A temporary game object to spawn asteroids on
         logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 		spawnLocation.name = "AsteroidSpawnLocation";
-        if(SPAWN_MAX_PER_FRAME > numAsteroids) SPAWN_MAX_PER_FRAME = maxAsteroids;
+        if(SPAWN_MAX_PER_FRAME > maxAsteroids) SPAWN_MAX_PER_FRAME = maxAsteroids;
         StartCoroutine("Cleanup");
     }
 
