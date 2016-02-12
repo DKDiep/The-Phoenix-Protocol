@@ -222,17 +222,32 @@ public class CrosshairMovement : MonoBehaviour {
 		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS);
 		Collider closestCol = null;
 		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
+		bool foundAnEnemy   = false;
 		foreach (Collider col in cols)
 		{
-			// Find the asteroid or enemy closest to the aiming direction and within the distance threshold from the aiming direction
-			if (col.CompareTag("Debris") || col.CompareTag("EnemyShip"))
+			// Find the enemy closest to the aiming direction and within the distance threshold from the aiming direction
+			if (col.CompareTag("EnemyShip"))
+			{
+				float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
+
+				// If we previously found an asteroid but there is also an enemy in range, prioritise the enemy
+				if (aimDirectionDistance < minDistance || (closestCol != null && closestCol.CompareTag("Debris") &&
+					aimDirectionDistance < AUTOAIM_DISTANCE_THRESHOLD))
+				{
+					closestCol   = col;
+					minDistance  = aimDirectionDistance;
+					foundAnEnemy = true;
+				}
+			}
+			// If we haven't found any enemy, try to aim for the closest asteroid
+			else if (!foundAnEnemy && col.CompareTag("Debris"))
 			{
 				float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
 
 				if (aimDirectionDistance < minDistance)
 				{
-					closestCol = col;
-					minDistance = aimDirectionDistance;
+					closestCol   = col;
+					minDistance  = aimDirectionDistance;
 				}
 			}
 		}
