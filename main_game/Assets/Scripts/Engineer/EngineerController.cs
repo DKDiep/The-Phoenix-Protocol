@@ -12,8 +12,8 @@ public class EngineerController : NetworkBehaviour {
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float m_StepInterval;
-    [SerializeField] private Text upgradeText;
 
+    private Text upgradeText;
     private PlayerController myController;
     private Camera camera;
     private MouseLook mouseLook;
@@ -28,6 +28,8 @@ public class EngineerController : NetworkBehaviour {
     private bool canRepair;
     private bool pressedUpgrade;
     private bool pressedRepair;
+    private EngineerInteraction interactiveObject;
+    private GameObject playerShip;
 
 
 	// Use this for initialization
@@ -93,6 +95,13 @@ public class EngineerController : NetworkBehaviour {
             upgradeString = "Press Mouse1 to upgrade";
             repairString = "Press Mouse2 to repair";
         }
+
+        // Get a reference to the player ship
+        playerShip = GameObject.Find("PlayerShip(Clone)");
+
+        // Create the upgrade text object to use
+        GameObject obj = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
+        upgradeText = obj.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -113,17 +122,21 @@ public class EngineerController : NetworkBehaviour {
 
         if (Physics.Raycast(ray, out hitInfo, 5.0f))
         {
-            if (hitInfo.collider.CompareTag("Upgrade"))
-                canUpgrade = true;
-            if (hitInfo.collider.CompareTag("Repair"))
-                canRepair = true;
+            if (hitInfo.collider.CompareTag("Player"))
+            {
+                interactiveObject = hitInfo.collider.gameObject.GetComponent<EngineerInteraction>();
 
-            if (canUpgrade && canRepair)
-                upgradeText.text = upgradeString + " OR " + repairString;
+                if (interactiveObject != null)
+                {
+                    canUpgrade = interactiveObject.getUpgradeable();
+                    canRepair = interactiveObject.getRepairable();
+                }
+            }
+
+            if (canRepair)
+                upgradeText.text = repairString;
             else if (canUpgrade)
                 upgradeText.text = upgradeString;
-            else if (canRepair)
-                upgradeText.text = repairString;
             else
                 ResetUpgradeText();
         }
@@ -161,11 +174,12 @@ public class EngineerController : NetworkBehaviour {
         }
 
         // Do upgrades/repairs
-        if (canUpgrade && pressedUpgrade)
-            Debug.Log("Upgrade");
-
+        // Force engineer to repair before upgrading if
+        // both are possible
         if (canRepair && pressedRepair)
             Debug.Log("Repair");
+        else if (canUpgrade && pressedUpgrade)
+            Debug.Log("Upgrade");
 
         ProgressStepCycle(speed);
     }
@@ -230,6 +244,6 @@ public class EngineerController : NetworkBehaviour {
 
     private void ResetUpgradeText()
     {
-        // upgradeText.text = "";
+        upgradeText.text = "";
     }
 }
