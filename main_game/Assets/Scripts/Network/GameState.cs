@@ -12,7 +12,7 @@ using UnityEngine.Networking;
 
 public class GameState : NetworkBehaviour {
 
-    public enum Status { Setup, Started };
+    public enum Status { Setup, Started, Won, Died };
 
 	// The amount of resources the player starts off with.
 	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
@@ -68,6 +68,7 @@ public class GameState : NetworkBehaviour {
     	{
     		Application.Quit ();
     	}
+
     }
 
     public Status GetStatus()

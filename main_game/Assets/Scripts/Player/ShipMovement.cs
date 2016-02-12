@@ -274,6 +274,7 @@ public class ShipMovement : MonoBehaviour
 		else
 		{
 			gameState.SetShipHealth(0);
+			gameState.SetStatus(GameState.Status.Died);
 			//Destroy(transform.parent.gameObject);
 		}
 		//Debug.Log ("Player was hit, has " + shield + " shield and " + gameState.GetShipHealth() + " health");
