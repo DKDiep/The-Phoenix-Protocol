@@ -48,7 +48,6 @@ public class GameStatsManager : MonoBehaviour {
                         //Debug.Log("WWW Error: " + www.error);
                     }
                 }
-                else //print("playerscores is null");
             }
             yield return new WaitForSeconds(5);
         }
