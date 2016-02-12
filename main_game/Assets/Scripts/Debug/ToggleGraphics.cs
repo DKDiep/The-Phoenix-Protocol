@@ -16,7 +16,6 @@ public class ToggleGraphics : MonoBehaviour
 	SENaturalBloomAndDirtyLens bloom;
 	AmplifyColorEffect color;
 	Smaa.SMAA smaa;
-    UnityStandardAssets.ImageEffects.SunShafts shafts;
     LightShafts volumetricLighting;
 	
 	void Start () 
@@ -27,7 +26,6 @@ public class ToggleGraphics : MonoBehaviour
 		bloom = GetComponent<SENaturalBloomAndDirtyLens>();
 		color = GetComponent<AmplifyColorEffect>();
 		smaa = GetComponent<Smaa.SMAA>();
-        shafts = GetComponent<UnityStandardAssets.ImageEffects.SunShafts>();
 		
 		UpdateGraphics ();
 		
@@ -41,7 +39,6 @@ public class ToggleGraphics : MonoBehaviour
 		bloom.enabled = enableGraphics;
 		color.enabled = enableGraphics;
 		smaa.enabled = enableGraphics;
-        shafts.enabled = enableGraphics;
         if(volumetricLighting != null) volumetricLighting.enabled = enableGraphics;
         else
         {
@@ -63,9 +60,8 @@ public class ToggleGraphics : MonoBehaviour
             swap = false; 
         }
 
-        if(shafts.sunTransform == null && GameObject.Find("StarLight") != null)
+        if(GameObject.Find("StarLight") != null)
         {
-            shafts.sunTransform = GameObject.Find("StarLight").transform;
             volumetricLighting = GameObject.Find("StarLight").GetComponent<LightShafts>();
         } 
 	}
