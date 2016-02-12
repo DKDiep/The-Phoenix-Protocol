@@ -602,6 +602,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listenPort: 2345
   maxReceivedMessagesPerInterval: 100
+--- !u!114 &1397474501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1397474499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4701773b8b8004f37914ec0d2e6db2ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1397474503
 MonoBehaviour:
   m_ObjectHideFlags: 0
