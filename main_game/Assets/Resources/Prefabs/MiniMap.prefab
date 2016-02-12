@@ -10,7 +10,7 @@ GameObject:
   - 224: {fileID: 22453870}
   - 222: {fileID: 22275774}
   - 114: {fileID: 11461304}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 224: {fileID: 22433316}
   - 222: {fileID: 22214092}
   - 114: {fileID: 11473228}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 224: {fileID: 22470400}
   - 222: {fileID: 22216496}
   - 114: {fileID: 11484250}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap - Overlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 4: {fileID: 436830}
   - 114: {fileID: 11417828}
   - 114: {fileID: 11454676}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - 222: {fileID: 22227354}
   - 114: {fileID: 11462710}
   - 114: {fileID: 11424024}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: W
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - 223: {fileID: 22399354}
   - 114: {fileID: 11448438}
   - 114: {fileID: 11448916}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMapCanvas3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   - 222: {fileID: 22294176}
   - 114: {fileID: 11499364}
   - 114: {fileID: 11420920}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - 222: {fileID: 22231076}
   - 114: {fileID: 11474048}
   - 114: {fileID: 11460360}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: N
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 436862}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - 222: {fileID: 22234948}
   - 114: {fileID: 11404386}
   - 114: {fileID: 11408690}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: CompassBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - 222: {fileID: 22264942}
   - 114: {fileID: 11400030}
   - 114: {fileID: 11469096}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap - Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - 222: {fileID: 22209242}
   - 114: {fileID: 11442572}
   - 114: {fileID: 11414846}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - 114: {fileID: 11475612}
   - 114: {fileID: 11498576}
   - 225: {fileID: 22541458}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Compass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - 20: {fileID: 2031970}
   - 45: {fileID: 4536880}
   - 114: {fileID: 11465860}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - 222: {fileID: 22260106}
   - 114: {fileID: 11456238}
   - 225: {fileID: 22559416}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap - BackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ GameObject:
   - 222: {fileID: 22273348}
   - 114: {fileID: 11418684}
   - 114: {fileID: 11456200}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: MiniMap - Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Target: {fileID: 0}
-  MiniMapLayer: 10
+  MiniMapLayer: 8
   MMCamera: {fileID: 2031970}
   useCompassRotation: 0
   CompassSize: 175
@@ -1340,7 +1340,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CanDragMiniMap
@@ -1357,6 +1357,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MiniMapLayer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

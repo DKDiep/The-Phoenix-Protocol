@@ -27,7 +27,7 @@ GameObject:
   - 33: {fileID: 3358858}
   - 23: {fileID: 2309168}
   - 111: {fileID: 11164466}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: GalaxyObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 33: {fileID: 3391692}
   - 23: {fileID: 2347928}
   - 111: {fileID: 11159448}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 435014}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: LocalStarChild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 33: {fileID: 3399100}
   - 23: {fileID: 2361460}
   - 111: {fileID: 11157540}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 467996}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Galaxy
   m_TagString: SpaceScene_Galaxy
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - 33: {fileID: 3321764}
   - 23: {fileID: 2396354}
   - 111: {fileID: 11105768}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - 33: {fileID: 3307732}
   - 23: {fileID: 2353444}
   - 111: {fileID: 11102356}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: GalaxyObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - 4: {fileID: 408282}
   - 198: {fileID: 19812136}
   - 199: {fileID: 19902788}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: ParticleSystem-Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - 33: {fileID: 3335876}
   - 23: {fileID: 2390100}
   - 111: {fileID: 11147886}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - 33: {fileID: 3384218}
   - 23: {fileID: 2344704}
   - 111: {fileID: 11104252}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - 33: {fileID: 3326656}
   - 23: {fileID: 2318426}
   - 111: {fileID: 11135352}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - 4: {fileID: 401290}
   - 198: {fileID: 19807586}
   - 199: {fileID: 19907734}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: ParticleSystem-Disc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - 4: {fileID: 446230}
   - 114: {fileID: 11469072}
   - 114: {fileID: 11436898}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: SpaceScene 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 418410}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Galaxy
   m_TagString: SpaceScene_Galaxy
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - 33: {fileID: 3365378}
   - 23: {fileID: 2312372}
   - 111: {fileID: 11174930}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - 33: {fileID: 3300224}
   - 23: {fileID: 2372066}
   - 111: {fileID: 11153168}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - 33: {fileID: 3306508}
   - 23: {fileID: 2377912}
   - 111: {fileID: 11184912}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - 33: {fileID: 3317308}
   - 23: {fileID: 2386282}
   - 111: {fileID: 11156812}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 412548}
   - 108: {fileID: 10897736}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 406680}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: LocalStarLarge
   m_TagString: SpaceScene_LocalStar
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ GameObject:
   - 33: {fileID: 3362416}
   - 23: {fileID: 2321198}
   - 111: {fileID: 11126038}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - 33: {fileID: 3341186}
   - 23: {fileID: 2326754}
   - 111: {fileID: 11180700}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ GameObject:
   - 33: {fileID: 3321734}
   - 23: {fileID: 2362614}
   - 111: {fileID: 11134976}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -440,7 +440,7 @@ GameObject:
   - 33: {fileID: 3324824}
   - 23: {fileID: 2344348}
   - 111: {fileID: 11164800}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -458,7 +458,7 @@ GameObject:
   - 33: {fileID: 3390524}
   - 23: {fileID: 2395816}
   - 111: {fileID: 11115646}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ GameObject:
   - 4: {fileID: 437540}
   - 198: {fileID: 19896932}
   - 199: {fileID: 19990678}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: ParticleSystem-Prominence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - 33: {fileID: 3321300}
   - 23: {fileID: 2329200}
   - 111: {fileID: 11148880}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
   m_Icon: {fileID: 0}
@@ -1560,7 +1560,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4293918719
+    m_Bits: 4294967295
   m_Lightmapping: 1
   m_BounceIntensity: 1
   m_ShadowRadius: 0
@@ -1593,7 +1593,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1048576
+    m_Bits: 4294967295
   m_Lightmapping: 1
   m_BounceIntensity: 1
   m_ShadowRadius: 0
