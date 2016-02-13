@@ -10,6 +10,7 @@ public class OutpostSpawner : MonoBehaviour
 
 	[SerializeField] GameObject gameManager;
 	private GameState gameState;
+	private EnemySpawner enemySpawner;
 
 	private GameObject player, outpost, logic, spawnLocation;
 
@@ -18,7 +19,8 @@ public class OutpostSpawner : MonoBehaviour
 
 	void Start ()
 	{
-		gameState = gameManager.GetComponent<GameState>();
+		gameState    = gameManager.GetComponent<GameState>();
+		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
 	
@@ -75,6 +77,10 @@ public class OutpostSpawner : MonoBehaviour
 		rigid.isKinematic = true;
 		gameState.AddOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
+
+		// Request the enemy spawner to spawn protecting ships around this outpost
+		int numGuards = Random.Range(5, 10); // TODO: might want to set this manually based on difficulty
+		enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
 	}
 
 }

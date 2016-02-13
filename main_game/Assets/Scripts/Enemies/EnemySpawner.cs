@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float maxDistance;
     [SerializeField] GameObject gameManager;
     private GameState state;
-    GameObject player, temp, logic;
+	GameObject player, spawnLocation, logic;
 
 	// TODO: the AI constants probably need to be tweaked
 	private const int AI_WAYPOINTS_PER_ENEMY      = 10;
@@ -34,6 +34,9 @@ public class EnemySpawner : MonoBehaviour
 
 	private static List<EnemyProperties> enemyTypeList = null;
 
+	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
+	private const int OUTPOST_SPAWN_RADIUS                  = 150; // The radius of the sphere around an outpost in which to spawn protecting enemies
+
     void Start()
     {
         if (gameManager != null)
@@ -42,12 +45,14 @@ public class EnemySpawner : MonoBehaviour
         }
 
         player = null;
-        temp = new GameObject(); // Create temporary object to spawn enemies at
-        temp.name = "EnemySpawnLocation";
+        spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
+        spawnLocation.name = "EnemySpawnLocation";
         StartCoroutine("Cleanup");
 
 		if (enemyTypeList == null)
 			InitialiseEnemyTypes ();
+
+		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
     }
 
 	// Create an EnemyProperties object for each type of enemy that will be used
@@ -73,35 +78,68 @@ public class EnemySpawner : MonoBehaviour
 				CreateAIWaypoints ();
             }
 
-            if (numEnemies < maxEnemies)
+            // First, spawn regular enemies. Then, spawn enemies around outposts, if needed
+			if (numEnemies < maxEnemies)
             {
-                // Set spawn position based on input attributes
-                temp.transform.position = player.transform.position;
-                temp.transform.rotation = Random.rotation;
-                temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
-
-                // Spawn enemy and server logic
-                GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
-                GameObject enemyObjectLogic = Instantiate(logic, temp.transform.position, transform.rotation) as GameObject;
-
-                // Set up enemy with components, spawn on network
-                enemyObject.AddComponent<EnemyCollision>();
-				enemyObjectLogic.transform.parent = enemyObject.transform;
-				enemyObjectLogic.transform.localPosition = Vector3.zero;
-
-				EnemyLogic enemyObjectLogicComponent = enemyObjectLogic.GetComponent<EnemyLogic> ();
-				ApplyEnemyType (enemyObjectLogicComponent, Random.Range(0, enemyTypeList.Count)); // random enemy type
-				enemyObjectLogicComponent.SetControlObject(enemyObject);
-				enemyObjectLogicComponent.SetPlayer(state.GetPlayerShip());
-				enemyObjectLogicComponent.SetAIWaypoints (GetAIWaypointsForEnemy ());
-
-                ServerManager.NetworkSpawn(enemyObject);
-
-                enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-                numEnemies += 1;
-                state.AddEnemyList(enemyObject);
+				SpawnEnemy();
             }
+			else if (outpostSpawnRequests.Count > 0)
+			{
+				OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
+				for (int i = 0; i < req.NumEnemies; i++)
+					SpawnWaitingEnemy(req.Location);
+			}
         }
+	}
+		
+	private void InstantiateEnemy(out GameObject enemyObject, out EnemyLogic enemyLogic)
+	{
+		// Spawn enemy and server logic
+		enemyObject = Instantiate(enemy, spawnLocation.transform.position, transform.rotation) as GameObject;
+		GameObject enemyLogicObject  = Instantiate(logic, spawnLocation.transform.position, transform.rotation) as GameObject;
+
+		// Set up enemy with components, spawn on network
+		enemyObject.AddComponent<EnemyCollision>();
+		enemyLogicObject.transform.parent = enemyObject.transform;
+		enemyLogicObject.transform.localPosition = Vector3.zero;
+
+		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
+		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
+		enemyLogic.SetControlObject(enemyObject);
+		enemyLogic.SetPlayer(state.GetPlayerShip());
+		enemyLogic.SetAIWaypoints (GetAIWaypointsForEnemy ());
+
+		ServerManager.NetworkSpawn(enemyObject);
+
+		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
+		numEnemies += 1;
+		state.AddEnemyList(enemyObject);
+	}
+
+	// Spawn an enemy with the default settings
+	private void SpawnEnemy()
+	{
+		// Set spawn position based on input attributes
+		spawnLocation.transform.position = player.transform.position;
+		spawnLocation.transform.rotation = Random.rotation;
+		spawnLocation.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
+
+		GameObject enemy; 
+		EnemyLogic logic;
+		InstantiateEnemy(out enemy, out logic);
+	}
+
+	// Spawn an enemy waiting at a location
+	private void SpawnWaitingEnemy(Vector3 location)
+	{
+		spawnLocation.transform.position = location + Random.insideUnitSphere * OUTPOST_SPAWN_RADIUS;
+		spawnLocation.transform.rotation = Random.rotation;
+
+		GameObject enemy; 
+		EnemyLogic logic;
+		InstantiateEnemy(out enemy, out logic);
+
+		logic.state = EnemyAIState.Wait;
 	}
 
 	// Generate a list of waypoints around the player to guide the enemy ships
@@ -241,6 +279,25 @@ public class EnemySpawner : MonoBehaviour
 		// If our code is correct, this should never happen
 		Debug.LogError("Tried to spawn invalid enemy type: " + type.ToString());
 		return null;
+	}
+
+	public class OutpostSpawnRequest
+	{
+		public int NumEnemies { get; private set; }
+		public Vector3 Location { get; private set; }
+
+		public OutpostSpawnRequest(int numEnemies, Vector3 location)
+		{
+			this.NumEnemies = numEnemies;
+			this.Location   = location;
+		}
+	}
+
+	// Request spawning of count enemies around outpostLocation
+	public void RequestSpawnForOutpost (int count, Vector3 outpostLocation)
+	{
+		// Only register the request here. It will be spawned on the next frame after all regular enemies are spawned.
+		outpostSpawnRequests.Enqueue(new OutpostSpawnRequest(count, outpostLocation));
 	}
 }
 

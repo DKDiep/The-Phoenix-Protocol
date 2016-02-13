@@ -64,11 +64,7 @@ public class EnemyLogic : MonoBehaviour
 	private System.Random sysRand;
 
 	// The current state of the ship's AI
-	int state;
-	private const int STATE_SEEK_PLAYER    = 0;
-	private const int STATE_AVOID_OBSTACLE = 1;
-	private const int STATE_COOLDOWN       = 2;
-	private const int STATE_ENGAGE_PLAYER  = 3;
+	internal EnemyAIState state;
 	private const int ENGAGE_DISTANCE      = 400;
 
 	// Waypoints are used to move around the player when close enough
@@ -88,6 +84,8 @@ public class EnemyLogic : MonoBehaviour
 	private const int AI_OBSTACLE_AVOID_ROTATION   = 45;
 	private int previousAvoidDirection             = 0;
 	private int avoidDirection;
+
+	// TODO: if a guarding enemy moves too far from an outpost, return to it
 
 	void Start ()
 	{
@@ -111,7 +109,7 @@ public class EnemyLogic : MonoBehaviour
         mySrc = GetComponent<AudioSource>();
         mySrc.clip = fireSnd;
 		player = temp;
-		state = STATE_SEEK_PLAYER;
+		state = EnemyAIState.SeekPlayer;
 		myRender = transform.parent.gameObject.GetComponent<Renderer>();
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
@@ -164,9 +162,7 @@ public class EnemyLogic : MonoBehaviour
 		 * We use C#'s random instead of Unity's because we need double precision. */
 		double madnessCheck = sysRand.NextDouble ();
 		if (madnessCheck > MADNESS_PROB)
-		{
 			isSuicidal = true;
-		}
 
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
@@ -177,20 +173,20 @@ public class EnemyLogic : MonoBehaviour
 		if (!obstacleInfo.IsNone())
 		{
 			// If already avoiding an obsctale, clear the previous waypoint before creating another one
-			if (state == STATE_AVOID_OBSTACLE)
+			if (state == EnemyAIState.AvoidObstacle)
 				Destroy(currentWaypoint);
 
 			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
 			// Otherwise, temporarily change direction
 			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
 			{
-				state                  = STATE_ENGAGE_PLAYER;
+				state                  = EnemyAIState.EngagePlayer;
 				previousAvoidDirection = 0;
 				currentWaypoint        = GetNextWaypoint();
 			}
 			else
 			{
-				state = STATE_AVOID_OBSTACLE;
+				state = EnemyAIState.AvoidObstacle;
 
 				// If already avoiding an obstacle, keep the same direction
 				// Otherwise, decided based on the side the obstacle is closest to
@@ -222,39 +218,40 @@ public class EnemyLogic : MonoBehaviour
 
 
 		// Avoid obsctales if needed
-		if (state == STATE_AVOID_OBSTACLE)
+		if (state == EnemyAIState.AvoidObstacle)
 		{
 			bool finishedAvoiding = MoveTowardsCurrentWaypoint();
 
 			// When the temporary avoid waypoint is reached, return to seeking the player
 			if (finishedAvoiding)
 			{
-				state                  = STATE_SEEK_PLAYER;
+				state                  = EnemyAIState.SeekPlayer;
 				previousAvoidDirection = 0;
 			}
 		}
 		else
 		{
 			// Engage player when close enough, otherwise catch up to them
-			if (state == STATE_SEEK_PLAYER && distance <= ENGAGE_DISTANCE)
+			if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= ENGAGE_DISTANCE)
 			{
-				state = STATE_ENGAGE_PLAYER;
+				state = EnemyAIState.EngagePlayer;
 				currentWaypoint = GetNextWaypoint();
 			}
-			else if (state == STATE_ENGAGE_PLAYER && distance > ENGAGE_DISTANCE)
+			else if (state == EnemyAIState.EngagePlayer && distance > ENGAGE_DISTANCE)
 			{
-				state = STATE_SEEK_PLAYER;
+				state = EnemyAIState.SeekPlayer;
 			}
 
-			if (state == STATE_ENGAGE_PLAYER)
+			if (state == EnemyAIState.EngagePlayer)
 			{
 				MoveTowardsCurrentWaypoint();
 			}
-			else // if (state == STATE_SEEK_PLAYER)
+			else if (state == EnemyAIState.SeekPlayer)
 			{
 				angleGoodForShooting = false;
 				MoveTowardsPlayer();
 			}
+			// if (state == EnemyAIState.Wait) do notthing
 		}
 
 	}
@@ -304,7 +301,7 @@ public class EnemyLogic : MonoBehaviour
 		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
 		{
 			// If the reached waypoint is an avoid waypoint, it is not needed any more
-			if (state == STATE_AVOID_OBSTACLE)
+			if (state == EnemyAIState.AvoidObstacle)
 				Destroy(currentWaypoint);
 			
 			currentWaypoint = GetNextWaypoint();
@@ -488,4 +485,12 @@ public class EnemyLogic : MonoBehaviour
 			return this == noneInfo;
 		}
 	}
+}
+
+public enum EnemyAIState
+{
+	SeekPlayer,
+	AvoidObstacle,
+	EngagePlayer,
+	Wait
 }
