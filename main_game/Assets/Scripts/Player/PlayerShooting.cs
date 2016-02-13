@@ -12,7 +12,6 @@ using System;
 
 public class PlayerShooting : MonoBehaviour 
 {
-
 	[SerializeField] GameObject bullet; // Bullet prefab to use
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
@@ -28,7 +27,6 @@ public class PlayerShooting : MonoBehaviour
 	float alpha;
     Vector3 crosshairPosition;
     GameObject[] crosshairs;
-
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
@@ -129,9 +127,10 @@ public class PlayerShooting : MonoBehaviour
 
 		GameObject obj = Instantiate (bullet, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
 		GameObject logic = Instantiate (bulletLogic, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
-		logic.GetComponent<BulletLogic>().SetID(this, playerId);
+        BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+		logicComponent.SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logic.GetComponent<BulletLogic>().SetDestination (target.transform.position, true, this.gameObject);
+		logicComponent.SetDestination (target.transform.position, true, this.gameObject);
 
         GameObject muzzle = Instantiate (muzzleFlash, bulletAnchor[playerId].transform.position, bulletAnchor[playerId].transform.rotation) as GameObject;
         muzzle.transform.parent = bulletAnchor[playerId].transform.parent;

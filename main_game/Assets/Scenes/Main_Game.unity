@@ -289,7 +289,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxAsteroids
-      value: 300
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: minDistance
@@ -301,7 +301,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxEnemies
-      value: 35
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
