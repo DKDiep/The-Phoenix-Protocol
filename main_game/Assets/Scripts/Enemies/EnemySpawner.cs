@@ -139,7 +139,7 @@ public class EnemySpawner : MonoBehaviour
 		EnemyLogic logic;
 		InstantiateEnemy(out enemy, out logic);
 
-		logic.state = EnemyAIState.Wait;
+		logic.SetGuarding(location);
 	}
 
 	// Generate a list of waypoints around the player to guide the enemy ships

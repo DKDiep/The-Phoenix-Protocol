@@ -85,7 +85,9 @@ public class EnemyLogic : MonoBehaviour
 	private int previousAvoidDirection             = 0;
 	private int avoidDirection;
 
-	// TODO: if a guarding enemy moves too far from an outpost, return to it
+	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
+	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
+	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
 
 	void Start ()
 	{
@@ -140,6 +142,13 @@ public class EnemyLogic : MonoBehaviour
 		aiWaypoints = waypoints;
 	}
 
+	// Make this enemy guard location
+	public void SetGuarding(Vector3 location)
+	{
+		state         = EnemyAIState.Wait;
+		guardLocation = location;
+	}
+
     // Avoids null reference during initial spawning
 	IEnumerator DrawDelay()
 	{
@@ -169,11 +178,13 @@ public class EnemyLogic : MonoBehaviour
 		distance   = Vector3.Distance(transform.position, player.transform.position);
 
 		// Check if about to collide with something
+		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
+		// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
 		AvoidInfo obstacleInfo = CheckObstacleAhead();
-		if (!obstacleInfo.IsNone())
+		if (!obstacleInfo.IsNone() && (state != EnemyAIState.ReturnToGuardLocation || !obstacleInfo.ObstacleTag.Equals("Outpost")))
 		{
-			// If already avoiding an obsctale, clear the previous waypoint before creating another one
-			if (state == EnemyAIState.AvoidObstacle)
+			// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
+			if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
 				Destroy(currentWaypoint);
 
 			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
@@ -197,7 +208,8 @@ public class EnemyLogic : MonoBehaviour
 
 				// Create a temp waypoint to follow in order to avoid the asteroid
 				// TODO: when we get a proper ship, rotation axes need to be changed
-				GameObject avoidWaypoint = new GameObject ();
+				GameObject avoidWaypoint         = new GameObject ();
+				avoidWaypoint.name               = "AvoidWaypoint";
 				avoidWaypoint.transform.position = controlObject.transform.position;
 				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
@@ -231,8 +243,18 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
+			// If this enemy is a guard and is too far from its guarding location, turn back towards it
+			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
+				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
+			{
+				state                             = EnemyAIState.ReturnToGuardLocation;
+				GameObject returnWaypoint         = new GameObject ();
+				returnWaypoint.name               = "GuardReturnWaypoint";
+				returnWaypoint.transform.position = guardLocation;
+				currentWaypoint                   = returnWaypoint;
+			}
 			// Engage player when close enough, otherwise catch up to them
-			if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= ENGAGE_DISTANCE)
+			else if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= ENGAGE_DISTANCE)
 			{
 				state = EnemyAIState.EngagePlayer;
 				currentWaypoint = GetNextWaypoint();
@@ -251,7 +273,16 @@ public class EnemyLogic : MonoBehaviour
 				angleGoodForShooting = false;
 				MoveTowardsPlayer();
 			}
-			// if (state == EnemyAIState.Wait) do notthing
+			else if (state == EnemyAIState.ReturnToGuardLocation)
+			{
+				MoveTowardsCurrentWaypoint();
+				if (Vector3.Distance(controlObject.transform.position, guardLocation) < AI_GUARD_PROTECT_DISTANCE)
+				{
+					state = EnemyAIState.Wait;
+					Destroy(currentWaypoint);
+				}
+			}
+			// if (state == EnemyAIState.Wait) do nothing
 		}
 
 	}
@@ -492,5 +523,6 @@ public enum EnemyAIState
 	SeekPlayer,
 	AvoidObstacle,
 	EngagePlayer,
-	Wait
+	Wait,
+	ReturnToGuardLocation
 }

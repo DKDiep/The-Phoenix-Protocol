@@ -10,6 +10,10 @@ TagManager:
   - PlayerBullet
   - Thruster
   - SpaceScene_Camera
+  - SpaceScene_Nebula
+  - SpaceScene_Galaxy
+  - SpaceScene_LocalStar
+  - Outpost
   layers:
   - Default
   - TransparentFX

@@ -27,9 +27,7 @@ public class OutpostSpawner : MonoBehaviour
 		spawnLocation = new GameObject();
 		spawnLocation.name = "OutpostSpawnLocation";
 	}
-
-
-
+		
 	void Update() {
 		if (gameState.GetStatus() == GameState.Status.Started)
 		{
