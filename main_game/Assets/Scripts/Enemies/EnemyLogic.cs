@@ -89,6 +89,9 @@ public class EnemyLogic : MonoBehaviour
 	private int previousAvoidDirection             = 0;
 	private int avoidDirection;
 
+    private ObjectPoolManager bulletManager;
+    private ObjectPoolManager logicManager;
+
 	void Start ()
 	{
 		GameObject server = GameObject.Find("GameManager");
@@ -386,7 +389,7 @@ public class EnemyLogic : MonoBehaviour
 
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player);
+		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player, bulletManager, logicManager);
 		ServerManager.NetworkSpawn(obj);
         if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
         if(distance < 300f) mySrc.PlayOneShot(fireSnd);

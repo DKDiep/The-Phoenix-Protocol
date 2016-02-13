@@ -25,7 +25,7 @@ public class ObjectPoolManager : MonoBehaviour
             GameObject spawn = Instantiate (obj, Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
 
-            spawn.transform.parent = this.transform;
+            //spawn.transform.parent = this.transform;
             spawn.name = i.ToString();
             pool[i] = spawn;
         }
@@ -36,15 +36,20 @@ public class ObjectPoolManager : MonoBehaviour
         for(int i = 0; i < size; ++i)
         {
             if(!pool[i].activeInHierarchy) 
+            {
+                pool[i].SetActive(true);
                 return pool[i];
+            }
+                
         }
 
         return null; // Return null GameObject if an active object cannot be found
     }
 
-    public void RemoveObject(GameObject obj)
+    public void RemoveObject(string objName)
     {
-        int id = int.Parse(obj.name);
+        int id = int.Parse(objName);
+        pool[id].transform.parent = null;
         pool[id].SetActive(false);
     }
 

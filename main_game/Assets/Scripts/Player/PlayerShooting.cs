@@ -29,6 +29,7 @@ public class PlayerShooting : MonoBehaviour
     GameObject[] crosshairs;
 
     ObjectPoolManager bulletManager;
+    ObjectPoolManager logicManager;
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
@@ -61,6 +62,7 @@ public class PlayerShooting : MonoBehaviour
         }
 
         bulletManager = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
+        logicManager = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
 	}
 
 	void Update () 
@@ -129,12 +131,15 @@ public class PlayerShooting : MonoBehaviour
 			target.transform.Translate (transform.forward * (-10f));
 		}
 
-		GameObject obj = Instantiate (bullet, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
-		GameObject logic = Instantiate (bulletLogic, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
+		//GameObject obj = Instantiate (bullet, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
+        GameObject obj = bulletManager.RequestObject();
+        obj.transform.position = bulletAnchor[playerId].transform.position;
+
+        GameObject logic = logicManager.RequestObject();
         BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 		logicComponent.SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logicComponent.SetDestination (target.transform.position, true, this.gameObject);
+		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager);
 
         GameObject muzzle = Instantiate (muzzleFlash, bulletAnchor[playerId].transform.position, bulletAnchor[playerId].transform.rotation) as GameObject;
         muzzle.transform.parent = bulletAnchor[playerId].transform.parent;

@@ -30,19 +30,18 @@ public class BulletLogic : MonoBehaviour
     AudioSource mySrc;
     [SerializeField] AudioClip sound;
 
+    ObjectPoolManager bulletManager;
+    ObjectPoolManager logicManager;
+
     // Initialise object when spawned
-	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2)
+	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2, ObjectPoolManager cachedBullet, ObjectPoolManager cachedLogic)
 	{
+        bulletManager = cachedBullet;
+        logicManager = cachedLogic;
         destination = dest;
         playerObj = playerObj2;
 		obj = transform.parent.gameObject;
-		Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
-		rigidbody.useGravity = false;
-		rigidbody.isKinematic = false;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-		SphereCollider sphere = obj.AddComponent<SphereCollider>();
-		sphere.isTrigger = true;
-
+      
 		if(isPlayer) 
 		{
 			obj.AddComponent<BulletCollision>().playerId = playerId;
@@ -119,13 +118,15 @@ public class BulletLogic : MonoBehaviour
 
             ServerManager.NetworkSpawn(impactTemp);
         }
-        Destroy (obj);
+        bulletManager.RemoveObject(gameObject.name);
+        logicManager.RemoveObject(gameObject.name);
     }
 
     // Automatically destroy bullet after 4 seconds
     IEnumerator DestroyObject()
     {
         yield return new WaitForSeconds(4f);
-        Destroy (obj);
+        bulletManager.RemoveObject(gameObject.name);
+        logicManager.RemoveObject(gameObject.name);
     }
 }
