@@ -11,9 +11,9 @@ using System.Collections;
 public class ObjectPoolManager : MonoBehaviour 
 {
     private GameObject[] pool;
-    private int size = 200; // Number of bullets to spawn
 
     [SerializeField] GameObject obj; // Object to spawn
+    [SerializeField] int size; // Number of bullets to spawn
 
 	// Use this for initialization
 	void Start () 
@@ -24,8 +24,28 @@ public class ObjectPoolManager : MonoBehaviour
         {
             GameObject spawn = Instantiate (obj, Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
+
+            spawn.transform.parent = this.transform;
+            spawn.name = i.ToString();
             pool[i] = spawn;
         }
 	}
+
+    public GameObject RequestObject()
+    {
+        for(int i = 0; i < size; ++i)
+        {
+            if(!pool[i].activeInHierarchy) 
+                return pool[i];
+        }
+
+        return null; // Return null GameObject if an active object cannot be found
+    }
+
+    public void RemoveObject(GameObject obj)
+    {
+        int id = int.Parse(obj.name);
+        pool[id].SetActive(false);
+    }
 
 }

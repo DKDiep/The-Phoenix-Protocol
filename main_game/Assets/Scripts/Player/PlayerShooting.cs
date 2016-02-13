@@ -28,6 +28,8 @@ public class PlayerShooting : MonoBehaviour
     Vector3 crosshairPosition;
     GameObject[] crosshairs;
 
+    ObjectPoolManager bulletManager;
+
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
     
@@ -57,6 +59,8 @@ public class PlayerShooting : MonoBehaviour
         {
             bulletAnchor[i-1] = GameObject.Find("BulletAnchor" + i.ToString());
         }
+
+        bulletManager = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
 	}
 
 	void Update () 
