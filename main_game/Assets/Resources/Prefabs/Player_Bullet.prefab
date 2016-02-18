@@ -46,7 +46,6 @@ GameObject:
   - 23: {fileID: 2339890}
   - 114: {fileID: 11492890}
   - 114: {fileID: 11417374}
-  - 114: {fileID: 11457126}
   - 114: {fileID: 11449986}
   m_Layer: 9
   m_Name: Player_Bullet
@@ -155,17 +154,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5db2d941292e403d9b3f3fee6c14356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11457126
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11492890
