@@ -223,12 +223,12 @@ public class EnemyLogic : MonoBehaviour
 			}
 		}
 
-		// Check if the angle is good for shooting
-		Vector3 direction = player.transform.position - controlObject.transform.position;
-		float angle = Vector3.Angle(-controlObject.transform.up, direction);
-		angleGoodForShooting = (distance < ENGAGE_DISTANCE) && (angle < AI_SHOOT_MAX_ANGLE);
-
-
+		// Check if the angle is good for shooting and the enemy is in front of the player
+		Vector3 direction             = player.transform.position - controlObject.transform.position;
+		float angle                   = Vector3.Angle(-controlObject.transform.up, direction);
+		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
+		angleGoodForShooting          = (distance < ENGAGE_DISTANCE) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
+		
 		// Avoid obsctales if needed
 		if (state == EnemyAIState.AvoidObstacle)
 		{
