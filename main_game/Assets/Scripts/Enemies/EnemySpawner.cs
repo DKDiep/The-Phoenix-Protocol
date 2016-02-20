@@ -32,6 +32,8 @@ public class EnemySpawner : MonoBehaviour
 	private readonly Vector3 AI_WAYPOINT_SHIFT_UP = new Vector3 (0, 8, 0);
 	private List<GameObject> aiWaypoints;
 
+	private List<GameObject> playerShipTargets = null;
+
 	private static List<EnemyProperties> enemyTypeList = null;
 
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
@@ -75,7 +77,9 @@ public class EnemySpawner : MonoBehaviour
                 logic = Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject)) as GameObject;
                 //logic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
 
-				CreateAIWaypoints ();
+				Transform playerSpaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
+				CreateAIWaypoints(playerSpaceshipModel);
+				GetPlayerShipTargets(playerSpaceshipModel);
             }
 
             // First, spawn regular enemies. Then, spawn enemies around outposts, if needed
@@ -107,7 +111,8 @@ public class EnemySpawner : MonoBehaviour
 		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
 		enemyLogic.SetPlayer(state.GetPlayerShip());
-		enemyLogic.SetAIWaypoints (GetAIWaypointsForEnemy ());
+		enemyLogic.SetPlayerShipTargets(playerShipTargets);
+		enemyLogic.SetAIWaypoints(GetAIWaypointsForEnemy ());
 
 		ServerManager.NetworkSpawn(enemyObject);
 
@@ -144,14 +149,13 @@ public class EnemySpawner : MonoBehaviour
 
 	// Generate a list of waypoints around the player to guide the enemy ships
 	// Each enemy spawned will get some waypoints from this list
-	private void CreateAIWaypoints()
+	private void CreateAIWaypoints(Transform spaceshipModel)
 	{
 		int n_waypoints = maxEnemies * AI_GEN_WAYPOINTS_FACTOR;
 		aiWaypoints = new List<GameObject> (n_waypoints);
 
 		// Get the bounds of all (important) ship parts
 		List<Bounds> bounds = new List<Bounds> ();
-		Transform spaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
 		foreach (Transform child in spaceshipModel)
 		{
 			GameObject gameObject = child.gameObject;
@@ -208,6 +212,20 @@ public class EnemySpawner : MonoBehaviour
 		}
 
 		return waypoints;
+	}
+
+	// Build a list of targets on the player's ship
+	// The enemies will use these to shoot at the player
+	private void GetPlayerShipTargets(Transform spaceshipModel)
+	{
+		playerShipTargets = new List<GameObject>();
+
+		foreach (Transform child in spaceshipModel)
+		{
+			GameObject gameObject = child.gameObject;
+			if (gameObject.name.Contains ("Engine") || gameObject.name.Contains ("Hull") || gameObject.name.Equals ("CaptainBridge"))
+				playerShipTargets.Add(gameObject);
+		}
 	}
 
 	// Remove destroyed enemies from Game State

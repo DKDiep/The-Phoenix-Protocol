@@ -75,6 +75,9 @@ public class EnemyLogic : MonoBehaviour
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
+	private List<GameObject> playerShipTargets;
+	private GameObject currentTarget;
+
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
 	private const int AI_OBSTACLE_RAY_FRONT_OFFSET = 15;
@@ -140,6 +143,13 @@ public class EnemyLogic : MonoBehaviour
 	public void SetAIWaypoints(List<GameObject> waypoints)
 	{
 		aiWaypoints = waypoints;
+	}
+
+	// Set the parts of the player's ship that can be targeted
+	public void SetPlayerShipTargets(List<GameObject> targets)
+	{
+		this.playerShipTargets = targets;
+		currentTarget = targets[Random.Range(0, targets.Count)]; // For now, choose the target ship part at random
 	}
 
 	// Make this enemy guard location
@@ -412,7 +422,7 @@ public class EnemyLogic : MonoBehaviour
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;
 
-		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
+		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
 		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player);
 		ServerManager.NetworkSpawn(obj);
