@@ -88,7 +88,6 @@ public class BulletLogic : MonoBehaviour
 		{
             player.HitMarker();
 		}
-       
 
         if(col.gameObject.tag.Equals("Debris"))
 		{

@@ -26,8 +26,8 @@ public class ObjectPoolManager : MonoBehaviour
 {
     private GameObject[] pool;
 
-    [SerializeField] GameObject obj; // Object to spawn
-    [SerializeField] int size; // Number of bullets to spawn
+    [SerializeField] GameObject[] obj; // Object to spawn
+    [SerializeField] int size; // Number of objects to spawn
 
 	// Use this for initialization
 	void Start () 
@@ -36,7 +36,8 @@ public class ObjectPoolManager : MonoBehaviour
 
 	    for(int i = 0; i < size; ++i)
         {
-            GameObject spawn = Instantiate (obj, Vector3.zero, Quaternion.identity) as GameObject;
+            int rnd = Random.Range(0,obj.Length);
+            GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
             spawn.name = i.ToString();
             pool[i] = spawn;
@@ -55,7 +56,7 @@ public class ObjectPoolManager : MonoBehaviour
                 
         }
 
-        Debug.LogError("Object pool does not have any available objects");
+        Debug.LogError("Object pool " + gameObject.name + " does not have any available objects");
         return null; // Return null GameObject if an active object cannot be found
     }
 

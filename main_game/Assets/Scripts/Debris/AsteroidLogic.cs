@@ -32,6 +32,8 @@ public class AsteroidLogic : MonoBehaviour
 
     private GameState gameState;
     private ObjectPoolManager explosionManager;
+    private ObjectPoolManager logicManager;
+    private ObjectPoolManager asteroidManager;
 
 
 	void Start() 
@@ -41,9 +43,11 @@ public class AsteroidLogic : MonoBehaviour
 
 
     // Initialise player, size, and speed
-	public void SetPlayer(GameObject temp, float var, int rnd, ObjectPoolManager cachedManager)
+	public void SetPlayer(GameObject temp, float var, int rnd, ObjectPoolManager cachedManager, ObjectPoolManager cachedLogic, ObjectPoolManager cachedAsteroid)
 	{
+        asteroidManager = cachedAsteroid;
         explosionManager = cachedManager;
+        logicManager = cachedLogic;
 		player = temp;
 		type = rnd;
 		maxVariation = var;
@@ -75,7 +79,10 @@ public class AsteroidLogic : MonoBehaviour
             temp.transform.position = transform.position;
             ServerManager.NetworkSpawn(temp);
             gameState.RemoveAsteroid(transform.parent.gameObject);
-            Destroy(transform.parent.gameObject);	
+            string removeName = transform.parent.gameObject.name;
+            transform.parent = null;
+            asteroidManager.RemoveObject(removeName);
+            logicManager.RemoveObject(gameObject.name);
         }
    }
 }

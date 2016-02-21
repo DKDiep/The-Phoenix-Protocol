@@ -34,6 +34,8 @@ public class AsteroidSpawner : MonoBehaviour
 	private bool fieldSpawned = false;
 
     private ObjectPoolManager explosionManager;
+    private ObjectPoolManager logicManager;
+    private ObjectPoolManager asteroidManager;
 
     void Start ()
     {
@@ -44,6 +46,8 @@ public class AsteroidSpawner : MonoBehaviour
         logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 		spawnLocation.name = "AsteroidSpawnLocation";
         explosionManager = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
+        logicManager = GameObject.Find("AsteroidLogicManager").GetComponent<ObjectPoolManager>();
+        asteroidManager = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
         StartCoroutine("Cleanup");
     }
 
@@ -86,21 +90,17 @@ public class AsteroidSpawner : MonoBehaviour
 		else asteroid = asteroid3;
 
 		// Spawn object and logic
-		GameObject asteroidObject = Instantiate(asteroid, spawnLocation.transform.position, Quaternion.identity) as GameObject;
-		GameObject asteroidLogic = Instantiate(logic, spawnLocation.transform.position, Quaternion.identity) as GameObject;
+        GameObject asteroidObject = asteroidManager.RequestObject();
+        asteroidObject.transform.position = spawnLocation.transform.position;
+
+        GameObject asteroidLogic = logicManager.RequestObject();
+        asteroidLogic.transform.position = spawnLocation.transform.position;
 
 		// Initialise logic
 		asteroidLogic.transform.parent = asteroidObject.transform;
-		asteroidLogic.transform.localPosition = Vector3.zero;
-		asteroidObject.AddComponent<AsteroidCollision>();
-		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager);
+		//asteroidObject.AddComponent<AsteroidCollision>();
+		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager, logicManager, asteroidManager);
 		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
-
-		// Add collider and rigidbody
-		SphereCollider sphere = asteroidObject.AddComponent<SphereCollider>();
-		sphere.isTrigger = true;
-		Rigidbody rigid = asteroidObject.AddComponent<Rigidbody>();
-		rigid.isKinematic = true;
 
 		// Spawn on the network and add to GameState
 		state.AddAsteroidList(asteroidObject);
