@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 447146}
   - 198: {fileID: 19805176}
   - 199: {fileID: 19943660}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 402154}
   - 198: {fileID: 19864842}
   - 199: {fileID: 19990522}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Branches
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,10 @@ GameObject:
   - 114: {fileID: 11455646}
   - 114: {fileID: 11432768}
   - 114: {fileID: 11425040}
-  m_Layer: 2
+  - 135: {fileID: 13536130}
+  - 54: {fileID: 5419276}
+  - 114: {fileID: 11421412}
+  m_Layer: 10
   m_Name: Enemy_Bullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
@@ -126,6 +129,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193600}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &5419276
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193600}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
+--- !u!114 &11421412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b62c0b94548c4ce0865560123c478b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerId: -1
 --- !u!114 &11425040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -200,6 +230,18 @@ MonoBehaviour:
     i15: 7
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!135 &13536130
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19805176
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3310,6 +3352,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

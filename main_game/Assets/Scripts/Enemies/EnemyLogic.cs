@@ -100,6 +100,9 @@ public class EnemyLogic : MonoBehaviour
 
 		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
 		droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
+
+        bulletManager = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
+        logicManager = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -382,8 +385,11 @@ public class EnemyLogic : MonoBehaviour
 	IEnumerator Shoot()
 	{
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
-		GameObject obj = Instantiate (bullet, shootAnchor.transform.position, Quaternion.identity) as GameObject;
-		GameObject logic = Instantiate (bulletLogic, shootAnchor.transform.position, Quaternion.identity) as GameObject;
+
+        GameObject obj = bulletManager.RequestObject();
+        obj.transform.position = shootAnchor.transform.position;
+        GameObject logic = logicManager.RequestObject();
+
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;
 

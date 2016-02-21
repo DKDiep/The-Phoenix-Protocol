@@ -130,8 +130,7 @@ public class PlayerShooting : MonoBehaviour
 			target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 			target.transform.Translate (transform.forward * (-10f));
 		}
-
-		//GameObject obj = Instantiate (bullet, bulletAnchor[playerId].transform.position, Quaternion.identity) as GameObject;
+        
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = bulletAnchor[playerId].transform.position;
 

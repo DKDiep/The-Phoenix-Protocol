@@ -50,6 +50,7 @@ GameObject:
   - 114: {fileID: 11449986}
   - 135: {fileID: 13593914}
   - 54: {fileID: 5482940}
+  - 114: {fileID: 11408770}
   m_Layer: 9
   m_Name: Player_Bullet
   m_TagString: PlayerBullet
@@ -143,6 +144,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &11408770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b62c0b94548c4ce0865560123c478b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerId: -1
 --- !u!114 &11417374
 MonoBehaviour:
   m_ObjectHideFlags: 1

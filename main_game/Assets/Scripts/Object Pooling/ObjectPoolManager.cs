@@ -5,6 +5,20 @@
     Description: Instantiates a number of objects at startup on both the Server and Clients
 */
 
+/*
+1. Spawn 200 bullets at startup, deactivated, store in array
+2. When attempting to fire, send request for bullet. Return array index.
+3. Move bullet to right position and direction, activate
+4. Send RPC to clients requesting a bullet to be activated, pass in position, direction, array index as arguments
+4. When bullet needs to be destroyed, deactivate it and free it in the array. Send RPC to clients to disable that particular bullet.
+
+On client:
+
+1. Spawn 200 bullets at startup, deactivated, store in array
+2. RPC commands will do the rest
+
+*/
+
 using UnityEngine;
 using System.Collections;
 
@@ -24,8 +38,6 @@ public class ObjectPoolManager : MonoBehaviour
         {
             GameObject spawn = Instantiate (obj, Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
-
-            //spawn.transform.parent = this.transform;
             spawn.name = i.ToString();
             pool[i] = spawn;
         }
@@ -43,6 +55,7 @@ public class ObjectPoolManager : MonoBehaviour
                 
         }
 
+        Debug.LogError("Object pool does not have any available objects");
         return null; // Return null GameObject if an active object cannot be found
     }
 

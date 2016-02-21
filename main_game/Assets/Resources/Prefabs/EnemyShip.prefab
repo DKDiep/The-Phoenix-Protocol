@@ -11,7 +11,7 @@ GameObject:
   - 198: {fileID: 19877048}
   - 199: {fileID: 19995890}
   - 108: {fileID: 10839852}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ThrusterLeft (1)
   m_TagString: Thruster
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 496882}
   - 33: {fileID: 3370768}
   - 23: {fileID: 2336168}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MeshEngines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 495998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShootAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 198: {fileID: 19821314}
   - 199: {fileID: 19964046}
   - 108: {fileID: 10821652}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ThrusterLeft
   m_TagString: Thruster
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - 65: {fileID: 6530106}
   - 23: {fileID: 2336208}
   - 33: {fileID: 3354456}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyShip
   m_TagString: EnemyShip
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 440404}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3527,6 +3527,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
       value: -0.00000016292068
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

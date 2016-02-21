@@ -44,11 +44,10 @@ public class BulletLogic : MonoBehaviour
       
 		if(isPlayer) 
 		{
-			obj.AddComponent<BulletCollision>().playerId = playerId;
+			obj.GetComponent<BulletCollision>().playerId = playerId;
 		} 
         else 
         {
-			obj.AddComponent<BulletCollision>();
             enableSound = true;
             mySrc = GetComponent<AudioSource>();
 		}

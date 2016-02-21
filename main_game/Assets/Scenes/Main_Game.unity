@@ -342,7 +342,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxEnemies
-      value: 2
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
@@ -435,6 +435,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outpost1: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
   collectionDistance: 5
+--- !u!1 &808558401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 808558402}
+  - 114: {fileID: 808558403}
+  m_Layer: 0
+  m_Name: EnemyBulletManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808558402
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 808558401}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1127982945}
+  m_RootOrder: 2
+--- !u!114 &808558403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 808558401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f5658cd2314caba1f41e7524b5fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+  size: 500
 --- !u!1 &950227469
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,6 +735,8 @@ Transform:
   m_Children:
   - {fileID: 307155810}
   - {fileID: 950227470}
+  - {fileID: 808558402}
+  - {fileID: 1977216859}
   m_Father: {fileID: 0}
   m_RootOrder: 5
 --- !u!1 &1397474499 stripped
@@ -847,6 +890,47 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
   m_PrefabInternal: {fileID: 222016100}
+--- !u!1 &1977216858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1977216859}
+  - 114: {fileID: 1977216860}
+  m_Layer: 0
+  m_Name: EnemyBulletLogicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1977216859
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1977216858}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1127982945}
+  m_RootOrder: 3
+--- !u!114 &1977216860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1977216858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f5658cd2314caba1f41e7524b5fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
+  size: 500
 --- !u!1 &2090560806
 GameObject:
   m_ObjectHideFlags: 0

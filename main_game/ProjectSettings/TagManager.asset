@@ -10,6 +10,9 @@ TagManager:
   - PlayerBullet
   - Thruster
   - SpaceScene_Camera
+  - SpaceScene_Nebula
+  - SpaceScene_LocalStar
+  - SpaceScene_Galaxy
   layers:
   - Default
   - TransparentFX
@@ -21,7 +24,7 @@ TagManager:
   - 
   - MiniMap
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
