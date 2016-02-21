@@ -34,6 +34,9 @@ public class EnemySpawner : MonoBehaviour
 
 	private static List<EnemyProperties> enemyTypeList = null;
 
+    private ObjectPoolManager logicManager;
+    private ObjectPoolManager enemyManager;
+
     void Start()
     {
         if (gameManager != null)
@@ -44,6 +47,8 @@ public class EnemySpawner : MonoBehaviour
         player = null;
         temp = new GameObject(); // Create temporary object to spawn enemies at
         temp.name = "EnemySpawnLocation";
+        enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
+        logicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         StartCoroutine("Cleanup");
 
 		if (enemyTypeList == null)
@@ -81,11 +86,14 @@ public class EnemySpawner : MonoBehaviour
                 temp.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
 
                 // Spawn enemy and server logic
-                GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
-                GameObject enemyObjectLogic = Instantiate(logic, temp.transform.position, transform.rotation) as GameObject;
+                GameObject enemyObject = enemyManager.RequestObject();
+                enemyObject.transform.position = temp.transform.position;
+                //GameObject enemyObject = Instantiate(enemy, temp.transform.position, transform.rotation) as GameObject;
+                //GameObject enemyObjectLogic = Instantiate(logic, temp.transform.position, transform.rotation) as GameObject;
+                GameObject enemyObjectLogic = logicManager.RequestObject();
+                enemyObjectLogic.transform.position = temp.transform.position;
 
                 // Set up enemy with components, spawn on network
-                enemyObject.AddComponent<EnemyCollision>();
 				enemyObjectLogic.transform.parent = enemyObject.transform;
 				enemyObjectLogic.transform.localPosition = Vector3.zero;
 

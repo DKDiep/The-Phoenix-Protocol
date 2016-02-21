@@ -93,6 +93,8 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
     private ObjectPoolManager explosionManager;
+    private ObjectPoolManager enemyLogicManager;
+    private ObjectPoolManager enemyManager;
 
 	void Start ()
 	{
@@ -107,6 +109,8 @@ public class EnemyLogic : MonoBehaviour
         logicManager = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
+        enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
+        enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -460,7 +464,10 @@ public class EnemyLogic : MonoBehaviour
 
 			gameState.RemoveEnemy (controlObject.gameObject);
             GetComponent<bl_MiniMapItem>().DestroyItem();
-			Destroy(transform.parent.gameObject);
+            string removeName = transform.parent.gameObject.name;
+            transform.parent = null;
+            enemyManager.RemoveObject(removeName);
+            enemyLogicManager.RemoveObject(gameObject.name);
 		}
 	}
 
