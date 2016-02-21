@@ -31,6 +31,7 @@ public class PlayerShooting : MonoBehaviour
     ObjectPoolManager bulletManager;
     ObjectPoolManager logicManager;
     ObjectPoolManager muzzleFlashManager;
+    ObjectPoolManager impactManager;
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
@@ -65,6 +66,7 @@ public class PlayerShooting : MonoBehaviour
         bulletManager = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
         muzzleFlashManager = GameObject.Find("PlayerMuzzleFlashManager").GetComponent<ObjectPoolManager>();
+        impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
 	}
 
 	void Update () 
@@ -140,7 +142,7 @@ public class PlayerShooting : MonoBehaviour
         BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 		logicComponent.SetID(this, playerId);
 		logic.transform.parent = obj.transform;
-		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager);
+		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
         GameObject muzzle = muzzleFlashManager.RequestObject();
         muzzle.transform.position = bulletAnchor[playerId].transform.position;

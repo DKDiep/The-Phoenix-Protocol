@@ -32,12 +32,14 @@ public class BulletLogic : MonoBehaviour
 
     ObjectPoolManager bulletManager;
     ObjectPoolManager logicManager;
+    ObjectPoolManager impactManager;
 
     // Initialise object when spawned
-	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2, ObjectPoolManager cachedBullet, ObjectPoolManager cachedLogic)
+	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2, ObjectPoolManager cachedBullet, ObjectPoolManager cachedLogic, ObjectPoolManager cachedImpact)
 	{
         bulletManager = cachedBullet;
         logicManager = cachedLogic;
+        impactManager = cachedImpact;
         destination = dest;
         playerObj = playerObj2;
 		obj = transform.parent.gameObject;
@@ -105,7 +107,8 @@ public class BulletLogic : MonoBehaviour
 
         if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
         {
-            GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
+            GameObject impactTemp = impactManager.RequestObject();
+            //GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
             //impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
             //impactTemp.GetComponent<Light>().color = bulletColor;
         
