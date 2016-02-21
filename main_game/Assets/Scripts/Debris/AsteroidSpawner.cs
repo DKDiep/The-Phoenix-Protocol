@@ -33,6 +33,8 @@ public class AsteroidSpawner : MonoBehaviour
 
 	private bool fieldSpawned = false;
 
+    private ObjectPoolManager explosionManager;
+
     void Start ()
     {
         // Set game state reference
@@ -41,6 +43,7 @@ public class AsteroidSpawner : MonoBehaviour
         spawnLocation = new GameObject(); // A temporary game object to spawn asteroids on
         logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 		spawnLocation.name = "AsteroidSpawnLocation";
+        explosionManager = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
         StartCoroutine("Cleanup");
     }
 
@@ -90,7 +93,7 @@ public class AsteroidSpawner : MonoBehaviour
 		asteroidLogic.transform.parent = asteroidObject.transform;
 		asteroidLogic.transform.localPosition = Vector3.zero;
 		asteroidObject.AddComponent<AsteroidCollision>();
-		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
+		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager);
 		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
 
 		// Add collider and rigidbody

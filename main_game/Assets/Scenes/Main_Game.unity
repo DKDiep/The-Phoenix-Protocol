@@ -85,6 +85,47 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &194685250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 194685251}
+  - 114: {fileID: 194685252}
+  m_Layer: 0
+  m_Name: PlayerMuzzleFlashManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &194685251
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194685250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1127982945}
+  m_RootOrder: 5
+--- !u!114 &194685252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194685250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f5658cd2314caba1f41e7524b5fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 131070, guid: 3d2fb4ef4cf0544389326dac5cdc8c2c, type: 2}
+  size: 50
 --- !u!1001 &222016100
 Prefab:
   m_ObjectHideFlags: 0
@@ -330,7 +371,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxAsteroids
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: minDistance
@@ -342,7 +383,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxEnemies
-      value: 35
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
@@ -476,6 +517,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   size: 500
+--- !u!1 &842341785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 842341786}
+  - 114: {fileID: 842341787}
+  m_Layer: 0
+  m_Name: AsteroidExplosionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842341786
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 842341785}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1127982945}
+  m_RootOrder: 4
+--- !u!114 &842341787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 842341785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f5658cd2314caba1f41e7524b5fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
+  size: 10
 --- !u!1 &950227469
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,6 +819,8 @@ Transform:
   - {fileID: 950227470}
   - {fileID: 808558402}
   - {fileID: 1977216859}
+  - {fileID: 842341786}
+  - {fileID: 194685251}
   m_Father: {fileID: 0}
   m_RootOrder: 5
 --- !u!1 &1397474499 stripped

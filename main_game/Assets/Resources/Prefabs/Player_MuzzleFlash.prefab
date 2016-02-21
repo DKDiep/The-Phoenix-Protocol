@@ -198,6 +198,8 @@ MonoBehaviour:
   snd: []
   randomPitch: 0
   hasLight: 1
+  lifetime: 0.5
+  managerName: PlayerMuzzleFlashManager
 --- !u!198 &19817590
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7571,6 +7573,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: InitialModule.startColor.minColor.rgba
       value: 4294959555
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: managerName
+      value: PlayerMuzzleFlashManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

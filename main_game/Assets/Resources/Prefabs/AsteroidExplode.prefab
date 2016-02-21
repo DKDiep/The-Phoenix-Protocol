@@ -368,6 +368,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
   randomPitch: 0
   hasLight: 0
+  lifetime: 4
+  managerName: AsteroidExplosionManager
 --- !u!114 &11434830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8006,6 +8008,14 @@ Prefab:
       propertyPath: snd.Array.data[3]
       value: 
       objectReference: {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
+    - target: {fileID: 0}
+      propertyPath: lifetime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: managerName
+      value: AsteroidExplosionManager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 112660}

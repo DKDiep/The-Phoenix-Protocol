@@ -31,16 +31,19 @@ public class AsteroidLogic : MonoBehaviour
     [SerializeField] GameObject destroyEffect;
 
     private GameState gameState;
+    private ObjectPoolManager explosionManager;
 
 
-	void Start() {
+	void Start() 
+    {
 		droppedResources = System.Convert.ToInt32(Random.Range (0, MAX_DROPPED_RESOURCES));
 	}
 
 
     // Initialise player, size, and speed
-	public void SetPlayer(GameObject temp, float var, int rnd)
+	public void SetPlayer(GameObject temp, float var, int rnd, ObjectPoolManager cachedManager)
 	{
+        explosionManager = cachedManager;
 		player = temp;
 		type = rnd;
 		maxVariation = var;
@@ -67,7 +70,9 @@ public class AsteroidLogic : MonoBehaviour
 			// Ship automatically collects resources from destroyed asteroids. 
 			gameState.AddShipResources(droppedResources);
 		
-            GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+            //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+            GameObject temp = explosionManager.RequestObject();
+            temp.transform.position = transform.position;
             ServerManager.NetworkSpawn(temp);
             gameState.RemoveAsteroid(transform.parent.gameObject);
             Destroy(transform.parent.gameObject);	
