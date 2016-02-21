@@ -108,6 +108,7 @@ public class BulletLogic : MonoBehaviour
         if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
         {
             GameObject impactTemp = impactManager.RequestObject();
+            impactTemp.transform.position = col.transform.position;
             //GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
             //impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
             //impactTemp.GetComponent<Light>().color = bulletColor;

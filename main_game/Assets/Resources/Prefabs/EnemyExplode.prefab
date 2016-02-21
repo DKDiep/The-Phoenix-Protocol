@@ -420,6 +420,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1abb4cad5c08aa945b90a7ef0b2a747a, type: 3}
   randomPitch: 0
   hasLight: 0
+  lifetime: 3
+  managerName: EnemyExplosionManager
 --- !u!198 &19807578
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7781,7 +7783,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: managerName
+      value: EnemyExplosionManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lifetime
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 195300}

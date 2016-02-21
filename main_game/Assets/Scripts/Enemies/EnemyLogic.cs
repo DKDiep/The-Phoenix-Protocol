@@ -92,6 +92,7 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
+    private ObjectPoolManager explosionManager;
 
 	void Start ()
 	{
@@ -105,6 +106,7 @@ public class EnemyLogic : MonoBehaviour
         bulletManager = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
+        explosionManager = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
 	}
 
     public void SetControlObject(GameObject newControlObject)
@@ -451,7 +453,9 @@ public class EnemyLogic : MonoBehaviour
 			gameState.AddShipResources(droppedResources);
 
 			// Destroy Object
-            GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+            GameObject temp = explosionManager.RequestObject();
+            temp.transform.position = transform.position;
+            //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             ServerManager.NetworkSpawn(temp);
 
 			gameState.RemoveEnemy (controlObject.gameObject);
