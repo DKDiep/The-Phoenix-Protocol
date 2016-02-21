@@ -102,9 +102,6 @@ public class EnemyLogic : MonoBehaviour
 		serverManager = server.GetComponent<ServerManager>();
 		gameState = server.GetComponent<GameState>();
 
-		// Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
-		droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
-
         bulletManager = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
@@ -112,6 +109,12 @@ public class EnemyLogic : MonoBehaviour
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
+
+    void OnEnable()
+    {
+        // Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
+        droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
+    }
 
     public void SetControlObject(GameObject newControlObject)
     {

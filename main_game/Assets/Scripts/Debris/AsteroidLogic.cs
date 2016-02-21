@@ -36,7 +36,7 @@ public class AsteroidLogic : MonoBehaviour
     private ObjectPoolManager asteroidManager;
 
 
-	void Start() 
+	void OnEnable() 
     {
 		droppedResources = System.Convert.ToInt32(Random.Range (0, MAX_DROPPED_RESOURCES));
 	}
