@@ -39,6 +39,8 @@ public class ServerManager : NetworkBehaviour {
 
         if(MainMenu.startServer)
         {
+            // Spawn Object Pooling Controller first
+            Instantiate(Resources.Load("Prefabs/ObjectPooling", typeof(GameObject)));
             // Save the original add player handler to save ourselves some work
             // and register a new one
             originalAddPlayerHandler = NetworkServer.handlers[MsgType.AddPlayer];
@@ -90,7 +92,8 @@ public class ServerManager : NetworkBehaviour {
 
     public void StartGame()
     {
-        //Spawn networked ship
+
+        // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.SetPlayerShip(playerShip);
         ServerManager.NetworkSpawn(playerShip);
