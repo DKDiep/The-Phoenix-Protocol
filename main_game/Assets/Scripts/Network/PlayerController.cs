@@ -181,6 +181,24 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdDoUpgrade()
+    {
+
+    }
+
+    [Command]
+    public void CmdDoRepair()
+    {
+
+    }
+
+    [Command]
+    public void CmdAddUpgrade(GameObject obj)
+    {
+
+    }
+
     // OnGUI draws to screen and is called every few frames
     void OnGUI()
     {
