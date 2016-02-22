@@ -28,6 +28,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     [SerializeField] GameObject[] obj; // Object to spawn
     [SerializeField] int size; // Number of objects to spawn
+    [SerializeField] bool serverOnly;
 
 	// Use this for initialization
 	void Start () 
@@ -40,6 +41,7 @@ public class ObjectPoolManager : MonoBehaviour
             GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
             spawn.name = i.ToString();
+            if(!serverOnly) ServerManager.NetworkSpawn(spawn);
             pool[i] = spawn;
         }
 	}

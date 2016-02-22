@@ -390,6 +390,7 @@ MonoBehaviour:
   obj:
   - {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
   size: 200
+  serverOnly: 0
 --- !u!114 &11403910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,6 +405,7 @@ MonoBehaviour:
   obj:
   - {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
   size: 500
+  serverOnly: 1
 --- !u!114 &11420408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -418,6 +420,7 @@ MonoBehaviour:
   obj:
   - {fileID: 136190, guid: 963cc59b6ac094abd9bd7a70ab1fd92e, type: 2}
   size: 200
+  serverOnly: 1
 --- !u!114 &11428930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -464,6 +467,7 @@ MonoBehaviour:
   obj:
   - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   size: 500
+  serverOnly: 0
 --- !u!114 &11436972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,6 +482,7 @@ MonoBehaviour:
   obj:
   - {fileID: 176114, guid: a75ec3e4bf14c4b63aac7ac0788b96b3, type: 2}
   size: 1000
+  serverOnly: 1
 --- !u!114 &11442402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -492,6 +497,7 @@ MonoBehaviour:
   obj:
   - {fileID: 124810, guid: 9025b9b978f9c7145a49a33d9be4b990, type: 2}
   size: 200
+  serverOnly: 1
 --- !u!114 &11448210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,6 +512,7 @@ MonoBehaviour:
   obj:
   - {fileID: 131070, guid: 3d2fb4ef4cf0544389326dac5cdc8c2c, type: 2}
   size: 50
+  serverOnly: 0
 --- !u!114 &11454994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -520,6 +527,7 @@ MonoBehaviour:
   obj:
   - {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
   size: 10
+  serverOnly: 0
 --- !u!114 &11457014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -534,6 +542,7 @@ MonoBehaviour:
   obj:
   - {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972, type: 2}
   size: 10
+  serverOnly: 0
 --- !u!114 &11463082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,6 +559,7 @@ MonoBehaviour:
   - {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
   - {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
   size: 1000
+  serverOnly: 0
 --- !u!114 &11466854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -564,6 +574,7 @@ MonoBehaviour:
   obj:
   - {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
   size: 200
+  serverOnly: 0
 --- !u!114 &11471512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -578,6 +589,7 @@ MonoBehaviour:
   obj:
   - {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   size: 50
+  serverOnly: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -651,6 +663,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ServerOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: serverOnly
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

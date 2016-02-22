@@ -838,7 +838,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1218444128}
   - 114: {fileID: 1218444126}
-  - 114: {fileID: 1218444127}
   - 114: {fileID: 1218444125}
   m_Layer: 0
   m_Name: NetworkManager
@@ -940,17 +939,6 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
---- !u!114 &1218444127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1218444124}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b368e052edd946fe884cc9bec1ddb3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1218444128
 Transform:
   m_ObjectHideFlags: 0
