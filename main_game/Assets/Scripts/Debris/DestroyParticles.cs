@@ -7,8 +7,9 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
  
-public class DestroyParticles : MonoBehaviour
+public class DestroyParticles : NetworkBehaviour
 {
     [SerializeField] AudioClip[] snd;
     [SerializeField] bool randomPitch;
@@ -23,6 +24,8 @@ public class DestroyParticles : MonoBehaviour
 
     private void Awake()
     {
+        if(!isServer) Destroy(this);
+
         if(hasLight)
         { 
             myLight = GetComponent<Light>();
