@@ -105,15 +105,12 @@ public class EnemySpawner : MonoBehaviour
 	{
 		// Spawn enemy and server logic
 		enemyObject = enemyManager.RequestObject();
+        GameObject enemyLogicObject = logicManager.RequestObject();
+        enemyLogicObject.transform.parent = enemyObject.transform;
+        enemyLogicObject.transform.localPosition = Vector3.zero;
 		enemyObject.transform.position = spawnLocation.transform.position;
 
-		GameObject enemyLogicObject = logicManager.RequestObject();
-		enemyLogicObject.transform.position = spawnLocation.transform.position;
-
-		// Set up enemy with components, spawn on network
-		enemyLogicObject.transform.parent = enemyObject.transform;
-		enemyLogicObject.transform.localPosition = Vector3.zero;
-
+		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
 		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
