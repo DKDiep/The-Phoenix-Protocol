@@ -149,7 +149,6 @@ public class PlayerShooting : MonoBehaviour
         muzzle.transform.rotation = bulletAnchor[playerId].transform.rotation;
         muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
 
-        ServerManager.NetworkSpawn(obj);
 		canShoot = false;
 		StartCoroutine("Delay");
 	}

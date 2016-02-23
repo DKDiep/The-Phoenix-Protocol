@@ -104,7 +104,6 @@ public class AsteroidSpawner : MonoBehaviour
 
 		// Spawn on the network and add to GameState
 		state.AddAsteroidList(asteroidObject);
-		ServerManager.NetworkSpawn(asteroidObject);
 		numAsteroids += 1;
 	}
 

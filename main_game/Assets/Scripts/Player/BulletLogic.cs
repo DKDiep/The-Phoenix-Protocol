@@ -108,17 +108,6 @@ public class BulletLogic : MonoBehaviour
         {
             GameObject impactTemp = impactManager.RequestObject();
             impactTemp.transform.position = col.transform.position;
-            //GameObject impactTemp = Instantiate (impact, col.transform.position, Quaternion.identity) as GameObject;
-            //impactTemp.GetComponent<Renderer>().material.SetColor("_TintColor", bulletColor);
-            //impactTemp.GetComponent<Light>().color = bulletColor;
-        
-        /*Renderer[] rend = impactTemp.GetComponentsInChildren<Renderer>();
-        for(int i = 0; i < rend.Length; i++)
-        {
-            rend[i].material.SetColor("_TintColor", bulletColor);
-        }*/
-
-            ServerManager.NetworkSpawn(impactTemp);
         }
         bulletManager.RemoveObject(gameObject.name);
         logicManager.RemoveObject(gameObject.name);

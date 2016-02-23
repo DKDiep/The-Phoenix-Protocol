@@ -103,8 +103,6 @@ public class EnemySpawner : MonoBehaviour
 				enemyObjectLogicComponent.SetPlayer(state.GetPlayerShip());
 				enemyObjectLogicComponent.SetAIWaypoints (GetAIWaypointsForEnemy ());
 
-                ServerManager.NetworkSpawn(enemyObject);
-
                 enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
                 numEnemies += 1;
                 state.AddEnemyList(enemyObject);

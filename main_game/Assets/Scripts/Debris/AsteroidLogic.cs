@@ -77,7 +77,6 @@ public class AsteroidLogic : MonoBehaviour
             //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             GameObject temp = explosionManager.RequestObject();
             temp.transform.position = transform.position;
-            ServerManager.NetworkSpawn(temp);
             gameState.RemoveAsteroid(transform.parent.gameObject);
             string removeName = transform.parent.gameObject.name;
             transform.parent = null;
