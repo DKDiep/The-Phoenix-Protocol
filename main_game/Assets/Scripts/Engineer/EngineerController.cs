@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EngineerController : NetworkBehaviour {
 
@@ -30,6 +31,10 @@ public class EngineerController : NetworkBehaviour {
     private bool pressedRepair;
     private EngineerInteraction interactiveObject;
     private GameObject playerShip;
+
+    private List<GameObject> engines;
+    private List<GameObject> turrets;
+    private GameObject bridge;
 
 
 	// Use this for initialization
@@ -102,6 +107,27 @@ public class EngineerController : NetworkBehaviour {
         // Create the upgrade text object to use
         GameObject obj = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
         upgradeText = obj.GetComponentInChildren<Text>();
+
+        // Get the components of the main ship that can be upgraded and/or repaired
+        EngineerInteraction[] interactionObjects = playerShip.GetComponentsInChildren<EngineerInteraction>();
+
+        engines = new List<GameObject>();
+        turrets = new List<GameObject>();
+        foreach (EngineerInteraction interaction in interactionObjects)
+        {
+            if (interaction.gameObject.name.Contains("Turret"))
+            {
+                turrets.Add(interaction.gameObject);
+            }
+            else if(interaction.gameObject.name.Contains("Engine"))
+            {
+                engines.Add(interaction.gameObject);
+            }
+            else if(interaction.gameObject.name.Contains("Bridge"))
+            {
+                bridge = interaction.gameObject;
+            }
+        }
     }
 
     // Update is called once per frame
