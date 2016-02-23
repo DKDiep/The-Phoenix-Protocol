@@ -28,7 +28,7 @@ public class ObjectPoolManager : NetworkBehaviour
             GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
             spawn.name = i.ToString();
-            if(!serverOnly) ServerManager.NetworkSpawn(spawn);
+            //if(!serverOnly) ServerManager.NetworkSpawn(spawn);
             if(spawn.GetComponent<Collider>() != null) spawn.GetComponent<Collider>().enabled = true;
             pool[i] = spawn;
         }

@@ -499,6 +499,8 @@ public class EnemyLogic : MonoBehaviour
 				gameState.AddPlayerScore(playerId, 10);
 			}
 
+            string removeName = transform.parent.gameObject.name;
+
 			// Automatically collect resources from enemy ship
 			gameState.AddShipResources(droppedResources);
 
@@ -512,7 +514,7 @@ public class EnemyLogic : MonoBehaviour
 
 			gameState.RemoveEnemy (controlObject.gameObject);
             //GetComponent<bl_MiniMapItem>().DestroyItem();
-            string removeName = transform.parent.gameObject.name;
+           
             transform.parent = null;
             enemyManager.DisableClientObject(removeName);
             enemyManager.RemoveObject(removeName);
