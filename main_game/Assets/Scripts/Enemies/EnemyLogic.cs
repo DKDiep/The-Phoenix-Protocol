@@ -407,6 +407,9 @@ public class EnemyLogic : MonoBehaviour
 		Vector3 destination = player.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
 		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
+
+        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+
         if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
         if(distance < 300f) mySrc.PlayOneShot(fireSnd);
 		if(shoot) StartCoroutine ("Shoot");
@@ -461,12 +464,16 @@ public class EnemyLogic : MonoBehaviour
 			// Destroy Object
             GameObject temp = explosionManager.RequestObject();
             temp.transform.position = transform.position;
+
+            explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
+
             //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
 
 			gameState.RemoveEnemy (controlObject.gameObject);
             //GetComponent<bl_MiniMapItem>().DestroyItem();
             string removeName = transform.parent.gameObject.name;
             transform.parent = null;
+            enemyManager.DisableClientObject(removeName);
             enemyManager.RemoveObject(removeName);
             enemyLogicManager.RemoveObject(gameObject.name);
 		}

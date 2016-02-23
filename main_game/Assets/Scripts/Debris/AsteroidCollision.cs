@@ -15,7 +15,7 @@ public class AsteroidCollision : MonoBehaviour
 
     void Start()
     {
-        myLogic = GetComponentInChildren<AsteroidLogic>();
+        if(GetComponentInChildren<AsteroidLogic>() != null ) myLogic = GetComponentInChildren<AsteroidLogic>();
     }
 
     public void SetCollisionDamage(float dmg)
@@ -29,12 +29,12 @@ public class AsteroidCollision : MonoBehaviour
 		if(col.gameObject.tag.Equals ("Player"))
 		{
 			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
-            myLogic.collision(1000f);
+            if(myLogic != null) myLogic.collision(1000f);
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{
             if(col.gameObject.GetComponentInChildren<EnemyLogic>() != null) col.gameObject.GetComponentInChildren<EnemyLogic>().collision(collisionDamage, -1);
-            myLogic.collision(1000f);
+            if(myLogic != null)myLogic.collision(1000f);
 		}
 	}
 }

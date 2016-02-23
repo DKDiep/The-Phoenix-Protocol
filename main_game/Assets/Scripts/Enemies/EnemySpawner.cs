@@ -104,6 +104,9 @@ public class EnemySpawner : MonoBehaviour
 				enemyObjectLogicComponent.SetAIWaypoints (GetAIWaypointsForEnemy ());
 
                 enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
+
+                enemyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+
                 numEnemies += 1;
                 state.AddEnemyList(enemyObject);
             }

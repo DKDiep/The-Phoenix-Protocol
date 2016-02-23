@@ -16,20 +16,20 @@ public class EnemyCollision : MonoBehaviour
 
     void Start()
     {
-        myLogic = GetComponentInChildren<EnemyLogic>();
+        if(GetComponentInChildren<EnemyLogic>() != null) myLogic = GetComponentInChildren<EnemyLogic>();
     }
 
     void OnTriggerEnter (Collider col)
     {
     	if(col.gameObject.tag.Equals ("Player"))
     	{
-    		col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
-            myLogic.collision(1000f, -1);
+            if(col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>() != null) col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
+            if(myLogic != null) myLogic.collision(1000f, -1);
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {
             if(col.gameObject.GetComponentInChildren<AsteroidLogic>() != null ) col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(1000f);
-            myLogic.collision(collisionDamage, -1);
+            if(myLogic != null) myLogic.collision(collisionDamage, -1);
         }
     }
 }

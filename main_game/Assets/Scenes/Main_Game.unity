@@ -301,7 +301,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11444380, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: maxEnemies
-      value: 2
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 11489612, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[3]
