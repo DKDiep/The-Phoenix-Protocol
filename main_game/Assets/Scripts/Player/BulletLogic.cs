@@ -109,6 +109,7 @@ public class BulletLogic : MonoBehaviour
             GameObject impactTemp = impactManager.RequestObject();
             impactTemp.transform.position = col.transform.position;
         }
+        bulletManager.DisableClientObject(gameObject.name);
         bulletManager.RemoveObject(gameObject.name);
         logicManager.RemoveObject(gameObject.name);
     }
@@ -117,6 +118,7 @@ public class BulletLogic : MonoBehaviour
     IEnumerator DestroyObject()
     {
         yield return new WaitForSeconds(4f);
+        bulletManager.DisableClientObject(gameObject.name);
         bulletManager.RemoveObject(gameObject.name);
         logicManager.RemoveObject(gameObject.name);
     }

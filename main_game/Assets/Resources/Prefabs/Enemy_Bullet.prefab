@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5db2d941292e403d9b3f3fee6c14356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 600
 --- !u!114 &11432768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3291,7 +3292,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: player

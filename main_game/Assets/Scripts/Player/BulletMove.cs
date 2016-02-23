@@ -7,19 +7,13 @@
 
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class BulletMove : NetworkBehaviour 
+public class BulletMove : MonoBehaviour 
 {
 
-  [SyncVar] float speed;
+  [SerializeField] float speed;
   //[SyncVar] Color bulletColor;
   //[SyncVar] bool ready = false;
-
-  void Start ()
-  {
-      if(isServer) speed = GetComponentInChildren<BulletLogic>().speed;
-  }
 
   void Update () 
   {

@@ -464,7 +464,7 @@ public class EnemyLogic : MonoBehaviour
             //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
 
 			gameState.RemoveEnemy (controlObject.gameObject);
-            GetComponent<bl_MiniMapItem>().DestroyItem();
+            //GetComponent<bl_MiniMapItem>().DestroyItem();
             string removeName = transform.parent.gameObject.name;
             transform.parent = null;
             enemyManager.RemoveObject(removeName);

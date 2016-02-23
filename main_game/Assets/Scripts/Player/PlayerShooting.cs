@@ -144,6 +144,8 @@ public class PlayerShooting : MonoBehaviour
 		logic.transform.parent = obj.transform;
 		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
+        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation);
+
         GameObject muzzle = muzzleFlashManager.RequestObject();
         muzzle.transform.position = bulletAnchor[playerId].transform.position;
         muzzle.transform.rotation = bulletAnchor[playerId].transform.rotation;

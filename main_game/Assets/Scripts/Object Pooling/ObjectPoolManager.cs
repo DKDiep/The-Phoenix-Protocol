@@ -10,7 +10,7 @@
 2. When attempting to fire, send request for bullet. Return array index.
 3. Move bullet to right position and direction, activate
 4. Send RPC to clients requesting a bullet to be activated, pass in position, direction, array index as arguments
-4. When bullet needs to be destroyed, deactivate it and free it in the array. Send RPC to clients to disable that particular bullet.
+5. When bullet needs to be destroyed, deactivate it and free it in the array. Send RPC to clients to disable that particular bullet.
 
 On client:
 
@@ -21,8 +21,9 @@ On client:
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class ObjectPoolManager : MonoBehaviour 
+public class ObjectPoolManager : NetworkBehaviour 
 {
     private GameObject[] pool;
 
@@ -31,7 +32,7 @@ public class ObjectPoolManager : MonoBehaviour
     [SerializeField] bool serverOnly;
 
 	// Use this for initialization
-	void Start () 
+	public void SpawnObjects () 
     {
         pool = new GameObject[size];
 
@@ -66,6 +67,33 @@ public class ObjectPoolManager : MonoBehaviour
     public void RemoveObject(string objName)
     {
         int id = int.Parse(objName);
+        pool[id].transform.parent = null;
+        pool[id].SetActive(false);
+    }
+
+    public void EnableClientObject(string name, Vector3 position, Quaternion rotation)
+    {
+       int id = int.Parse(name);
+       RpcEnableObject(id, position, rotation);
+    }
+
+    public void DisableClientObject(string name)
+    {
+       int id = int.Parse(name);
+       RpcDisableObject(id);
+    }
+
+    [ClientRpc]
+    void RpcEnableObject(int id, Vector3 position, Quaternion rotation)
+    {
+        pool[id].SetActive(true);
+        pool[id].transform.position = position;
+        pool[id].transform.rotation = rotation;
+    }
+
+    [ClientRpc]
+    void RpcDisableObject(int id)
+    {
         pool[id].transform.parent = null;
         pool[id].SetActive(false);
     }

@@ -33,7 +33,7 @@ public class AsteroidCollision : MonoBehaviour
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{
-			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(collisionDamage, -1);
+            if(col.gameObject.GetComponentInChildren<EnemyLogic>() != null) col.gameObject.GetComponentInChildren<EnemyLogic>().collision(collisionDamage, -1);
             myLogic.collision(1000f);
 		}
 	}

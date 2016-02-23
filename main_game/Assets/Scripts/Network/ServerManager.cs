@@ -32,6 +32,16 @@ public class ServerManager : NetworkBehaviour {
         NetworkServer.Spawn(spawnObject);
     }
 
+    void Awake()
+    {
+        GameObject poolManager = GameObject.Find("ObjectPooling");
+
+        foreach(Transform child in poolManager.transform)
+        {
+            child.gameObject.GetComponent<ObjectPoolManager>().SpawnObjects();
+        }
+    }
+
     void Start()
     {
         Cursor.visible = true; //leave as true for development, false for production
@@ -40,7 +50,6 @@ public class ServerManager : NetworkBehaviour {
         if(MainMenu.startServer)
         {
             // Spawn Object Pooling Controller first
-            Instantiate(Resources.Load("Prefabs/ObjectPooling", typeof(GameObject)));
             // Save the original add player handler to save ourselves some work
             // and register a new one
             originalAddPlayerHandler = NetworkServer.handlers[MsgType.AddPlayer];
