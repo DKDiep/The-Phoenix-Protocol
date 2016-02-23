@@ -71,10 +71,10 @@ public class ObjectPoolManager : NetworkBehaviour
         pool[id].SetActive(false);
     }
 
-    public void EnableClientObject(string name, Vector3 position, Quaternion rotation)
+    public void EnableClientObject(string name, Vector3 position, Quaternion rotation, Vector3 scale)
     {
        int id = int.Parse(name);
-       RpcEnableObject(id, position, rotation);
+       RpcEnableObject(id, position, rotation, scale);
     }
 
     public void DisableClientObject(string name)
@@ -84,11 +84,12 @@ public class ObjectPoolManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcEnableObject(int id, Vector3 position, Quaternion rotation)
+    void RpcEnableObject(int id, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         pool[id].SetActive(true);
         pool[id].transform.position = position;
         pool[id].transform.rotation = rotation;
+        pool[id].transform.localScale = scale;
     }
 
     [ClientRpc]

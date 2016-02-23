@@ -78,7 +78,6 @@ GameObject:
   - 4: {fileID: 460484}
   - 54: {fileID: 5423256}
   - 114: {fileID: 11473720}
-  - 114: {fileID: 11430852}
   - 114: {fileID: 11401510}
   - 114: {fileID: 11456970}
   - 65: {fileID: 6530106}
@@ -363,17 +362,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &11430852
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 175856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11447428
 MonoBehaviour:
   m_ObjectHideFlags: 1
