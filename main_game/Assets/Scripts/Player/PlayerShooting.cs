@@ -122,19 +122,6 @@ public class PlayerShooting : MonoBehaviour
 
         if(randomPitch) mySrc.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
         mySrc.PlayOneShot(fireSnd);
-
-		Ray ray = Camera.main.ScreenPointToRay(crosshairPosition);
-		RaycastHit hit;
-
-		if(Physics.Raycast(ray,out hit) && !hit.transform.gameObject.tag.Equals("Player"))
-		{
-			target.transform.position = hit.transform.position;
-		}
-		else
-		{
-			target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
-			target.transform.Translate (transform.forward * (-10f));
-		}
         
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = bulletAnchor[playerId].transform.position;
