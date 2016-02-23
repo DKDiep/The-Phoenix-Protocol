@@ -274,6 +274,8 @@ public class EnemyLogic : MonoBehaviour
 			}
 		}
 
+        enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
+
 	}
 
 	// When not engaged, try and get closer to the player

@@ -5,20 +5,6 @@
     Description: Instantiates a number of objects at startup on both the Server and Clients
 */
 
-/*
-1. Spawn 200 bullets at startup, deactivated, store in array
-2. When attempting to fire, send request for bullet. Return array index.
-3. Move bullet to right position and direction, activate
-4. Send RPC to clients requesting a bullet to be activated, pass in position, direction, array index as arguments
-5. When bullet needs to be destroyed, deactivate it and free it in the array. Send RPC to clients to disable that particular bullet.
-
-On client:
-
-1. Spawn 200 bullets at startup, deactivated, store in array
-2. RPC commands will do the rest
-
-*/
-
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
@@ -81,6 +67,18 @@ public class ObjectPoolManager : NetworkBehaviour
     {
        int id = int.Parse(name);
        RpcDisableObject(id);
+    }
+
+    public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
+    {
+        RpcUpdateTransform(position, rotation, int.Parse(name));
+    }
+
+    [ClientRpc]
+    void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
+    {
+        pool[id].transform.position = position;
+        pool[id].transform.rotation = rotation;
     }
 
     [ClientRpc]
