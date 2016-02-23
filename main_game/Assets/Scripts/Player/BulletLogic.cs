@@ -108,6 +108,7 @@ public class BulletLogic : MonoBehaviour
         {
             GameObject impactTemp = impactManager.RequestObject();
             impactTemp.transform.position = col.transform.position;
+            impactManager.EnableClientObject(impactTemp.name, impactTemp.transform.position, impactTemp.transform.rotation, impactTemp.transform.localScale);
         }
         bulletManager.DisableClientObject(gameObject.name);
         bulletManager.RemoveObject(gameObject.name);

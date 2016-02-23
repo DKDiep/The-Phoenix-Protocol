@@ -30,7 +30,6 @@ GameObject:
   - 108: {fileID: 10829406}
   - 114: {fileID: 11403512}
   - 114: {fileID: 11469736}
-  - 114: {fileID: 11420922}
   - 82: {fileID: 8298028}
   m_Layer: 2
   m_Name: BulletExplosion
@@ -218,26 +217,6 @@ MonoBehaviour:
   hasLight: 0
   lifetime: 3
   managerName: BulletImpactManager
---- !u!114 &11420922
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &11469736
 MonoBehaviour:
   m_ObjectHideFlags: 1
