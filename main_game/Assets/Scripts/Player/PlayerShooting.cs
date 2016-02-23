@@ -118,6 +118,7 @@ public class PlayerShooting : MonoBehaviour
 	void ShootBullet(int playerId) 
 	{
 		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
+		target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 
         if(randomPitch) mySrc.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
         mySrc.PlayOneShot(fireSnd);
@@ -141,6 +142,7 @@ public class PlayerShooting : MonoBehaviour
         GameObject logic = logicManager.RequestObject();
         BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 		logicComponent.SetID(this, playerId);
+
 		logic.transform.parent = obj.transform;
 		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 

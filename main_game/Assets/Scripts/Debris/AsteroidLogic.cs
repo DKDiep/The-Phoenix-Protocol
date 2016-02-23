@@ -73,12 +73,11 @@ public class AsteroidLogic : MonoBehaviour
         {
 			// Ship automatically collects resources from destroyed asteroids. 
 			gameState.AddShipResources(droppedResources);
-		
+            gameState.RemoveAsteroid(transform.parent.gameObject);
             //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
             GameObject temp = explosionManager.RequestObject();
             temp.transform.position = transform.position;
             explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
-            gameState.RemoveAsteroid(transform.parent.gameObject);
             string removeName = transform.parent.gameObject.name;
             transform.parent = null;
             asteroidManager.DisableClientObject(removeName);

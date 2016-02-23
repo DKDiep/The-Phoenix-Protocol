@@ -12,11 +12,10 @@ GameObject:
   - 136: {fileID: 13667492}
   - 23: {fileID: 2316570}
   - 114: {fileID: 11492126}
-  - 114: {fileID: 11490960}
   - 114: {fileID: 11440756}
   m_Layer: 0
   m_Name: Outpost1
-  m_TagString: Untagged
+  m_TagString: Outpost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,17 +85,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &11490960
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11492126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,6 +156,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Outpost
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

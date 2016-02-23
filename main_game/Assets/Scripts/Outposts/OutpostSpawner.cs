@@ -8,40 +8,41 @@ public class OutpostSpawner : MonoBehaviour
 	// The distance from the outpost the ship has to be in order to collect resources
 	[SerializeField] float collectionDistance;
 
-	GameObject player, outpost, logic, spawnLocation;
+	[SerializeField] GameObject gameManager;
 	private GameState gameState;
-	private int numberOfOutposts = 5;
+	private EnemySpawner enemySpawner;
+
+	private GameObject player, outpost, logic, spawnLocation;
+
+	[SerializeField] int maxOutposts;
+	private int numOutposts = 0;
 
 	void Start ()
 	{
-		GameObject gameManager = GameObject.Find("GameManager");
-		gameState = gameManager.GetComponent<GameState>();
+		gameState    = gameManager.GetComponent<GameState>();
+		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
-		spawnLocation = new GameObject();
-
-		spawnLocation.name = "OutpostSpawnLocation";
-
 	
+		spawnLocation = new GameObject();
+		spawnLocation.name = "OutpostSpawnLocation";
 	}
-
-
-
+		
 	void Update() {
 		if (gameState.GetStatus() == GameState.Status.Started)
 		{
-			if(numberOfOutposts > 0)
+			if(numOutposts < maxOutposts)
 			{
-				if(player == null) {
+				if(player == null)
 					player = gameState.GetPlayerShip();
-				}
+			
 				spawnLocation.transform.position = player.transform.position;
 				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(0,360), Random.Range(0,360));
 
 				spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
 
 				SpawnOutpost ();
-				numberOfOutposts--;
+				numOutposts++;
 			}
 		}
 
@@ -75,6 +76,9 @@ public class OutpostSpawner : MonoBehaviour
 		gameState.AddOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
 
+		// Request the enemy spawner to spawn protecting ships around this outpost
+		int numGuards = Random.Range(5, 10); // TODO: might want to set this manually based on difficulty
+		enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
 	}
 
 }

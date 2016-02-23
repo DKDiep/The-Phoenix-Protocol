@@ -11,8 +11,9 @@ TagManager:
   - Thruster
   - SpaceScene_Camera
   - SpaceScene_Nebula
-  - SpaceScene_LocalStar
   - SpaceScene_Galaxy
+  - SpaceScene_LocalStar
+  - Outpost
   layers:
   - Default
   - TransparentFX

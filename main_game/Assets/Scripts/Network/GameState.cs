@@ -1,4 +1,4 @@
-﻿/*
+/*
     2015-2016 Team Pyrolite
     Project "Sky Base"
     Authors: Dillon Keith Diep, Andrei Poenaru
@@ -61,6 +61,7 @@ public class GameState : NetworkBehaviour {
 	// The health of the ship. 
 	[SyncVar]
 	private float shipHealth = INITIAL_SHIP_HEALTH;
+	private bool godMode = false;
     
     void Update()
     {
@@ -68,7 +69,16 @@ public class GameState : NetworkBehaviour {
     	{
     		Application.Quit ();
     	}
+		if (Input.GetKeyDown(KeyCode.G))
+		{
+			godMode = !godMode;
+			if (!godMode)
+				shipHealth = INITIAL_SHIP_HEALTH;
+			Debug.Log("God mode " + godMode);
+		}
 
+		if (godMode)
+			shipHealth = float.MaxValue;
     }
 
     public Status GetStatus()

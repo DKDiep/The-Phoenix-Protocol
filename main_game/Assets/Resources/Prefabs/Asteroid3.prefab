@@ -12,7 +12,6 @@ GameObject:
   - 23: {fileID: 2347420}
   - 114: {fileID: 11466340}
   - 114: {fileID: 11414114}
-  - 114: {fileID: 11448340}
   - 114: {fileID: 11420608}
   - 135: {fileID: 13584894}
   - 54: {fileID: 5428862}
@@ -118,17 +117,6 @@ MonoBehaviour:
   highPoly: {fileID: 4300000, guid: c7c613d6a78041349b94f12970604a3c, type: 3}
   medPoly: {fileID: 4300000, guid: 7ac0d7f3f3f60454b9b89333966e1bce, type: 3}
   lowPoly: {fileID: 4300000, guid: eade511218618254b919fb435580e5f1, type: 3}
---- !u!114 &11448340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 180310}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11466340
 MonoBehaviour:
   m_ObjectHideFlags: 1

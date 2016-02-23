@@ -250,7 +250,6 @@ GameObject:
   - 4: {fileID: 440540}
   - 23: {fileID: 2386504}
   - 33: {fileID: 3317618}
-  - 114: {fileID: 11496452}
   m_Layer: 9
   m_Name: Spaceship
   m_TagString: Player
@@ -497,7 +496,6 @@ GameObject:
   - 33: {fileID: 3328722}
   - 54: {fileID: 5412426}
   - 114: {fileID: 11480236}
-  - 114: {fileID: 11478246}
   - 114: {fileID: 11411368}
   - 82: {fileID: 8241666}
   m_Layer: 9
@@ -3641,17 +3639,6 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11478246
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a0677c790c614d36ade46b9ac4c4ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11480236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3720,38 +3707,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledByPlayerId: 0
---- !u!114 &11496452
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!198 &19804242
 ParticleSystem:
   m_ObjectHideFlags: 1
