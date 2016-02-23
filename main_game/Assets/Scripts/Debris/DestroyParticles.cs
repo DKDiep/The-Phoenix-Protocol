@@ -21,29 +21,23 @@ public class DestroyParticles : MonoBehaviour
 
     private ObjectPoolManager particleManager;
 
-    private void Awake()
+    private void OnEnable()
     {
+        if(GameObject.Find("MusicManager(Clone)") != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+        else
+        {
+            Destroy(this);
+        } 
+
         if(hasLight)
-        { 
+        {
             myLight = GetComponent<Light>();
-            lightIntensity = myLight.intensity;
-        }
+            myLight.intensity = lightIntensity;
+        } 
 
         if(snd.Length > 0)
         {
             mySrc = GetComponent<AudioSource>();
-        }
-
-        if(GameObject.Find(managerName) != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
-        else Destroy(this);
-    }
-
-    private void OnEnable()
-    {
-        if(hasLight) myLight.intensity = lightIntensity;
-
-        if(snd.Length > 0)
-        {
             int rnd = Random.Range(0, snd.Length);
             mySrc.clip = snd[rnd];
             if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
@@ -61,7 +55,7 @@ public class DestroyParticles : MonoBehaviour
     IEnumerator Disable()
     {
         yield return new WaitForSeconds(lifetime + 0.5f);
-        //Debug.Log(gameObject.name);
+        particleManager.DisableClientObject(gameObject.name);
         particleManager.RemoveObject(gameObject.name);
     }
         

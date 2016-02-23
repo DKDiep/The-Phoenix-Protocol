@@ -11,7 +11,7 @@ public partial class LightShafts : MonoBehaviour
 	{
 		CheckMinRequirements();
     
-        m_Cameras = new Camera[1]{GameObject.Find("CameraManager(Clone)").GetComponent<Camera>()};
+        m_Cameras = new Camera[1]{Camera.main};
         player = Camera.main.gameObject;
 		UpdateCameraDepthMode();
 	}

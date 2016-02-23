@@ -102,6 +102,8 @@ public class AsteroidSpawner : MonoBehaviour
 		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager, logicManager, asteroidManager);
 		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
 
+        asteroidManager.EnableClientObject(asteroidObject.name, asteroidObject.transform.position, asteroidObject.transform.rotation);
+
 		// Spawn on the network and add to GameState
 		state.AddAsteroidList(asteroidObject);
 		numAsteroids += 1;
