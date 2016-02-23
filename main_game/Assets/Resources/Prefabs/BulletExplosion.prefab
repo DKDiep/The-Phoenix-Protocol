@@ -28,7 +28,6 @@ GameObject:
   - 198: {fileID: 19864396}
   - 199: {fileID: 19914418}
   - 108: {fileID: 10829406}
-  - 114: {fileID: 11472902}
   - 114: {fileID: 11403512}
   - 114: {fileID: 11469736}
   - 114: {fileID: 11420922}
@@ -231,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 1
+  m_SendInterval: 0
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -271,23 +270,6 @@ MonoBehaviour:
     i15: 223
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11472902
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a756d46fe4caa14ea36974ed86f959d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartDelay: 0
-  FadeInSpeed: 0.1
-  FadeOutDelay: 0
-  FadeOutSpeed: 1.5
-  FadeOutAfterCollision: 0
-  UseHideStatus: 0
 --- !u!198 &19828928
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -4611,7 +4593,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SendInterval
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: snd
@@ -4660,6 +4642,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: managerName
       value: BulletImpactManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

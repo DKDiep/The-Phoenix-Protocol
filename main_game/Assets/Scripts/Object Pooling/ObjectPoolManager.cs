@@ -42,6 +42,7 @@ public class ObjectPoolManager : MonoBehaviour
             spawn.SetActive(false);
             spawn.name = i.ToString();
             if(!serverOnly) ServerManager.NetworkSpawn(spawn);
+            if(spawn.GetComponent<Collider>() != null) spawn.GetComponent<Collider>().enabled = true;
             pool[i] = spawn;
         }
 	}

@@ -23,8 +23,6 @@ public class DestroyParticles : MonoBehaviour
 
     private void Awake()
     {
-        //if(!isServer) Destroy(this);
-
         if(hasLight)
         { 
             myLight = GetComponent<Light>();
@@ -36,7 +34,8 @@ public class DestroyParticles : MonoBehaviour
             mySrc = GetComponent<AudioSource>();
         }
 
-        particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+        if(GameObject.Find(managerName) != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+        else Destroy(this);
     }
 
     private void OnEnable()
