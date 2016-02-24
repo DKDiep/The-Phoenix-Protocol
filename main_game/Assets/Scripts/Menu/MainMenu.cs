@@ -16,11 +16,20 @@ public class MainMenu : NetworkBehaviour
     public static bool startServer;
     NetworkManager manager;
     MessageHandler messageHandler;
+    Vector3 randomRotation;
+    [SerializeField] float rotationSpeed;
 
     void Start()
     {
         manager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         messageHandler = manager.GetComponent<MessageHandler>();
+        randomRotation = new Vector3(Random.value, Random.value, Random.value);
+        transform.rotation = Random.rotation;
+    }
+
+    void Update()
+    {
+        transform.Rotate(randomRotation * Time.deltaTime * rotationSpeed);
     }
 
     public void CreateGame()
