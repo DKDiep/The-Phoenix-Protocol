@@ -54,7 +54,7 @@ public class DestroyParticles : MonoBehaviour
 
     IEnumerator Disable()
     {
-        yield return new WaitForSeconds(lifetime + 0.5f);
+        yield return new WaitForSeconds(lifetime);
         particleManager.DisableClientObject(gameObject.name);
         particleManager.RemoveObject(gameObject.name);
     }

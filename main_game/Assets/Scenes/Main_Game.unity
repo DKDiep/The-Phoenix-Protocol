@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
-  size: 50
+  size: 100
   serverOnly: 0
 --- !u!114 &1355289503
 MonoBehaviour:
