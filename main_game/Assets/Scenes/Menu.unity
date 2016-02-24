@@ -3805,7 +3805,7 @@ Transform:
   m_PrefabParentObject: {fileID: 405082, guid: 9ae55af39ae6e4fc2b83be7c80ccb6e4, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 437453803}
-  m_LocalRotation: {x: -0.42370677, y: 0.27650172, z: 0.32625276, w: -0.7984852}
+  m_LocalRotation: {x: -0.4237067, y: 0.2765017, z: 0.32625273, w: -0.7984851}
   m_LocalPosition: {x: 22.531494, y: 484.46967, z: 975.0077}
   m_LocalScale: {x: 1.025517, y: 1.025517, z: 1.025517}
   m_Children:
@@ -7249,10 +7249,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c12500f3afdeb24d9444042960a4cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloomIntensity: 0.05
+  bloomIntensity: 0.08
   shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
-  lensDirtTexture: {fileID: 0}
-  lensDirtIntensity: 0.05
+  lensDirtTexture: {fileID: 2800000, guid: 8279120499888f0459f22a619fc51ab6, type: 3}
+  lensDirtIntensity: 0.1
   inputIsHDR: 1
 --- !u!114 &1606574123
 MonoBehaviour:
