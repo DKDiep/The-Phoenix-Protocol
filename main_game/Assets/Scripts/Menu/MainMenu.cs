@@ -41,6 +41,10 @@ public class MainMenu : NetworkBehaviour
 
         // Register handler for the Owner message from the server to the client
         client.RegisterHandler(890, messageHandler.OnServerOwner);
+
+        // Register handler for EngineerJob messages from the server
+        // These carry new jobs that the engineers need to do
+        client.RegisterHandler(123, messageHandler.OnServerJob);
     }
 
     public void QuitGame()
