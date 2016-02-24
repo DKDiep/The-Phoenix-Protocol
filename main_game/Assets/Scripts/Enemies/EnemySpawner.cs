@@ -28,8 +28,10 @@ public class EnemySpawner : MonoBehaviour
 	// TODO: the AI constants probably need to be tweaked
 	private const int AI_WAYPOINTS_PER_ENEMY      = 10;
 	private const int AI_GEN_WAYPOINTS_FACTOR     = 8;
-	private const int AI_WAYPOINT_RADIUS          = 125;
-	private readonly Vector3 AI_WAYPOINT_SHIFT_UP = new Vector3 (0, 8, 0);
+	private const int AI_WAYPOINT_RADIUS          = 100;
+	private const float AI_WAYPOINT_WIDTH_SCALE   = 1.5f;
+	private const float AI_WAYPOINT_HEIGHT_SCALE  = 0.5f;
+	private readonly Vector3 AI_WAYPOINT_SHIFT    = new Vector3 (0, 15, 30);
 	private List<GameObject> aiWaypoints;
 
 	private List<GameObject> playerShipTargets = null;
@@ -174,16 +176,21 @@ public class EnemySpawner : MonoBehaviour
 			// Randomly generate a waypoint around the player, but discard it if it's inside the ship
 			do
 			{
-				/* Uncomment this to see waypoints as spheres
-				 * if (Debug.isDebugBuild)
-				   {
+				// Uncomment this to see waypoints as spheres
+				/*if (Debug.isDebugBuild)
+			    {
 					waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-					waypoint.transform.localScale = waypoint.transform.localScale / 25;
-				   }
+					//waypoint.transform.localScale = waypoint.transform.localScale / 2;
+					waypoint.GetComponent<Renderer>().material.color = Color.red;
+			    }
 				else*/
 				waypoint = new GameObject ("AIWaypoint");
-				waypoint.transform.position = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
-				waypoint.transform.Translate (AI_WAYPOINT_SHIFT_UP); // Shift the waypoints a upwards a little, otherwise too many end up under the ship
+				Vector3 pos = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
+				pos.x *= AI_WAYPOINT_WIDTH_SCALE; // Widen the sphere on the horizontal axis
+				pos.y *= AI_WAYPOINT_HEIGHT_SCALE; // Squash the sphere on the vertical axis
+
+				waypoint.transform.position = pos;
+				waypoint.transform.Translate (AI_WAYPOINT_SHIFT); // Shift the waypoints a upwards and forwards a little, to keep enemies on sight more
 				waypoint.transform.parent = player.transform;
 
 				// Check if the waypoint intersects any of the the player ship parts
