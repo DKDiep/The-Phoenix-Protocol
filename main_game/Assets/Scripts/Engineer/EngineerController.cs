@@ -146,7 +146,7 @@ public class EngineerController : NetworkBehaviour {
         canUpgrade = false;
         canRepair = false;
 
-        if (Physics.Raycast(ray, out hitInfo, 5.0f))
+        if (Physics.Raycast(ray, out hitInfo, 10.0f))
         {
             if (hitInfo.collider.CompareTag("Player"))
             {
