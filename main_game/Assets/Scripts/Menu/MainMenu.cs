@@ -43,8 +43,8 @@ public class MainMenu : NetworkBehaviour
         client.RegisterHandler(890, messageHandler.OnServerOwner);
     }
 
-    public void ShowOptions()
+    public void QuitGame()
     {
-
+        Application.Quit();
     }
 }
