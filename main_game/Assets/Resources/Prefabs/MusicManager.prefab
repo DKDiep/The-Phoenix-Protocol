@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - {fileID: 8300000, guid: 858e67d5e42f346b5b59bd2b84fa6895, type: 3}
+  - {fileID: 8300000, guid: f130163b4140e45a997d9a312447daaa, type: 3}
 --- !u!114 &11481404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -240,6 +240,10 @@ Prefab:
       propertyPath: m_ServerOnly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: music.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: f130163b4140e45a997d9a312447daaa, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147584}
