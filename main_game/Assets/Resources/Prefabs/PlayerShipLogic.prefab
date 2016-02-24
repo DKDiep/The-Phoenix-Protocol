@@ -39,8 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906ddc27714f8412798976c894241410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 5
-  maxTurnSpeed: 3
+  turnSpeed: 5.5
+  maxTurnSpeed: 3.5
   slowDown: 1
   shieldDelay: 5
 --- !u!1001 &100100000
@@ -52,7 +52,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: maxTurnSpeed
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: slowDown
@@ -60,7 +60,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: turnSpeed
-      value: 5
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: health
