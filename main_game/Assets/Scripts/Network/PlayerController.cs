@@ -220,7 +220,7 @@ public class PlayerController : NetworkBehaviour
         if (role != "engineer" || !isLocalPlayer)
             return;
 
-        localController.engController.AddJob(upgrade, part);
+        engController.AddJob(upgrade, part);
     }
 
     // OnGUI draws to screen and is called every few frames
