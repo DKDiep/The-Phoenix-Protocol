@@ -9,7 +9,7 @@ public class TargetScript : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-	    player = GameObject.Find("PlayerShip(Clone)");
+	    player = GameObject.Find("CameraManager(Clone)");
 	}
 	
 	// Update is called once per frame
