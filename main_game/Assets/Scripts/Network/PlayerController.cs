@@ -28,6 +28,7 @@ public class PlayerController : NetworkBehaviour
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
     private GameState gameState;
+    private ServerManager serverManager;
     private bool gameStarted = false;
     ShipMovement shipMovement;
 
@@ -145,6 +146,7 @@ public class PlayerController : NetworkBehaviour
         // Get the game manager and game state at start
         gameManager = GameObject.Find("GameManager");
         gameState = gameManager.GetComponent<GameState>();
+        serverManager = gameManager.GetComponent<ServerManager>();
 
         //Each client request server command
         if (isServer)
@@ -181,6 +183,8 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    // Called by the engineer to carry out upgrades
+    // and repairs
     [Command]
     public void CmdDoUpgrade()
     {
@@ -193,10 +197,30 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    // Called by the command console to add parts for
+    // upgrade or repair
     [Command]
-    public void CmdAddUpgrade(GameObject obj)
+    public void CmdAddUpgrade(string part)
     {
+        serverManager.NotifyEngineer(true, part);
+    }
 
+    [Command]
+    public void CmdAddRepair(string part)
+    {
+        serverManager.NotifyEngineer(false, part);
+    }
+
+    // Used to notify the engineer of an upgrade or repair that has been
+    // added
+    public void AddJob(bool upgrade, string part)
+    {
+        // If this is somehow invoked on a client that isn't an engineer
+        // or something that isn't a client at all it should be ignored
+        if (role != "engineer" || !isLocalPlayer)
+            return;
+
+        localController.engController.AddJob(upgrade, part);
     }
 
     // OnGUI draws to screen and is called every few frames

@@ -3,10 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class EngineerInteraction : NetworkBehaviour {
-    [SyncVar]
     private bool upgradeable = false;
-
-    [SyncVar]
     private bool repairable = false;
 
     // Not using auto properties for getters and setters

@@ -93,6 +93,25 @@ public class ServerManager : NetworkBehaviour {
         }
     }
 
+    // Notifies an engineer of a new upgrade or repair job
+    public void NotifyEngineer(bool upgrade, string part)
+    {
+        // Notify every engineer of the upgrade/repair
+        foreach (KeyValuePair<uint, int> client in netIdToRole)
+        {
+            if (client.Value == (int)RoleEnum.ENGINEER)
+            {
+                // Create the message to send
+                EngineerJobMessage msg = new EngineerJobMessage();
+                msg.upgrade = upgrade;
+                msg.part = part;
+
+                // Send to the engineer
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, 123, msg);
+            }
+        }
+    }
+
     private void CreateServerSetup()
     {
         //Spawn server lobby

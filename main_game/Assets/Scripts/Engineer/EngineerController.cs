@@ -130,6 +130,41 @@ public class EngineerController : NetworkBehaviour {
         }
     }
 
+    // Helper for AddJob
+    private void ProcessJob(bool upgrade, List<GameObject> parts)
+    {
+        foreach (GameObject obj in parts)
+        {
+            EngineerInteraction interaction = obj.GetComponent<EngineerInteraction>();
+
+            if (upgrade)
+                interaction.setUpgradeable(true);
+            else
+                interaction.setRepairable(true);
+        }
+    }
+
+    // Adds a job for the engineer to do
+    public void AddJob(bool upgrade, string part)
+    {
+        if (part.Equals("Turret"))
+        {
+            this.ProcessJob(upgrade, turrets);
+        }
+        else if (part.Equals("Engine"))
+        {
+            this.ProcessJob(upgrade, engines);
+        }
+        else if (part.Equals("Bridge"))
+        {
+            EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
+            if (upgrade)
+                interaction.setUpgradeable(true);
+            else
+                interaction.setRepairable(true);
+        }
+    }
+
     // Update is called once per frame
     public void EngUpdate()
     {
