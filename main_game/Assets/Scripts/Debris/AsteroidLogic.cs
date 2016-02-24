@@ -69,7 +69,7 @@ public class AsteroidLogic : MonoBehaviour
   {
         health -= damage;
 
-        if (health <= 0)
+		if (health <= 0 && transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
         {
 			// Ship automatically collects resources from destroyed asteroids. 
 			gameState.AddShipResources(droppedResources);
