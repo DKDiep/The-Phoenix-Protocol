@@ -7,6 +7,7 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Canvas canvas;
 	[SerializeField] private Text HealthText;
 	[SerializeField] private Text ResourcesText;
+	[SerializeField] private Text ShieldsText;
 	[SerializeField] private Text EngineLabel;
 	[SerializeField] private Text ShieldsLabel;
 	[SerializeField] private Text ShieldsUpgradeLabel;
@@ -29,6 +30,7 @@ public class CommandConsoleState : MonoBehaviour {
 	// Local copies of the ships values
     private int shipResources;
 	private float shipHealth;
+	private float shipShields;
 
     private bool upgrade = true;
     private bool engineOn = true;
@@ -52,9 +54,11 @@ public class CommandConsoleState : MonoBehaviour {
 		// Get starting values for resources and health
 		shipResources = gameState.GetShipResources();
 		shipHealth = gameState.GetShipHealth();
+		shipShields = gameState.GetShipShield();
+
         UpdateResources();
 		UpdateHealth();
-
+		UpdateShields();
 
         ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
         GunsUpgradeLabel.text = gunsLevel * 100 + "M";
@@ -168,16 +172,29 @@ public class CommandConsoleState : MonoBehaviour {
         UpdateResources();
     }
 		
+	/// <summary>
+	/// Updates the resources text value on the screen
+	/// </summary>
     void UpdateResources()
     {
 		ResourcesText.text = "Resources:  " + shipResources;
     }
 
+	/// <summary>
+	/// Updates the health text value on the screen.
+	/// </summary>
 	void UpdateHealth()
 	{
 		HealthText.text = "Health:  " + shipHealth;
 	}
 
+	/// <summary>
+	/// Updates the shields text value on the screen.
+	/// </summary>
+	void UpdateShields()
+	{
+		ShieldsText.text = "Shields:  " + shipShields;
+	}
 
     void FixedUpdate ()
     { 
@@ -187,9 +204,10 @@ public class CommandConsoleState : MonoBehaviour {
 			// Get resources and health from the gamestate.
 			shipResources = gameState.GetShipResources();
 			shipHealth = gameState.GetShipHealth();
+			shipShields = gameState.GetShipShield();
 			UpdateResources();
 			UpdateHealth();
-
+			UpdateShields();
             second = 0;
         }
     }

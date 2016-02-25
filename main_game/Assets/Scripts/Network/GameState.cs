@@ -48,7 +48,7 @@ public class GameState : NetworkBehaviour {
 
 	private float shipMaxShields = INITIAL_SHIP_MAXSHIELDS;
 	// We set this to the max shields as we assume we start off with max shields.
-	private float shipShield = INITIAL_SHIP_MAXSHIELDS;
+	[SyncVar] private float shipShield = INITIAL_SHIP_MAXSHIELDS;
 	private float shipShieldRechargeRate = INITIAL_SHIP_SHIELD_RECHARGERATE;
 
 	// The total ship resources that has been collected over the whole game.
@@ -56,8 +56,7 @@ public class GameState : NetworkBehaviour {
 	private int totalShipResources = BASE_SHIP_RESOURCES;
 
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
-	[SyncVar]
-	private int currentShipResources = BASE_SHIP_RESOURCES;
+	[SyncVar] private int currentShipResources = BASE_SHIP_RESOURCES;
 
 	// The health of the ship. 
 	[SyncVar] private float shipHealth            = INITIAL_SHIP_HEALTH;
