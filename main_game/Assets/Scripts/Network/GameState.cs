@@ -301,6 +301,9 @@ public class GameState : NetworkBehaviour {
         InitializeVariables();
     }
 
+	/// <summary>
+	/// Resets the player scores to zero.
+	/// </summary>
 	public void ResetPlayerScores() 
 	{
 		for(int id = 0; id < 4; id++) 
@@ -309,69 +312,87 @@ public class GameState : NetworkBehaviour {
 		}
 	}
 
-	public void AddPlayerScore(int id, int score) 
+	/// <summary>
+	/// Adds a value to a specific players score. 
+	/// </summary>
+	/// <param name="id">Identifier.</param>
+	/// <param name="score">Score.</param>
+	public void AddPlayerScore(int playerId, int score) 
 	{
-		playerScore[id] += score;
-		Debug.Log("Score for player " + id + " is now " + playerScore[id]);
+		playerScore[playerId] += score;
 	}
 
+	/// <summary>
+	/// Gets the player scores.
+	/// </summary>
+	/// <returns>The player scores.</returns>
     public int[] GetPlayerScores()
     {
         return playerScore;
     }
 
-    /*
-	 * Gets the current ship resources
-	*/
+    /// <summary>
+	/// Gets the current ship resources
+    /// </summary>
+    /// <returns>The ship resources.</returns>
     public int GetShipResources() 
 	{
 		return currentShipResources;
 	}
 
-	/*
-	 * Gets the total ship resources for the whole game
-	*/
+	/// <summary>
+	/// Gets the total ship resources for the whole game
+	/// Used for scoring at end of game, Use GetShipResources() for current ships resources
+	/// </summary>
+	/// <returns>The total ship resources.</returns>
 	public int GetTotalShipResources() 
 	{
 		return totalShipResources;
 	}
 
-	/*
-	 * Adds a value to the total ship resources
-	*/
+	/// <summary>
+	/// Adds a value to the total ship resources
+	/// </summary>
+	/// <param name="resources">Resources.</param>
 	public void AddShipResources(int resources) 
 	{
 		currentShipResources += resources;
 		totalShipResources += resources;
 	}
 
-	/*
-	 * Subtracts a value to the total ship resources
-	*/
+	/// <summary>
+	/// Uses the ship resources.
+	/// Subtracts an amount of the current ship resources.
+	/// e.g. When buying things the ships resources will go down
+	/// </summary>
+	/// <param name="resources">Resources.</param>
 	public void UseShipResources(int resources) 
 	{
 		currentShipResources -= resources;
 	}
 
-	/*
-	 * Gets the ships health
-	*/
+	/// <summary>
+	/// Gets the ship health.
+	/// </summary>
+	/// <returns>The ship health.</returns>
 	public float GetShipHealth() 
 	{
 		return shipHealth;
 	}
 		
-	/*
-	 * Sets the ships health to a specific value
-	*/
+	/// <summary>
+	/// Sets the ship health to a specific value
+	/// </summary>
+	/// <param name="value">Value.</param>
 	public void SetShipHealth(float value) 
 	{
 		shipHealth = value;
 	}
 
-	/*
-	 * Reduces the ships health by a specific value
-	*/
+	/// <summary>
+	/// Reduces the ship health by a specific value
+	/// </summary>
+	/// <param name="value">Value.</param>
 	public void ReduceShipHealth(float value) 
 	{
 		shipHealth -= value;
@@ -401,31 +422,55 @@ public class GameState : NetworkBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Gets the ship speed.
+	/// </summary>
+	/// <returns>The ship speed.</returns>
 	public float GetShipSpeed()
 	{
 		return shipSpeed;
 	}
 
+	/// <summary>
+	/// Sets the ship speed.
+	/// </summary>
+	/// <param name="speed">Speed.</param>
 	public void SetShipSpeed(float speed)
 	{
 		shipSpeed = speed;
 	}
 
+	/// <summary>
+	/// Gets the ship max shields.
+	/// </summary>
+	/// <returns>The ship max shields.</returns>
 	public float GetShipMaxShields()
 	{
 		return shipMaxShields;
 	}
 
+	/// <summary>
+	/// Sets the ship max shields.
+	/// </summary>
+	/// <param name="shield">Shield.</param>
 	public void SetShipMaxShields(float shield)
 	{
 		shipMaxShields = shield;
 	}
 
+	/// <summary>
+	/// Gets the ship shield value.
+	/// </summary>
+	/// <returns>The ship shield.</returns>
 	public float GetShipShield()
 	{
 		return shipShield;
 	}
 
+	/// <summary>
+	/// Sets the ship shield.
+	/// </summary>
+	/// <param name="shield">Shield.</param>
 	public void SetShipShield(float shield)
 	{
 		shipShield = shield;
@@ -440,6 +485,10 @@ public class GameState : NetworkBehaviour {
 		return shipShieldRechargeRate;
 	}
 
+	/// <summary>
+	/// Sets the ships shield recharge rate.
+	/// </summary>
+	/// <param name="shieldRechargeRate">Shield recharge rate.</param>
 	public void SetShipShieldRechargeRate(float shieldRechargeRate)
 	{
 		shipShieldRechargeRate = shieldRechargeRate;
