@@ -19,10 +19,11 @@ public class GameState : NetworkBehaviour {
 	private const int BASE_SHIP_RESOURCES = 100;
 
 	// The starting health value of the ship
-	private const float INITIAL_SHIP_HEALTH = 100;
+	private const float INITIAL_SHIP_HEALTH      = 100;
+	private const float INITIAL_COMPONENT_HEALTH = 100;
 
-	private const float INITIAL_SHIP_SPEED = 10;
-	private const float INITIAL_SHIP_MAXSHIELDS = 100;
+	private const float INITIAL_SHIP_SPEED               = 10;
+	private const float INITIAL_SHIP_MAXSHIELDS          = 100;
 	private const float INITIAL_SHIP_SHIELD_RECHARGERATE = 10;
 
     private Status status = Status.Setup;
@@ -59,8 +60,11 @@ public class GameState : NetworkBehaviour {
 	private int currentShipResources = BASE_SHIP_RESOURCES;
 
 	// The health of the ship. 
-	[SyncVar]
-	private float shipHealth = INITIAL_SHIP_HEALTH;
+	[SyncVar] private float shipHealth            = INITIAL_SHIP_HEALTH;
+	[SyncVar] private float engineHealth          = INITIAL_COMPONENT_HEALTH;
+	[SyncVar] private float turretHealth          = INITIAL_COMPONENT_HEALTH;
+	[SyncVar] private float shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
+
 	private bool godMode = false;
     
     void Update()
@@ -72,13 +76,16 @@ public class GameState : NetworkBehaviour {
 		if (Input.GetKeyDown(KeyCode.G))
 		{
 			godMode = !godMode;
-			if (!godMode)
+			if(!godMode)
+			{
 				shipHealth = INITIAL_SHIP_HEALTH;
+				engineHealth = turretHealth = shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
+			}
 			Debug.Log("God mode " + godMode);
 		}
 
 		if (godMode)
-			shipHealth = float.MaxValue;
+			shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
     }
 
     public Status GetStatus()
@@ -368,8 +375,32 @@ public class GameState : NetworkBehaviour {
 	*/
 	public void ReduceShipHealth(float value) 
 	{
-		shipHealth -= value;	}
+		shipHealth -= value;
+	}
 		
+	/// <summary>
+	/// Reduces the health of a component. Hitting the bridge reduces the ship's (hull) health.
+	/// </summary>
+	/// <param name="component">The component.</param>
+	/// <param name="value">The value by which to decrease health.</param>
+	public void ReduceComponentHealth(ComponentType component, float value)
+	{
+		switch(component)
+		{
+		case ComponentType.Bridge:
+			ReduceShipHealth(value);
+			break;
+		case ComponentType.Engine:
+			engineHealth -= value;
+			break;
+		case ComponentType.Turret:
+			turretHealth -= value;
+			break;
+		case ComponentType.ShieldGenerator:
+			shieldGeneratorHealth -= value;
+			break;
+		}
+	}
 
 	public float GetShipSpeed()
 	{
@@ -401,6 +432,10 @@ public class GameState : NetworkBehaviour {
 		shipShield = shield;
 	}
 
+	/// <summary>
+	/// Gets the ship shield recharge rate.
+	/// </summary>
+	/// <returns>The ship shield recharge rate.</returns>
 	public float GetShipShieldRechargeRate()
 	{
 		return shipShieldRechargeRate;
@@ -409,6 +444,28 @@ public class GameState : NetworkBehaviour {
 	public void SetShipShieldRechargeRate(float shieldRechargeRate)
 	{
 		shipShieldRechargeRate = shieldRechargeRate;
+	}
+
+	/// <summary>
+	/// Get the health of a specified component type.
+	/// </summary>
+	/// <returns>The component health, or -1 if ComponentType.None is passed.</returns>
+	/// <param name="type">The component type.</param>
+	public float GetComponentHealth(ComponentType type)
+	{
+		switch(type)
+		{
+		case ComponentType.Bridge:
+			return shipHealth;
+		case ComponentType.Engine:
+			return engineHealth;
+		case ComponentType.Turret:
+			return turretHealth;
+		case ComponentType.ShieldGenerator:
+			return shieldGeneratorHealth;
+		default:
+			return -1;
+		}
 	}
 
 }

@@ -23,7 +23,10 @@ public class EnemyCollision : MonoBehaviour
     {
     	if(col.gameObject.tag.Equals ("Player"))
     	{
-            if(col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>() != null) col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
+            GameObject hitObject = col.gameObject;
+            ShipMovement movementObject = col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+            if(movementObject != null)
+                movementObject.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
             if(myLogic != null) myLogic.collision(1000f, -1);
     	}
         else if(col.gameObject.tag.Equals ("Debris"))

@@ -28,7 +28,8 @@ public class AsteroidCollision : MonoBehaviour
 	{
 		if(col.gameObject.tag.Equals ("Player"))
 		{
-			col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f);
+            GameObject hitObject = col.gameObject;
+            hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f, hitObject.name.GetComponentType());
             if(myLogic != null) myLogic.collision(1000f);
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))

@@ -77,7 +77,7 @@ public class ServerLobby : MonoBehaviour {
     {
         // Get player and set default role
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-        playerController.RpcSetRole("camera");
+		playerController.RpcSetRole(RoleEnum.Camera);
 
         // Create token for new player
         GameObject playerToken = Instantiate(Resources.Load("Prefabs/PlayerToken", typeof(GameObject))) as GameObject;
@@ -135,7 +135,7 @@ public class ServerLobby : MonoBehaviour {
             // Parent to closest panel
             playerToken.transform.SetParent(cameraPanel.transform, false);
             // Set new role using referenced player controller
-            playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("camera");
+			playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole(RoleEnum.Camera);
             // Sort into closest order
             int index = 0;
             for (int i = 0; i < cameraPanel.transform.childCount; i++)
@@ -155,13 +155,13 @@ public class ServerLobby : MonoBehaviour {
             {
                 Debug.Log("engineer");
                 playerToken.transform.SetParent(engineerPanel.transform, false);
-                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("engineer");
+				playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole(RoleEnum.Engineer);
             }
             else if (commandPanel.transform.childCount == 0) // Only assign if there is no commander
             {
                 Debug.Log("commander");
                 playerToken.transform.SetParent(commandPanel.transform, false);
-                playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole("commander");
+				playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole(RoleEnum.Commander);
             }
         }
 

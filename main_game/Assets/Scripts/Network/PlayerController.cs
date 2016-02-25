@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour
 {
 
     private GameObject controlledObject;
-    private string role = "camera";
+	private RoleEnum role = RoleEnum.Camera;
     private int orientation = 0;
     private GameObject playerCamera;
     private GameObject multiCamera;
@@ -53,12 +53,12 @@ public class PlayerController : NetworkBehaviour
         localController.gameStarted = true;
 
         playerCamera = GameObject.Find("CameraManager(Clone)");
-        if (localController.role == "camera")
+		if (localController.role == RoleEnum.Camera)
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             playerCamera.transform.parent = shipTransform;
         }
-        else if (localController.role == "engineer")
+		else if (localController.role == RoleEnum.Engineer)
         {
             // Reset the camera rotation which was set in the lobby
             playerCamera.transform.localRotation = Quaternion.identity;
@@ -75,7 +75,7 @@ public class PlayerController : NetworkBehaviour
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
             localController.engController.Initialize(playerCamera, localController);
         }
-        else if(localController.role == "commander")
+		else if(localController.role == RoleEnum.Commander)
         {
             commandConsoleGameObject = Instantiate(Resources.Load("Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
@@ -100,7 +100,7 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer || !gameStarted)
             return;
 
-        if (role == "engineer")
+		if (role == RoleEnum.Engineer)
             engController.EngUpdate();
     }
 
@@ -110,12 +110,12 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer || !gameStarted)
             return;
 
-        if (role == "engineer")
+		if (role == RoleEnum.Engineer)
             engController.EngFixedUpdate();
     }
 
     [ClientRpc]
-    public void RpcSetRole(string newRole)
+    public void RpcSetRole(RoleEnum newRole)
     {
         role = newRole;
         Debug.Log("Role set: "+ role);
@@ -200,24 +200,24 @@ public class PlayerController : NetworkBehaviour
     // Called by the command console to add parts for
     // upgrade or repair
     [Command]
-    public void CmdAddUpgrade(string part)
+	public void CmdAddUpgrade(ComponentType part)
     {
         serverManager.NotifyEngineer(true, part);
     }
 
     [Command]
-    public void CmdAddRepair(string part)
+	public void CmdAddRepair(ComponentType part)
     {
         serverManager.NotifyEngineer(false, part);
     }
 
     // Used to notify the engineer of an upgrade or repair that has been
     // added
-    public void AddJob(bool upgrade, string part)
+	public void AddJob(bool upgrade, ComponentType part)
     {
         // If this is somehow invoked on a client that isn't an engineer
         // or something that isn't a client at all it should be ignored
-        if (role != "engineer" || !isLocalPlayer)
+		if (role != RoleEnum.Engineer || !isLocalPlayer)
             return;
 
         engController.AddJob(upgrade, part);

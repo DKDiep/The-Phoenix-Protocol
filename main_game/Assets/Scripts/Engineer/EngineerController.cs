@@ -115,18 +115,19 @@ public class EngineerController : NetworkBehaviour {
         turrets = new List<GameObject>();
         foreach (EngineerInteraction interaction in interactionObjects)
         {
-            if (interaction.gameObject.name.Contains("Turret"))
-            {
-                turrets.Add(interaction.gameObject);
-            }
-            else if(interaction.gameObject.name.Contains("Engine"))
-            {
-                engines.Add(interaction.gameObject);
-            }
-            else if(interaction.gameObject.name.Contains("Bridge"))
-            {
-                bridge = interaction.gameObject;
-            }
+			switch (interaction.Type)
+			{
+			case ComponentType.Engine:
+				engines.Add (interaction.gameObject);
+				break;
+			case ComponentType.Bridge:
+				bridge = interaction.gameObject;
+				break;
+			case ComponentType.Turret:
+				turrets.Add (interaction.gameObject);
+				break;
+			}
+            // TODO: add shield generator
         }
     }
 
@@ -145,17 +146,17 @@ public class EngineerController : NetworkBehaviour {
     }
 
     // Adds a job for the engineer to do
-    public void AddJob(bool upgrade, string part)
+	public void AddJob(bool upgrade, ComponentType part)
     {
-        if (part.Equals("Turret"))
+		if (part == ComponentType.Turret)
         {
             this.ProcessJob(upgrade, turrets);
         }
-        else if (part.Equals("Engine"))
+		else if (part == ComponentType.Engine)
         {
             this.ProcessJob(upgrade, engines);
         }
-        else if (part.Equals("Bridge"))
+		else if (part == ComponentType.Bridge)
         {
             EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
             if (upgrade)

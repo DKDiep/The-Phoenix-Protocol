@@ -143,9 +143,14 @@ public class ShipMovement : MonoBehaviour
         }
 	
 	}
-
-    // Calculate direction of hit and decrement shields or health
-	public void collision(float damage, float yRot)
+       
+    /// <summary>
+    /// Calculate direction of hit and decrement shields or health.
+    /// </summary>
+    /// <param name="damage">The damage value.</param>
+    /// <param name="yRot">The y rotation of the bullet's direction.</param>
+    /// <param name="component">The component that was hit.</param>
+    public void collision(float damage, float yRot, ComponentType component)
 	{
 		wii.RumbleAll(5);
 
@@ -269,7 +274,11 @@ public class ShipMovement : MonoBehaviour
 		}
 		else if(gameState.GetShipHealth() > damage)
 		{
-			gameState.ReduceShipHealth(damage);
+			// TODO: check to see if the hull is hit, otherwise damage component
+            if(component == ComponentType.None)
+                gameState.ReduceShipHealth(damage);
+            else
+                gameState.ReduceComponentHealth(component, damage);
 		}
 		else
 		{

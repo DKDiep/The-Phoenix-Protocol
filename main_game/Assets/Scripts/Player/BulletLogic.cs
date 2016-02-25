@@ -101,7 +101,9 @@ public class BulletLogic : MonoBehaviour
         else if(col.gameObject.tag.Equals("Player"))
         {
             //Debug.Log ("A bullet has hit the player");
-            col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(damage, transform.eulerAngles.y);
+            GameObject hitObject = col.gameObject;
+            hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
+                .collision(damage, transform.eulerAngles.y, hitObject.name.GetComponentType());
         }
 
         if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)

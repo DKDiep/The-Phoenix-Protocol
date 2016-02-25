@@ -15,7 +15,7 @@ public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
     private int clientId = 0;
-    private Dictionary<uint, int> netIdToRole;
+    private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
@@ -55,10 +55,10 @@ public class ServerManager : NetworkBehaviour {
             originalAddPlayerHandler = NetworkServer.handlers[MsgType.AddPlayer];
             NetworkServer.RegisterHandler(MsgType.AddPlayer, OnClientAddPlayer);
 
-            netIdToRole = new Dictionary<uint,int>();
+			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
             // Host is client Id #0. Using -1 as the role for the Host
-            netIdToRole.Add(0,-1);
+			netIdToRole.Add(0, RoleEnum.Host);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -87,19 +87,19 @@ public class ServerManager : NetworkBehaviour {
         foreach (uint id in playerControllerIds)
         {
             if (id != 0)
-                netIdToRole.Add(id, (int)RoleEnum.ENGINEER);
+				netIdToRole.Add(id, RoleEnum.Engineer);
             else
                 Debug.LogError("The host cannot be an engineer!");
         }
     }
 
     // Notifies an engineer of a new upgrade or repair job
-    public void NotifyEngineer(bool upgrade, string part)
+	public void NotifyEngineer(bool upgrade, ComponentType part)
     {
         // Notify every engineer of the upgrade/repair
-        foreach (KeyValuePair<uint, int> client in netIdToRole)
-        {
-            if (client.Value == (int)RoleEnum.ENGINEER)
+        foreach (KeyValuePair<uint, RoleEnum> client in netIdToRole)
+		{
+            if (client.Value == RoleEnum.Engineer)
             {
                 // Create the message to send
                 EngineerJobMessage msg = new EngineerJobMessage();
@@ -130,9 +130,9 @@ public class ServerManager : NetworkBehaviour {
         NetworkStartPosition engineerStartPos = playerShip.GetComponentInChildren<NetworkStartPosition>();
 
         // Spawn the engineers at the engineer start position
-        foreach (KeyValuePair<uint, int> client in netIdToRole)
+        foreach (KeyValuePair<uint, RoleEnum> client in netIdToRole)
         {
-            if (client.Value == (int)RoleEnum.ENGINEER)
+            if (client.Value == RoleEnum.Engineer)
             {
                 // Create the engineer object
                 GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),

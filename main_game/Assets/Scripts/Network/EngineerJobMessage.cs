@@ -4,5 +4,5 @@ using System.Collections;
 
 public class EngineerJobMessage : MessageBase {
     public bool upgrade;
-    public string part;
+	public ComponentType part;
 }

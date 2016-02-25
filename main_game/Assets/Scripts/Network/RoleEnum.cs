@@ -1,1 +1,1 @@
-﻿public enum RoleEnum { CAMERA, ENGINEER }
+﻿public enum RoleEnum { Camera, Engineer, Commander, Host }
