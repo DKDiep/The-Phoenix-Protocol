@@ -35,7 +35,7 @@ func main() {
 		// }
 		// fmt.Fprintf(w,"%s",hah)
 	})
-	http.Handle("/", http.FileServer(http.Dir("../stats_web")))
+	http.Handle("/", http.FileServer(http.Dir("../web/stats_web")))
 	http.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request){
 		fmt.Fprintf(w, "%q", JSONString)
 	})

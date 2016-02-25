@@ -8,7 +8,7 @@ import (
     "time"
 )
 
-const WEB_DIR string = "../phone_web"
+const WEB_DIR string = "../web/phone_web"
 const GAME_SERVER_ADDRESS string = "192.168.56.1:2345"
 const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
 
