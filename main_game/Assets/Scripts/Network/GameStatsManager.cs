@@ -34,7 +34,7 @@ public class GameStatsManager : MonoBehaviour {
                     jsonMsg += "\"shipHealth\": " + state.GetShipHealth();
                     jsonMsg += "}";
                     //print(jsonMsg);
-                    string url = "http://localhost:8080/bar";
+                    string url = "http://localhost:8080/game_data";
                     WWWForm form = new WWWForm();
                     form.AddField("JSON:", jsonMsg);
                     WWW www = new WWW(url, form);
