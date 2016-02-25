@@ -11,6 +11,7 @@ public class OutpostSpawner : MonoBehaviour
 	[SerializeField] GameObject gameManager;
 	private GameState gameState;
 	private EnemySpawner enemySpawner;
+	private const float OUTPOST_MIN_DISTANCE = 1000;
 
 	private GameObject player, outpost, logic, spawnLocation;
 
@@ -33,13 +34,17 @@ public class OutpostSpawner : MonoBehaviour
 		{
 			if(numOutposts < maxOutposts)
 			{
-				if(player == null)
+				if(player == null) 
 					player = gameState.GetPlayerShip();
 			
 				spawnLocation.transform.position = player.transform.position;
-				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(0,360), Random.Range(0,360));
+				// The range (90,-90) is in in front of the ship. 
+				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(90,-90), Random.Range(90,-90));
 
-				spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
+				// Loop until we find a position that is not close to another outpost
+				do {
+					spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
+				} while(!CheckOutpostProximity(spawnLocation.transform.position));
 
 				SpawnOutpost ();
 				numOutposts++;
@@ -47,6 +52,22 @@ public class OutpostSpawner : MonoBehaviour
 		}
 
 	}
+
+	/// <summary>
+	/// Checks if the new outpost is closer than OUTPOST_MIN_DISTANCE to any existing outposts
+	/// </summary>
+	/// <returns><c>true</c>, if outpost is further than OUTPOST_MIN_DISTANCE away from any outposts, <c>false</c> otherwise.</returns>
+	/// <param name="position">Position.</param>
+	private bool CheckOutpostProximity(Vector3 position) 
+	{
+		foreach(GameObject outpost in gameState.GetOutpostList()) {
+			if(Vector3.Distance(position, outpost.transform.position) < OUTPOST_MIN_DISTANCE) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private void SpawnOutpost() 
 	{
 		// Set up like this as we may have different outposts models like we do with asteroids. 
