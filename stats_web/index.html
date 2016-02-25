@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAADUlrwADKDwAN4mlwDw2bQAdU0hAPLq4QCwZxcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREREREREZERERERkREZWRERGRlZkRGRERGVkZlZEREZERmREZEREZURGViJGRERGRERkICMkRERERERCIiRGREZERGQiRGVkZWRGMiQWRkRGRERkRGVkRERERERkRkRERkRERlZERERlZGREZERGREZGVkRERGVkRERkRERERkQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon" /><title>Space Game Stats</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	function refreshData(){
+        $.getJSON("json", function(result){
+			var json_obj = $.parseJSON(result);//parse JSON
+		    console.log(json_obj.shipResources);
+			if(typeof json_obj === 'undefined'){
+				$('body').append($('<div>', {
+		        	text: "Error retrieving data"
+		    	}));
+			}
+			else{
+				document.body.innerHTML = ""
+			    $.each(json_obj.playerscores, function(index, element) {
+			        $('body').append($('<div>', {
+			            text: "Player " + index + " Score: " + element
+			        }));
+			    });
+			    $('body').append($('<div>', {
+			        text: "Ship Health: " + json_obj.shipHealth
+			    }));
+			    $('body').append($('<div>', {
+			        text: "Current Ship Resources: " + json_obj.shipResources
+			    }));
+			    $('body').append($('<div>', {
+			        text: "Total Collected Resources: " + json_obj.totalShipResources
+			    }));
+			}
+        });
+    }
+    setInterval(refreshData,5000)
+});
+</script>
+</head>
+<body>
+Loading Space Game Stats
+<div></div>
+</body>
+</html>
