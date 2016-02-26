@@ -13,9 +13,10 @@ type PlayerShip struct {
 
 // Wrapper around the player ship object handling concurrency
 type PlayerShipController struct {
-    data *PlayerShip
-    setC chan *PlayerShip // channel for requesting the updating of ship data
-    getC chan *PlayerShip // channel for getting a copy of the ship data
+    data   *PlayerShip
+    setC   chan *PlayerShip // channel for requesting the updating of ship data
+    getC   chan *PlayerShip // channel for getting a copy of the ship data
+    resetC chan struct{}
 }
 
 // Manages concurrent access to the player ship data structure
@@ -30,6 +31,9 @@ func (plrShip *PlayerShipController) accessManager() {
         case <-plrShip.getC:
             toSend := *plrShip.data
             plrShip.getC <- &toSend
+        // clears out the ship data
+        case <-plrShip.resetC:
+            plrShip.data = &PlayerShip{}
         }
     }
 }
@@ -43,4 +47,9 @@ func (plrShip *PlayerShipController) setShipData(data *PlayerShip) {
 func (plrShip *PlayerShipController) getShipData() *PlayerShip {
     plrShip.getC <- nil
     return <-plrShip.getC
+}
+
+// Request the reset of the data structure
+func (plrShip *PlayerShipController) reset() {
+    plrShip.resetC <- struct{}{}
 }

@@ -12,10 +12,11 @@ type Asteroid struct {
 
 // The collection of all asteroids
 type AsteroidMap struct {
-    m     map[int]*Asteroid
-    delC  chan int // channel for requesting the deletion of an asteroid
-    addC  chan NewAst // channel for requesting the addition of an asteroid
-    copyC chan map[int]*Asteroid // channel for getting a copy of the map
+    m      map[int]*Asteroid
+    delC   chan int               // channel for requesting the deletion of an asteroid
+    addC   chan NewAst            // channel for requesting the addition of an asteroid
+    resetC chan struct{}          // channele for clearing out the map
+    copyC  chan map[int]*Asteroid // channel for getting a copy of the map
 }
 
 // Wrapper of asteroid data, sent on a channel
@@ -35,6 +36,9 @@ func (asteroids *AsteroidMap) accessManager() {
         // addition of asteroid
         case new := <-asteroids.addC:
             asteroids.m[new.id] = new.ast
+        // clears the map
+        case <-asteroids.resetC:
+            asteroids.m = make(map[int]*Asteroid)
         // sending a copy of the map
         case <-asteroids.copyC:
             newCopy := make(map[int]*Asteroid)
@@ -57,9 +61,14 @@ func (asteroids *AsteroidMap) remove(id int) {
     asteroids.delC <- id
 }
 
+// Request a full reset of the data structure
+func (asteroids *AsteroidMap) reset() {
+    asteroids.resetC <- struct{}{}
+}
+
 // Request a copy of the asteroid map
 // TODO: get a copy of  the asteroids that are whithin a certain distance
-func (asteroids *AsteroidMap) getCopy() map[int]*Asteroid{
+func (asteroids *AsteroidMap) getCopy() map[int]*Asteroid {
     asteroids.copyC <- nil
     return <-asteroids.copyC
 }

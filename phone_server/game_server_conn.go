@@ -69,6 +69,8 @@ func decodeGameServerMessage(rawData []byte) {
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))
+    case "GM_END":
+        gameState.enterSetupState()
     // TODO: handle more message types
     default:
         fmt.Println("Received unexpected message from Game Server of type: ", msg["type"])
@@ -86,6 +88,7 @@ func updateShipData(data map[string]interface{}) {
 }
 
 // Updates the enemy data with the given values
+// TODO: optimise this to do only a single channel send per set of enemies
 func setEnemies(data []interface{}) {
     for _, d := range data {
         enemy := d.(map[string]interface{})
@@ -98,6 +101,7 @@ func setEnemies(data []interface{}) {
 }
 
 // Removes enemies from the local data structure
+// TODO: optimise this to do only a single channel send per set of enemies
 func removeEnemies(data []interface{}) {
     for _, id := range data {
         enemyMap.remove(int(id.(float64)))
@@ -105,6 +109,7 @@ func removeEnemies(data []interface{}) {
 }
 
 // Adds asteroids to the local data structure
+// TODO: optimise this to do only a single channel send per set of asteroids
 func addAsteroids(data []interface{}) {
     for _, d := range data {
         asteroid := d.(map[string]interface{})
@@ -117,6 +122,7 @@ func addAsteroids(data []interface{}) {
 }
 
 // Removes asteroids from the local data structure
+// TODO: optimise this to do only a single channel send per set of asteroids
 func removeAsteroids(data []interface{}) {
     for _, id := range data {
         asteroidMap.remove(int(id.(float64)))

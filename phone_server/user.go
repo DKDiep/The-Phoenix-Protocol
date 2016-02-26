@@ -59,6 +59,8 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
         usr.registerNew(msg["data"].(string))
     case "UPDATE_USER":
         usr.updateUser(msg["data"].(string))
+    case "PROM":
+        usr.player.processPromotionAnswer(msg["data"].(bool))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
@@ -71,9 +73,14 @@ func (usr *User) registerNew(name string) {
     // register user
     playerId := registerPlayer(name)
     // associate a player with this user and add it to the game
-    newPlr := &Player{userName: name, state: SPECTATOR, score: 0, user: usr}
+    newPlr := &Player{
+        id:       playerId,
+        userName: name,
+        state:    getNewPlayerState(),
+        score:    0,
+        user:     usr}
     usr.player = newPlr
-    playerMap.add(playerId, newPlr)
+    playerMap.add(newPlr)
 
     stateSting := newPlr.getStateString()
 
@@ -108,9 +115,14 @@ func (usr *User) updateUser(playerId string) {
         // otherwise assign a new player to the user
     } else {
         name := getPlayerName(playerId)
-        newPlr := &Player{userName: name, state: SPECTATOR, score: 0, user: usr}
+        newPlr := &Player{
+            id:       playerId,
+            userName: name,
+            state:    getNewPlayerState(),
+            score:    0,
+            user:     usr}
         usr.player = newPlr
-        playerMap.add(playerId, newPlr)
+        playerMap.add(newPlr)
     }
 
     // inform the user of the current player state

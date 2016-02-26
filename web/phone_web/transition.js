@@ -11,13 +11,16 @@ function updateScreen(userData) {
         case "PROMOTION":
             transitionTo("promotion");
             break;
-        case "CREW":
-            transitionTo("crew", function () {
+        case "OFFICER":
+            transitionTo("officer", function () {
                 updateAmmo(userData.ammo);
             });
             break;
         case "COMMANDER":
             transitionTo("commander");
+            break;
+        case "STANDBY":
+            transitionTo("standby");
             break;
         default:
             console.log("Unexpected User State: "+userData.state)

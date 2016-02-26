@@ -7,12 +7,15 @@ const (
     OFFICER
     COMMANDER
     PROMOTION
+    STANDBY
+    REJECTED
 )
 
 // Holds player related data
 type Player struct {
+    id       string
     userName string
-    state     PlayerState
+    state    PlayerState
     score    int
     user     *User
 }
@@ -33,8 +36,19 @@ func (plr *Player) unsetUserIfEquals(usr *User) {
     playerMap.plrC <- struct{}{}
 }
 
+// Sets the state of a player and sends a state update
+func (plr *Player) setState(st PlayerState) {
+    plr.state = st
+    plr.sendStateUpdate()
+}
+
 // Sends a user state update
 func (plr *Player) sendStateUpdate() {
+    // players with no active user don't need updating
+    if plr.user == nil {
+        return
+    }
+
     msg := map[string]interface{}{
         "type": "USER_UPDATE",
         "data": map[string]interface{}{
@@ -112,6 +126,16 @@ func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Ast
     plr.user.sendMsg(msg)
 }
 
+// Deals with state transition based on the answer to the promotion offer
+func (plr *Player) processPromotionAnswer(accepted bool) {
+    if accepted && plr.state == PROMOTION {
+        plr.setState(OFFICER)
+        playerMap.setOfficer(plr)
+    } else {
+        plr.setState(REJECTED)
+    }
+}
+
 // Get a string representing the state, used as instruction for the phone
 // web page transitions
 func (plr *Player) getStateString() (out string) {
@@ -124,7 +148,20 @@ func (plr *Player) getStateString() (out string) {
         out = "COMMANDER"
     case PROMOTION:
         out = "PROMOTION"
+    case REJECTED:
+        fallthrough
+    case STANDBY:
+        out = "STANDBY"
     }
 
     return
+}
+
+// Get an intial player state based on the game state
+func getNewPlayerState() PlayerState {
+    if gameState.status == RUNNING {
+        return SPECTATOR
+    } else {
+        return STANDBY
+    }
 }

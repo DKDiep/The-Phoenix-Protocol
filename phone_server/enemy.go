@@ -12,10 +12,11 @@ type Enemy struct {
 
 // The collection of all enemies
 type EnemyMap struct {
-    m     map[int]*Enemy
-    delC  chan int            // channel for requesting the deletion of an enemy
-    setC  chan NewEnemy       // channel for requesting the updating of an enemy
-    copyC chan map[int]*Enemy // channel for getting a copy of the map
+    m      map[int]*Enemy
+    delC   chan int            // channel for requesting the deletion of an enemy
+    setC   chan NewEnemy       // channel for requesting the updating of an enemy
+    resetC chan struct{}       // channele for clearing out the map
+    copyC  chan map[int]*Enemy // channel for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
@@ -35,6 +36,9 @@ func (enemies *EnemyMap) accessManager() {
         // setting of enemy values
         case toSet := <-enemies.setC:
             enemies.m[toSet.id] = toSet.enemy
+        // clears the map
+        case <-enemies.resetC:
+            enemies.m = make(map[int]*Enemy)
         // sending of a copy of the map
         case <-enemies.copyC:
             newCopy := make(map[int]*Enemy)
@@ -55,6 +59,11 @@ func (enemies *EnemyMap) set(id int, data *Enemy) {
 // Request an enemy deletion
 func (enemies *EnemyMap) remove(id int) {
     enemies.delC <- id
+}
+
+// Request the resetting of the structure
+func (enemies *EnemyMap) reset() {
+    enemies.resetC <- struct{}{}
 }
 
 // Request a copy of the enemy map
