@@ -89,22 +89,25 @@ public class BulletLogic : MonoBehaviour
             player.HitMarker();
 		}
 
-        if(col.gameObject.tag.Equals("Debris"))
+		string hitObjectTag = col.gameObject.tag;
+		if (hitObjectTag.Equals("Debris"))
 		{
 			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
-        }
-        else if(col.gameObject.tag.Equals("EnemyShip"))
-        {
-        	//Debug.Log ("A bullet has hit an enemy");
+		}
+		else if (hitObjectTag.Equals("EnemyShip"))
+		{
+			//Debug.Log ("A bullet has hit an enemy");
 			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage, bulletPlayerId);
-        }
-        else if(col.gameObject.tag.Equals("Player"))
-        {
-            //Debug.Log ("A bullet has hit the player");
-            GameObject hitObject = col.gameObject;
-            hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
+		}
+		else if (hitObjectTag.Equals("Player"))
+		{
+			//Debug.Log ("A bullet has hit the player");
+			GameObject hitObject = col.gameObject;
+			hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
                 .collision(damage, transform.eulerAngles.y, hitObject.name.GetComponentType());
-        }
+		}
+		else if (hitObjectTag.Equals("Outpost"))
+			return;
 
         if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
         {
