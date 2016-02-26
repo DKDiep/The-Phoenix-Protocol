@@ -211,6 +211,11 @@ public class CommandConsoleState : MonoBehaviour {
             second = 0;
         }
     }
+    
+    public void foundOutpost(string message)
+    {
+        print(message);
+    }
 
     void onGui()
     {

@@ -141,6 +141,16 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("netId " + netId + " now has index " + index);
     }
 
+    [ClientRpc]
+    public void RpcOutpostNotification(string message)
+    {
+        if (commandConsoleState != null)
+        {
+            commandConsoleState.foundOutpost(message);
+        }
+        //else { print("commandConsoleState = null"); }
+    }
+
     void Start()
     {
         // Get the game manager and game state at start

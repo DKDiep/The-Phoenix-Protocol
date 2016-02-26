@@ -13,7 +13,7 @@ public class OutpostSpawner : MonoBehaviour
 	private EnemySpawner enemySpawner;
 	private const float OUTPOST_MIN_DISTANCE = 1000;
 
-	private GameObject player, outpost, logic, spawnLocation;
+	private GameObject player, outpost, logic, spawnLocation, outpostManager;
 
 	[SerializeField] int maxOutposts;
 	private int numOutposts = 0;
@@ -24,8 +24,11 @@ public class OutpostSpawner : MonoBehaviour
 		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
-	
-		spawnLocation = new GameObject();
+        //print("starting outpost manager");
+        outpostManager = Instantiate(Resources.Load("Prefabs/OutpostManager", typeof(GameObject))) as GameObject;
+        OutPostManager outpostManagerScript = outpostManager.GetComponent<OutPostManager>();
+        outpostManagerScript.giveGameStateReference(gameState);
+        spawnLocation = new GameObject();
 		spawnLocation.name = "OutpostSpawnLocation";
 	}
 		
