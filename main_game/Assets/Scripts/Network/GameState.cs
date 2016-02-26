@@ -65,6 +65,8 @@ public class GameState : NetworkBehaviour {
 	[SyncVar] private float shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
 
 	private bool godMode = false;
+	private bool nosMode = false;
+	private const int NOS_SPEED = 80;
     
     void Update()
     {
@@ -82,7 +84,17 @@ public class GameState : NetworkBehaviour {
 			}
 			Debug.Log("God mode " + godMode);
 		}
+		if(Input.GetKeyDown(KeyCode.N))
+		{
+			nosMode = !nosMode;
+			if (nosMode)
+				shipSpeed = NOS_SPEED;
+			else
+				shipSpeed = INITIAL_SHIP_SPEED;
+			Debug.Log("NOS mode " + nosMode);
+		}
 
+		// If in god mode, reset the ship to max possible health every frame
 		if (godMode)
 			shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
     }
