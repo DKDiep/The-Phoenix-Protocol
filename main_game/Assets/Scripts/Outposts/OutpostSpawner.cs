@@ -3,10 +3,11 @@ using System.Collections;
 
 public class OutpostSpawner : MonoBehaviour 
 {
+	// The different outpost models
 	[SerializeField] GameObject outpost1;
 
-	// The distance from the outpost the ship has to be in order to collect resources
-	[SerializeField] float collectionDistance;
+	[SerializeField] GameObject resources;     // The resources prefab
+	[SerializeField] float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 
 	[SerializeField] GameObject gameManager;
 	private GameState gameState;
@@ -74,8 +75,9 @@ public class OutpostSpawner : MonoBehaviour
 		outpost = outpost1;
 
 		// Spawn object and logic
-		GameObject outpostObject = Instantiate(outpost, spawnLocation.transform.position, Quaternion.identity) as GameObject;
-		GameObject outpostLogic = Instantiate(logic, spawnLocation.transform.position, Quaternion.identity) as GameObject;
+		GameObject outpostObject    = Instantiate(outpost, spawnLocation.transform.position, Quaternion.identity) as GameObject;
+		GameObject outpostLogic     = Instantiate(logic, spawnLocation.transform.position, Quaternion.identity) as GameObject;
+		GameObject outpostResources = Instantiate(resources, spawnLocation.transform.position, Quaternion.identity) as GameObject;
 
 		// Initialise logic
 		outpostLogic.transform.parent = outpostObject.transform;
@@ -85,12 +87,10 @@ public class OutpostSpawner : MonoBehaviour
 		//outpostLogic.GetComponent<OutpostLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
 		outpostLogic.GetComponent<OutpostLogic>().SetStateReference(gameState);
 
-		// Add collider and rigidbody
-		SphereCollider sphere = outpostObject.AddComponent<SphereCollider>();
-
-		// Change radius that the player picks up resources
-		sphere.radius = collectionDistance;
-		sphere.isTrigger = true;
+		// Set the resources collider on a child object to avoid shooting and outpost collision issues
+		outpostResources.transform.parent = outpostObject.transform;
+		outpostResources.GetComponent<ResourcesCollision>().SetOutpost(outpostObject);
+		outpostResources.GetComponent<SphereCollider>().radius = collectionDistance;
 
 		Rigidbody rigid = outpostObject.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;

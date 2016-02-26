@@ -33,6 +33,7 @@ public class OutpostLogic : MonoBehaviour {
 			resourcesCollected = true;
 		}
 	}
+
 	public void SetStateReference(GameState state)
 	{
 		gameState = state;

@@ -14,9 +14,10 @@ public class OutpostCollision : MonoBehaviour
 	// Cause damage if collided with
 	void OnTriggerEnter (Collider col)
 	{
+		// TODO: this should damage the player and outpost.
 		if(col.gameObject.tag.Equals ("Player"))
 		{
-			outpostLogic.collision();
+			// Resources are now collected through the separate OutpostResources object
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{
