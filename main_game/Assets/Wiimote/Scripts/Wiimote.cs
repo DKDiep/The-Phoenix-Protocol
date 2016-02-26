@@ -71,6 +71,19 @@ public class Wiimote
         }
     }
 
+	/// If this Wiimote is a Guitar Hero Guitar Controller,
+	/// this contains all relevant Guitar data as it is reported by
+	/// the Controller.  If this Wiimote is not a Guitar Controller, this is \c null.
+	///
+	/// \sa current_ext
+	public GuitarData Guitar {
+		get {
+			if(current_ext == ExtensionController.GUITAR)
+				return (GuitarData)_Extension;
+			return null;
+		}
+	}
+
     private WiimoteData _Extension;
 
     /// Button data component.
@@ -174,9 +187,11 @@ public class Wiimote
     private const long ID_ActiveMotionPlus_Nunchuck = 0x0000A4200505;
     private const long ID_ActiveMotionPlus_Classic  = 0x0000A4200705;
     private const long ID_Nunchuck                  = 0x0000A4200000;
+    private const long ID_Nunchuck2                 = 0xFF00A4200000;
     private const long ID_Classic                   = 0x0000A4200101;
     private const long ID_ClassicPro                = 0x0100A4200101;
     private const long ID_WiiUPro                   = 0x0000A4200120;
+	private const long ID_Guitar                    = 0x0000A4200103;
 
 
     private void RespondIdentifyExtension(byte[] data)
@@ -210,7 +225,7 @@ public class Wiimote
             _current_ext = ExtensionController.CLASSIC_PRO;
             _Extension = null;
         }
-        else if (val == ID_Nunchuck)
+        else if (val == ID_Nunchuck || val == ID_Nunchuck2)
         {
             _current_ext = ExtensionController.NUNCHUCK;
             if (_Extension == null || _Extension.GetType() != typeof(NunchuckData))
@@ -229,6 +244,12 @@ public class Wiimote
             if (_Extension == null || _Extension.GetType() != typeof(WiiUProData))
                 _Extension = new WiiUProData(this);
         }
+		else if (val == ID_Guitar)
+		{
+			_current_ext = ExtensionController.GUITAR;
+			if (_Extension == null || _Extension.GetType() != typeof(GuitarData))
+				_Extension = new GuitarData(this);
+		}
         else
         {
             _current_ext = ExtensionController.NONE;
@@ -239,7 +260,7 @@ public class Wiimote
     #region Setups
 
     /// \brief Performs a series of coperations to initialize the IR camera.
-    /// \param type The IR Report type you want to use.
+    /// \param type The IR Report type you want to use and the sensitivity of the IR camera
     /// \return If all IR setup commands were successfully sent to the Wii Remote.
     /// 
     /// This performs the following steps in order to set up the IR camera:
@@ -251,7 +272,7 @@ public class Wiimote
     /// 6. Write Mode Number to register \c 0xb00033
     /// 7. Write 0x08 to register \c 0xb00030 (again)
     /// 8. Update the Wii Remote's data reporting mode based on \c type
-    public bool SetupIRCamera(IRDataType type = IRDataType.EXTENDED)
+	public bool SetupIRCamera(IRDataType type = IRDataType.EXTENDED, WiimoteSensitivity sensitivity = WiimoteSensitivity.LEVEL3)
     {
         int res;
         // 1. Enable IR Camera (Send 0x04 to Output Report 0x13)
@@ -262,12 +283,26 @@ public class Wiimote
         res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00030, new byte[] { 0x08 });
         if (res < 0) return false;
         // 4. Write Sensitivity Block 1 to registers at 0xb00000
-        // Wii sensitivity level 3:
-        // 02 00 00 71 01 00 aa 00 64
-        // High Sensitivity:
-        // 00 00 00 00 00 00 90 00 41
-        res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00000,
-            new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xaa, 0x00, 0x64 });
+		switch(sensitivity)
+		{
+			case WiimoteSensitivity.MARCAN:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00000,
+					new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x00, 0xC0 });
+				break;
+			case WiimoteSensitivity.MAX:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00000,
+					new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x0C });
+				break;
+			case WiimoteSensitivity.HIGH:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00000,
+					new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x00, 041 });
+				break;
+			case WiimoteSensitivity.LEVEL3:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00000,
+					new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xaa, 0x00, 0x64 });
+				break;
+		}
+        
         //new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x00, 0x41});
         if (res < 0) return false;
         // 5. Write Sensitivity Block 2 to registers at 0xb0001a
@@ -275,7 +310,22 @@ public class Wiimote
         // 63 03
         // High Sensitivity:
         // 40 00
-        res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb0001a, new byte[] { 0x63, 0x03 });
+        
+		switch(sensitivity)
+		{
+			case WiimoteSensitivity.MARCAN:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb0001a, new byte[] { 0x40, 0x00 });
+				break;
+			case WiimoteSensitivity.MAX:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb0001a, new byte[] { 0x00, 0x00 });
+				break;
+			case WiimoteSensitivity.HIGH:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb0001a, new byte[] { 0x40, 0x00 });
+				break;
+			case WiimoteSensitivity.LEVEL3:
+				res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb0001a, new byte[] { 0x63, 0x03 });
+				break;
+		}
         if (res < 0) return false;
         // 6. Write Mode Number to register 0xb00033
         res = SendRegisterWriteRequest(RegisterType.CONTROL, 0xb00033, new byte[] { (byte)type });
@@ -293,7 +343,7 @@ public class Wiimote
                 res = SendDataReportMode(InputDataType.REPORT_BUTTONS_ACCEL_IR12);
                 break;
             case IRDataType.FULL:
-                res = SendDataReportMode(InputDataType.REPORT_INTERLEAVED);
+                res = SendDataReportMode(InputDataType.REPORT_INTERLEAVED_ALT);
                 break;
         }
 

@@ -103,7 +103,9 @@ public enum ExtensionController
     MOTIONPLUS_NUNCHUCK, 
     /// An activated Wii Motion Plus with a Classic Controller in passthrough mode. 
     /// \warning Classic Controller passthrough is currently not supported
-    MOTIONPLUS_CLASSIC
+    MOTIONPLUS_CLASSIC,
+	/// Guitar Hero controller
+	GUITAR
 }
 
 public enum AccelCalibrationStep {
@@ -111,7 +113,7 @@ public enum AccelCalibrationStep {
     EXPANSION_UP = 1,
     LEFT_SIDE_UP = 2
 }
-
+			
 /// These different Wii Remote Types are used to differentiate between different devices that behave like the Wii Remote.
 public enum WiimoteType {
     /// The original Wii Remote (Name: RVL-CNT-01).  This includes all Wii Remotes manufactured for the original Wii.
@@ -122,6 +124,14 @@ public enum WiimoteType {
     /// The Wii U Pro Controller (Name: RVL-CNT-01-UC) behaves identically to a Wii Remote with a Classic Controller
     /// attached.  Obviously the Pro Controller does not support IR so those features will not work.
     PROCONTROLLER
+}
+		
+/// Sensitivity of the Wii remote IR camera, taken from http://wiibrew.org/wiki/Wiimote#Sensitivity_Settings
+public enum WiimoteSensitivity {
+	MAX,
+	HIGH, 
+	LEVEL3,
+	MARCAN,
 }
 
 } // namespace WiimoteApi
