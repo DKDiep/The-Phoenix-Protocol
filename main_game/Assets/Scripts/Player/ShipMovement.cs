@@ -14,6 +14,7 @@ public class ShipMovement : MonoBehaviour
 	[SerializeField] float maxTurnSpeed = 1f;
 	[SerializeField] float slowDown;
 	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
+	private float shieldRechargeValue; // The value by which to recharge the shields each tick
 
 	bool rechargeShield;
 	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
@@ -31,12 +32,9 @@ public class ShipMovement : MonoBehaviour
 	DamageEffects myDamage;
     ShieldEffects myShield = null;
 
-
-
     // Initialise object
     void Start()
     {
-		
 		GameObject server = GameObject.Find("GameManager");
 		gameState = server.GetComponent<GameState>();
 
@@ -44,11 +42,10 @@ public class ShipMovement : MonoBehaviour
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
     	controlObject = transform.parent.gameObject;
-		gameState.SetShipShield(gameState.GetShipMaxShields());
+		// TODO: I'm not sure where the 10f is from, it was in the code when I refactored it. This value should probably be related to the recherge rate
+		shieldRechargeValue = gameState.GetShipShieldRechargeRate() / 10f;
 		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine ("RechargeShields");
-
-
     }
 
 	IEnumerator RechargeShields()
@@ -56,7 +53,7 @@ public class ShipMovement : MonoBehaviour
 		if(lastShieldCheck == gameState.GetShipShield() && 
 		   gameState.GetShipShield() < gameState.GetShipMaxShields()) // Ensure shield is below max value and the player hasn't been hit
 		{
-			gameState.SetShipShield(gameState.GetShipShield() + (gameState.GetShipShieldRechargeRate() / 10f));
+			gameState.RechargeShield(shieldRechargeValue);
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(0.1f);
 			StartCoroutine ("RechargeShields");
@@ -258,28 +255,17 @@ public class ShipMovement : MonoBehaviour
 		{
 			myDamage.Damage(3,damage, gameState.GetShipHealth());
 		}
-
-        // Control damage to player
-		if (gameState.GetShipShield() > damage)
+			
+		// Check to see if the hull is hit, otherwise damage component
+		if (component == ComponentType.None)
 		{
-			gameState.SetShipShield(gameState.GetShipShield() - damage);
-			myShield.Impact(gameState.GetShipShield());
+			bool shieldStillUp = gameState.DamageShip(true, damage);
+			if (shieldStillUp)
+				myShield.Impact(gameState.GetShipShield());
+			else
+				myShield.ShieldDown();
 		}
-		else if (gameState.GetShipShield() > 0)
-		{
-			float remDamage = damage - gameState.GetShipShield();
-			gameState.SetShipShield(0);
-			myShield.ShieldDown();
-			gameState.ReduceShipHealth(remDamage);
-		}
-		else
-		{
-			// Check to see if the hull is hit, otherwise damage component
-            if(component == ComponentType.None)
-                gameState.ReduceShipHealth(damage);
-            else
-                gameState.ReduceComponentHealth(component, damage);
-		}
-		//Debug.Log ("Player was hit, has " + shield + " shield and " + gameState.GetShipHealth() + " health");
+        else
+            gameState.ReduceComponentHealth(component, damage);
 	}
 }

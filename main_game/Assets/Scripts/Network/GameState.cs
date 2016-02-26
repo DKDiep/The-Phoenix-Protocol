@@ -149,7 +149,6 @@ public class GameState : NetworkBehaviour {
     {
         return asteroidList[i];
     }
-		
 
 	/*
 	 *  Getters and setters for enemy list
@@ -186,7 +185,6 @@ public class GameState : NetworkBehaviour {
     {
         return enemyList[i];
     }
-		
 
 	/*
 	 *  Getters and setters for Engineer list
@@ -215,7 +213,6 @@ public class GameState : NetworkBehaviour {
     {
         return engineerList[i];
     }
-
 
 	/*
 	 *  Getters and setters for outpost list
@@ -401,16 +398,42 @@ public class GameState : NetworkBehaviour {
 	/// Sets the ship health to a specific value
 	/// </summary>
 	/// <param name="value">Value.</param>
-	public void SetShipHealth(float value) 
+	private void SetShipHealth(float value) 
 	{
 		shipHealth = value;
+	}
+
+	/// <summary>
+	/// Damage the ship's main hull.
+	/// </summary>
+	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the hull.</param>
+	/// <param name="damage">The ammount of damage to inflict.</param>
+	/// <returns><c>true</c> if shields are still available</returns>
+	public bool DamageShip(bool shielded, float damage)
+	{
+		if (shielded && shipShield > damage)
+		{
+			SetShipShield(shipShield - damage);
+			return true;
+		}
+		else
+		{
+			if (shielded)
+			{
+				damage -= shipShield;
+				SetShipShield(0);
+			}
+			ReduceShipHealth(damage);
+			//Debug.Log ("Hull was hit, " + shipShield + " shield and " + shipHealth + " health left.");
+			return false;
+		}
 	}
 
 	/// <summary>
 	/// Reduces the ship health by a specific value
 	/// </summary>
 	/// <param name="value">Value.</param>
-	public void ReduceShipHealth(float value) 
+	private void ReduceShipHealth(float value) 
 	{
 		shipHealth -= value;
 		if (shipHealth <= 0)
@@ -490,7 +513,7 @@ public class GameState : NetworkBehaviour {
 	/// Sets the ship shield.
 	/// </summary>
 	/// <param name="shield">Shield.</param>
-	public void SetShipShield(float shield)
+	private void SetShipShield(float shield)
 	{
 		shipShield = shield;
 	}
@@ -511,6 +534,20 @@ public class GameState : NetworkBehaviour {
 	public void SetShipShieldRechargeRate(float shieldRechargeRate)
 	{
 		shipShieldRechargeRate = shieldRechargeRate;
+	}
+
+	/// <summary>
+	/// Recharge the ship's shield by a given value.
+	/// </summary>
+	/// <param name="value">The ammount by which to recharge the shields.</param>
+	public void RechargeShield(float value)
+	{
+		// Don't recharge the shields over the maximum value
+		float newShieldvalue = shipShield + value;
+		if (newShieldvalue > shipMaxShields)
+			value = shipMaxShields - shipShield;
+			
+		SetShipShield(shipShield + value);
 	}
 
 	/// <summary>
