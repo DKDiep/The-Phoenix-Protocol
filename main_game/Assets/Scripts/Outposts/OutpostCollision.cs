@@ -22,7 +22,7 @@ public class OutpostCollision : MonoBehaviour
 			// If the player crashes into the outpost, the outpost is destroyed and the player takes massive damage
 			Debug.Log("Outpost destroyed");
 			outpostLogic.PlayerCollision(PLAYER_COLLISION_DAMAGE);
-			Destroy(this.gameObject); // TODO: Does this work fine with the network?
+			Destroy(this.gameObject);
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{

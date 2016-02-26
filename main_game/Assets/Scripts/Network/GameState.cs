@@ -240,6 +240,11 @@ public class GameState : NetworkBehaviour {
 		outpostList.RemoveAt(i);
 	}
 
+	public void RemoveOutpost(GameObject outpost)
+	{
+		outpostList.Remove(outpost);
+	}
+
 	public GameObject GetOutpostAt(int i)
 	{
 		return outpostList[i];

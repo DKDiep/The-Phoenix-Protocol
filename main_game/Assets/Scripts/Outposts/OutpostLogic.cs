@@ -45,6 +45,9 @@ public class OutpostLogic : MonoBehaviour {
 	{
 		// This isn't blaster damage, so it goes straight to the hull.
 		gameState.ReduceShipHealth(damage);
+
+		// The outpost is destroyed when coliding with a player, so update the game state
+		gameState.RemoveOutpost(transform.parent.gameObject);
 	}
 
 	public void SetStateReference(GameState state)
