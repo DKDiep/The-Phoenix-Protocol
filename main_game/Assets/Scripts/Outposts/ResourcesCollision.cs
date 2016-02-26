@@ -23,7 +23,7 @@ public class ResourcesCollision : MonoBehaviour {
 	{
 		// Call the OutpostLogic to handle resource collection
 		if (col.gameObject.CompareTag("Player"))
-			outpost.GetComponentInChildren<OutpostLogic>().collision();
+			outpost.GetComponentInChildren<OutpostLogic>().ResourceCollision();
 	}
 
 	/// <summary>

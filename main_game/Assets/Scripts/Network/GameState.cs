@@ -408,6 +408,8 @@ public class GameState : NetworkBehaviour {
 	public void ReduceShipHealth(float value) 
 	{
 		shipHealth -= value;
+		if (shipHealth <= 0)
+			SetStatus(Status.Died);
 	}
 		
 	/// <summary>

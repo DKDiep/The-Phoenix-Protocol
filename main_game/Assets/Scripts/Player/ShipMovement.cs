@@ -272,19 +272,13 @@ public class ShipMovement : MonoBehaviour
 			myShield.ShieldDown();
 			gameState.ReduceShipHealth(remDamage);
 		}
-		else if(gameState.GetShipHealth() > damage)
+		else
 		{
-			// TODO: check to see if the hull is hit, otherwise damage component
+			// Check to see if the hull is hit, otherwise damage component
             if(component == ComponentType.None)
                 gameState.ReduceShipHealth(damage);
             else
                 gameState.ReduceComponentHealth(component, damage);
-		}
-		else
-		{
-			gameState.SetShipHealth(0);
-			gameState.SetStatus(GameState.Status.Died);
-			//Destroy(transform.parent.gameObject);
 		}
 		//Debug.Log ("Player was hit, has " + shield + " shield and " + gameState.GetShipHealth() + " health");
 	}

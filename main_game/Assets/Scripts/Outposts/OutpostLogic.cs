@@ -25,13 +25,26 @@ public class OutpostLogic : MonoBehaviour {
 
 	}
 		
-	public void collision ()
+	/// <summary>
+	/// Handle the player coming into resource collision range.
+	/// </summary>
+	public void ResourceCollision ()
 	{
 		if(!resourcesCollected) 
 		{
 			CollectResources();
 			resourcesCollected = true;
 		}
+	}
+
+	/// <summary>
+	/// Handle the player colliding into the outpost.
+	/// </summary>
+	/// <param name="damage">The damage to inflict to the player.</param>
+	public void PlayerCollision(int damage)
+	{
+		// This isn't blaster damage, so it goes straight to the hull.
+		gameState.ReduceShipHealth(damage);
 	}
 
 	public void SetStateReference(GameState state)
