@@ -3805,7 +3805,7 @@ Transform:
   m_PrefabParentObject: {fileID: 405082, guid: 9ae55af39ae6e4fc2b83be7c80ccb6e4, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 437453803}
-  m_LocalRotation: {x: -0.42370677, y: 0.27650172, z: 0.32625276, w: -0.7984852}
+  m_LocalRotation: {x: -0.4237067, y: 0.2765017, z: 0.32625273, w: -0.7984851}
   m_LocalPosition: {x: 22.531494, y: 484.46967, z: 975.0077}
   m_LocalScale: {x: 1.025517, y: 1.025517, z: 1.025517}
   m_Children:
@@ -6351,7 +6351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.33088237, b: 0.33088237, a: 1}
+  m_Color: {r: 0.53676474, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6603,6 +6603,7 @@ MonoBehaviour:
   - {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972, type: 2}
   - {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
   - {fileID: 127634, guid: ab9d3b7af5d854a3ca2d98e1ca1df8ff, type: 2}
+  - {fileID: 116588, guid: 3de35e3d85e124db183a69665b7789ee, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -7342,7 +7343,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1648285705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1016.9799, y: 438.66962, z: 691.3657}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0061879572, y: 0.0061879572, z: 0.0061879572}
   m_Children: []
   m_Father: {fileID: 0}

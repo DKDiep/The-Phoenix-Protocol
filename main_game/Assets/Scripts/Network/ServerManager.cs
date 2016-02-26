@@ -121,6 +121,10 @@ public class ServerManager : NetworkBehaviour {
     public void StartGame()
     {
 
+        // Spawn Cutscene Manager
+        GameObject cutsceneManager = Instantiate(Resources.Load("Prefabs/CutsceneManager", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(cutsceneManager);
+
         // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.SetPlayerShip(playerShip);
