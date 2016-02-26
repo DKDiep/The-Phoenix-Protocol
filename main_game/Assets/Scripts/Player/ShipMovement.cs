@@ -152,7 +152,7 @@ public class ShipMovement : MonoBehaviour
     /// <param name="component">The component that was hit.</param>
     public void collision(float damage, float yRot, ComponentType component)
 	{
-		wii.RumbleAll(5);
+		if(wii != null) wii.RumbleAll(5);
 
 		yRot += transform.eulerAngles.y - 180f;
 

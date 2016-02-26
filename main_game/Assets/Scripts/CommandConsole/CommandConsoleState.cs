@@ -22,6 +22,7 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private GameObject LevelCounter2;
 	[SerializeField] private GameObject LevelCounter3;
 	[SerializeField] private GameObject LevelCounter4;
+    [SerializeField] private GameObject NewsFeed;
 
     private PlayerController playerController;
 	private GameObject ship;
@@ -50,7 +51,6 @@ public class CommandConsoleState : MonoBehaviour {
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
 		ship.AddComponent<ConsoleShipControl>();
 
-
 		// Get starting values for resources and health
 		shipResources = gameState.GetShipResources();
 		shipHealth = gameState.GetShipHealth();
@@ -67,7 +67,7 @@ public class CommandConsoleState : MonoBehaviour {
         LevelCounter2.SetActive(false);
         LevelCounter3.SetActive(false);
         LevelCounter4.SetActive(false);
-
+        NewsFeed.SetActive(false);
 
 		// Hide the popup by default
         PopUpText.text = "";
@@ -214,7 +214,8 @@ public class CommandConsoleState : MonoBehaviour {
     
     public void foundOutpost(string message)
     {
-        print(message);
+        NewsFeed.SetActive(true);
+        NewsFeed.GetComponent<Text>().text = message;
     }
 
     void onGui()

@@ -34,9 +34,11 @@ public class CrosshairMovement : MonoBehaviour {
 		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
-		// Get number of connected wii remotes
-		numberOfCrossHairs = wii.GetNumberOfRemotes();
-
+        // Get number of connected wii remotes
+        if (wii != null)
+        {
+            numberOfCrossHairs = wii.GetNumberOfRemotes();
+        }
 		// If there are no wii remotes connected, set the default to 2
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 2;
 
