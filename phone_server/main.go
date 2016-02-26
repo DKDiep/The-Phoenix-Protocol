@@ -9,13 +9,16 @@ import (
 )
 
 const WEB_DIR string = "../web/phone_web"
-const GAME_SERVER_ADDRESS string = "192.168.56.1:2345"
+const GAME_SERVER_ADDRESS string = "localhost"
+const GAME_SERVER_UDP_PORT string = "2345"
+const GAME_SERVER_TCP_PORT string = "2346"
 const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
 const NUM_OFFICERS int = 3
 const OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
-// Structure dealing with the Game Server Connection
-var gameServerConn *net.UDPConn
+// Structures dealing with the Game Server Connections
+var gameServerUDPConn *net.UDPConn
+var gameServerTCPConn *net.TCPConn
 
 // Holds and handles game state related information
 var gameState *GameState = &GameState{
@@ -77,8 +80,10 @@ func webSocketHandler(webs *websocket.Conn) {
 
 // Starts all necessary subroutines
 func main() {
-    initialiseGameServerConnection()
-    go gameServerConnectionHandler()
+    initialiseGameServerTCPConnection()
+    go gameServerTCPConnectionHandler()
+    initialiseGameServerUDPConnection()
+    go gameServerUDPConnectionHandler()
     go playerMap.accessManager()
     go playerShip.accessManager()
     go asteroidMap.accessManager()
