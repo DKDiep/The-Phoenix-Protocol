@@ -14,6 +14,7 @@ TagManager:
   - SpaceScene_Galaxy
   - SpaceScene_LocalStar
   - Outpost
+  - Resources
   layers:
   - Default
   - TransparentFX

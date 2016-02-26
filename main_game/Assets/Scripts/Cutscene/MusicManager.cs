@@ -16,7 +16,8 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         GetComponent<AudioSource>().clip = music[0];
-        GetComponent<AudioSource>().Play ();
+        StartCoroutine("DelayMusic");
+
     }
 
 	void Update()
@@ -29,6 +30,13 @@ public class MusicManager : MonoBehaviour
 			//GetComponent<AudioSource>().mute = !GetComponent<AudioSource>().mute;
 		}
 	}
+
+    IEnumerator DelayMusic()
+    {
+        yield return new WaitForSeconds(3f);
+        GetComponent<AudioSource>().Play ();
+    }
+        
 
 	// Plays a music track with ID as input	
 	public void PlayMusic(int id)
