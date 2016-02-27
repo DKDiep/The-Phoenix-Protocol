@@ -36,7 +36,7 @@ public class DamageEffects : NetworkBehaviour
 	void Update () 
 	{
 		if(alpha > 0f)
-			alpha -= 4f * Time.deltaTime;
+			alpha -= 2f * Time.deltaTime;
 	}
 
 	void OnGUI()
