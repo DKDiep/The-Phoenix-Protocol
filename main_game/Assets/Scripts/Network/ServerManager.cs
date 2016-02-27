@@ -21,6 +21,7 @@ public class ServerManager : NetworkBehaviour {
     private NetworkMessageDelegate originalAddPlayerHandler;
     bool gameStarted;
     GameObject spawner;
+    [SerializeField] GameObject poolManager;
 
     public int clientIdCount()
     {
@@ -34,8 +35,6 @@ public class ServerManager : NetworkBehaviour {
 
     void Awake()
     {
-        GameObject poolManager = GameObject.Find("ObjectPooling");
-
         foreach(Transform child in poolManager.transform)
         {
             child.gameObject.GetComponent<ObjectPoolManager>().SpawnObjects();
