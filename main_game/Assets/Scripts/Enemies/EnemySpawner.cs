@@ -264,7 +264,7 @@ public class EnemySpawner : MonoBehaviour
 		public int maxHealth, maxShield, collisionDamage, speed;
 		public EnemyType Type { get; private set; }
 
-		public EnemyProperties(EnemyType type, int maxHelath, int maxShield, int collisionDamage, int speed)
+		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage, int speed)
 		{
 			this.Type            = type;
 			this.maxHealth       = maxHealth;
