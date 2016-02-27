@@ -24,7 +24,7 @@ public class UDPServer : MonoBehaviour
     {
         if (MainMenu.startServer)
         {
-            Debug.Log("Starting UDP server.");
+            Debug.Log("Starting UDP server on port: " + listenPort);
 
             socket = new UdpClient(listenPort);
             clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
