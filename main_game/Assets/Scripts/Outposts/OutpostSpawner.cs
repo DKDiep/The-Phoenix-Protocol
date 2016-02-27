@@ -3,20 +3,24 @@ using System.Collections;
 
 public class OutpostSpawner : MonoBehaviour 
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	// The different outpost models
-	[SerializeField] GameObject outpost1;
+	[SerializeField] private GameObject outpost1;
 
-	[SerializeField] GameObject resources;     // The resources prefab
-	[SerializeField] float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
+	[SerializeField] private GameObject resources;     // The resources prefab
+	[SerializeField] private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 
-	[SerializeField] GameObject gameManager;
+	[SerializeField] private GameObject gameManager;
+
+	[SerializeField] private int maxOutposts;
+	#pragma warning restore 0649
+
 	private GameState gameState;
 	private EnemySpawner enemySpawner;
 	private const float OUTPOST_MIN_DISTANCE = 1000;
 
 	private GameObject player, outpost, logic, spawnLocation, outpostManager;
 
-	[SerializeField] int maxOutposts;
 	private int numOutposts = 0;
 
 	void Start ()
@@ -25,10 +29,10 @@ public class OutpostSpawner : MonoBehaviour
 		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
-        //print("starting outpost manager");
         outpostManager = Instantiate(Resources.Load("Prefabs/OutpostManager", typeof(GameObject))) as GameObject;
-        OutPostManager outpostManagerScript = outpostManager.GetComponent<OutPostManager>();
+        OutpostManager outpostManagerScript = outpostManager.GetComponent<OutpostManager>();
         outpostManagerScript.giveGameStateReference(gameState);
+
         spawnLocation = new GameObject();
 		spawnLocation.name = "OutpostSpawnLocation";
 	}
@@ -42,6 +46,7 @@ public class OutpostSpawner : MonoBehaviour
 					player = gameState.GetPlayerShip();
 			
 				spawnLocation.transform.position = player.transform.position;
+
 				// The range (90,-90) is in in front of the ship. 
 				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(90,-90), Random.Range(90,-90));
 
@@ -104,5 +109,4 @@ public class OutpostSpawner : MonoBehaviour
 		int numGuards = Random.Range(5, 10); // TODO: might want to set this manually based on difficulty
 		enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
 	}
-
 }
