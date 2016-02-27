@@ -170,16 +170,10 @@ public class ServerManager : NetworkBehaviour {
 
 		// Spawn portal
 		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
-		portal.AddComponent<PortalCollision>();
-		// Add collider and rigidbody
-		SphereCollider sphere = portal.AddComponent<SphereCollider>();
-		sphere.radius = portal.GetComponent<PortalLogic>().distanceToWin;
-		sphere.isTrigger = true;
-		Rigidbody rigid = portal.AddComponent<Rigidbody>();
-		rigid.isKinematic = true;
+        portal.transform.position = new Vector3(0,0,1000);
 		gameState.SetPortal(portal);
 		ServerManager.NetworkSpawn(portal);
-
+        portal.AddComponent<PortalLogic>();
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;

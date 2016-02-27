@@ -1,25 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PortalLogic : MonoBehaviour {
+public class PortalLogic : MonoBehaviour 
+{
+	private GameState gameState;
 
-	public float distanceToWin = 0.9f;
-	GameState gameState;
-	// Use this for initialization
-	void Start () {
-		GameObject server = GameObject.Find("GameManager");
-		gameState = server.GetComponent<GameState>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Start () 
+    {
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+	}   
 
-
-	public void collision() 
-	{
-		Debug.Log("You have reached the portal. You have won then game!");
-		gameState.SetStatus(GameState.Status.Won);
-	}
+    void OnTriggerEnter (Collider col)
+    {
+        if(col.gameObject.tag.Equals ("Player"))
+        {
+            Debug.Log("You have reached the portal. You have won then game!");
+            gameState.SetStatus(GameState.Status.Won);
+        }
+    }
 }
