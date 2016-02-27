@@ -13,9 +13,11 @@ public class ObjectPoolManager : NetworkBehaviour
 {
     private GameObject[] pool;
 
-    [SerializeField] GameObject[] obj; // Object to spawn
-    [SerializeField] int size; // Number of objects to spawn
-    [SerializeField] bool serverOnly;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+    [SerializeField] private GameObject[] obj; // Object to spawn
+    [SerializeField] private int size; // Number of objects to spawn
+    [SerializeField] private bool serverOnly;
+	#pragma warning restore 0649
 
 	// Use this for initialization
 	public void SpawnObjects () 
@@ -28,8 +30,9 @@ public class ObjectPoolManager : NetworkBehaviour
             GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
             spawn.SetActive(false);
             spawn.name = i.ToString();
-            //if(!serverOnly) ServerManager.NetworkSpawn(spawn);
-            if(spawn.GetComponent<Collider>() != null) spawn.GetComponent<Collider>().enabled = true;
+
+            if(spawn.GetComponent<Collider>() != null)
+				spawn.GetComponent<Collider>().enabled = true;
             pool[i] = spawn;
         }
 	}
@@ -96,5 +99,4 @@ public class ObjectPoolManager : NetworkBehaviour
         pool[id].transform.parent = null;
         pool[id].SetActive(false);
     }
-
 }
