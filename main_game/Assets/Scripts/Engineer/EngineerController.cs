@@ -6,22 +6,22 @@ using System.Collections.Generic;
 
 public class EngineerController : NetworkBehaviour {
 
-    //Private vars
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] private float upMultiplier;
     [SerializeField] private bool isWalking;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float m_StepInterval;
+	#pragma warning restore 0649
 
     private Text upgradeText;
     private PlayerController myController;
-    private Camera camera;
+    private new Camera camera;
     private MouseLook mouseLook;
     private bool jump;
     private Vector2 input;
-    private CollisionFlags m_CollisionFlags;
-    private float m_StepCycle;
+    private float m_StepCycle = 0f;
     private float m_NextStep;
     private string upgradeString;
     private string repairString;
@@ -280,28 +280,11 @@ public class EngineerController : NetworkBehaviour {
         }
     }
 
-
     private void RotateView()
     {
         mouseLook.LookRotation(transform, camera.transform);
         // Send the rotaion to the server
         //CmdSetRotation(transform.rotation);  UNCOMMENT TO SEE NETWORK ISSUES
-    }
-
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //dont move the rigidbody if the character is on top of it
-        if (m_CollisionFlags == CollisionFlags.Below)
-        {
-            return;
-        }
-
-        if (body == null || body.isKinematic)
-        {
-            return;
-        }
     }
 
     private void ResetUpgradeText()
