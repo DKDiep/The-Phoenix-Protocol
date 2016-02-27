@@ -121,7 +121,7 @@ MonoBehaviour:
   zOffset: 10.34
   rateOfFire: 0.025
   hitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
-  fireSnd: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
+  fireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   randomPitch: 1
   muzzleFlash: {fileID: 131070, guid: 3d2fb4ef4cf0544389326dac5cdc8c2c, type: 2}
 --- !u!1001 &100100000
@@ -219,6 +219,10 @@ Prefab:
       propertyPath: muzzleFlash
       value: 
       objectReference: {fileID: 131070, guid: 3d2fb4ef4cf0544389326dac5cdc8c2c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: fireSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144904}

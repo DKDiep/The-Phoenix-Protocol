@@ -16,11 +16,11 @@ public class PlayerShooting : MonoBehaviour
 	[SerializeField] GameObject bulletLogic;
 	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
 	[SerializeField] Texture2D hitmarker; // Hitmarker texture
-    [SerializeField] AudioClip fireSnd; // Sound to make when firing
-    AudioSource mySrc;
+    [SerializeField] AudioClip fireSound; // Sound to make when firing
     [SerializeField] bool randomPitch;
     [SerializeField] GameObject muzzleFlash;
 
+	AudioSource fireSoundAudioSource;
 	GameObject[] bulletAnchor;
 	GameObject target;
 	bool canShoot, showMarker;
@@ -38,8 +38,8 @@ public class PlayerShooting : MonoBehaviour
     
 	void Start () 
 	{
-        mySrc = GetComponent<AudioSource>();
-        mySrc.clip = fireSnd;
+		fireSoundAudioSource = GetComponent<AudioSource>();
+		fireSoundAudioSource.clip = fireSound;
 		canShoot = true;
 		showMarker = false;
 		alpha = 0;
@@ -120,8 +120,8 @@ public class PlayerShooting : MonoBehaviour
 		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
 		target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 
-        if(randomPitch) mySrc.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
-        mySrc.PlayOneShot(fireSnd);
+		if(randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
+		fireSoundAudioSource.PlayOneShot(fireSound);
         
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = bulletAnchor[playerId].transform.position;
