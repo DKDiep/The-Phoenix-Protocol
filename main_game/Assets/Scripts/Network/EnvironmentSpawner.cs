@@ -11,7 +11,6 @@ using System.Collections;
 public class EnvironmentSpawner : MonoBehaviour 
 {
 
-  [SerializeField] GameObject spaceScene;
   GameState state;
 
 	void Start () 
@@ -23,8 +22,9 @@ public class EnvironmentSpawner : MonoBehaviour
     {
         if (state.GetStatus() == GameState.Status.Started)
         {
-          Instantiate(spaceScene, Vector3.zero, Quaternion.identity);
-          ServerManager.NetworkSpawn(spaceScene);
+          Debug.Log("Attempting to spawn space scene");
+          GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
+          ServerManager.NetworkSpawn(space);
           Destroy(this);
         }
 	}
