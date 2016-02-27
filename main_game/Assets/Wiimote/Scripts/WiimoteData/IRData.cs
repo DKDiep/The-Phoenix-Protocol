@@ -31,6 +31,11 @@ namespace WiimoteApi
             _ir_readonly = new ReadOnlyMatrix<int>(_ir);
         }
 
+		public void ResetIR() {
+			_ir = new int[4, 8];
+			_ir_readonly = new ReadOnlyMatrix<int>(_ir);
+			SensorBarIndices = new int[] { -1, -1 };
+		}
         public override bool InterpretData(byte[] data)
         {
             switch (data.Length)
@@ -90,7 +95,7 @@ namespace WiimoteApi
             int ymin = data[4];
             int xmax = data[5];
             int ymax = data[6];
-            int inten = data[7];
+            int inten = data[8];
 
             return new int[] { x, y, size, xmin, ymin, xmax, ymax, inten };
         }
@@ -217,6 +222,10 @@ namespace WiimoteApi
             return ret;
         }
 
+		private float getDistanceBetweenPoints(float x1, float y1, float x2, float y2) {
+			return Mathf.Sqrt(Mathf.Pow(x1-x2, 2) + Mathf.Pow(y1-y2, 2));
+		}
+
         private float[] LastIRSeparation = new float[] { 0, 0 };
         private int[] SensorBarIndices = new int[] { -1, -1 };
 
@@ -240,8 +249,19 @@ namespace WiimoteApi
                         if (SensorBarIndices[(x + 1) % 2] == y) continue; // If the other sensor bar index is this one, ignore it.
 
                         if (_ir[y, 0] != -1) { // If this index is valid, use it.
-                            SensorBarIndices[x] = y;
-                            y = 4; // end loop
+							if(SensorBarIndices[(x + 1) % 2] != -1) {
+								// Attempt at stopping it selecting far away points. 
+								if(Mathf.Abs(_ir[y, 0] - _ir[SensorBarIndices[(x + 1) % 2], 0]) < 500) {
+									SensorBarIndices[x] = y;
+									y = 4; // end loop
+								}
+							} else {
+								SensorBarIndices[x] = y;
+								y = 4; // end loop
+							}
+
+						
+                            
                         }
                     }
                 }
