@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadingText : MonoBehaviour {
+public class LoadingText : MonoBehaviour
+{
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private Texture2D text;
+	#pragma warning restore 0649
 
-    [SerializeField] Texture2D text;
-    bool fadeSound = false;
+	private bool fadeSound = false;
 
 	// Use this for initialization
 	void Start () 
@@ -27,11 +30,10 @@ public class LoadingText : MonoBehaviour {
             AudioListener.volume += 10f * Time.deltaTime;
         }
     }
-        
-        
 	
     void OnGUI()
     {
-        if(!fadeSound) GUI.DrawTexture (new Rect (Screen.width - 200, Screen.height - 80, 195, 66), text, ScaleMode.ScaleToFit);
+        if(!fadeSound) 
+			GUI.DrawTexture (new Rect (Screen.width - 200, Screen.height - 80, 195, 66), text, ScaleMode.ScaleToFit);
     }
 }
