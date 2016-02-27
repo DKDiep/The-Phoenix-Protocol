@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Canvas canvas;
+	[SerializeField] private Text CiviliansText;
 	[SerializeField] private Text HealthText;
 	[SerializeField] private Text ResourcesText;
 	[SerializeField] private Text ShieldsText;
@@ -30,6 +31,7 @@ public class CommandConsoleState : MonoBehaviour {
 
 	// Local copies of the ships values
     private int shipResources;
+	private int shipCivilians;
 	private float shipHealth;
 	private float shipShields;
 
@@ -52,10 +54,12 @@ public class CommandConsoleState : MonoBehaviour {
 		ship.AddComponent<ConsoleShipControl>();
 
 		// Get starting values for resources and health
+		shipCivilians = gameState.GetCivilians();
 		shipResources = gameState.GetShipResources();
 		shipHealth = gameState.GetShipHealth();
 		shipShields = gameState.GetShipShield();
 
+		UpdateCivilians();
         UpdateResources();
 		UpdateHealth();
 		UpdateShields();
@@ -173,6 +177,14 @@ public class CommandConsoleState : MonoBehaviour {
     }
 		
 	/// <summary>
+	/// Updates the civilians text value on the screen
+	/// </summary>
+	void UpdateCivilians()
+	{
+		CiviliansText.text = "Civilians:  " + shipCivilians;
+	}
+
+	/// <summary>
 	/// Updates the resources text value on the screen
 	/// </summary>
     void UpdateResources()
@@ -202,9 +214,11 @@ public class CommandConsoleState : MonoBehaviour {
         if(second >= 1)
         {
 			// Get resources and health from the gamestate.
+			shipCivilians = gameState.GetCivilians();
 			shipResources = gameState.GetShipResources();
 			shipHealth = gameState.GetShipHealth();
 			shipShields = gameState.GetShipShield();
+			UpdateCivilians();
 			UpdateResources();
 			UpdateHealth();
 			UpdateShields();

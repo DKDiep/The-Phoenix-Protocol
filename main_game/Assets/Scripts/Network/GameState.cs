@@ -16,11 +16,14 @@ public class GameState : NetworkBehaviour {
 
 	// The amount of resources the player starts off with.
 	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
-	private const int BASE_SHIP_RESOURCES = 100;
+	private const int BASE_SHIP_RESOURCES 				 = 100;
+
+	// The number of civilians saved from earth that your ship could carry
+	private const int INITIAL_CIVILIANS 				 = 100000;
 
 	// The starting health value of the ship
-	private const float INITIAL_SHIP_HEALTH      = 100;
-	private const float INITIAL_COMPONENT_HEALTH = 100;
+	private const float INITIAL_SHIP_HEALTH     	 	 = 100;
+	private const float INITIAL_COMPONENT_HEALTH 		 = 100;
 
 	private const float INITIAL_SHIP_SPEED               = 10;
 	private const float INITIAL_SHIP_MAXSHIELDS          = 100;
@@ -47,17 +50,18 @@ public class GameState : NetworkBehaviour {
 	private float shipSpeed = INITIAL_SHIP_SPEED;
 
 	private float shipMaxShields = INITIAL_SHIP_MAXSHIELDS;
-	// We set this to the max shields as we assume we start off with max shields.
-	[SyncVar] private float shipShield = INITIAL_SHIP_MAXSHIELDS;
 	private float shipShieldRechargeRate = INITIAL_SHIP_SHIELD_RECHARGERATE;
 
 	// The total ship resources that has been collected over the whole game.
 	// This is used for the final score.
 	private int totalShipResources = BASE_SHIP_RESOURCES;
 
+	// We set this to the max shields as we assume we start off with max shields.
+	[SyncVar] private float shipShield 			  = INITIAL_SHIP_MAXSHIELDS;
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
-	[SyncVar] private int currentShipResources = BASE_SHIP_RESOURCES;
-
+	[SyncVar] private int currentShipResources    = BASE_SHIP_RESOURCES;
+	// Number of civilians currently saved on the ship
+	[SyncVar] private int civilians 		      = INITIAL_CIVILIANS;
 	// The health of the ship. 
 	[SyncVar] private float shipHealth            = INITIAL_SHIP_HEALTH;
 	[SyncVar] private float engineHealth          = INITIAL_COMPONENT_HEALTH;
@@ -344,6 +348,25 @@ public class GameState : NetworkBehaviour {
     {
         return playerScore;
     }
+
+	/// <summary>
+	/// Gets the number of civilians on the ship at the moment. 
+	/// </summary>
+	/// <returns>The number of civilians.</returns>
+	public int GetCivilians() 
+	{
+		return civilians;
+	}
+
+
+	/// <summary>
+	/// Adds the civilians to the total number currently on the ship.
+	/// </summary>
+	/// <param name="newCivilians">New civilians.</param>
+	public void AddCivilians(int newCivilians)
+	{
+		civilians += newCivilians;
+	}
 
     /// <summary>
 	/// Gets the current ship resources
