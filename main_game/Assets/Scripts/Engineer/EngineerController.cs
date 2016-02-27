@@ -29,8 +29,11 @@ public class EngineerController : NetworkBehaviour {
     private bool canRepair;
     private bool pressedUpgrade;
     private bool pressedRepair;
+    private bool isDocked = false;
     private EngineerInteraction interactiveObject;
     private GameObject playerShip;
+    private GameObject dockedCanvas;
+    private NetworkStartPosition startPosition;
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
@@ -107,6 +110,16 @@ public class EngineerController : NetworkBehaviour {
         // Create the upgrade text object to use
         GameObject obj = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
         upgradeText = obj.GetComponentInChildren<Text>();
+
+        // Create the docked canvas, and start the engineer in the docked state
+        dockedCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
+
+        // We need a reference to the engineer start position as this is where
+        // we anchor the engineer
+        startPosition = playerShip.GetComponentInChildren<NetworkStartPosition>();
+        gameObject.transform.parent = startPosition.transform;
+
+        Dock();
 
         // Get the components of the main ship that can be upgraded and/or repaired
         EngineerInteraction[] interactionObjects = playerShip.GetComponentsInChildren<EngineerInteraction>();
@@ -218,7 +231,9 @@ public class EngineerController : NetworkBehaviour {
         {
             //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
 
-            //TEMPORARILY MOVED HERE
+            // If the engineer is docked we undock first
+            UnDock();
+
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
 
@@ -244,6 +259,33 @@ public class EngineerController : NetworkBehaviour {
             Debug.Log("Upgrade");
 
         ProgressStepCycle(speed);
+    }
+
+    /// <summary>
+    /// Docks the engineer if it is not docked
+    /// </summary>
+    private void Dock()
+    {
+        if (!isDocked)
+        {
+            isDocked = true;
+            dockedCanvas.SetActive(isDocked);
+            gameObject.transform.parent = startPosition.transform;
+            gameObject.transform.localPosition = new Vector3(0,0,0);
+        }
+    }
+
+    /// <summary>
+    /// Un-docks the engineer if it is docked
+    /// </summary>
+    private void UnDock()
+    {
+        if (isDocked)
+        {
+            isDocked = false;
+            dockedCanvas.SetActive(isDocked);
+            gameObject.transform.parent = null;
+        }
     }
 
     private void ProgressStepCycle(float speed)
