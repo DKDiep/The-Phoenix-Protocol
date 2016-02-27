@@ -10,15 +10,18 @@ using System.Collections;
  
 public class DestroyParticles : MonoBehaviour
 {
-    [SerializeField] AudioClip[] snd;
-    [SerializeField] bool randomPitch;
-    [SerializeField] bool hasLight;
-    AudioSource mySrc;
-    Light myLight;
-    float lightIntensity;
-    [SerializeField] float lifetime;
-    [SerializeField] string managerName;
-    [SerializeField] bool destroyObject = false;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private AudioClip[] snd;
+	[SerializeField] private bool randomPitch;
+	[SerializeField] private bool hasLight;
+	[SerializeField] private float lifetime;
+	[SerializeField] private string managerName;
+	[SerializeField] private bool destroyObject = false;
+	[SerializeField] private float lightIntensity;
+	#pragma warning restore 0649
+
+	private AudioSource mySrc;
+	private Light myLight;
 
     private ObjectPoolManager particleManager;
 
@@ -26,11 +29,11 @@ public class DestroyParticles : MonoBehaviour
     {
         if(!destroyObject)
         {
-            if(GameObject.Find("MusicManager(Clone)") != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+            if(GameObject.Find("MusicManager(Clone)") != null)
+				particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
             else
-            {
                 Destroy(this);
-            } 
+			
             StartCoroutine("Disable");
         }
         else

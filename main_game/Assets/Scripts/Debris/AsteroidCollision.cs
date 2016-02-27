@@ -10,8 +10,8 @@ using System.Collections;
 
 public class AsteroidCollision : MonoBehaviour 
 {
-	float collisionDamage;
-    AsteroidLogic myLogic;
+	private float collisionDamage;
+    private AsteroidLogic myLogic;
 
     void Start()
     {
@@ -28,14 +28,20 @@ public class AsteroidCollision : MonoBehaviour
 	{
 		if(col.gameObject.tag.Equals ("Player"))
 		{
-            GameObject hitObject = col.gameObject;
-            hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>().collision(collisionDamage, 0f, hitObject.name.GetComponentType());
-            if(myLogic != null) myLogic.collision(1000f);
+			GameObject hitObject        = col.gameObject;
+			ShipMovement movementScript = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+
+			movementScript.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+            if(myLogic != null)
+				myLogic.collision(1000f);
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{
-            if(col.gameObject.GetComponentInChildren<EnemyLogic>() != null) col.gameObject.GetComponentInChildren<EnemyLogic>().collision(collisionDamage, -1);
-            if(myLogic != null)myLogic.collision(1000f);
+			EnemyLogic logicScript = col.gameObject.GetComponentInChildren<EnemyLogic>();
+			if(logicScript != null)
+				logicScript.collision(collisionDamage, -1);
+            if(myLogic != null)
+				myLogic.collision(1000f);
 		}
 	}
 }

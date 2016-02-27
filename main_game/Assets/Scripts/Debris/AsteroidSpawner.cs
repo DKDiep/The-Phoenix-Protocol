@@ -13,19 +13,22 @@ using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour 
 {
-    [SerializeField] GameObject asteroid1; // 3 asteroid objects for the 3 different models
-    [SerializeField] GameObject asteroid2;
-    [SerializeField] GameObject asteroid3;
-    [SerializeField] GameObject gameManager;
-    [SerializeField] int maxAsteroids; // Maximum number of asteroids that can exist simultaneously
-    [SerializeField] float maxVariation; // Max variation in size (0-10)
-    [SerializeField] float minDistance; // Minimum distance to the player that an asteroid can spawn
-    [SerializeField] float maxDistance; // Maximum distance to the player that an asteroid can spawn
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject asteroid1; // 3 asteroid objects for the 3 different models
+	[SerializeField] private GameObject asteroid2;
+	[SerializeField] private GameObject asteroid3;
+	[SerializeField] private GameObject gameManager;
+	[SerializeField] private int maxAsteroids;    // Maximum number of asteroids that can exist simultaneously
+	[SerializeField] private float maxVariation;  // Max variation in size (0-10)
+	[SerializeField] private float minDistance;   // Minimum distance to the player that an asteroid can spawn
+	[SerializeField] private float maxDistance;   // Maximum distance to the player that an asteroid can spawn
+	#pragma warning restore 0649
 
-    GameObject player, spawnLocation, asteroid, logic;
-    public static int numAsteroids = 0;
-    private GameState state;
+    private GameObject player, spawnLocation, asteroid, logic;
+	private GameState state;
 
+	public static int numAsteroids = 0;
+    
 	private const int SPAWN_MAX_PER_FRAME = 30;
 
 	private const float AVG_SIZE             = 43.6f; // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
@@ -40,15 +43,18 @@ public class AsteroidSpawner : MonoBehaviour
     void Start ()
     {
         // Set game state reference
-        if (gameManager != null) state = gameManager.GetComponent<GameState>();
-        player = null;
-        spawnLocation = new GameObject(); // A temporary game object to spawn asteroids on
-        logic = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
+        if (gameManager != null)
+			state = gameManager.GetComponent<GameState>();
+        
+		player = null;
+        spawnLocation      = new GameObject(); // A temporary game object to spawn asteroids on
+        logic              = Instantiate(Resources.Load("Prefabs/AsteroidLogic", typeof(GameObject))) as GameObject;
 		spawnLocation.name = "AsteroidSpawnLocation";
-        explosionManager = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
-        logicManager = GameObject.Find("AsteroidLogicManager").GetComponent<ObjectPoolManager>();
-        asteroidManager = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
-        StartCoroutine("Cleanup");
+        explosionManager   = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
+        logicManager       = GameObject.Find("AsteroidLogicManager").GetComponent<ObjectPoolManager>();
+        asteroidManager    = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
+        
+		StartCoroutine("Cleanup");
     }
 
     void Update () 
@@ -98,7 +104,6 @@ public class AsteroidSpawner : MonoBehaviour
 
 		// Initialise logic
 		asteroidLogic.transform.parent = asteroidObject.transform;
-		//asteroidObject.AddComponent<AsteroidCollision>();
 		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager, logicManager, asteroidManager);
 		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
 
@@ -153,6 +158,7 @@ public class AsteroidSpawner : MonoBehaviour
                 }
             }
         }
+
         StartCoroutine("Cleanup");
     }
 }
