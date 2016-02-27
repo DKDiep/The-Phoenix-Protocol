@@ -18,7 +18,8 @@ public class ServerLobby : MonoBehaviour {
     [SerializeField]
     private Button startButton;
 
-    private int centreIndex = 0;
+    private uint serverId;
+    private uint centreIndex = 0;
 
     // For camera index on join
     private int left = 0, right = -1;
@@ -62,16 +63,6 @@ public class ServerLobby : MonoBehaviour {
             engControllerIds[i] = engToken.GetPlayerController().netId.Value;
             i++;
         }
-
-        // Populate dictionary with final index, using centreIndex previously set
-        for (i = 0; i < cameraPanel.transform.childCount; i++)
-        {
-            int index = i - centreIndex;
-            PlayerController playerController = cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
-
-            serverManager.SetScreenId(i, playerController.netId.Value);
-        }
-
         // Tell the server which clients will be engineers
         serverManager.SetEngineers(engControllerIds);
 
@@ -110,7 +101,7 @@ public class ServerLobby : MonoBehaviour {
         if (right == -1)
         {
             right = 0;
-            serverManager.SetServerId(playerObject.GetComponent<PlayerController>().netId.Value);
+            serverId = playerObject.GetComponent<PlayerController>().netId.Value;
         }
         else
         {
@@ -158,7 +149,7 @@ public class ServerLobby : MonoBehaviour {
             // Place in order
             playerToken.transform.SetSiblingIndex(index);
         }
-        else if (serverManager.GetServerId() != playerToken.GetComponent<PlayerTokenController>().GetPlayerController().netId.Value) // Server must be main camera
+        else if (serverId != playerToken.GetComponent<PlayerTokenController>().GetPlayerController().netId.Value) // Server must be main camera
         {
             if (distanceEngineer < distanceCommand)
             {
@@ -197,12 +188,13 @@ public class ServerLobby : MonoBehaviour {
         Quaternion q = Quaternion.FromToRotation(ofl, ofr);
         float y = q.eulerAngles.y;
         float rotateAngle;
+        int centreIndex = 0;
 
         for (int i = 0; i < cameraPanel.transform.childCount; i++)
         {
             PlayerController playerController = cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
             // get index of centre server)
-            if (playerController.netId.Value == serverManager.GetServerId())
+            if (playerController.netId.Value == serverId)
             {
                 centreIndex = i;
             }

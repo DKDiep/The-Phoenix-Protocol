@@ -17,23 +17,10 @@ public class ServerManager : NetworkBehaviour {
     private int clientId = 0;
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
-    private Dictionary<int, uint> screenIdToNetId;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     bool gameStarted;
     GameObject spawner;
-
-    private uint serverId;
-
-    public void SetServerId(uint newServerId)
-    {
-        serverId = newServerId;
-    }
-
-    public uint GetServerId()
-    {
-        return serverId;
-    }
 
     public int clientIdCount()
     {
@@ -45,27 +32,14 @@ public class ServerManager : NetworkBehaviour {
         NetworkServer.Spawn(spawnObject);
     }
 
-
     void Awake()
     {
         GameObject poolManager = GameObject.Find("ObjectPooling");
 
-        foreach (Transform child in poolManager.transform)
+        foreach(Transform child in poolManager.transform)
         {
             child.gameObject.GetComponent<ObjectPoolManager>().SpawnObjects();
         }
-    }
-
-    // Returns client connection ID given a net ID
-    public NetworkConnection GetConnectionId(uint netId)
-    {
-        return netIdToConn[netId];
-    }
-
-    // Returns net ID given a screen ID
-    public uint GetNetId(int screenId)
-    {
-        return screenIdToNetId[screenId];
     }
 
     void Start()
@@ -83,9 +57,8 @@ public class ServerManager : NetworkBehaviour {
 
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
-            screenIdToNetId = new Dictionary<int, uint>();
             // Host is client Id #0. Using -1 as the role for the Host
-            netIdToRole.Add(0, RoleEnum.Host);
+			netIdToRole.Add(0, RoleEnum.Host);
             clientId = 0;
             gameStarted = false;
             // assign clients
@@ -105,11 +78,6 @@ public class ServerManager : NetworkBehaviour {
         uint netId = netMsg.conn.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value;
         netIdToConn.Add(netId, netMsg.conn);
         Debug.Log(netId);
-    }
-
-    public void SetScreenId(int screenId, uint netId)
-    {
-        screenIdToNetId.Add(screenId, netId);
     }
 
     // Takes the list of player controller IDs that will be engineers
@@ -190,6 +158,7 @@ public class ServerManager : NetworkBehaviour {
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         if (playerController != null)
+            print("calling rpcroleinit");
             playerController.RpcRoleInit();
 
         // Spawn music controller only on server
@@ -220,6 +189,9 @@ public class ServerManager : NetworkBehaviour {
         //Instantiate ship shoot logic on server only
         GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
         playerShootLogic.transform.parent = playerShip.transform;
+
+        //Instantiate crosshairs
+        GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
 
         GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
         minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;

@@ -17,9 +17,7 @@ public class PlayerController : NetworkBehaviour
 	private RoleEnum role = RoleEnum.Camera;
     private int orientation = 0;
     private GameObject playerCamera;
-    private GameObject crosshairCanvas;
-    private CrosshairMovement crosshairMovement;
-
+    private GameObject multiCamera;
     private EngineerController engController;
     private PlayerController localController = null;
     private int index = 0;
@@ -28,10 +26,8 @@ public class PlayerController : NetworkBehaviour
     // Private to each instance of script
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
-
     private GameObject gameManager;
     private GameState gameState;
-
     private ServerManager serverManager;
     private bool gameStarted = false;
     ShipMovement shipMovement;
@@ -49,7 +45,6 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcRoleInit()
     {
-        // RpcRoleInit is called by server player, so get local main player
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
@@ -62,14 +57,6 @@ public class PlayerController : NetworkBehaviour
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             playerCamera.transform.parent = shipTransform;
-
-            // Instantiate crosshairs and get reference to movement script for local player
-            localController.SetCrosshairs(Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject);
-            GameObject PlayerShootLogic = GameObject.Find("PlayerShootLogic(Clone)");
-            if (PlayerShootLogic != null)
-            {
-                PlayerShootLogic.GetComponent<PlayerShooting>().Setup();
-            }
         }
 		else if (localController.role == RoleEnum.Engineer)
         {
@@ -101,45 +88,6 @@ public class PlayerController : NetworkBehaviour
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
     }
 
-    public void SetCrosshairs(GameObject crosshairObject)
-    {
-        crosshairCanvas = crosshairObject;
-        crosshairMovement = crosshairCanvas.GetComponent<CrosshairMovement>();
-    }
-
-    // Server updates a crosshair of given screen Id by sending a message to target client
-    [Command]
-    public void CmdSetCrosshair(int crosshairId, int screenId, Vector3 position)
-    {
-        if (serverManager != null && serverManager.GetServerId() == netId.Value)
-        {
-            // Create message with parameters
-            CrosshairMessage message = new CrosshairMessage();
-            message.crosshairId = crosshairId;
-            message.screenId = screenId;
-            message.position = position;
-            // Get net ID from screen index
-            uint id = serverManager.GetNetId(screenId);
-            // Send to connection based on id
-            NetworkConnection conn = serverManager.GetConnectionId(id);
-            NetworkServer.SendToClient(conn.connectionId, 891, message);
-        }
-    }
-
-    float xx = 0.0f;
-
-    // Called by callback when clients received crosshair message from server
-    public void CallLocalSetCrosshair(int crosshairId, int screenId, Vector3 position)
-    {
-        xx += 0.1f;
-        position.x = xx;
-        if (isLocalPlayer && netId.Value == screenId)
-        {
-            crosshairMovement.LocalSetCrosshair(crosshairId, position);
-        }
-        Debug.Log("moving");
-    }
-
     [Command]
     public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
     {
@@ -158,12 +106,6 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        /*// Temporary testing crosshair position setting for client with screen id 2
-        if (isLocalPlayer && serverManager.GetServerId() == netId.Value && gameStarted)
-        {
-            CmdSetCrosshair(0, 1, new Vector3(10.0f, 10.0f, 10.0f));
-        }*/
-
         // Make sure the server doesn't execute this and that the game has started
         if (!isLocalPlayer || !gameStarted)
             return;
@@ -216,11 +158,17 @@ public class PlayerController : NetworkBehaviour
         gameState = gameManager.GetComponent<GameState>();
         serverManager = gameManager.GetComponent<ServerManager>();
 
+        //Each client request server command
+        if (isServer)
+        {
+            //ship = GameObject.Find("PlayerShipLogic(Clone)");
+            //shipMovement = ship.GetComponent<ShipMovement>();
+        }
+
         if (isLocalPlayer)
         {
             CreateCamera();
             CmdJoin();
-            serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
         }
     }
 
@@ -283,5 +231,11 @@ public class PlayerController : NetworkBehaviour
             return;
 
         engController.AddJob(upgrade, part);
+    }
+
+    // OnGUI draws to screen and is called every few frames
+    void OnGUI()
+    {
+        //GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
     }
 }

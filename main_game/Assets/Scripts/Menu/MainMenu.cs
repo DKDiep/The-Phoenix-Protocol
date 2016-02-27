@@ -54,8 +54,6 @@ public class MainMenu : NetworkBehaviour
         // Register handler for EngineerJob messages from the server
         // These carry new jobs that the engineers need to do
         client.RegisterHandler(123, messageHandler.OnServerJob);
-
-        client.RegisterHandler(891, messageHandler.OnCrosshairMessage);
     }
 
     public void QuitGame()

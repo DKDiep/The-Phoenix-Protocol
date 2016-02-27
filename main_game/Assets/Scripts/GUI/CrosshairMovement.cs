@@ -60,6 +60,7 @@ public class CrosshairMovement : MonoBehaviour {
         }
 			
 		StartCoroutine(FindRemotes());
+
 	}
 	
 	// Update is called once per frame
@@ -198,12 +199,7 @@ public class CrosshairMovement : MonoBehaviour {
 		}
     }
 
-    public void LocalSetCrosshair(int crosshairId, Vector3 position)
-    {
-        crosshairs[crosshairId].transform.position = position;
-    }
-
-    IEnumerator FindRemotes()
+	IEnumerator FindRemotes()
 	{	
 		WiimoteManager.FindWiimotes ();
 		yield return new WaitForSeconds(5f);
