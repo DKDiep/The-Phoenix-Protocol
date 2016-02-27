@@ -5,6 +5,7 @@
     Description: The game state resides solely on the server, holding a collection of data that allows clients to replicate
 */
 
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -71,6 +72,10 @@ public class GameState : NetworkBehaviour {
 	[SyncVar] private float turretHealth          = INITIAL_COMPONENT_HEALTH;
 	[SyncVar] private float shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
 
+	// Upgradable components
+	// TODO: once all components are implemented like this, they will replace the current variables
+	private UpgradableComponent[] upgradableComponents;
+
 	private bool godMode = false;
 	private bool nosMode = false;
 	private const int NOS_SPEED = 80;
@@ -78,6 +83,20 @@ public class GameState : NetworkBehaviour {
 	void Start()
 	{
 		Status = GameStatus.Setup;
+
+		InitialiseUpgradableComponents();
+	}
+
+	/// <summary>
+	/// Initialises the upgradable components of the ship.
+	/// </summary>
+	private void InitialiseUpgradableComponents()
+	{
+		int numComponents    = Enum.GetNames(typeof(UpgradableComponentIndex)).Length;
+		upgradableComponents = new UpgradableComponent[numComponents];
+
+		// TODO: fill in with the other components
+		upgradableComponents[(int)UpgradableComponentIndex.Engines] = new UpgradableEngine();
 	}
     
     void Update()
@@ -520,6 +539,8 @@ public class GameState : NetworkBehaviour {
 	/// <param name="type">The component type.</param>
 	public float GetComponentHealth(ComponentType type)
 	{
+		// TODO: update this to work with UpgradableComponent
+
 		switch(type)
 		{
 		case ComponentType.Bridge:
@@ -535,4 +556,12 @@ public class GameState : NetworkBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Enum used to index the <c>UpgradableComponent</c>s array.
+	/// </summary>
+	private enum UpgradableComponentIndex
+	{
+		// WARNING: changing this will likely cause array indexing problems
+		ShieldGen, Turrets, Engines, Hull, Drone, ResourceStorage
+	}
 }
