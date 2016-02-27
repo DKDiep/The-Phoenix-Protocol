@@ -23,7 +23,6 @@ public class BulletLogic : MonoBehaviour
 	GameObject playerObj;
     Vector3 destination;
 	PlayerShooting player;
-	bool started = false;
     bool enableSound = false;
 	int playerId;
     float distance;
@@ -59,7 +58,6 @@ public class BulletLogic : MonoBehaviour
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
     	//obj.GetComponent<BulletMove>().SetColor(bulletColor);
 		StartCoroutine ("DestroyObject");
-		started = true;
 	}
 
     void Update()
