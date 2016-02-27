@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
-public class OutPostManager : MonoBehaviour {
+public class OutpostManager : MonoBehaviour {
 
     private GameState gameState;
     private PlayerController playerController;
@@ -11,7 +10,6 @@ public class OutPostManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //print("OutpostManager started");
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
         playerController = playerControllerObject.GetComponent<PlayerController>();
 	}
@@ -21,13 +19,9 @@ public class OutPostManager : MonoBehaviour {
         timeSinceLastEvent += Time.deltaTime;
         if (timeSinceLastEvent > 10)
         {
-            //print("outpost list time");
             List<GameObject> outpostList = gameState.GetOutpostList();
             if (outpostList != null)
-            {
-                //print("outpostlist !=null");
                 playerController.RpcOutpostNotification("Outpost found");
-            }
             timeSinceLastEvent = 0;
         }
     }

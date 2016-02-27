@@ -139,9 +139,9 @@ public class EngineerController : NetworkBehaviour {
             EngineerInteraction interaction = obj.GetComponent<EngineerInteraction>();
 
             if (upgrade)
-                interaction.setUpgradeable(true);
+                interaction.Upgradeable = true;
             else
-                interaction.setRepairable(true);
+                interaction.Repairable = true;
         }
     }
 
@@ -160,9 +160,9 @@ public class EngineerController : NetworkBehaviour {
         {
             EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
             if (upgrade)
-                interaction.setUpgradeable(true);
+                interaction.Upgradeable = true;
             else
-                interaction.setRepairable(true);
+                interaction.Repairable = true;
         }
     }
 
@@ -190,8 +190,8 @@ public class EngineerController : NetworkBehaviour {
 
                 if (interactiveObject != null)
                 {
-                    canUpgrade = interactiveObject.getUpgradeable();
-                    canRepair = interactiveObject.getRepairable();
+                    canUpgrade = interactiveObject.Upgradeable;
+                    canRepair = interactiveObject.Repairable;
                 }
             }
 

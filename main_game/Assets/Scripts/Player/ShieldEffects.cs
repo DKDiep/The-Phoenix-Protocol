@@ -6,7 +6,6 @@
 */
 
 using UnityEngine;
-//using UnityEditor;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -15,16 +14,18 @@ using UnityEngine.Networking;
 
 public class ShieldEffects : NetworkBehaviour
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private Material field; // Shield material to use
+	#pragma warning restore 0649
 
-  [SerializeField] Material field; // Shield material to use
-  Color fullShield; // Colour of shield when full
-  Color emptyShield; // Color of shield when empty
-  Color fading; // Intermediate colour
-  Color startFade; // Temporary colour used when fading
-  Renderer myMat;
-  float shieldAlpha; // Alpha value of shield colour
-  float meshOffset; // Positional offset from player ship mesh
-  bool burstShield; // Detect when shield is depleted
+	private Color fullShield;  // Colour of shield when full
+	private Color emptyShield; // Color of shield when empty
+	private Color fading;      // Intermediate colour
+	private Color startFade;   // Temporary colour used when fading
+	private Renderer myMat;
+	private float shieldAlpha; // Alpha value of shield colour
+	private float meshOffset;  // Positional offset from player ship mesh
+	private bool burstShield;  // Detect when shield is depleted
 
     void Start() 
     {
@@ -47,36 +48,36 @@ public class ShieldEffects : NetworkBehaviour
 
     void Update()
     {
-       // When hit, fade in shield
-      if(shieldAlpha > 0 && !burstShield)
-      {
-        shieldAlpha -= 4f * Time.deltaTime;
-        Color shieldCol = Color.Lerp(Color.black, startFade, shieldAlpha);
-        myMat.material.SetColor("_InnerTint", shieldCol);
-        myMat.material.SetColor("_OuterTint", shieldCol);
-      }
+	   // When hit, fade in shield
+	  if(shieldAlpha > 0 && !burstShield)
+	  {
+		shieldAlpha -= 4f * Time.deltaTime;
+		Color shieldCol = Color.Lerp(Color.black, startFade, shieldAlpha);
+		myMat.material.SetColor("_InnerTint", shieldCol);
+		myMat.material.SetColor("_OuterTint", shieldCol);
+	  }
 
-      // When shield is initially depleted, increase meshOffset and size for burst effect
-      if(burstShield)
-      {
-        if(meshOffset < 300 || shieldAlpha > 0f)
-        {
-          meshOffset += 400f * Time.deltaTime;
-          myMat.material.SetFloat("_Offset", meshOffset);
-          shieldAlpha -= 2f * Time.deltaTime;
-          Color shieldCol = Color.Lerp(Color.black, emptyShield, shieldAlpha);
-          myMat.material.SetColor("_InnerTint", shieldCol);
-          myMat.material.SetColor("_OuterTint", shieldCol);
+	  // When shield is initially depleted, increase meshOffset and size for burst effect
+	  if(burstShield)
+	  {
+		if(meshOffset < 300 || shieldAlpha > 0f)
+		{
+		  meshOffset += 400f * Time.deltaTime;
+		  myMat.material.SetFloat("_Offset", meshOffset);
+		  shieldAlpha -= 2f * Time.deltaTime;
+		  Color shieldCol = Color.Lerp(Color.black, emptyShield, shieldAlpha);
+		  myMat.material.SetColor("_InnerTint", shieldCol);
+		  myMat.material.SetColor("_OuterTint", shieldCol);
 
-        }
-        else
-        {
-          burstShield = false;
-          meshOffset = 0.05f;
-          myMat.material.SetFloat("_Offset", meshOffset);
-          shieldAlpha = 0f;
-        }
-      }
+		}
+		else
+		{
+		  burstShield = false;
+		  meshOffset = 0.05f;
+		  myMat.material.SetFloat("_Offset", meshOffset);
+		  shieldAlpha = 0f;
+		}
+	  }
     }
 
     // When player is hit, initialise shield fade values
@@ -121,32 +122,4 @@ public class ShieldEffects : NetworkBehaviour
         myMat.material.SetColor("_OuterTint", emptyShield);
         shieldAlpha = 1f;
     }
-
-    /* Generate a mesh from children
-    private void GenerateMesh()
-    {
-        // Combine seperate mesh elements together and add shield material
-        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
-        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
-        int i = 0;
-
-        // Loop through child meshse and combine
-        while (i < meshFilters.Length) 
-        {
-            combine[i].mesh = meshFilters[i].sharedMesh;
-            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-            meshFilters[i].gameObject.active = false;
-            i++;
-        }
-
-        transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
-
-        AssetDatabase.CreateAsset( transform.GetComponent<MeshFilter>().mesh, "Assets/Resources/testMesh.asset" );
-        AssetDatabase.SaveAssets();
-
-        transform.gameObject.active = true;
-
-    }*/
-
 }

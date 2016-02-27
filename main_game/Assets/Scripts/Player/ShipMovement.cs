@@ -10,27 +10,29 @@ using System.Collections;
 
 public class ShipMovement : MonoBehaviour
 {
-	[SerializeField] float turnSpeed = 0.01f;
-	[SerializeField] float maxTurnSpeed = 1f;
-	[SerializeField] float slowDown;
-	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
-	private float shieldRechargeValue; // The value by which to recharge the shields each tick
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private float turnSpeed = 0.01f;
+	[SerializeField] private float maxTurnSpeed = 1f;
+	[SerializeField] private float slowDown;
+	[SerializeField] private float shieldDelay; // Delay in seconds to wait before recharging shield
+	#pragma warning restore 0649
 
-	bool rechargeShield;
-	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
-	GameObject controlObject;
+	private float shieldRechargeValue; // The value by which to recharge the shields each tick
+	private private bool rechargeShield;
+	private float lastShieldCheck;    // Temp variable allows us to see whether I've taken damage since last checking
+	private GameObject controlObject;
 	private GameState gameState;
 	private WiiRemoteManager wii;
 
-	float pitchVelocity = 0f;
-	float rollVelocity = 0f;
-	float pitchOld;
-	float rollOld;
-	float slowTime = 0f;
-	float slowTime2 = 0f;
-	bool left, right, up, down;
-	DamageEffects myDamage;
-    ShieldEffects myShield = null;
+	private float pitchVelocity = 0f;
+	private float rollVelocity = 0f;
+	private float pitchOld;
+	private float rollOld;
+	private float slowTime = 0f;
+	private float slowTime2 = 0f;
+	private bool left, right, up, down;
+	private DamageEffects myDamage;
+	private ShieldEffects myShield = null;
 
     // Initialise object
     void Start()

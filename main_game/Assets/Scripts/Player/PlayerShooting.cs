@@ -12,26 +12,28 @@ using System;
 
 public class PlayerShooting : MonoBehaviour 
 {
-	[SerializeField] GameObject bullet; // Bullet prefab to use
-	[SerializeField] GameObject bulletLogic;
-	[SerializeField] float xOffset, yOffset, zOffset, rateOfFire;
-	[SerializeField] Texture2D hitmarker; // Hitmarker texture
-    [SerializeField] AudioClip fireSound; // Sound to make when firing
-    [SerializeField] bool randomPitch;
-    [SerializeField] GameObject muzzleFlash;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject bullet; // Bullet prefab to use
+	[SerializeField] private GameObject bulletLogic;
+	[SerializeField] private float xOffset, yOffset, zOffset, rateOfFire;
+	[SerializeField] private Texture2D hitmarker; // Hitmarker texture
+	[SerializeField] private AudioClip fireSound; // Sound to make when firing
+	[SerializeField] private bool randomPitch;
+	[SerializeField] private GameObject muzzleFlash;
+	#pragma warning restore 0649
 
-	AudioSource fireSoundAudioSource;
-	GameObject[] bulletAnchor;
-	GameObject target;
-	bool canShoot, showMarker;
-	float alpha;
-    Vector3 crosshairPosition;
-    GameObject[] crosshairs;
+	private AudioSource fireSoundAudioSource;
+	private GameObject[] bulletAnchor;
+	private GameObject target;
+	private bool canShoot, showMarker;
+	private float alpha;
+	private Vector3 crosshairPosition;
+	private GameObject[] crosshairs;
 
-    ObjectPoolManager bulletManager;
-    ObjectPoolManager logicManager;
-    ObjectPoolManager muzzleFlashManager;
-    ObjectPoolManager impactManager;
+	private ObjectPoolManager bulletManager;
+	private ObjectPoolManager logicManager;
+	private ObjectPoolManager muzzleFlashManager;
+	private ObjectPoolManager impactManager;
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
@@ -51,22 +53,18 @@ public class PlayerShooting : MonoBehaviour
 
         // Find crosshair images
         for(int i = 0; i < 4; ++i)
-        {
             crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
-        }
 
         bulletAnchor = new GameObject[4];
 
         // Find crosshair images
         for(int i = 1; i <= 4; ++i)
-        {
             bulletAnchor[i-1] = GameObject.Find("BulletAnchor" + i.ToString());
-        }
 
-        bulletManager = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
-        logicManager = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
+        bulletManager      = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
+        logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
         muzzleFlashManager = GameObject.Find("PlayerMuzzleFlashManager").GetComponent<ObjectPoolManager>();
-        impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
+        impactManager      = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
 	}
 
 	void Update () 
@@ -84,6 +82,7 @@ public class PlayerShooting : MonoBehaviour
 		else 
 		{
 			int remoteId = 0;
+
 			// Loop through all connected wii remotes
 			foreach(Wiimote remote in WiimoteManager.Wiimotes) 
 			{

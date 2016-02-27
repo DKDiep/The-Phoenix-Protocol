@@ -10,30 +10,12 @@ using System.Collections;
 
 public class BulletMove : MonoBehaviour 
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private float speed;
+	#pragma warning restore 0649
 
-  [SerializeField] float speed;
-  //[SyncVar] Color bulletColor;
-  //[SyncVar] bool ready = false;
-
-  void Update () 
-  {
-    /*if(ready)
-    {
-        Renderer[] rend = GetComponentsInChildren<Renderer>();
-
-        for(int i = 0; i < rend.Length; i++)
-        {
-            rend[i].material.SetColor("_TintColor", bulletColor);
-        }
-        ready = false;
-    }*/
-
-    transform.position += transform.forward * Time.deltaTime * speed;
-  }
-
- /* public void SetColor(Color bullet)
-  {
-    bulletColor = bullet;
-    ready = true;
-  }*/
+	void Update () 
+	{
+		transform.position += transform.forward * Time.deltaTime * speed;
+	}
 }
