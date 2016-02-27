@@ -16,6 +16,7 @@ public class EngineerController : NetworkBehaviour {
 	#pragma warning restore 0649
 
     private Text upgradeText;
+    private Text dockText;
     private PlayerController myController;
     private new Camera camera;
     private MouseLook mouseLook;
@@ -25,6 +26,7 @@ public class EngineerController : NetworkBehaviour {
     private float m_NextStep;
     private string upgradeString;
     private string repairString;
+    private string dockString;
     private bool canUpgrade;
     private bool canRepair;
     private bool pressedUpgrade;
@@ -32,7 +34,8 @@ public class EngineerController : NetworkBehaviour {
     private bool isDocked = false;
     private EngineerInteraction interactiveObject;
     private GameObject playerShip;
-    private GameObject dockedCanvas;
+    private GameObject dockCanvas;
+    private GameObject engineerCanvas;
     private NetworkStartPosition startPosition;
 
     private List<GameObject> engines;
@@ -97,22 +100,36 @@ public class EngineerController : NetworkBehaviour {
         {
             upgradeString = "Press LT to upgrade";
             repairString = "Press RT to repair";
+            dockString = "Press B to dock";
         }
         else
         {
             upgradeString = "Press Mouse1 to upgrade";
             repairString = "Press Mouse2 to repair";
+            dockString = "Press L Shift to dock";
         }
 
         // Get a reference to the player ship
         playerShip = GameObject.Find("PlayerShip(Clone)");
 
         // Create the upgrade text object to use
-        GameObject obj = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
-        upgradeText = obj.GetComponentInChildren<Text>();
+        engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
+        Text[] tmp = engineerCanvas.GetComponentsInChildren<Text>();
+
+        if (tmp[0].name.Equals("Upgrade Text"))
+        {
+            upgradeText = tmp[0];
+            dockText = tmp[1];
+        }
+        else
+        {
+            upgradeText = tmp[1];
+            dockText = tmp[0];
+        }
+        dockText.text = dockString;
 
         // Create the docked canvas, and start the engineer in the docked state
-        dockedCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
+        dockCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
 
         // We need a reference to the engineer start position as this is where
         // we anchor the engineer
@@ -183,6 +200,13 @@ public class EngineerController : NetworkBehaviour {
     public void EngUpdate()
     {
         RotateView();
+
+        if (Input.GetButton("Dock"))
+        {
+            Dock();
+            return;
+        }
+
         jump = Input.GetButton("Jump");
         pressedUpgrade = Input.GetButton("Upgrade");
         pressedRepair = Input.GetButton("Repair");
@@ -269,7 +293,8 @@ public class EngineerController : NetworkBehaviour {
         if (!isDocked)
         {
             isDocked = true;
-            dockedCanvas.SetActive(isDocked);
+            dockCanvas.SetActive(isDocked);
+            engineerCanvas.SetActive(!isDocked);
             gameObject.transform.parent = startPosition.transform;
             gameObject.transform.localPosition = new Vector3(0,0,0);
         }
@@ -283,7 +308,8 @@ public class EngineerController : NetworkBehaviour {
         if (isDocked)
         {
             isDocked = false;
-            dockedCanvas.SetActive(isDocked);
+            dockCanvas.SetActive(isDocked);
+            engineerCanvas.SetActive(!isDocked);
             gameObject.transform.parent = null;
         }
     }
