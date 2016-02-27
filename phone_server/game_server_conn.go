@@ -9,28 +9,41 @@ import (
 
 // Sets up the UDP connection structure
 func initialiseGameServerUDPConnection() {
+    fmt.Println("Initialising UDP Client.")
     serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS + ":" +
                                                  GAME_SERVER_UDP_PORT)
     if err != nil {
-        fmt.Println("Error resolving game server UDP address: " + err.Error())
+        fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
         return
     }
 
-    gameServerUDPConn, err = net.DialUDP("udp", nil, serverAddr)
+    localAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0" + ":" +
+                                                LOCAL_UDP_PORT)
     if err != nil {
-        fmt.Println("Error establishing UDP connection to game server: " + err.Error())
+        fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
+        return
+    }
+
+    gameServerUDPConn, err = net.DialUDP("udp", localAddr, serverAddr)
+    if err != nil {
+        fmt.Println("UDP: Error establishing UDP connection to game server: " + err.Error())
     }
 }
 
 // Listens for new data
 func gameServerUDPConnectionHandler() {
+    fmt.Println("Starting UDP link handler.")
+    for gameServerUDPConn == nil {
+        initialiseGameServerUDPConnection()
+        time.Sleep(2 * time.Second)
+    }
     defer gameServerUDPConn.Close()
     receivedMsg := make([]byte, 51200) // allocate a 50KB buffer
 
     for {
         n, err := gameServerUDPConn.Read(receivedMsg)
         if err != nil {
-            fmt.Println("Game Server Connection Error: ", err)
+            fmt.Println("UDP: Game Server Connection Error: ", err)
         } else {
             decodeGameServerMessage(receivedMsg[:n])
         }
@@ -39,43 +52,41 @@ func gameServerUDPConnectionHandler() {
 
 // Sets up the TCP connection structure and sends a greeting
 func initialiseGameServerTCPConnection() {
+    fmt.Println("Initialising TCP Connection.")
     serverAddr, err := net.ResolveTCPAddr("tcp", GAME_SERVER_ADDRESS + ":" +
                                                  GAME_SERVER_TCP_PORT)
     if err != nil {
-        fmt.Println("Error resolving game server address: " + err.Error())
+        fmt.Println("TCP: Error resolving game server address: " + err.Error())
         return
     }
 
     gameServerTCPConn, err = net.DialTCP("tcp", nil, serverAddr)
     if err != nil {
-        fmt.Println("Error connecting to game server: " + err.Error())
-        return
-    }
-
-    _, err = gameServerTCPConn.Write([]byte("INIT\n"))
-    if err != nil {
-        fmt.Println("Error connecting to game server: " + err.Error())
+        fmt.Println("TCP: Error connecting to game server: " + err.Error())
     }
 }
 
 // Listens for new data and retries to connect in case of server outtage
 func gameServerTCPConnectionHandler() {
+    fmt.Println("Starting TCP link handler.")
+    initialiseGameServerTCPConnection()
     // allocate a 1KB buffer
     // these messages should be way smaller anyway
     receivedMsg := make([]byte, 1024)
-    wait := 5
+    wait := 2
     for {
         for gameServerTCPConn == nil {
-            fmt.Println("Retrying to connect in", wait, "seconds.")
+            fmt.Println("TCP: Retrying to connect in", wait, "seconds.")
             time.Sleep(time.Duration(wait) * time.Second)
             initialiseGameServerTCPConnection()
         }
 
+        fmt.Println("TCP: Connection Established.")
         defer gameServerTCPConn.Close()
         for gameServerTCPConn != nil {
             n, err := gameServerTCPConn.Read(receivedMsg)
             if err != nil {
-                fmt.Println("Game Server Connection Error: ", err)
+                fmt.Println("TCP: Game Server Connection Error: ", err)
                 gameServerTCPConn.Close()
                 gameServerTCPConn = nil
             } else {
@@ -104,7 +115,7 @@ func decodeGameServerMessage(rawData []byte) {
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))
-    case "GM_END":
+    case "GM_STP":
         gameState.enterSetupState()
     // TODO: handle more message types
     default:

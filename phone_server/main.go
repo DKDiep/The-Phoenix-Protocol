@@ -9,7 +9,8 @@ import (
 )
 
 const WEB_DIR string = "../web/phone_web"
-const GAME_SERVER_ADDRESS string = "localhost"
+const LOCAL_UDP_PORT string = "45678"
+const GAME_SERVER_ADDRESS string = "192.168.56.1"
 const GAME_SERVER_UDP_PORT string = "2345"
 const GAME_SERVER_TCP_PORT string = "2346"
 const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
@@ -80,9 +81,7 @@ func webSocketHandler(webs *websocket.Conn) {
 
 // Starts all necessary subroutines
 func main() {
-    initialiseGameServerTCPConnection()
     go gameServerTCPConnectionHandler()
-    initialiseGameServerUDPConnection()
     go gameServerUDPConnectionHandler()
     go playerMap.accessManager()
     go playerShip.accessManager()
