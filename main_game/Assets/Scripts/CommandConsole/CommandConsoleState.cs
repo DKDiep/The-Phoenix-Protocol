@@ -36,8 +36,6 @@ public class CommandConsoleState : MonoBehaviour {
 	private float shipShields;
 
     private bool upgrade = true;
-    private bool engineOn = true;
-    private bool shieldsOn = true;
     private bool gunsOn = true;
     private int shieldsLevel = 1;
     private int engineLevel = 1;
@@ -130,12 +128,7 @@ public class CommandConsoleState : MonoBehaviour {
         if (level > 3) LevelCounter4.SetActive(true);
     }
 
-    public void Shields(bool isOn)
-    {
-        shieldsOn = isOn;
-    }
     
-
     //Called whenever an upgrade is purchased (by clicking yellow button) 0 = Shields, 1 = Guns, 2 = Engines
     public void UpgradeShip(int where)
     {
