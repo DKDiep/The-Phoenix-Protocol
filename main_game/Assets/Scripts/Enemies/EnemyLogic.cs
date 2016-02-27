@@ -114,11 +114,32 @@ public class EnemyLogic : MonoBehaviour
         enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
 
+    IEnumerator UpdateDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        StartCoroutine("UpdateTransform");
+    }
+
+    IEnumerator UpdateTransform()
+    {
+        enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine("UpdateTransform");
+    }
+
+
     void OnEnable()
     {
         // Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
+        StartCoroutine("UpdateDelay");
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
 
     public void SetControlObject(GameObject newControlObject)
     {
@@ -312,8 +333,7 @@ public class EnemyLogic : MonoBehaviour
 			}
 			// if (state == EnemyAIState.Wait) do nothing
 		}
-
-        enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
+       
 
 	}
 
