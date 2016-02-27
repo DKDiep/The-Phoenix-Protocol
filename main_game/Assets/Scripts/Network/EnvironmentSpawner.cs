@@ -10,9 +10,11 @@ using System.Collections;
 
 public class EnvironmentSpawner : MonoBehaviour 
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject spaceScene;
+	#pragma warning restore 0649 
 
-  [SerializeField] GameObject spaceScene;
-  GameState state;
+	private GameState state;
 
 	void Start () 
     {

@@ -8,8 +8,10 @@ using System.Collections.Generic;
 
 public class UDPServer : MonoBehaviour
 {
-    [SerializeField] int listenPort;
-    [SerializeField] int maxReceivedMessagesPerInterval;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+    [SerializeField] private int listenPort;
+    [SerializeField] private int maxReceivedMessagesPerInterval;
+	#pragma warning restore 0649
 
     private GameState state;
 
@@ -22,9 +24,11 @@ public class UDPServer : MonoBehaviour
         if (MainMenu.startServer)
         {
             Debug.Log("Starting UDP server.");
+
             socket = new UdpClient(listenPort);
             phoneServer = new IPEndPoint(IPAddress.Any, 0);
             state = this.gameObject.GetComponent<GameState>();
+
             StartCoroutine("PhoneServerConnectionHandler");
             StartCoroutine("SendUpdatedOjects");
         }
@@ -33,6 +37,7 @@ public class UDPServer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		
     }
 
     // Handles incomming messages from the phone server
@@ -45,8 +50,10 @@ public class UDPServer : MonoBehaviour
             {
                 receive_byte_array = socket.Receive(ref phoneServer);
                 Debug.Log("Received a broadcast from " + phoneServer.ToString());
+
                 string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
                 Debug.Log("Data: " + received_data);
+
                 receivedMessages++;
             }
             yield return new WaitForSeconds(0.05f);

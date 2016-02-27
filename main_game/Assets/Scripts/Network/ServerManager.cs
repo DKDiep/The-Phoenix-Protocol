@@ -14,13 +14,11 @@ using UnityEngine.Networking.NetworkSystem;
 public class ServerManager : NetworkBehaviour {
     private GameState gameState;
     private NetworkManager networkManager;
-    private int clientId = 0;
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
-    bool gameStarted;
-    GameObject spawner;
+    private GameObject spawner;
 
     public int clientIdCount()
     {
@@ -45,7 +43,6 @@ public class ServerManager : NetworkBehaviour {
     void Start()
     {
         Cursor.visible = true; //leave as true for development, false for production
-        //networkManager = gameObject.GetComponent<NetworkManager>();
 
         if(MainMenu.startServer)
         {
@@ -57,12 +54,13 @@ public class ServerManager : NetworkBehaviour {
 
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
+
             // Host is client Id #0. Using -1 as the role for the Host
 			netIdToRole.Add(0, RoleEnum.Host);
-            clientId = 0;
-            gameStarted = false;
-            // assign clients
+
+            // Assign clients
             gameState = gameObject.GetComponent<GameState>();
+
             // Set up the game state
             gameState.Setup();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -177,7 +175,6 @@ public class ServerManager : NetworkBehaviour {
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
-        //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
         playerShipLogic.transform.parent = playerShip.transform;
             
         //Instantiate ship shoot logic on server only
@@ -200,6 +197,5 @@ public class ServerManager : NetworkBehaviour {
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.SetStatus(GameState.Status.Started);
-        gameStarted = true;
     }
 }

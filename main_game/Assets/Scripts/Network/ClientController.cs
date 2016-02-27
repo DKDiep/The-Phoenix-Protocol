@@ -21,6 +21,6 @@ public class ClientController : NetworkBehaviour {
 
     void OnGUI()
     {
-        //GUI.Label(new Rect(10, 10, 100, 20), debugString);
+		
     }
 }

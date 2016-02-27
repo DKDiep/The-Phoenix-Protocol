@@ -18,7 +18,7 @@ public class ShipMovement : MonoBehaviour
 	#pragma warning restore 0649
 
 	private float shieldRechargeValue; // The value by which to recharge the shields each tick
-	private private bool rechargeShield;
+	private bool rechargeShield;
 	private float lastShieldCheck;    // Temp variable allows us to see whether I've taken damage since last checking
 	private GameObject controlObject;
 	private GameState gameState;

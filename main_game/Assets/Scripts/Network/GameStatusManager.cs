@@ -2,10 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class GameStatusManager : MonoBehaviour {
+public class GameStatusManager : MonoBehaviour
+{
 	private GameState gameState;
 	private GameObject gameOverCanvas;
 	private bool gameOverScreen = false;
+
 	// Use this for initialization
 	void Start () {
 		GameObject server = GameObject.Find("GameManager");
@@ -21,9 +23,12 @@ public class GameStatusManager : MonoBehaviour {
 			if(gameState.GetStatus() == GameState.Status.Died) 
 			{
 				gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship and the crew were killed.";
-			} else {
+			}
+			else
+			{
 				gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
 			}
+
 			gameOverScreen = true;
 		}
 	}
