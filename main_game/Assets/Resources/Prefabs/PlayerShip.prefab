@@ -145,7 +145,6 @@ GameObject:
   - 4: {fileID: 480654}
   - 33: {fileID: 3360382}
   - 23: {fileID: 2339946}
-  - 114: {fileID: 11446250}
   - 114: {fileID: 11493202}
   m_Layer: 9
   m_Name: Turret_005
@@ -183,7 +182,6 @@ GameObject:
   - 33: {fileID: 3392300}
   - 23: {fileID: 2362826}
   - 64: {fileID: 6471272}
-  - 114: {fileID: 11472186}
   - 114: {fileID: 11444516}
   m_Layer: 9
   m_Name: LeftEngine
@@ -324,7 +322,6 @@ GameObject:
   - 33: {fileID: 3358822}
   - 23: {fileID: 2367250}
   - 64: {fileID: 6402980}
-  - 114: {fileID: 11474038}
   - 114: {fileID: 11412672}
   m_Layer: 9
   m_Name: CaptainBridge
@@ -448,7 +445,6 @@ GameObject:
   - 33: {fileID: 3391350}
   - 23: {fileID: 2385726}
   - 114: {fileID: 11486776}
-  - 114: {fileID: 11484482}
   - 114: {fileID: 11422318}
   m_Layer: 9
   m_Name: Turret
@@ -542,7 +538,6 @@ GameObject:
   - 33: {fileID: 3337906}
   - 23: {fileID: 2369808}
   - 64: {fileID: 6498568}
-  - 114: {fileID: 11477992}
   - 114: {fileID: 11429162}
   m_Layer: 9
   m_Name: Engine
@@ -614,7 +609,6 @@ GameObject:
   - 33: {fileID: 3333464}
   - 23: {fileID: 2339558}
   - 64: {fileID: 6424466}
-  - 114: {fileID: 11445290}
   - 114: {fileID: 11404478}
   m_Layer: 9
   m_Name: RightEngine
@@ -721,7 +715,6 @@ GameObject:
   - 33: {fileID: 3343866}
   - 23: {fileID: 2300038}
   - 114: {fileID: 11486026}
-  - 114: {fileID: 11418084}
   - 114: {fileID: 11462052}
   m_Layer: 9
   m_Name: Turret_003
@@ -916,7 +909,6 @@ GameObject:
   - 4: {fileID: 460090}
   - 33: {fileID: 3336838}
   - 23: {fileID: 2345904}
-  - 114: {fileID: 11493338}
   - 114: {fileID: 11456232}
   m_Layer: 9
   m_Name: Turret_002
@@ -936,7 +928,6 @@ GameObject:
   - 33: {fileID: 3395674}
   - 23: {fileID: 2375772}
   - 114: {fileID: 11486174}
-  - 114: {fileID: 11461048}
   - 114: {fileID: 11434832}
   m_Layer: 9
   m_Name: Turret_001
@@ -956,7 +947,6 @@ GameObject:
   - 33: {fileID: 3393994}
   - 23: {fileID: 2337542}
   - 114: {fileID: 11420360}
-  - 114: {fileID: 11478844}
   - 114: {fileID: 11476662}
   m_Layer: 9
   m_Name: Turret_004
@@ -3720,38 +3710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11418084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 173178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11420360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3819,70 +3777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11445290
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 161142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &11446250
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11456232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3894,38 +3788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11461048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11462052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3937,70 +3799,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11472186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &11474038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 130746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11476662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4012,108 +3810,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11477992
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 154688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &11478844
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11480236
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &11484482
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143622}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
@@ -4187,38 +3889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11493338
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 36
-    i2: 164
-    i3: 28
-    i4: 154
-    i5: 61
-    i6: 133
-    i7: 228
-    i8: 24
-    i9: 149
-    i10: 28
-    i11: 124
-    i12: 253
-    i13: 127
-    i14: 245
-    i15: 187
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!198 &19804242
 ParticleSystem:
   m_ObjectHideFlags: 1

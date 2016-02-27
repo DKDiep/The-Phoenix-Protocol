@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class EngineerInteraction : NetworkBehaviour {
+public class EngineerInteraction : MonoBehaviour {
     private bool upgradeable = false;
     private bool repairable = false;
 	public ComponentType Type { get; private set; }
