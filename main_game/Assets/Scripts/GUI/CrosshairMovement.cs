@@ -29,8 +29,6 @@ public class CrosshairMovement : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-		GameObject crosshairContainer = GameObject.Find("Crosshairs");
-
 		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 

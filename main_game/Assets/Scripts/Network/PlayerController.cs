@@ -24,7 +24,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
-    private GameState gameState;
     private ServerManager serverManager;
     private bool gameStarted = false;
     private ShipMovement shipMovement;
@@ -151,7 +150,6 @@ public class PlayerController : NetworkBehaviour
     {
         // Get the game manager and game state at start
         gameManager = GameObject.Find("GameManager");
-        gameState = gameManager.GetComponent<GameState>();
         serverManager = gameManager.GetComponent<ServerManager>();
 
         if (isLocalPlayer)

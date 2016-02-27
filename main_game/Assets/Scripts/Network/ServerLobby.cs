@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class ServerLobby : MonoBehaviour {
     private ServerManager serverManager;
-    private GameState gameState;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject canvasObject;
@@ -41,7 +40,6 @@ public class ServerLobby : MonoBehaviour {
         if (server != null)
         {
             serverManager = server.GetComponent<ServerManager>();
-            gameState = server.GetComponent<GameState>();
             startButton.onClick.AddListener(() => OnClickStartButton());
         }
     }

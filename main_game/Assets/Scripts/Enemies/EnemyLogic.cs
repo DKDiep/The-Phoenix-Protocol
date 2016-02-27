@@ -40,7 +40,6 @@ public class EnemyLogic : MonoBehaviour
 	#pragma warning restore 0649
 
 	private AudioSource mySrc;
-	private ServerManager serverManager;
 	private GameState gameState;
 	public GameObject player;
 
@@ -56,7 +55,6 @@ public class EnemyLogic : MonoBehaviour
 
 	private GameObject shootAnchor;
 	private Vector3 prevPos, currentPos;
-	private Renderer myRender;
 	private GameObject controlObject;
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
@@ -106,7 +104,6 @@ public class EnemyLogic : MonoBehaviour
 	void Start ()
 	{
 		GameObject server = GameObject.Find("GameManager");
-		serverManager     = server.GetComponent<ServerManager>();
 		gameState         = server.GetComponent<GameState>();
 
         bulletManager     = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
@@ -157,7 +154,6 @@ public class EnemyLogic : MonoBehaviour
         mySrc.clip = fireSnd;
 		player = temp;
 		state = EnemyAIState.SeekPlayer;
-		myRender = transform.parent.gameObject.GetComponent<Renderer>();
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
 

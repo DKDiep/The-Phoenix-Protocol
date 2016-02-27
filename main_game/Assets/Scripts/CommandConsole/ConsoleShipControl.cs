@@ -13,7 +13,6 @@ public class ConsoleShipControl : MonoBehaviour {
 	private LineRenderer lineRenderer1;
 	private LineRenderer lineRenderer2;
 	private Transform leftEngine;
-	private Transform engine;
 	private Transform hullFront;
 	private Transform captainBridge;
 
@@ -27,8 +26,6 @@ public class ConsoleShipControl : MonoBehaviour {
 				hullFront = child;
 			if(child.name == "CaptainBridge")
 				captainBridge = child;
-			if(child.name == "EnginePicture")
-				engine = child;
 		}
 			
 		lineRenderer  = leftEngine.gameObject.AddComponent<LineRenderer>();

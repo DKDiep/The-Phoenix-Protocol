@@ -98,7 +98,7 @@ public class PlayerShooting : MonoBehaviour
 						}
 					}
 				} 
-				catch (Exception e) 
+				catch (Exception) 
 				{
 					WiimoteManager.FindWiimotes ();
 				}  

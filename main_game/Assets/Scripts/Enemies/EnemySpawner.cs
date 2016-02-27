@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
 	public int maxEnemies;            // Maximum number of enemies at a time
     
 	private GameState state;
-	private GameObject player, spawnLocation, logic;
+	private GameObject player, spawnLocation;
 
 	// TODO: the AI constants probably need to be tweaked
 	private const int AI_WAYPOINTS_PER_ENEMY      = 10;
@@ -84,8 +84,6 @@ public class EnemySpawner : MonoBehaviour
             if(player == null)
             {
                 player = state.PlayerShip;
-                logic = Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject)) as GameObject;
-                //logic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
 
 				Transform playerSpaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
 				CreateAIWaypoints(playerSpaceshipModel);

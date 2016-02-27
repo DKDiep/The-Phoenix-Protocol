@@ -15,11 +15,9 @@ public class EngineerMovement : MonoBehaviour
 	#pragma warning restore 0649
 
     private Camera m_Camera;
-	private bool jump;
 	private Vector2 input;
 	private float stepCycle;
 	private float nextStep;
-    private EngineerController controller;
 
     // Use this for initialization
     private void Start()
@@ -28,14 +26,12 @@ public class EngineerMovement : MonoBehaviour
         stepCycle = 0f;
         nextStep = stepCycle / 2f;
         mouseLook.Init(transform, m_Camera.transform);
-        controller = gameObject.transform.parent.GetComponent<EngineerController>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         RotateView();
-        jump = Input.GetButton("Jump");
 
         // Do forward raycast from camera to the center of the screen to see if an upgradeable object is in front of the player
         int x = Screen.width / 2;
@@ -76,8 +72,6 @@ public class EngineerMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        bool waswalking = isWalking;
-
 #if !MOBILE_INPUT
         // On standalone builds, walk/run speed is modified by a key press.
         // keep track of whether or not the character is walking or running
@@ -97,7 +91,5 @@ public class EngineerMovement : MonoBehaviour
     private void RotateView()
     {
         mouseLook.LookRotation(transform, m_Camera.transform);
-        // Send the rotaion to the server
-        //controller.CmdSetRotation(transform.rotation);
     }
 }

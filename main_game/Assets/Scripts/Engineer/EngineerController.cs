@@ -16,7 +16,6 @@ public class EngineerController : NetworkBehaviour {
 	#pragma warning restore 0649
 
     private Text upgradeText;
-    private PlayerController myController;
     private new Camera camera;
     private MouseLook mouseLook;
     private bool jump;
@@ -85,8 +84,6 @@ public class EngineerController : NetworkBehaviour {
         camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
         mouseLook.Init(transform, camera.transform);
-
-        myController = controller;
 
         // Set the upgrade and repair strings depending on wheter
         // a controller is used or the keyboard is used
@@ -261,8 +258,6 @@ public class EngineerController : NetworkBehaviour {
         // Read input
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        bool waswalking = isWalking;
 
 #if !MOBILE_INPUT
         // On standalone builds, walk/run speed is modified by a key press.

@@ -113,7 +113,7 @@ public class ServerManager : NetworkBehaviour {
     private void CreateServerSetup()
     {
         //Spawn server lobby
-        GameObject serverLobby = Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject))) as GameObject;
+        Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject)));
     }
 
     public void StartGame()
@@ -182,7 +182,7 @@ public class ServerManager : NetworkBehaviour {
         playerShootLogic.transform.parent = playerShip.transform;
 
         //Instantiate crosshairs
-        GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
+        Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject)));
 
         GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
         minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;

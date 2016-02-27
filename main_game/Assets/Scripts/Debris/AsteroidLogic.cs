@@ -13,9 +13,6 @@ public class AsteroidLogic : MonoBehaviour
     public GameObject player;
     public float speed;
 
-	private int type;           // Defines which of the 3 asteroid prefabs is used
-	private float maxVariation; // Percentage variation in size
-
 	private int droppedResources;                 // The amount of resources dropped by the asteroid
 	private const int MAX_DROPPED_RESOURCES = 20; // The maximum number of resources that can be dropped by an asteroid. 
 
@@ -43,8 +40,6 @@ public class AsteroidLogic : MonoBehaviour
         explosionManager = cachedManager;
         logicManager     = cachedLogic;
 		player           = temp;
-		type             = rnd;
-		maxVariation     = var;
 
         float random = Random.Range(5f, var);
 		transform.parent.localScale = new Vector3(random + Random.Range (0, 15), random + Random.Range (0, 15),random + Random.Range (0, 15));
