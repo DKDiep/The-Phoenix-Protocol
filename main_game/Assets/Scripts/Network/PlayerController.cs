@@ -116,7 +116,6 @@ public class PlayerController : NetworkBehaviour
             // Create message with parameters
             CrosshairMessage message = new CrosshairMessage();
             message.crosshairId = crosshairId;
-            message.screenId = screenId;
             message.position = position;
             // Get net ID from screen index
             uint id = serverManager.GetNetId(screenId);
@@ -125,19 +124,14 @@ public class PlayerController : NetworkBehaviour
             NetworkServer.SendToClient(conn.connectionId, 891, message);
         }
     }
-
-    float xx = 0.0f;
-
+    
     // Called by callback when clients received crosshair message from server
-    public void CallLocalSetCrosshair(int crosshairId, int screenId, Vector3 position)
+    public void CallLocalSetCrosshair(int crosshairId, Vector3 position)
     {
-        xx += 0.1f;
-        position.x = xx;
-        if (isLocalPlayer && netId.Value == screenId)
+        if (isLocalPlayer)
         {
             crosshairMovement.LocalSetCrosshair(crosshairId, position);
         }
-        Debug.Log("moving");
     }
 
     [Command]
@@ -158,10 +152,10 @@ public class PlayerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        /*// Temporary testing crosshair position setting for client with screen id 2
+        /*// Temporary testing crosshair position setting for client with screen id 1
         if (isLocalPlayer && serverManager.GetServerId() == netId.Value && gameStarted)
         {
-            CmdSetCrosshair(0, 1, new Vector3(10.0f, 10.0f, 10.0f));
+            CmdSetCrosshair(1, 1, new Vector3(10.0f, 10.0f, 10.0f));
         }*/
 
         // Make sure the server doesn't execute this and that the game has started

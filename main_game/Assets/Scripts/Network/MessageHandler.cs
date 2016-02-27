@@ -61,7 +61,7 @@ public class MessageHandler : MonoBehaviour {
 
         // Set crosshairs owned by that player
         CrosshairMessage msg = netMsg.ReadMessage<CrosshairMessage>();
-        controller.CallLocalSetCrosshair(msg.crosshairId, msg.screenId, msg.position);
+        controller.CallLocalSetCrosshair(msg.crosshairId, msg.position);
     }
 }
 
@@ -69,6 +69,5 @@ public class MessageHandler : MonoBehaviour {
 public class CrosshairMessage : MessageBase
 {
     public int crosshairId;
-    public int screenId;
     public Vector3 position;
 }
