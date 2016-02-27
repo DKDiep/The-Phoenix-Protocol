@@ -10,13 +10,14 @@ public class UDPServer : MonoBehaviour
 {
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] private int listenPort;
+    [SerializeField] private int clientPort;
     [SerializeField] private int maxReceivedMessagesPerInterval;
 	#pragma warning restore 0649
 
     private GameState state;
 
     private UdpClient socket;
-    private IPEndPoint phoneServer;
+    private IPEndPoint clientEndPoint;
     private byte[] receive_byte_array;
 
     void Start()
@@ -26,10 +27,10 @@ public class UDPServer : MonoBehaviour
             Debug.Log("Starting UDP server.");
 
             socket = new UdpClient(listenPort);
-            phoneServer = new IPEndPoint(IPAddress.Any, 0);
+            clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
             state = this.gameObject.GetComponent<GameState>();
 
-            StartCoroutine("PhoneServerConnectionHandler");
+            StartCoroutine("ConnectionHandler");
             StartCoroutine("SendUpdatedOjects");
         }
     }
@@ -37,23 +38,31 @@ public class UDPServer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		
+        
+    }
+    
+    // Sets the address to which the udp server sends data
+    public void SetClientAddress(IPAddress addr) {
+        clientEndPoint = new IPEndPoint(addr, clientPort);
     }
 
     // Handles incomming messages from the phone server
-    IEnumerator PhoneServerConnectionHandler()
+    IEnumerator ConnectionHandler()
     {
+        IPEndPoint sender = new IPEndPoint(IPAddress.Any, 0);
         while (true)
         {
             int receivedMessages = 0;
-            while (socket.Available != 0 && receivedMessages < maxReceivedMessagesPerInterval)
+            while (socket.Available > 0 && receivedMessages < maxReceivedMessagesPerInterval)
             {
-                receive_byte_array = socket.Receive(ref phoneServer);
-                Debug.Log("Received a broadcast from " + phoneServer.ToString());
-
-                string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-                Debug.Log("Data: " + received_data);
-
+                receive_byte_array = socket.Receive(ref sender);
+                
+                if (sender.Equals(clientEndPoint)) {
+                    string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
+                    Debug.Log("UDP Received Data: " + received_data);
+                    
+                    // TODO: Handle received data here
+                }
                 receivedMessages++;
             }
             yield return new WaitForSeconds(0.05f);
@@ -64,7 +73,7 @@ public class UDPServer : MonoBehaviour
     {
         while (true)
         {
-            if(!phoneServer.Address.Equals(IPAddress.Any))
+            if(!clientEndPoint.Address.Equals(IPAddress.Any))
             {
                 SendShipPosition();
                 SendEnemies();
@@ -167,6 +176,6 @@ public class UDPServer : MonoBehaviour
     private void SendMsg(String jsonMsg)
     {
         Byte[] data = Encoding.ASCII.GetBytes(jsonMsg);
-        socket.Send(data, data.Length, phoneServer);
+        socket.Send(data, data.Length, clientEndPoint);
     }
 }

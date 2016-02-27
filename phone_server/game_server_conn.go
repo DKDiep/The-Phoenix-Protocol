@@ -7,46 +7,91 @@ import (
     "time"
 )
 
-// Sets up the connection structure and sends a greeting
-// Note: the pacnics in here will only trigger if it fails to send
-// the UDP packet but they will NOT trigger if the packet is undelivered
-func initialiseGameServerConnection() {
-    serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS)
+// Sets up the UDP connection structure
+func initialiseGameServerUDPConnection() {
+    fmt.Println("Initialising UDP Client.")
+    serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS + ":" +
+                                                 GAME_SERVER_UDP_PORT)
     if err != nil {
-        panic("Error resolving game server address: " + err.Error())
+        fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
+        return
     }
 
-    gameServerConn, err = net.DialUDP("udp", nil, serverAddr)
+    localAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0" + ":" +
+                                                LOCAL_UDP_PORT)
     if err != nil {
-        panic("Error connecting to game server: " + err.Error())
+        fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
+        return
     }
 
-    _, err = gameServerConn.Write([]byte("INIT\n"))
+    gameServerUDPConn, err = net.DialUDP("udp", localAddr, serverAddr)
     if err != nil {
-        panic("Error connecting to game server: " + err.Error())
+        fmt.Println("UDP: Error establishing UDP connection to game server: " + err.Error())
+    }
+}
+
+// Listens for new data
+func gameServerUDPConnectionHandler() {
+    fmt.Println("Starting UDP link handler.")
+    for gameServerUDPConn == nil {
+        initialiseGameServerUDPConnection()
+        time.Sleep(2 * time.Second)
+    }
+    defer gameServerUDPConn.Close()
+    receivedMsg := make([]byte, 51200) // allocate a 50KB buffer
+
+    for {
+        n, err := gameServerUDPConn.Read(receivedMsg)
+        if err != nil {
+            fmt.Println("UDP: Game Server Connection Error: ", err)
+        } else {
+            decodeGameServerMessage(receivedMsg[:n])
+        }
+    }
+}
+
+// Sets up the TCP connection structure and sends a greeting
+func initialiseGameServerTCPConnection() {
+    fmt.Println("Initialising TCP Connection.")
+    serverAddr, err := net.ResolveTCPAddr("tcp", GAME_SERVER_ADDRESS + ":" +
+                                                 GAME_SERVER_TCP_PORT)
+    if err != nil {
+        fmt.Println("TCP: Error resolving game server address: " + err.Error())
+        return
+    }
+
+    gameServerTCPConn, err = net.DialTCP("tcp", nil, serverAddr)
+    if err != nil {
+        fmt.Println("TCP: Error connecting to game server: " + err.Error())
     }
 }
 
 // Listens for new data and retries to connect in case of server outtage
-// Note: the retry procedure worked when tested with netcat but it seems
-// to not work when communicating with Unity, reason unknown
-func gameServerConnectionHandler() {
-    defer gameServerConn.Close()
-    receivedMsg := make([]byte, 51200) // allocate a 50KB buffer
-
+func gameServerTCPConnectionHandler() {
+    fmt.Println("Starting TCP link handler.")
+    initialiseGameServerTCPConnection()
+    // allocate a 1KB buffer
+    // these messages should be way smaller anyway
+    receivedMsg := make([]byte, 1024)
+    wait := 2
     for {
-        n, err := gameServerConn.Read(receivedMsg)
-        if err != nil {
-            wait := 5
-            fmt.Println("Game Server Connection Error: ", err)
-            fmt.Println("Retrying in", wait, "seconds.")
+        for gameServerTCPConn == nil {
+            fmt.Println("TCP: Retrying to connect in", wait, "seconds.")
             time.Sleep(time.Duration(wait) * time.Second)
-            fmt.Println("Retrying.")
-            gameServerConn.Write([]byte("INIT\n"))
-        } else {
-            toDecode := make([]byte, n)
-            copy(toDecode, receivedMsg[:n])
-            go decodeGameServerMessage(toDecode)
+            initialiseGameServerTCPConnection()
+        }
+
+        fmt.Println("TCP: Connection Established.")
+        defer gameServerTCPConn.Close()
+        for gameServerTCPConn != nil {
+            n, err := gameServerTCPConn.Read(receivedMsg)
+            if err != nil {
+                fmt.Println("TCP: Game Server Connection Error: ", err)
+                gameServerTCPConn.Close()
+                gameServerTCPConn = nil
+            } else {
+                decodeGameServerMessage(receivedMsg[:n])
+            }
         }
     }
 }
@@ -56,6 +101,7 @@ func decodeGameServerMessage(rawData []byte) {
     var msg map[string]interface{}
     if err := json.Unmarshal(rawData, &msg); err != nil {
         fmt.Println(err)
+        return
     }
 
     switch msg["type"].(string) {
@@ -69,7 +115,7 @@ func decodeGameServerMessage(rawData []byte) {
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))
-    case "GM_END":
+    case "GM_STP":
         gameState.enterSetupState()
     // TODO: handle more message types
     default:
