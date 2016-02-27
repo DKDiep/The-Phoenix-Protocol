@@ -17,15 +17,11 @@ public class OutpostLogic : MonoBehaviour {
 	private int numberOfCivilians; 
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
 		// Set the number of resources for this outpost to be between the min and max value.
 		numberOfResources = Random.Range(MIN_OUTPOST_RESOURCES, MAX_OUTPOST_RESOURCES);
 		numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
-	}
-
-	// Update is called once per frame
-	void Update () {
-
 	}
 		
 	/// <summary>
@@ -64,13 +60,15 @@ public class OutpostLogic : MonoBehaviour {
 		gameState = state;
 	}
 
-	public void CollectResources() {
+	public void CollectResources() 
+    {
 		// Add ship resources to the game state
 		gameState.AddShipResources(numberOfResources);
 		Debug.Log("Collected Resources from outpost");
 	}
 		
-	public void CollectCivilians() {
+	public void CollectCivilians() 
+    {
 		// Add ship resources to the game state
 		gameState.AddCivilians(numberOfCivilians);
 		Debug.Log("Collected Civilians from outpost");

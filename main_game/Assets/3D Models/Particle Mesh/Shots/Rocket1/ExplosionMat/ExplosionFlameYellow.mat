@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ExplosionFlame
+  m_Name: ExplosionFlameYellow
   m_Shader: {fileID: 4800000, guid: 31bfda934c27bd54a96d5f3f1ae1d398, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -43,4 +43,4 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 0.30795845, g: 0.38202775, b: 0.6544117, a: 0.7921569}
+        second: {r: 1, g: 0.90689653, b: 0.60294116, a: 0.7921569}

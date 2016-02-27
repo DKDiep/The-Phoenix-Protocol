@@ -22,6 +22,9 @@ public class OutpostCollision : MonoBehaviour
 			// If the player crashes into the outpost, the outpost is destroyed and the player takes massive damage
 			Debug.Log("Outpost destroyed");
 			outpostLogic.PlayerCollision(PLAYER_COLLISION_DAMAGE);
+            GameObject explosion = Instantiate(Resources.Load("Prefabs/OutpostExplode", typeof(GameObject))) as GameObject;
+            explosion.transform.position = col.transform.position;
+            explosion.SetActive(true);
 			Destroy(this.gameObject);
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))

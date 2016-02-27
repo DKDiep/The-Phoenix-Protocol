@@ -18,16 +18,25 @@ public class DestroyParticles : MonoBehaviour
     float lightIntensity;
     [SerializeField] float lifetime;
     [SerializeField] string managerName;
+    [SerializeField] bool destroyObject = false;
 
     private ObjectPoolManager particleManager;
 
     private void OnEnable()
     {
-        if(GameObject.Find("MusicManager(Clone)") != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+        if(!destroyObject)
+        {
+            if(GameObject.Find("MusicManager(Clone)") != null) particleManager = GameObject.Find(managerName).GetComponent<ObjectPoolManager>();
+            else
+            {
+                Destroy(this);
+            } 
+            StartCoroutine("Disable");
+        }
         else
         {
-            Destroy(this);
-        } 
+            Destroy(this.gameObject,lifetime);
+        }
 
         if(hasLight)
         {
@@ -44,7 +53,7 @@ public class DestroyParticles : MonoBehaviour
             mySrc.Play();
         }
 
-        StartCoroutine("Disable");
+
     }
 
     private void Update()
