@@ -23,7 +23,7 @@ public class EnvironmentSpawner : MonoBehaviour
 
 	void Update () 
     {
-        if (state.GetStatus() == GameState.Status.Started)
+        if (state.Status == GameState.GameStatus.Started)
         {
           Instantiate(spaceScene, Vector3.zero, Quaternion.identity);
           ServerManager.NetworkSpawn(spaceScene);

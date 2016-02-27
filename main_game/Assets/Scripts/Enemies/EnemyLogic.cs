@@ -519,7 +519,7 @@ public class EnemyLogic : MonoBehaviour
 			if(playerId != -1)
 			{
 				// Update player score
-				gameState.AddPlayerScore(playerId, 10);
+				gameState.AddToPlayerScore(playerId, 10);
 			}
 
             string removeName = gameObject.name;

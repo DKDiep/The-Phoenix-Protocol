@@ -79,11 +79,11 @@ public class EnemySpawner : MonoBehaviour
     // Spawn a new enemy in a random position if less than specified by maxEnemies
     void Update ()
 	{
-        if (state.GetStatus() == GameState.Status.Started)
+        if (state.Status == GameState.GameStatus.Started)
         {
             if(player == null)
             {
-                player = state.GetPlayerShip();
+                player = state.PlayerShip;
                 logic = Resources.Load("Prefabs/EnemyShipLogic", typeof(GameObject)) as GameObject;
                 //logic.GetComponent<EnemyLogic>().SetPlayer(state.GetPlayerShip());
 
@@ -119,14 +119,14 @@ public class EnemySpawner : MonoBehaviour
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
 		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
-		enemyLogic.SetPlayer(state.GetPlayerShip());
+		enemyLogic.SetPlayer(state.PlayerShip);
 		enemyLogic.SetPlayerShipTargets(playerShipTargets);
 		enemyLogic.SetAIWaypoints(GetAIWaypointsForEnemy ());
 
 		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
 		enemyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		numEnemies += 1;
-		state.AddEnemyList(enemyObject);
+		state.AddToEnemyList(enemyObject);
 	}
 
 	// Spawn an enemy with the default settings
@@ -245,17 +245,9 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);
-        if (state.GetStatus() == GameState.Status.Started)
-        {
-            for (int i = state.GetEnemyListCount() - 1; i >= 0; i--)
-            {
-                GameObject enemyObject = state.GetEnemyAt(i);
-                if(enemyObject == null)
-                {
-                  state.RemoveEnemyAt(i);
-                }
-            }
-        }
+
+        if (state.Status == GameState.GameStatus.Started)
+			state.CleanupEnemies();
 
         StartCoroutine("Cleanup");
     }

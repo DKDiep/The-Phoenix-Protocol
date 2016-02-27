@@ -125,7 +125,7 @@ public class ServerManager : NetworkBehaviour {
 
         // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
-        gameState.SetPlayerShip(playerShip);
+        gameState.PlayerShip = playerShip;
         ServerManager.NetworkSpawn(playerShip);
 
         // Get the engineer start position
@@ -139,7 +139,7 @@ public class ServerManager : NetworkBehaviour {
                 // Create the engineer object
                 GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
                     engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
-                gameState.AddEngineerList(engineer);
+                gameState.AddToEngineerList(engineer);
 
                 // Spawn the engineer with local authority
                 NetworkServer.SpawnWithClientAuthority(engineer, netIdToConn[client.Key]);
@@ -169,7 +169,7 @@ public class ServerManager : NetworkBehaviour {
 		// Spawn portal
 		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
         portal.transform.position = new Vector3(0,0,3000);
-		gameState.SetPortal(portal);
+		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();
 
@@ -196,6 +196,6 @@ public class ServerManager : NetworkBehaviour {
 
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();
-        gameState.SetStatus(GameState.Status.Started);
+        gameState.Status = GameState.GameStatus.Started;
     }
 }

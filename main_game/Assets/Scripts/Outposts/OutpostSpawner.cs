@@ -38,12 +38,12 @@ public class OutpostSpawner : MonoBehaviour
 	}
 		
 	void Update() {
-		if (gameState.GetStatus() == GameState.Status.Started)
+		if (gameState.Status == GameState.GameStatus.Started)
 		{
 			if(numOutposts < maxOutposts)
 			{
 				if(player == null) 
-					player = gameState.GetPlayerShip();
+					player = gameState.PlayerShip;
 			
 				spawnLocation.transform.position = player.transform.position;
 
@@ -102,7 +102,7 @@ public class OutpostSpawner : MonoBehaviour
 
 		Rigidbody rigid = outpostObject.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;
-		gameState.AddOutpostList(outpostObject);
+		gameState.AddToOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
 
 		// Request the enemy spawner to spawn protecting ships around this outpost

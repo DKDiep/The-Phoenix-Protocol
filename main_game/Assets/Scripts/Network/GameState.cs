@@ -12,7 +12,7 @@ using UnityEngine.Networking;
 
 public class GameState : NetworkBehaviour {
 
-    public enum Status { Setup, Started, Won, Died };
+    public enum GameStatus { Setup, Started, Won, Died };
 
 	// The amount of resources the player starts off with.
 	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
@@ -29,7 +29,7 @@ public class GameState : NetworkBehaviour {
 	private const float INITIAL_SHIP_MAXSHIELDS          = 100;
 	private const float INITIAL_SHIP_SHIELD_RECHARGERATE = 10;
 
-    private Status status = Status.Setup;
+	public GameStatus Status { get; set; }
 
     private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
@@ -41,9 +41,9 @@ public class GameState : NetworkBehaviour {
 
 	private List<GameObject> outpostList;
 
-	private GameObject portal;
+	public GameObject Portal { get; set; }
 
-    private GameObject playerShip;
+	public GameObject PlayerShip { get; set; }
 	private int[] playerScore;
 
 	// Ship variables used for modifying the ships behaviour
@@ -58,10 +58,13 @@ public class GameState : NetworkBehaviour {
 
 	// We set this to the max shields as we assume we start off with max shields.
 	[SyncVar] private float shipShield 			  = INITIAL_SHIP_MAXSHIELDS;
+
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
 	[SyncVar] private int currentShipResources    = BASE_SHIP_RESOURCES;
+
 	// Number of civilians currently saved on the ship
 	[SyncVar] private int civilians 		      = INITIAL_CIVILIANS;
+
 	// The health of the ship. 
 	[SyncVar] private float shipHealth            = INITIAL_SHIP_HEALTH;
 	[SyncVar] private float engineHealth          = INITIAL_COMPONENT_HEALTH;
@@ -71,6 +74,11 @@ public class GameState : NetworkBehaviour {
 	private bool godMode = false;
 	private bool nosMode = false;
 	private const int NOS_SPEED = 80;
+
+	void Start()
+	{
+		Status = GameStatus.Setup;
+	}
     
     void Update()
     {
@@ -103,31 +111,11 @@ public class GameState : NetworkBehaviour {
 			shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
     }
 
-    public Status GetStatus()
-    {
-        return status;
-    }
-
-    public void SetStatus(Status newStatus)
-    {
-        status = newStatus;
-    }
-
-
 	/*
 	 *  Getters and setters for Asteroid list
 	 */
-    public List<GameObject> GetAsteroidList()
-    {
-        return asteroidList;
-    }
 
-    public int GetAsteroidListCount()
-    {
-        return asteroidList.Count;
-    }
-
-    public void AddAsteroidList(GameObject asteroidObject)
+    public void AddToAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);
         newAsteroids.Add(asteroidObject);
@@ -141,18 +129,26 @@ public class GameState : NetworkBehaviour {
         AsteroidSpawner.numAsteroids--;
     }
 
-    public void RemoveAsteroidAt(int i)
+    private void RemoveAsteroidAt(int i)
     {
         bool wasDeleted = newAsteroids.Remove(asteroidList[i]);
-        if (!wasDeleted) removedAsteroids.Add((uint)asteroidList[i].GetInstanceID());
+        if (!wasDeleted)
+			removedAsteroids.Add((uint)asteroidList[i].GetInstanceID());
         asteroidList.RemoveAt(i);
         AsteroidSpawner.numAsteroids--;
     }
 
-    public GameObject GetAsteroidAt(int i)
-    {
-        return asteroidList[i];
-    }
+	/// <summary>
+	/// Removes any null asteroids from the asteroids list.
+	/// </summary>
+	public void CleanUpAsteroids()
+	{
+		for (int i = asteroidList.Count - 1; i >= 0; i--)
+		{
+			if(asteroidList[i] == null)
+				RemoveAsteroidAt(i);
+		}
+	}
 
 	/*
 	 *  Getters and setters for enemy list
@@ -162,17 +158,12 @@ public class GameState : NetworkBehaviour {
         return enemyList;
     }
 
-    public int GetEnemyListCount()
-    {
-        return enemyList.Count;
-    }
-
-    public void AddEnemyList(GameObject enemyObject)
+    public void AddToEnemyList(GameObject enemyObject)
     {
         enemyList.Add(enemyObject);
     }
 
-    public void RemoveEnemyAt(int i)
+    private void RemoveEnemyAt(int i)
     {
         removedEnemies.Add((uint)enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
@@ -185,37 +176,21 @@ public class GameState : NetworkBehaviour {
 		EnemySpawner.numEnemies--;
 	}
 
-    public GameObject GetEnemyAt(int i)
-    {
-        return enemyList[i];
-    }
+	/// <summary>
+	/// Removes any null enemies from the emeny list.
+	/// </summary>
+	public void CleanupEnemies()
+	{
+		for (int i = enemyList.Count - 1; i >= 0; i--)
+		{
+			if(enemyList[i] == null)
+				RemoveEnemyAt(i);
+		}
+	}
 
-	/*
-	 *  Getters and setters for Engineer list
-	 */
-    public List<GameObject> GetEngineerList()
-    {
-        return engineerList;
-    }
-
-    public int GetEngineerCount()
-    {
-        return engineerList.Count;
-    }
-
-    public void AddEngineerList(GameObject engineerObject)
+    public void AddToEngineerList(GameObject engineerObject)
     {
         engineerList.Add(engineerObject);
-    }
-
-    public void RemoveEngineerAt(int i)
-    {
-        engineerList.RemoveAt(i);
-    }
-
-    public GameObject GetEngineerAt(int i)
-    {
-        return engineerList[i];
     }
 
 	/*
@@ -226,50 +201,15 @@ public class GameState : NetworkBehaviour {
 		return outpostList;
 	}
 
-	public int GetOutpostListCount()
-	{
-		return outpostList.Count;
-	}
-
-	public void AddOutpostList(GameObject outpostObject)
+	public void AddToOutpostList(GameObject outpostObject)
 	{
 		outpostList.Add(outpostObject);
 	}
-
-	public void RemoveOutpostAt(int i)
-	{
-		outpostList.RemoveAt(i);
-	}
-
+		
 	public void RemoveOutpost(GameObject outpost)
 	{
 		outpostList.Remove(outpost);
 	}
-
-	public GameObject GetOutpostAt(int i)
-	{
-		return outpostList[i];
-	}
-
-	public GameObject GetPortal()
-	{
-		return portal;
-	}
-
-	public void SetPortal(GameObject portalObject)
-	{
-		portal = portalObject;
-	}
-		
-    public GameObject GetPlayerShip()
-    {
-        return playerShip;
-    }
-
-    public void SetPlayerShip(GameObject newPlayerShip)
-    {
-        playerShip = newPlayerShip;
-    }
 
     public List<GameObject> GetNewAsteroids()
     {
@@ -288,7 +228,7 @@ public class GameState : NetworkBehaviour {
 
     public void ClearRemovedAsteroids()
     {
-        removedAsteroids = new List<uint>();
+		removedAsteroids.Clear();
     }
     
     public List<uint> GetRemovedEnemies()
@@ -298,19 +238,20 @@ public class GameState : NetworkBehaviour {
     
     public void ClearRemovedEnemies()
     {
-        removedEnemies = new List<uint>();
+		removedEnemies.Clear();
     }
 
     private void InitializeVariables()
     {
-        asteroidList = new List<GameObject>();        
-        newAsteroids = new List<GameObject>();
+        asteroidList     = new List<GameObject>();        
+        newAsteroids     = new List<GameObject>();
         removedAsteroids = new List<uint>();
-        enemyList = new List<GameObject>();
-        removedEnemies = new List<uint>();
-        engineerList = new List<GameObject>();
-		outpostList = new List<GameObject>();
-		playerScore = new int[4];
+        enemyList        = new List<GameObject>();
+        removedEnemies   = new List<uint>();
+        engineerList     = new List<GameObject>();
+		outpostList      = new List<GameObject>();
+		playerScore      = new int[4];
+
 		ResetPlayerScores();
     }
 
@@ -335,7 +276,7 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	/// <param name="id">Identifier.</param>
 	/// <param name="score">Score.</param>
-	public void AddPlayerScore(int playerId, int score) 
+	public void AddToPlayerScore(int playerId, int score) 
 	{
 		playerScore[playerId] += score;
 	}
@@ -447,7 +388,6 @@ public class GameState : NetworkBehaviour {
 				SetShipShield(0);
 			}
 			ReduceShipHealth(damage);
-			//Debug.Log ("Hull was hit, " + shipShield + " shield and " + shipHealth + " health left.");
 			return false;
 		}
 	}
@@ -460,7 +400,7 @@ public class GameState : NetworkBehaviour {
 	{
 		shipHealth -= value;
 		if (shipHealth <= 0)
-			SetStatus(Status.Died);
+			Status = GameStatus.Died;
 	}
 		
 	/// <summary>

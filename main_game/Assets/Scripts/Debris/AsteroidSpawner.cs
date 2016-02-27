@@ -59,9 +59,10 @@ public class AsteroidSpawner : MonoBehaviour
 
     void Update () 
     {
-        if (state.GetStatus() == GameState.Status.Started)
+        if (state.Status == GameState.GameStatus.Started)
         {
-            if(player == null) player = state.GetPlayerShip();
+            if(player == null)
+				player = state.PlayerShip;
 
 			// Spawn up to SPAWN_MAX_PER_FRAME asteroids in a random position if there are less than specified by maxAsteroids
 			for (int i = 0; i < SPAWN_MAX_PER_FRAME && numAsteroids < maxAsteroids; i++)
@@ -104,13 +105,13 @@ public class AsteroidSpawner : MonoBehaviour
 
 		// Initialise logic
 		asteroidLogic.transform.parent = asteroidObject.transform;
-		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd, explosionManager, logicManager, asteroidManager);
+		asteroidLogic.GetComponent<AsteroidLogic>().SetPlayer(state.PlayerShip, maxVariation, rnd, explosionManager, logicManager, asteroidManager);
 		asteroidLogic.GetComponent<AsteroidLogic>().SetStateReference(state);
 
         asteroidManager.EnableClientObject(asteroidObject.name, asteroidObject.transform.position, asteroidObject.transform.rotation, asteroidObject.transform.localScale);
 
 		// Spawn on the network and add to GameState
-		state.AddAsteroidList(asteroidObject);
+		state.AddToAsteroidList(asteroidObject);
 		numAsteroids += 1;
 	}
 
@@ -147,17 +148,8 @@ public class AsteroidSpawner : MonoBehaviour
     IEnumerator Cleanup()
     {
         yield return new WaitForSeconds(1f);
-        if (state.GetStatus() == GameState.Status.Started)
-        {
-            for (int i = state.GetAsteroidListCount() - 1; i >= 0; i--)
-            {
-                GameObject asteroidObject = state.GetAsteroidAt(i);
-                if(asteroidObject == null)
-                {
-                    state.RemoveAsteroidAt(i);
-                }
-            }
-        }
+        if (state.Status == GameState.GameStatus.Started)
+			state.CleanUpAsteroids();
 
         StartCoroutine("Cleanup");
     }

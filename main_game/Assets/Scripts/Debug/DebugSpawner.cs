@@ -21,7 +21,7 @@ public class DebugSpawner : MonoBehaviour
 
 	void Update () 
 	{
-		if (state.GetStatus() == GameState.Status.Started)
+		if (state.Status == GameState.GameStatus.Started)
 		{
 			if(!debug)
 			{

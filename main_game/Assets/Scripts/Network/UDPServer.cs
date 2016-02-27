@@ -78,7 +78,7 @@ public class UDPServer : MonoBehaviour
 
     private void SendShipPosition()
     {
-        GameObject playerShip = state.GetPlayerShip();
+        GameObject playerShip = state.PlayerShip;
         if (playerShip != null)
         {
             string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
