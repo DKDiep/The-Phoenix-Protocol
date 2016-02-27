@@ -170,7 +170,7 @@ public class ServerManager : NetworkBehaviour {
 
 		// Spawn portal
 		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
-        portal.transform.position = new Vector3(0,0,1000);
+        portal.transform.position = new Vector3(0,0,3000);
 		gameState.SetPortal(portal);
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();
