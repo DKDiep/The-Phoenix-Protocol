@@ -34,9 +34,7 @@ GameObject:
   - 114: {fileID: 11438144}
   - 114: {fileID: 11481964}
   - 114: {fileID: 11419500}
-  - 114: {fileID: 11476936}
-  - 114: {fileID: 11453868}
-  - 114: {fileID: 11410394}
+  - 114: {fileID: 11451970}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -69,17 +67,6 @@ Transform:
   - {fileID: 483760}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11410394
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 156512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c62d0565bbb5b4abc64846d39100a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11415488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709c2beba7a3bb04b9c3c4a4710796a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolManager: {fileID: 0}
 --- !u!114 &11438144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listenPort: 2345
+  clientPort: 45678
   maxReceivedMessagesPerInterval: 100
 --- !u!114 &11439604
 MonoBehaviour:
@@ -199,10 +188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
-  maxEnemies: 30
   minDistance: 750
   maxDistance: 1200
   gameManager: {fileID: 156512}
+  maxEnemies: 30
 --- !u!114 &11445604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,7 +211,7 @@ MonoBehaviour:
   maxVariation: 35
   minDistance: 300
   maxDistance: 1000
---- !u!114 &11453868
+--- !u!114 &11451970
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -230,21 +219,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 156512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4701773b8b8004f37914ec0d2e6db2ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b9fc845f87447941929a476429e3c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11476936
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 156512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4aa470e21d6cbbd44b9a8e35c9dd39a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenPort: 2345
+  listenPort: 2346
   maxReceivedMessagesPerInterval: 100
 --- !u!114 &11480678
 MonoBehaviour:
