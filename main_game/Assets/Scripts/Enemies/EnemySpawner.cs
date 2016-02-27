@@ -15,15 +15,18 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject enemy;
+	[SerializeField] private float minDistance;
+	[SerializeField] private float maxDistance;
+	[SerializeField] private GameObject gameManager;
+	#pragma warning restore 0649
 
-	[SerializeField] GameObject enemy;
 	public static int numEnemies = 0; // Number of currently active enemies
-	public int maxEnemies; // Maximum number of enemies at a time
-    [SerializeField] float minDistance;
-    [SerializeField] float maxDistance;
-    [SerializeField] GameObject gameManager;
-    private GameState state;
-	GameObject player, spawnLocation, logic;
+	public int maxEnemies;            // Maximum number of enemies at a time
+    
+	private GameState state;
+	private GameObject player, spawnLocation, logic;
 
 	// TODO: the AI constants probably need to be tweaked
 	private const int AI_WAYPOINTS_PER_ENEMY      = 10;

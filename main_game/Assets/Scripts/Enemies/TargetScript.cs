@@ -3,8 +3,7 @@ using System.Collections;
 
 public class TargetScript : MonoBehaviour 
 {
-
-    GameObject player;
+    private GameObject player;
 
 	// Use this for initialization
 	void Start () 
@@ -15,7 +14,7 @@ public class TargetScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-            Vector3 v3 = player.transform.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(-v3);
+		Vector3 v3 = player.transform.position - transform.position;
+		transform.rotation = Quaternion.LookRotation(-v3);
 	}
 }
