@@ -11,8 +11,7 @@ using UnityEngine.UI;
 
 public class TimerScript : MonoBehaviour 
 {
-
-    Text counterText;
+    private Text counterText;
     public float minutes, seconds;
 
 	// Use this for initialization

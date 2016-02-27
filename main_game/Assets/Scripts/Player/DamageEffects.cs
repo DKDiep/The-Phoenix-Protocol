@@ -11,19 +11,21 @@ using UnityEngine.Networking;
 
 public class DamageEffects : NetworkBehaviour
 {
-	VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
-	float health, alpha;
-	int direction;
+	private VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
+	private float health, alpha;
+	private int direction;
 
-    // Directional damage textures
-    [SerializeField] Texture2D left;
-	[SerializeField] Texture2D right;
-	[SerializeField] Texture2D up;
-	[SerializeField] Texture2D down;
-	[SerializeField] Texture2D topLeft;
-	[SerializeField] Texture2D topRight;
-	[SerializeField] Texture2D bottomLeft;
-	[SerializeField] Texture2D bottomRight;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	// Directional damage textures
+	[SerializeField] private Texture2D left;
+	[SerializeField] private Texture2D right;
+	[SerializeField] private Texture2D up;
+	[SerializeField] private Texture2D down;
+	[SerializeField] private Texture2D topLeft;
+	[SerializeField] private Texture2D topRight;
+	[SerializeField] private Texture2D bottomLeft;
+	[SerializeField] private Texture2D bottomRight;
+	#pragma warning restore 0649
     
 	void Start () 
 	{
@@ -33,12 +35,14 @@ public class DamageEffects : NetworkBehaviour
     // Fades out damage textures
 	void Update () 
 	{
-		if(alpha > 0f) alpha -= 4f * Time.deltaTime;
+		if(alpha > 0f)
+			alpha -= 4f * Time.deltaTime;
 	}
 
 	void OnGUI()
 	{
 		GUI.color = new Color(1f,1f,1f,alpha); // Set texture alpha value
+
         // Texture to show depends on direction
 		if(direction == 0) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), left, ScaleMode.StretchToFill);
 		if(direction == 1) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), up, ScaleMode.StretchToFill);
@@ -52,10 +56,10 @@ public class DamageEffects : NetworkBehaviour
 
 	public void Damage(int dir, float damage, float hp)
 	{
-        health = hp;
+        health           = hp;
         lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f);
-		direction = dir;
-		alpha = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
+		direction        = dir;
+		alpha            = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}
 }
 

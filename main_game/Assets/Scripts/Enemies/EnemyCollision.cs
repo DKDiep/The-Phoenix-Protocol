@@ -10,13 +10,13 @@ using System.Collections;
 
 public class EnemyCollision : MonoBehaviour 
 {
-
     public float collisionDamage;
-    EnemyLogic myLogic;
+    private EnemyLogic myLogic;
 
     void Start()
     {
-        if(GetComponentInChildren<EnemyLogic>() != null) myLogic = GetComponentInChildren<EnemyLogic>();
+        if(GetComponentInChildren<EnemyLogic>() != null)
+			myLogic = GetComponentInChildren<EnemyLogic>();
     }
 
     void OnTriggerEnter (Collider col)
@@ -24,15 +24,20 @@ public class EnemyCollision : MonoBehaviour
     	if(col.gameObject.tag.Equals ("Player"))
     	{
             GameObject hitObject = col.gameObject;
-            ShipMovement movementObject = col.gameObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+			ShipMovement movementObject = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
             if(movementObject != null)
                 movementObject.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
-            if(myLogic != null) myLogic.collision(1000f, -1);
+            
+			if(myLogic != null) myLogic.collision(1000f, -1);
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {
-            if(col.gameObject.GetComponentInChildren<AsteroidLogic>() != null ) col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(1000f);
-            if(myLogic != null) myLogic.collision(collisionDamage, -1);
+			AsteroidLogic asteroidLogic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
+			if(asteroidLogic != null )
+				asteroidLogic.collision(1000f);
+            
+			if(myLogic != null)
+				myLogic.collision(collisionDamage, -1);
         }
     }
 }

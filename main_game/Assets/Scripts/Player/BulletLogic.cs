@@ -11,42 +11,43 @@ using System.Collections;
 public class BulletLogic : MonoBehaviour 
 {
 	public float speed = 100f; // Bullet speed
-	[SerializeField] float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
-	[SerializeField] float damage; 
-	[SerializeField] Color bulletColor;
-    [SerializeField] GameObject impact;
-	[SerializeField] float xScale;
-	[SerializeField] float yScale;
-	[SerializeField] float zScale;
 
-	GameObject obj;
-	GameObject playerObj;
-    Vector3 destination;
-	PlayerShooting player;
-    bool enableSound = false;
-	int playerId;
-    float distance;
-    AudioSource mySrc;
-    [SerializeField] AudioClip sound;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
+	[SerializeField] private float damage; 
+	[SerializeField] private Color bulletColor;
+	[SerializeField] private GameObject impact;
+	[SerializeField] private float xScale;
+	[SerializeField] private float yScale;
+	[SerializeField] private float zScale;
+	[SerializeField] private AudioClip sound;
+	#pragma warning restore 0649
 
-    ObjectPoolManager bulletManager;
-    ObjectPoolManager logicManager;
-    ObjectPoolManager impactManager;
+	private GameObject obj;
+	private GameObject playerObj;
+	private Vector3 destination;
+	private PlayerShooting player;
+	private bool enableSound = false;
+	private int playerId;
+	private float distance;
+	private AudioSource mySrc;
+
+	private ObjectPoolManager bulletManager;
+	private ObjectPoolManager logicManager;
+	private ObjectPoolManager impactManager;
 
     // Initialise object when spawned
 	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2, ObjectPoolManager cachedBullet, ObjectPoolManager cachedLogic, ObjectPoolManager cachedImpact)
 	{
         bulletManager = cachedBullet;
-        logicManager = cachedLogic;
+        logicManager  = cachedLogic;
         impactManager = cachedImpact;
-        destination = dest;
-        playerObj = playerObj2;
-		obj = transform.parent.gameObject;
+        destination   = dest;
+        playerObj     = playerObj2;
+		obj           = transform.parent.gameObject;
       
 		if(isPlayer) 
-		{
 			obj.GetComponent<BulletCollision>().playerId = playerId;
-		} 
         else 
         {
             enableSound = true;
@@ -56,7 +57,7 @@ public class BulletLogic : MonoBehaviour
 		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
-    	//obj.GetComponent<BulletMove>().SetColor(bulletColor);
+
 		StartCoroutine ("DestroyObject");
 	}
 

@@ -12,10 +12,8 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
 {
-
     private GameObject controlledObject;
 	private RoleEnum role = RoleEnum.Camera;
-    private int orientation = 0;
     private GameObject playerCamera;
     private GameObject multiCamera;
     private EngineerController engController;
@@ -23,14 +21,12 @@ public class PlayerController : NetworkBehaviour
     private int index = 0;
 
     public GameObject commandConsoleGameObject;
-    // Private to each instance of script
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
-    private GameState gameState;
     private ServerManager serverManager;
     private bool gameStarted = false;
-    ShipMovement shipMovement;
+    private ShipMovement shipMovement;
 
     public GameObject GetControlledObject()
     {
@@ -148,22 +144,13 @@ public class PlayerController : NetworkBehaviour
         {
             commandConsoleState.foundOutpost(message);
         }
-        //else { print("commandConsoleState = null"); }
     }
 
     void Start()
     {
         // Get the game manager and game state at start
         gameManager = GameObject.Find("GameManager");
-        gameState = gameManager.GetComponent<GameState>();
         serverManager = gameManager.GetComponent<ServerManager>();
-
-        //Each client request server command
-        if (isServer)
-        {
-            //ship = GameObject.Find("PlayerShipLogic(Clone)");
-            //shipMovement = ship.GetComponent<ShipMovement>();
-        }
 
         if (isLocalPlayer)
         {
@@ -193,8 +180,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    // Called by the engineer to carry out upgrades
-    // and repairs
+	// Called by the engineer to carry out upgrades and repairs
     [Command]
     public void CmdDoUpgrade()
     {
@@ -221,8 +207,7 @@ public class PlayerController : NetworkBehaviour
         serverManager.NotifyEngineer(false, part);
     }
 
-    // Used to notify the engineer of an upgrade or repair that has been
-    // added
+	// Used to notify the engineer of an upgrade or repair that has been added
 	public void AddJob(bool upgrade, ComponentType part)
     {
         // If this is somehow invoked on a client that isn't an engineer
@@ -236,6 +221,6 @@ public class PlayerController : NetworkBehaviour
     // OnGUI draws to screen and is called every few frames
     void OnGUI()
     {
-        //GUI.Label(new Rect(50, 250, 200, 20), "Shield Level: " + shieldsLevel);
+		
     }
 }

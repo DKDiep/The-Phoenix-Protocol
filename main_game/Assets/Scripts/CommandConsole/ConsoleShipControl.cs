@@ -5,17 +5,16 @@ public class ConsoleShipControl : MonoBehaviour {
 
 	private const float rotationSpeed = 300;
 
-	Quaternion desiredRotation;
-	Quaternion currentRotation;
-	Quaternion rotation;
-	float xDeg, yDeg;
-	LineRenderer lineRenderer;
-	LineRenderer lineRenderer1;
-	LineRenderer lineRenderer2;
-	Transform leftEngine;
-	Transform engine;
-	Transform hullFront;
-	Transform captainBridge;
+	private Quaternion desiredRotation;
+	private Quaternion currentRotation;
+	private Quaternion rotation;
+	private float xDeg, yDeg;
+	private LineRenderer lineRenderer;
+	private LineRenderer lineRenderer1;
+	private LineRenderer lineRenderer2;
+	private Transform leftEngine;
+	private Transform hullFront;
+	private Transform captainBridge;
 
 	void Start () {
 
@@ -27,11 +26,9 @@ public class ConsoleShipControl : MonoBehaviour {
 				hullFront = child;
 			if(child.name == "CaptainBridge")
 				captainBridge = child;
-			if(child.name == "EnginePicture")
-				engine = child;
 		}
 			
-		lineRenderer = leftEngine.gameObject.AddComponent<LineRenderer>();
+		lineRenderer  = leftEngine.gameObject.AddComponent<LineRenderer>();
 		lineRenderer1 = hullFront.gameObject.AddComponent<LineRenderer>();
 		lineRenderer2 = captainBridge.gameObject.AddComponent<LineRenderer>();
 

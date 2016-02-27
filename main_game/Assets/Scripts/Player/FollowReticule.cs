@@ -10,19 +10,19 @@ using System.Collections;
 
 public class FollowReticule : MonoBehaviour 
 {
-
-	[SerializeField] int controlledByPlayerId;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private int controlledByPlayerId;
+	#pragma warning restore 0649 
 
 	// Empty game object to use as the target position
-    GameObject targetPoint;
-    GameObject crosshairContainer;
-    GameObject[] crosshairs;
+    private GameObject targetPoint;
+    private GameObject crosshairContainer;
+    private GameObject[] crosshairs;
 
     // Initialise temporary object
     void Start()
     {
         targetPoint = new GameObject();
-        //targetPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         targetPoint.name = "AimTarget" + controlledByPlayerId.ToString();
 
 		crosshairContainer = GameObject.Find("Crosshairs");
@@ -33,11 +33,8 @@ public class FollowReticule : MonoBehaviour
 
             // Find crosshair images
             for (int i = 0; i < 4; ++i)
-            {
                 crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
-            }
         }
-
     }
 
     void FixedUpdate()
@@ -48,9 +45,7 @@ public class FollowReticule : MonoBehaviour
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit) && !hit.transform.gameObject.tag.Equals("Player"))
-            {
                 targetPoint.transform.position = hit.transform.position;
-            }
             else
             {
                 targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));

@@ -11,17 +11,19 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
-public class ServerManager : NetworkBehaviour {
+public class ServerManager : NetworkBehaviour
+{
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject poolManager;
+	#pragma warning restore 0649
+
     private GameState gameState;
     private NetworkManager networkManager;
-    private int clientId = 0;
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
-    bool gameStarted;
-    GameObject spawner;
-    [SerializeField] GameObject poolManager;
+    private GameObject spawner;
 
     public int clientIdCount()
     {
@@ -44,7 +46,6 @@ public class ServerManager : NetworkBehaviour {
     void Start()
     {
         Cursor.visible = true; //leave as true for development, false for production
-        //networkManager = gameObject.GetComponent<NetworkManager>();
 
         if(MainMenu.startServer)
         {
@@ -56,12 +57,13 @@ public class ServerManager : NetworkBehaviour {
 
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
+
             // Host is client Id #0. Using -1 as the role for the Host
 			netIdToRole.Add(0, RoleEnum.Host);
-            clientId = 0;
-            gameStarted = false;
-            // assign clients
+
+            // Assign clients
             gameState = gameObject.GetComponent<GameState>();
+
             // Set up the game state
             gameState.Setup();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -114,7 +116,7 @@ public class ServerManager : NetworkBehaviour {
     private void CreateServerSetup()
     {
         //Spawn server lobby
-        GameObject serverLobby = Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject))) as GameObject;
+        Instantiate(Resources.Load("Prefabs/ServerLobby", typeof(GameObject)));
     }
 
     public void StartGame()
@@ -126,7 +128,7 @@ public class ServerManager : NetworkBehaviour {
 
         // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
-        gameState.SetPlayerShip(playerShip);
+        gameState.PlayerShip = playerShip;
         ServerManager.NetworkSpawn(playerShip);
 
         // Get the engineer start position
@@ -140,7 +142,7 @@ public class ServerManager : NetworkBehaviour {
                 // Create the engineer object
                 GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
                     engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
-                gameState.AddEngineerList(engineer);
+                gameState.AddToEngineerList(engineer);
 
                 // Spawn the engineer with local authority
                 NetworkServer.SpawnWithClientAuthority(engineer, netIdToConn[client.Key]);
@@ -170,13 +172,12 @@ public class ServerManager : NetworkBehaviour {
 		// Spawn portal
 		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
         portal.transform.position = new Vector3(0,0,3000);
-		gameState.SetPortal(portal);
+		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
-        //playerShipLogic.GetComponent<ShipMovement>().SetControlObject(playerShip);
         playerShipLogic.transform.parent = playerShip.transform;
             
         //Instantiate ship shoot logic on server only
@@ -184,7 +185,7 @@ public class ServerManager : NetworkBehaviour {
         playerShootLogic.transform.parent = playerShip.transform;
 
         //Instantiate crosshairs
-        GameObject crosshairCanvas = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
+        Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject)));
 
         GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
         minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;
@@ -198,7 +199,6 @@ public class ServerManager : NetworkBehaviour {
 
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();
-        gameState.SetStatus(GameState.Status.Started);
-        gameStarted = true;
+        gameState.Status = GameState.GameStatus.Started;
     }
 }

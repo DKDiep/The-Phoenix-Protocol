@@ -6,22 +6,21 @@ using System.Collections.Generic;
 
 public class EngineerController : NetworkBehaviour {
 
-    //Private vars
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] private float upMultiplier;
     [SerializeField] private bool isWalking;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float m_StepInterval;
+	#pragma warning restore 0649
 
     private Text upgradeText;
-    private PlayerController myController;
-    private Camera camera;
+    private new Camera camera;
     private MouseLook mouseLook;
     private bool jump;
     private Vector2 input;
-    private CollisionFlags m_CollisionFlags;
-    private float m_StepCycle;
+    private float m_StepCycle = 0f;
     private float m_NextStep;
     private string upgradeString;
     private string repairString;
@@ -86,8 +85,6 @@ public class EngineerController : NetworkBehaviour {
         mouseLook = gameObject.GetComponent<MouseLook>();
         mouseLook.Init(transform, camera.transform);
 
-        myController = controller;
-
         // Set the upgrade and repair strings depending on wheter
         // a controller is used or the keyboard is used
         if (Input.GetJoystickNames().Length > 0)
@@ -139,9 +136,9 @@ public class EngineerController : NetworkBehaviour {
             EngineerInteraction interaction = obj.GetComponent<EngineerInteraction>();
 
             if (upgrade)
-                interaction.setUpgradeable(true);
+                interaction.Upgradeable = true;
             else
-                interaction.setRepairable(true);
+                interaction.Repairable = true;
         }
     }
 
@@ -160,9 +157,9 @@ public class EngineerController : NetworkBehaviour {
         {
             EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
             if (upgrade)
-                interaction.setUpgradeable(true);
+                interaction.Upgradeable = true;
             else
-                interaction.setRepairable(true);
+                interaction.Repairable = true;
         }
     }
 
@@ -190,8 +187,8 @@ public class EngineerController : NetworkBehaviour {
 
                 if (interactiveObject != null)
                 {
-                    canUpgrade = interactiveObject.getUpgradeable();
-                    canRepair = interactiveObject.getRepairable();
+                    canUpgrade = interactiveObject.Upgradeable;
+                    canRepair = interactiveObject.Repairable;
                 }
             }
 
@@ -262,8 +259,6 @@ public class EngineerController : NetworkBehaviour {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        bool waswalking = isWalking;
-
 #if !MOBILE_INPUT
         // On standalone builds, walk/run speed is modified by a key press.
         // keep track of whether or not the character is walking or running
@@ -280,28 +275,11 @@ public class EngineerController : NetworkBehaviour {
         }
     }
 
-
     private void RotateView()
     {
         mouseLook.LookRotation(transform, camera.transform);
         // Send the rotaion to the server
         //CmdSetRotation(transform.rotation);  UNCOMMENT TO SEE NETWORK ISSUES
-    }
-
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //dont move the rigidbody if the character is on top of it
-        if (m_CollisionFlags == CollisionFlags.Below)
-        {
-            return;
-        }
-
-        if (body == null || body.isKinematic)
-        {
-            return;
-        }
     }
 
     private void ResetUpgradeText()

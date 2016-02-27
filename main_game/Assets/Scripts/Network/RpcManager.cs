@@ -4,14 +4,10 @@ using UnityEngine.Networking;
 
 public class RpcManager : NetworkBehaviour
 {
-
-    private string debugString = "No Info";
-
     [ClientRpc]
     void RpcSend(string type)
     {
         Debug.Log("RpcSend:" + type);
-        debugString = type;
     }
 
     public void CallRpcSend(string type)
@@ -22,6 +18,6 @@ public class RpcManager : NetworkBehaviour
 
     void OnGUI()
     {
-        //GUI.Label(new Rect(10, 500, 100, 20), debugString);
+		
     }
 }

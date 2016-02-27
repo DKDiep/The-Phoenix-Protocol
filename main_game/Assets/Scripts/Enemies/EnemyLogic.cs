@@ -25,34 +25,36 @@ public class EnemyLogic : MonoBehaviour
 	internal float collisionDamage;
 	internal EnemyType type;
 
-	[SerializeField] float shotsPerSec = 1f;
-	[SerializeField] float shootPeriod; // How long in seconds the enemy should shoot for when it fires
-	[SerializeField] int percentageVariation; // Percentage variation +/- in the length of the shooting period
-	[SerializeField] float shieldDelay; // Delay in seconds to wait before recharging shield
-	[SerializeField] float shieldRechargeRate; // Units of shield to increase per second
-	[SerializeField] bool isSuicidal; // Attempt to crash into player?
-	[SerializeField] GameObject bullet;
-	[SerializeField] GameObject bulletLogic;
-    [SerializeField] GameObject destroyEffect;
-    [SerializeField] AudioClip fireSnd;
-    [SerializeField] bool randomPitch;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private float shotsPerSec = 1f;
+	[SerializeField] private float shootPeriod; // How long in seconds the enemy should shoot for when it fires
+	[SerializeField] private int percentageVariation; // Percentage variation +/- in the length of the shooting period
+	[SerializeField] private float shieldDelay; // Delay in seconds to wait before recharging shield
+	[SerializeField] private float shieldRechargeRate; // Units of shield to increase per second
+	[SerializeField] private bool isSuicidal; // Attempt to crash into player?
+	[SerializeField] private GameObject bullet;
+	[SerializeField] private GameObject bulletLogic;
+	[SerializeField] private GameObject destroyEffect;
+	[SerializeField] private AudioClip fireSnd;
+	[SerializeField] private bool randomPitch;
+	#pragma warning restore 0649
 
-    AudioSource mySrc;
-	private ServerManager serverManager;
+	private AudioSource mySrc;
 	private GameState gameState;
 	public GameObject player;
-	bool shoot = false, angleGoodForShooting = false;
-	bool rechargeShield;
+
+	private bool shoot = false, angleGoodForShooting = false;
+	private bool rechargeShield;
     public bool draw = false;
+
 	internal float health;
 	private float shield;
     public float distance;
-	float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
-    float randomZ; // A random Z angle to give the enemies some uniqueness
+	private float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
+	private float randomZ;         // A random Z angle to give the enemies some uniqueness
 
-	GameObject shootAnchor;
-	Vector3 prevPos, currentPos;
-	Renderer myRender;
+	private GameObject shootAnchor;
+	private Vector3 prevPos, currentPos;
 	private GameObject controlObject;
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
@@ -88,7 +90,6 @@ public class EnemyLogic : MonoBehaviour
 	private int previousAvoidDirection             = 0;
 	private int avoidDirection;
 
-
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
@@ -103,15 +104,14 @@ public class EnemyLogic : MonoBehaviour
 	void Start ()
 	{
 		GameObject server = GameObject.Find("GameManager");
-		serverManager = server.GetComponent<ServerManager>();
-		gameState = server.GetComponent<GameState>();
+		gameState         = server.GetComponent<GameState>();
 
-        bulletManager = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
-        logicManager = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
-        impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
-        explosionManager = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
+        bulletManager     = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
+        logicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
+        impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
+        explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
-        enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
+        enemyManager      = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
 
     IEnumerator UpdateDelay()
@@ -154,7 +154,6 @@ public class EnemyLogic : MonoBehaviour
         mySrc.clip = fireSnd;
 		player = temp;
 		state = EnemyAIState.SeekPlayer;
-		myRender = transform.parent.gameObject.GetComponent<Renderer>();
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
 
@@ -338,7 +337,7 @@ public class EnemyLogic : MonoBehaviour
 	}
 
 	// When not engaged, try and get closer to the player
-	void MoveTowardsPlayer()
+	private void MoveTowardsPlayer()
 	{
 		controlObject.transform.LookAt(player.transform.position);
 		controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
@@ -347,7 +346,7 @@ public class EnemyLogic : MonoBehaviour
 	}
 
 	// Get the next engagement waypoint to follow, which should be different from the previous one
-	GameObject GetNextWaypoint()
+	private GameObject GetNextWaypoint()
 	{
 		GameObject nextWaypoint;
 
@@ -361,7 +360,7 @@ public class EnemyLogic : MonoBehaviour
 	}
 
 	// When engaged with the player ship, move between waypoints, returning true when the waypoint is reached
-	bool MoveTowardsCurrentWaypoint()
+	private bool MoveTowardsCurrentWaypoint()
 	{
 		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
 
@@ -516,7 +515,7 @@ public class EnemyLogic : MonoBehaviour
 			if(playerId != -1)
 			{
 				// Update player score
-				gameState.AddPlayerScore(playerId, 10);
+				gameState.AddToPlayerScore(playerId, 10);
 			}
 
             string removeName = gameObject.name;

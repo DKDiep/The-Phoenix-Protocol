@@ -3,22 +3,22 @@ using System.Collections;
 using WiimoteApi;
 using System;
 
-public class CrosshairMovement : MonoBehaviour {
-
+public class CrosshairMovement : MonoBehaviour
+{
     private int controlling = 0;
 	private int numberOfCrossHairs;
-	float posReadDelay = 0.0001f;
+	private float posReadDelay = 0.0001f;
 	private bool[] init;
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
-	bool canMove = true;
+	private bool canMove = true;
 	public Vector3[] crosshairPosition;
 	private Vector3[] oldCrosshairPosition;
 	private Vector3[] crosshairPositionTmp;
-	float oldAccel, newAccel;
-    GameObject[] crosshairs;
-	WiiRemoteManager wii;
+	private float oldAccel, newAccel;
+    private GameObject[] crosshairs;
+	private WiiRemoteManager wii;
 
 	// Autoaiming looks for objects inside a sphere in front of the player
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
@@ -29,8 +29,6 @@ public class CrosshairMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-		GameObject crosshairContainer = GameObject.Find("Crosshairs");
-
 		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
@@ -40,11 +38,9 @@ public class CrosshairMovement : MonoBehaviour {
 		// If there are no wii remotes connected, set the default to 2
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 2;
 
-
 		crosshairPosition = new Vector3[numberOfCrossHairs];
 		oldCrosshairPosition = new Vector3[numberOfCrossHairs];
 		crosshairPositionTmp = new Vector3[numberOfCrossHairs];
-
 
 		init = new bool[4];
 		crosshairs = new GameObject[4];
@@ -60,7 +56,6 @@ public class CrosshairMovement : MonoBehaviour {
         }
 			
 		StartCoroutine(FindRemotes());
-
 	}
 	
 	// Update is called once per frame
@@ -94,7 +89,6 @@ public class CrosshairMovement : MonoBehaviour {
 					selectedCrosshair.position = oldCrosshairPosition[remoteId];
 					crosshairPositionTmp[remoteId] = oldCrosshairPosition[remoteId];
 				}
-
 			}
 		} 
 		else 
@@ -109,7 +103,6 @@ public class CrosshairMovement : MonoBehaviour {
 				}
 			}
 		}
-
     }
 
 	void FixedUpdate ()
@@ -145,6 +138,7 @@ public class CrosshairMovement : MonoBehaviour {
 					if(remoteId == 1) remote.SendPlayerLED (false, true, false, false);
 					if(remoteId == 2) remote.SendPlayerLED (false, false, true, false);
 					if(remoteId == 3) remote.SendPlayerLED (false, false, false, true);
+
 					// Set up the IR camera on the wii remote
 					remote.SetupIRCamera (IRDataType.BASIC);
 					this.init[remoteId] = false;
@@ -161,6 +155,7 @@ public class CrosshairMovement : MonoBehaviour {
 							if(pointer[0] != -1 && pointer[1] != -1) 
 							{
 								oldAccel = newAccel;
+
 								// Get data from the accelerometer
 								newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
 
@@ -188,7 +183,7 @@ public class CrosshairMovement : MonoBehaviour {
 						}
 					}
 				} 
-				catch (Exception e) 
+				catch (Exception) 
 				{
 					// Sometimes the wii remote will disconnect so for this we re connect the remote and run the initialise function again.
 					WiimoteManager.FindWiimotes ();
@@ -325,5 +320,4 @@ public class CrosshairMovement : MonoBehaviour {
 				return this.Position;
 		}
 	}
-
 }

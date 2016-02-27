@@ -4,8 +4,8 @@ using System.Collections;
 
 public class MessageHandler : MonoBehaviour {
 
-    NetworkClient client = null;
-    PlayerController controller = null;
+    private NetworkClient client = null;
+    private PlayerController controller = null;
 
 	public void SetClient(NetworkClient newClient)
     {

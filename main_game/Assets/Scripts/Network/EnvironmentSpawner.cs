@@ -10,8 +10,11 @@ using System.Collections;
 
 public class EnvironmentSpawner : MonoBehaviour 
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] private GameObject spaceScene;
+	#pragma warning restore 0649 
 
-  GameState state;
+	private GameState state;
 
 	void Start () 
     {
@@ -20,7 +23,7 @@ public class EnvironmentSpawner : MonoBehaviour
 
 	void Update () 
     {
-        if (state.GetStatus() == GameState.Status.Started)
+        if (state.Status == GameState.GameStatus.Started)
         {
           Debug.Log("Attempting to spawn space scene");
           GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
