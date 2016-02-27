@@ -16,6 +16,8 @@ public class EngineerController : NetworkBehaviour {
 	#pragma warning restore 0649
 
     private Text upgradeText;
+    private Text dockText;
+    private PlayerController myController;
     private new Camera camera;
     private MouseLook mouseLook;
     private bool jump;
@@ -24,12 +26,17 @@ public class EngineerController : NetworkBehaviour {
     private float m_NextStep;
     private string upgradeString;
     private string repairString;
+    private string dockString;
     private bool canUpgrade;
     private bool canRepair;
     private bool pressedUpgrade;
     private bool pressedRepair;
+    private bool isDocked = false;
     private EngineerInteraction interactiveObject;
     private GameObject playerShip;
+    private GameObject dockCanvas;
+    private GameObject engineerCanvas;
+    private NetworkStartPosition startPosition;
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
@@ -91,19 +98,43 @@ public class EngineerController : NetworkBehaviour {
         {
             upgradeString = "Press LT to upgrade";
             repairString = "Press RT to repair";
+            dockString = "Press B to dock";
         }
         else
         {
             upgradeString = "Press Mouse1 to upgrade";
             repairString = "Press Mouse2 to repair";
+            dockString = "Press L Shift to dock";
         }
 
         // Get a reference to the player ship
         playerShip = GameObject.Find("PlayerShip(Clone)");
 
         // Create the upgrade text object to use
-        GameObject obj = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
-        upgradeText = obj.GetComponentInChildren<Text>();
+        engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
+        Text[] tmp = engineerCanvas.GetComponentsInChildren<Text>();
+
+        if (tmp[0].name.Equals("Upgrade Text"))
+        {
+            upgradeText = tmp[0];
+            dockText = tmp[1];
+        }
+        else
+        {
+            upgradeText = tmp[1];
+            dockText = tmp[0];
+        }
+        dockText.text = dockString;
+
+        // Create the docked canvas, and start the engineer in the docked state
+        dockCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
+
+        // We need a reference to the engineer start position as this is where
+        // we anchor the engineer
+        startPosition = playerShip.GetComponentInChildren<NetworkStartPosition>();
+        gameObject.transform.parent = startPosition.transform;
+
+        Dock();
 
         // Get the components of the main ship that can be upgraded and/or repaired
         EngineerInteraction[] interactionObjects = playerShip.GetComponentsInChildren<EngineerInteraction>();
@@ -167,6 +198,13 @@ public class EngineerController : NetworkBehaviour {
     public void EngUpdate()
     {
         RotateView();
+
+        if (Input.GetButton("Dock"))
+        {
+            Dock();
+            return;
+        }
+
         jump = Input.GetButton("Jump");
         pressedUpgrade = Input.GetButton("Upgrade");
         pressedRepair = Input.GetButton("Repair");
@@ -215,7 +253,9 @@ public class EngineerController : NetworkBehaviour {
         {
             //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
 
-            //TEMPORARILY MOVED HERE
+            // If the engineer is docked we undock first
+            UnDock();
+
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
 
@@ -241,6 +281,35 @@ public class EngineerController : NetworkBehaviour {
             Debug.Log("Upgrade");
 
         ProgressStepCycle(speed);
+    }
+
+    /// <summary>
+    /// Docks the engineer if it is not docked
+    /// </summary>
+    private void Dock()
+    {
+        if (!isDocked)
+        {
+            isDocked = true;
+            dockCanvas.SetActive(isDocked);
+            engineerCanvas.SetActive(!isDocked);
+            gameObject.transform.parent = startPosition.transform;
+            gameObject.transform.localPosition = new Vector3(0,0,0);
+        }
+    }
+
+    /// <summary>
+    /// Un-docks the engineer if it is docked
+    /// </summary>
+    private void UnDock()
+    {
+        if (isDocked)
+        {
+            isDocked = false;
+            dockCanvas.SetActive(isDocked);
+            engineerCanvas.SetActive(!isDocked);
+            gameObject.transform.parent = null;
+        }
     }
 
     private void ProgressStepCycle(float speed)
