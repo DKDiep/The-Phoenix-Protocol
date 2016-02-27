@@ -10,41 +10,40 @@ using System.Collections;
 
 public class ToggleGraphics : MonoBehaviour 
 {
-	bool enableGraphics, swap;
+	private bool enableGraphics, swap;
     
-	SESSAO sessao;
-	SENaturalBloomAndDirtyLens bloom;
-	AmplifyColorEffect color;
-	Smaa.SMAA smaa;
-    LightShafts volumetricLighting;
+	private SESSAO sessao;
+	private SENaturalBloomAndDirtyLens bloom;
+	private AmplifyColorEffect color;
+	private Smaa.SMAA smaa;
+	private LightShafts volumetricLighting;
 	
 	void Start () 
 	{
 		enableGraphics = true;
-        swap = false;
-		sessao = GetComponent<SESSAO>();
-		bloom = GetComponent<SENaturalBloomAndDirtyLens>();
-		color = GetComponent<AmplifyColorEffect>();
-		smaa = GetComponent<Smaa.SMAA>();
+        swap           = false;
+		sessao         = GetComponent<SESSAO>();
+		bloom          = GetComponent<SENaturalBloomAndDirtyLens>();
+		color          = GetComponent<AmplifyColorEffect>();
+		smaa           = GetComponent<Smaa.SMAA>();
 		
 		UpdateGraphics ();
-		
 	}
 	
 	void UpdateGraphics()
 	{
 		enableGraphics = !enableGraphics;
-		Debug.Log ("Graphics are now " + enableGraphics);
+
 		sessao.enabled = enableGraphics;
-		bloom.enabled = enableGraphics;
-		color.enabled = enableGraphics;
-		smaa.enabled = enableGraphics;
-        if(volumetricLighting != null) volumetricLighting.enabled = enableGraphics;
+		bloom.enabled  = enableGraphics;
+		color.enabled  = enableGraphics;
+		smaa.enabled   = enableGraphics;
+        if(volumetricLighting != null)
+			volumetricLighting.enabled = enableGraphics;
         else
-        {
-            swap = true;
-        }
-       
+            swap = true;       
+
+		Debug.Log ("Graphics are now " + enableGraphics);
 	}
 
 	void Update () 
