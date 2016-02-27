@@ -26,7 +26,7 @@ public class OutpostCollision : MonoBehaviour
 		}
 		else if(col.gameObject.tag.Equals ("EnemyShip"))
 		{
-			// If an enemy crashes into an outpost, nothing happens to the outpost
+            if(col.gameObject.GetComponentInChildren<EnemyLogic>() != null) col.gameObject.GetComponentInChildren<EnemyLogic>().collision(1000, -1);
 		}
 	}
 }
