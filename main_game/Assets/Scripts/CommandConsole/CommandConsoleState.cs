@@ -4,26 +4,29 @@ using UnityEngine.UI;
 
 
 public class CommandConsoleState : MonoBehaviour {
+
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private Canvas canvas;
-	[SerializeField] private Text CiviliansText;
-	[SerializeField] private Text HealthText;
-	[SerializeField] private Text ResourcesText;
-	[SerializeField] private Text ShieldsText;
-	[SerializeField] private Text EngineLabel;
-	[SerializeField] private Text ShieldsLabel;
-	[SerializeField] private Text ShieldsUpgradeLabel;
-	[SerializeField] private Text GunsUpgradeLabel;
-	[SerializeField] private Text EngineUpgradeLabel;
-	[SerializeField] private Text PopUpText;
-	[SerializeField] private GameObject ShieldsButton;
-	[SerializeField] private GameObject GunsButton;
-	[SerializeField] private GameObject EngineButton;
-	[SerializeField] private GameObject PopUp;
-	[SerializeField] private GameObject LevelCounter1;
-	[SerializeField] private GameObject LevelCounter2;
-	[SerializeField] private GameObject LevelCounter3;
-	[SerializeField] private GameObject LevelCounter4;
-    [SerializeField] private GameObject NewsFeed;
+	[SerializeField] private Text civiliansText;
+	[SerializeField] private Text healthText;
+	[SerializeField] private Text resourcesText;
+	[SerializeField] private Text shieldsText;
+	[SerializeField] private Text engineLabel;
+	[SerializeField] private Text shieldsLabel;
+	[SerializeField] private Text shieldsUpgradeLabel;
+	[SerializeField] private Text gunsUpgradeLabel;
+	[SerializeField] private Text engineUpgradeLabel;
+	[SerializeField] private Text popUpText;
+	[SerializeField] private GameObject shieldsButton;
+	[SerializeField] private GameObject gunsButton;
+	[SerializeField] private GameObject engineButton;
+	[SerializeField] private GameObject popUp;
+	[SerializeField] private GameObject levelCounter1;
+	[SerializeField] private GameObject levelCounter2;
+	[SerializeField] private GameObject levelCounter3;
+	[SerializeField] private GameObject levelCounter4;
+	[SerializeField] private GameObject newsFeed;
+	#pragma warning restore 0649
 
     private PlayerController playerController;
 	private GameObject ship;
@@ -36,12 +39,10 @@ public class CommandConsoleState : MonoBehaviour {
 	private float shipShields;
 
     private bool upgrade = true;
-    private bool gunsOn = true;
     private int shieldsLevel = 1;
     private int engineLevel = 1;
     private int gunsLevel = 1;
     private double second = 0; 
-
 
     void Start () {
 		GameObject server = GameObject.Find("GameManager");
@@ -51,34 +52,24 @@ public class CommandConsoleState : MonoBehaviour {
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
 		ship.AddComponent<ConsoleShipControl>();
 
-		// Get starting values for resources and health
-		shipCivilians = gameState.GetCivilians();
-		shipResources = gameState.GetShipResources();
-		shipHealth = gameState.GetShipHealth();
-		shipShields = gameState.GetShipShield();
+		UpdateAllText();
 
-		UpdateCivilians();
-        UpdateResources();
-		UpdateHealth();
-		UpdateShields();
-
-        ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
-        GunsUpgradeLabel.text = gunsLevel * 100 + "M";
-        EngineUpgradeLabel.text = engineLevel * 100 + "M";
-        LevelCounter1.SetActive(true);
-        LevelCounter2.SetActive(false);
-        LevelCounter3.SetActive(false);
-        LevelCounter4.SetActive(false);
-        NewsFeed.SetActive(false);
+        shieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
+        gunsUpgradeLabel.text = gunsLevel * 100 + "M";
+        engineUpgradeLabel.text = engineLevel * 100 + "M";
+        levelCounter1.SetActive(true);
+        levelCounter2.SetActive(false);
+        levelCounter3.SetActive(false);
+        levelCounter4.SetActive(false);
+        newsFeed.SetActive(false);
 
 		// Hide the popup by default
-        PopUpText.text = "";
-        PopUp.SetActive(false);
+        popUpText.text = "";
+        popUp.SetActive(false);
         
-        ShieldsButton.SetActive(true);
-        GunsButton.SetActive(true);
-        EngineButton.SetActive(true);
-
+        shieldsButton.SetActive(true);
+        gunsButton.SetActive(true);
+        engineButton.SetActive(true);
     }
 
     public void givePlayerControllerReference(PlayerController controller)
@@ -90,7 +81,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         if (upgrade)
         {
-            EngineLabel.text = EngineLabel.text + " I";
+            engineLabel.text = engineLabel.text + " I";
             upgrade = false;
         }
     }
@@ -100,32 +91,32 @@ public class CommandConsoleState : MonoBehaviour {
         switch (system)
         {
             case 0:
-                PopUpText.text = "Shields";
+                popUpText.text = "Shields";
                 showLevelCounters(shieldsLevel);
                 break;
             case 1:
-                PopUpText.text = "Guns";
+                popUpText.text = "Guns";
                 showLevelCounters(gunsLevel);
                 break;
             case 2:
                 showLevelCounters(engineLevel);
-                PopUpText.text = "Engines";
+                popUpText.text = "Engines";
                 break;
         }
-        PopUp.SetActive(true);
+        popUp.SetActive(true);
     }
 
     //Enables/disables level counter objects such that there are <level> of them visible
     private void showLevelCounters(int level)
     {
-        LevelCounter1.SetActive(false);
-        LevelCounter2.SetActive(false);
-        LevelCounter3.SetActive(false);
-        LevelCounter4.SetActive(false);
-        if (level > 0) LevelCounter1.SetActive(true);
-        if (level > 1) LevelCounter2.SetActive(true);
-        if (level > 2) LevelCounter3.SetActive(true);
-        if (level > 3) LevelCounter4.SetActive(true);
+        levelCounter1.SetActive(false);
+        levelCounter2.SetActive(false);
+        levelCounter3.SetActive(false);
+        levelCounter4.SetActive(false);
+        if (level > 0) levelCounter1.SetActive(true);
+        if (level > 1) levelCounter2.SetActive(true);
+        if (level > 2) levelCounter3.SetActive(true);
+        if (level > 3) levelCounter4.SetActive(true);
     }
 
     
@@ -139,7 +130,7 @@ public class CommandConsoleState : MonoBehaviour {
                 {
 				shipResources -= 100 * shieldsLevel;
                     shieldsLevel++;
-                    ShieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
+                    shieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
                     showLevelCounters(shieldsLevel);
 					playerController.CmdUpgrade(0);
                 }
@@ -149,7 +140,7 @@ public class CommandConsoleState : MonoBehaviour {
                 {
 				shipResources -= 100 * gunsLevel;
                     gunsLevel++;
-                    GunsUpgradeLabel.text = gunsLevel * 100 + "M";
+                    gunsUpgradeLabel.text = gunsLevel * 100 + "M";
                     showLevelCounters(gunsLevel);
 
                 }
@@ -160,78 +151,46 @@ public class CommandConsoleState : MonoBehaviour {
 				shipResources -= 100 * engineLevel;
                     engineLevel++;
 					playerController.CmdUpgrade(2);
-                    EngineUpgradeLabel.text = engineLevel * 100 + "M";
+                    engineUpgradeLabel.text = engineLevel * 100 + "M";
                     showLevelCounters(gunsLevel);
                 }
                 break;
         }
         upgrade = false;
-        UpdateResources();
+		UpdateAllText();
     }
-		
-	/// <summary>
-	/// Updates the civilians text value on the screen
-	/// </summary>
-	void UpdateCivilians()
-	{
-		CiviliansText.text = "Civilians:  " + shipCivilians;
-	}
-
-	/// <summary>
-	/// Updates the resources text value on the screen
-	/// </summary>
-    void UpdateResources()
-    {
-		ResourcesText.text = "Resources:  " + shipResources;
-    }
-
-	/// <summary>
-	/// Updates the health text value on the screen.
-	/// </summary>
-	void UpdateHealth()
-	{
-		HealthText.text = "Health:  " + shipHealth;
-	}
-
-	/// <summary>
-	/// Updates the shields text value on the screen.
-	/// </summary>
-	void UpdateShields()
-	{
-		ShieldsText.text = "Shields:  " + shipShields;
-	}
 
     void FixedUpdate ()
     { 
         second += Time.deltaTime;
         if(second >= 1)
         {
-			// Get resources and health from the gamestate.
-			shipCivilians = gameState.GetCivilians();
-			shipResources = gameState.GetShipResources();
-			shipHealth = gameState.GetShipHealth();
-			shipShields = gameState.GetShipShield();
-			UpdateCivilians();
-			UpdateResources();
-			UpdateHealth();
-			UpdateShields();
+			UpdateAllText();
             second = 0;
         }
     }
+
+	/// <summary>
+	/// Update all text values on screen.
+	/// </summary>
+	private void UpdateAllText()
+	{
+		// Get resources and health from the gamestate.
+		int shipCivilians = gameState.GetCivilians();
+		int shipResources = gameState.GetShipResources();
+		float shipHealth  = gameState.GetShipHealth();
+		float shipShields = gameState.GetShipShield();
+
+		// Update the text
+		civiliansText.text = "Civilians:  " + shipCivilians;
+		resourcesText.text = "Resources:  " + shipResources;
+		healthText.text    = "Health:  " + shipHealth;
+		shieldsText.text   = "Shields:  " + shipShields;
+	}
     
     public void foundOutpost(string message)
     {
-        NewsFeed.SetActive(true);
-        NewsFeed.GetComponent<Text>().text = message;
+        newsFeed.SetActive(true);
+        newsFeed.GetComponent<Text>().text = message;
     }
-
-    void onGui()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update () {
-        
-	}
 }
