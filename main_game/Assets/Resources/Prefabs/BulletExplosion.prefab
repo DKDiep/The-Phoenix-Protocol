@@ -214,9 +214,11 @@ MonoBehaviour:
   snd:
   - {fileID: 8300000, guid: 138b2365eb190ff44b632b3438a9d741, type: 3}
   randomPitch: 1
-  hasLight: 0
+  hasLight: 1
   lifetime: 3
   managerName: BulletImpactManager
+  destroyObject: 0
+  lightIntensity: 1.88
 --- !u!114 &11469736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4629,6 +4631,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hasLight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lightIntensity
+      value: 1.88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

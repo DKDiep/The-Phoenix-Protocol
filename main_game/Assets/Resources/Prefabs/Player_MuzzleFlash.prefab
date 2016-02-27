@@ -200,6 +200,8 @@ MonoBehaviour:
   hasLight: 1
   lifetime: 0.5
   managerName: PlayerMuzzleFlashManager
+  destroyObject: 0
+  lightIntensity: 1
 --- !u!198 &19817590
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7653,6 +7655,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lightIntensity
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
