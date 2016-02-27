@@ -45,12 +45,16 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 0;
 		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
+	}
+
+    public void Setup()
+    {
         GameObject crosshairContainer = GameObject.Find("Crosshairs");
 
         crosshairs = new GameObject[4];
 
         // Find crosshair images
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
         }
@@ -58,16 +62,16 @@ public class PlayerShooting : MonoBehaviour
         bulletAnchor = new GameObject[4];
 
         // Find crosshair images
-        for(int i = 1; i <= 4; ++i)
+        for (int i = 1; i <= 4; ++i)
         {
-            bulletAnchor[i-1] = GameObject.Find("BulletAnchor" + i.ToString());
+            bulletAnchor[i - 1] = GameObject.Find("BulletAnchor" + i.ToString());
         }
 
         bulletManager = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
         muzzleFlashManager = GameObject.Find("PlayerMuzzleFlashManager").GetComponent<ObjectPoolManager>();
         impactManager = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
-	}
+    }
 
 	void Update () 
 	{
@@ -157,12 +161,12 @@ public class PlayerShooting : MonoBehaviour
 		}
 	}
 
-	void OnGUI()
+	/*void OnGUI()
 	{
 		GUI.color = new Color(1,1,1,alpha);
         crosshairPosition = crosshairs[currentPlayerId].transform.position;
 		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
-	}
+	}*/
 
     // Show hitmarker when an enemy is hit
 	public void HitMarker()
