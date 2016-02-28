@@ -25,10 +25,12 @@ public class EnvironmentSpawner : MonoBehaviour
     {
         if (state.Status == GameState.GameStatus.Started)
         {
-          Debug.Log("Attempting to spawn space scene");
-          GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
-          ServerManager.NetworkSpawn(space);
-          Destroy(this);
+            GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
+
+            // Add Earth Collision script
+            GameObject.Find("Earth").AddComponent<EarthCollision>();
+            ServerManager.NetworkSpawn(space);
+            Destroy(this);
         }
 	}
 }

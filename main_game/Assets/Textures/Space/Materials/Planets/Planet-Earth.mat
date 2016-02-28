@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 90b25fb9592ba1a40850d923b70be624, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -50,12 +50,24 @@ Material:
         second: 1
       data:
         first:
+          name: _Size
+        second: 0.1
+      data:
+        first:
           name: _AtmosFalloff
         second: 2
       data:
         first:
           name: _LightScale
         second: 1
+      data:
+        first:
+          name: _Falloff
+        second: 5
+      data:
+        first:
+          name: _Transparency
+        second: 15
     m_Colors:
       data:
         first:
@@ -68,8 +80,12 @@ Material:
       data:
         first:
           name: _AtmosNear
-        second: {r: 0.1686275, g: 0.7372549, b: 1, a: 1}
+        second: {r: 0, g: 0.20619452, b: 0.30147058, a: 1}
       data:
         first:
           name: _AtmosFar
-        second: {r: 0.4557808, g: 0.5187039, b: 0.9850746, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _AtmoColor
+        second: {r: 0.5, g: 0.5, b: 1, a: 1}

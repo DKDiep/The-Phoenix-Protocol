@@ -26,15 +26,15 @@ Material:
       data:
         first:
           name: _Size
-        second: 0.04
+        second: -0.35
       data:
         first:
           name: _Falloff
-        second: 3.3
+        second: 3.45
       data:
         first:
           name: _Transparency
-        second: 30
+        second: 0.5
     m_Colors:
       data:
         first:
@@ -43,4 +43,4 @@ Material:
       data:
         first:
           name: _AtmoColor
-        second: {r: 0, g: 0.18343589, b: 0.64685315, a: 1}
+        second: {r: 0.22794116, g: 0.80831635, b: 1, a: 1}
