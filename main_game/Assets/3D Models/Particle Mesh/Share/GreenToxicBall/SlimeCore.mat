@@ -71,11 +71,11 @@ Material:
       data:
         first:
           name: _ReflectionStrength
-        second: 11.178572
+        second: 2.8
       data:
         first:
           name: _Opacity
-        second: 0.53571427
+        second: 0.47
       data:
         first:
           name: _LightStr
@@ -88,7 +88,7 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: 0.44939154, g: 1, b: 0.3455882, a: 1}
+        second: {r: 0.3455882, g: 0.3771804, b: 1, a: 1}
       data:
         first:
           name: _TintColor
@@ -100,4 +100,4 @@ Material:
       data:
         first:
           name: _ReflectColor
-        second: {r: 0.17794111, g: 0.8897059, b: 0, a: 1}
+        second: {r: 0.42647058, g: 0.4778903, b: 1, a: 1}

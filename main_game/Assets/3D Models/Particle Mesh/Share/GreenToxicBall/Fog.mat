@@ -31,16 +31,16 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _CutOut
+          name: _Cube
         second:
-          m_Texture: {fileID: 2800000, guid: a345823fbeed94346a92425d34c78dec, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _Cube
+          name: _CutOut
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: a345823fbeed94346a92425d34c78dec, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -62,18 +62,6 @@ Material:
         second: 1
       data:
         first:
-          name: _BumpAmt
-        second: 41.071426
-      data:
-        first:
-          name: _FPOW
-        second: 5
-      data:
-        first:
-          name: _R0
-        second: 0.05
-      data:
-        first:
           name: _TintStrength
         second: 0.89285713
       data:
@@ -84,6 +72,18 @@ Material:
         first:
           name: _CutOutLightCore
         second: 0.6785714
+      data:
+        first:
+          name: _BumpAmt
+        second: 41.071426
+      data:
+        first:
+          name: _FPOW
+        second: 5
+      data:
+        first:
+          name: _R0
+        second: 0.05
       data:
         first:
           name: _ReflectionStrength
@@ -108,7 +108,7 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 0, g: 1, b: 0, a: 1}
+        second: {r: 0.12626776, g: 0, b: 0.2205882, a: 1}
       data:
         first:
           name: _CoreColor
