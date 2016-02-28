@@ -15,6 +15,7 @@ public class ServerLobby : MonoBehaviour {
 	#pragma warning restore 0649
 
     private uint serverId;
+    private int centreIndex;
 
     // For camera index on join
     private int left = 0, right = -1;
@@ -59,6 +60,17 @@ public class ServerLobby : MonoBehaviour {
 
         // Tell the server which clients will be engineers
         serverManager.SetEngineers(engControllerIds);
+
+        // Populate dictionary matching screen IDs of player controllers to canvas objects
+        for (i = 0; i < cameraPanel.transform.childCount; i++)
+        {
+            int index = i - centreIndex;
+            // Instantiate crosshair to be spawned
+            GameObject crosshairObject = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
+            serverManager.AddCrosshairObject(i, crosshairObject);
+            // Network spawn a crosshair canvas for each camera
+            ServerManager.NetworkSpawn(crosshairObject);
+        }
 
         // Start the game
         serverManager.StartGame();
@@ -192,7 +204,6 @@ public class ServerLobby : MonoBehaviour {
         Quaternion q = Quaternion.FromToRotation(ofl, ofr);
         float y = q.eulerAngles.y;
         float rotateAngle;
-        int centreIndex = 0;
 
         for (int i = 0; i < cameraPanel.transform.childCount; i++)
         {

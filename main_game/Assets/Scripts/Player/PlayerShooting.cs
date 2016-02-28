@@ -38,7 +38,7 @@ public class PlayerShooting : MonoBehaviour
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
     
-	void Setup () 
+	public void Setup () 
 	{
 		fireSoundAudioSource = GetComponent<AudioSource>();
 		fireSoundAudioSource.clip = fireSound;

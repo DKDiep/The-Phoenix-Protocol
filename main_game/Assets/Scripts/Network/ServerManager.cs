@@ -21,6 +21,7 @@ public class ServerManager : NetworkBehaviour
     private NetworkManager networkManager;
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
+    private Dictionary<int, GameObject> screenIdToCrosshair;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner;
@@ -57,6 +58,7 @@ public class ServerManager : NetworkBehaviour
 
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
+            screenIdToCrosshair = new Dictionary<int, GameObject>();
 
             // Host is client Id #0. Using -1 as the role for the Host
 			netIdToRole.Add(0, RoleEnum.Host);
@@ -69,6 +71,11 @@ public class ServerManager : NetworkBehaviour
             this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
             CreateServerSetup();
         }
+    }
+    
+    public void AddCrosshairObject(int screenId, GameObject crosshairObject)
+    {
+        screenIdToCrosshair.Add(screenId, crosshairObject);
     }
 
     // Called automatically by Unity when a player joins
@@ -183,9 +190,7 @@ public class ServerManager : NetworkBehaviour
         //Instantiate ship shoot logic on server only
         GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
         playerShootLogic.transform.parent = playerShip.transform;
-
-        //Instantiate crosshairs
-        Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject)));
+        playerShootLogic.GetComponent<PlayerShooting>().Setup();
 
         GameObject minimap = Instantiate(Resources.Load("Prefabs/MiniMap", typeof(GameObject))) as GameObject;
         minimap.GetComponentInChildren<bl_MiniMap>().m_Target = playerShip;
