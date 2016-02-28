@@ -47,7 +47,7 @@ public class FadeTexture : MonoBehaviour
     // Controls when fading is triggered
 	IEnumerator Fading()
 	{
-		yield return new WaitForSeconds(enterWait);
+		//yield return new WaitForSeconds(enterWait);
 		canFade = true;
 		yield return new WaitForSeconds(exitWait);
 		canFade = false;
