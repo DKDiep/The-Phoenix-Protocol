@@ -24,5 +24,6 @@ public class OutpostTarget : MonoBehaviour
 
 		Vector3 v3 = player.transform.position - transform.position;
 		transform.rotation = Quaternion.LookRotation(-v3);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, player.transform.eulerAngles.z);
 	}
 }
