@@ -83,24 +83,16 @@ public class BulletLogic : MonoBehaviour
     // Control logic when a collision is detected
 	public void collision(Collider col, int bulletPlayerId)
 	{
-		if(player != null) 
-		{
+		if(player != null && !col.CompareTag("Resources")) 
             player.HitMarker();
-		}
 
 		string hitObjectTag = col.gameObject.tag;
 		if (hitObjectTag.Equals("Debris"))
-		{
 			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
-		}
 		else if (hitObjectTag.Equals("EnemyShip"))
-		{
-			//Debug.Log ("A bullet has hit an enemy");
 			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage, bulletPlayerId);
-		}
 		else if (hitObjectTag.Equals("Player"))
 		{
-			//Debug.Log ("A bullet has hit the player");
 			GameObject hitObject = col.gameObject;
 			hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
                 .collision(damage, transform.eulerAngles.y, hitObject.name.GetComponentType());
