@@ -10,27 +10,39 @@ using System.Collections;
 
 public class AsteroidLogic : MonoBehaviour 
 {
-    public GameObject player;
-    public float speed;
+	private GameSettings settings;
 
+	// Configuration parameters loaded through GameSettings
+	private int maxDroppedResources; // The maximum number of resources that can be dropped by an asteroid. 
+	private float minSpeed;
+	private float maxSpeed;
+
+	public float Speed { get; private set; }
+
+	private float health;
 	private int droppedResources;                 // The amount of resources dropped by the asteroid
-	private const int MAX_DROPPED_RESOURCES = 20; // The maximum number of resources that can be dropped by an asteroid. 
-
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private float health;
-	[SerializeField] private float minSpeed;
-	[SerializeField] private float maxSpeed;
-	[SerializeField] private GameObject destroyEffect; // The prefab to spawn when destroyed
-	#pragma warning restore 0649
 
     private GameState gameState;
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager asteroidManager;
 
+	void Start()
+	{
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+	}
+
+	private void LoadSettings()
+	{
+		minSpeed 			= settings.AsteroidMinSpeed;
+		maxSpeed 			= settings.AsteroidMaxSpeed;
+		maxDroppedResources = settings.AsteroidMaxDroppedResources;
+	}
+
 	void OnEnable() 
     {
-		droppedResources = System.Convert.ToInt32(Random.Range (0, MAX_DROPPED_RESOURCES));
+		droppedResources = System.Convert.ToInt32(Random.Range (0, maxDroppedResources));
 	}
 		
     // Initialise player, size, and speed
@@ -39,14 +51,13 @@ public class AsteroidLogic : MonoBehaviour
         asteroidManager  = cachedAsteroid;
         explosionManager = cachedManager;
         logicManager     = cachedLogic;
-		player           = temp;
 
         float random = Random.Range(5f, var);
 		transform.parent.localScale = new Vector3(random + Random.Range (0, 15), random + Random.Range (0, 15),random + Random.Range (0, 15));
         transform.parent.gameObject.GetComponent<AsteroidCollision>().SetCollisionDamage(random);
         health = (transform.parent.localScale.x + transform.parent.localScale.y + transform.parent.localScale.z) * 2f;
 		transform.parent.rotation = Random.rotation;
-		speed = Random.Range(minSpeed,maxSpeed);
+		Speed = Random.Range(minSpeed,maxSpeed);
 	}
 
 	public void SetStateReference(GameState state)

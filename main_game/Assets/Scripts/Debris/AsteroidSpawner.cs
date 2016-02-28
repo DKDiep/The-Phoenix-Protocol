@@ -13,26 +13,25 @@ using System.Collections;
 
 public class AsteroidSpawner : MonoBehaviour 
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private GameObject asteroid1; // 3 asteroid objects for the 3 different models
-	[SerializeField] private GameObject asteroid2;
-	[SerializeField] private GameObject asteroid3;
-	[SerializeField] private GameObject gameManager;
-	[SerializeField] private int maxAsteroids;    // Maximum number of asteroids that can exist simultaneously
-	[SerializeField] private float maxVariation;  // Max variation in size (0-10)
-	[SerializeField] private float minDistance;   // Minimum distance to the player that an asteroid can spawn
-	[SerializeField] private float maxDistance;   // Maximum distance to the player that an asteroid can spawn
-	#pragma warning restore 0649
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private GameObject asteroid1; // 3 asteroid objects for the 3 different models
+	private GameObject asteroid2;
+	private GameObject asteroid3;
+	private GameObject gameManager;
+	private int maxAsteroids;    // Maximum number of asteroids that can exist simultaneously
+	private float maxVariation;  // Max variation in size (0-10)
+	private float minDistance;   // Minimum distance to the player that an asteroid can spawn
+	private float maxDistance;   // Maximum distance to the player that an asteroid can spawn
+	private int maxSpawnedPerFrame;
+	private float avgSize;               // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
+	private float fieldSpacingFactor;    // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
 
     private GameObject player, spawnLocation;
 	private GameState state;
 
-	public static int numAsteroids = 0;
-    
-	private const int SPAWN_MAX_PER_FRAME = 30;
-
-	private const float AVG_SIZE             = 43.6f; // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
-	private const float FIELD_SPACING_FACTOR = 2f;    // Higher values make asteroid fields more sparse. TODO: This value looks good, but is quite expensive
+	private static int numAsteroids;
 
 	private bool fieldSpawned = false;
 
@@ -42,6 +41,11 @@ public class AsteroidSpawner : MonoBehaviour
 
     void Start ()
     {
+		numAsteroids = 0;
+
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
         // Set game state reference
         if (gameManager != null)
 			state = gameManager.GetComponent<GameState>();
@@ -58,6 +62,21 @@ public class AsteroidSpawner : MonoBehaviour
 		StartCoroutine("Cleanup");
     }
 
+	private void LoadSettings()
+	{
+		asteroid1 		   = settings.AsteroidModel1;
+		asteroid2 		   = settings.AsteroidModel2;
+		asteroid3 		   = settings.AsteroidModel3;
+		gameManager 	   = settings.GameManager;
+		maxAsteroids 	   = settings.MaxAsteroids;
+		maxVariation 	   = settings.AsteroidMaxVariation;
+		minDistance 	   = settings.AsteroidMinDistance;
+		maxDistance 	   = settings.AsteroidMaxDistance;
+		maxSpawnedPerFrame = settings.MaxAsteroidsSpawnedPerFrame;
+		avgSize 		   = settings.AsteroidAvgSize;
+		fieldSpacingFactor = settings.AsteroidFieldSpacingFactor;
+	}
+
     void Update () 
     {
         if (state.Status == GameState.GameStatus.Started)
@@ -65,8 +84,8 @@ public class AsteroidSpawner : MonoBehaviour
             if(player == null)
 				player = state.PlayerShip;
 
-			// Spawn up to SPAWN_MAX_PER_FRAME asteroids in a random position if there are less than specified by maxAsteroids
-			for (int i = 0; i < SPAWN_MAX_PER_FRAME && numAsteroids < maxAsteroids; i++)
+			// Spawn up to maxSpawnedPerFrame asteroids in a random position if there are less than specified by maxAsteroids
+			for (int i = 0; i < maxSpawnedPerFrame && numAsteroids < maxAsteroids; i++)
 			{
 				// The spawn location is positioned randomly within the bounds set by minDistance and maxDistance
 				spawnLocation.transform.position = player.transform.position;
@@ -115,7 +134,7 @@ public class AsteroidSpawner : MonoBehaviour
 	// Create an asteroid field of the default density around a specified poistion and with a set number of asteroids
 	private void CreateAsteroidField(Vector3 position, Vector3 count)
 	{
-		Vector3 size = new Vector3(count.x * AVG_SIZE, count.y * AVG_SIZE, count.z * AVG_SIZE) * FIELD_SPACING_FACTOR;
+		Vector3 size = new Vector3(count.x * avgSize, count.y * avgSize, count.z * avgSize) * fieldSpacingFactor;
 		int numAsteroids = System.Convert.ToInt32(count.x * count.y * count.z);
 		Vector3 spawnPosition = new Vector3();
 
@@ -132,11 +151,19 @@ public class AsteroidSpawner : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Decrements the asteroid count. Call this when an asteroid is destroyed.
+	/// </summary>
+	public static void DecrementNumAsteroids()
+	{
+		numAsteroids--;
+	}
+
 	// Create an asteroid field centred around position with specified dimensions and density
 	private void CreateAsteroidField(Vector3 position, Vector3 size, float density)
 	{
-		Vector3 count = new Vector3(size.x / AVG_SIZE, size.z / AVG_SIZE, size.z / AVG_SIZE);
-		count *= density / FIELD_SPACING_FACTOR;
+		Vector3 count = new Vector3(size.x / avgSize, size.z / avgSize, size.z / avgSize);
+		count *= density / fieldSpacingFactor;
 
 		CreateAsteroidField(position, count);
 	}

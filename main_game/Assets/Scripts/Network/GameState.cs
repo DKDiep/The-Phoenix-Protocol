@@ -145,7 +145,7 @@ public class GameState : NetworkBehaviour {
         bool wasDeleted = newAsteroids.Remove(removeObject);
         if (!wasDeleted) removedAsteroids.Add((uint)removeObject.GetInstanceID());
         asteroidList.Remove(removeObject);
-        AsteroidSpawner.numAsteroids--;
+		AsteroidSpawner.DecrementNumAsteroids();
     }
 
     private void RemoveAsteroidAt(int i)
@@ -154,7 +154,7 @@ public class GameState : NetworkBehaviour {
         if (!wasDeleted)
 			removedAsteroids.Add((uint)asteroidList[i].GetInstanceID());
         asteroidList.RemoveAt(i);
-        AsteroidSpawner.numAsteroids--;
+		AsteroidSpawner.DecrementNumAsteroids();
     }
 
 	/// <summary>

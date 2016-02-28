@@ -26,7 +26,7 @@ public class AsteroidRotation : NetworkBehaviour
 	void Start ()
 	{
 	    if(isServer)
-			speed = GetComponentInChildren<AsteroidLogic>().speed;
+			speed = GetComponentInChildren<AsteroidLogic>().Speed;
 	    
 			player   = GameObject.Find("PlayerShip(Clone)");
 	   
