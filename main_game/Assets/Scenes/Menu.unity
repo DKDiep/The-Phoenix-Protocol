@@ -4036,6 +4036,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -6587,7 +6588,6 @@ MonoBehaviour:
   m_OfflineScene: Menu
   m_OnlineScene: Main_Game
   m_SpawnPrefabs:
-  - {fileID: 0}
   - {fileID: 156500, guid: 7f6fc432919714cf7909a80f8aa9c8da, type: 2}
   - {fileID: 146360, guid: 3324a41c9a3d85e418951c7cfd7ff5bb, type: 2}
   - {fileID: 151974, guid: c53f46860ef764cb1a0107dd0d3716fa, type: 2}
@@ -6604,6 +6604,7 @@ MonoBehaviour:
   - {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
   - {fileID: 127634, guid: ab9d3b7af5d854a3ca2d98e1ca1df8ff, type: 2}
   - {fileID: 116588, guid: 3de35e3d85e124db183a69665b7789ee, type: 2}
+  - {fileID: 115770, guid: 67082f2c8d74546c9b18c8907916a80e, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
