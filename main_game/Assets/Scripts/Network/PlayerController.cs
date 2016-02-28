@@ -77,6 +77,10 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             commandConsoleState.givePlayerControllerReference(this);
         }
+
+        // tell local manager to disable other crosshairs if not server
+        if (localController != this)
+            serverManager.DisableCrosshairs(localController.index);
     }
     
     public void CreateCamera()

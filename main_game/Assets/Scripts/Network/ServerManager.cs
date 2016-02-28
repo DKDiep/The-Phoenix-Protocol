@@ -47,8 +47,9 @@ public class ServerManager : NetworkBehaviour
     void Start()
     {
         Cursor.visible = true; //leave as true for development, false for production
-
-        if(MainMenu.startServer)
+        // Server and clients need to know screenId matching crosshairs
+        screenIdToCrosshair = new Dictionary<int, GameObject>();
+        if (MainMenu.startServer)
         {
             // Spawn Object Pooling Controller first
             // Save the original add player handler to save ourselves some work
@@ -58,7 +59,6 @@ public class ServerManager : NetworkBehaviour
 
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
-            screenIdToCrosshair = new Dictionary<int, GameObject>();
 
             // Host is client Id #0. Using -1 as the role for the Host
 			netIdToRole.Add(0, RoleEnum.Host);
@@ -73,9 +73,22 @@ public class ServerManager : NetworkBehaviour
         }
     }
     
-    public void AddCrosshairObject(int screenId, GameObject crosshairObject)
+    [ClientRpc]
+    public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
     {
         screenIdToCrosshair.Add(screenId, crosshairObject);
+    }
+
+    // Only leave the corresponding crosshair canvas active
+    public void DisableCrosshairs(int index)
+    {
+        foreach (int screenId in screenIdToCrosshair.Keys)
+        {
+            if (screenId != index)
+            {
+                screenIdToCrosshair[screenId].SetActive(false);
+            }
+        }
     }
 
     // Called automatically by Unity when a player joins
@@ -205,5 +218,12 @@ public class ServerManager : NetworkBehaviour
         //Start the game
         playerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;
+    }
+
+    public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
+    {
+
+        GameObject crosshairObject = screenIdToCrosshair[screenId];
+        crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);
     }
 }

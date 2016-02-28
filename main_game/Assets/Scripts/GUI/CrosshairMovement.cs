@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using WiimoteApi;
 using System;
 
-public class CrosshairMovement : MonoBehaviour
+public class CrosshairMovement : NetworkBehaviour
 {
     private int controlling = 0;
 	private int numberOfCrossHairs;
@@ -26,9 +28,16 @@ public class CrosshairMovement : MonoBehaviour
 	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
 	private const int AUTOAIM_ADVANCE_OFFSET      = 10;  // The distance at which to aim in front of the target to account for bullet speed
 
-	// Use this for initialization
-	void Start ()
+    //8 floats for 4 2D positions
+    public SyncListFloat position = new SyncListFloat();
+
+    // Use this for initialization
+    void Start ()
     {
+        //Populate sync list with 8 floats
+        for (int i = 0; i < 8; i++)
+            position.Add(0.0f);
+
 		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
@@ -192,6 +201,14 @@ public class CrosshairMovement : MonoBehaviour
 				remoteId++;
 			}
 		}
+    }
+
+    public void SetPosition(int crosshairId, Vector2 newPosition)
+    {
+        int i = crosshairId * 2;
+        position[i] = newPosition.x;
+        position[i + 1] = newPosition.y;
+        Debug.Log("newPos");
     }
 
 	IEnumerator FindRemotes()

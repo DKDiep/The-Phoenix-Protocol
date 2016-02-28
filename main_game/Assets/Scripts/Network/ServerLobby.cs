@@ -67,9 +67,10 @@ public class ServerLobby : MonoBehaviour {
             int index = i - centreIndex;
             // Instantiate crosshair to be spawned
             GameObject crosshairObject = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
-            serverManager.AddCrosshairObject(i, crosshairObject);
             // Network spawn a crosshair canvas for each camera
             ServerManager.NetworkSpawn(crosshairObject);
+            // Add after spawning
+            serverManager.RpcAddCrosshairObject(i, crosshairObject);
         }
 
         // Start the game
