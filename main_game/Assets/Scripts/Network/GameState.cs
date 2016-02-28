@@ -192,7 +192,7 @@ public class GameState : NetworkBehaviour {
 	{
         removedEnemies.Add((uint)enemy.GetInstanceID());
 		enemyList.Remove(enemy);
-		EnemySpawner.numEnemies--;
+		EnemySpawner.DecrementNumEnemies();
 	}
 
 	/// <summary>

@@ -15,6 +15,19 @@ using System.Collections.Generic;
 
 public class EnemyLogic : MonoBehaviour
 {
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float shotsPerSec;
+	private float shootPeriod; 					// How long in seconds the enemy should shoot for when it fires
+	private int shootPeriodPercentageVariation; // Percentage variation +/- in the length of the shooting period
+	private float shieldDelay; 					// Delay in seconds to wait before recharging shield
+	private float shieldRechargeRate; 			// Units of shield to increase per second
+	private GameObject bullet;
+	private GameObject bulletLogic;
+	private GameObject destroyEffect;
+	private AudioClip fireSnd;
+	private bool randomPitch;
 
 	/* These fields are set when assigning a type to the enemy. They should not be initilaised manually.
 	 * Please use the internal modifier for all of them to make it clear that they are set somewhere else in code,
@@ -25,31 +38,18 @@ public class EnemyLogic : MonoBehaviour
 	internal float collisionDamage;
 	internal EnemyType type;
 
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private float shotsPerSec = 1f;
-	[SerializeField] private float shootPeriod; // How long in seconds the enemy should shoot for when it fires
-	[SerializeField] private int percentageVariation; // Percentage variation +/- in the length of the shooting period
-	[SerializeField] private float shieldDelay; // Delay in seconds to wait before recharging shield
-	[SerializeField] private float shieldRechargeRate; // Units of shield to increase per second
-	[SerializeField] private bool isSuicidal; // Attempt to crash into player?
-	[SerializeField] private GameObject bullet;
-	[SerializeField] private GameObject bulletLogic;
-	[SerializeField] private GameObject destroyEffect;
-	[SerializeField] private AudioClip fireSnd;
-	[SerializeField] private bool randomPitch;
-	#pragma warning restore 0649
-
 	private AudioSource mySrc;
 	private GameState gameState;
-	public GameObject player;
+	private GameObject player;
 
 	private bool shoot = false, angleGoodForShooting = false;
 	private bool rechargeShield;
-    public bool draw = false;
+
+	private bool isSuicidal;
 
 	internal float health;
 	private float shield;
-    public float distance;
+    private float distance;
 	private float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 	private float randomZ;         // A random Z angle to give the enemies some uniqueness
 
@@ -103,7 +103,10 @@ public class EnemyLogic : MonoBehaviour
 
 	void Start ()
 	{
-		GameObject server = GameObject.Find("GameManager");
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
+		GameObject server = settings.GameManager;
 		gameState         = server.GetComponent<GameState>();
 
         bulletManager     = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
@@ -112,6 +115,20 @@ public class EnemyLogic : MonoBehaviour
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         enemyManager      = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
+	}
+
+	private void LoadSettings()
+	{
+		shotsPerSec = settings.EnemyShotsPerSec;
+		shootPeriod = settings.EnemyShootPeriod;
+		shootPeriodPercentageVariation = settings.EnemyShootPeriodPercentageVariation;
+		shieldDelay = settings.EnemyShieldDelay;
+		shieldRechargeRate = settings.EnemyShieldRechargeRate;
+		bullet = settings.EnemyBulletPrefab;
+		bulletLogic = settings.EnemyBulletLogicPrefab;
+		destroyEffect = settings.EnemyDestroyEffectPrefab;
+		fireSnd = settings.EnemyFireSoundPrefab;
+		randomPitch = settings.EnemyFireSoundRandomPitch;
 	}
 
     IEnumerator UpdateDelay()
@@ -201,7 +218,6 @@ public class EnemyLogic : MonoBehaviour
 	IEnumerator DrawDelay()
 	{
 		yield return new WaitForSeconds(1f);
-		draw = true;
 	}
 
 	void Update ()
@@ -445,7 +461,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else
 		{
-			yield return new WaitForSeconds(shootPeriod * (Random.Range (100-percentageVariation, 100+percentageVariation) / 100f));
+			yield return new WaitForSeconds(shootPeriod * (Random.Range (100-shootPeriodPercentageVariation, 100+shootPeriodPercentageVariation) / 100f));
 			shoot = false;
 		}
 

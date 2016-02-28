@@ -15,26 +15,27 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private GameObject enemy;
-	[SerializeField] private float minDistance;
-	[SerializeField] private float maxDistance;
-	[SerializeField] private GameObject gameManager;
-	#pragma warning restore 0649
+	private GameSettings settings;
 
-	public static int numEnemies = 0; // Number of currently active enemies
-	public int maxEnemies;            // Maximum number of enemies at a time
-    
+	// Configuration parameters loaded through GameSettings
+	private GameObject gameManager;
+	private GameObject enemy;
+	private float minDistance;
+	private float maxDistance;
+	private int maxEnemies;         // Maximum number of enemies at a time
+	private int aiWaypointsPerEnemy;
+	private int aiWaypointGenerationFactor;
+	private int aiWaypointRadius;
+	private float aiWaypointWidthScale;
+	private float aiWaypointHeightScale;
+	private Vector3 aiWaypointShift;
+	private int outpostSpawnRadius; // The radius of the sphere around an outpost in which to spawn protecting enemies
+
+	private static int numEnemies = 0; // Number of currently active enemies
+
 	private GameState state;
 	private GameObject player, spawnLocation;
 
-	// TODO: the AI constants probably need to be tweaked
-	private const int AI_WAYPOINTS_PER_ENEMY      = 10;
-	private const int AI_GEN_WAYPOINTS_FACTOR     = 8;
-	private const int AI_WAYPOINT_RADIUS          = 100;
-	private const float AI_WAYPOINT_WIDTH_SCALE   = 1.5f;
-	private const float AI_WAYPOINT_HEIGHT_SCALE  = 0.5f;
-	private readonly Vector3 AI_WAYPOINT_SHIFT    = new Vector3 (0, 15, 30);
 	private List<GameObject> aiWaypoints;
 
 	private List<GameObject> playerShipTargets = null;
@@ -44,14 +45,14 @@ public class EnemySpawner : MonoBehaviour
     private ObjectPoolManager logicManager;
     private ObjectPoolManager enemyManager;
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
-	private const int OUTPOST_SPAWN_RADIUS                  = 150; // The radius of the sphere around an outpost in which to spawn protecting enemies
 
     void Start()
     {
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
         if (gameManager != null)
-        {
             state = gameManager.GetComponent<GameState>();
-        }
 
         player = null;
         enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
@@ -66,6 +67,25 @@ public class EnemySpawner : MonoBehaviour
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
     }
+
+	private void LoadSettings()
+	{
+		enemy 		= settings.EnemyModelPrefab;
+		gameManager = settings.GameManager;
+
+		minDistance = settings.EnemyMinSpawnDistance;
+		maxDistance = settings.EnemyMaxSpawnDistance;
+		maxEnemies  = settings.MaxEnemies;
+
+		aiWaypointsPerEnemy		   = settings.AIWaypointsPerEnemy;
+		aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
+		aiWaypointRadius 		   = settings.AIWaypointRadius;
+		aiWaypointWidthScale 	   = settings.AIWaypointWidthScale;
+		aiWaypointHeightScale 	   = settings.AIWaypointHeightScale;
+		aiWaypointShift 		   = settings.AIWaypointShift;
+
+		outpostSpawnRadius = settings.EnemyOutpostSpawnRadius;
+	}
 
 	// Create an EnemyProperties object for each type of enemy that will be used
 	private static void InitialiseEnemyTypes()
@@ -143,7 +163,7 @@ public class EnemySpawner : MonoBehaviour
 	// Spawn an enemy waiting at a location
 	private void SpawnWaitingEnemy(Vector3 location)
 	{
-		spawnLocation.transform.position = location + Random.insideUnitSphere * OUTPOST_SPAWN_RADIUS;
+		spawnLocation.transform.position = location + Random.insideUnitSphere * outpostSpawnRadius;
 		spawnLocation.transform.rotation = Random.rotation;
 
 		GameObject enemy; 
@@ -157,7 +177,7 @@ public class EnemySpawner : MonoBehaviour
 	// Each enemy spawned will get some waypoints from this list
 	private void CreateAIWaypoints(Transform spaceshipModel)
 	{
-		int n_waypoints = maxEnemies * AI_GEN_WAYPOINTS_FACTOR;
+		int n_waypoints = maxEnemies * aiWaypointGenerationFactor;
 		aiWaypoints = new List<GameObject> (n_waypoints);
 
 		// Get the bounds of all (important) ship parts
@@ -186,12 +206,12 @@ public class EnemySpawner : MonoBehaviour
 			    }
 				else*/
 				waypoint = new GameObject ("AIWaypoint");
-				Vector3 pos = Random.insideUnitSphere * AI_WAYPOINT_RADIUS;
-				pos.x *= AI_WAYPOINT_WIDTH_SCALE; // Widen the sphere on the horizontal axis
-				pos.y *= AI_WAYPOINT_HEIGHT_SCALE; // Squash the sphere on the vertical axis
+				Vector3 pos = Random.insideUnitSphere * aiWaypointRadius;
+				pos.x *= aiWaypointWidthScale; // Widen the sphere on the horizontal axis
+				pos.y *= aiWaypointHeightScale; // Squash the sphere on the vertical axis
 
 				waypoint.transform.position = pos;
-				waypoint.transform.Translate (AI_WAYPOINT_SHIFT); // Shift the waypoints a upwards and forwards a little, to keep enemies on sight more
+				waypoint.transform.Translate (aiWaypointShift); // Shift the waypoints a upwards and forwards a little, to keep enemies on sight more
 				waypoint.transform.parent = player.transform;
 
 				// Check if the waypoint intersects any of the the player ship parts
@@ -208,10 +228,10 @@ public class EnemySpawner : MonoBehaviour
 	// Get a subset of waypoints to hand out to a particular enemy
 	private List<GameObject> GetAIWaypointsForEnemy()
 	{
-		List<GameObject> waypoints = new List<GameObject> (AI_WAYPOINTS_PER_ENEMY);
+		List<GameObject> waypoints = new List<GameObject> (aiWaypointsPerEnemy);
 		int n_waypoints = aiWaypoints.Count, r;
 
-		for (int i = 0; i < AI_WAYPOINTS_PER_ENEMY; i++)
+		for (int i = 0; i < aiWaypointsPerEnemy; i++)
 		{
 			// Make sure we don't hand out the same waypoint more than once
 			do
@@ -237,6 +257,14 @@ public class EnemySpawner : MonoBehaviour
 			if (gameObject.name.Contains ("Engine") || gameObject.name.Contains ("Hull") || gameObject.name.Equals ("CaptainBridge"))
 				playerShipTargets.Add(gameObject);
 		}
+	}
+
+	/// <summary>
+	/// Decrements the enemy count. Call this when an enemy is destroyed.
+	/// </summary>
+	public static void DecrementNumEnemies()
+	{
+		numEnemies--;
 	}
 
 	// Remove destroyed enemies from Game State

@@ -64,9 +64,9 @@ public class AsteroidSpawner : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		asteroid1 		   = settings.AsteroidModel1;
-		asteroid2 		   = settings.AsteroidModel2;
-		asteroid3 		   = settings.AsteroidModel3;
+		asteroid1 		   = settings.AsteroidModel1Prefab;
+		asteroid2 		   = settings.AsteroidModel2Prefab;
+		asteroid3 		   = settings.AsteroidModel3Prefab;
 		gameManager 	   = settings.GameManager;
 		maxAsteroids 	   = settings.MaxAsteroids;
 		maxVariation 	   = settings.AsteroidMaxVariation;

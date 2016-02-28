@@ -39,13 +39,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4b2966695559e4f8623be43db1e917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
   AsteroidMinSpeed: 5
   AsteroidMaxSpeed: 50
-  AsteroidModel1: {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
-  AsteroidModel2: {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
-  AsteroidModel3: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
-  GameManager: {fileID: 0}
+  AsteroidModel1Prefab: {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
+  AsteroidModel2Prefab: {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
+  AsteroidModel3Prefab: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
   MaxAsteroids: 300
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
@@ -53,6 +53,30 @@ MonoBehaviour:
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
+  EnemyModelPrefab: {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
+  EnemyMinSpawnDistance: 750
+  EnemyMaxSpawnDistance: 1200
+  MaxEnemies: 30
+  AIWaypointsPerEnemy: 10
+  AIWaypointGenerationFactor: 8
+  AIWaypointRadius: 100
+  AIWaypointWidthScale: 1.5
+  AIWaypointHeightScale: 0.5
+  AIWaypointShift: {x: 0, y: 15, z: 30}
+  EnemyOutpostSpawnRadius: 150
+  EnemyShotsPerSec: 6
+  EnemyShootPeriod: 0.5
+  EnemyShootPeriodPercentageVariation: 0
+  EnemyShieldDelay: 2
+  EnemyShieldRechargeRate: 1
+  EnemyBulletPrefab: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+  EnemyBulletLogicPrefab: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82,
+    type: 2}
+  EnemyDestroyEffectPrefab: {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972,
+    type: 2}
+  EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
+    type: 3}
+  EnemyFireSoundRandomPitch: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -72,6 +96,18 @@ Prefab:
       propertyPath: MaxAsteroidsSpawnedPerFrame
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: AsteroidModel1Prefab
+      value: 
+      objectReference: {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
+    - target: {fileID: 0}
+      propertyPath: AsteroidModel2Prefab
+      value: 
+      objectReference: {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: AsteroidModel3Prefab
+      value: 
+      objectReference: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 187334}
