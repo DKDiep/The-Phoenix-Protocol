@@ -38,7 +38,7 @@ public class PlayerShooting : MonoBehaviour
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
     
-	void Start () 
+	void Setup () 
 	{
 		fireSoundAudioSource = GetComponent<AudioSource>();
 		fireSoundAudioSource.clip = fireSound;
@@ -116,31 +116,34 @@ public class PlayerShooting : MonoBehaviour
 	// Shoot a bullet for a specific player
 	void ShootBullet(int playerId) 
 	{
-		Vector3 crosshairPosition = crosshairs[playerId].transform.position;
-		target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+        if (crosshairs != null)
+        {
+            Vector3 crosshairPosition = crosshairs[playerId].transform.position;
+            target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 
-		if(randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
-		fireSoundAudioSource.PlayOneShot(fireSound);
-        
-        GameObject obj = bulletManager.RequestObject();
-        obj.transform.position = bulletAnchor[playerId].transform.position;
+            if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
+            fireSoundAudioSource.PlayOneShot(fireSound);
 
-        GameObject logic = logicManager.RequestObject();
-        BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-		logicComponent.SetID(this, playerId);
+            GameObject obj = bulletManager.RequestObject();
+            obj.transform.position = bulletAnchor[playerId].transform.position;
 
-		logic.transform.parent = obj.transform;
-		logicComponent.SetDestination (target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+            GameObject logic = logicManager.RequestObject();
+            BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+            logicComponent.SetID(this, playerId);
 
-        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+            logic.transform.parent = obj.transform;
+            logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
-        GameObject muzzle = muzzleFlashManager.RequestObject();
-        muzzle.transform.position = bulletAnchor[playerId].transform.position;
-        muzzle.transform.rotation = bulletAnchor[playerId].transform.rotation;
-        muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
+            bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
-		canShoot = false;
-		StartCoroutine("Delay");
+            GameObject muzzle = muzzleFlashManager.RequestObject();
+            muzzle.transform.position = bulletAnchor[playerId].transform.position;
+            muzzle.transform.rotation = bulletAnchor[playerId].transform.rotation;
+            muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
+
+            canShoot = false;
+            StartCoroutine("Delay");
+        }
 	}
 
 	// Switch between players using keys 1-4, for debugging different player shooting.
@@ -158,9 +161,12 @@ public class PlayerShooting : MonoBehaviour
 
 	void OnGUI()
 	{
-		GUI.color = new Color(1,1,1,alpha);
-        crosshairPosition = crosshairs[currentPlayerId].transform.position;
-		if(showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
+        if (crosshairs != null)
+        {
+            GUI.color = new Color(1, 1, 1, alpha);
+            crosshairPosition = crosshairs[currentPlayerId].transform.position;
+            if (showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
+        }
 	}
 
     // Show hitmarker when an enemy is hit
