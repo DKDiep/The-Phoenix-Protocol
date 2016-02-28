@@ -15,6 +15,8 @@ public class BulletCollision : MonoBehaviour
 
 	void OnTriggerEnter (Collider col)
 	{
-        if(GetComponentInChildren<BulletLogic>() != null) GetComponentInChildren<BulletLogic>().collision (col, playerId);
+		BulletLogic logicScript = GetComponentInChildren<BulletLogic>();
+		if(logicScript != null)
+			logicScript.collision (col, playerId);
 	}
 }
