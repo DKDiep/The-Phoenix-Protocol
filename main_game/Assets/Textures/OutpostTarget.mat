@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TargetMaterial
+  m_Name: OutpostTarget
   m_Shader: {fileID: 4800000, guid: 3798280149076493d8d17ceb1451314c, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
@@ -20,7 +20,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: b4fe3082412f541df9543f015195fd80, type: 3}
+          m_Texture: {fileID: 2800000, guid: 971ae0609d80846108533d9a2749f60a, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -136,4 +136,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.30882353, g: 0, b: 0, a: 1}
+        second: {r: 0.5294118, g: 0.17906576, b: 0.17906576, a: 1}
