@@ -4,16 +4,18 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EngineerController : NetworkBehaviour {
+public class EngineerController : NetworkBehaviour
+{
+	private GameSettings settings;
 
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-    [SerializeField] private float upMultiplier;
-    [SerializeField] private bool isWalking;
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private float m_StepInterval;
-	#pragma warning restore 0649
+	// Configuration parameters loaded through GameSettings
+	private float walkSpeed;
+
+	private float runSpeed;
+	private float jumpSpeed;
+	private float upMultiplier;
+	private bool isWalking;
+	private float stepInterval;
 
     private Text upgradeText;
     private Text dockText;
@@ -48,15 +50,20 @@ public class EngineerController : NetworkBehaviour {
     {
         //Initialize with default values
         if (isServer)
-        {
             gameObject.transform.rotation = Quaternion.identity;
-        }
 
-        walkSpeed = 2;
-        runSpeed = walkSpeed * 2;
-        jumpSpeed = walkSpeed;
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
+        runSpeed     = walkSpeed * 2;
+        jumpSpeed    = walkSpeed;
         upMultiplier = jumpSpeed / 2;
     }
+
+	private void LoadSettings()
+	{
+		walkSpeed = settings.EngineerWalkSpeed;
+	}
 
     [Command]
     void CmdSetRotation(Quaternion rotation)
@@ -319,7 +326,7 @@ public class EngineerController : NetworkBehaviour {
             return;
         }
 
-        m_NextStep = m_StepCycle + m_StepInterval;
+        m_NextStep = m_StepCycle + stepInterval;
     }
 
     private void GetInput(out float speed)

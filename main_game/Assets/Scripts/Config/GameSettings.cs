@@ -51,4 +51,14 @@ public class GameSettings : MonoBehaviour
 	public GameObject EnemyDestroyEffectPrefab;
 	public AudioClip EnemyFireSoundPrefab;
 	public bool EnemyFireSoundRandomPitch;
+
+	[Header("Engineer Controller")]
+	public float EngineerWalkSpeed;
+	public float EngineerMouseLookXSensitivity;
+	public float EngineerMouseLookYSensitivity;
+	public bool EngineerMouseLookClampVerticalRotation;
+	public float EngineerMouseLookMinimumX;
+	public float EngineerMouseLookMaximumX;
+	public bool EngineerMouseLookSmooth;
+	public float EngineerMouseLookSmoothTime;
 }

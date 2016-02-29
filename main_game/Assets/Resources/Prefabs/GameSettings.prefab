@@ -77,6 +77,7 @@ MonoBehaviour:
   EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
     type: 3}
   EnemyFireSoundRandomPitch: 1
+  EngineerWalkSpeed: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -108,6 +109,10 @@ Prefab:
       propertyPath: AsteroidModel3Prefab
       value: 
       objectReference: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: EngineerWalkSpeed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 187334}
