@@ -78,6 +78,14 @@ MonoBehaviour:
     type: 3}
   EnemyFireSoundRandomPitch: 1
   EngineerWalkSpeed: 2
+  EngineerMouseLookXSensitivity: 0
+  EngineerMouseLookYSensitivity: 0
+  EngineerMouseLookClampVerticalRotation: 0
+  EngineerMouseLookMinimumX: 0
+  EngineerMouseLookMaximumX: 0
+  EngineerMouseLookSmooth: 0
+  EngineerMouseLookSmoothTime: 0
+  MainMenuRotationSpeed: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

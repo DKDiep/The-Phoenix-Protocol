@@ -12,23 +12,32 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class MainMenu : NetworkBehaviour 
 {
-    public static bool startServer;
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float rotationSpeed;
+
+	public static bool startServer;
     
 	private NetworkManager manager;
     private MessageHandler messageHandler;
     private Vector3 randomRotation;
 
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-    [SerializeField] private float rotationSpeed;
-	#pragma warning restore 0649
-
     void Start()
     {
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
         manager            = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         messageHandler     = manager.GetComponent<MessageHandler>();
         randomRotation     = new Vector3(Random.value, Random.value, Random.value);
         transform.rotation = Random.rotation;
     }
+
+	private void LoadSettings()
+	{
+		rotationSpeed = settings.MainMenuRotationSpeed;
+	}
 
     void Update()
     {
