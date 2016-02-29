@@ -8,11 +8,12 @@ using System.Collections.Generic;
 
 public class UDPServer : MonoBehaviour
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-    [SerializeField] private int listenPort;
-    [SerializeField] private int clientPort;
-    [SerializeField] private int maxReceivedMessagesPerInterval;
-	#pragma warning restore 0649
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+    private int listenPort;
+    private int clientPort;
+    private int maxReceivedMessagesPerInterval;
 
     private GameState state;
 
@@ -22,6 +23,9 @@ public class UDPServer : MonoBehaviour
 
     void Start()
     {
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
         if (MainMenu.startServer)
         {
             Debug.Log("Starting UDP server on port: " + listenPort);
@@ -34,6 +38,13 @@ public class UDPServer : MonoBehaviour
             StartCoroutine("SendUpdatedOjects");
         }
     }
+
+	private void LoadSettings()
+	{
+		listenPort 					   = settings.UDPListenPort;
+		clientPort 					   = settings.UDPClientPort;
+		maxReceivedMessagesPerInterval = settings.UDPMaxReceivedMessagesPerInterval;
+	}
 
     // Update is called once per frame
     void Update()

@@ -64,4 +64,13 @@ public class GameSettings : MonoBehaviour
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;
+
+	[Header("TCP Server")]
+	public int TCPListenPort;
+	public int TCPMaxReceivedMessagesPerInterval;
+
+	[Header("UDP Server")]
+	public int UDPListenPort;
+	public int UDPClientPort;
+	public int UDPMaxReceivedMessagesPerInterval;
 }

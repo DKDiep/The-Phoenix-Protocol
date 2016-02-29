@@ -86,6 +86,11 @@ MonoBehaviour:
   EngineerMouseLookSmooth: 0
   EngineerMouseLookSmoothTime: 5
   MainMenuRotationSpeed: 2
+  TCPListenPort: 2346
+  TCPMaxReceivedMessagesPerInterval: 100
+  UDPListenPort: 2345
+  UDPClientPort: 46578
+  UDPMaxReceivedMessagesPerInterval: 100
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
