@@ -92,7 +92,14 @@ public class EngineerController : NetworkBehaviour
         gameObject.transform.Translate(actualMove);
     }
 
-    //Initialize player instance and local game here. Kind of a replacement for Start()
+    /// <summary>
+    /// Use this to initialize the Engineer once the main_game
+    /// scene has been loaded. This acts as a replacement for Unity's
+    /// Start() method. The Start() method can still be used to perform
+    /// any initialization that does not require the main_game scene to be loaded
+    /// </summary>
+    /// <param name="cam"></param>
+    /// <param name="controller"></param>
     public void Initialize(GameObject cam, PlayerController controller)
     {
         camera = cam.GetComponent<Camera>();
@@ -166,7 +173,12 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
-    // Helper for AddJob
+    /// <summary>
+    /// Sets the upgradeable and repairable property
+    /// for each game object in the list
+    /// </summary>
+    /// <param name="upgrade"></param>
+    /// <param name="parts"></param>
     private void ProcessJob(bool upgrade, List<GameObject> parts)
     {
         foreach (GameObject obj in parts)
@@ -180,7 +192,11 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
-    // Adds a job for the engineer to do
+    /// <summary>
+    /// Adds the uprade/repair job to the engineer's list
+    /// </summary>
+    /// <param name="upgrade"></param>
+    /// <param name="part"></param>
 	public void AddJob(bool upgrade, ComponentType part)
     {
 		if (part == ComponentType.Turret)
@@ -201,7 +217,11 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Replacement for Unity's Update() method.
+    /// DO NOT CALL THIS DIRECTLY UNLESS YOU ARE VERY
+    /// SURE THAT YOU NEED TO
+    /// </summary>
     public void EngUpdate()
     {
         RotateView();
@@ -250,6 +270,11 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Replacement for Unity's FixedUpdate() method.
+    /// DO NOT CALL THIS DIRECTLY UNLESS YOU ARE VERY
+    /// SURE THAT YOU NEED TO
+    /// </summary>
     public void EngFixedUpdate()
     {
         float speed;
