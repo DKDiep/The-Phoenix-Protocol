@@ -114,7 +114,12 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
-    // Notifies an engineer of a new upgrade or repair job
+    /// <summary>
+    /// Notifies all engineers of a new upgrade/repair
+    /// job to do
+    /// </summary>
+    /// <param name="upgrade">Whether the job is an upgrade or a repair</param>
+    /// <param name="part">The part to upgrade/repair</param>
 	public void NotifyEngineer(bool upgrade, ComponentType part)
     {
         // Notify every engineer of the upgrade/repair
@@ -128,9 +133,27 @@ public class ServerManager : NetworkBehaviour
                 msg.part = part;
 
                 // Send to the engineer
-                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, 123, msg);
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.ENGINEER_JOB, msg);
             }
         }
+    }
+
+    /// <summary>
+    /// Sends a ComponentStatus message to the specified client
+    /// with the specified values
+    /// </summary>
+    /// <param name="health">The component's health</param>
+    /// <param name="level">The component's ugprade level</param>
+    /// <param name="netId">The netid of the client we wish to send the message to</param>
+    public void SendComponentStatus(float health, int level, uint netId)
+    {
+        // Create the Component Status message
+        ComponentStatusMessage msg = new ComponentStatusMessage();
+        msg.health = health;
+        msg.level = level;
+
+        // Send the message
+        NetworkServer.SendToClient(netIdToConn[netId].connectionId, MessageID.COMPONENT_STATUS, msg);
     }
 
     private void CreateServerSetup()
@@ -170,7 +193,7 @@ public class ServerManager : NetworkBehaviour
                 // Let the client know of the object it controls
                 ControlledObjectMessage response = new ControlledObjectMessage();
                 response.controlledObject = engineer;
-                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, 890, response);
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.OWNER, response);
             }
         }
 

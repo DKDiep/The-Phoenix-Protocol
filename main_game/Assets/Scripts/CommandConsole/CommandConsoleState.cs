@@ -132,7 +132,7 @@ public class CommandConsoleState : MonoBehaviour {
                     shieldsLevel++;
                     shieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
                     showLevelCounters(shieldsLevel);
-					playerController.CmdUpgrade(0);
+                    playerController.CmdAddUpgrade(ComponentType.ShieldGenerator);
                 }
                 break;
             case 1:
@@ -150,7 +150,7 @@ public class CommandConsoleState : MonoBehaviour {
                 {
 				shipResources -= 100 * engineLevel;
                     engineLevel++;
-					playerController.CmdUpgrade(2);
+                    playerController.CmdAddUpgrade(ComponentType.Engine);
                     engineUpgradeLabel.text = engineLevel * 100 + "M";
                     showLevelCounters(gunsLevel);
                 }
