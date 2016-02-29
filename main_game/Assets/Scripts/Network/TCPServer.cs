@@ -7,12 +7,15 @@ using System.Text;
 
 public class TCPServer : MonoBehaviour
 {    
-    public enum MsgType {
-        SETUP_STAGE
+    public enum MsgType
+	{
+        SetupStage
     }
 
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] private int listenPort;
     [SerializeField] private int maxReceivedMessagesPerInterval;
+	#pragma warning restore 0649
 
     private UDPServer udpServer;
     private TcpListener tcpServer = null;
@@ -104,13 +107,11 @@ public class TCPServer : MonoBehaviour
     public bool SendSignal(MsgType type) {
         switch (type)
         {
-            case MsgType.SETUP_STAGE:
+            case MsgType.SetupStage:
                 return SendMsg("{\"type\":\"GM_STP\"}");
-                break;
             // TODO: Implement more message types.
             default:
                 return false;
-                break;
         }
     }
     
@@ -131,7 +132,7 @@ public class TCPServer : MonoBehaviour
             }
             // Might not be the best way to deal with exceptions here
             // but it hasn't caused problems yet
-            catch (SocketException e)
+            catch (SocketException)
             {
                 connected = false;
                 return false;
