@@ -24,7 +24,9 @@ public class PlayerController : NetworkBehaviour
     private GameObject ship;
     private CommandConsoleState commandConsoleState;
     private GameObject gameManager;
+    private GameState gameState;
     private ServerManager serverManager;
+    private NetworkClient client;
     private bool gameStarted = false;
     private ShipMovement shipMovement;
 
@@ -87,12 +89,6 @@ public class PlayerController : NetworkBehaviour
     {
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
     }
-
-    [Command]
-    public void CmdUpgrade(int where) //0 = shields, 1 = guns, 2 = engines
-    {
-		// Send request to command console to perform upgrade	
-    }
 		
     private void Update()
     {
@@ -154,6 +150,7 @@ public class PlayerController : NetworkBehaviour
     {
         // Get the game manager and game state at start
         gameManager = GameObject.Find("GameManager");
+        gameState = gameManager.GetComponent<GameState>();
         serverManager = gameManager.GetComponent<ServerManager>();
 
         if (isLocalPlayer)
@@ -184,31 +181,57 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-	// Called by the engineer to carry out upgrades and repairs
+	/// <summary>
+	/// Call from the engineer to carry out upgrade
+    /// of the provided part
+	/// </summary>
+	/// <param name="part">The part to upgrade</param>
     [Command]
-    public void CmdDoUpgrade()
+    public void CmdDoUpgrade(ComponentType part)
     {
 
     }
 
+    /// <summary>
+    /// Call from the engineer to carry out repair
+    /// of the provided part
+    /// </summary>
+    /// <param name="part">The part to repair</param>
     [Command]
-    public void CmdDoRepair()
+    public void CmdDoRepair(ComponentType part)
     {
 
     }
 
-    // Called by the command console to add parts for
-    // upgrade or repair
+
+    /// <summary>
+    /// Call from the Command Console to add a component
+    /// for upgrade
+    /// </summary>
+    /// <param name="part">The part to add for upgrading</param>
     [Command]
 	public void CmdAddUpgrade(ComponentType part)
     {
         serverManager.NotifyEngineer(true, part);
     }
 
+    /// <summary>
+    /// Call from the Command Console to add a component
+    /// for repair
+    /// </summary>
+    /// <param name="part">The part to add for repairing</param>
     [Command]
 	public void CmdAddRepair(ComponentType part)
     {
         serverManager.NotifyEngineer(false, part);
+    }
+
+    [Command]
+    public void CmdGetComponentStatus(ComponentType part)
+    {
+        float health = gameState.GetComponentHealth(part);
+        int level = 0; //TODO: REPLACE THIS WITH AN ACTUAL CALL
+        serverManager.SendComponentStatus(health, level, netId.Value);
     }
 
 	// Used to notify the engineer of an upgrade or repair that has been added

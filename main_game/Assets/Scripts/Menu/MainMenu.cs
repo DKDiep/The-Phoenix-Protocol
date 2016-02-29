@@ -58,14 +58,16 @@ public class MainMenu : NetworkBehaviour
 
     private void SetHandler(NetworkClient client)
     {
-        messageHandler.SetClient(client);
-
         // Register handler for the Owner message from the server to the client
-        client.RegisterHandler(890, messageHandler.OnServerOwner);
+        client.RegisterHandler(MessageID.OWNER, messageHandler.OnServerOwner);
 
         // Register handler for EngineerJob messages from the server
         // These carry new jobs that the engineers need to do
-        client.RegisterHandler(123, messageHandler.OnServerJob);
+        client.RegisterHandler(MessageID.ENGINEER_JOB, messageHandler.OnServerJob);
+
+        // Register handler for ComponentStatus messages from the server
+        // These carry the health and upgrade level of a component
+        client.RegisterHandler(MessageID.COMPONENT_STATUS, messageHandler.OnServerComponentStatus);
     }
 
     public void QuitGame()

@@ -19,30 +19,35 @@ public class EngineerController : NetworkBehaviour
 
     private Text upgradeText;
     private Text dockText;
-    private PlayerController myController;
+    private PlayerController playerController;
     private new Camera camera;
     private MouseLook mouseLook;
-    private bool jump;
     private Vector2 input;
     private float m_StepCycle = 0f;
     private float m_NextStep;
+
     private string upgradeString;
     private string repairString;
     private string dockString;
+
     private bool canUpgrade;
     private bool canRepair;
     private bool pressedUpgrade;
     private bool pressedRepair;
     private bool isDocked = false;
-    private EngineerInteraction interactiveObject;
-    private GameObject playerShip;
-    private GameObject dockCanvas;
-    private GameObject engineerCanvas;
-    private NetworkStartPosition startPosition;
+    private bool jump;
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
+
     private GameObject bridge;
+    private GameObject playerShip;
+    private GameObject dockCanvas;
+    private GameObject engineerCanvas;
+    private GameObject lastLookedAt;
+
+    private EngineerInteraction interactiveObject;
+    private NetworkStartPosition startPosition;
 
 
 	// Use this for initialization
@@ -98,13 +103,15 @@ public class EngineerController : NetworkBehaviour
     /// Start() method. The Start() method can still be used to perform
     /// any initialization that does not require the main_game scene to be loaded
     /// </summary>
-    /// <param name="cam"></param>
-    /// <param name="controller"></param>
+    /// <param name="cam">The camera object of the engineer</param>
+    /// <param name="controller">The player controller of the engineer</param>
     public void Initialize(GameObject cam, PlayerController controller)
     {
+        // Initialize the camera and the MouseLook script
         camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
         mouseLook.Init(transform, camera.transform);
+        playerController = controller;
 
         // Set the upgrade and repair strings depending on wheter
         // a controller is used or the keyboard is used
@@ -123,6 +130,9 @@ public class EngineerController : NetworkBehaviour
 
         // Get a reference to the player ship
         playerShip = GameObject.Find("PlayerShip(Clone)");
+
+        // The engineer hasn't looked at anything yet
+        lastLookedAt = null;
 
         // Create the upgrade text object to use
         engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
@@ -177,8 +187,8 @@ public class EngineerController : NetworkBehaviour
     /// Sets the upgradeable and repairable property
     /// for each game object in the list
     /// </summary>
-    /// <param name="upgrade"></param>
-    /// <param name="parts"></param>
+    /// <param name="upgrade">Wether the job is an upgrade or a repair</param>
+    /// <param name="parts">The list of parts this job applies to</param>
     private void ProcessJob(bool upgrade, List<GameObject> parts)
     {
         foreach (GameObject obj in parts)
@@ -195,8 +205,8 @@ public class EngineerController : NetworkBehaviour
     /// <summary>
     /// Adds the uprade/repair job to the engineer's list
     /// </summary>
-    /// <param name="upgrade"></param>
-    /// <param name="part"></param>
+    /// <param name="upgrade">Wether the job is an upgrade or a repair</param>
+    /// <param name="part">The part of the ship this job applies to</param>
 	public void AddJob(bool upgrade, ComponentType part)
     {
 		if (part == ComponentType.Turret)
@@ -248,12 +258,25 @@ public class EngineerController : NetworkBehaviour
         {
             if (hitInfo.collider.CompareTag("Player"))
             {
-                interactiveObject = hitInfo.collider.gameObject.GetComponent<EngineerInteraction>();
+                // Get the game object the engineer is currently looking at
+                // and get the EngineerInteraction script attached if it has one
+                GameObject objectLookedAt = hitInfo.collider.gameObject;
+                interactiveObject = objectLookedAt.GetComponent<EngineerInteraction>();
 
+                // If the object being looked at has an EngineerInteraction
+                // script we use it
                 if (interactiveObject != null)
                 {
                     canUpgrade = interactiveObject.Upgradeable;
                     canRepair = interactiveObject.Repairable;
+
+                    // If the object we are currently looking at is not the same one
+                    // we last looked at we need to request health and upgrade level values
+                    if (lastLookedAt != objectLookedAt)
+                    {
+                        playerController.CmdGetComponentStatus(interactiveObject.Type);
+                        lastLookedAt = objectLookedAt;
+                    }
                 }
             }
 
@@ -267,6 +290,7 @@ public class EngineerController : NetworkBehaviour
         else
         {
             ResetUpgradeText();
+            lastLookedAt = null;
         }
     }
 
