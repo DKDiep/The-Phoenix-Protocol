@@ -3,16 +3,16 @@ using System.Collections;
 
 public class OutpostSpawner : MonoBehaviour 
 {
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private GameObject outpost1;
+	private GameObject gameManager;
+	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
+	private int maxOutposts;
+
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	// The different outpost models
-	[SerializeField] private GameObject outpost1;
-
 	[SerializeField] private GameObject resources;     // The resources prefab
-	[SerializeField] private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
-
-	[SerializeField] private GameObject gameManager;
-
-	[SerializeField] private int maxOutposts;
 	#pragma warning restore 0649
 
 	private GameState gameState;
@@ -25,6 +25,9 @@ public class OutpostSpawner : MonoBehaviour
 
 	void Start ()
 	{
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
 		gameState    = gameManager.GetComponent<GameState>();
 		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
 
@@ -35,6 +38,14 @@ public class OutpostSpawner : MonoBehaviour
 
         spawnLocation = new GameObject();
 		spawnLocation.name = "OutpostSpawnLocation";
+	}
+
+	private void LoadSettings()
+	{
+		gameManager 	   = settings.GameManager;
+		outpost1 		   = settings.OutpostModel1Prefab;
+		collectionDistance = settings.OutpostResourceCollectionDistance;
+		maxOutposts 	   = settings.MaxOutposts;
 	}
 		
 	void Update() {

@@ -73,4 +73,9 @@ public class GameSettings : MonoBehaviour
 	public int UDPListenPort;
 	public int UDPClientPort;
 	public int UDPMaxReceivedMessagesPerInterval;
+
+	[Header("Outposts")]
+	public GameObject OutpostModel1Prefab;
+	public float OutpostResourceCollectionDistance; // The distance from the outpost the ship has to be in order to collect resources
+	public int MaxOutposts;
 }
