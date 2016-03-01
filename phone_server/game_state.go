@@ -50,6 +50,7 @@ func (gs *GameState) enterSetupState() {
 // In the case there aren't enough players it retries every 5 seconds
 // Rejects all offers that expire
 func (gs *GameState) inviteOfficers() {
+    fmt.Println("Setup: Starting to send invites.")
     for len(playerMap.mOfficers) < NUM_OFFICERS {
         var list []*Player
         for {

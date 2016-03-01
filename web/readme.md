@@ -1,1 +1,1 @@
-So all directories share the resources directory. Run setup_resources.sh to set up symlinks in all the phone_web and stats_web directories. 
+So all directories share the resources directory. Run setup_resources.sh to set up symlinks in all the phone_web and stats_web directories. To readd all symlinks first remove all existing symlinks set by this file or you will end up creating broken symlinks in fonts and include.
