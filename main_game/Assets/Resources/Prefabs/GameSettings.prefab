@@ -59,7 +59,7 @@ MonoBehaviour:
   AIWaypointWidthScale: 1.5
   AIWaypointHeightScale: 0.5
   AIWaypointShift: {x: 0, y: 15, z: 30}
-  EnemyOutpostSpawnRadius: 150
+  EnemyOutpostSpawnRadius: 200
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
   EnemyShootPeriodPercentageVariation: 0
