@@ -98,6 +98,35 @@ public class GameState : NetworkBehaviour {
 		// TODO: fill in with the other components
 		upgradableComponents[(int)UpgradableComponentIndex.Engines] = new UpgradableEngine();
 	}
+
+	/// <summary>
+	/// Gets the upgradable component specified by <c>type</c>.
+	/// </summary>
+	/// <returns>The upgradable component.</returns>
+	/// <param name="type">The type of the component.</param>
+	private UpgradableComponent GetUpgradableComponent(ComponentType type)
+	{
+		UpgradableComponentIndex index = UpgradableComponentIndex.Hull;
+
+		switch(type)
+		{
+		case ComponentType.Engine:
+			index = UpgradableComponentIndex.Engines;
+			break;
+		case ComponentType.Bridge:
+			index = UpgradableComponentIndex.Hull;
+			break;
+		case ComponentType.ShieldGenerator:
+			index = UpgradableComponentIndex.ShieldGen;
+			break;
+		case ComponentType.Turret:
+			index = UpgradableComponentIndex.Turrets;
+			break;
+		// TODO: add drone and resource storage
+		}
+
+		return upgradableComponents[(int)index];
+	}
     
     void Update()
     {
