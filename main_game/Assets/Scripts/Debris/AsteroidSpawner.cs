@@ -16,9 +16,6 @@ public class AsteroidSpawner : MonoBehaviour
 	private GameSettings settings;
 
 	// Configuration parameters loaded through GameSettings
-	private GameObject asteroid1; // 3 asteroid objects for the 3 different models
-	private GameObject asteroid2;
-	private GameObject asteroid3;
 	private GameObject gameManager;
 	private int maxAsteroids;    // Maximum number of asteroids that can exist simultaneously
 	private float maxVariation;  // Max variation in size (0-10)
@@ -64,9 +61,6 @@ public class AsteroidSpawner : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		asteroid1 		   = settings.AsteroidModel1Prefab;
-		asteroid2 		   = settings.AsteroidModel2Prefab;
-		asteroid3 		   = settings.AsteroidModel3Prefab;
 		gameManager 	   = settings.GameManager;
 		maxAsteroids 	   = settings.MaxAsteroids;
 		maxVariation 	   = settings.AsteroidMaxVariation;

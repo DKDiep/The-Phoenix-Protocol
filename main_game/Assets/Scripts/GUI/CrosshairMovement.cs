@@ -271,12 +271,12 @@ public class CrosshairMovement : NetworkBehaviour
 			return new Target(closestCol.gameObject, minDistance);
 		}
 
-		targetGizmoLoc = Vector3.zero;
+		// targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
 		return Target.None;
 	}
-		
+
 	// Uncomment below for visual debug cues
-	private Vector3 targetGizmoLoc;
+	// private Vector3 targetGizmoLoc;
 	void OnDrawGizmos()
 	{
 		// Debug aim sphere

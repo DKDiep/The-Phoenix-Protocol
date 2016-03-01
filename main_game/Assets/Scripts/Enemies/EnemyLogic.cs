@@ -23,9 +23,6 @@ public class EnemyLogic : MonoBehaviour
 	private int shootPeriodPercentageVariation; // Percentage variation +/- in the length of the shooting period
 	private float shieldDelay; 					// Delay in seconds to wait before recharging shield
 	private float shieldRechargeRate; 			// Units of shield to increase per second
-	private GameObject bullet;
-	private GameObject bulletLogic;
-	private GameObject destroyEffect;
 	private AudioClip fireSnd;
 	private bool randomPitch;
 
@@ -124,9 +121,6 @@ public class EnemyLogic : MonoBehaviour
 		shootPeriodPercentageVariation = settings.EnemyShootPeriodPercentageVariation;
 		shieldDelay = settings.EnemyShieldDelay;
 		shieldRechargeRate = settings.EnemyShieldRechargeRate;
-		bullet = settings.EnemyBulletPrefab;
-		bulletLogic = settings.EnemyBulletLogicPrefab;
-		destroyEffect = settings.EnemyDestroyEffectPrefab;
 		fireSnd = settings.EnemyFireSoundPrefab;
 		randomPitch = settings.EnemyFireSoundRandomPitch;
 	}

@@ -19,7 +19,6 @@ public class EnemySpawner : MonoBehaviour
 
 	// Configuration parameters loaded through GameSettings
 	private GameObject gameManager;
-	private GameObject enemy;
 	private float minDistance;
 	private float maxDistance;
 	private int maxEnemies;         // Maximum number of enemies at a time
@@ -70,7 +69,6 @@ public class EnemySpawner : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		enemy 		= settings.EnemyModelPrefab;
 		gameManager = settings.GameManager;
 
 		minDistance = settings.EnemyMinSpawnDistance;
