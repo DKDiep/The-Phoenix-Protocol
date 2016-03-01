@@ -71,6 +71,7 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
 
 // Starts all necessary subroutines
 func main() {
+    go stdinHandler()
     go gameServerTCPConnectionHandler()
     go gameServerUDPConnectionHandler()
     go playerMap.accessManager()
@@ -98,8 +99,8 @@ func main() {
 // A wrapper used to check for errors even when spawned as a goroutine
 func listenWrapper(srv *http.ServeMux, port string) {
     fmt.Println("Starting Web Server on port " + port + ".")
-    err := http.ListenAndServe(":" + port, srv)
+    err := http.ListenAndServe(":"+port, srv)
     if err != nil {
-        panic("Error starting web server " + port + " : " + err.Error())
+        panic("Error starting web server on port " + port + " : " + err.Error())
     }
 }

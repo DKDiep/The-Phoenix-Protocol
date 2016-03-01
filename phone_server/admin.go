@@ -1,16 +1,38 @@
 package main
 
 import (
-    "fmt"
     "encoding/json"
+    "fmt"
     "golang.org/x/net/websocket"
 )
 
-func adminWebSocketHandler(webs *websocket.Conn) {
-    handleReceivedData(webs)
+// The web socket of the currently connected admin
+var adminWebSocket *websocket.Conn = nil
+
+// Used through stdin instructions to allow for a new admin instance
+// Closes the current admin session and clears the global var
+func unblockAdmin() {
+    if adminWebSocket != nil {
+        if err := adminWebSocket.Close(); err != nil {
+            fmt.Println("Error force closing admin websocket: " + err.Error())
+        }
+        adminWebSocket = nil
+    }
+    fmt.Println("Unblocked admin.")
 }
 
-// Listens for messages from the phone and handles them appropriately
+// Returns if there is already an existing admin connection
+func adminWebSocketHandler(webs *websocket.Conn) {
+    if adminWebSocket == nil {
+        fmt.Println("Admin connected.")
+        adminWebSocket = webs
+        handleReceivedData(adminWebSocket)
+        adminWebSocket = nil
+        fmt.Println("Admin disconnected.")
+    }
+}
+
+// Listens for messages from the admin panel
 // Returns when the connection is closed
 func handleReceivedData(ws *websocket.Conn) {
     receivedtext := make([]byte, 1024)
@@ -34,6 +56,7 @@ func handleReceivedData(ws *websocket.Conn) {
         var msg interface{}
         if err := json.Unmarshal(receivedtext[:n], &msg); err != nil {
             fmt.Println(err)
+            continue
         }
 
         handleAdminMessage(msg.(map[string]interface{}))
@@ -44,7 +67,7 @@ func handleReceivedData(ws *websocket.Conn) {
 func handleAdminMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "GM_STRT":
-        fmt.Println("Received a start game signal form admin.")
+        fmt.Println("Received a start game signal from admin.")
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
