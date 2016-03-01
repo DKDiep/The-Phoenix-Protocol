@@ -42,8 +42,6 @@ func (gs *GameState) enterSetupState() {
     playerMap.resetPlayers()
     // send invitations
     gs.inviteOfficers()
-    // TODO: remove this call when admin console is implemented
-    go gs.enterRunningState()
 }
 
 // Sends out invitations untill there are enough officers
