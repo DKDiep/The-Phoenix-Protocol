@@ -4,7 +4,6 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
-    //"math"
 )
 
 // Holds user related data
@@ -51,6 +50,7 @@ func (usr *User) handleUser() {
         var msg interface{}
         if err := json.Unmarshal(receivedtext[:n], &msg); err != nil {
             fmt.Println(err)
+            continue
         }
 
         // close the connection from this side if we encounter a problem

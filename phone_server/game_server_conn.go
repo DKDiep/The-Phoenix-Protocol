@@ -10,15 +10,15 @@ import (
 // Sets up the UDP connection structure
 func initialiseGameServerUDPConnection() {
     fmt.Println("Initialising UDP Client.")
-    serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS + ":" +
-                                                 GAME_SERVER_UDP_PORT)
+    serverAddr, err := net.ResolveUDPAddr("udp", GAME_SERVER_ADDRESS+":"+
+        GAME_SERVER_UDP_PORT)
     if err != nil {
         fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
         return
     }
 
-    localAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0" + ":" +
-                                                LOCAL_UDP_PORT)
+    localAddr, err := net.ResolveUDPAddr("udp", "0.0.0.0"+":"+
+        LOCAL_UDP_PORT)
     if err != nil {
         fmt.Println("UDP: Error resolving game server UDP address: " + err.Error())
         return
@@ -53,8 +53,8 @@ func gameServerUDPConnectionHandler() {
 // Sets up the TCP connection structure and sends a greeting
 func initialiseGameServerTCPConnection() {
     fmt.Println("Initialising TCP Connection.")
-    serverAddr, err := net.ResolveTCPAddr("tcp", GAME_SERVER_ADDRESS + ":" +
-                                                 GAME_SERVER_TCP_PORT)
+    serverAddr, err := net.ResolveTCPAddr("tcp", GAME_SERVER_ADDRESS+":"+
+        GAME_SERVER_TCP_PORT)
     if err != nil {
         fmt.Println("TCP: Error resolving game server address: " + err.Error())
         return
