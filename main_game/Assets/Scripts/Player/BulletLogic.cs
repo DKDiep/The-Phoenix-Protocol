@@ -12,6 +12,7 @@ public class BulletLogic : MonoBehaviour
 {
 	public float speed = 100f; // Bullet speed
 
+	// These cannot be easily moved to GameSettings because they are set to different values based on the object they are attached to
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
 	[SerializeField] private float damage; 

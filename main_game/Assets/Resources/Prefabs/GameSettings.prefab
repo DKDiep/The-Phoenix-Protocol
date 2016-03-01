@@ -43,9 +43,6 @@ MonoBehaviour:
   AsteroidMaxDroppedResources: 20
   AsteroidMinSpeed: 5
   AsteroidMaxSpeed: 50
-  AsteroidModel1Prefab: {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
-  AsteroidModel2Prefab: {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
-  AsteroidModel3Prefab: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
   MaxAsteroids: 300
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
@@ -53,7 +50,6 @@ MonoBehaviour:
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
-  EnemyModelPrefab: {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
   EnemyMinSpawnDistance: 750
   EnemyMaxSpawnDistance: 1200
   MaxEnemies: 30
@@ -69,11 +65,6 @@ MonoBehaviour:
   EnemyShootPeriodPercentageVariation: 0
   EnemyShieldDelay: 2
   EnemyShieldRechargeRate: 1
-  EnemyBulletPrefab: {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
-  EnemyBulletLogicPrefab: {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82,
-    type: 2}
-  EnemyDestroyEffectPrefab: {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972,
-    type: 2}
   EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
     type: 3}
   EnemyFireSoundRandomPitch: 1
@@ -94,6 +85,15 @@ MonoBehaviour:
   OutpostModel1Prefab: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
   OutpostResourceCollectionDistance: 500
   MaxOutposts: 5
+  PlayerShipTurnSpeed: 5.5
+  PlayerShipMaxTurnSpeed: 3.5
+  PlayerShipSlowDown: 1
+  PlayerShipShieldDelay: 5
+  BulletSpeed: 600
+  PlayerRateOfFire: 0.025
+  PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
+  PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
+  PlayerFireSoundRandomPitch: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

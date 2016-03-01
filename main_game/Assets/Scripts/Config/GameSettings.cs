@@ -71,4 +71,19 @@ public class GameSettings : MonoBehaviour
 	public GameObject OutpostModel1Prefab;
 	public float OutpostResourceCollectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 	public int MaxOutposts;
+
+	[Header("Ship Movement")]
+	public float PlayerShipTurnSpeed;
+	public float PlayerShipMaxTurnSpeed;
+	public float PlayerShipSlowDown;
+	public float PlayerShipShieldDelay; // Delay in seconds to wait before recharging shield
+
+	[Header("Bullet Movement")]
+	public float BulletSpeed;
+
+	[Header("Player Shooting")]
+	public float PlayerRateOfFire;
+	public Texture2D PlayerHitmarker; // Hitmarker texture
+	public AudioClip PlayerFireSound; // Sound to make when firing
+	public bool PlayerFireSoundRandomPitch;
 }

@@ -10,12 +10,13 @@ using System.Collections;
 
 public class ShipMovement : MonoBehaviour
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private float turnSpeed = 0.01f;
-	[SerializeField] private float maxTurnSpeed = 1f;
-	[SerializeField] private float slowDown;
-	[SerializeField] private float shieldDelay; // Delay in seconds to wait before recharging shield
-	#pragma warning restore 0649
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float turnSpeed;
+	private float maxTurnSpeed;
+	private float slowDown;
+	private float shieldDelay; // Delay in seconds to wait before recharging shield
 
 	private float shieldRechargeValue; // The value by which to recharge the shields each tick
 	private bool rechargeShield;
@@ -37,6 +38,9 @@ public class ShipMovement : MonoBehaviour
     // Initialise object
     void Start()
     {
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
 		GameObject server = GameObject.Find("GameManager");
 		gameState = server.GetComponent<GameState>();
 
@@ -49,6 +53,14 @@ public class ShipMovement : MonoBehaviour
 		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine ("RechargeShields");
     }
+
+	private void LoadSettings()
+	{
+		turnSpeed = settings.PlayerShipTurnSpeed;
+		maxTurnSpeed = settings.PlayerShipMaxTurnSpeed;
+		slowDown = settings.PlayerShipSlowDown;
+		shieldDelay = settings.PlayerShipShieldDelay;
+	}
 
 	IEnumerator RechargeShields()
 	{

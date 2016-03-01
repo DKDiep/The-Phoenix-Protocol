@@ -10,9 +10,21 @@ using System.Collections;
 
 public class BulletMove : MonoBehaviour 
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private float speed;
-	#pragma warning restore 0649
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float speed;
+
+	void Start()
+	{
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+	}
+
+	private void LoadSettings()
+	{
+		speed = settings.BulletSpeed;
+	}
 
 	void Update () 
 	{

@@ -12,15 +12,13 @@ using System;
 
 public class PlayerShooting : MonoBehaviour 
 {
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private GameObject bullet; // Bullet prefab to use
-	[SerializeField] private GameObject bulletLogic;
-	[SerializeField] private float xOffset, yOffset, zOffset, rateOfFire;
-	[SerializeField] private Texture2D hitmarker; // Hitmarker texture
-	[SerializeField] private AudioClip fireSound; // Sound to make when firing
-	[SerializeField] private bool randomPitch;
-	[SerializeField] private GameObject muzzleFlash;
-	#pragma warning restore 0649
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float rateOfFire;
+	private Texture2D hitmarker; // Hitmarker texture
+	private AudioClip fireSound; // Sound to make when firing
+	private bool randomPitch;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -37,6 +35,20 @@ public class PlayerShooting : MonoBehaviour
 
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
+
+	void Start()
+	{
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+	}
+
+	private void LoadSettings()
+	{
+		rateOfFire  = settings.PlayerRateOfFire;
+		hitmarker   = settings.PlayerHitmarker;
+		fireSound   = settings.PlayerFireSound;
+		randomPitch = settings.PlayerFireSoundRandomPitch;
+	}
     
 	public void Setup () 
 	{
