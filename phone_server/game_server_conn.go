@@ -7,6 +7,12 @@ import (
     "time"
 )
 
+type GameServerMessageType int
+
+const (
+    START_GAME GameServerMessageType = iota
+)
+
 // Sets up the UDP connection structure
 func initialiseGameServerUDPConnection() {
     fmt.Println("Initialising UDP Client.")
@@ -121,6 +127,37 @@ func decodeGameServerMessage(rawData []byte) {
     default:
         fmt.Println("Received unexpected message from Game Server of type: ", msg["type"])
     }
+}
+
+// Sends a message to the Gmae Server of the specified type
+func sendSignalToGameServer(msgType GameServerMessageType) bool {
+    switch msgType {
+    case START_GAME:
+        return sendMsgToGameServer("START")
+    default:
+        return false
+    }
+}
+
+// Send a string to the Gmae Server
+// return value indicates if the message was sent succesfully
+func sendMsgToGameServer(msg string) (success bool) {
+    success = true
+    if gameServerTCPConn == nil {
+        success = false
+    } else {
+        _, err := gameServerTCPConn.Write([]byte(msg))
+        if err != nil {
+            fmt.Println("TCP: Error sending message: " + err.Error())
+            success = false
+        }
+    }
+
+    if !success {
+        fmt.Println("TCP: Failed to send \"" + msg + "\".")
+    }
+
+    return
 }
 
 // Updates the ship data with the received values

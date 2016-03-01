@@ -18,17 +18,17 @@ func unblockAdmin() {
         }
         adminWebSocket = nil
     }
-    fmt.Println("Unblocked admin.")
+    fmt.Println("Admin: reset admin connection.")
 }
 
 // Returns if there is already an existing admin connection
 func adminWebSocketHandler(webs *websocket.Conn) {
     if adminWebSocket == nil {
-        fmt.Println("Admin connected.")
+        fmt.Println("Admin: Admin client connected.")
         adminWebSocket = webs
         handleReceivedData(adminWebSocket)
         adminWebSocket = nil
-        fmt.Println("Admin disconnected.")
+        fmt.Println("Admin: Admin client disconnected.")
     }
 }
 
@@ -42,9 +42,9 @@ func handleReceivedData(ws *websocket.Conn) {
         // stop listening for activity if an error occurs
         if err != nil {
             if err.Error() == "EOF" {
-                fmt.Println("Connection Closed, EOF received.")
+                fmt.Println("Admin: Connection Closed, EOF received.")
             } else {
-                fmt.Printf("Error: %s\n", err)
+                fmt.Printf("Admin: Error: %s\n", err)
             }
             return
         }
@@ -67,8 +67,10 @@ func handleReceivedData(ws *websocket.Conn) {
 func handleAdminMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "GM_STRT":
-        fmt.Println("Received a start game signal from admin.")
+        fmt.Println("Admin: Received Start Game signal.")
+        gameState.enterRunningState()
+        sendSignalToGameServer(START_GAME)
     default:
-        fmt.Println("Received unexpected message of type: ", msg["type"])
+        fmt.Println("Admin: Received unexpected message of type: ", msg["type"])
     }
 }
