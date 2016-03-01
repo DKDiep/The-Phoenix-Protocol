@@ -52,6 +52,19 @@ public class EngineerController : NetworkBehaviour
     private EngineerInteraction interactiveObject;
     private NetworkStartPosition startPosition;
 
+    private Dictionary<InteractionKey, float> keyPressTime;
+
+    // The repair and upgrade time in seconds
+    // TODO: Make these depend on Engineer upgrade level
+    private const float REPAIR_TIME = 5;
+    private const float UPGRADE_TIME = 5;
+
+    private enum InteractionKey
+    {
+        Repair,
+        Upgrade
+    }
+
 
 	// Use this for initialization
     void Start()
@@ -261,6 +274,17 @@ public class EngineerController : NetworkBehaviour
         pressedUpgrade = Input.GetButton("Upgrade");
         pressedRepair = Input.GetButton("Repair");
 
+        // Deal with how long Upgrade and Repair have been pressed
+        if (pressedUpgrade)
+            keyPressTime[InteractionKey.Upgrade] += Time.deltaTime;
+        else
+            keyPressTime[InteractionKey.Upgrade] = 0;
+
+        if (pressedRepair)
+            keyPressTime[InteractionKey.Repair] += Time.deltaTime;
+        else
+            keyPressTime[InteractionKey.Repair] = 0;
+
         // Do forward raycast from camera to the center of the screen to see if an upgradeable object is in front of the player
         int x = Screen.width / 2;
         int y = Screen.height / 2;
@@ -353,9 +377,9 @@ public class EngineerController : NetworkBehaviour
         // Do upgrades/repairs
         // Force engineer to repair before upgrading if
         // both are possible
-        if (canRepair && pressedRepair)
+        if (canRepair && keyPressTime[InteractionKey.Repair] >= REPAIR_TIME)
             playerController.CmdDoRepair(interactiveObject.Type);
-        else if (canUpgrade && pressedUpgrade)
+        else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= UPGRADE_TIME)
             playerController.CmdDoUpgrade(interactiveObject.Type);
 
         ProgressStepCycle(speed);

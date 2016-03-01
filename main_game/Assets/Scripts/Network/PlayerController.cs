@@ -189,7 +189,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdDoUpgrade(ComponentType part)
     {
-
+        gameState.GetUpgradableComponent(part).Upgrade();
     }
 
     /// <summary>
@@ -200,9 +200,8 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdDoRepair(ComponentType part)
     {
-
+        gameState.GetUpgradableComponent(part).Repair();
     }
-
 
     /// <summary>
     /// Call from the Command Console to add a component

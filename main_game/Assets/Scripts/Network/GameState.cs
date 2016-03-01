@@ -104,7 +104,7 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	/// <returns>The upgradable component.</returns>
 	/// <param name="type">The type of the component.</param>
-	private UpgradableComponent GetUpgradableComponent(ComponentType type)
+	public UpgradableComponent GetUpgradableComponent(ComponentType type)
 	{
 		UpgradableComponentIndex index = UpgradableComponentIndex.Hull;
 
