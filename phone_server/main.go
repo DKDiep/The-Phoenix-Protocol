@@ -8,13 +8,16 @@ import (
     "time"
 )
 
-const WEB_DIR string = "../web/phone_web"
+const ADMIN_WEB_DIR string = "../web/admin_web"
+const ADMIN_PORT string = "52932"
+const USER_WEB_DIR string = "../web/phone_web"
+const USER_PORT string = "8080"
 const LOCAL_UDP_PORT string = "45678"
 const GAME_SERVER_ADDRESS string = "192.168.56.1"
 const GAME_SERVER_UDP_PORT string = "2345"
 const GAME_SERVER_TCP_PORT string = "2346"
 const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
-const NUM_OFFICERS int = 3
+const NUM_OFFICERS int = 0
 const OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
 // Structures dealing with the Game Server Connections
@@ -66,19 +69,6 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
     copyC:  make(chan map[int]*Asteroid),
 }
 
-// Creates a user instance and adds it to the ecosystem
-func webSocketHandler(webs *websocket.Conn) {
-    usr := &User{ws: webs}
-
-    usr.handleUser()
-
-    // remove user when the connection is closed
-    // deassociate this user with its respective player
-    if usr.player != nil {
-        usr.player.unsetUserIfEquals(usr)
-    }
-}
-
 // Starts all necessary subroutines
 func main() {
     go gameServerTCPConnectionHandler()
@@ -87,13 +77,29 @@ func main() {
     go playerShip.accessManager()
     go asteroidMap.accessManager()
     go enemyMap.accessManager()
-    http.Handle("/web_socket", websocket.Handler(webSocketHandler))
-    http.Handle("/", http.FileServer(http.Dir(WEB_DIR)))
-    fmt.Println("Starting Web Server.")
+
+    // Server for the users
+    usersServerMux := http.NewServeMux()
+    usersServerMux.Handle("/web_socket", websocket.Handler(userWebSocketHandler))
+    usersServerMux.Handle("/", http.FileServer(http.Dir(USER_WEB_DIR)))
+
+    // Server for the admin
+    adminServerMux := http.NewServeMux()
+    adminServerMux.Handle("/web_socket", websocket.Handler(adminWebSocketHandler))
+    adminServerMux.Handle("/", http.FileServer(http.Dir(ADMIN_WEB_DIR)))
+
     // TODO: remove when admin console is implemented
     go gameState.enterSetupState()
-    err := http.ListenAndServe(":8080", nil)
+
+    go listenWrapper(usersServerMux, USER_PORT)
+    listenWrapper(adminServerMux, ADMIN_PORT)
+}
+
+// A wrapper used to check for errors even when spawned as a goroutine
+func listenWrapper(srv *http.ServeMux, port string) {
+    fmt.Println("Starting Web Server on port " + port + ".")
+    err := http.ListenAndServe(":" + port, srv)
     if err != nil {
-        panic("Error starting web server: " + err.Error())
+        panic("Error starting web server " + port + " : " + err.Error())
     }
 }

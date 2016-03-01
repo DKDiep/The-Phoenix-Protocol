@@ -14,6 +14,19 @@ type User struct {
     player *Player
 }
 
+// Creates a user instance and adds it to the ecosystem
+func userWebSocketHandler(webs *websocket.Conn) {
+    usr := &User{ws: webs}
+
+    usr.handleUser()
+
+    // remove user when the connection is closed
+    // deassociate this user with its respective player
+    if usr.player != nil {
+        usr.player.unsetUserIfEquals(usr)
+    }
+}
+
 // Listens for messages from the phone and handles them appropriately
 // Returns when the connection is closed
 func (usr *User) handleUser() {
@@ -24,7 +37,7 @@ func (usr *User) handleUser() {
         // stop listening for activity if an error occurs
         if err != nil {
             if err.Error() == "EOF" {
-                fmt.Println("Connection Closed, EOF received")
+                fmt.Println("Connection Closed, EOF received.")
             } else {
                 fmt.Printf("Error: %s\n", err)
             }
