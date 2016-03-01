@@ -17,6 +17,9 @@ public class TCPServer : MonoBehaviour
 	// Configuration parameters loaded through GameSettings
     private int listenPort;
     private int maxReceivedMessagesPerInterval;
+    
+    // Constant for splitting the received messages
+    private readonly String[] semiColon = {";"};
 
     private UDPServer udpServer;
     private TcpListener tcpServer = null;
@@ -78,15 +81,23 @@ public class TCPServer : MonoBehaviour
             // Receive data untill the connection is closed
             while (connected)
             {
-                int numRead;      
+                int numRead;
+                String newData;
+                String[] messages;
                 int receivedMessages = 0;
                 // read data if availale
                 while (client.Available > 0 && receivedMessages < maxReceivedMessagesPerInterval)
                 {
                     numRead = client.Receive(recvBuff, recvBuff.Length, 0);
                     // TODO: deal with received data
-                    Debug.Log("TCP Received Data: " + Encoding.ASCII.GetString(recvBuff, 0, numRead));
-                    receivedMessages++;
+                    newData = Encoding.ASCII.GetString(recvBuff, 0, numRead);
+                    // It is possible to get multiple messages in a single receive
+                    messages = newData.Split(semiColon, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (String msg in messages)
+                    {
+                        HandleMessage(msg);
+                        receivedMessages++;
+                    }
                 }
                 // check if the connection is closed
                 if ((client.Available == 0) && client.Poll(1000, SelectMode.SelectRead))
@@ -114,7 +125,8 @@ public class TCPServer : MonoBehaviour
     /// <return>
     /// Indicates whether the signal was sent succesfully.
     /// </return>
-    public bool SendSignal(MsgType type) {
+    public bool SendSignal(MsgType type)
+    {
         switch (type)
         {
             case MsgType.SetupStage:
@@ -122,6 +134,20 @@ public class TCPServer : MonoBehaviour
             // TODO: Implement more message types.
             default:
                 return false;
+        }
+    }
+    
+    // Multiplexes the received message into unique actions
+    private void HandleMessage(String msg)
+    {
+        switch(msg) {
+            case "START":
+                // TODO: implement the actions caused by this message
+                Debug.Log("Received a Start Game signal.");
+                break;
+            default:
+                Debug.Log("Received an unexpected message: " + msg);
+                break;
         }
     }
     
@@ -136,7 +162,8 @@ public class TCPServer : MonoBehaviour
         else
         {
             Byte[] data = Encoding.ASCII.GetBytes(jsonMsg);
-            try {
+            try
+            {
                 client.Send(data);
                 return true;
             }
