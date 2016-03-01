@@ -63,6 +63,11 @@ public class MessageHandler : MonoBehaviour {
     /// <param name="netMsg"></param>
     public void OnServerComponentStatus(NetworkMessage netMsg)
     {
-        Debug.Log("Received ComponentStatus message");
+        // This works because of short circuiting
+        if (controller == null && !SetController())
+            return;
+
+        ComponentStatusMessage msg = netMsg.ReadMessage<ComponentStatusMessage>();
+        controller.UpdateComponentStatus(msg.health, msg.level);
     }
 }

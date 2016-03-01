@@ -26,6 +26,9 @@ public class EngineerController : NetworkBehaviour
     private float m_StepCycle = 0f;
     private float m_NextStep;
 
+    private float componentHealth;
+    private int componentUpgradeLevel;
+
     private string upgradeString;
     private string repairString;
     private string dockString;
@@ -228,6 +231,18 @@ public class EngineerController : NetworkBehaviour
     }
 
     /// <summary>
+    /// Sets the health and upgrade level of the component
+    /// that the engineer is currently looking at
+    /// </summary>
+    /// <param name="health">The health of the component</param>
+    /// <param name="level">The upgrade level of the component</param>
+    public void SetComponentStatus(float health, int level)
+    {
+        componentHealth = health;
+        componentUpgradeLevel = level;
+    }
+
+    /// <summary>
     /// Replacement for Unity's Update() method.
     /// DO NOT CALL THIS DIRECTLY UNLESS YOU ARE VERY
     /// SURE THAT YOU NEED TO
@@ -312,6 +327,13 @@ public class EngineerController : NetworkBehaviour
             // If the engineer is docked we undock first
             UnDock();
 
+            // Display health and upgrade level of the component that the engineer is looking at
+            if (lastLookedAt != null)
+            {
+                //TODO: Replace with UI things
+                Debug.Log("Health: " + componentHealth + ", UpgradeLevel: " + componentUpgradeLevel);
+            }
+
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
 
@@ -332,9 +354,9 @@ public class EngineerController : NetworkBehaviour
         // Force engineer to repair before upgrading if
         // both are possible
         if (canRepair && pressedRepair)
-            Debug.Log("Repair");
+            playerController.CmdDoRepair(interactiveObject.Type);
         else if (canUpgrade && pressedUpgrade)
-            Debug.Log("Upgrade");
+            playerController.CmdDoUpgrade(interactiveObject.Type);
 
         ProgressStepCycle(speed);
     }

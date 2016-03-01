@@ -234,7 +234,11 @@ public class PlayerController : NetworkBehaviour
         serverManager.SendComponentStatus(health, level, netId.Value);
     }
 
-	// Used to notify the engineer of an upgrade or repair that has been added
+	/// <summary>
+	/// Adds a job to the engineer's job queue
+	/// </summary>
+	/// <param name="upgrade">Wether the job is an upgrade or a repair</param>
+	/// <param name="part">The part to upgrade/repair</param>
 	public void AddJob(bool upgrade, ComponentType part)
     {
         // If this is somehow invoked on a client that isn't an engineer
@@ -245,9 +249,19 @@ public class PlayerController : NetworkBehaviour
         engController.AddJob(upgrade, part);
     }
 
-    // OnGUI draws to screen and is called every few frames
-    void OnGUI()
+    /// <summary>
+    /// Tells the engineer of the requested component's status.
+    /// The request happens in CmdGetComponentStatus
+    /// </summary>
+    /// <param name="health">The health of the component</param>
+    /// <param name="level">The upgrade level of the component</param>
+    public void UpdateComponentStatus(float health, int level)
     {
-		
+        // If this is somehow invoked on a client that isn't an engineer
+        // or something that isn't a client at all it should be ignored
+        if (role != RoleEnum.Engineer || !isLocalPlayer)
+            return;
+
+        engController.SetComponentStatus(health, level);
     }
 }
