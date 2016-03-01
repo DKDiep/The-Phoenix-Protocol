@@ -522,6 +522,7 @@ public class EnemyLogic : MonoBehaviour
 		}
 		else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
 		{
+			Debug.Log("Enemy died. Killed by player id " + playerId);
 			if(playerId != -1)
 			{
 				// Update player score
