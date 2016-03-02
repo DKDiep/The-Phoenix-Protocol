@@ -153,6 +153,7 @@ public class CrosshairMovement : NetworkBehaviour
 
     /// <summary>
     /// Sets the crosshair position using the current mouse x and y position. 
+    /// Sends the crosshair position to the correct screen.
     /// </summary>
     private void SetCrosshairPositionMouse()
     {
@@ -190,6 +191,7 @@ public class CrosshairMovement : NetworkBehaviour
 
     /// <summary>
     /// Sets the crosshair position using the wii remote
+    /// Sends the crosshair position to the correct screen.
     /// </summary>
     private void SetCrosshairPositionWiimote()
     {
@@ -200,11 +202,7 @@ public class CrosshairMovement : NetworkBehaviour
             Transform selectedCrosshair = crosshairs[remoteId].transform;
             if (this.init[remoteId]) 
             {
-                // Set the LEDs on each wii remote to indicate which player is which
-                if(remoteId == 0) remote.SendPlayerLED (true, false, false, false);
-                if(remoteId == 1) remote.SendPlayerLED (false, true, false, false);
-                if(remoteId == 2) remote.SendPlayerLED (false, false, true, false);
-                if(remoteId == 3) remote.SendPlayerLED (false, false, false, true);
+                wii.SetPlayerLeds(remote, remoteId);
 
                 // Set up the IR camera on the wii remote
                 remote.SetupIRCamera (IRDataType.BASIC);

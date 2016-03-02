@@ -23,6 +23,14 @@ public class WiiRemoteManager : MonoBehaviour {
 	 
 	}
 
+    public void SetPlayerLeds(Wiimote remote, int remoteId) 
+    {
+        // Set the LEDs on each wii remote to indicate which player is which
+        if(remoteId == 0) remote.SendPlayerLED (true, false, false, false);
+        if(remoteId == 1) remote.SendPlayerLED (false, true, false, false);
+        if(remoteId == 2) remote.SendPlayerLED (false, false, true, false);
+        if(remoteId == 3) remote.SendPlayerLED (false, false, false, true);
+    }
 	public int GetNumberOfRemotes() 
 	{
 		return WiimoteManager.Wiimotes.Count;
