@@ -83,6 +83,9 @@ public class EngineerController : NetworkBehaviour
 
 		int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
 		keyPressTime     = new Dictionary<InteractionKey, float>(enumElements);
+
+        // Remove crosshair from this scene. 
+        GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
     }
 
 	private void LoadSettings()
