@@ -15,21 +15,7 @@ public class GameState : NetworkBehaviour {
 
     public enum GameStatus { Setup, Started, Won, Died };
 
-	// The amount of resources the player starts off with.
-	// https://bitbucket.org/pyrolite/game/wiki/Collecting%20Resources
-	private const int BASE_SHIP_RESOURCES 				 = 100;
-
-	// The number of civilians saved from earth that your ship could carry
-	private const int INITIAL_CIVILIANS 				 = 100000;
-
-	// The starting health value of the ship
-	private const float INITIAL_SHIP_HEALTH     	 	 = 100;
-	private const float INITIAL_COMPONENT_HEALTH 		 = 100;
-
-	private const float INITIAL_SHIP_SPEED               = 10;
-	private const float INITIAL_SHIP_MAXSHIELDS          = 100;
-	private const float INITIAL_SHIP_SHIELD_RECHARGERATE = 10;
-
+    private GameSettings settings;
 	public GameStatus Status { get; set; }
 
     private List<GameObject> asteroidList;
@@ -48,29 +34,24 @@ public class GameState : NetworkBehaviour {
 	private int[] playerScore;
 
 	// Ship variables used for modifying the ships behaviour
-	private float shipSpeed = INITIAL_SHIP_SPEED;
-
-	private float shipMaxShields = INITIAL_SHIP_MAXSHIELDS;
-	private float shipShieldRechargeRate = INITIAL_SHIP_SHIELD_RECHARGERATE;
-
+	private float shipSpeed;
+	private float shipMaxShields;
+    private float shipShieldRechargeRate;
+ 
 	// The total ship resources that has been collected over the whole game.
 	// This is used for the final score.
-	private int totalShipResources = BASE_SHIP_RESOURCES;
-
+	private int totalShipResources;
 	// We set this to the max shields as we assume we start off with max shields.
-	[SyncVar] private float shipShield 			  = INITIAL_SHIP_MAXSHIELDS;
-
+	[SyncVar] private float shipShield;
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
-	[SyncVar] private int currentShipResources    = BASE_SHIP_RESOURCES;
-
+	[SyncVar] private int currentShipResources;
 	// Number of civilians currently saved on the ship
-	[SyncVar] private int civilians 		      = INITIAL_CIVILIANS;
-
+	[SyncVar] private int civilians;
 	// The health of the ship. 
-	[SyncVar] private float shipHealth            = INITIAL_SHIP_HEALTH;
-	[SyncVar] private float engineHealth          = INITIAL_COMPONENT_HEALTH;
-	[SyncVar] private float turretHealth          = INITIAL_COMPONENT_HEALTH;
-	[SyncVar] private float shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
+	[SyncVar] private float shipHealth;
+	[SyncVar] private float engineHealth;
+	[SyncVar] private float turretHealth;
+	[SyncVar] private float shieldGeneratorHealth;
 
 	// Upgradable components
 	// TODO: once all components are implemented like this, they will replace the current variables
@@ -82,11 +63,30 @@ public class GameState : NetworkBehaviour {
 
 	void Start()
 	{
-		Status = GameStatus.Setup;
-
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        LoadSettings();
+		
+        Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
 	}
 
+
+    private void LoadSettings()
+    {
+        shipHealth              = settings.PlayerShipStartingHealth;
+        shipShield              = settings.PlayerShipStartingShields;
+        shipMaxShields          = settings.PlayerShipStartingShields;
+        shipShieldRechargeRate  = settings.PlayerShipStartingRechargeRate;
+        shipSpeed               = settings.PlayerShipStartingSpeed;
+        totalShipResources      = settings.PlayerShipStartingResources;
+        currentShipResources    = settings.PlayerShipStartingResources;
+        civilians               = settings.PlayerShipStartingCivilians;
+        engineHealth            = settings.PlayerShipComponentHealth;
+        turretHealth            = settings.PlayerShipComponentHealth;
+        shieldGeneratorHealth   = settings.PlayerShipComponentHealth;
+    }
+
+  
 	/// <summary>
 	/// Initialises the upgradable components of the ship.
 	/// </summary>
@@ -139,8 +139,8 @@ public class GameState : NetworkBehaviour {
 			godMode = !godMode;
 			if(!godMode)
 			{
-				shipHealth = INITIAL_SHIP_HEALTH;
-				engineHealth = turretHealth = shieldGeneratorHealth = INITIAL_COMPONENT_HEALTH;
+                shipHealth = settings.PlayerShipStartingHealth;
+                engineHealth = turretHealth = shieldGeneratorHealth = settings.PlayerShipComponentHealth;
 			}
 			Debug.Log("God mode " + godMode);
 		}
@@ -150,7 +150,7 @@ public class GameState : NetworkBehaviour {
 			if (nosMode)
 				shipSpeed = NOS_SPEED;
 			else
-				shipSpeed = INITIAL_SHIP_SPEED;
+                shipSpeed = shipSpeed;
 			Debug.Log("NOS mode " + nosMode);
 		}
 

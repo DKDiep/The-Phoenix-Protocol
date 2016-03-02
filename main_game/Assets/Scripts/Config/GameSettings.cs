@@ -78,6 +78,15 @@ public class GameSettings : MonoBehaviour
 	public float PlayerShipSlowDown;
 	public float PlayerShipShieldDelay; // Delay in seconds to wait before recharging shield
 
+    [Header("Ship Properties")]
+    public float PlayerShipStartingHealth;
+    public float PlayerShipStartingShields;
+    public float PlayerShipStartingRechargeRate;
+    public float PlayerShipStartingSpeed;
+    public int PlayerShipStartingResources;
+    public int PlayerShipStartingCivilians;
+    public float PlayerShipComponentHealth;
+
 	[Header("Bullet Movement")]
 	public float BulletSpeed;
 
