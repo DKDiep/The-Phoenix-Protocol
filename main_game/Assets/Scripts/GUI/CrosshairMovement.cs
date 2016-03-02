@@ -124,6 +124,7 @@ public class CrosshairMovement : NetworkBehaviour
 			else 
 			{
                 SwitchPlayers();
+                ChangeScreenManually();
 			}
 		} 
 
@@ -256,6 +257,22 @@ public class CrosshairMovement : NetworkBehaviour
                 this.init[remoteId] = true;
             }  
             remoteId++;
+        }
+    }
+
+    /// <summary>
+    /// Changes the screen manually using the 1-3 keys, this is for debugging when wiimotes are not connected
+    /// </summary>
+    private void ChangeScreenManually()
+    {
+        // Change Screen Buttons
+        for (int i = 1; i <= 3; i++) 
+        {
+            if (Input.GetKeyDown (i.ToString ())) 
+            {
+                // Subtract 2 here as the screen ids are from -1 to 1
+                screenControlling = i - 2;
+            }
         }
     }
 	public void SetScreenId(int screenId)
