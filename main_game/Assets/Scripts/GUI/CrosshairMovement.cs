@@ -17,13 +17,11 @@ public class CrosshairMovement : NetworkBehaviour
 	private bool canMove = true;
 	public Vector3[] crosshairPosition;
 	private Vector3[] oldCrosshairPosition;
-	private Vector3[] crosshairPositionTmp;
 	private float oldAccel, newAccel;
     private GameObject[] crosshairs;
 	private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
-	private int screenId = 0;
 
 	private GameObject gameManager;
 	private ServerManager serverManager;
@@ -65,7 +63,6 @@ public class CrosshairMovement : NetworkBehaviour
 
 		crosshairPosition = new Vector3[numberOfCrossHairs];
 		oldCrosshairPosition = new Vector3[numberOfCrossHairs];
-		crosshairPositionTmp = new Vector3[numberOfCrossHairs];
 
 		init = new bool[4];
 		crosshairs = new GameObject[4];
@@ -89,39 +86,11 @@ public class CrosshairMovement : NetworkBehaviour
 		Transform selectedCrosshair;
 
 
+        // If the current instance of crosshairMovement is on the server.
 		if(playerController.netId.Value == serverManager.GetServerId())
         {
-			// If there is a wii remote connected.
-			if (WiimoteManager.Wiimotes.Count > 0) 
-			{
-				// Loop through each wii remote id
-				for(int remoteId = 0; remoteId < WiimoteManager.Wiimotes.Count; remoteId++) 
-				{
-					selectedCrosshair = crosshairs[remoteId].transform;
-
-					// Fixes some strange bug where the z value gets set to a rediculous value.
-					oldCrosshairPosition[remoteId].z = 0.0f;
-					crosshairPosition[remoteId].z = 0.0f;
-
-					// Do some interpolation to help smoothing
-					if(crosshairPositionTmp[remoteId] == oldCrosshairPosition[remoteId]) 
-					{
-						if(Math.Abs(selectedCrosshair.position.x) < Math.Abs(crosshairPosition[remoteId].x) &&
-						   Math.Abs(selectedCrosshair.position.y) < Math.Abs(crosshairPosition[remoteId].y)) 
-						{
-							//selectedCrosshair.position = selectedCrosshair.position + (crosshairPosition[remoteId]/50);
-							serverManager.SetCrosshairPosition(remoteId, screenControlling, selectedCrosshair.position + (crosshairPosition[remoteId]/50));
-						}
-					} 
-					else 
-					{
-						//selectedCrosshair.position = oldCrosshairPosition[remoteId];
-						serverManager.SetCrosshairPosition(remoteId, screenControlling, oldCrosshairPosition[remoteId]);
-						crosshairPositionTmp[remoteId] = oldCrosshairPosition[remoteId];
-					}
-				}
-			} 
-			else 
+			// If there is no wii remotes connected.
+			if (WiimoteManager.Wiimotes.Count < 1) 
 			{
                 SwitchPlayers();
                 ChangeScreenManually();
@@ -186,9 +155,7 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
     }
-
-
-
+        
     /// <summary>
     /// Sets the crosshair position using the wii remote
     /// Sends the crosshair position to the correct screen.
@@ -237,9 +204,14 @@ public class CrosshairMovement : NetworkBehaviour
                                 // TODO: this is not tested with a Wiimote and might interfere with smoothing
                                 Target target = GetClosestTarget(position);
                                 if (!target.IsNone())
-                                    crosshairPosition[remoteId] = Camera.main.WorldToScreenPoint(target.GetAimPosition());
-                                else
-                                    crosshairPosition[remoteId] = position;
+                                {
+                                    serverManager.SetCrosshairPosition(remoteId, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+                                }
+                                else 
+                                {
+                                    serverManager.SetCrosshairPosition(remoteId, screenControlling, position);
+                                }
+
 
                                 canMove = false;
                                 StartCoroutine("Delay");
@@ -273,11 +245,7 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
     }
-	public void SetScreenId(int screenId)
-	{
-		this.screenId = screenId;
-		Debug.Log("Set Screen Id to " + screenId);
-	}
+
     public void SetPosition(int crosshairId, Vector2 newPosition)
     {
         int i = crosshairId * 2;
