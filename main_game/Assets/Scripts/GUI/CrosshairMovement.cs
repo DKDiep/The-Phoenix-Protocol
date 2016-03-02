@@ -123,15 +123,7 @@ public class CrosshairMovement : NetworkBehaviour
 			} 
 			else 
 			{
-				// Change Screen Buttons
-				for (int i = 1; i <= 3; i++) 
-				{
-					if (Input.GetKeyDown (i.ToString ())) 
-					{
-						//controlling = i-1;
-						screenControlling = i - 2;
-					}
-				}
+                SwitchPlayers();
 			}
 		} 
 
@@ -175,6 +167,21 @@ public class CrosshairMovement : NetworkBehaviour
         else
         {
             serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
+        }
+    }
+        
+    /// <summary>
+    /// Switch between players using keys 4-7, for debugging different player shooting.
+    /// </summary>
+    void SwitchPlayers() 
+    {
+        // Loop through 4 players
+        for (int i = 4; i <= 7; i++) 
+        {
+            if (Input.GetKeyDown (i.ToString ())) 
+            {
+                controlling = i-4;
+            }
         }
     }
 
