@@ -70,6 +70,9 @@ public class CommandConsoleState : MonoBehaviour {
         shieldsButton.SetActive(true);
         gunsButton.SetActive(true);
         engineButton.SetActive(true);
+
+        // Remove crosshair from this scene. 
+        GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
     }
 
     public void givePlayerControllerReference(PlayerController controller)
