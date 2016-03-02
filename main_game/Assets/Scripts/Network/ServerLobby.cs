@@ -61,6 +61,9 @@ public class ServerLobby : MonoBehaviour {
         // Tell the server which clients will be engineers
         serverManager.SetEngineers(engControllerIds);
 
+
+		serverManager.SetServerId(serverId);
+
         // Populate dictionary matching screen IDs of player controllers to canvas objects
         for (i = 0; i < cameraPanel.transform.childCount; i++)
         {
@@ -70,7 +73,7 @@ public class ServerLobby : MonoBehaviour {
             // Network spawn a crosshair canvas for each camera
             ServerManager.NetworkSpawn(crosshairObject);
             // Add after spawning
-            serverManager.RpcAddCrosshairObject(i, crosshairObject);
+            serverManager.RpcAddCrosshairObject(index, crosshairObject);
         }
 
         // Start the game

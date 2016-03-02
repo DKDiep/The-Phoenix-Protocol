@@ -80,11 +80,12 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState.givePlayerControllerReference(this);
         }
 
-        // tell local manager to disable other crosshairs if not server
-        if (localController != this)
-            serverManager.DisableCrosshairs(localController.index);
     }
     
+	public int GetScreenIndex() 
+	{
+		return index;
+	}
     public void CreateCamera()
     {
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;

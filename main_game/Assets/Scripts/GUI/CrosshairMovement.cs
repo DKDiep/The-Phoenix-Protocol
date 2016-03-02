@@ -22,6 +22,13 @@ public class CrosshairMovement : NetworkBehaviour
     private GameObject[] crosshairs;
 	private WiiRemoteManager wii;
 
+	private int screenControlling = 0;
+	private int screenId = 0;
+
+	private GameObject gameManager;
+	private ServerManager serverManager;
+	private PlayerController playerController;
+
 	// Autoaiming looks for objects inside a sphere in front of the player
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
@@ -34,6 +41,15 @@ public class CrosshairMovement : NetworkBehaviour
     // Use this for initialization
     void Start ()
     {
+
+		gameManager = GameObject.Find("GameManager");
+		serverManager = gameManager.GetComponent<ServerManager>();
+
+
+		if (ClientScene.localPlayers[0].IsValid)
+			playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
@@ -72,144 +88,180 @@ public class CrosshairMovement : NetworkBehaviour
     {
 		Transform selectedCrosshair;
 
-		// If there is a wii remote connected.
-		if (WiimoteManager.Wiimotes.Count > 0) 
+
+		if(playerController.netId.Value == serverManager.GetServerId())
 		{
-			// Loop through each wii remote id
-			for(int remoteId = 0; remoteId < WiimoteManager.Wiimotes.Count; remoteId++) 
+			// If there is a wii remote connected.
+			if (WiimoteManager.Wiimotes.Count > 0) 
 			{
-				selectedCrosshair = crosshairs[remoteId].transform;
-
-				// Fixes some strange bug where the z value gets set to a rediculous value.
-				oldCrosshairPosition[remoteId].z = 0.0f;
-				crosshairPosition[remoteId].z = 0.0f;
-
-				// Do some interpolation to help smoothing
-				if(crosshairPositionTmp[remoteId] == oldCrosshairPosition[remoteId]) 
+				// Loop through each wii remote id
+				for(int remoteId = 0; remoteId < WiimoteManager.Wiimotes.Count; remoteId++) 
 				{
-					if(Math.Abs(selectedCrosshair.position.x) < Math.Abs(crosshairPosition[remoteId].x) &&
-					   Math.Abs(selectedCrosshair.position.y) < Math.Abs(crosshairPosition[remoteId].y)) 
+					selectedCrosshair = crosshairs[remoteId].transform;
+
+					// Fixes some strange bug where the z value gets set to a rediculous value.
+					oldCrosshairPosition[remoteId].z = 0.0f;
+					crosshairPosition[remoteId].z = 0.0f;
+
+					// Do some interpolation to help smoothing
+					if(crosshairPositionTmp[remoteId] == oldCrosshairPosition[remoteId]) 
 					{
-						selectedCrosshair.position = selectedCrosshair.position + (crosshairPosition[remoteId]/50);
+						if(Math.Abs(selectedCrosshair.position.x) < Math.Abs(crosshairPosition[remoteId].x) &&
+						   Math.Abs(selectedCrosshair.position.y) < Math.Abs(crosshairPosition[remoteId].y)) 
+						{
+							//selectedCrosshair.position = selectedCrosshair.position + (crosshairPosition[remoteId]/50);
+							serverManager.SetCrosshairPosition(remoteId, screenControlling, selectedCrosshair.position + (crosshairPosition[remoteId]/50));
+						}
+					} 
+					else 
+					{
+						//selectedCrosshair.position = oldCrosshairPosition[remoteId];
+						serverManager.SetCrosshairPosition(remoteId, screenControlling, oldCrosshairPosition[remoteId]);
+						crosshairPositionTmp[remoteId] = oldCrosshairPosition[remoteId];
 					}
-				} 
-				else 
+				}
+			} 
+			else 
+			{
+				// Change Screen Buttons
+				for (int i = 1; i <= 3; i++) 
 				{
-					selectedCrosshair.position = oldCrosshairPosition[remoteId];
-					crosshairPositionTmp[remoteId] = oldCrosshairPosition[remoteId];
+					if (Input.GetKeyDown (i.ToString ())) 
+					{
+						//controlling = i-1;
+						screenControlling = i - 2;
+					}
 				}
 			}
 		} 
-		else 
-		{
-			// Check to see if any of the crosshair keys have been pressed
-			for (int i = 1; i <= numberOfCrossHairs; i++) 
-			{
-				if (Input.GetKeyDown (i.ToString ())) 
-				{
-					controlling = i-1;
-					Debug.Log ("Controlling " + controlling);
-				}
-			}
+
+		// Update position of crosshairs
+		for(int i = 0; i < 4; i++) {
+			selectedCrosshair = crosshairs[i].transform;
+			selectedCrosshair.position = GetPosition(i);
 		}
     }
 
 	void FixedUpdate ()
     {
-        // Get the currently controlled crosshair
-        Transform selectedCrosshair = crosshairs[controlling].transform;
-
-		// Control crosshair by mouse if there is no wii remote connected.
-		if (WiimoteManager.Wiimotes.Count < 1) 
+		if(playerController.netId.Value == serverManager.GetServerId())
 		{
-			// Update its position to the current mouse position
-			Vector3 currentPosition = selectedCrosshair.position;
-			currentPosition.x = Input.mousePosition.x;
-			currentPosition.y = Input.mousePosition.y;
+	        // Get the currently controlled crosshair
+	        Transform selectedCrosshair = crosshairs[controlling].transform;
 
-			// If there's an autoaim target in range, use that instead of the cursor position
-			Target target = GetClosestTarget(currentPosition);
-			if (!target.IsNone())
-				selectedCrosshair.position = Camera.main.WorldToScreenPoint(target.GetAimPosition());
-			else
-				selectedCrosshair.position = currentPosition;
-		} 
-		else 
-		{
-			int remoteId = 0;
-			foreach(Wiimote remote in WiimoteManager.Wiimotes) 
+			// Control crosshair by mouse if there is no wii remote connected.
+			if (WiimoteManager.Wiimotes.Count < 1) 
 			{
-				selectedCrosshair = crosshairs[remoteId].transform;
-				if (this.init[remoteId]) 
-				{
-					// Set the LEDs on each wii remote to indicate which player is which
-					if(remoteId == 0) remote.SendPlayerLED (true, false, false, false);
-					if(remoteId == 1) remote.SendPlayerLED (false, true, false, false);
-					if(remoteId == 2) remote.SendPlayerLED (false, false, true, false);
-					if(remoteId == 3) remote.SendPlayerLED (false, false, false, true);
+				// Update its position to the current mouse position
+				Vector3 currentPosition = selectedCrosshair.position;
+				currentPosition.x = Input.mousePosition.x;
+				currentPosition.y = Input.mousePosition.y;
 
-					// Set up the IR camera on the wii remote
-					remote.SetupIRCamera (IRDataType.BASIC);
-					this.init[remoteId] = false;
+				// If there's an autoaim target in range, use that instead of the cursor position
+				Target target = GetClosestTarget(currentPosition);
+				if (!target.IsNone())
+				{
+						serverManager.SetCrosshairPosition(controlling, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+
+						//selectedCrosshair.position = Camera.main.WorldToScreenPoint(target.GetAimPosition());
+				
 				}
-				try 
+				else
 				{
-					if (remote.ReadWiimoteData () > 0) 
-					{ 
-						float[] pointer = remote.Ir.GetPointingPosition ();
+					
+						serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
+			
+						//selectedCrosshair.position = currentPosition;
+				
+				}
+				
+			} 
+			else 
+			{
+				int remoteId = 0;
+				foreach(Wiimote remote in WiimoteManager.Wiimotes) 
+				{
+					selectedCrosshair = crosshairs[remoteId].transform;
+					if (this.init[remoteId]) 
+					{
+						// Set the LEDs on each wii remote to indicate which player is which
+						if(remoteId == 0) remote.SendPlayerLED (true, false, false, false);
+						if(remoteId == 1) remote.SendPlayerLED (false, true, false, false);
+						if(remoteId == 2) remote.SendPlayerLED (false, false, true, false);
+						if(remoteId == 3) remote.SendPlayerLED (false, false, false, true);
 
-						// If the delay is over and the crosshair can be updated
-						if(canMove) 
-						{
-							if(pointer[0] != -1 && pointer[1] != -1) 
+						// Set up the IR camera on the wii remote
+						remote.SetupIRCamera (IRDataType.BASIC);
+						this.init[remoteId] = false;
+					}
+					try 
+					{
+						if (remote.ReadWiimoteData () > 0) 
+						{ 
+							float[] pointer = remote.Ir.GetPointingPosition ();
+
+							// If the delay is over and the crosshair can be updated
+							if(canMove) 
 							{
-								oldAccel = newAccel;
-
-								// Get data from the accelerometer
-								newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
-
-								// If there is little movement, don't bother doing this. (Should stop shaking)
-								if(Math.Abs(newAccel - oldAccel) > 0.03) 
+								if(pointer[0] != -1 && pointer[1] != -1) 
 								{
-									oldCrosshairPosition[remoteId] = crosshairPosition[remoteId];
+									oldAccel = newAccel;
 
-									Vector3 position = selectedCrosshair.position;
-									position.x = pointer[0] * Screen.width;
-									position.y = pointer[1] * Screen.height;
+									// Get data from the accelerometer
+									newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
 
-									// If there's an autoaim target in range, use that instead of the pointing position
-									// TODO: this is not tested with a Wiimote and might interfere with smoothing
-									Target target = GetClosestTarget(position);
-									if (!target.IsNone())
-										crosshairPosition[remoteId] = Camera.main.WorldToScreenPoint(target.GetAimPosition());
-									else
-										crosshairPosition[remoteId] = position;
+									// If there is little movement, don't bother doing this. (Should stop shaking)
+									if(Math.Abs(newAccel - oldAccel) > 0.03) 
+									{
+										oldCrosshairPosition[remoteId] = crosshairPosition[remoteId];
 
-									canMove = false;
-									StartCoroutine("Delay");
+										Vector3 position = selectedCrosshair.position;
+										position.x = pointer[0] * Screen.width;
+										position.y = pointer[1] * Screen.height;
+
+										// If there's an autoaim target in range, use that instead of the pointing position
+										// TODO: this is not tested with a Wiimote and might interfere with smoothing
+										Target target = GetClosestTarget(position);
+										if (!target.IsNone())
+											crosshairPosition[remoteId] = Camera.main.WorldToScreenPoint(target.GetAimPosition());
+										else
+											crosshairPosition[remoteId] = position;
+
+										canMove = false;
+										StartCoroutine("Delay");
+									}
 								}
 							}
 						}
-					}
-				} 
-				catch (Exception) 
-				{
-					// Sometimes the wii remote will disconnect so for this we re connect the remote and run the initialise function again.
-					WiimoteManager.FindWiimotes ();
-					this.init[remoteId] = true;
-				}  
-				remoteId++;
+					} 
+					catch (Exception) 
+					{
+						// Sometimes the wii remote will disconnect so for this we re connect the remote and run the initialise function again.
+						WiimoteManager.FindWiimotes ();
+						this.init[remoteId] = true;
+					}  
+					remoteId++;
+				}
 			}
 		}
     }
-
+	public void SetScreenId(int screenId)
+	{
+		this.screenId = screenId;
+		Debug.Log("Set Screen Id to " + screenId);
+	}
     public void SetPosition(int crosshairId, Vector2 newPosition)
     {
         int i = crosshairId * 2;
         position[i] = newPosition.x;
         position[i + 1] = newPosition.y;
-        Debug.Log("newPos");
     }
+
+	private Vector2 GetPosition(int crosshairId)
+	{
+		int i = crosshairId * 2;
+		return new Vector2(position[i], position[i + 1]);
+	}
 
 	IEnumerator FindRemotes()
 	{	
