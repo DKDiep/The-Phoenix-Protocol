@@ -10,6 +10,7 @@ import (
 
 const ADMIN_WEB_DIR string = "../web/admin_web"
 const ADMIN_PORT string = "52932"
+const ADMIN_UPDATE_INTERVAL time.Duration = 3 * time.Second
 const USER_WEB_DIR string = "../web/phone_web"
 const USER_PORT string = "8080"
 const LOCAL_UDP_PORT string = "45678"
@@ -26,8 +27,9 @@ var gameServerTCPConn *net.TCPConn
 
 // Holds and handles game state related information
 var gameState *GameState = &GameState{
-    status:      INIT,
-    updateStopC: nil,
+    status:           INIT,
+    updateStopC:      nil,
+    hasSetupFinished: false,
 }
 
 // Holds the player ship data and modification channels
@@ -48,6 +50,7 @@ var playerMap *PlayerMap = &PlayerMap{
     resetC:      make(chan struct{}),
     startC:      make(chan struct{}),
     sortlC:      make(chan []*Player),
+    listC:       make(chan []PlayerInfo),
     updateC:     make(chan struct{}),
 }
 

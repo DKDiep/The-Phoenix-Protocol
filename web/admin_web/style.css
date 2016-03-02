@@ -1,16 +1,124 @@
 #status {
-  top:0px;
-  border-style: solid;
-  border-color: rgba(100,100,100,0.4);
-  border-width: 0px 0px 2px 0px;
-  background-color: rgba(0,0,0,0.8);
-  height: auto;
-  width: 100%;
-  font-size: 14px;
-  font-family: monospace;
-  color: #ddd;
-  padding-left: 12px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 15px;
+    top:0px;
+    border-style: solid;
+    border-color: rgba(100,100,100,0.4);
+    border-width: 0px 0px 2px 0px;
+    background-color: rgba(0,0,0,0.8);
+    height: auto;
+    width: 100%;
+    font-size: 14px;
+    font-family: monospace;
+    color: #ddd;
+    padding-left: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 15px;
+}
+
+.screen-row-elm {
+    display: inline-block;
+}
+
+/*table related clsses*/
+.table-container {
+    width: 85%;
+}
+
+.table {
+    margin-bottom: 20px;
+}
+
+.table-title {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.table-legend {
+    margin-bottom: 5px;
+}
+
+.cell-legend {
+    text-align: center;
+}
+
+.table-row {
+    width: inherit;
+}
+
+/* all *-entry classes are used on actual entries and not on the legend
+   cell-legend is used on cells instead of these*/
+
+.table-cell {
+    display: inline-block;
+}
+
+.user-name {
+    width: 30%;
+}
+
+.user-name-entry {
+
+}
+
+.user-id {
+    width: 30%;
+}
+
+.user-id-entry {
+
+}
+
+.score {
+    width: 20%;
+}
+
+.score-entry {
+    text-align: right;
+}
+
+.is-online {
+    width: 20%;
+}
+
+.is-online-entry {
+    text-align: center;
+}
+
+/* menu related classes */
+.menu {
+    width: 14%;
+    vertical-align: top;
+    text-align: center;
+}
+
+.start-game-button {
+    margin-bottom: 10px;
+}
+
+.setup-status {
+    margin-bottom: 10px;
+}
+
+.status-not-ready {
+    color: red;
+    font-weight: bold;
+}
+
+.status-ready {
+    color: green;
+    font-weight: bold;
+}
+
+.game-state {
+    margin-bottom: 10px;
+}
+
+.game-state-setup {
+    color: orange;
+    font-weight: bold;
+}
+
+.game-state-running {
+    color: green;
+    font-weight: bold;
 }

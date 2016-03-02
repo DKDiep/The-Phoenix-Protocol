@@ -1,9 +1,5 @@
 var serverSocket;
 
-$( document ).ready(function() {
-    initSocket()
-});
-
 // Initialise the web socket connection
 function initSocket() {
     if(typeof serverSocket === 'undefined') {
@@ -34,16 +30,24 @@ function initSocket() {
 
 // Act based on type of command
 function onMessage(event) {
-    var msg = JSON.parse(event.data);
+    var msg = JSON.parse(event.data)
+    console.log(event.data)
 
-    // TODO: implement commented functions
-    switch (msg.type) {
-        default:
-            console.log("Received unexpected message type: "+msg.type)
+    if (msg.State == "STP" && msg.Ready) {
+        enableStartGame()
+    } else {
+        disableStartGame()
     }
+
+    displayState(msg.State)
+    displayStatus(msg.Ready)
+    displayOfficers(msg.Officers)
+    displaySpectators(msg.Spectators)
 }
 
 function sendStartGameSignal() {
+        // block button until next update is received
+        $('#startGameButton').attr("disabled", true)
         var msg = {
             type: "GM_STRT"
         }
