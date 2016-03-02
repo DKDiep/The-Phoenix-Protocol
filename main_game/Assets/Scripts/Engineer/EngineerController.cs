@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -79,6 +80,9 @@ public class EngineerController : NetworkBehaviour
         runSpeed     = walkSpeed * 2;
         jumpSpeed    = walkSpeed;
         upMultiplier = jumpSpeed / 2;
+
+		int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
+		keyPressTime     = new Dictionary<InteractionKey, float>(enumElements);
     }
 
 	private void LoadSettings()
