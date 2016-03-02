@@ -73,7 +73,7 @@ public class CrosshairMovement : NetworkBehaviour
         // Find crosshairs
 		for(int i = 0; i < 4; ++i)
         {
-			crosshairs[i] = GameObject.Find("CrosshairImage"+i);
+            crosshairs[i] = gameObject.transform.Find("Crosshairs").GetChild(i).gameObject;
 			// Hide crosshairs we are not using
 			if(i >= numberOfCrossHairs) crosshairs[i].SetActive(false);
 
