@@ -734,25 +734,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 22306176}
-  CiviliansText: {fileID: 11440858}
-  HealthText: {fileID: 11458904}
-  ResourcesText: {fileID: 11418198}
-  ShieldsText: {fileID: 11419530}
-  EngineLabel: {fileID: 11443422}
-  ShieldsLabel: {fileID: 11426960}
-  ShieldsUpgradeLabel: {fileID: 11456180}
-  GunsUpgradeLabel: {fileID: 11439378}
-  EngineUpgradeLabel: {fileID: 11478798}
-  PopUpText: {fileID: 11415274}
-  ShieldsButton: {fileID: 144190}
-  GunsButton: {fileID: 157164}
-  EngineButton: {fileID: 140236}
-  PopUp: {fileID: 194140}
-  LevelCounter1: {fileID: 104414}
-  LevelCounter2: {fileID: 187594}
-  LevelCounter3: {fileID: 165892}
-  LevelCounter4: {fileID: 181912}
-  NewsFeed: {fileID: 167460}
+  civiliansText: {fileID: 11440858}
+  healthText: {fileID: 11458904}
+  resourcesText: {fileID: 11418198}
+  shieldsText: {fileID: 11419530}
+  engineLabel: {fileID: 11443422}
+  shieldsLabel: {fileID: 11426960}
+  shieldsUpgradeLabel: {fileID: 11484456}
+  gunsUpgradeLabel: {fileID: 11439378}
+  engineUpgradeLabel: {fileID: 11478798}
+  popUpText: {fileID: 11415274}
+  shieldsButton: {fileID: 144190}
+  gunsButton: {fileID: 157164}
+  engineButton: {fileID: 140236}
+  popUp: {fileID: 194140}
+  levelCounter1: {fileID: 104414}
+  levelCounter2: {fileID: 187594}
+  levelCounter3: {fileID: 165892}
+  levelCounter4: {fileID: 181912}
+  newsFeed: {fileID: 167460}
 --- !u!114 &11411522
 MonoBehaviour:
   m_ObjectHideFlags: 1
