@@ -18,7 +18,7 @@ namespace WiimoteApi
         /// |Index: |     0      |      1     |   2    |    3    |    4    |    5    |    6    |     7     |
         ///
         /// \code int[dot index, x (0) / y (1) / size (2) / xmin (3) / ymin (4) / xmax (5) / ymax (6) / intensity (7)] \endcode
-        /// 
+        ///
         /// \sa IRDataType, Wiimote::SetupIRCamera(IRDataType)
         public ReadOnlyMatrix<int> ir { get { return _ir_readonly; } }
         private ReadOnlyMatrix<int> _ir_readonly;
@@ -31,11 +31,16 @@ namespace WiimoteApi
             _ir_readonly = new ReadOnlyMatrix<int>(_ir);
         }
 
-		public void ResetIR() {
-			_ir = new int[4, 8];
-			_ir_readonly = new ReadOnlyMatrix<int>(_ir);
-			SensorBarIndices = new int[] { -1, -1 };
-		}
+        public void ResetIR() {
+            if(SensorBarIndices[0] != -1)
+                _ir[SensorBarIndices[0],0] = -1;
+            if(SensorBarIndices[1] != -1)
+                _ir[SensorBarIndices[1],0] = -1;
+
+
+            SensorBarIndices[0] = -1;
+            SensorBarIndices[1] = -1;
+        }
         public override bool InterpretData(byte[] data)
         {
             switch (data.Length)
@@ -54,7 +59,7 @@ namespace WiimoteApi
         /// \brief Interprets raw byte data reported by the Wii Remote when in interleaved data reporting mode.
         ///        The format of the actual bytes passed to this depends on the Wii Remote's current data report
         ///        mode and the type of data being passed.
-        /// 
+        ///
         /// \sa Wiimote::ReadWiimoteData()
         public bool InterpretDataInterleaved(byte[] data1, byte[] data2)
         {
@@ -121,7 +126,7 @@ namespace WiimoteApi
         private int[,] InterperetIRData10_Subset(byte[] data)
         {
             if (data.Length != 5) return new int[,] {{-1, -1, -1, -1, -1, -1, -1, -1},
-                                                     {-1, -1, -1, -1, -1, -1, -1, -1}};
+                    {-1, -1, -1, -1, -1, -1, -1, -1}};
 
             int x1 = data[0];
             x1 |= ((int)(data[2] & 0x30)) << 4;
@@ -146,7 +151,7 @@ namespace WiimoteApi
             }
 
             return new int[,] { { x1, y1, -1, -1, -1, -1, -1, -1 },
-                                { x2, y2, -1, -1, -1, -1, -1, -1 }};
+                { x2, y2, -1, -1, -1, -1, -1, -1 }};
         }
 
         private void InterpretIRData12(byte[] data)
@@ -185,7 +190,7 @@ namespace WiimoteApi
         public float[] GetPointingPosition()
         {
             float[] ret = new float[2];
-            float[] midpoint = GetIRMidpoint();
+            float[] midpoint = GetIRMidpoint(false);
             if (midpoint[0] < 0 || midpoint[1] < 0)
                 return new float[] { -1, -1 };
             midpoint[0] = 1 - midpoint[0] - 0.5f;
@@ -214,6 +219,9 @@ namespace WiimoteApi
         {
             float[] ret = new float[2];
             float[,] sensorIR = GetProbableSensorBarIR(predict);
+            if(GetDistanceBetweenPoints(sensorIR[0, 0], sensorIR[0, 1], sensorIR[1, 0], sensorIR[1, 1]) > 500 ) {
+                ResetIR();
+            }
             ret[0] = sensorIR[0, 0] + sensorIR[1, 0];
             ret[1] = sensorIR[0, 1] + sensorIR[1, 1];
             ret[0] /= 2f * 1023f;
@@ -222,9 +230,9 @@ namespace WiimoteApi
             return ret;
         }
 
-		private float getDistanceBetweenPoints(float x1, float y1, float x2, float y2) {
-			return Mathf.Sqrt(Mathf.Pow(x1-x2, 2) + Mathf.Pow(y1-y2, 2));
-		}
+        public float GetDistanceBetweenPoints(float x1, float y1, float x2, float y2) {
+            return Mathf.Sqrt(Mathf.Pow(x1-x2, 2) + Mathf.Pow(y1-y2, 2));
+        }
 
         private float[] LastIRSeparation = new float[] { 0, 0 };
         private int[] SensorBarIndices = new int[] { -1, -1 };
@@ -239,29 +247,42 @@ namespace WiimoteApi
         /// Range: 0-1 with respect to the Wii Remote Camera dimensions.  If \c predict is true this may be outside of that range.
         public float[,] GetProbableSensorBarIR(bool predict = true)
         {
-            // If necessary, change the current "sensor bar" IR indices to new ones.  This happens if one of the dots went out of focus and a new one took its place.
-            // We do this because the Wii Remote reports "consistent" IR dot indices - that is, it tracks the IR dots and doesn't change their index in the IR report.
-            // This way we can rule out extraneous dots that pop in and out randomly as they aren't being tracked.
+            float[,] ret = new float[2, 3];
+            float smallestValue = 1000;
+            float tmpx;
+            float tmpy;
+            float tmpDistance;
             for (int x = 0; x < 2; x++) {
                 if (SensorBarIndices[x] == -1 || _ir[SensorBarIndices[x], 0] == -1) {
                     SensorBarIndices[x] = -1;
                     for (int y = 0; y < 4; y++) {
                         if (SensorBarIndices[(x + 1) % 2] == y) continue; // If the other sensor bar index is this one, ignore it.
-
                         if (_ir[y, 0] != -1) { // If this index is valid, use it.
-							if(SensorBarIndices[(x + 1) % 2] != -1) {
-								// Attempt at stopping it selecting far away points. 
-								if(Mathf.Abs(_ir[y, 0] - _ir[SensorBarIndices[(x + 1) % 2], 0]) < 500) {
-									SensorBarIndices[x] = y;
-									y = 4; // end loop
-								}
-							} else {
-								SensorBarIndices[x] = y;
-								y = 4; // end loop
-							}
+                            if(SensorBarIndices[(x + 1) % 2] != -1) {
+                                tmpx = _ir[SensorBarIndices[(x + 1) % 2], 0];
+                                tmpy = _ir[SensorBarIndices[(x + 1) % 2], 1];
 
-						
-                            
+                                tmpDistance = GetDistanceBetweenPoints(_ir[y, 0], _ir[y, 1], tmpx, tmpy);
+
+                                if(tmpDistance < smallestValue) {
+                                    SensorBarIndices[x] = y;
+                                    smallestValue = tmpDistance;
+                                }
+                            } else {
+                                // If both dots are not defined.
+                                for(int y1 = 0; y1 < 4; y1++) {
+                                    for(int y2 = 0; y2 < 4; y2++) {
+                                        // We don't want the same point!
+                                        if(y1 == y2) continue;
+                                        tmpDistance = GetDistanceBetweenPoints(_ir[y1, 0], _ir[y1, 1], _ir[y2, 0], _ir[y2, 1]);
+                                        if(tmpDistance < smallestValue) {
+                                            SensorBarIndices[0] = y1;
+                                            SensorBarIndices[1] = y2;
+                                            smallestValue = tmpDistance;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -280,7 +301,7 @@ namespace WiimoteApi
 
             if (SensorBarIndices[0] != -1 && SensorBarIndices[1] != -1)
             {
-                float[,] ret = new float[2, 3];
+
                 for (int x = 0; x < 2; x++)
                 {
                     for (int y = 0; y < 2; y++)
@@ -292,13 +313,18 @@ namespace WiimoteApi
                 ret[0, 2] = SensorBarIndices[0];
                 ret[1, 2] = SensorBarIndices[1];
 
+
                 LastIRSeparation[0] = ret[1, 0] - ret[0, 0];
                 LastIRSeparation[1] = ret[1, 1] - ret[0, 1];
 
-                return ret;
+                if(GetDistanceBetweenPoints(ret[0,0], ret[0,1], ret[1,0], ret[1,1]) > 500) {
+                    SensorBarIndices[0] = -1;
+                    SensorBarIndices[1] = -1;
+                }
+
             } else if (predict && SensorBarIndices[0] != -1) // We have enought data to predict (1 dot) and predicting was requested
             {
-                float[,] ret = new float[2, 3];
+
                 ret[0, 0] = _ir[SensorBarIndices[0], 0];
                 ret[0, 1] = _ir[SensorBarIndices[0], 1];
                 ret[0, 2] = SensorBarIndices[0];
@@ -307,14 +333,24 @@ namespace WiimoteApi
                 ret[1, 1] = ret[0, 1] + LastIRSeparation[1];
                 ret[1, 2] = -1;
 
-                return ret;
+
             } else // We don't have enough data
             {
+
                 LastIRSeparation[0] = 0;
                 LastIRSeparation[1] = 0;
 
-                return new float[,] { { -1, -1, -1 }, { -1, -1, -1 } };
+                ret[0, 0] = -1;
+                ret[0, 1] = -1;
+                ret[0, 2] = -1;
+
+                ret[1, 0] = -1;
+                ret[1, 1] = -1;
+                ret[1, 2] = -1;
             }
+
+
+            return ret;
         }
     }
 }

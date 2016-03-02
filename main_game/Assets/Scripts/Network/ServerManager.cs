@@ -26,6 +26,7 @@ public class ServerManager : NetworkBehaviour
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner;
 
+	private uint serverId;
     public int clientIdCount()
     {
         return netIdToRole.Count;
@@ -74,23 +75,20 @@ public class ServerManager : NetworkBehaviour
     }
     
     [ClientRpc]
-    public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
-    {
-        screenIdToCrosshair.Add(screenId, crosshairObject);
-    }
+	public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
+	{
+		screenIdToCrosshair.Add(screenId, crosshairObject);
 
-    // Only leave the corresponding crosshair canvas active
-    public void DisableCrosshairs(int index)
-    {
-        foreach (int screenId in screenIdToCrosshair.Keys)
-        {
-            if (screenId != index)
-            {
-                screenIdToCrosshair[screenId].SetActive(false);
-            }
-        }
-    }
+		PlayerController localController = null;
+		if (ClientScene.localPlayers[0].IsValid)
+			localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
+		if (screenId != localController.GetScreenIndex())
+		{
+			screenIdToCrosshair[screenId].SetActive(false);
+		}
+	}
+		
     // Called automatically by Unity when a player joins
     private void OnClientAddPlayer(NetworkMessage netMsg)
     {
@@ -243,9 +241,18 @@ public class ServerManager : NetworkBehaviour
         gameState.Status = GameState.GameStatus.Started;
     }
 
+	public void SetServerId(uint serverId) 
+	{
+		this.serverId = serverId;
+	}
+
+	public uint GetServerId()
+	{
+		return serverId;
+	}
+		
     public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
     {
-
         GameObject crosshairObject = screenIdToCrosshair[screenId];
         crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);
     }

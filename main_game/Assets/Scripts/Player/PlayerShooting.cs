@@ -158,15 +158,15 @@ public class PlayerShooting : MonoBehaviour
         }
 	}
 
-	// Switch between players using keys 1-4, for debugging different player shooting.
+	// Switch between players using keys 4-7, for debugging different player shooting.
 	void SwitchPlayers() 
 	{
 		// Loop through 4 players
-		for (int i = 1; i <= 4; i++) 
+		for (int i = 4; i <= 7; i++) 
 		{
 			if (Input.GetKeyDown (i.ToString ())) 
 			{
-				currentPlayerId = i-1;
+				currentPlayerId = i-4;
 			}
 		}
 	}
