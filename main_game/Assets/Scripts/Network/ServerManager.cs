@@ -77,7 +77,6 @@ public class ServerManager : NetworkBehaviour
     [ClientRpc]
 	public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
 	{
-		crosshairObject.GetComponent<CrosshairMovement>().SetScreenId(screenId);
 		screenIdToCrosshair.Add(screenId, crosshairObject);
 
 		PlayerController localController = null;

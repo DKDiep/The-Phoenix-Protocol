@@ -115,6 +115,7 @@ public class CrosshairMovement : NetworkBehaviour
 			} 
 			else 
 			{
+                DetermineCrosshairScreen();
                 SetCrosshairPositionWiimote();
 			}
 		}
@@ -229,6 +230,72 @@ public class CrosshairMovement : NetworkBehaviour
             remoteId++;
         }
     }
+
+    private void DetermineCrosshairScreen()
+    {
+        int remoteId = 0;
+        foreach(Wiimote remote in WiimoteManager.Wiimotes)
+        {
+            if(remote.Ir.ir[2, 0] == -1)
+            {
+                screenControlling = 0;
+                Debug.Log("Middle");
+            }
+            else
+            {
+                int apex = 0;
+                float midx = 0;
+                float midy = 0;
+
+                // Points of the triangle
+                float x1 = (float)remote.Ir.ir[0, 0];
+                float y1 = (float)remote.Ir.ir[0, 1];
+                float x2 = (float)remote.Ir.ir[1, 0];
+                float y2 = (float)remote.Ir.ir[1, 1];
+                float x3 = (float)remote.Ir.ir[2, 0];
+                float y3 = (float)remote.Ir.ir[2, 1];
+
+                // Calculate the length of each edge of the triangle
+                double e1 = Math.Sqrt(Math.Pow(x1 - x2,2) + Math.Pow(y1 - y2,2));
+                double e2 = Math.Sqrt(Math.Pow(x2 - x3,2) + Math.Pow(y2 - y3,2));
+                double e3 = Math.Sqrt(Math.Pow(x3 - x1,2) + Math.Pow(y3 - y1,2));
+
+                // Which lines are bigger
+                if(e2 > e1 && e2 > e3)
+                {
+                    apex = 0;
+                    midx = (x2+x3)/2;
+                    midy = (y2+y3)/2;
+                }
+                else if(e3 > e2 && e3 > e1)
+                {
+                    apex = 1;
+                    midx = (x1+x3)/2;
+                    midy = (y1+y3)/2;
+                }
+                else if(e1 > e2 && e1 > e3)
+                {
+                    apex = 2;
+                    midx = (x2+x1)/2;
+                    midy = (y2+y1)/2;
+                }
+                    
+                if(e1 < 400 && e2 < 400 && e3 < 400)
+                {
+                    // If the apex is greater than the y value of the mid point of the two points then it
+                    // is on the right screen.
+                    screenControlling = -1;
+                    if(remote.Ir.ir[apex, 1] > midy)
+                    {
+                        screenControlling = 1;
+                        Debug.Log("right");
+                    }
+                }
+            }
+            remoteId++;
+        }
+    }
+
 
     /// <summary>
     /// Changes the screen manually using the 1-3 keys, this is for debugging when wiimotes are not connected
