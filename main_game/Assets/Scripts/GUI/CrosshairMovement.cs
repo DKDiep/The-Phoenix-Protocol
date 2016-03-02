@@ -16,7 +16,6 @@ public class CrosshairMovement : NetworkBehaviour
 	private float movy;
 	private bool canMove = true;
 	public Vector3[] crosshairPosition;
-	private Vector3[] oldCrosshairPosition;
 	private float oldAccel, newAccel;
     private GameObject[] crosshairs;
 	private WiiRemoteManager wii;
@@ -62,7 +61,6 @@ public class CrosshairMovement : NetworkBehaviour
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 2;
 
 		crosshairPosition = new Vector3[numberOfCrossHairs];
-		oldCrosshairPosition = new Vector3[numberOfCrossHairs];
 
 		init = new bool[4];
 		crosshairs = new GameObject[4];
@@ -195,7 +193,6 @@ public class CrosshairMovement : NetworkBehaviour
                             // If there is little movement, don't bother doing this. (Should stop shaking)
                             if(Math.Abs(newAccel - oldAccel) > 0.03) 
                             {
-                                oldCrosshairPosition[remoteId] = crosshairPosition[remoteId];
 
                                 Vector3 position = selectedCrosshair.position;
                                 position.x = pointer[0] * Screen.width;
@@ -239,7 +236,6 @@ public class CrosshairMovement : NetworkBehaviour
             if(remote.Ir.ir[2, 0] == -1)
             {
                 screenControlling = 0;
-                Debug.Log("Middle");
             }
             else
             {
@@ -288,7 +284,6 @@ public class CrosshairMovement : NetworkBehaviour
                     if(remote.Ir.ir[apex, 1] > midy)
                     {
                         screenControlling = 1;
-                        Debug.Log("right");
                     }
                 }
             }
