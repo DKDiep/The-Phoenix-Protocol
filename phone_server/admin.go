@@ -4,7 +4,25 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
+    "time"
 )
+
+// Encodes the update message to the Admin console
+type AdminUpdateMessage struct {
+    State string
+    // is the game ready to start
+    Ready      bool
+    Officers   []PlayerInfo
+    Spectators []PlayerInfo
+}
+
+// Wrapper of player data that is to be send to the admin
+type PlayerInfo struct {
+    UserName string
+    UserId   string
+    Score    int
+    IsOnline bool
+}
 
 // The web socket of the currently connected admin
 var adminWebSocket *websocket.Conn = nil
@@ -26,7 +44,18 @@ func adminWebSocketHandler(webs *websocket.Conn) {
     if adminWebSocket == nil {
         fmt.Println("Admin: Admin client connected.")
         adminWebSocket = webs
+
+        // start update timer and send firts update
+        stopChan := make(chan struct{})
+        go adminUpdateTimer(stopChan)
+        updateAdmin()
+
+        // block here while connection is active
         handleReceivedData(adminWebSocket)
+
+        // stop update timer
+        stopChan <- struct{}{}
+
         adminWebSocket = nil
         fmt.Println("Admin: Admin client disconnected.")
     }
@@ -68,9 +97,67 @@ func handleAdminMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "GM_STRT":
         fmt.Println("Admin: Received Start Game signal.")
-        gameState.enterRunningState()
-        sendSignalToGameServer(START_GAME)
+        gameState.startGame()
     default:
         fmt.Println("Admin: Received unexpected message of type: ", msg["type"])
+    }
+}
+
+// Goroutine for updating admin data
+func adminUpdateTimer(stop chan struct{}) {
+    ticker := time.NewTicker(ADMIN_UPDATE_INTERVAL)
+    running := true
+    for running {
+        select {
+        // trigger an update sequence
+        case <-ticker.C:
+            updateAdmin()
+        // stop this goroutine
+        case <-stop:
+            running = false
+        }
+    }
+}
+
+// Sends and update to the admin consolel
+func updateAdmin() {
+    if adminWebSocket == nil {
+        return
+    }
+
+    msg := AdminUpdateMessage{}
+
+    // game state information
+    if gameState.status == RUNNING {
+        msg.State = "RUN"
+    } else {
+        msg.State = "STP"
+    }
+
+    msg.Ready = gameState.hasSetupFinished
+
+    officers, spectators := playerMap.getPlayerLists()
+
+    msg.Officers = officers
+    msg.Spectators = spectators
+
+    sendMsgToAdmin(msg)
+}
+
+// Deals with sending the message and error checking
+func sendMsgToAdmin(msg AdminUpdateMessage) {
+    if adminWebSocket == nil {
+        return
+    }
+
+    toSend, err := json.Marshal(msg)
+    if err != nil {
+        fmt.Println("Admin: Error sendMsg(): Failed to marshal JSON: ", err)
+        return
+    }
+
+    _, err = adminWebSocket.Write(toSend)
+    if err != nil {
+        fmt.Println("Error sendMsg(): Failed to send to client: ", err)
     }
 }

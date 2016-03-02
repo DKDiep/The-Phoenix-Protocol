@@ -146,7 +146,9 @@ func sendMsgToGameServer(msg string) (success bool) {
     if gameServerTCPConn == nil {
         success = false
     } else {
-        _, err := gameServerTCPConn.Write([]byte(msg))
+        // All messages have added ";" as a delimiter in case the Game server
+        // receives many at once
+        _, err := gameServerTCPConn.Write([]byte(msg + ";"))
         if err != nil {
             fmt.Println("TCP: Error sending message: " + err.Error())
             success = false

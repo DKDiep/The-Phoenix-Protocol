@@ -11,12 +11,13 @@ type PlayerMap struct {
     mOfficers   map[string]*Player
     mSpec       map[string]*Player
     addC        chan *Player
-    setOfficerC chan *Player   // moves a player in the officer list
-    plrC        chan struct{}  // used for player specific actions
-    resetC      chan struct{}  // prepares the maps for a new game
-    startC      chan struct{}  // triggers state transitions for spectators
-    sortlC      chan []*Player // used for receiving a sorted list of spectators
-    updateC     chan struct{}  // channel for triggering the broadcast of up to date data
+    setOfficerC chan *Player      // moves a player in the officer list
+    plrC        chan struct{}     // used for player specific actions
+    resetC      chan struct{}     // prepares the maps for a new game
+    startC      chan struct{}     // triggers state transitions for spectators
+    sortlC      chan []*Player    // used for receiving a sorted list of spectators
+    listC       chan []PlayerInfo // used to get 2 list of officers and spectators
+    updateC     chan struct{}     // channel for triggering the broadcast of up to date data
 }
 
 // A wrapper around data needed for user addition
@@ -71,9 +72,9 @@ func (players *PlayerMap) accessManager() {
             for _, v := range players.mSpec {
                 v.setState(SPECTATOR)
             }
-        // request a sorted list of all players
+        // request a sorted list of all players on standby
         case <-players.sortlC:
-            list := make([]*Player, 0)
+            list := make([]*Player, 0, 10)
             for _, v := range players.mSpec {
                 if v.state == STANDBY {
                     list = append(list, v)
@@ -81,6 +82,10 @@ func (players *PlayerMap) accessManager() {
             }
             sort.Sort(sort.Reverse(SortedPlayers(list)))
             players.sortlC <- list
+        // gets unordered lists of the players
+        case <-players.listC:
+            players.listC <- getPlayerInfoList(players.mOfficers)
+            players.listC <- getPlayerInfoList(players.mSpec)
         // request to update all users
         case <-players.updateC:
             players.updateData()
@@ -113,6 +118,15 @@ func (players *PlayerMap) get(playerId string) *Player {
 func (players *PlayerMap) getSortedSpectators() []*Player {
     players.sortlC <- nil
     return <-players.sortlC
+}
+
+// Wrapper used for retrieving a list of officers and a list of spectators
+func (players *PlayerMap) getPlayerLists() ([]PlayerInfo, []PlayerInfo) {
+    players.listC <- nil
+    officers := <-players.listC
+    spectators := <-players.listC
+
+    return officers, spectators
 }
 
 // Wrapper used for resetting the players at the start of a new game
@@ -161,4 +175,21 @@ func (players *PlayerMap) updateData() {
     for _, plr := range players.mSpec {
         plr.sendDataUpdate(enemyData, asteroidData)
     }
+}
+
+// Get an unordered list of Player info from the provided map
+func getPlayerInfoList(m map[string]*Player) []PlayerInfo {
+    list := make([]PlayerInfo, 0, 10)
+    for _, plr := range m {
+        newInfo := PlayerInfo{IsOnline: false}
+        newInfo.UserName = plr.userName
+        newInfo.UserId = plr.id
+        newInfo.Score = plr.score
+        if plr.user != nil {
+            newInfo.IsOnline = true
+        }
+        list = append(list, newInfo)
+    }
+
+    return list
 }

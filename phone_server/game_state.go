@@ -14,9 +14,10 @@ const (
 )
 
 type GameState struct {
-    status         GameStateType
-    totalResources int
-    updateStopC    chan struct{}
+    status           GameStateType
+    totalResources   int
+    hasSetupFinished bool
+    updateStopC      chan struct{}
 }
 
 // Enters the pre-game setup state
@@ -42,6 +43,7 @@ func (gs *GameState) enterSetupState() {
     playerMap.resetPlayers()
     // send invitations
     gs.inviteOfficers()
+    gs.hasSetupFinished = true
 }
 
 // Sends out invitations untill there are enough officers
@@ -85,11 +87,18 @@ func (gs *GameState) inviteOfficers() {
 // Enters the game execution state
 // Puts all spectators in the spectator game
 // and starts the periodic updates of game data
-func (gs *GameState) enterRunningState() {
-    // some insurance, might remove later
+func (gs *GameState) startGame() {
     if gs.status == RUNNING {
         return
     }
+
+    // if we can't notify the Game Server do nothing
+    if !sendSignalToGameServer(START_GAME) {
+        return
+    }
+
+    gs.hasSetupFinished = false
+
     gs.status = RUNNING
     // start the spectator game for all spectators
     playerMap.startSpectators()
