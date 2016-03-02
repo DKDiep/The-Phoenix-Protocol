@@ -76,6 +76,9 @@ public class ServerLobby : MonoBehaviour {
             serverManager.RpcAddCrosshairObject(index, crosshairObject);
         }
 
+        // Put an insta
+        GameObject GameTimerObject = Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject))) as GameObject;
+
         // Start the game
         serverManager.StartGame();
         startButton.onClick.RemoveAllListeners();
