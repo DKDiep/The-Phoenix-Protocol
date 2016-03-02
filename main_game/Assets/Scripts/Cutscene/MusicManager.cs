@@ -37,7 +37,6 @@ public class MusicManager : MonoBehaviour
         GetComponent<AudioSource>().Play ();
     }
         
-
 	// Plays a music track with ID as input	
 	public void PlayMusic(int id)
 	{

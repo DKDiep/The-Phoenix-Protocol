@@ -37,6 +37,19 @@ public class BulletLogic : MonoBehaviour
 	private ObjectPoolManager logicManager;
 	private ObjectPoolManager impactManager;
 
+    void Update()
+    {
+        if(enableSound)
+        {
+            distance = Vector3.Distance(transform.position, destination);
+            if(distance < 150)
+            {
+                mySrc.PlayOneShot(sound);
+                enableSound = false;
+            }
+        }
+    }
+
     // Initialise object when spawned
 	public void SetDestination(Vector3 dest, bool isPlayer, GameObject playerObj2, ObjectPoolManager cachedBullet, ObjectPoolManager cachedLogic, ObjectPoolManager cachedImpact)
 	{
@@ -61,19 +74,6 @@ public class BulletLogic : MonoBehaviour
 
 		StartCoroutine ("DestroyObject");
 	}
-
-    void Update()
-    {
-        if(enableSound)
-        {
-            distance = Vector3.Distance(transform.position, destination);
-            if(distance < 150)
-            {
-                mySrc.PlayOneShot(sound);
-                enableSound = false;
-            }
-        }
-    }
 
 	public void SetID(PlayerShooting playerObj, int id)
 	{

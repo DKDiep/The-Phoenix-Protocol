@@ -69,8 +69,7 @@ public class GameState : NetworkBehaviour {
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
 	}
-
-
+        
     private void LoadSettings()
     {
         shipHealth              = settings.PlayerShipStartingHealth;
@@ -85,8 +84,38 @@ public class GameState : NetworkBehaviour {
         turretHealth            = settings.PlayerShipComponentHealth;
         shieldGeneratorHealth   = settings.PlayerShipComponentHealth;
     }
+        
+    void Update()
+    {
+        if(Input.GetKeyDown (KeyCode.Escape))
+        {
+            Application.Quit ();
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            godMode = !godMode;
+            if(!godMode)
+            {
+                shipHealth = settings.PlayerShipStartingHealth;
+                engineHealth = turretHealth = shieldGeneratorHealth = settings.PlayerShipComponentHealth;
+            }
+            Debug.Log("God mode " + godMode);
+        }
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            nosMode = !nosMode;
+            if (nosMode)
+                shipSpeed = NOS_SPEED;
+            else
+                shipSpeed = shipSpeed;
+            Debug.Log("NOS mode " + nosMode);
+        }
 
-  
+        // If in god mode, reset the ship to max possible health every frame
+        if (godMode)
+            shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
+    }
+
 	/// <summary>
 	/// Initialises the upgradable components of the ship.
 	/// </summary>
@@ -127,42 +156,10 @@ public class GameState : NetworkBehaviour {
 
 		return upgradableComponents[(int)index];
 	}
-    
-    void Update()
-    {
-    	if(Input.GetKeyDown (KeyCode.Escape))
-    	{
-    		Application.Quit ();
-    	}
-		if (Input.GetKeyDown(KeyCode.G))
-		{
-			godMode = !godMode;
-			if(!godMode)
-			{
-                shipHealth = settings.PlayerShipStartingHealth;
-                engineHealth = turretHealth = shieldGeneratorHealth = settings.PlayerShipComponentHealth;
-			}
-			Debug.Log("God mode " + godMode);
-		}
-		if(Input.GetKeyDown(KeyCode.N))
-		{
-			nosMode = !nosMode;
-			if (nosMode)
-				shipSpeed = NOS_SPEED;
-			else
-                shipSpeed = shipSpeed;
-			Debug.Log("NOS mode " + nosMode);
-		}
-
-		// If in god mode, reset the ship to max possible health every frame
-		if (godMode)
-			shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
-    }
-
+        
 	/*
 	 *  Getters and setters for Asteroid list
 	 */
-
     public void AddToAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);

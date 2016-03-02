@@ -75,6 +75,16 @@ public class CommandConsoleState : MonoBehaviour {
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
     }
 
+    void FixedUpdate ()
+    { 
+        second += Time.deltaTime;
+        if(second >= 1)
+        {
+            UpdateAllText();
+            second = 0;
+        }
+    }
+
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
@@ -162,17 +172,7 @@ public class CommandConsoleState : MonoBehaviour {
         upgrade = false;
 		UpdateAllText();
     }
-
-    void FixedUpdate ()
-    { 
-        second += Time.deltaTime;
-        if(second >= 1)
-        {
-			UpdateAllText();
-            second = 0;
-        }
-    }
-
+        
 	/// <summary>
 	/// Update all text values on screen.
 	/// </summary>
