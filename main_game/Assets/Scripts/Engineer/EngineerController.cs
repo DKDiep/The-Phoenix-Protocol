@@ -190,6 +190,11 @@ public class EngineerController : NetworkBehaviour
         turrets = new List<GameObject>();
         foreach (EngineerInteraction interaction in interactionObjects)
         {
+            // Ensure that the properties of the Interaction
+            // script are initialized as normally they are only
+            // initialized on the server side
+            interaction.Initialize();
+
 			switch (interaction.Type)
 			{
 			case ComponentType.Engine:
@@ -208,17 +213,43 @@ public class EngineerController : NetworkBehaviour
 
     /// <summary>
     /// Sets the upgradeable and repairable property
-    /// for each game object in the list
+    /// for each game object in the list to value
     /// </summary>
-    /// <param name="upgrade">Wether the job is an upgrade or a repair</param>
+    /// <param name="isUpgrade">Wether the job is an upgrade or a repair</param>
+    /// /// <param name="value">The value to set Upgradeable/Repairable property to</param>
     /// <param name="parts">The list of parts this job applies to</param>
-    private void ProcessJob(bool upgrade, List<GameObject> parts)
+    private void ProcessJob(bool isUpgrade, bool value, List<GameObject> parts)
     {
         foreach (GameObject obj in parts)
         {
             EngineerInteraction interaction = obj.GetComponent<EngineerInteraction>();
 
-            if (upgrade)
+            if (isUpgrade)
+                interaction.Upgradeable = value;
+            else
+                interaction.Repairable = value;
+        }
+    }
+
+    /// <summary>
+    /// Adds the uprade/repair job to the engineer's list
+    /// </summary>
+    /// <param name="isUpgrade">Wether the job is an upgrade or a repair</param>
+    /// <param name="part">The part of the ship this job applies to</param>
+	public void AddJob(bool isUpgrade, ComponentType part)
+    {
+		if (part == ComponentType.Turret)
+        {
+            this.ProcessJob(isUpgrade, true, turrets);
+        }
+		else if (part == ComponentType.Engine)
+        {
+            this.ProcessJob(isUpgrade, true, engines);
+        }
+		else if (part == ComponentType.Bridge)
+        {
+            EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
+            if (isUpgrade)
                 interaction.Upgradeable = true;
             else
                 interaction.Repairable = true;
@@ -226,27 +257,28 @@ public class EngineerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Adds the uprade/repair job to the engineer's list
+    /// Resets the Upgradeable/Repairable attribute of the object
+    /// that has been upgraded/repaired thus taking the job off the queue
     /// </summary>
-    /// <param name="upgrade">Wether the job is an upgrade or a repair</param>
-    /// <param name="part">The part of the ship this job applies to</param>
-	public void AddJob(bool upgrade, ComponentType part)
+    /// <param name="isUpgrade"></param>
+    /// <param name="part"></param>
+    private void FinishJob(bool isUpgrade, ComponentType part)
     {
-		if (part == ComponentType.Turret)
+        if (part == ComponentType.Turret)
         {
-            this.ProcessJob(upgrade, turrets);
+            this.ProcessJob(isUpgrade, false, turrets);
         }
-		else if (part == ComponentType.Engine)
+        else if (part == ComponentType.Engine)
         {
-            this.ProcessJob(upgrade, engines);
+            this.ProcessJob(isUpgrade, false, engines);
         }
-		else if (part == ComponentType.Bridge)
+        else if (part == ComponentType.Bridge)
         {
             EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
-            if (upgrade)
-                interaction.Upgradeable = true;
+            if (isUpgrade)
+                interaction.Upgradeable = false;
             else
-                interaction.Repairable = true;
+                interaction.Repairable = false;
         }
     }
 
@@ -385,9 +417,15 @@ public class EngineerController : NetworkBehaviour
         // Force engineer to repair before upgrading if
         // both are possible
         if (canRepair && keyPressTime[InteractionKey.Repair] >= REPAIR_TIME)
+        {
+            FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
+        }
         else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= UPGRADE_TIME)
+        {
+            FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
+        }
 
         ProgressStepCycle(speed);
     }

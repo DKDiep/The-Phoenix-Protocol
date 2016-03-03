@@ -237,16 +237,16 @@ public class PlayerController : NetworkBehaviour
 	/// <summary>
 	/// Adds a job to the engineer's job queue
 	/// </summary>
-	/// <param name="upgrade">Wether the job is an upgrade or a repair</param>
+	/// <param name="isUpgrade">Wether the job is an upgrade or a repair</param>
 	/// <param name="part">The part to upgrade/repair</param>
-	public void AddJob(bool upgrade, ComponentType part)
+	public void AddJob(bool isUpgrade, ComponentType part)
     {
         // If this is somehow invoked on a client that isn't an engineer
         // or something that isn't a client at all it should be ignored
 		if (role != RoleEnum.Engineer || !isLocalPlayer)
             return;
 
-        engController.AddJob(upgrade, part);
+        engController.AddJob(isUpgrade, part);
     }
 
     /// <summary>
