@@ -79,7 +79,9 @@ public class ServerLobby : MonoBehaviour {
         // Put an insta
         GameObject GameTimerObject = Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject))) as GameObject;
 
-        // Start the game
+        // Instantiate ready screen then remove listener and destroy self
+        GameObject ReadyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
+        // Start game only spawns, call begin to play
         serverManager.StartGame();
         startButton.onClick.RemoveAllListeners();
         Destroy(this.gameObject);

@@ -14,9 +14,8 @@ public class CutsceneManager : MonoBehaviour
 
 	public bool playCutscene = true; // Used to disable the cutscene when testing
     [SerializeField] MusicManager music;
-
-	// Use this for initialization
-	void Awake () 
+    
+	void Play () 
 	{
 		if(playCutscene) StartCoroutine ("Cutscene");
 	}

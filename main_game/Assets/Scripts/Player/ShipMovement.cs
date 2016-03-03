@@ -87,6 +87,9 @@ public class ShipMovement : MonoBehaviour
 
 	void Update () 
 	{
+        if (gameState.Status != GameState.GameStatus.Started)
+            return;
+
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
 
         // Detect key presses, ensure velocity is less than some maximum, ensure the angle is constrained between some limits to avoid the player flying backwards
