@@ -265,10 +265,10 @@ public class EnemyLogic : MonoBehaviour
 					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
 
 				// Create a temp waypoint to follow in order to avoid the asteroid
-				// TODO: when we get a proper ship, rotation axes need to be changed
 				GameObject avoidWaypoint         = new GameObject ();
 				avoidWaypoint.name               = "AvoidWaypoint";
 				avoidWaypoint.transform.position = controlObject.transform.position;
+				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
 				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
@@ -283,7 +283,7 @@ public class EnemyLogic : MonoBehaviour
 
 		// Check if the angle is good for shooting and the enemy is in front of the player
 		Vector3 direction             = player.transform.position - controlObject.transform.position;
-		float angle                   = Vector3.Angle(-controlObject.transform.up, direction);
+		float angle                   = Vector3.Angle(controlObject.transform.forward, direction);
 		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
 		angleGoodForShooting          = (distance < ENGAGE_DISTANCE) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
 		
@@ -350,9 +350,9 @@ public class EnemyLogic : MonoBehaviour
 	private void MoveTowardsPlayer()
 	{
 		controlObject.transform.LookAt(player.transform.position);
-		controlObject.transform.Translate (controlObject.transform.right*Time.deltaTime * speed);
-		controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y,
-			controlObject.transform.eulerAngles.z);
+		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
+		/*controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y,
+			controlObject.transform.eulerAngles.z);*/
 	}
 
 	// Get the next engagement waypoint to follow, which should be different from the previous one
@@ -373,10 +373,7 @@ public class EnemyLogic : MonoBehaviour
 	private bool MoveTowardsCurrentWaypoint()
 	{
 		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
-
-		// TODO: when we get a proper ship, remove the upwards parameter and the extra rotation
-		Quaternion rotation = Quaternion.LookRotation (relativePos, Vector3.forward);
-		rotation *= Quaternion.Euler(-Vector3.right * 90);
+		Quaternion rotation = Quaternion.LookRotation (relativePos);
 
 		// Turn and bank
 		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
@@ -385,7 +382,7 @@ public class EnemyLogic : MonoBehaviour
 		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
 		lastYRot = controlObject.transform.localEulerAngles.y;
 
-		controlObject.transform.Translate (0, Time.deltaTime * speed * (-1), 0); // TODO: when we get a proper ship, move it forwards
+		controlObject.transform.Translate (Vector3.forward * Time.deltaTime * speed);
 
 		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
 		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
@@ -410,10 +407,9 @@ public class EnemyLogic : MonoBehaviour
 		RaycastHit hitInfoLeft, hitInfoRight;
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
-		// TODO: when we get a proper ship, vector directions need to be changed
-		hitLeft = Physics.Raycast (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, -objectTransform.up,
+		hitLeft = Physics.Raycast (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, objectTransform.forward,
 			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
-		hitRight = Physics.Raycast (objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, -objectTransform.up,
+		hitRight = Physics.Raycast (objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, objectTransform.forward,
 			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
 
 		// If an obstacle is found, return its tag

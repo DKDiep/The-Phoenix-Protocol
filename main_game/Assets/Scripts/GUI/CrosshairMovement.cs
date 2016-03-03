@@ -30,7 +30,7 @@ public class CrosshairMovement : NetworkBehaviour
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
 	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
-	private const int AUTOAIM_ADVANCE_OFFSET      = 10;  // The distance at which to aim in front of the target to account for bullet speed
+	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
@@ -340,7 +340,6 @@ public class CrosshairMovement : NetworkBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(aimPosition);
 
 		// Find the objects in a sphere in front of the player
-		// TODO: use layers to remove the physics cost
 		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS);
 		Collider closestCol = null;
 		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
@@ -440,9 +439,8 @@ public class CrosshairMovement : NetworkBehaviour
 		public Vector3 GetAimPosition()
 		{
 			if (this.Object.CompareTag("EnemyShip"))
-				// TODO: When we get a proper enemy ship, update the forward direction
 				// TODO: We might need to aim a bit more in front
-				return this.Position - this.Object.transform.up * AUTOAIM_ADVANCE_OFFSET;
+				return this.Position + this.Object.transform.forward * AUTOAIM_ADVANCE_OFFSET;
 			else
 				return this.Position;
 		}
