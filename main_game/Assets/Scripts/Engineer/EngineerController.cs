@@ -188,6 +188,7 @@ public class EngineerController : NetworkBehaviour
 
         engines = new List<GameObject>();
         turrets = new List<GameObject>();
+        bridge = new List<GameObject>();
         foreach (EngineerInteraction interaction in interactionObjects)
         {
             // Ensure that the properties of the Interaction
