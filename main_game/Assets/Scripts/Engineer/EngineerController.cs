@@ -60,6 +60,11 @@ public class EngineerController : NetworkBehaviour
     private const float REPAIR_TIME = 5;
     private const float UPGRADE_TIME = 5;
 
+    [SerializeField] Material defaultMat;
+    [SerializeField] Material repairMat;
+    [SerializeField] Material upgradeMat;
+
+
     private enum InteractionKey
     {
         Repair,
@@ -503,29 +508,31 @@ public class EngineerController : NetworkBehaviour
     /// <param name="toHighlight">The list of game objects to highlight</param>
     private void Highlight(List<GameObject> toHighlight)
     {
-        /* NOTES (FEEL FREE TO REMOVE ONCE READ):  Since each
-         component must be repaired before it is upgraded, the highlight for repair
-         should take presedence (if we're using different colours). See the example
-         below to see how we can check whether repair or upgrade is available */
 
-        //EXAMPLE CODE: REMOVE ONCE NOT REQUIRED.
-        //NOTE: This only shows how to get the Repairable/Upgradeable property of an object
-        GameObject part = toHighlight[0];
-        EngineerInteraction theInteractionObject = part.GetComponent<EngineerInteraction>();
+        for(int i = 0; i < toHighlight.Count; i++)
+        {
+            GameObject part = toHighlight[i];
+            EngineerInteraction interaction = part.GetComponent<EngineerInteraction>();
 
-        if (theInteractionObject == null)
-        {
-            // Someting probably went wrong as this should only be called
-            // with things that have an EngineerInteraction component
-        }
-
-        if (theInteractionObject.Repairable)
-        {
-            // It should be highlighted repair
-        }
-        else
-        {
-            // It should be highlighted upgrade
+            if (interaction == null)
+            {
+                Debug.Log("EngineerInteraction component could not be found");
+            }
+            else
+            {
+                if (interaction.Repairable)
+                {
+                    // It should be highlighted repair
+                }
+                else if(interaction.Upgradeable)
+                {
+                    // It should be highlighted upgrade
+                }
+                else
+                {
+                    // Default
+                }
+            }
         }
     }
 
