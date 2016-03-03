@@ -8,16 +8,17 @@ import (
 
 // The collection of all players, manages concurrent acces
 type PlayerMap struct {
-    mOfficers   map[string]*Player
-    mSpec       map[string]*Player
-    addC        chan *Player
-    setOfficerC chan *Player      // moves a player in the officer list
-    plrC        chan struct{}     // used for player specific actions
-    resetC      chan struct{}     // prepares the maps for a new game
-    startC      chan struct{}     // triggers state transitions for spectators
-    sortlC      chan []*Player    // used for receiving a sorted list of spectators
-    listC       chan []PlayerInfo // used to get 2 list of officers and spectators
-    updateC     chan struct{}     // channel for triggering the broadcast of up to date data
+    mOfficers     map[string]*Player
+    mSpec         map[string]*Player
+    addC          chan *Player
+    setOfficerC   chan *Player      // moves a player in the officer list
+    setSpectatorC chan *Player      // moves a player in the officer list
+    plrC          chan struct{}     // used for player specific actions
+    resetC        chan struct{}     // prepares the maps for a new game
+    startC        chan struct{}     // triggers state transitions for spectators
+    sortlC        chan []*Player    // used for receiving a sorted list of spectators
+    listC         chan []PlayerInfo // used to get 2 list of officers and spectators
+    updateC       chan struct{}     // channel for triggering the broadcast of up to date data
 }
 
 // A wrapper around data needed for user addition
@@ -53,6 +54,10 @@ func (players *PlayerMap) accessManager() {
         case officer := <-players.setOfficerC:
             delete(players.mSpec, officer.id)
             players.mOfficers[officer.id] = officer
+        // move a player from the spectator map into the officer map
+        case spectator := <-players.setSpectatorC:
+            delete(players.mOfficers, spectator.id)
+            players.mSpec[spectator.id] = spectator
         // blocks the manager, used for user specific actions
         case <-players.plrC:
             <-players.plrC
@@ -101,6 +106,11 @@ func (players *PlayerMap) add(plr *Player) {
 // Wrapper used for placing a player in the officer map
 func (players *PlayerMap) setOfficer(plr *Player) {
     players.setOfficerC <- plr
+}
+
+// Wrapper used for placing a player in the spectator map
+func (players *PlayerMap) setSpectator(plr *Player) {
+    players.setSpectatorC <- plr
 }
 
 // Wrapper used for retrieving a user

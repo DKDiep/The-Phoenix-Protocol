@@ -18,7 +18,7 @@ const GAME_SERVER_ADDRESS string = "192.168.56.1"
 const GAME_SERVER_UDP_PORT string = "2345"
 const GAME_SERVER_TCP_PORT string = "2346"
 const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
-const NUM_OFFICERS int = 0
+const NUM_OFFICERS int = 1
 const OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
 // Structures dealing with the Game Server Connections
@@ -42,16 +42,17 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Holds the player data and modification channels
 var playerMap *PlayerMap = &PlayerMap{
-    mOfficers:   make(map[string]*Player),
-    mSpec:       make(map[string]*Player),
-    addC:        make(chan *Player),
-    setOfficerC: make(chan *Player),
-    plrC:        make(chan struct{}),
-    resetC:      make(chan struct{}),
-    startC:      make(chan struct{}),
-    sortlC:      make(chan []*Player),
-    listC:       make(chan []PlayerInfo),
-    updateC:     make(chan struct{}),
+    mOfficers:     make(map[string]*Player),
+    mSpec:         make(map[string]*Player),
+    addC:          make(chan *Player),
+    setOfficerC:   make(chan *Player),
+    setSpectatorC: make(chan *Player),
+    plrC:          make(chan struct{}),
+    resetC:        make(chan struct{}),
+    startC:        make(chan struct{}),
+    sortlC:        make(chan []*Player),
+    listC:         make(chan []PlayerInfo),
+    updateC:       make(chan struct{}),
 }
 
 // Main structure holding all enemy data
