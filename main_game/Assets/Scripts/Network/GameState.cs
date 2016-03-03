@@ -30,7 +30,8 @@ public class GameState : NetworkBehaviour {
 	public GameObject Portal { get; set; }
 
 	public GameObject PlayerShip { get; set; }
-	private int[] playerScore;
+
+    public SyncListInt playerScore = new SyncListInt();
 
 	// Ship variables used for modifying the ships behaviour
 	private float shipSpeed;
@@ -69,6 +70,7 @@ public class GameState : NetworkBehaviour {
 		
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
+
 	}
         
     private void LoadSettings()
@@ -296,14 +298,14 @@ public class GameState : NetworkBehaviour {
         removedEnemies   = new List<uint>();
         engineerList     = new List<GameObject>();
 		outpostList      = new List<GameObject>();
-		playerScore      = new int[4];
-
-		ResetPlayerScores();
     }
 
     public void Setup()
     {
         InitializeVariables();
+        // Create scores for each player.
+        for(int i = 0; i < 4; i++) 
+            playerScore.Add(0);
     }
 
 	/// <summary>
@@ -326,14 +328,15 @@ public class GameState : NetworkBehaviour {
 	{
 		playerScore[playerId] += score;
 	}
-
-	/// <summary>
-	/// Gets the player scores.
-	/// </summary>
-	/// <returns>The player scores.</returns>
-    public int[] GetPlayerScores()
+      
+    /// <summary>
+    /// Gets the player score.
+    /// </summary>
+    /// <returns>The player score.</returns>
+    /// <param name="id">Identifier.</param>
+    public int GetPlayerScore(int id)
     {
-        return playerScore;
+        return playerScore[id];
     }
 
 	/// <summary>

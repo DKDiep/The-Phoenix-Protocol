@@ -35,7 +35,11 @@ public class GameStatusManager : NetworkBehaviour
 			else
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
 
-            if(playerController.netId.Value != server.GetComponent<ServerManager>().GetServerId())
+            if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+            {
+                gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
+            }
+            else
             {
                 gameOverCanvas.transform.Find("StatusText").gameObject.SetActive(false);
                 gameOverCanvas.transform.Find("GameOverText").gameObject.SetActive(false);
@@ -44,4 +48,6 @@ public class GameStatusManager : NetworkBehaviour
 			gameOverScreen = true;
 		}
 	}
+
+
 }
