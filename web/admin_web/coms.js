@@ -1,5 +1,11 @@
 var serverSocket;
 
+// "enum" for the role types
+roles = {
+    OFFICER: 0,
+    SPECTATOR: 1
+}
+
 // Initialise the web socket connection
 function initSocket() {
     if(typeof serverSocket === 'undefined') {
@@ -31,18 +37,25 @@ function initSocket() {
 // Act based on type of command
 function onMessage(event) {
     var msg = JSON.parse(event.data)
-    console.log(event.data)
-
-    if (msg.State == "STP" && msg.Ready) {
-        enableStartGame()
-    } else {
-        disableStartGame()
-    }
 
     displayState(msg.State)
     displayStatus(msg.Ready)
     displayOfficers(msg.Officers)
     displaySpectators(msg.Spectators)
+
+    if (msg.State == "STP") {
+        if (msg.Ready) {
+            enableStartGame()
+        } else {
+            disableStartGame()
+        }
+    } else {
+        // disable all buttons
+        $('.btn').each(function() {
+            $(this).attr("disabled", true)
+        });
+    }
+
 }
 
 function sendStartGameSignal() {
@@ -53,4 +66,26 @@ function sendStartGameSignal() {
         }
 
         serverSocket.send(JSON.stringify(msg));
+}
+
+function sendSetPlayerSignal(userId, role) {
+    typeStr = ""
+    switch (role) {
+        case roles.OFFICER:
+            typeStr = "SET_OFFIC"
+            break;
+        case roles.SPECTATOR:
+            typeStr = "SET_SPEC"
+            break;
+        default:
+            console.log("Unknown role to request to be set.")
+            return
+    }
+
+    var msg = {
+        type: typeStr,
+        data: userId
+    }
+
+    serverSocket.send(JSON.stringify(msg));
 }

@@ -98,6 +98,26 @@ func handleAdminMessage(msg map[string]interface{}) {
     case "GM_STRT":
         fmt.Println("Admin: Received Start Game signal.")
         gameState.startGame()
+    case "SET_OFFIC":
+        plrId := msg["data"].(string)
+        plr := playerMap.get(plrId)
+        if plr == nil {
+            fmt.Println("Admin: Invalid playerId: " + plrId)
+            return
+        }
+        playerMap.setOfficer(plr)
+        plr.setState(OFFICER)
+    case "SET_SPEC":
+        plrId := msg["data"].(string)
+        plr := playerMap.get(plrId)
+        if plr == nil {
+            fmt.Println("Admin: Invalid playerId: " + plrId)
+            return
+        }
+        playerMap.setSpectator(plr)
+        // this should be received only during setup
+        // when all spectators are on standby
+        plr.setState(STANDBY)
     default:
         fmt.Println("Admin: Received unexpected message of type: ", msg["type"])
     }

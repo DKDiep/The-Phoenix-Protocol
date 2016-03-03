@@ -6,24 +6,37 @@ $( document ).ready(function() {
 
 function disableAdminPanel() {
     displayConnectionError()
-    disableStartGame()
+
+    // disable all buttons
+    $('.btn').each(function() {
+        $(this).attr("disabled", true)
+    });
+
+    // show ERROR everywhere
+    $("#game-state-value").css("color", "red");
+    $("#game-state-value").html("ERROR")
+
+    $("#setup-status-value").css("color", "red")
+    $("#setup-status-value").html("ERROR")
 }
 
 function enableAdminPanel() {
     displayConnectionEstablished()
-    enableStartGame()
+}
+
+function setPlayerAction(btn, userId, role) {
+    btn.disabled = true
+    sendSetPlayerSignal(userId, role)
 }
 
 function displayState(state) {
     switch (state) {
         case "STP":
-            $("#game-state-value").removeClass("game-state-running")
-            $("#game-state-value").addClass("game-state-setup")
+            $("#game-state-value").css("color", "orange")
             $("#game-state-value").html("Setup")
             break;
         case "RUN":
-            $("#game-state-value").removeClass("game-state-setup")
-            $("#game-state-value").addClass("game-state-running")
+            $("#game-state-value").css("color", "green")
             $("#game-state-value").html("Running")
             break;
         default:
@@ -34,39 +47,48 @@ function displayState(state) {
 
 function displayStatus(isReady) {
     if (isReady) {
-        $("#setup-status-value").removeClass("status-not-ready")
-        $("#setup-status-value").addClass("status-ready")
+        $("#setup-status-value").css("color", "green")
         $("#setup-status-value").html("Ready To Start")
     } else {
-        $("#setup-status-value").removeClass("status-ready")
-        $("#setup-status-value").addClass("status-not-ready")
+        $("#setup-status-value").css("color", "red")
         $("#setup-status-value").html("Not Ready")
     }
 }
 
 function displayOfficers(list) {
     newContents = ""
+    list.sort(usernameCompare)
     list.sort(function(a, b) {
         return b.Score - a.Score
     })
     for (plrId in list) {
-        newContents += getPlayerRow(list[plrId])
+        newContents += getPlayerRow(list[plrId], roles.OFFICER)
     }
     $("#officer-elements").html(newContents)
 }
 
 function displaySpectators(list) {
     newContents = ""
+    list.sort(usernameCompare)
     list.sort(function(a, b) {
         return b.Score - a.Score
     })
     for (plrId in list) {
-        newContents += getPlayerRow(list[plrId])
+        newContents += getPlayerRow(list[plrId], roles.SPECTATOR)
     }
     $("#spectator-elements").html(newContents)
 }
 
-function getPlayerRow(player) {
+function usernameCompare(a,b) {
+  if (a.UserName < b.UserName)
+    return -1;
+  else if (a.UserName > b.UserName)
+    return 1;
+  else
+    return 0;
+}
+
+function getPlayerRow(player, role) {
     out  = "<div class=\"table-row\">"
     out += "<div class=\"table-cell user-name user-name-entry\">" + player.UserName + "</div>"
     out += "<div class=\"table-cell user-id user-id-entry\">" + player.UserId + "</div>"
@@ -77,7 +99,22 @@ function getPlayerRow(player) {
     } else {
         out += "No"
     }
-    out += "</div></div>"
+    out += "</div>"
+
+    // action button
+    switch (role) {
+        case roles.OFFICER:
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this,\'" + player.UserId + "\', " + roles.SPECTATOR + ")\">Set Spectator</button>"
+            break;
+        case roles.SPECTATOR:
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this,\'" + player.UserId + "\', " + roles.OFFICER + ")\">Set Officer</button>"
+            break;
+        default:
+            console.log("Unknown role to request to be set.")
+            return "ERROR"
+    }
+
+    out += "</div>"
 
     return out
 }
@@ -112,6 +149,9 @@ function addToLegend(id) {
         "</div>"+
         "<div class=\"table-cell is-online cell-legend\">"+
             "Is Online"+
+        "</div>"+
+        "<div class=\"table-cell user-action cell-legend\">"+
+            "Action"+
         "</div>"+
     "</div>")
 }
