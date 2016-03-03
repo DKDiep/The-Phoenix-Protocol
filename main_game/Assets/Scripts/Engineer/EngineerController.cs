@@ -43,8 +43,8 @@ public class EngineerController : NetworkBehaviour
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
+    private List<GameObject> bridge;
 
-    private GameObject bridge;
     private GameObject playerShip;
     private GameObject dockCanvas;
     private GameObject engineerCanvas;
@@ -201,7 +201,7 @@ public class EngineerController : NetworkBehaviour
 				engines.Add (interaction.gameObject);
 				break;
 			case ComponentType.Bridge:
-				bridge = interaction.gameObject;
+                bridge.Add (interaction.gameObject);
 				break;
 			case ComponentType.Turret:
 				turrets.Add (interaction.gameObject);
@@ -248,11 +248,7 @@ public class EngineerController : NetworkBehaviour
         }
 		else if (part == ComponentType.Bridge)
         {
-            EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
-            if (isUpgrade)
-                interaction.Upgradeable = true;
-            else
-                interaction.Repairable = true;
+            this.ProcessJob(isUpgrade, true, bridge);
         }
     }
 
@@ -274,11 +270,7 @@ public class EngineerController : NetworkBehaviour
         }
         else if (part == ComponentType.Bridge)
         {
-            EngineerInteraction interaction = bridge.GetComponent<EngineerInteraction>();
-            if (isUpgrade)
-                interaction.Upgradeable = false;
-            else
-                interaction.Repairable = false;
+            this.ProcessJob(isUpgrade, false, bridge);
         }
     }
 
@@ -501,5 +493,15 @@ public class EngineerController : NetworkBehaviour
     private void ResetUpgradeText()
     {
         upgradeText.text = "";
+    }
+
+    private void Highlight()
+    {
+
+    }
+
+    private void UnHighlight()
+    {
+
     }
 }
