@@ -118,6 +118,11 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("Role set: "+ role);
     }
 
+
+    public RoleEnum GetRole()
+    {
+        return role;
+    }
     // RpcRotateCamera sets orientation using the yRotate, it is not a relative rotation
     [ClientRpc]
     public void RpcRotateCamera(float yRotate, uint receivedId)

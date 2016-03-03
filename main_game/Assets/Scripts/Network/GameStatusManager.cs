@@ -35,15 +35,24 @@ public class GameStatusManager : NetworkBehaviour
 			else
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
 
-            if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+            if(playerController.GetRole() == RoleEnum.Camera)
+            {
+                // If it is the server, disable stats
+                if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+                {
+                    gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
+                }
+                else 
+                {
+                    gameOverCanvas.transform.Find("StatusText").gameObject.SetActive(false);
+                    gameOverCanvas.transform.Find("GameOverText").gameObject.SetActive(false);
+                }
+            } 
+            else 
             {
                 gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
             }
-            else
-            {
-                gameOverCanvas.transform.Find("StatusText").gameObject.SetActive(false);
-                gameOverCanvas.transform.Find("GameOverText").gameObject.SetActive(false);
-            }
+           
 
 			gameOverScreen = true;
 		}
