@@ -127,8 +127,12 @@ public class GameState : NetworkBehaviour {
 		int numComponents    = Enum.GetNames(typeof(UpgradableComponentIndex)).Length;
 		upgradableComponents = new UpgradableComponent[numComponents];
 
-		// TODO: fill in with the other components
-		upgradableComponents[(int)UpgradableComponentIndex.Engines] = new UpgradableEngine();
+		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		= new UpgradableEngine();
+		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
+		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
+		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    = new UpgradableShieldGenerator();
+		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
+		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] = new UpgradableResourceStorage();
 	}
 
 	/// <summary>
