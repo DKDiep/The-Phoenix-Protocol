@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj:
-  - {fileID: 175856, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
+  - {fileID: 105150, guid: be195d7c1c54c4a18849e76b3c74c5d0, type: 2}
   size: 200
   serverOnly: 0
 --- !u!114 &877425281
