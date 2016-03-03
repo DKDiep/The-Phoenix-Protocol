@@ -177,7 +177,7 @@ func updateShipData(data map[string]interface{}) {
 func setEnemies(data []interface{}) {
     for _, d := range data {
         enemy := d.(map[string]interface{})
-        enemyMap.set(int(enemy["id"].(float64)),
+        enemyMap.set(int64(enemy["id"].(float64)),
             &Enemy{
                 posX: enemy["x"].(float64),
                 posY: enemy["y"].(float64),
@@ -189,7 +189,7 @@ func setEnemies(data []interface{}) {
 // TODO: optimise this to do only a single channel send per set of enemies
 func removeEnemies(data []interface{}) {
     for _, id := range data {
-        enemyMap.remove(int(id.(float64)))
+        enemyMap.remove(int64(id.(float64)))
     }
 }
 

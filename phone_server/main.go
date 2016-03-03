@@ -42,8 +42,8 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Holds the player data and modification channels
 var playerMap *PlayerMap = &PlayerMap{
-    mOfficers:     make(map[string]*Player),
-    mSpec:         make(map[string]*Player),
+    mOfficers:     make(map[uint64]*Player),
+    mSpec:         make(map[uint64]*Player),
     addC:          make(chan *Player),
     setOfficerC:   make(chan *Player),
     setSpectatorC: make(chan *Player),
@@ -57,11 +57,11 @@ var playerMap *PlayerMap = &PlayerMap{
 
 // Main structure holding all enemy data
 var enemyMap *EnemyMap = &EnemyMap{
-    m:      make(map[int]*Enemy),
-    delC:   make(chan int),
+    m:      make(map[int64]*Enemy),
+    delC:   make(chan int64),
     setC:   make(chan NewEnemy),
     resetC: make(chan struct{}),
-    copyC:  make(chan map[int]*Enemy),
+    copyC:  make(chan map[int64]*Enemy),
 }
 
 // Main structure holding all asteroid data

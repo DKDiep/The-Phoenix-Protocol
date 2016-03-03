@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
+    "strconv"
     "time"
 )
 
@@ -19,7 +20,7 @@ type AdminUpdateMessage struct {
 // Wrapper of player data that is to be send to the admin
 type PlayerInfo struct {
     UserName string
-    UserId   string
+    UserId   uint64
     Score    int
     IsOnline bool
 }
@@ -99,19 +100,19 @@ func handleAdminMessage(msg map[string]interface{}) {
         fmt.Println("Admin: Received Start Game signal.")
         gameState.startGame()
     case "SET_OFFIC":
-        plrId := msg["data"].(string)
+        plrId := uint64(msg["data"].(float64))
         plr := playerMap.get(plrId)
         if plr == nil {
-            fmt.Println("Admin: Invalid playerId: " + plrId)
+            fmt.Println("Admin: Invalid playerId: " + strconv.FormatUint(plrId, 10))
             return
         }
         playerMap.setOfficer(plr)
         plr.setState(OFFICER)
     case "SET_SPEC":
-        plrId := msg["data"].(string)
+        plrId := uint64(msg["data"].(float64))
         plr := playerMap.get(plrId)
         if plr == nil {
-            fmt.Println("Admin: Invalid playerId: " + plrId)
+            fmt.Println("Admin: Invalid playerId: " + strconv.FormatUint(plrId, 10))
             return
         }
         playerMap.setSpectator(plr)

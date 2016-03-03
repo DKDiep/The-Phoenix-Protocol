@@ -55,7 +55,7 @@ function onMessage(event) {
 
 // Request information for an existing user
 function requestUserUpdate() {
-    var userId = Cookies.get("user_id")
+    var userId = parseInt(Cookies.get("user_id"))
     var msg = {
         type: "UPDATE_USER",
         data: userId

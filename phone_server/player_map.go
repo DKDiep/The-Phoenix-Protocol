@@ -8,8 +8,8 @@ import (
 
 // The collection of all players, manages concurrent acces
 type PlayerMap struct {
-    mOfficers     map[string]*Player
-    mSpec         map[string]*Player
+    mOfficers     map[uint64]*Player
+    mSpec         map[uint64]*Player
     addC          chan *Player
     setOfficerC   chan *Player      // moves a player in the officer list
     setSpectatorC chan *Player      // moves a player in the officer list
@@ -114,7 +114,7 @@ func (players *PlayerMap) setSpectator(plr *Player) {
 }
 
 // Wrapper used for retrieving a user
-func (players *PlayerMap) get(playerId string) *Player {
+func (players *PlayerMap) get(playerId uint64) *Player {
     players.plrC <- struct{}{}
     plr := players.mSpec[playerId]
     if plr == nil {
@@ -188,7 +188,7 @@ func (players *PlayerMap) updateData() {
 }
 
 // Get an unordered list of Player info from the provided map
-func getPlayerInfoList(m map[string]*Player) []PlayerInfo {
+func getPlayerInfoList(m map[uint64]*Player) []PlayerInfo {
     list := make([]PlayerInfo, 0, 10)
     for _, plr := range m {
         newInfo := PlayerInfo{IsOnline: false}

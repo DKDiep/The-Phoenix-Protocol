@@ -13,7 +13,7 @@ const (
 
 // Holds player related data
 type Player struct {
-    id       string
+    id       uint64
     userName string
     state    PlayerState
     score    int
@@ -60,7 +60,7 @@ func (plr *Player) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Asteroid) {
+func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*Asteroid) {
     // players with no active user don't need updating
     if plr.user == nil {
         return
