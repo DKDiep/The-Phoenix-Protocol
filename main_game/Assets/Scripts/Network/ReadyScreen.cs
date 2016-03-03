@@ -22,7 +22,7 @@ public class ReadyScreen : MonoBehaviour {
     public void OnClickStartButton()
     {
         // Start the game
-        serverManager.StartGame();
+        serverManager.Play();
         // Disable self until restart
         gameObject.SetActive(false);
     }
