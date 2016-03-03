@@ -70,12 +70,12 @@ public class ConsoleShipControl : MonoBehaviour {
 		lineRenderer2.SetVertexCount(2);
 
 		lineRenderer.SetPosition(0, leftEngine.position);
-		lineRenderer.SetPosition(1, new Vector3(-2, 2, 8));
+		lineRenderer.SetPosition(1, new Vector3(-4.6f, 1.7f, 8));
 
 		lineRenderer1.SetPosition(0, hullFront.position);
-		lineRenderer1.SetPosition(1, new Vector3(5.5f, 1.5f, 8));
+        lineRenderer1.SetPosition(1, new Vector3(-4.6f, 0.4f, 8));
 
 		lineRenderer2.SetPosition(0, captainBridge.position);
-		lineRenderer2.SetPosition(1, new Vector3(3, 3, 8));
+        lineRenderer2.SetPosition(1, new Vector3(-4.6f, -0.9f, 8));
 	}
 }
