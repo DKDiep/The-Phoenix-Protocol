@@ -522,15 +522,16 @@ public class EngineerController : NetworkBehaviour
             {
                 if (interaction.Repairable)
                 {
-                    // It should be highlighted repair
+                    part.GetComponent<Renderer>().material = repairMat;
                 }
                 else if(interaction.Upgradeable)
                 {
-                    // It should be highlighted upgrade
+                    part.GetComponent<Renderer>().material = upgradeMat;
                 }
                 else
                 {
                     // Default
+                    part.GetComponent<Renderer>().material = defaultMat;
                 }
             }
         }
