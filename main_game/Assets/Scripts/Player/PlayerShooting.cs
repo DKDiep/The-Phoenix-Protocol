@@ -33,6 +33,8 @@ public class PlayerShooting : MonoBehaviour
 	private ObjectPoolManager muzzleFlashManager;
 	private ObjectPoolManager impactManager;
 
+    private GameState gameState;
+
 	// Which player are we controlling via the mouse. (For debugging different players)
 	private int currentPlayerId = 0;
 
@@ -40,6 +42,8 @@ public class PlayerShooting : MonoBehaviour
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
+
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
 	}
 
 	private void LoadSettings()
@@ -81,6 +85,9 @@ public class PlayerShooting : MonoBehaviour
 
 	void Update () 
 	{
+        if (gameState.Status != GameState.GameStatus.Started)
+            return;
+
         SwitchPlayers();
 
 		// Use mouse if there are no wii remotes.

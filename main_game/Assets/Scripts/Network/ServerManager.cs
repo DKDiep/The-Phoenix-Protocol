@@ -228,8 +228,6 @@ public class ServerManager : NetworkBehaviour
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
-
-        playerShipLogic.SetActive(false);
     }
 
     public void Play()
