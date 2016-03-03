@@ -108,7 +108,7 @@ public class GameState : NetworkBehaviour {
             if (nosMode)
                 shipSpeed = NOS_SPEED;
             else
-                shipSpeed = shipSpeed;
+                shipSpeed = settings.PlayerShipStartingSpeed;
             Debug.Log("NOS mode " + nosMode);
         }
 
