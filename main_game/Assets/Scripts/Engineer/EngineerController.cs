@@ -495,13 +495,47 @@ public class EngineerController : NetworkBehaviour
         upgradeText.text = "";
     }
 
-    private void Highlight()
+    /// <summary>
+    /// Highlights the list of game objects based on whether
+    /// an upgrade or a repair is possible
+    /// </summary>
+    /// <param name="toHighlight">The list of game objects to highlight</param>
+    private void Highlight(List<GameObject> toHighlight)
     {
+        /* NOTES (FEEL FREE TO REMOVE ONCE READ):  Since each
+         component must be repaired before it is upgraded, the highlight for repair
+         should take presedence (if we're using different colours). See the example
+         below to see how we can check whether repair or upgrade is available */
 
+        //EXAMPLE CODE: REMOVE ONCE NOT REQUIRED.
+        //NOTE: This only shows how to get the Repairable/Upgradeable property of an object
+        GameObject part = toHighlight[0];
+        EngineerInteraction theInteractionObject = part.GetComponent<EngineerInteraction>();
+
+        if (theInteractionObject == null)
+        {
+            // Someting probably went wrong as this should only be called
+            // with things that have an EngineerInteraction component
+        }
+
+        if (theInteractionObject.Repairable)
+        {
+            // It should be highlighted repair
+        }
+        else
+        {
+            // It should be highlighted upgrade
+        }
     }
 
-    private void UnHighlight()
+    /// <summary>
+    /// Un-highlights the list of game objects
+    /// </summary>
+    /// <param name="unHighlight"></param>
+    private void UnHighlight(List<GameObject> unHighlight)
     {
-
+        /* NOTES (FEEL FREE TO REMOVE ONCE READ):  If a component has been repaired
+         the repair highlight should be taken away, but if it is also upgradeable then the
+         upgrade highlight should still be applied */
     }
 }
