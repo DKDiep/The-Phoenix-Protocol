@@ -502,12 +502,29 @@ public class EngineerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Highlights the list of game objects based on whether
-    /// an upgrade or a repair is possible
+    /// Highlights all components of type component
     /// </summary>
-    /// <param name="toHighlight">The list of game objects to highlight</param>
-    private void Highlight(List<GameObject> toHighlight)
+    /// <param name="component">The components to highlight</param>
+    private void Highlight(ComponentType component)
     {
+        // The list of game objects that need to be highlighted
+        List<GameObject> toHighlight = null;
+
+        switch (component)
+        {
+            case ComponentType.Engine:
+                toHighlight = engines;
+                break;
+            case ComponentType.Turret:
+                toHighlight = turrets;
+                break;
+            case ComponentType.Bridge:
+                toHighlight = bridge;
+                break;
+            default:
+                Debug.Log("ERROR: Failed to identify component type for highlighting");
+                return;
+        }
 
         for(int i = 0; i < toHighlight.Count; i++)
         {
@@ -535,16 +552,5 @@ public class EngineerController : NetworkBehaviour
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Un-highlights the list of game objects
-    /// </summary>
-    /// <param name="unHighlight"></param>
-    private void UnHighlight(List<GameObject> unHighlight)
-    {
-        /* NOTES (FEEL FREE TO REMOVE ONCE READ):  If a component has been repaired
-         the repair highlight should be taken away, but if it is also upgradeable then the
-         upgrade highlight should still be applied */
     }
 }
