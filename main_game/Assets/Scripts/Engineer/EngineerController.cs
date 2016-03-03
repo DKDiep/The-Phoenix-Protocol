@@ -256,6 +256,9 @@ public class EngineerController : NetworkBehaviour
         {
             this.ProcessJob(isUpgrade, true, bridge);
         }
+
+        // Highlight the appropriate components
+        Highlight(part);
     }
 
     /// <summary>
@@ -278,6 +281,9 @@ public class EngineerController : NetworkBehaviour
         {
             this.ProcessJob(isUpgrade, false, bridge);
         }
+
+        // Un-highlight the appropriate components
+        Highlight(part);
     }
 
     /// <summary>
