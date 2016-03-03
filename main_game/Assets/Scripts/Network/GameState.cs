@@ -16,7 +16,6 @@ public class GameState : NetworkBehaviour {
     public enum GameStatus { Setup, Started, Won, Died };
 
     private GameSettings settings;
-	public GameStatus Status { get; set; }
 
     private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
@@ -41,6 +40,8 @@ public class GameState : NetworkBehaviour {
 	// The total ship resources that has been collected over the whole game.
 	// This is used for the final score.
 	private int totalShipResources;
+
+    [SyncVar] public GameStatus Status;
 	// We set this to the max shields as we assume we start off with max shields.
 	[SyncVar] private float shipShield;
 	// The ships resources value that is shown to the commander, this is used to purchase upgrades. 
