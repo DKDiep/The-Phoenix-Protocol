@@ -19,29 +19,27 @@ public class GameStatsManager : MonoBehaviour
     {
         while (true)
         {
-            if (state != null)
+            if (state.Status == GameState.GameStatus.Started)
             {
-                int[] playerScores = state.GetPlayerScores();
                 string jsonMsg = "{\"playerscores\":[";
-                if (playerScores != null)
-                {
-                    foreach (uint playerScore in playerScores)
-                    {
-						jsonMsg += playerScore + ",";
-                    }
-                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-                    jsonMsg += "],";
-                    jsonMsg += "\"totalShipResources\": " + state.GetTotalShipResources() + ",";
-                    jsonMsg += "\"shipResources\": " + state.GetShipResources() + ",";
-                    jsonMsg += "\"shipHealth\": " + state.GetShipHealth();
-                    jsonMsg += "}";
 
-                    string url = "http://localhost:8080/game_data";
-                    WWWForm form = new WWWForm();
-                    form.AddField("JSON:", jsonMsg);
-                    WWW www = new WWW(url, form);
-                    yield return www;
+                for (int i = 0; i < 4; i++)
+                {
+                    jsonMsg += state.GetPlayerScore(i) + ",";
                 }
+                jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                jsonMsg += "],";
+                jsonMsg += "\"totalShipResources\": " + state.GetTotalShipResources() + ",";
+                jsonMsg += "\"shipResources\": " + state.GetShipResources() + ",";
+                jsonMsg += "\"shipHealth\": " + state.GetShipHealth();
+                jsonMsg += "}";
+
+                string url = "http://localhost:8080/game_data";
+                WWWForm form = new WWWForm();
+                form.AddField("JSON:", jsonMsg);
+                WWW www = new WWW(url, form);
+                yield return www;
+
             }
             yield return new WaitForSeconds(5);
         }
