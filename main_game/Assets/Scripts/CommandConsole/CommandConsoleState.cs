@@ -185,10 +185,10 @@ public class CommandConsoleState : MonoBehaviour {
 		float shipShields = gameState.GetShipShield();
 
 		// Update the text
-		civiliansText.text = "Civilians:  " + shipCivilians;
-		resourcesText.text = "Resources:  " + shipResources;
-		healthText.text    = "Health:  " + shipHealth;
-		shieldsText.text   = "Shields:  " + shipShields;
+        civiliansText.text = shipCivilians.ToString();;
+        resourcesText.text = shipResources.ToString();;
+        healthText.text    = shipHealth.ToString();;
+        shieldsText.text   = shipShields.ToString();;
 	}
     
     public void foundOutpost(string message)
