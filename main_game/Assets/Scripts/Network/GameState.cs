@@ -154,7 +154,12 @@ public class GameState : NetworkBehaviour {
 		case ComponentType.Turret:
 			index = UpgradableComponentIndex.Turrets;
 			break;
-		// TODO: add drone and resource storage
+		case ComponentType.Drone:
+			index = UpgradableComponentIndex.Drone;
+			break;
+		case ComponentType.ResourceStorage:
+			index = UpgradableComponentIndex.ResourceStorage;
+			break;
 		}
 
 		return upgradableComponents[(int)index];
