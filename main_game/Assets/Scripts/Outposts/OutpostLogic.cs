@@ -14,7 +14,10 @@ public class OutpostLogic : MonoBehaviour {
 	private bool civiliansCollected = false;
 
 	private int numberOfResources;
-	private int numberOfCivilians; 
+	private int numberOfCivilians;
+
+    [SerializeField] Material helpMat;
+    [SerializeField] Material savedMat;
 
 	// Use this for initialization
 	void Start () 
@@ -22,7 +25,6 @@ public class OutpostLogic : MonoBehaviour {
 		// Set the number of resources for this outpost to be between the min and max value.
 		numberOfResources = Random.Range(MIN_OUTPOST_RESOURCES, MAX_OUTPOST_RESOURCES);
 		numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
-        transform.parent.eulerAngles = new Vector3(Random.Range(-30, 10), Random.Range(0, 359), Random.Range(-20, 20));
 	}
 		
 	/// <summary>
@@ -35,13 +37,34 @@ public class OutpostLogic : MonoBehaviour {
 		{
 			CollectResources();
 			resourcesCollected = true;
+            SwitchMaterial();
 		}
 		if(!civiliansCollected) 
 		{
 			CollectCivilians();
 			civiliansCollected = true;
+            SwitchMaterial();
 		}
 	}
+
+    private void SwitchMaterial()
+    {
+        GameObject light = null;
+
+        foreach(Transform child in transform.parent)
+        {
+            if(child.gameObject.name.Equals("TopCap"))
+            {
+                light = child.gameObject;
+                break;
+            }
+        }
+
+        if(light == null)
+            Debug.LogError("TopCap game object in outpost could not be found");
+
+        light.GetComponent<Renderer>().material = savedMat;
+    }
 
 	/// <summary>
 	/// Handle the player colliding into the outpost.
@@ -59,6 +82,7 @@ public class OutpostLogic : MonoBehaviour {
 	public void SetStateReference(GameState state)
 	{
 		gameState = state;
+        transform.parent.eulerAngles = new Vector3(Random.Range(-30, 10), Random.Range(0, 359), Random.Range(-20, 20));
 	}
 
 	public void CollectResources() 
