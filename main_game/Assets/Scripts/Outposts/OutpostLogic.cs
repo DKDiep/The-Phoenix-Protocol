@@ -22,6 +22,7 @@ public class OutpostLogic : MonoBehaviour {
 		// Set the number of resources for this outpost to be between the min and max value.
 		numberOfResources = Random.Range(MIN_OUTPOST_RESOURCES, MAX_OUTPOST_RESOURCES);
 		numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
+        transform.parent.eulerAngles = new Vector3(Random.Range(-30, 10), Random.Range(0, 359), Random.Range(-20, 20));
 	}
 		
 	/// <summary>
