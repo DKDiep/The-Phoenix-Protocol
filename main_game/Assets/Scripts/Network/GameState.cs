@@ -144,7 +144,6 @@ public class GameState : NetworkBehaviour {
     /// <summary>
     /// Returns the current difficulty
     /// </summary>
-    /// <param name="amount">The amount to decrease by.</param>
     public int GetDifficulty()
     {
         return difficulty;

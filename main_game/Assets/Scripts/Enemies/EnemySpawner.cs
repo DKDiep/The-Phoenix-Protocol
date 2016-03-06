@@ -79,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator TimedDifficulty()
     {
         IncreaseDifficulty();
-        yield return new WaitForSeconds(30f);
+        yield return new WaitForSeconds(45f);
         StartCoroutine("TimedDifficulty");
 
     }
@@ -124,9 +124,10 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 glomCruiserLimit = 101;
                 break;
-            // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase indefinitely
+            // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
             default :
-                maxEnemies += 20;
+                if(maxEnemies < 100)
+                    maxEnemies += 10;
                 break;
         }
 
