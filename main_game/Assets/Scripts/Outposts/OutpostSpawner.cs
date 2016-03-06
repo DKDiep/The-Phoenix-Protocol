@@ -102,6 +102,7 @@ public class OutpostSpawner : MonoBehaviour
 		outpostLogic.transform.parent = outpostObject.transform;
 		outpostLogic.transform.localPosition = Vector3.zero;
 		outpostObject.AddComponent<OutpostCollision>();
+        outpostObject.transform.eulerAngles = new Vector3(Random.Range(-30, 10), Random.Range(0, 359), Random.Range(-20, 20));
 
 		//outpostLogic.GetComponent<OutpostLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
 		outpostLogic.GetComponent<OutpostLogic>().SetStateReference(gameState);
