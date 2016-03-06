@@ -226,9 +226,11 @@ public class EnemyLogic : MonoBehaviour
 		/* Assuming a 10 minute game, there is a 1% chance that an enemy will go mad.
 		 * It's pointless to add a parameter and do the calculations in engine, since it involves finding the 36000th root of the probability value.
 		 * We use C#'s random instead of Unity's because we need double precision. */
+
+         /*
 		double madnessCheck = sysRand.NextDouble ();
 		if (madnessCheck > MADNESS_PROB)
-			isSuicidal = true;
+			isSuicidal = true;*/
 
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
