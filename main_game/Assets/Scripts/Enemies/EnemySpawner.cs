@@ -89,9 +89,13 @@ public class EnemySpawner : MonoBehaviour
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Fighter, 100, 0, 15, 15)); // This is the "default" enemy we had before introducing types
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Tank, 200, 50, 50, 10));
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Assassin, 50, 20, 5, 30));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5));
 	}
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
@@ -351,7 +355,11 @@ public class EnemySpawner : MonoBehaviour
 // The types of enemies available. Each type should have its properties initialised before it's used
 public enum EnemyType
 {
-	Fighter,
-	Tank,
-	Assassin
+	Gnat,
+    Firefly,
+    Termite,
+    LightningBug,
+    Hornet,
+    BlackWidow,
+    GlomCruiser
 }
