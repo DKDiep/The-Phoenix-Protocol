@@ -18,8 +18,6 @@ public class EnemyLogic : MonoBehaviour
 	private GameSettings settings;
 
 	// Configuration parameters loaded through GameSettings
-	private float shotsPerSec;
-	private float shootPeriod; 					// How long in seconds the enemy should shoot for when it fires
 	private int shootPeriodPercentageVariation; // Percentage variation +/- in the length of the shooting period
 	private float shieldDelay; 					// Delay in seconds to wait before recharging shield
 	private float shieldRechargeRate; 			// Units of shield to increase per second
@@ -33,6 +31,9 @@ public class EnemyLogic : MonoBehaviour
 	internal float maxHealth;
 	internal float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	internal float collisionDamage;
+    internal bool isSuicidal;
+    internal float shotsPerSec;
+    internal float shootPeriod;                  // How long in seconds the enemy should shoot for when it fires
 	internal EnemyType type;
 
 	private AudioSource mySrc;
@@ -40,9 +41,7 @@ public class EnemyLogic : MonoBehaviour
 	private GameObject player;
 
 	private bool shoot = false, angleGoodForShooting = false;
-	private bool rechargeShield;
-
-	private bool isSuicidal;
+	private bool rechargeShield;   
 
 	internal float health;
 	private float shield;

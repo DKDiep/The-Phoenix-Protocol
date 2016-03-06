@@ -89,13 +89,13 @@ public class EnemySpawner : MonoBehaviour
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15, false, 3f, 4f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20, false, 3f, 7f ));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
 	}
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
@@ -285,15 +285,21 @@ public class EnemySpawner : MonoBehaviour
 	private class EnemyProperties
 	{
 		public int maxHealth, maxShield, collisionDamage, speed;
+        public bool isSuicidal;
+        public float shootPeriod, shotsPerSec;
 		public EnemyType Type { get; private set; }
 
-		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage, int speed)
+		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage,
+         int speed, bool isSuicidal, float shootPeriod, float shotsPerSec)
 		{
 			this.Type            = type;
 			this.maxHealth       = maxHealth;
 			this.maxShield       = maxShield;
 			this.collisionDamage = collisionDamage;
 			this.speed           = speed;
+            this.isSuicidal = isSuicidal;
+            this.shootPeriod = shootPeriod;
+            this.shotsPerSec = shotsPerSec;
 		}
 	}
 
@@ -316,6 +322,9 @@ public class EnemySpawner : MonoBehaviour
 		enemy.maxShield       = props.maxShield;
 		enemy.speed           = props.speed;
 		enemy.collisionDamage = props.collisionDamage;
+        enemy.isSuicidal = props.isSuicidal;
+        enemy.shootPeriod = props.shootPeriod;
+        enemy.shotsPerSec = props.shotsPerSec;
 		enemy.type            = props.Type;
 	}
 
