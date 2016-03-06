@@ -38,6 +38,41 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _ParallaxMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _OcclusionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailMask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailAlbedoMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _Normals
         second:
           m_Texture: {fileID: 2800000, guid: 832b069de320ff245b2d3e16fc2e97b4, type: 3}
@@ -87,44 +122,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _ParallaxMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _OcclusionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _EmissionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DetailMask
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DetailAlbedoMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _SpecGlossMap
         second:
-          m_Texture: {fileID: 2800000, guid: 4201a7d1ae4376440b67243606361e91, type: 3}
+          m_Texture: {fileID: 2800000, guid: c205eb53136d7484eb4969665cda9906, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -146,22 +146,6 @@ Material:
         second: 1
       data:
         first:
-          name: _Brightness
-        second: 1
-      data:
-        first:
-          name: _NormalStrength
-        second: 0.6
-      data:
-        first:
-          name: _LightScale
-        second: 0.65
-      data:
-        first:
-          name: _AtmosFalloff
-        second: 2.43
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
@@ -171,7 +155,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.5
+        second: 0.238
       data:
         first:
           name: _BumpScale
@@ -192,6 +176,22 @@ Material:
         first:
           name: _Mode
         second: 0
+      data:
+        first:
+          name: _Brightness
+        second: 1
+      data:
+        first:
+          name: _NormalStrength
+        second: 0.6
+      data:
+        first:
+          name: _LightScale
+        second: 0.65
+      data:
+        first:
+          name: _AtmosFalloff
+        second: 2.43
     m_Colors:
       data:
         first:

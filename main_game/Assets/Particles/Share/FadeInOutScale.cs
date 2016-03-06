@@ -25,6 +25,9 @@ public class FadeInOutScale : MonoBehaviour
     GetEffectSettingsComponent(transform);
     if (effectSettings != null)
       effectSettings.CollisionEnter += prefabSettings_CollisionEnter;
+
+        isCollisionEnter = true;
+    canUpdate = true;
   }
 
   private void GetEffectSettingsComponent(Transform tr)
