@@ -42,7 +42,8 @@ public class EnemySpawner : MonoBehaviour
 	private static List<EnemyProperties> enemyTypeList = null;
 
     private ObjectPoolManager logicManager;
-    private ObjectPoolManager enemyManager;
+    private ObjectPoolManager gnatManager;
+    private ObjectPoolManager fireflyManager;
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
 
     void Start()
@@ -54,7 +55,8 @@ public class EnemySpawner : MonoBehaviour
             state = gameManager.GetComponent<GameState>();
 
         player = null;
-        enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
+        gnatManager = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
+        fireflyManager = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
@@ -91,10 +93,10 @@ public class EnemySpawner : MonoBehaviour
 		enemyTypeList = new List<EnemyProperties>();
 		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15, false, 3f, 4f));
         enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20, false, 3f, 7f ));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
 	}
 
@@ -129,22 +131,32 @@ public class EnemySpawner : MonoBehaviour
 	private void InstantiateEnemy(out GameObject enemyObject, out EnemyLogic enemyLogic)
 	{
 		// Spawn enemy and server logic
-		enemyObject = enemyManager.RequestObject();
         GameObject enemyLogicObject = logicManager.RequestObject();
+
+        int type = Random.Range(0, enemyTypeList.Count);
+        if(type == 0) 
+            enemyObject = gnatManager.RequestObject();
+        else 
+            enemyObject = fireflyManager.RequestObject();
+
+        enemyObject.transform.position = spawnLocation.transform.position;
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
-		enemyObject.transform.position = spawnLocation.transform.position;
+
 
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
-		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
+		ApplyEnemyType (enemyLogic, type); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
 		enemyLogic.SetPlayer(state.PlayerShip);
 		enemyLogic.SetPlayerShipTargets(playerShipTargets);
 		enemyLogic.SetAIWaypoints(GetAIWaypointsForEnemy ());
 
 		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-		enemyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+		if(type == 0)
+            gnatManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else
+            fireflyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
 	}

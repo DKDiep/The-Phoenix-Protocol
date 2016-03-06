@@ -269,6 +269,7 @@ Transform:
   - {fileID: 1504611901}
   - {fileID: 877425279}
   - {fileID: 1628465971}
+  - {fileID: 1859081578}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &707978707
@@ -442,7 +443,7 @@ GameObject:
   - 114: {fileID: 877425280}
   - 114: {fileID: 877425281}
   m_Layer: 0
-  m_Name: EnemyManager
+  m_Name: GnatManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -474,7 +475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 181100, guid: d7d902bfc1a5345e4b31072eaaff541a, type: 2}
-  size: 200
+  size: 100
   serverOnly: 0
 --- !u!114 &877425281
 MonoBehaviour:
@@ -1281,7 +1282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
-  size: 10
+  size: 20
   serverOnly: 0
 --- !u!114 &1633265211
 MonoBehaviour:
@@ -1361,6 +1362,83 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1859081577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 154026, guid: 7e9c0df38b55d46e5bee755f5c4e6672, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1859081578}
+  - 114: {fileID: 1859081580}
+  - 114: {fileID: 1859081579}
+  m_Layer: 0
+  m_Name: FireflyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1859081578
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 491856, guid: 7e9c0df38b55d46e5bee755f5c4e6672, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1859081577}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 573003617}
+  m_RootOrder: 13
+--- !u!114 &1859081579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1859081577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &1859081580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11466854, guid: 7e9c0df38b55d46e5bee755f5c4e6672,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1859081577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084f5658cd2314caba1f41e7524b5fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj:
+  - {fileID: 175078, guid: ab76f5cce85974ccd8c91fd33f318031, type: 2}
+  size: 100
+  serverOnly: 0
 --- !u!1 &1861662497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,7 +1749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972, type: 2}
-  size: 10
+  size: 30
   serverOnly: 0
 --- !u!114 &2101001580
 MonoBehaviour:

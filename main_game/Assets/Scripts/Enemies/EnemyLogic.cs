@@ -92,6 +92,8 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager enemyLogicManager;
     private ObjectPoolManager enemyManager;
+    private ObjectPoolManager gnatManager;
+    private ObjectPoolManager fireflyManager;
     
 	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
@@ -110,7 +112,6 @@ public class EnemyLogic : MonoBehaviour
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
-        enemyManager      = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
 
 	private void LoadSettings()
@@ -127,11 +128,18 @@ public class EnemyLogic : MonoBehaviour
     IEnumerator UpdateDelay()
     {
         yield return new WaitForSeconds(3f);
+
+        if(type == EnemyType.Gnat )
+            enemyManager = gnatManager;
+        else
+            enemyManager = fireflyManager;
+
         StartCoroutine("UpdateTransform");
     }
 
     IEnumerator UpdateTransform()
     {
+        Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
         enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
         yield return new WaitForSeconds(0.1f);
         StartCoroutine("UpdateTransform");
@@ -141,6 +149,14 @@ public class EnemyLogic : MonoBehaviour
     void OnEnable()
     {
         // Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
+        if(gnatManager == null)
+            gnatManager      = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
+
+        if(fireflyManager == null)
+            fireflyManager      = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+
+            //Debug.Log("My type is " + type);
+
         StartCoroutine("UpdateDelay");
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
@@ -502,6 +518,7 @@ public class EnemyLogic : MonoBehaviour
     // Detect collisions with other game objects
 	public void collision(float damage, int playerId)
 	{
+    if(enemyManager != null){
 		if (shield > damage)
 		{
 			shield -= damage;
@@ -525,7 +542,7 @@ public class EnemyLogic : MonoBehaviour
 				gameState.AddToPlayerScore(playerId, 10);
 			}
 
-            string removeName = gameObject.name;
+            string removeName = transform.parent.gameObject.name;
 
 			// Automatically collect resources from enemy ship
 			gameState.AddShipResources(droppedResources);
@@ -546,6 +563,7 @@ public class EnemyLogic : MonoBehaviour
             enemyManager.RemoveObject(removeName);
             enemyLogicManager.RemoveObject(gameObject.name);
 		}
+        }
 	}
 
 	// Class that shows obstacle detection info to be used for avoiding moves
