@@ -82,7 +82,6 @@ public class OutpostLogic : MonoBehaviour {
 	public void SetStateReference(GameState state)
 	{
 		gameState = state;
-        transform.parent.eulerAngles = new Vector3(Random.Range(-30, 10), Random.Range(0, 359), Random.Range(-20, 20));
 	}
 
 	public void CollectResources() 

@@ -48,8 +48,8 @@ public class FollowReticule : MonoBehaviour
                 targetPoint.transform.position = hit.transform.position;
             else
             {
-                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));
-                targetPoint.transform.Translate(transform.parent.transform.forward * (-10f));
+                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 0));
+                targetPoint.transform.Translate(transform.parent.transform.forward * (-1000f));
             }
 
             transform.LookAt(targetPoint.transform.position);
