@@ -41,7 +41,7 @@ public class GameStatusManager : NetworkBehaviour
                 if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
                 {
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
-                    Debug.Log("Final Game Score: " + this.gameObject.GetComponent<GameStatsManager>().CalculateGameScore());
+                    Debug.Log("Final Game Score: " + this.gameObject.GetComponent<GameStatsManager>().CalculateAndSendGameScore());
                 }
                 else 
                 {

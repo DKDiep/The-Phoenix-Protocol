@@ -15,7 +15,7 @@ public class GameStatsManager : MonoBehaviour
         }
     }
 
-    public int CalculateGameScore()
+    public int CalculateAndSendGameScore()
     {
         float totalScore = 0;
 
@@ -40,9 +40,15 @@ public class GameStatsManager : MonoBehaviour
         totalScore += gameState.GetUpgradableComponent(ComponentType.ResourceStorage).Level * 50;
         totalScore += gameState.GetUpgradableComponent(ComponentType.ShieldGenerator).Level * 200;
         totalScore += gameState.GetUpgradableComponent(ComponentType.Turret).Level * 100;
-
+        //this should be changed to take player input;
+        string teamName = "\"cockpit spacenauts\"";
+        string jsonMsg = "{\"team_name\":" + teamName + ",";
+        jsonMsg += "\"score\":" + (int)totalScore;
+        jsonMsg += "}";
+        StartCoroutine(SendFinalRequest(jsonMsg));
         return (int)totalScore;
-    }
+}
+
     IEnumerator SendRequest()
     {
         while (true)
@@ -66,6 +72,7 @@ public class GameStatsManager : MonoBehaviour
                 WWWForm form = new WWWForm();
                 form.AddField("JSON:", jsonMsg);
                 WWW www = new WWW(url, form);
+                //Send request
                 yield return www;
 
             }
@@ -73,6 +80,15 @@ public class GameStatsManager : MonoBehaviour
         }
     }
 
+    IEnumerator SendFinalRequest(string jsonMsg)
+    {
+        string url = "http://localhost:8080/save_game_data";
+        WWWForm form = new WWWForm();
+        form.AddField("JSON:", jsonMsg);
+        WWW www = new WWW(url, form);
+        //Send request
+        yield return www;
+    }
     // Update is called once per frame
     void Update () {
 	
