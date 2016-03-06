@@ -1238,7 +1238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 100002, guid: ae5ec65fc4184544f9632d832229f9d0, type: 2}
-  size: 40
+  size: 100
   serverOnly: 0
 --- !u!1 &1633265208
 GameObject:
