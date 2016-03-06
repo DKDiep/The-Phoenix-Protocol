@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: phong1
+  m_Name: FireflyGlow
   m_Shader: {fileID: 4800000, guid: fb944acb6ea5b6b4e961e6f8feb2b64a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -132,12 +132,12 @@ Material:
         second: 0
       data:
         first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _EmissionGain
         second: 0.5
+      data:
+        first:
+          name: _Metallic
+        second: 0
       data:
         first:
           name: _EmissionTextureContrast
@@ -146,12 +146,12 @@ Material:
       data:
         first:
           name: _EmissionColor
-        second: {r: 0.009948095, g: 0.16911763, b: 0.011045807, a: 1}
+        second: {r: 0.23874247, g: 0, b: 0.32352942, a: 1}
       data:
         first:
           name: _Color
-        second: {r: 0.034689374, g: 0.451, b: 0, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _DiffuseColor
-        second: {r: 0.16813034, g: 0.44852942, b: 0.14511247, a: 1}
+        second: {r: 0.21257602, g: 0, b: 0.2352941, a: 1}
