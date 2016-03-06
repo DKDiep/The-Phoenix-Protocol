@@ -87,6 +87,8 @@ public class EnemyLogic : MonoBehaviour
 	private int avoidDirection;
 
     private ObjectPoolManager bulletManager;
+    private ObjectPoolManager gnatBulletManager;
+    private ObjectPoolManager fireflyBulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
     private ObjectPoolManager explosionManager;
@@ -107,7 +109,8 @@ public class EnemyLogic : MonoBehaviour
 		GameObject server = settings.GameManager;
 		gameState         = server.GetComponent<GameState>();
 
-        bulletManager     = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
+        gnatBulletManager     = GameObject.Find("GnatBulletManager").GetComponent<ObjectPoolManager>();
+        fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
         logicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
@@ -130,16 +133,22 @@ public class EnemyLogic : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         if(type == EnemyType.Gnat )
+        {
             enemyManager = gnatManager;
+            bulletManager = gnatBulletManager;
+        }
         else
+        {
             enemyManager = fireflyManager;
+            bulletManager = fireflyBulletManager;
+        }
 
         StartCoroutine("UpdateTransform");
     }
 
     IEnumerator UpdateTransform()
     {
-        Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
+        //Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
         enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
         yield return new WaitForSeconds(0.1f);
         StartCoroutine("UpdateTransform");
@@ -154,6 +163,7 @@ public class EnemyLogic : MonoBehaviour
 
         if(fireflyManager == null)
             fireflyManager      = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+
 
             //Debug.Log("My type is " + type);
 
