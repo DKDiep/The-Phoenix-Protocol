@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"golang.org/x/net/html"
 	"log"
 	"io/ioutil"
 	"strings"
