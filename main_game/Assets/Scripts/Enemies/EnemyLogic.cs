@@ -493,13 +493,19 @@ public class EnemyLogic : MonoBehaviour
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = shootAnchor.transform.position;
         GameObject logic = logicManager.RequestObject();
+        BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
+
+        if(type == EnemyType.Gnat)
+            bulletLogic.SetParameters(0.3f, 1f, 600f);
+        else
+            bulletLogic.SetParameters(0.15f, 2f, 600f);
 
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;
 
 		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
+		bulletLogic.SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
 
         bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 

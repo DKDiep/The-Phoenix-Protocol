@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EarthFX : MonoBehaviour {
 
-    private float radius = 4050f;
+    private float radius = 4035f;
     [SerializeField] GameObject impact;
     [SerializeField] int maxExplosions;
     int currentExplosions = 0;

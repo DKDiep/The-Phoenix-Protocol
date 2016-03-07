@@ -27,7 +27,7 @@ public class GameSettings : MonoBehaviour
 	[Header("Enemy Spawner")]
 	public float EnemyMinSpawnDistance;
 	public float EnemyMaxSpawnDistance;
-	public int MaxEnemies;
+	//public int MaxEnemies;
 	public int AIWaypointsPerEnemy;
 	public int AIWaypointGenerationFactor;
 	public int AIWaypointRadius;

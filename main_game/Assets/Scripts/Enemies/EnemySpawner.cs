@@ -32,6 +32,10 @@ public class EnemySpawner : MonoBehaviour
 
 	private static int numEnemies = 0; // Number of currently active enemies
 
+    // These control the likelihood of each enemy type to be spawned. Set in IncreaseDifficulty. See InstantiateEnemy for usage.
+    private int gnatLimit, fireflyLimit, termiteLimit, lightningBugLimit, 
+        hornetLimit, blackWidowLimit, glomCruiserLimit;
+
 	private GameState state;
 	private GameObject player, spawnLocation;
 
@@ -67,7 +71,68 @@ public class EnemySpawner : MonoBehaviour
 			InitialiseEnemyTypes ();
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+
+        StartCoroutine("TimedDifficulty");
     }
+
+    // Increase difficulty by 1 every 30 seconds
+    IEnumerator TimedDifficulty()
+    {
+        IncreaseDifficulty();
+        yield return new WaitForSeconds(45f);
+        StartCoroutine("TimedDifficulty");
+
+    }
+
+    private void IncreaseDifficulty()
+    {
+        state.IncreaseDifficulty(1);
+        int difficulty = state.GetDifficulty();
+
+        Debug.Log("Difficulty is " + difficulty);
+
+        // Random number is picked between 0-100, so 101 means the enemy type will never spawn at this difficulty level
+        switch(difficulty) 
+        {
+            case 1 :
+                maxEnemies = 20;
+                gnatLimit = 80;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+        case 2 :
+                maxEnemies = 30;
+                gnatLimit = 60;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+        case 3 :
+                maxEnemies = 35;
+                gnatLimit = 50;
+                fireflyLimit = 70;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+            // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
+            default :
+                if(maxEnemies < 100)
+                    maxEnemies += 10;
+                break;
+        }
+
+    }
+
 
 	private void LoadSettings()
 	{
@@ -75,7 +140,6 @@ public class EnemySpawner : MonoBehaviour
 
 		minDistance = settings.EnemyMinSpawnDistance;
 		maxDistance = settings.EnemyMaxSpawnDistance;
-		maxEnemies  = settings.MaxEnemies;
 
 		aiWaypointsPerEnemy		   = settings.AIWaypointsPerEnemy;
 		aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
@@ -133,7 +197,15 @@ public class EnemySpawner : MonoBehaviour
 		// Spawn enemy and server logic
         GameObject enemyLogicObject = logicManager.RequestObject();
 
-        int type = Random.Range(0, enemyTypeList.Count);
+        int random = Random.Range(1,101);
+        int type = -1;
+
+        if(random < gnatLimit)
+            type = 0;
+        else if(random < fireflyLimit)
+            type = 1;
+
+        //int type = Random.Range(0, enemyTypeList.Count);
         if(type == 0) 
             enemyObject = gnatManager.RequestObject();
         else 

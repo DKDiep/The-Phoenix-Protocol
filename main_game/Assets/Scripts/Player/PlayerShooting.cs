@@ -148,6 +148,7 @@ public class PlayerShooting : MonoBehaviour
 
             GameObject logic = logicManager.RequestObject();
             BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+            logicComponent.SetParameters(0.1f, 25f, 800f);
             logicComponent.SetID(this, playerId);
 
             logic.transform.parent = obj.transform;

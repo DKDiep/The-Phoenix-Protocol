@@ -1238,7 +1238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 100002, guid: ae5ec65fc4184544f9632d832229f9d0, type: 2}
-  size: 40
+  size: 100
   serverOnly: 0
 --- !u!1 &1633265208
 GameObject:
@@ -1360,6 +1360,18 @@ Prefab:
       propertyPath: GameManager
       value: 
       objectReference: {fileID: 779143525}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: PlayerShipStartingSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EnemyMinSpawnDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EnemyMaxSpawnDistance
+      value: 750
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
   m_IsPrefabParent: 0

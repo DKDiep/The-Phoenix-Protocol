@@ -42,6 +42,9 @@ public class GameState : NetworkBehaviour {
 	// This is used for the final score.
 	private int totalShipResources;
 
+    // Controls enemy spawning behaviour, set in EnemySpawner.cs
+    private int difficulty;
+
     [SyncVar] public GameStatus Status;
 	// We set this to the max shields as we assume we start off with max shields.
 	[SyncVar] private float shipShield;
@@ -66,6 +69,7 @@ public class GameState : NetworkBehaviour {
 	void Start()
 	{
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        difficulty = 0;
         LoadSettings();
 		
         Status = GameStatus.Setup;
@@ -117,6 +121,32 @@ public class GameState : NetworkBehaviour {
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
+    }
+
+    /// <summary>
+    /// Increase the current difficulty of the game.
+    /// </summary>
+    /// <param name="amount">The amount to increase by.</param>
+    public void IncreaseDifficulty(int amount)
+    {
+        difficulty += amount;
+    }
+
+    /// <summary>
+    /// Increase the current difficulty of the game.
+    /// </summary>
+    /// <param name="amount">The amount to decrease by.</param>
+    public void DecreaseDifficulty(int amount)
+    {
+        difficulty -= amount;
+    }
+
+    /// <summary>
+    /// Returns the current difficulty
+    /// </summary>
+    public int GetDifficulty()
+    {
+        return difficulty;
     }
 
 	/// <summary>
