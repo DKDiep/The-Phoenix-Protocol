@@ -198,9 +198,44 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Confirms the upgrade, is called when the engineer has completed the upgrade.
+    /// </summary>
+    /// <param name="type">Type.</param>
+    private void ConfirmUpgrade(ComponentType type)
+    {
+        upgradeButtonLabels[(int)type].text = "Upgrade";
+        switch(type)
+        {
+        case ComponentType.ShieldGenerator:
+            shieldsLevel++;
+            break;
+        case ComponentType.Turret:
+            turretsLevel++;
+            break;
+        case ComponentType.Engine:
+            engineLevel++;
+            break;
+        case ComponentType.Bridge:
+            hullLevel++;
+            break;
+        case ComponentType.Drone:
+            droneLevel++;
+            break;
+        case ComponentType.ResourceStorage:
+            storageLevel++;
+            break;
+        }
+
+    }
+
     //Called whenever an upgrade is purchased (by clicking yellow button)
     public void UpgradeShip(int component)
     {
+        // If we are already waiting then we don't want to upgrade again.
+        if(upgradeButtonLabels[component].text == "Waiting")
+            return;
+        
         upgradeButtonLabels[component].text = "Waiting";
         switch (component)
         {
@@ -235,8 +270,6 @@ public class CommandConsoleState : MonoBehaviour {
                 storageCostLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
                 break;
         }
-        upgrade = false;
-		UpdateAllText();
     }
         
 	/// <summary>
