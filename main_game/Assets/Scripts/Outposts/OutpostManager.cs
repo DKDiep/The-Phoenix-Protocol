@@ -7,7 +7,6 @@ public class OutpostManager : MonoBehaviour {
     private GameState gameState;
     private PlayerController playerController;
     private float timeSinceLastEvent = 0;
-    private GameObject testOutpost;
     private GameObject canvas;
     private List<GameObject> arrowList = new List<GameObject>();
 
@@ -29,7 +28,6 @@ public class OutpostManager : MonoBehaviour {
             if (outpostList != null && outpostList.Count > 0)
             {
                 playerController.RpcOutpostNotification("Outpost found");
-                testOutpost = outpostList[1];
             }
             timeSinceLastEvent = 0;
         }
@@ -37,7 +35,10 @@ public class OutpostManager : MonoBehaviour {
         //note canvas might still be null if CrosshairCanvas isn't created yet
         if (outpostList != null && canvas != null && outpostList.Count > 0)
         {
-            if (!arrowListInstantiated)
+            /*A list of arrows is instantiated such that the index of each arrow is 
+            the same as the index of the outpostList object it tracks. Note that 
+            this means that outposts added to the list part-way through execution will not be tracked*/
+            if (!arrowListInstantiated) 
             {
                 for (int i = 0; i < outpostList.Count; i++) arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
                 arrowListInstantiated = true;
@@ -56,30 +57,31 @@ public class OutpostManager : MonoBehaviour {
 
     private void Indicator(GameObject outpost, int index)
     {
-        Vector3 screenpos = Camera.main.WorldToScreenPoint(outpost.transform.position);
-        if (screenpos.z > 0 &&
-            screenpos.x > 0 && screenpos.x < Screen.width &&
-            screenpos.y > 0 && screenpos.y < Screen.height)
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(outpost.transform.position);
+        //If the object is on-screen then set its arrow to be inactive 
+        if (screenPos.z > 0 &&
+            screenPos.x > 0 && screenPos.x < Screen.width &&
+            screenPos.y > 0 && screenPos.y < Screen.height)
         {
             arrowList[index].SetActive(false);
         }
         else
         {   
-            if (screenpos.z < 0)
+            if (screenPos.z < 0)
             {
-                screenpos *= -1;
+                screenPos *= -1;
             }
             Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
             //make (0,0,z) the center of the screen as opposed to bottom left
-            screenpos -= screenCenter;
+            screenPos -= screenCenter;
 
             //find angle from center of screen to object position
-            float angle = Mathf.Atan2(screenpos.y, screenpos.x);
+            float angle = Mathf.Atan2(screenPos.y, screenPos.x);
             angle -= 90 * Mathf.Deg2Rad;
             float cos = Mathf.Cos(angle);
             float sin = -Mathf.Sin(angle);
 
-            screenpos = screenCenter + new Vector3(sin * 150, cos * 150, 0);
+            screenPos = screenCenter + new Vector3(sin * 150, cos * 150, 0);
 
             //y = mx + b format
             float m = cos / sin;
@@ -89,25 +91,23 @@ public class OutpostManager : MonoBehaviour {
             //checks if above the center of screen
             if (cos > 0)
             {
-                screenpos = new Vector3(screenBounds.y / m, screenBounds.y, 0);
+                screenPos = new Vector3(screenBounds.y / m, screenBounds.y, 0);
             }
             else
             {
-                screenpos = new Vector3(-screenBounds.y / m, -screenBounds.y, 0);
+                screenPos = new Vector3(-screenBounds.y / m, -screenBounds.y, 0);
             }
-            if (screenpos.x > screenBounds.x)
+            if (screenPos.x > screenBounds.x)
             {//out of bounds to the right
-                screenpos = new Vector3(screenBounds.x, screenBounds.x * m, 0);
+                screenPos = new Vector3(screenBounds.x, screenBounds.x * m, 0);
             }
-            else if (screenpos.x < -screenBounds.x)
+            else if (screenPos.x < -screenBounds.x)
             { //out of bounds to the left
-                screenpos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
+                screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
             }
-                RectTransform arrowRectTransform = (RectTransform)arrowList[index].transform;
-            //remove coordinate translation
-            //screenpos += screenCenter;
+            RectTransform arrowRectTransform = (RectTransform)arrowList[index].transform;
             arrowList[index].transform.SetParent(canvas.transform);
-            arrowRectTransform.anchoredPosition = screenpos;
+            arrowRectTransform.anchoredPosition = screenPos;
             arrowRectTransform.localRotation= Quaternion.Euler(0, 0, angle * Mathf.Deg2Rad);
             arrowList[index].SetActive(true);
         }
