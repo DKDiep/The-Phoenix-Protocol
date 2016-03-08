@@ -29,6 +29,7 @@ public class EnvironmentSpawner : MonoBehaviour
 
             // Add Earth Collision script
             GameObject.Find("Ground").AddComponent<EarthCollision>();
+            GameObject.Find("Ground").AddComponent<EarthFX>();
             ServerManager.NetworkSpawn(space);
             Destroy(this);
         }

@@ -3,14 +3,15 @@ using System.Collections;
 
 public class EarthFX : MonoBehaviour {
 
-    private float radius = 4035f;
-    [SerializeField] GameObject impact;
-    [SerializeField] int maxExplosions;
-    int currentExplosions = 0;
+    private float radius = 4035f; // The Earth's radius
+    GameObject impact; // Prefab to spawn
+    private int maxExplosions = 100; // Maximum number of explosions allowed
+    private int currentExplosions = 0;
     ObjectPoolManager waveManager;
 
     void Start()
     {
+        impact = Resources.Load("Prefabs/ImapactWave") as GameObject;
         waveManager = GameObject.Find("ImpactWaveManager").GetComponent<ObjectPoolManager>();
     }
       
