@@ -17,6 +17,8 @@ type Player struct {
     userName string
     state    PlayerState
     score    int
+    isControllingEnemy bool
+    controlledEnemyId uint64
     user     *User
 }
 
@@ -42,6 +44,20 @@ func (plr *Player) setState(st PlayerState) {
     plr.sendStateUpdate()
 }
 
+// Sets the currently controlled enemy
+func (plr *Player) setControlledEnemy(enemyId uint64) {
+    if plr.isControllingEnemy {
+        return
+    }
+
+    if !enemyMap.setControlled(enemyId) {
+        return
+    }
+
+    plr.isControllingEnemy = true
+    plr.controlledEnemyId = enemyId
+}
+
 // Sends a user state update
 func (plr *Player) sendStateUpdate() {
     // players with no active user don't need updating
@@ -60,7 +76,7 @@ func (plr *Player) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*Asteroid) {
+func (plr *Player) sendDataUpdate(enemies map[uint64]*Enemy, asteroids map[int]*Asteroid) {
     // players with no active user don't need updating
     if plr.user == nil {
         return
@@ -72,12 +88,13 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     dataSegment := make([]map[string]interface{}, 0)
 
     // Add enemies to the message
-    for _, enemy := range enemies {
+    for id, enemy := range enemies {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "ship",
             "position": map[string]interface{}{
-                "x": enemy.posX,
-                "y": enemy.posY,
+                "id": id,
+                "x" : enemy.posX,
+                "y" : enemy.posY,
             },
         })
     }
@@ -94,34 +111,6 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     }
 
     msg["data"] = dataSegment
-    // incry += 0.1
-    // msg := map[string]interface{}{
-    //     "type": "STATE_UPDATE",
-    //     "data": []map[string]interface{}{
-    //         map[string]interface{}{
-    //             "type": "ship",
-    //             "position": map[string]interface{}{
-    //                 "x": 10,
-    //                 "y": math.Mod((incry + 14), 100),
-    //             },
-    //         },
-    //         map[string]interface{}{
-    //             "type": "debris",
-    //             "position": map[string]interface{}{
-    //                 "x": 20,
-    //                 "y": math.Mod((incry + 53), 100),
-    //             },
-    //             "size": 10,
-    //         },
-    //         map[string]interface{}{
-    //             "type": "asteroid",
-    //             "position": map[string]interface{}{
-    //                 "x": 32,
-    //                 "y": math.Mod((incry + 15), 100),
-    //             },
-    //         },
-    //     },
-    // }
 
     plr.user.sendMsg(msg)
 }

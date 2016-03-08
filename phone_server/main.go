@@ -57,11 +57,12 @@ var playerMap *PlayerMap = &PlayerMap{
 
 // Main structure holding all enemy data
 var enemyMap *EnemyMap = &EnemyMap{
-    m:      make(map[int64]*Enemy),
-    delC:   make(chan int64),
+    m:      make(map[uint64]*Enemy),
+    delC:   make(chan uint64),
     setC:   make(chan NewEnemy),
+    ctrlC:  make(chan uint64),
     resetC: make(chan struct{}),
-    copyC:  make(chan map[int64]*Enemy),
+    copyC:  make(chan map[uint64]*Enemy),
 }
 
 // Main structure holding all asteroid data

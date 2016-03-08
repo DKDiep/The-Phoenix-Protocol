@@ -77,6 +77,8 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
         usr.updateUser(uint64(msg["data"].(float64)))
     case "PROM":
         usr.player.processPromotionAnswer(msg["data"].(bool))
+    case "ENM_CTRL":
+        usr.player.setControlledEnemy(uint64(msg["data"].(float64)))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
@@ -94,6 +96,8 @@ func (usr *User) registerNew(name string) {
         userName: name,
         state:    getNewPlayerState(),
         score:    0,
+        isControllingEnemy: false,
+        controlledEnemyId: 0,
         user:     usr}
     usr.player = newPlr
     playerMap.add(newPlr)
@@ -137,6 +141,8 @@ func (usr *User) updateUser(playerId uint64) {
             userName: name,
             state:    getNewPlayerState(),
             score:    0,
+            isControllingEnemy: false,
+            controlledEnemyId: 0,
             user:     usr}
         usr.player = newPlr
         playerMap.add(newPlr)
