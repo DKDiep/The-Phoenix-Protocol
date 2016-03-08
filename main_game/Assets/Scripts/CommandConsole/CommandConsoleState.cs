@@ -14,11 +14,11 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Text engineLabel;
 	[SerializeField] private Text shieldsLabel;
 	[SerializeField] private Text shieldsUpgradeLabel;
-	[SerializeField] private Text gunsUpgradeLabel;
+	[SerializeField] private Text turretsUpgradeLabel;
 	[SerializeField] private Text engineUpgradeLabel;
 	[SerializeField] private Text popUpText;
 	[SerializeField] private GameObject shieldsButton;
-	[SerializeField] private GameObject gunsButton;
+	[SerializeField] private GameObject turretsButton;
 	[SerializeField] private GameObject engineButton;
 	[SerializeField] private GameObject popUp;
 	[SerializeField] private GameObject levelCounter1;
@@ -31,6 +31,7 @@ public class CommandConsoleState : MonoBehaviour {
     private PlayerController playerController;
 	private GameObject ship;
 	private GameState gameState;
+    private GameSettings settings;
 
 	// Local copies of the ships values
     private int shipResources;
@@ -41,12 +42,21 @@ public class CommandConsoleState : MonoBehaviour {
     private bool upgrade = true;
     private int shieldsLevel = 1;
     private int engineLevel = 1;
-    private int gunsLevel = 1;
+    private int turretsLevel = 1;
     private double second = 0; 
 
+    private int shieldsInitialCost;
+    private int turretsInitialCost;
+    private int enginesInitialCost;
+    private int hullInitialCost;
+    private int droneInitialCost;
+    private int storageInitialCost;
+
     void Start () {
-		GameObject server = GameObject.Find("GameManager");
-		gameState = server.GetComponent<GameState>();
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+
+        LoadSettings(); 
 
 		// Load the ship model into the scene. 
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
@@ -54,9 +64,9 @@ public class CommandConsoleState : MonoBehaviour {
 
 		UpdateAllText();
 
-        shieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
-        gunsUpgradeLabel.text = gunsLevel * 100 + "M";
-        engineUpgradeLabel.text = engineLevel * 100 + "M";
+        shieldsUpgradeLabel.text = shieldsInitialCost + "M";
+        turretsUpgradeLabel.text = turretsInitialCost + "M";
+        engineUpgradeLabel.text = enginesInitialCost + "M";
         levelCounter1.SetActive(true);
         levelCounter2.SetActive(false);
         levelCounter3.SetActive(false);
@@ -68,11 +78,23 @@ public class CommandConsoleState : MonoBehaviour {
         popUp.SetActive(false);
         
         shieldsButton.SetActive(true);
-        gunsButton.SetActive(true);
+        turretsButton.SetActive(true);
         engineButton.SetActive(true);
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
+    }
+
+
+
+    private void LoadSettings() 
+    {
+        shieldsInitialCost  = settings.ShieldsInitialCost;
+        turretsInitialCost  = settings.TurretsInitialCost;
+        enginesInitialCost  = settings.EnginesInitialCost;
+        hullInitialCost     = settings.HullInitialCost;
+        droneInitialCost    = settings.DroneInitialCost;
+        storageInitialCost  = settings.StorageInitialCost;
     }
 
     void FixedUpdate ()
@@ -108,8 +130,8 @@ public class CommandConsoleState : MonoBehaviour {
                 showLevelCounters(shieldsLevel);
                 break;
             case 1:
-                popUpText.text = "Guns";
-                showLevelCounters(gunsLevel);
+                popUpText.text = "Turrets";
+                showLevelCounters(turretsLevel);
                 break;
             case 2:
                 showLevelCounters(engineLevel);
@@ -132,41 +154,76 @@ public class CommandConsoleState : MonoBehaviour {
         if (level > 3) levelCounter4.SetActive(true);
     }
 
-    
-    //Called whenever an upgrade is purchased (by clicking yellow button) 0 = Shields, 1 = Guns, 2 = Engines
-    public void UpgradeShip(int where)
+    /// <summary>
+    /// Checks the upgrade cost of a component
+    /// </summary>
+    /// <returns><c>true</c>, if upgrade cost was checked, <c>false</c> otherwise.</returns>
+    /// <param name="baseCost">Base cost of component to be upgraded</param>
+    /// <param name="level">Level of the component</param>
+    private bool CheckUpgradeCost(int baseCost, int level) 
     {
-        switch (where)
-        {
-            case 0:
-			if(shipResources >= 100 * shieldsLevel)
-                {
-				shipResources -= 100 * shieldsLevel;
-                    shieldsLevel++;
-                    shieldsUpgradeLabel.text = shieldsLevel * 100 + "M";
-                    showLevelCounters(shieldsLevel);
-                    playerController.CmdAddUpgrade(ComponentType.ShieldGenerator);
-                }
-                break;
-            case 1:
-			if(shipResources >= 100 * gunsLevel)
-                {
-				shipResources -= 100 * gunsLevel;
-                    gunsLevel++;
-                    gunsUpgradeLabel.text = gunsLevel * 100 + "M";
-                    showLevelCounters(gunsLevel);
+        return (shipResources >= GetUpgradeCost(baseCost, level));
+    }
 
-                }
+    /// <summary>
+    /// Calculates the upgrade cost of a component
+    /// </summary>
+    /// <returns>The upgrade cost.</returns>
+    /// <param name="baseCost">Base cost.</param>
+    /// <param name="level">Level.</param>
+    private int GetUpgradeCost(int baseCost, int level)
+    {
+        // Current simplistic cost model. Should be updated for proper usage in game.
+        return baseCost * level;
+    }
+
+    /// <summary>
+    /// Sends the upgrade request for a component of the ship
+    /// </summary>
+    /// <param name="type">Type of component</param>
+    /// <param name="baseCost">Base cost of the component</param>
+    /// <param name="level">Level of the component</param>
+    private void UpgradeComponent(ComponentType type, int baseCost, int level)
+    {
+        if(CheckUpgradeCost(baseCost, level))
+        {
+            shipResources -= GetUpgradeCost(baseCost, level);
+            showLevelCounters(level);
+            playerController.CmdAddUpgrade(type);
+        }
+    }
+
+    //Called whenever an upgrade is purchased (by clicking yellow button)
+    public void UpgradeShip(int component)
+    {
+        switch (component)
+        {
+            // Shields Upgrade
+            case 0: 
+                UpgradeComponent(ComponentType.ShieldGenerator, shieldsInitialCost, shieldsLevel);
+                shieldsUpgradeLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1) + "M";
                 break;
+            // Turrets Upgrade
+            case 1:
+                UpgradeComponent(ComponentType.Turret, turretsInitialCost, turretsLevel);
+                turretsUpgradeLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1) + "M";
+                break;
+            // Engine Upgrade
             case 2:
-			if (shipResources >= 100 * engineLevel)
-                {
-				shipResources -= 100 * engineLevel;
-                    engineLevel++;
-                    playerController.CmdAddUpgrade(ComponentType.Engine);
-                    engineUpgradeLabel.text = engineLevel * 100 + "M";
-                    showLevelCounters(gunsLevel);
-                }
+                UpgradeComponent(ComponentType.Engine, enginesInitialCost, engineLevel);
+                engineUpgradeLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1) + "M";
+                break;
+            // Hull Upgrade
+            case 3:
+                //UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel);
+                break;
+            // Drone Upgrade
+            case 4:
+                //UpgradeComponent(ComponentType.Engine, droneInitialCost, droneLevel);
+                break;
+            // Resource Storage Upgrade
+            case 5:
+                //UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel);
                 break;
         }
         upgrade = false;

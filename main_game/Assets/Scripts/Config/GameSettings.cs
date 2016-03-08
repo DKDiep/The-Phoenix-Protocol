@@ -87,6 +87,15 @@ public class GameSettings : MonoBehaviour
     public int PlayerShipStartingCivilians;
     public float PlayerShipComponentHealth;
 
+    // Initial costs for the ship upgrades. 
+    [Header("Ship Upgrade Costs")]
+    public int ShieldsInitialCost;
+    public int TurretsInitialCost;
+    public int EnginesInitialCost;
+    public int HullInitialCost;
+    public int DroneInitialCost;
+    public int StorageInitialCost;
+
 	[Header("Bullet Movement")]
 	public float BulletSpeed;
 
