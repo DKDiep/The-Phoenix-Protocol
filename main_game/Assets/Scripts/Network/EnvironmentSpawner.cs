@@ -28,7 +28,7 @@ public class EnvironmentSpawner : MonoBehaviour
             GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
 
             // Add Earth Collision script
-            GameObject.Find("Earth").AddComponent<EarthCollision>();
+            GameObject.Find("Ground").AddComponent<EarthCollision>();
             ServerManager.NetworkSpawn(space);
             Destroy(this);
         }
