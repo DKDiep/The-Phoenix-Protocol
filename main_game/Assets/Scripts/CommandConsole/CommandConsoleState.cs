@@ -10,12 +10,22 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Text civiliansText;
 	[SerializeField] private Text healthText;
 	[SerializeField] private Text resourcesText;
-	[SerializeField] private Text shieldsText;
+    [SerializeField] private Text shieldsText;
+	
+    [SerializeField] private Text shieldsLabel;
+    [SerializeField] private Text turretsLabel;
 	[SerializeField] private Text engineLabel;
-	[SerializeField] private Text shieldsLabel;
+    [SerializeField] private Text hullLabel;
+    [SerializeField] private Text droneLabel;
+    [SerializeField] private Text storageLabel;
+
 	[SerializeField] private Text shieldsUpgradeLabel;
 	[SerializeField] private Text turretsUpgradeLabel;
 	[SerializeField] private Text engineUpgradeLabel;
+    [SerializeField] private Text hullUpgradeLabel;
+    [SerializeField] private Text droneUpgradeLabel;
+    [SerializeField] private Text storageUpgradeLabel;
+
 	[SerializeField] private Text popUpText;
 	[SerializeField] private GameObject shieldsButton;
 	[SerializeField] private GameObject turretsButton;
@@ -43,6 +53,10 @@ public class CommandConsoleState : MonoBehaviour {
     private int shieldsLevel = 1;
     private int engineLevel = 1;
     private int turretsLevel = 1;
+    private int hullLevel = 1;
+    private int droneLevel = 1;
+    private int storageLevel = 1;
+
     private double second = 0; 
 
     private int shieldsInitialCost;
@@ -67,6 +81,10 @@ public class CommandConsoleState : MonoBehaviour {
         shieldsUpgradeLabel.text = shieldsInitialCost + "M";
         turretsUpgradeLabel.text = turretsInitialCost + "M";
         engineUpgradeLabel.text = enginesInitialCost + "M";
+        hullUpgradeLabel.text = hullInitialCost + "M";
+        droneUpgradeLabel.text = droneInitialCost + "M";
+        storageUpgradeLabel.text = storageInitialCost + "M";
+
         levelCounter1.SetActive(true);
         levelCounter2.SetActive(false);
         levelCounter3.SetActive(false);
@@ -215,15 +233,18 @@ public class CommandConsoleState : MonoBehaviour {
                 break;
             // Hull Upgrade
             case 3:
-                //UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel);
+                UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel);
+                hullUpgradeLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1) + "M";
                 break;
             // Drone Upgrade
             case 4:
-                //UpgradeComponent(ComponentType.Engine, droneInitialCost, droneLevel);
+                UpgradeComponent(ComponentType.Drone, droneInitialCost, droneLevel);
+                droneUpgradeLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1) + "M";
                 break;
             // Resource Storage Upgrade
             case 5:
-                //UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel);
+                UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel);
+                storageUpgradeLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1) + "M";
                 break;
         }
         upgrade = false;
