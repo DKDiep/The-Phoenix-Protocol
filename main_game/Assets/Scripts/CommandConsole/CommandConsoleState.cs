@@ -11,20 +11,16 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Text healthText;
 	[SerializeField] private Text resourcesText;
     [SerializeField] private Text shieldsText;
-	
-    [SerializeField] private Text shieldsLabel;
-    [SerializeField] private Text turretsLabel;
-	[SerializeField] private Text engineLabel;
-    [SerializeField] private Text hullLabel;
-    [SerializeField] private Text droneLabel;
-    [SerializeField] private Text storageLabel;
 
-	[SerializeField] private Text shieldsUpgradeLabel;
-	[SerializeField] private Text turretsUpgradeLabel;
-	[SerializeField] private Text engineUpgradeLabel;
-    [SerializeField] private Text hullUpgradeLabel;
-    [SerializeField] private Text droneUpgradeLabel;
-    [SerializeField] private Text storageUpgradeLabel;
+    [SerializeField] private Text[] upgradeButtonLabels;
+
+
+    [SerializeField] private Text shieldsCostLabel;
+    [SerializeField] private Text turretsCostLabel;
+    [SerializeField] private Text engineCostLabel;
+    [SerializeField] private Text hullCostLabel;
+    [SerializeField] private Text droneCostLabel;
+    [SerializeField] private Text storageCostLabel;
 
 	[SerializeField] private Text popUpText;
 	[SerializeField] private GameObject shieldsButton;
@@ -78,12 +74,12 @@ public class CommandConsoleState : MonoBehaviour {
 
 		UpdateAllText();
 
-        shieldsUpgradeLabel.text = shieldsInitialCost + "M";
-        turretsUpgradeLabel.text = turretsInitialCost + "M";
-        engineUpgradeLabel.text = enginesInitialCost + "M";
-        hullUpgradeLabel.text = hullInitialCost + "M";
-        droneUpgradeLabel.text = droneInitialCost + "M";
-        storageUpgradeLabel.text = storageInitialCost + "M";
+        shieldsCostLabel.text = shieldsInitialCost.ToString();
+        turretsCostLabel.text = turretsInitialCost.ToString();
+        engineCostLabel.text = enginesInitialCost.ToString();
+        hullCostLabel.text = hullInitialCost.ToString();
+        droneCostLabel.text = droneInitialCost.ToString();
+        storageCostLabel.text = storageInitialCost.ToString();
 
         levelCounter1.SetActive(true);
         levelCounter2.SetActive(false);
@@ -129,16 +125,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         playerController = controller;
     }
-
-    public void Engin(bool isOn)
-    {
-        if (upgrade)
-        {
-            engineLabel.text = engineLabel.text + " I";
-            upgrade = false;
-        }
-    }
-		
+        		
     public void systemPopUp(int system)
     {
         switch (system)
@@ -211,44 +198,78 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Confirms the upgrade, is called when the engineer has completed the upgrade.
+    /// </summary>
+    /// <param name="type">Type.</param>
+    private void ConfirmUpgrade(ComponentType type)
+    {
+        upgradeButtonLabels[(int)type].text = "Upgrade";
+        switch(type)
+        {
+        case ComponentType.ShieldGenerator:
+            shieldsLevel++;
+            break;
+        case ComponentType.Turret:
+            turretsLevel++;
+            break;
+        case ComponentType.Engine:
+            engineLevel++;
+            break;
+        case ComponentType.Bridge:
+            hullLevel++;
+            break;
+        case ComponentType.Drone:
+            droneLevel++;
+            break;
+        case ComponentType.ResourceStorage:
+            storageLevel++;
+            break;
+        }
+
+    }
+
     //Called whenever an upgrade is purchased (by clicking yellow button)
     public void UpgradeShip(int component)
     {
+        // If we are already waiting then we don't want to upgrade again.
+        if(upgradeButtonLabels[component].text == "Waiting")
+            return;
+        
+        upgradeButtonLabels[component].text = "Waiting";
         switch (component)
         {
             // Shields Upgrade
             case 0: 
                 UpgradeComponent(ComponentType.ShieldGenerator, shieldsInitialCost, shieldsLevel);
-                shieldsUpgradeLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1) + "M";
+                shieldsCostLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
                 break;
             // Turrets Upgrade
             case 1:
                 UpgradeComponent(ComponentType.Turret, turretsInitialCost, turretsLevel);
-                turretsUpgradeLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1) + "M";
+                turretsCostLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
                 break;
             // Engine Upgrade
             case 2:
                 UpgradeComponent(ComponentType.Engine, enginesInitialCost, engineLevel);
-                engineUpgradeLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1) + "M";
+                engineCostLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
                 break;
             // Hull Upgrade
             case 3:
                 UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel);
-                hullUpgradeLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1) + "M";
+                hullCostLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
                 break;
             // Drone Upgrade
             case 4:
                 UpgradeComponent(ComponentType.Drone, droneInitialCost, droneLevel);
-                droneUpgradeLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1) + "M";
+                droneCostLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
                 break;
             // Resource Storage Upgrade
             case 5:
                 UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel);
-                storageUpgradeLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1) + "M";
+                storageCostLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
                 break;
         }
-        upgrade = false;
-		UpdateAllText();
     }
         
 	/// <summary>
