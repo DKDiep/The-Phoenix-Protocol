@@ -117,7 +117,7 @@ public class EnemySpawner : MonoBehaviour
         case 3 :
                 maxEnemies = 35;
                 gnatLimit = 50;
-                fireflyLimit = 70;
+                fireflyLimit = 100;
                 termiteLimit = 101;
                 lightningBugLimit = 101;
                 hornetLimit = 101;
@@ -205,6 +205,10 @@ public class EnemySpawner : MonoBehaviour
         else if(random < fireflyLimit)
             type = 1;
 
+        // Default enemy type is the Gnat
+        if(type == -1)
+            type = 0;
+
         //int type = Random.Range(0, enemyTypeList.Count);
         if(type == 0) 
             enemyObject = gnatManager.RequestObject();
@@ -218,6 +222,7 @@ public class EnemySpawner : MonoBehaviour
 
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
+
 		ApplyEnemyType (enemyLogic, type); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
 		enemyLogic.SetPlayer(state.PlayerShip);
