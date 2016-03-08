@@ -2204,7 +2204,7 @@ MonoBehaviour:
     m_Bits: 4294950911
   m_ColorFilterMask:
     serializedVersion: 2
-    m_Bits: 4294950911
+    m_Bits: 4294950895
   m_Brightness: 37
   m_BrightnessColored: 0.12
   m_Extinction: 0
