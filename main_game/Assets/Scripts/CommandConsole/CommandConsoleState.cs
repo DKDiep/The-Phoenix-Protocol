@@ -78,12 +78,12 @@ public class CommandConsoleState : MonoBehaviour {
 
 		UpdateAllText();
 
-        shieldsUpgradeLabel.text = shieldsInitialCost + "M";
-        turretsUpgradeLabel.text = turretsInitialCost + "M";
-        engineUpgradeLabel.text = enginesInitialCost + "M";
-        hullUpgradeLabel.text = hullInitialCost + "M";
-        droneUpgradeLabel.text = droneInitialCost + "M";
-        storageUpgradeLabel.text = storageInitialCost + "M";
+        shieldsUpgradeLabel.text = shieldsInitialCost.ToString();
+        turretsUpgradeLabel.text = turretsInitialCost.ToString();
+        engineUpgradeLabel.text = enginesInitialCost.ToString();
+        hullUpgradeLabel.text = hullInitialCost.ToString();
+        droneUpgradeLabel.text = droneInitialCost.ToString();
+        storageUpgradeLabel.text = storageInitialCost.ToString();
 
         levelCounter1.SetActive(true);
         levelCounter2.SetActive(false);
@@ -219,32 +219,32 @@ public class CommandConsoleState : MonoBehaviour {
             // Shields Upgrade
             case 0: 
                 UpgradeComponent(ComponentType.ShieldGenerator, shieldsInitialCost, shieldsLevel);
-                shieldsUpgradeLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1) + "M";
+                shieldsUpgradeLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
                 break;
             // Turrets Upgrade
             case 1:
                 UpgradeComponent(ComponentType.Turret, turretsInitialCost, turretsLevel);
-                turretsUpgradeLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1) + "M";
+                turretsUpgradeLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
                 break;
             // Engine Upgrade
             case 2:
                 UpgradeComponent(ComponentType.Engine, enginesInitialCost, engineLevel);
-                engineUpgradeLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1) + "M";
+                engineUpgradeLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
                 break;
             // Hull Upgrade
             case 3:
                 UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel);
-                hullUpgradeLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1) + "M";
+                hullUpgradeLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
                 break;
             // Drone Upgrade
             case 4:
                 UpgradeComponent(ComponentType.Drone, droneInitialCost, droneLevel);
-                droneUpgradeLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1) + "M";
+                droneUpgradeLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
                 break;
             // Resource Storage Upgrade
             case 5:
                 UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel);
-                storageUpgradeLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1) + "M";
+                storageUpgradeLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
                 break;
         }
         upgrade = false;
