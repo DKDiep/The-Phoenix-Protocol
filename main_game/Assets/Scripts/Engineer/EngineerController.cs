@@ -543,18 +543,24 @@ public class EngineerController : NetworkBehaviour
             }
             else
             {
+                Renderer cachedRenderer = part.GetComponent<Renderer>();
+                int size = cachedRenderer.materials.Length;
+
                 if (interaction.Repairable)
                 {
-                    part.GetComponent<Renderer>().material = repairMat;
+                    for(int j = 0; j < size; ++j)
+                        cachedRenderer.materials[j] = repairMat;
                 }
                 else if(interaction.Upgradeable)
                 {
-                    part.GetComponent<Renderer>().material = upgradeMat;
+                    for(int j = 0; j < size; ++j)
+                        cachedRenderer.materials[j] = upgradeMat;
                 }
                 else
                 {
                     // Default
-                    part.GetComponent<Renderer>().material = defaultMat;
+                    for(int j = 0; j < size; ++j)
+                        cachedRenderer.materials[j] = defaultMat;
                 }
             }
         }
