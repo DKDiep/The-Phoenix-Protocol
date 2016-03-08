@@ -31,7 +31,9 @@ public class EarthFX : MonoBehaviour {
         explosion.transform.position = transform.position;
         explosion.transform.rotation = Random.rotation;
         explosion.transform.Translate(transform.forward * radius);
+        waveManager.EnableClientObject(explosion.name, explosion.transform.position, explosion.transform.rotation, explosion.transform.localScale);
         yield return new WaitForSeconds(3f);
+        waveManager.DisableClientObject(explosion.name);
         waveManager.RemoveObject(explosion.name);
         currentExplosions--;
     }
