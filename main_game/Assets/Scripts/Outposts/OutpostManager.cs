@@ -108,7 +108,7 @@ public class OutpostManager : MonoBehaviour {
             RectTransform arrowRectTransform = (RectTransform)arrowList[index].transform;
             arrowList[index].transform.SetParent(canvas.transform);
             arrowRectTransform.anchoredPosition = screenPos;
-            arrowRectTransform.localRotation= Quaternion.Euler(0, 0, angle * Mathf.Deg2Rad);
+            arrowList[index].transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
             arrowList[index].SetActive(true);
         }
     }
