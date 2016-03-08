@@ -237,7 +237,7 @@ public class ServerManager : NetworkBehaviour
 
         GameObject.Find("GameTimerText").GetComponent<TimerScript>().ResetTimer();
         //Start the game
-        //playerShip.GetComponentInChildren<ShipMovement>().StartGame();
+        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;
     }
 
