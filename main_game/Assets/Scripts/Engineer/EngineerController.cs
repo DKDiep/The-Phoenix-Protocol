@@ -64,6 +64,8 @@ public class EngineerController : NetworkBehaviour
     [SerializeField] Material repairMat;
     [SerializeField] Material upgradeMat;
 
+    bool set = false;
+
 
     private enum InteractionKey
     {
@@ -311,6 +313,15 @@ public class EngineerController : NetworkBehaviour
         {
             Dock();
             return;
+        }
+
+        if (!set)
+        {
+            AddJob(true, ComponentType.Engine);
+            AddJob(false, ComponentType.Engine);
+            AddJob(true, ComponentType.Turret);
+            AddJob(false, ComponentType.Bridge);
+            set = true;
         }
 
         jump = Input.GetButton("Jump");

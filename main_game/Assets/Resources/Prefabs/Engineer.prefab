@@ -145,13 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e60a97f2c87ae41b6cdc1055d78cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XSensitivity: 2
-  YSensitivity: 2
-  clampVerticalRotation: 1
-  MinimumX: -90
-  MaximumX: 90
-  smooth: 0
-  smoothTime: 5
 --- !u!114 &11458680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -163,13 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29d830325a156d45855089dd8f0c04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upMultiplier: 0
-  isWalking: 0
-  walkSpeed: 0
-  runSpeed: 0
-  jumpSpeed: 0
-  m_StepInterval: 0
-  upgradeText: {fileID: 0}
+  defaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
+  repairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
+  upgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -222,6 +211,18 @@ Prefab:
       value: 
       objectReference: {fileID: 11439114, guid: c9265433b8bdf924eae6cfcd80d38a15,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: defaultMat
+      value: 
+      objectReference: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
+    - target: {fileID: 0}
+      propertyPath: repairMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: upgradeMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
