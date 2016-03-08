@@ -27,9 +27,20 @@ public class OutpostManager : MonoBehaviour {
         {
             if (outpostList != null && outpostList.Count > 0)
             {
-                playerController.RpcOutpostNotification("Outpost found");
             }
             timeSinceLastEvent = 0;
+            foreach (GameObject outpost in outpostList)
+            {
+                if (outpost.GetComponentInChildren<OutpostLogic>().discovered == false)
+                {
+                    if (Vector3.Distance(outpost.transform.position, Camera.main.transform.position) < 2000)
+                    {
+                        outpost.GetComponentInChildren<OutpostLogic>().discovered = true;
+                        playerController.RpcOutpostNotification("Mayday SOS we're being attacked by alien explosions or something");
+                        print("Mayday SOS we're being attacked by alien explosions or something");
+                    }
+                }
+            }
         }
         if(canvas == null) canvas = GameObject.Find("CrosshairCanvas(Clone)");
         //note canvas might still be null if CrosshairCanvas isn't created yet
@@ -45,7 +56,13 @@ public class OutpostManager : MonoBehaviour {
             }
             for (int index = 0; index < outpostList.Count; index++)
             {
-                Indicator(outpostList[index], index);
+                if (outpostList[index].GetComponentInChildren<OutpostLogic>().discovered &&
+                    !outpostList[index].GetComponentInChildren<OutpostLogic>().resourcesCollected &&
+                    !outpostList[index].GetComponentInChildren<OutpostLogic>().civiliansCollected &&
+                    outpostList[index] != null
+                    )
+                    Indicator(outpostList[index], index);
+                else arrowList[index].SetActive(false);
             }
         }
     }

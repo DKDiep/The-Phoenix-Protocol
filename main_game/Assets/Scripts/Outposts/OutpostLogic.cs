@@ -10,8 +10,9 @@ public class OutpostLogic : MonoBehaviour {
 	private const int MIN_OUTPOST_CIVILIANS = 100;
 	private const int MAX_OUTPOST_CIVILIANS = 500;
 
-	private bool resourcesCollected = false;
-	private bool civiliansCollected = false;
+	public bool resourcesCollected = false;
+    public bool civiliansCollected = false;
+    public bool discovered = false; 
 
 	private int numberOfResources;
 	private int numberOfCivilians;
