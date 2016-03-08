@@ -1,0 +1,342 @@
+fileFormatVersion: 2
+guid: 9c998edd785544e22ab2ce56492d9f7e
+timeCreated: 1457046540
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bottom_Cap
+    100002: BottomSpike
+    100004: BottomSpike1
+    100006: BottomTube
+    100008: Capsules
+    100010: Connector
+    100012: Connector 1
+    100014: Connector1
+    100016: Connector1 1
+    100018: Connector2
+    100020: Connector2 1
+    100022: Connector3
+    100024: Connector3 1
+    100026: Connector4
+    100028: Connector4 1
+    100030: Connector5
+    100032: Connector5 1
+    100034: Connector6
+    100036: Connector6 1
+    100038: Connector7
+    100040: Connector7 1
+    100042: Connectors
+    100044: Connectors1
+    100046: InnerTube1
+    100048: InnerTube1 1
+    100050: InnerTube1 2
+    100052: InnerTube1 3
+    100054: InnerTube2
+    100056: InnerTube2 1
+    100058: InnerTube2 2
+    100060: InnerTube2 3
+    100062: MiddleTube
+    100064: OuterRing
+    100066: OuterRing 1
+    100068: //RootNode
+    100070: pCylinder1
+    100072: pCylinder10
+    100074: pCylinder2
+    100076: pCylinder3
+    100078: pCylinder4
+    100080: pCylinder5
+    100082: pCylinder6
+    100084: pCylinder7
+    100086: pCylinder8
+    100088: pCylinder9
+    100090: polySurface1
+    100092: polySurface2
+    100094: polySurface3
+    100096: Ring
+    100098: Ring1
+    100100: Ring2
+    100102: Ring3
+    100104: Satellite
+    100106: Satellite1
+    100108: Satellite3
+    100110: Satellite4
+    100112: Satellite5
+    100114: Satellite6
+    100116: Satellites
+    100118: TopCap
+    100120: transform1
+    100122: transform2
+    100124: transform3
+    100126: transform4
+    400000: Bottom_Cap
+    400002: BottomSpike
+    400004: BottomSpike1
+    400006: BottomTube
+    400008: Capsules
+    400010: Connector
+    400012: Connector 1
+    400014: Connector1
+    400016: Connector1 1
+    400018: Connector2
+    400020: Connector2 1
+    400022: Connector3
+    400024: Connector3 1
+    400026: Connector4
+    400028: Connector4 1
+    400030: Connector5
+    400032: Connector5 1
+    400034: Connector6
+    400036: Connector6 1
+    400038: Connector7
+    400040: Connector7 1
+    400042: Connectors
+    400044: Connectors1
+    400046: InnerTube1
+    400048: InnerTube1 1
+    400050: InnerTube1 2
+    400052: InnerTube1 3
+    400054: InnerTube2
+    400056: InnerTube2 1
+    400058: InnerTube2 2
+    400060: InnerTube2 3
+    400062: MiddleTube
+    400064: OuterRing
+    400066: OuterRing 1
+    400068: //RootNode
+    400070: pCylinder1
+    400072: pCylinder10
+    400074: pCylinder2
+    400076: pCylinder3
+    400078: pCylinder4
+    400080: pCylinder5
+    400082: pCylinder6
+    400084: pCylinder7
+    400086: pCylinder8
+    400088: pCylinder9
+    400090: polySurface1
+    400092: polySurface2
+    400094: polySurface3
+    400096: Ring
+    400098: Ring1
+    400100: Ring2
+    400102: Ring3
+    400104: Satellite
+    400106: Satellite1
+    400108: Satellite3
+    400110: Satellite4
+    400112: Satellite5
+    400114: Satellite6
+    400116: Satellites
+    400118: TopCap
+    400120: transform1
+    400122: transform2
+    400124: transform3
+    400126: transform4
+    2300000: Bottom_Cap
+    2300002: BottomSpike
+    2300004: BottomSpike1
+    2300006: BottomTube
+    2300008: Connector
+    2300010: Connector 1
+    2300012: Connector1
+    2300014: Connector1 1
+    2300016: Connector2
+    2300018: Connector2 1
+    2300020: Connector3
+    2300022: Connector3 1
+    2300024: Connector4
+    2300026: Connector4 1
+    2300028: Connector5
+    2300030: Connector5 1
+    2300032: Connector6
+    2300034: Connector6 1
+    2300036: Connector7
+    2300038: Connector7 1
+    2300040: InnerTube1
+    2300042: InnerTube1 1
+    2300044: InnerTube1 2
+    2300046: InnerTube1 3
+    2300048: InnerTube2
+    2300050: InnerTube2 1
+    2300052: InnerTube2 2
+    2300054: InnerTube2 3
+    2300056: MiddleTube
+    2300058: OuterRing
+    2300060: OuterRing 1
+    2300062: pCylinder1
+    2300064: pCylinder10
+    2300066: pCylinder2
+    2300068: pCylinder3
+    2300070: pCylinder4
+    2300072: pCylinder5
+    2300074: pCylinder6
+    2300076: pCylinder7
+    2300078: pCylinder8
+    2300080: pCylinder9
+    2300082: Satellite
+    2300084: Satellite1
+    2300086: Satellite3
+    2300088: Satellite5
+    2300090: Satellite6
+    2300092: TopCap
+    3300000: Bottom_Cap
+    3300002: BottomSpike
+    3300004: BottomSpike1
+    3300006: BottomTube
+    3300008: Connector
+    3300010: Connector 1
+    3300012: Connector1
+    3300014: Connector1 1
+    3300016: Connector2
+    3300018: Connector2 1
+    3300020: Connector3
+    3300022: Connector3 1
+    3300024: Connector4
+    3300026: Connector4 1
+    3300028: Connector5
+    3300030: Connector5 1
+    3300032: Connector6
+    3300034: Connector6 1
+    3300036: Connector7
+    3300038: Connector7 1
+    3300040: InnerTube1
+    3300042: InnerTube1 1
+    3300044: InnerTube1 2
+    3300046: InnerTube1 3
+    3300048: InnerTube2
+    3300050: InnerTube2 1
+    3300052: InnerTube2 2
+    3300054: InnerTube2 3
+    3300056: MiddleTube
+    3300058: OuterRing
+    3300060: OuterRing 1
+    3300062: pCylinder1
+    3300064: pCylinder10
+    3300066: pCylinder2
+    3300068: pCylinder3
+    3300070: pCylinder4
+    3300072: pCylinder5
+    3300074: pCylinder6
+    3300076: pCylinder7
+    3300078: pCylinder8
+    3300080: pCylinder9
+    3300082: Satellite
+    3300084: Satellite1
+    3300086: Satellite3
+    3300088: Satellite5
+    3300090: Satellite6
+    3300092: TopCap
+    4300000: BottomTube
+    4300002: MiddleTube
+    4300004: Connector1
+    4300006: Connector
+    4300008: Connector2
+    4300010: Connector3
+    4300012: Connector4
+    4300014: Connector5
+    4300016: Connector6
+    4300018: Connector7
+    4300020: OuterRing
+    4300022: InnerTube2
+    4300024: InnerTube1
+    4300026: Satellite3
+    4300028: Satellite1
+    4300030: Satellite
+    4300032: Satellite6
+    4300034: Bottom_Cap
+    4300036: TopCap
+    4300038: OuterRing
+    4300040: InnerTube2
+    4300042: InnerTube1
+    4300044: Connector1
+    4300046: Connector
+    4300048: Connector2
+    4300050: Connector3
+    4300052: Connector4
+    4300054: Connector5
+    4300056: Connector6
+    4300058: Connector7
+    4300060: InnerTube2
+    4300062: InnerTube1
+    4300064: InnerTube2
+    4300066: InnerTube1
+    4300068: BottomSpike
+    4300070: pCylinder1
+    4300072: pCylinder2
+    4300074: pCylinder3
+    4300076: pCylinder4
+    4300078: pCylinder5
+    4300080: pCylinder6
+    4300082: pCylinder7
+    4300084: pCylinder8
+    4300086: pCylinder9
+    4300088: pCylinder10
+    4300090: BottomSpike1
+    4300092: Satellite5
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

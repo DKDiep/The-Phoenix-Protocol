@@ -10,12 +10,12 @@ using System.Collections;
 
 public class BulletLogic : MonoBehaviour 
 {
-	public float speed = 100f; // Bullet speed
+	public float speed; // Bullet speed
 
 	// These cannot be easily moved to GameSettings because they are set to different values based on the object they are attached to
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
-	[SerializeField] private float damage; 
+	private float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
+	private float damage; 
 	[SerializeField] private Color bulletColor;
 	[SerializeField] private GameObject impact;
 	[SerializeField] private float xScale;
@@ -48,6 +48,13 @@ public class BulletLogic : MonoBehaviour
                 enableSound = false;
             }
         }
+    }
+
+    public void SetParameters(float t_accuracy, float t_damage, float t_speed)
+    {
+        accuracy = t_accuracy;
+        damage = t_damage;
+        speed = t_speed;
     }
 
     // Initialise object when spawned

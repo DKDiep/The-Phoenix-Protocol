@@ -39,6 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af2ce32c85184fd59dc7a0938bca927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helpMat: {fileID: 2100000, guid: b162bc0558fb64c1c9ee723480ee156c, type: 2}
+  savedMat: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -62,6 +64,14 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: helpMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b162bc0558fb64c1c9ee723480ee156c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: savedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 163786}

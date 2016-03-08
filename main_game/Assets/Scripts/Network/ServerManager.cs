@@ -228,12 +228,16 @@ public class ServerManager : NetworkBehaviour
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
+    }
 
-		//Reset Player's scores
-		gameState.ResetPlayerScores();
+    public void Play()
+    {
+        //Reset Player's scores
+        gameState.ResetPlayerScores();
 
+        GameObject.Find("GameTimerText").GetComponent<TimerScript>().ResetTimer();
         //Start the game
-        playerShip.GetComponentInChildren<ShipMovement>().StartGame();
+        //playerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;
     }
 

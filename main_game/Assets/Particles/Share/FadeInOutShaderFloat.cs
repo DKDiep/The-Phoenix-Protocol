@@ -39,6 +39,9 @@ public class FadeInOutShaderFloat : MonoBehaviour
     if (effectSettings!=null)
       effectSettings.CollisionEnter += prefabSettings_CollisionEnter;
 
+        isCollisionEnter = true;
+    if (!isIn && FadeOutAfterCollision) Invoke("SetupFadeOutDelay", FadeOutDelay);
+
     InitMaterial();
   }
   

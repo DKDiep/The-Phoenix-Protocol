@@ -32,6 +32,10 @@ public class EnemySpawner : MonoBehaviour
 
 	private static int numEnemies = 0; // Number of currently active enemies
 
+    // These control the likelihood of each enemy type to be spawned. Set in IncreaseDifficulty. See InstantiateEnemy for usage.
+    private int gnatLimit, fireflyLimit, termiteLimit, lightningBugLimit, 
+        hornetLimit, blackWidowLimit, glomCruiserLimit;
+
 	private GameState state;
 	private GameObject player, spawnLocation;
 
@@ -42,7 +46,8 @@ public class EnemySpawner : MonoBehaviour
 	private static List<EnemyProperties> enemyTypeList = null;
 
     private ObjectPoolManager logicManager;
-    private ObjectPoolManager enemyManager;
+    private ObjectPoolManager gnatManager;
+    private ObjectPoolManager fireflyManager;
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
 
     void Start()
@@ -54,7 +59,8 @@ public class EnemySpawner : MonoBehaviour
             state = gameManager.GetComponent<GameState>();
 
         player = null;
-        enemyManager = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
+        gnatManager = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
+        fireflyManager = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
@@ -65,7 +71,68 @@ public class EnemySpawner : MonoBehaviour
 			InitialiseEnemyTypes ();
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+
+        StartCoroutine("TimedDifficulty");
     }
+
+    // Increase difficulty by 1 every 30 seconds
+    IEnumerator TimedDifficulty()
+    {
+        IncreaseDifficulty();
+        yield return new WaitForSeconds(45f);
+        StartCoroutine("TimedDifficulty");
+
+    }
+
+    private void IncreaseDifficulty()
+    {
+        state.IncreaseDifficulty(1);
+        int difficulty = state.GetDifficulty();
+
+        Debug.Log("Difficulty is " + difficulty);
+
+        // Random number is picked between 0-100, so 101 means the enemy type will never spawn at this difficulty level
+        switch(difficulty) 
+        {
+            case 1 :
+                maxEnemies = 20;
+                gnatLimit = 80;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+        case 2 :
+                maxEnemies = 30;
+                gnatLimit = 60;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+        case 3 :
+                maxEnemies = 35;
+                gnatLimit = 50;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                glomCruiserLimit = 101;
+                break;
+            // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
+            default :
+                if(maxEnemies < 100)
+                    maxEnemies += 10;
+                break;
+        }
+
+    }
+
 
 	private void LoadSettings()
 	{
@@ -73,7 +140,6 @@ public class EnemySpawner : MonoBehaviour
 
 		minDistance = settings.EnemyMinSpawnDistance;
 		maxDistance = settings.EnemyMaxSpawnDistance;
-		maxEnemies  = settings.MaxEnemies;
 
 		aiWaypointsPerEnemy		   = settings.AIWaypointsPerEnemy;
 		aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
@@ -89,9 +155,13 @@ public class EnemySpawner : MonoBehaviour
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Fighter, 100, 0, 15, 15)); // This is the "default" enemy we had before introducing types
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Tank, 200, 50, 50, 10));
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Assassin, 50, 20, 5, 30));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15, false, 3f, 4f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20, false, 3f, 7f ));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
+        //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
 	}
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
@@ -125,22 +195,45 @@ public class EnemySpawner : MonoBehaviour
 	private void InstantiateEnemy(out GameObject enemyObject, out EnemyLogic enemyLogic)
 	{
 		// Spawn enemy and server logic
-		enemyObject = enemyManager.RequestObject();
         GameObject enemyLogicObject = logicManager.RequestObject();
+
+        int random = Random.Range(1,101);
+        int type = -1;
+
+        if(random < gnatLimit)
+            type = 0;
+        else if(random < fireflyLimit)
+            type = 1;
+
+        // Default enemy type is the Gnat
+        if(type == -1)
+            type = 0;
+
+        //int type = Random.Range(0, enemyTypeList.Count);
+        if(type == 0) 
+            enemyObject = gnatManager.RequestObject();
+        else 
+            enemyObject = fireflyManager.RequestObject();
+
+        enemyObject.transform.position = spawnLocation.transform.position;
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
-		enemyObject.transform.position = spawnLocation.transform.position;
+
 
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
-		ApplyEnemyType (enemyLogic, Random.Range(0, enemyTypeList.Count)); // random enemy type
+
+		ApplyEnemyType (enemyLogic, type); // random enemy type
 		enemyLogic.SetControlObject(enemyObject);
 		enemyLogic.SetPlayer(state.PlayerShip);
 		enemyLogic.SetPlayerShipTargets(playerShipTargets);
 		enemyLogic.SetAIWaypoints(GetAIWaypointsForEnemy ());
 
 		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-		enemyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+		if(type == 0)
+            gnatManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else
+            fireflyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
 	}
@@ -281,15 +374,21 @@ public class EnemySpawner : MonoBehaviour
 	private class EnemyProperties
 	{
 		public int maxHealth, maxShield, collisionDamage, speed;
+        public bool isSuicidal;
+        public float shootPeriod, shotsPerSec;
 		public EnemyType Type { get; private set; }
 
-		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage, int speed)
+		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage,
+         int speed, bool isSuicidal, float shootPeriod, float shotsPerSec)
 		{
 			this.Type            = type;
 			this.maxHealth       = maxHealth;
 			this.maxShield       = maxShield;
 			this.collisionDamage = collisionDamage;
 			this.speed           = speed;
+            this.isSuicidal = isSuicidal;
+            this.shootPeriod = shootPeriod;
+            this.shotsPerSec = shotsPerSec;
 		}
 	}
 
@@ -312,6 +411,9 @@ public class EnemySpawner : MonoBehaviour
 		enemy.maxShield       = props.maxShield;
 		enemy.speed           = props.speed;
 		enemy.collisionDamage = props.collisionDamage;
+        enemy.isSuicidal = props.isSuicidal;
+        enemy.shootPeriod = props.shootPeriod;
+        enemy.shotsPerSec = props.shotsPerSec;
 		enemy.type            = props.Type;
 	}
 
@@ -351,7 +453,11 @@ public class EnemySpawner : MonoBehaviour
 // The types of enemies available. Each type should have its properties initialised before it's used
 public enum EnemyType
 {
-	Fighter,
-	Tank,
-	Assassin
+	Gnat,
+    Firefly,
+    Termite,
+    LightningBug,
+    Hornet,
+    BlackWidow,
+    GlomCruiser
 }

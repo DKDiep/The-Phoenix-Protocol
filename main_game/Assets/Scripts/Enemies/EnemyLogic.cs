@@ -18,8 +18,6 @@ public class EnemyLogic : MonoBehaviour
 	private GameSettings settings;
 
 	// Configuration parameters loaded through GameSettings
-	private float shotsPerSec;
-	private float shootPeriod; 					// How long in seconds the enemy should shoot for when it fires
 	private int shootPeriodPercentageVariation; // Percentage variation +/- in the length of the shooting period
 	private float shieldDelay; 					// Delay in seconds to wait before recharging shield
 	private float shieldRechargeRate; 			// Units of shield to increase per second
@@ -33,6 +31,9 @@ public class EnemyLogic : MonoBehaviour
 	internal float maxHealth;
 	internal float maxShield; // Max recharging shield level. Set to 0 to disable shields
 	internal float collisionDamage;
+    internal bool isSuicidal;
+    internal float shotsPerSec;
+    internal float shootPeriod;                  // How long in seconds the enemy should shoot for when it fires
 	internal EnemyType type;
 
 	private AudioSource mySrc;
@@ -40,9 +41,7 @@ public class EnemyLogic : MonoBehaviour
 	private GameObject player;
 
 	private bool shoot = false, angleGoodForShooting = false;
-	private bool rechargeShield;
-
-	private bool isSuicidal;
+	private bool rechargeShield;   
 
 	internal float health;
 	private float shield;
@@ -88,11 +87,15 @@ public class EnemyLogic : MonoBehaviour
 	private int avoidDirection;
 
     private ObjectPoolManager bulletManager;
+    private ObjectPoolManager gnatBulletManager;
+    private ObjectPoolManager fireflyBulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager enemyLogicManager;
     private ObjectPoolManager enemyManager;
+    private ObjectPoolManager gnatManager;
+    private ObjectPoolManager fireflyManager;
     
 	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
@@ -106,12 +109,12 @@ public class EnemyLogic : MonoBehaviour
 		GameObject server = settings.GameManager;
 		gameState         = server.GetComponent<GameState>();
 
-        bulletManager     = GameObject.Find("EnemyBulletManager").GetComponent<ObjectPoolManager>();
+        gnatBulletManager     = GameObject.Find("GnatBulletManager").GetComponent<ObjectPoolManager>();
+        fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
         logicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
-        enemyManager      = GameObject.Find("EnemyManager").GetComponent<ObjectPoolManager>();
 	}
 
 	private void LoadSettings()
@@ -128,11 +131,24 @@ public class EnemyLogic : MonoBehaviour
     IEnumerator UpdateDelay()
     {
         yield return new WaitForSeconds(3f);
+
+        if(type == EnemyType.Gnat )
+        {
+            enemyManager = gnatManager;
+            bulletManager = gnatBulletManager;
+        }
+        else
+        {
+            enemyManager = fireflyManager;
+            bulletManager = fireflyBulletManager;
+        }
+
         StartCoroutine("UpdateTransform");
     }
 
     IEnumerator UpdateTransform()
     {
+        //Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
         enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
         yield return new WaitForSeconds(0.1f);
         StartCoroutine("UpdateTransform");
@@ -142,6 +158,15 @@ public class EnemyLogic : MonoBehaviour
     void OnEnable()
     {
         // Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
+        if(gnatManager == null)
+            gnatManager      = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
+
+        if(fireflyManager == null)
+            fireflyManager      = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+
+
+            //Debug.Log("My type is " + type);
+
         StartCoroutine("UpdateDelay");
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
@@ -227,9 +252,11 @@ public class EnemyLogic : MonoBehaviour
 		/* Assuming a 10 minute game, there is a 1% chance that an enemy will go mad.
 		 * It's pointless to add a parameter and do the calculations in engine, since it involves finding the 36000th root of the probability value.
 		 * We use C#'s random instead of Unity's because we need double precision. */
+
+         /*
 		double madnessCheck = sysRand.NextDouble ();
 		if (madnessCheck > MADNESS_PROB)
-			isSuicidal = true;
+			isSuicidal = true;*/
 
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
@@ -466,13 +493,19 @@ public class EnemyLogic : MonoBehaviour
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = shootAnchor.transform.position;
         GameObject logic = logicManager.RequestObject();
+        BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
+
+        if(type == EnemyType.Gnat)
+            bulletLogic.SetParameters(0.3f, 1f, 600f);
+        else
+            bulletLogic.SetParameters(0.15f, 2f, 600f);
 
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;
 
 		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		logic.GetComponent<BulletLogic>().SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
+		bulletLogic.SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
 
         bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
@@ -501,6 +534,7 @@ public class EnemyLogic : MonoBehaviour
     // Detect collisions with other game objects
 	public void collision(float damage, int playerId)
 	{
+    if(enemyManager != null){
 		if (shield > damage)
 		{
 			shield -= damage;
@@ -524,7 +558,7 @@ public class EnemyLogic : MonoBehaviour
 				gameState.AddToPlayerScore(playerId, 10);
 			}
 
-            string removeName = gameObject.name;
+            string removeName = transform.parent.gameObject.name;
 
 			// Automatically collect resources from enemy ship
 			gameState.AddShipResources(droppedResources);
@@ -545,6 +579,7 @@ public class EnemyLogic : MonoBehaviour
             enemyManager.RemoveObject(removeName);
             enemyLogicManager.RemoveObject(gameObject.name);
 		}
+        }
 	}
 
 	// Class that shows obstacle detection info to be used for avoiding moves

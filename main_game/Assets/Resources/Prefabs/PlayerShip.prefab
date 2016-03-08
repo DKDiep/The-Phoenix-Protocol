@@ -377,7 +377,7 @@ GameObject:
   - 23: {fileID: 2358610}
   - 64: {fileID: 6418690}
   m_Layer: 9
-  m_Name: Hangar1
+  m_Name: ResourceCollection
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ GameObject:
   - 23: {fileID: 2357230}
   - 64: {fileID: 6462472}
   m_Layer: 9
-  m_Name: HullTop
+  m_Name: ShieldGenerator
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -967,7 +967,7 @@ Transform:
   m_Children:
   - {fileID: 420888}
   m_Father: {fileID: 417234}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &405480
 Transform:
   m_ObjectHideFlags: 1
@@ -1100,8 +1100,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 431742}
-  - {fileID: 498332}
   - {fileID: 403236}
+  - {fileID: 498332}
   - {fileID: 460090}
   - {fileID: 432184}
   - {fileID: 413518}
@@ -1517,7 +1517,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140730}
-  m_LocalRotation: {x: 0.00000003090703, y: 0.7071069, z: 0.70710677, w: 0.000000030907024}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0.33418772, z: 3.729466}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
@@ -1643,7 +1643,7 @@ Transform:
   m_Children:
   - {fileID: 407816}
   m_Father: {fileID: 417234}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &498446
 Transform:
   m_ObjectHideFlags: 1
@@ -2316,7 +2316,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 9d247fb47e45b14498bdc6471b83c9cd, type: 2}
   - {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
-  - {fileID: 2100000, guid: fc9f7dee0ab7e784e8f797a02e1aeb7d, type: 2}
+  - {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   - {fileID: 2100000, guid: 1761fde902586994590d5a0bbbf2ba7a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}

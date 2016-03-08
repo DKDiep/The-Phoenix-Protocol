@@ -66,12 +66,12 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 0.3897059, g: 0.4696754, b: 1, a: 1}
-      data:
-        first:
-          name: _EmisColor
-        second: {r: 0.2, g: 0.2, b: 0.2, a: 0}
+        second: {r: 0.41911763, g: 0.49523318, b: 1, a: 1}
       data:
         first:
           name: _CoreColor
         second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _EmisColor
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 0}
