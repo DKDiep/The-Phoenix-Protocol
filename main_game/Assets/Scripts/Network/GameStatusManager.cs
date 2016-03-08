@@ -26,6 +26,9 @@ public class GameStatusManager : NetworkBehaviour
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
+            GameObject gameTimer = GameObject.Find("GameTimerText");
+            gameTimer.SetActive(false);
+
             GameObject.Find("Portal(Clone)").SetActive(false);
 
             // Set an overlay on the screen

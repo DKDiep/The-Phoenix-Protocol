@@ -234,8 +234,9 @@ public class ServerManager : NetworkBehaviour
     {
         //Reset Player's scores
         gameState.ResetPlayerScores();
-
-        GameObject.Find("GameTimerText").GetComponent<TimerScript>().ResetTimer();
+        GameObject gameTimer = GameObject.Find("GameTimerText");
+        gameTimer.SetActive(true);
+        gameTimer.GetComponent<TimerScript>().ResetTimer();
         //Start the game
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;
