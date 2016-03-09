@@ -23,9 +23,6 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text storageCostLabel;
 
 	[SerializeField] private Text popUpText;
-	[SerializeField] private GameObject shieldsButton;
-	[SerializeField] private GameObject turretsButton;
-	[SerializeField] private GameObject engineButton;
 	[SerializeField] private GameObject popUp;
 	[SerializeField] private GameObject levelCounter1;
 	[SerializeField] private GameObject levelCounter2;
@@ -90,10 +87,6 @@ public class CommandConsoleState : MonoBehaviour {
 		// Hide the popup by default
         popUpText.text = "";
         popUp.SetActive(false);
-        
-        shieldsButton.SetActive(true);
-        turretsButton.SetActive(true);
-        engineButton.SetActive(true);
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
