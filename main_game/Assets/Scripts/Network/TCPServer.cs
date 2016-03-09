@@ -21,6 +21,8 @@ public class TCPServer : MonoBehaviour
     // Constants for splitting the received messages
     private readonly String[] semiColon = {";"};
     private readonly String[] colon = {":"};
+    private readonly String[] comma = {","};
+    private readonly String[] plus = {"+"};
 
     private UDPServer udpServer;
     private TcpListener tcpServer = null;
@@ -140,11 +142,22 @@ public class TCPServer : MonoBehaviour
     // Multiplexes the received message into unique actions
     private void HandleMessage(String msg)
     {
+        String[] fields;
+        String[] subFields;
         String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
-        switch(parts[0]) {
+        switch(parts[0])
+        {
             case "START":
                 // TODO: implement the actions caused by this message
-                Debug.Log("Received a Start Game signal.");
+                Debug.Log("Received a Start Game signal with data:");
+                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                foreach (String plr in fields)
+                {
+                    subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                    String userName = subFields[0];
+                    uint userId = UInt32.Parse(subFields[1]);
+                    Debug.Log("Username: " + userName + " id:" + userId);
+                }
                 break;
             case "CTRL":
                 // TODO: set the enemy as controlled and change AI settings
