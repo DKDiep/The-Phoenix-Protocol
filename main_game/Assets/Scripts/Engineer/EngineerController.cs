@@ -411,7 +411,7 @@ public class EngineerController : NetworkBehaviour
                 actualMove.y += jumpSpeed;
             }
 
-            transform.localPosition += actualMove;
+            transform.position += actualMove;
         }
 
         // Do upgrades/repairs
