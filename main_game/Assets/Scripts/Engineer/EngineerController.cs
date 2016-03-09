@@ -298,15 +298,13 @@ public class EngineerController : NetworkBehaviour
         componentUpgradeLevel = level;
     }
 
-    /// <summary>
-    /// Replacement for Unity's Update() method.
-    /// DO NOT CALL THIS DIRECTLY UNLESS YOU ARE VERY
-    /// SURE THAT YOU NEED TO
-    /// </summary>
-    public void EngUpdate()
+    private void Update()
     {
-        RotateView();
+        // Make sure this only runs on the client
+        if (playerController == null || !playerController.isLocalPlayer)
+            return;
 
+        RotateView();
         if (Input.GetButton("Dock"))
         {
             Dock();
@@ -376,13 +374,12 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Replacement for Unity's FixedUpdate() method.
-    /// DO NOT CALL THIS DIRECTLY UNLESS YOU ARE VERY
-    /// SURE THAT YOU NEED TO
-    /// </summary>
-    public void EngFixedUpdate()
+    private void FixedUpdate()
     {
+        // Make sure this only runs on the client
+        if (playerController == null || !playerController.isLocalPlayer)
+            return;
+
         float speed;
         GetInput(out speed);
 
