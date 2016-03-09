@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
@@ -46,12 +47,14 @@ public class MainMenu : NetworkBehaviour
 
     public void CreateGame()
     {
+        UpdateAddress();
         startServer = true;
         SetHandler(manager.StartHost());
     }
 
     public void JoinGame()
     {
+        UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
     }
@@ -70,6 +73,11 @@ public class MainMenu : NetworkBehaviour
         client.RegisterHandler(MessageID.COMPONENT_STATUS, messageHandler.OnServerComponentStatus);
     }
 
+    public void UpdateAddress()
+    {
+        manager.networkAddress = GameObject.Find("NetworkAddressInput").GetComponent<InputField>().text;
+        Debug.Log("Address now set to " + manager.networkAddress);
+    }
     public void QuitGame()
     {
         Application.Quit();
