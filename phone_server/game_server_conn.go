@@ -133,15 +133,15 @@ func decodeGameServerMessage(rawData []byte) {
 func sendSignalToGameServer(msgType GameServerMessageType) bool {
     switch msgType {
     case START_GAME:
-        return sendMsgToGameServer("START")
+        return sendTCPMsgToGameServer("START")
     default:
         return false
     }
 }
 
-// Send a string to the Gmae Server
+// Send a string to the Game Server
 // return value indicates if the message was sent succesfully
-func sendMsgToGameServer(msg string) (success bool) {
+func sendTCPMsgToGameServer(msg string) (success bool) {
     success = true
     if gameServerTCPConn == nil {
         success = false
@@ -157,6 +157,28 @@ func sendMsgToGameServer(msg string) (success bool) {
 
     if !success {
         fmt.Println("TCP: Failed to send \"" + msg + "\".")
+    }
+
+    return
+}
+
+// Send a string to the Game Server
+// return value indicates if the message was sent succesfully
+func sendUDPMsgToGameServer(msg string) (success bool) {
+    success = true
+    if gameServerUDPConn == nil {
+        success = false
+    } else {
+        // UDP msgs don't need a delimiter
+        _, err := gameServerUDPConn.Write([]byte(msg))
+        if err != nil {
+            fmt.Println("UDP: Error sending message: " + err.Error())
+            success = false
+        }
+    }
+
+    if !success {
+        fmt.Println("UDP: Failed to send \"" + msg + "\".")
     }
 
     return

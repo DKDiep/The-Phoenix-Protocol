@@ -1,5 +1,9 @@
 package main
 
+import(
+    "strconv"
+)
+
 type PlayerState int
 
 const (
@@ -47,6 +51,10 @@ func (plr *Player) setState(st PlayerState) {
 // Sets the currently controlled enemy
 func (plr *Player) setControlledEnemy(enemyId uint64) {
     if plr.isControllingEnemy {
+        return
+    }
+
+    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatUint(enemyId, 10)) {
         return
     }
 
@@ -115,6 +123,19 @@ func (plr *Player) sendDataUpdate(enemies map[uint64]*Enemy, asteroids map[int]*
     msg["data"] = dataSegment
 
     plr.user.sendMsg(msg)
+}
+
+// Send the relative coordinates to which an enemy should move
+func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
+    if !plr.isControllingEnemy {
+        return
+    }
+
+    msg := "MV:"
+    msg += strconv.FormatUint(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatFloat(data["x"].(float64), 'f', -1, 64) + ","
+    msg += strconv.FormatFloat(data["y"].(float64), 'f', -1, 64)
+    sendUDPMsgToGameServer(msg)
 }
 
 // Deals with state transition based on the answer to the promotion offer
