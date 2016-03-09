@@ -60,7 +60,7 @@ public class ShieldEffects : NetworkBehaviour
 	  // When shield is initially depleted, increase meshOffset and size for burst effect
 	  if(burstShield)
 	  {
-		if(meshOffset < 300 || shieldAlpha > 0f)
+		if(meshOffset < 600 || shieldAlpha > 0f)
 		{
 		  meshOffset += 400f * Time.deltaTime;
 		  myMat.material.SetFloat("_Offset", meshOffset);
@@ -76,6 +76,7 @@ public class ShieldEffects : NetworkBehaviour
 		  meshOffset = 0.05f;
 		  myMat.material.SetFloat("_Offset", meshOffset);
 		  shieldAlpha = 0f;
+          
 		}
 	  }
     }
@@ -83,6 +84,7 @@ public class ShieldEffects : NetworkBehaviour
     // When player is hit, initialise shield fade values
     public void Impact(float value)
     {
+        Debug.Log("Shield hit: " + value);
         Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
         startFade = shieldCol;
         myMat.material.SetColor("_InnerTint", shieldCol);
@@ -94,6 +96,7 @@ public class ShieldEffects : NetworkBehaviour
     // When shield is down, initialise burst effect values
     public void ShieldDown()
     {
+        Debug.Log("Shield is down");
         meshOffset = 0.05f;
         burstShield = true;
         myMat.material.SetColor("_InnerTint", emptyShield);

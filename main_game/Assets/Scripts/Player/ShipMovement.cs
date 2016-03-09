@@ -33,7 +33,6 @@ public class ShipMovement : MonoBehaviour
 	private float slowTime2 = 0f;
 	private bool left, right, up, down;
 	private DamageEffects myDamage;
-	private ShieldEffects myShield = null;
 
     // Initialise object
     void Start()
@@ -82,7 +81,7 @@ public class ShipMovement : MonoBehaviour
 		
     public void StartGame()
     {
-        myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
+        gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
     }
 
 	void Update () 
@@ -237,7 +236,8 @@ public class ShipMovement : MonoBehaviour
 			left = false;
 		}
 
-        if(myDamage == null) myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
+        if(myDamage == null) 
+            myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
 
         // Show directional damage effect
 		if(left && !(up || down))
@@ -276,11 +276,7 @@ public class ShipMovement : MonoBehaviour
 		// Check to see if the hull is hit, otherwise damage component
 		if (component == ComponentType.None)
 		{
-			bool shieldStillUp = gameState.DamageShip(true, damage);
-			if (shieldStillUp)
-				myShield.Impact(gameState.GetShipShield());
-			else
-				myShield.ShieldDown();
+			gameState.DamageShip(damage);
 		}
         else
             gameState.ReduceComponentHealth(component, damage);

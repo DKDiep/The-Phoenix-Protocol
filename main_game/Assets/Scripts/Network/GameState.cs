@@ -33,6 +33,8 @@ public class GameState : NetworkBehaviour {
 
     public SyncListInt playerScore = new SyncListInt();
 
+    public ShieldEffects myShield = null;
+
 	// Ship variables used for modifying the ships behaviour
 	private float shipSpeed;
 	private float shipMaxShields;
@@ -461,19 +463,22 @@ public class GameState : NetworkBehaviour {
 	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the hull.</param>
 	/// <param name="damage">The ammount of damage to inflict.</param>
 	/// <returns><c>true</c> if shields are still available</returns>
-	public bool DamageShip(bool shielded, float damage)
+
+	public bool DamageShip(float damage)
 	{
-		if (shielded && shipShield > damage)
+		if (shipShield > damage)
 		{
 			SetShipShield(shipShield - damage);
+            myShield.Impact(GetShipShield());
 			return true;
 		}
 		else
 		{
-			if (shielded)
+			if (shipShield > 0)
 			{
 				damage -= shipShield;
 				SetShipShield(0);
+                myShield.ShieldDown();
 			}
 			ReduceShipHealth(damage);
 			return false;
