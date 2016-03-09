@@ -133,15 +133,15 @@ func decodeGameServerMessage(rawData []byte) {
 func sendSignalToGameServer(msgType GameServerMessageType) bool {
     switch msgType {
     case START_GAME:
-        return sendMsgToGameServer("START")
+        return sendTCPMsgToGameServer("START")
     default:
         return false
     }
 }
 
-// Send a string to the Gmae Server
+// Send a string to the Game Server
 // return value indicates if the message was sent succesfully
-func sendMsgToGameServer(msg string) (success bool) {
+func sendTCPMsgToGameServer(msg string) (success bool) {
     success = true
     if gameServerTCPConn == nil {
         success = false
@@ -162,6 +162,28 @@ func sendMsgToGameServer(msg string) (success bool) {
     return
 }
 
+// Send a string to the Game Server
+// return value indicates if the message was sent succesfully
+func sendUDPMsgToGameServer(msg string) (success bool) {
+    success = true
+    if gameServerUDPConn == nil {
+        success = false
+    } else {
+        // UDP msgs don't need a delimiter
+        _, err := gameServerUDPConn.Write([]byte(msg))
+        if err != nil {
+            fmt.Println("UDP: Error sending message: " + err.Error())
+            success = false
+        }
+    }
+
+    if !success {
+        fmt.Println("UDP: Failed to send \"" + msg + "\".")
+    }
+
+    return
+}
+
 // Updates the ship data with the received values
 func updateShipData(data map[string]interface{}) {
     newShipData := &PlayerShip{
@@ -177,10 +199,12 @@ func updateShipData(data map[string]interface{}) {
 func setEnemies(data []interface{}) {
     for _, d := range data {
         enemy := d.(map[string]interface{})
-        enemyMap.set(int(enemy["id"].(float64)),
+        enemyMap.set(int64(enemy["id"].(float64)),
             &Enemy{
                 posX: enemy["x"].(float64),
                 posY: enemy["y"].(float64),
+                isControlled: false,
+                controllingPlayer: nil,
             })
     }
 }
@@ -189,7 +213,7 @@ func setEnemies(data []interface{}) {
 // TODO: optimise this to do only a single channel send per set of enemies
 func removeEnemies(data []interface{}) {
     for _, id := range data {
-        enemyMap.remove(int(id.(float64)))
+        enemyMap.remove(int64(id.(float64)))
     }
 }
 

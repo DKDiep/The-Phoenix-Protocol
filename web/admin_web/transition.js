@@ -104,10 +104,10 @@ function getPlayerRow(player, role) {
     // action button
     switch (role) {
         case roles.OFFICER:
-            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this,\'" + player.UserId + "\', " + roles.SPECTATOR + ")\">Set Spectator</button>"
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.SPECTATOR + ")\">Set Spectator</button>"
             break;
         case roles.SPECTATOR:
-            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this,\'" + player.UserId + "\', " + roles.OFFICER + ")\">Set Officer</button>"
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.OFFICER + ")\">Set Officer</button>"
             break;
         default:
             console.log("Unknown role to request to be set.")

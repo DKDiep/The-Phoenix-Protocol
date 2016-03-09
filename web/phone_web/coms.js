@@ -50,12 +50,44 @@ function onMessage(event) {
         default:
             console.log("Received unexpected message type: "+msg.type)
     }
+}
 
+// Request to controll an enemy
+function sendControlEnemyRequest(enemyId) {
+    var msg = {
+        type: "ENM_CTRL",
+        data: enemyId
+    }
+
+    serverSocket.send(JSON.stringify(msg));
+}
+
+// Request the controlled enemy to move to position (posX, posY)
+function sendMoveEnemyRequest(posX, posY) {
+    var msg = {
+        type: "ENM_MV",
+        data: {
+            x: posX,
+            y: posY
+        }
+    }
+
+    serverSocket.send(JSON.stringify(msg));
+}
+
+// Request the controlled enemy to attack some other enemy
+function sendEnemyAttackRequest(attackedEnemyId) {
+    var msg = {
+        type: "ENM_ATT",
+        data: attackedEnemyId
+    }
+
+    serverSocket.send(JSON.stringify(msg));
 }
 
 // Request information for an existing user
 function requestUserUpdate() {
-    var userId = Cookies.get("user_id")
+    var userId = parseInt(Cookies.get("user_id"))
     var msg = {
         type: "UPDATE_USER",
         data: userId

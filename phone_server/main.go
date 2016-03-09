@@ -13,7 +13,7 @@ const ADMIN_PORT string = "52932"
 const ADMIN_UPDATE_INTERVAL time.Duration = 3 * time.Second
 const USER_WEB_DIR string = "../web/phone_web"
 const USER_PORT string = "8080"
-const LOCAL_UDP_PORT string = "45678"
+const LOCAL_UDP_PORT string = "46578"
 const GAME_SERVER_ADDRESS string = "192.168.56.1"
 const GAME_SERVER_UDP_PORT string = "2345"
 const GAME_SERVER_TCP_PORT string = "2346"
@@ -42,8 +42,8 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Holds the player data and modification channels
 var playerMap *PlayerMap = &PlayerMap{
-    mOfficers:     make(map[string]*Player),
-    mSpec:         make(map[string]*Player),
+    mOfficers:     make(map[uint64]*Player),
+    mSpec:         make(map[uint64]*Player),
     addC:          make(chan *Player),
     setOfficerC:   make(chan *Player),
     setSpectatorC: make(chan *Player),
@@ -57,11 +57,12 @@ var playerMap *PlayerMap = &PlayerMap{
 
 // Main structure holding all enemy data
 var enemyMap *EnemyMap = &EnemyMap{
-    m:      make(map[int]*Enemy),
-    delC:   make(chan int),
+    m:      make(map[int64]*Enemy),
+    delC:   make(chan int64),
     setC:   make(chan NewEnemy),
+    ctrlC:  make(chan ControllingPlayer),
     resetC: make(chan struct{}),
-    copyC:  make(chan map[int]*Enemy),
+    copyC:  make(chan map[int64]*Enemy),
 }
 
 // Main structure holding all asteroid data

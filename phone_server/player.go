@@ -1,5 +1,9 @@
 package main
 
+import(
+    "strconv"
+)
+
 type PlayerState int
 
 const (
@@ -13,10 +17,12 @@ const (
 
 // Holds player related data
 type Player struct {
-    id       string
+    id       uint64
     userName string
     state    PlayerState
     score    int
+    isControllingEnemy bool
+    controlledEnemyId int64
     user     *User
 }
 
@@ -42,6 +48,26 @@ func (plr *Player) setState(st PlayerState) {
     plr.sendStateUpdate()
 }
 
+// Sets the currently controlled enemy
+func (plr *Player) setControlledEnemy(enemyId int64) {
+    if plr.isControllingEnemy {
+        return
+    }
+
+    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatInt(enemyId, 10)) {
+        return
+    }
+
+    if !enemyMap.setControlled(enemyId, plr) {
+        return
+    }
+
+    // TODO: notify Game Server
+
+    plr.isControllingEnemy = true
+    plr.controlledEnemyId = enemyId
+}
+
 // Sends a user state update
 func (plr *Player) sendStateUpdate() {
     // players with no active user don't need updating
@@ -60,7 +86,7 @@ func (plr *Player) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Asteroid) {
+func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*Asteroid) {
     // players with no active user don't need updating
     if plr.user == nil {
         return
@@ -72,12 +98,13 @@ func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Ast
     dataSegment := make([]map[string]interface{}, 0)
 
     // Add enemies to the message
-    for _, enemy := range enemies {
+    for id, enemy := range enemies {
         dataSegment = append(dataSegment, map[string]interface{}{
             "type": "ship",
             "position": map[string]interface{}{
-                "x": enemy.posX,
-                "y": enemy.posY,
+                "id": id,
+                "x" : enemy.posX,
+                "y" : enemy.posY,
             },
         })
     }
@@ -94,36 +121,35 @@ func (plr *Player) sendDataUpdate(enemies map[int]*Enemy, asteroids map[int]*Ast
     }
 
     msg["data"] = dataSegment
-    // incry += 0.1
-    // msg := map[string]interface{}{
-    //     "type": "STATE_UPDATE",
-    //     "data": []map[string]interface{}{
-    //         map[string]interface{}{
-    //             "type": "ship",
-    //             "position": map[string]interface{}{
-    //                 "x": 10,
-    //                 "y": math.Mod((incry + 14), 100),
-    //             },
-    //         },
-    //         map[string]interface{}{
-    //             "type": "debris",
-    //             "position": map[string]interface{}{
-    //                 "x": 20,
-    //                 "y": math.Mod((incry + 53), 100),
-    //             },
-    //             "size": 10,
-    //         },
-    //         map[string]interface{}{
-    //             "type": "asteroid",
-    //             "position": map[string]interface{}{
-    //                 "x": 32,
-    //                 "y": math.Mod((incry + 15), 100),
-    //             },
-    //         },
-    //     },
-    // }
 
     plr.user.sendMsg(msg)
+}
+
+// Send the relative coordinates to which an enemy should move
+func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
+    if !plr.isControllingEnemy {
+        return
+    }
+
+    msg := "MV:"
+    msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatFloat(data["x"].(float64), 'f', -1, 64) + ","
+    msg += strconv.FormatFloat(data["y"].(float64), 'f', -1, 64)
+
+    sendUDPMsgToGameServer(msg)
+}
+
+// Send attack command for the controlled enemy to the game server
+func (plr *Player) sendAttackCommandToGameServer(enemyId int64) {
+    if !plr.isControllingEnemy {
+        return
+    }
+
+    msg := "ATT:"
+    msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatInt(enemyId, 10)
+
+    sendUDPMsgToGameServer(msg)
 }
 
 // Deals with state transition based on the answer to the promotion offer

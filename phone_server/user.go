@@ -3,7 +3,10 @@ package main
 import (
     "encoding/json"
     "fmt"
+    "time"
     "golang.org/x/net/websocket"
+    "math/rand"
+    "strconv"
 )
 
 // Holds user related data
@@ -67,13 +70,20 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
     if usr.player != nil && usr.player.user != usr {
         return false
     }
+
     switch msg["type"].(string) {
     case "REG_USER":
         usr.registerNew(msg["data"].(string))
     case "UPDATE_USER":
-        usr.updateUser(msg["data"].(string))
+        usr.updateUser(uint64(msg["data"].(float64)))
     case "PROM":
         usr.player.processPromotionAnswer(msg["data"].(bool))
+    case "ENM_CTRL":
+        usr.player.setControlledEnemy(int64(msg["data"].(float64)))
+    case "ENM_MV":
+        usr.player.sendMoveToGameServer(msg["data"].(map[string]interface{}))
+    case "ENM_ATT":
+        usr.player.sendAttackCommandToGameServer(int64(msg["data"].(float64)))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
@@ -91,6 +101,8 @@ func (usr *User) registerNew(name string) {
         userName: name,
         state:    getNewPlayerState(),
         score:    0,
+        isControllingEnemy: false,
+        controlledEnemyId: 0,
         user:     usr}
     usr.player = newPlr
     playerMap.add(newPlr)
@@ -112,13 +124,14 @@ func (usr *User) registerNew(name string) {
 }
 
 // Placeholder function for registering a user in a database
-func registerPlayer(userName string) (id string) {
+func registerPlayer(userName string) (id uint64) {
     // TODO: remove this dummy registering process
-    return userName + "123"
+    rand.Seed(time.Now().UnixNano())
+    return uint64(rand.Uint32())
 }
 
 // Retrieves the user data and sends it to the client
-func (usr *User) updateUser(playerId string) {
+func (usr *User) updateUser(playerId uint64) {
     // check if the user has already joined the game
     plr := playerMap.get(playerId)
     // if so associate this user with the player
@@ -133,6 +146,8 @@ func (usr *User) updateUser(playerId string) {
             userName: name,
             state:    getNewPlayerState(),
             score:    0,
+            isControllingEnemy: false,
+            controlledEnemyId: 0,
             user:     usr}
         usr.player = newPlr
         playerMap.add(newPlr)
@@ -143,9 +158,9 @@ func (usr *User) updateUser(playerId string) {
 }
 
 // placeholder function for retrieving player data based on a playerId
-func getPlayerName(playerId string) (name string) {
+func getPlayerName(playerId uint64) (name string) {
     // TODO: remove dummy data retrieval
-    return playerId[:len(playerId)-3]
+    return strconv.FormatUint(playerId, 16)
 }
 
 // Deals with sending the message and error checking

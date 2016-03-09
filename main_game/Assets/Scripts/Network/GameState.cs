@@ -22,7 +22,7 @@ public class GameState : NetworkBehaviour {
     private List<uint> removedAsteroids;
 
     private List<GameObject> enemyList;
-    private List<uint> removedEnemies;
+    private List<int> removedEnemies;
     private List<GameObject> engineerList;
 
 	private List<GameObject> outpostList;
@@ -252,13 +252,13 @@ public class GameState : NetworkBehaviour {
 
     private void RemoveEnemyAt(int i)
     {
-        removedEnemies.Add((uint)enemyList[i].GetInstanceID());
+        removedEnemies.Add(enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
     }
 
 	public void RemoveEnemy(GameObject enemy)
 	{
-        removedEnemies.Add((uint)enemy.GetInstanceID());
+        removedEnemies.Add(enemy.GetInstanceID());
 		enemyList.Remove(enemy);
 		EnemySpawner.DecrementNumEnemies();
 	}
@@ -318,7 +318,7 @@ public class GameState : NetworkBehaviour {
 		removedAsteroids.Clear();
     }
     
-    public List<uint> GetRemovedEnemies()
+    public List<int> GetRemovedEnemies()
     {
         return removedEnemies;
     }
@@ -334,7 +334,7 @@ public class GameState : NetworkBehaviour {
         newAsteroids     = new List<GameObject>();
         removedAsteroids = new List<uint>();
         enemyList        = new List<GameObject>();
-        removedEnemies   = new List<uint>();
+        removedEnemies   = new List<int>();
         engineerList     = new List<GameObject>();
 		outpostList      = new List<GameObject>();
     }
