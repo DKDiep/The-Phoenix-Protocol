@@ -12,12 +12,17 @@ public class ReadyScreen : MonoBehaviour {
     void Awake()
     {
         GameObject server = GameObject.Find("GameManager");
-        AudioListener.volume = 0;
+
         if (server != null)
         {
             serverManager = server.GetComponent<ServerManager>();
             goButton.onClick.AddListener(() => OnClickStartButton());
         }
+    }
+
+    void Start()
+    {
+        serverManager.cutsceneManager.GetComponent<LoadingText>().MuteAudio();
     }
 
     public void OnClickStartButton()
@@ -26,7 +31,6 @@ public class ReadyScreen : MonoBehaviour {
         serverManager.Play();
         serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
-        AudioListener.volume = 1;
         // Disable self until restart
         gameObject.SetActive(false);
     }

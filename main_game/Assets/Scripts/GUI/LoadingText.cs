@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class LoadingText : MonoBehaviour
+public class LoadingText : NetworkBehaviour
 {
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private Texture2D text;
@@ -15,6 +16,18 @@ public class LoadingText : MonoBehaviour
     {
         StartCoroutine("Loaded");
 	}
+
+    public void MuteAudio()
+    {
+        AudioListener.volume = 0;
+        RpcMuteClientAudio();
+    }
+
+    [ClientRpc]
+    void RpcMuteClientAudio()
+    {
+        AudioListener.volume = 0;
+    }
 
     IEnumerator Loaded()
     {

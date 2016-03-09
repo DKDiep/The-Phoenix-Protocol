@@ -7,8 +7,9 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class FadeTexture : MonoBehaviour 
+public class FadeTexture : NetworkBehaviour 
 {
 	[SerializeField] Texture2D texture;
 	[SerializeField] float enterWait; // How long to wait before fading in the texture
@@ -28,8 +29,17 @@ public class FadeTexture : MonoBehaviour
 	{
 		fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
         gameStarted = true;
+        RpcStartClientFade();
 		StartCoroutine ("Fading");
 	}
+
+    [ClientRpc]
+    void RpcStartClientFade()
+    {
+        fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
+        gameStarted = true;
+        StartCoroutine ("Fading");
+    }
 	
 	void Update()
 	{
