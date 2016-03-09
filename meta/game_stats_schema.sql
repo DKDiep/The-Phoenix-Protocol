@@ -29,16 +29,6 @@ CREATE TABLE `game` (
   PRIMARY KEY (`game_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `game`
---
-
-LOCK TABLES `game` WRITE;
-/*!40000 ALTER TABLE `game` DISABLE KEYS */;
-INSERT INTO `game` VALUES (1,'cockpit_spacenaughts',10),(2,'team',100),(3,'bleageg',100000),(4,'',0),(5,'',0),(6,'',0),(7,'',0),(8,'',0),(9,'',0),(10,'',0),(11,'',0),(12,'',0),(13,'',0),(14,'cockpit spacenauts',903),(15,'cockpit spacenauts',900);
-/*!40000 ALTER TABLE `game` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -49,5 +39,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-08 13:54:27
-
+-- Dump completed on 2016-03-09  7:56:48
