@@ -13,7 +13,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text shieldsText;
 
     [SerializeField] private Text[] upgradeButtonLabels;
-   
+
     [SerializeField] private Text shieldsCostLabel;
     [SerializeField] private Text turretsCostLabel;
     [SerializeField] private Text engineCostLabel;
@@ -22,6 +22,8 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text storageCostLabel;
 
 	[SerializeField] private GameObject newsFeed;
+
+    [SerializeField] private GameObject[] levelIndicator;
 	#pragma warning restore 0649
 
     private PlayerController playerController;
@@ -69,10 +71,15 @@ public class CommandConsoleState : MonoBehaviour {
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
+
+
+        // Hide all level indicators.
+        for(int i = 0; i < 6; i++)
+            for(int k = 0; k < 3; k++)
+                levelIndicator[i].transform.GetChild(k).gameObject.SetActive(false);
+        
     }
-
-
-
+        
     private void LoadSettings() 
     {
         shieldsInitialCost  = settings.ShieldsInitialCost;
@@ -97,7 +104,42 @@ public class CommandConsoleState : MonoBehaviour {
     {
         playerController = controller;
     }
+        
+    private int GetIdFromComponentType(ComponentType type)
+    {
+        switch(type)
+        {
+            case ComponentType.ShieldGenerator:
+                return 0;
+                break;
+            case ComponentType.Turret:
+                return 1;
+                break;
+            case ComponentType.Engine:
+                return 2;
+                break;
+            case ComponentType.Bridge:
+                return 3;
+                break;
+            case ComponentType.Drone:
+                return 4;
+                break;
+            case ComponentType.ResourceStorage:
+                return 5;
+                break;
+        }
+        return 0;
+    }
 
+    /// <summary>
+    /// Updates the level indicator under each upgrade menu item.
+    /// </summary>
+    /// <param name="type">Type.</param>
+    /// <param name="level">Level.</param>
+    private void UpdateLevelIndicator(ComponentType type, int level)
+    {
+        levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.SetActive(true);
+    }
     /// <summary>
     /// Checks the upgrade cost of a component
     /// </summary>
@@ -131,8 +173,16 @@ public class CommandConsoleState : MonoBehaviour {
     {
         if(CheckUpgradeCost(baseCost, level))
         {
+            // Update the ships resources
             gameState.UseShipResources(GetUpgradeCost(baseCost, level));
+
+            // Show level indictor for new level.
+            UpdateLevelIndicator(type, level);
+
+            // Send request to engineer to upgrade
             playerController.CmdAddUpgrade(type);
+
+            // Update resources text with new value.
             UpdateAllText();
             return true;
         }
@@ -145,7 +195,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type.</param>
     private void ConfirmUpgrade(ComponentType type)
     {
-        upgradeButtonLabels[(int)type].text = "Upgrade";
+        upgradeButtonLabels[GetIdFromComponentType(type)].text = "Upgrade";
         switch(type)
         {
         case ComponentType.ShieldGenerator:
