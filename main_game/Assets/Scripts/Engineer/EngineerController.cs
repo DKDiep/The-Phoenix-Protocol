@@ -411,7 +411,7 @@ public class EngineerController : NetworkBehaviour
                 actualMove.y += jumpSpeed;
             }
 
-            transform.position += actualMove;
+            transform.localPosition += actualMove;
         }
 
         // Do upgrades/repairs
@@ -457,7 +457,7 @@ public class EngineerController : NetworkBehaviour
             isDocked = false;
             dockCanvas.SetActive(isDocked);
             engineerCanvas.SetActive(!isDocked);
-            gameObject.transform.parent = null;
+            gameObject.transform.parent = playerShip.transform;
         }
     }
 
