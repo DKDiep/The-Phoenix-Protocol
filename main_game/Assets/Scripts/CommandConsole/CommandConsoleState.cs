@@ -49,6 +49,8 @@ public class CommandConsoleState : MonoBehaviour {
     private int droneInitialCost;
     private int storageInitialCost;
 
+    Color upgradeDefaultColor = new Vector4(27f/255f, 46f/255f, 91f/255f, 200f/255f);
+
     void Start () {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -75,6 +77,10 @@ public class CommandConsoleState : MonoBehaviour {
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
 
         upgradeArea.SetActive(false);
+
+        for(int i = 0; i < 6; i++)
+            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
+       
 
         // Hide all level indicators.
         for(int i = 0; i < 6; i++)
@@ -222,9 +228,9 @@ public class CommandConsoleState : MonoBehaviour {
     {
         for(int i = 0; i < 6; i++)
         {
-            backgrounds[i].GetComponent<Image>().color = new Vector4(16f/255f, 25f/255f, 49f/255f, 235f/255f);
+            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
         }
-        backgrounds[component].GetComponent<Image>().color = new Vector4(28f/255f, 43f/255f, 81f/255f, 235f/255f);
+        backgrounds[component].GetComponent<Image>().color = new Vector4(28f/255f, 47f/255f, 98f/255f, 1);
     }
     public void OnClickUpgrade(int component)
     {
