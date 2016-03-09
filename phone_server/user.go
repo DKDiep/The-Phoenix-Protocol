@@ -70,6 +70,7 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
     if usr.player != nil && usr.player.user != usr {
         return false
     }
+
     switch msg["type"].(string) {
     case "REG_USER":
         usr.registerNew(msg["data"].(string))
@@ -81,6 +82,8 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
         usr.player.setControlledEnemy(uint64(msg["data"].(float64)))
     case "ENM_MV":
         usr.player.sendMoveToGameServer(msg["data"].(map[string]interface{}))
+    case "ENM_ATT":
+        usr.player.sendAttackCommandToGameServer(uint64(msg["data"].(float64)))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }

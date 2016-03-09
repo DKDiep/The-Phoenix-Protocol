@@ -135,6 +135,20 @@ func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
     msg += strconv.FormatUint(plr.controlledEnemyId, 10) + ","
     msg += strconv.FormatFloat(data["x"].(float64), 'f', -1, 64) + ","
     msg += strconv.FormatFloat(data["y"].(float64), 'f', -1, 64)
+
+    sendUDPMsgToGameServer(msg)
+}
+
+// Send attack command for the controlled enemy to the game server
+func (plr *Player) sendAttackCommandToGameServer(enemyId uint64) {
+    if !plr.isControllingEnemy {
+        return
+    }
+
+    msg := "ATT:"
+    msg += strconv.FormatUint(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatUint(enemyId, 10)
+
     sendUDPMsgToGameServer(msg)
 }
 
