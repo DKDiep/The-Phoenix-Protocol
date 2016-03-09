@@ -24,7 +24,7 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<int, GameObject> screenIdToCrosshair;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
-    private GameObject spawner;
+    private GameObject spawner, musicManager;
 
 	private uint serverId;
     public int clientIdCount()
@@ -204,7 +204,7 @@ public class ServerManager : NetworkBehaviour
             playerController.RpcRoleInit();
 
         // Spawn music controller only on server
-        Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject)));
+        musicManager = Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject))) as GameObject;
         
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
@@ -240,6 +240,7 @@ public class ServerManager : NetworkBehaviour
         //Start the game
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;
+        musicManager.GetComponent<MusicManager>().Play();
     }
 
 	public void SetServerId(uint serverId) 

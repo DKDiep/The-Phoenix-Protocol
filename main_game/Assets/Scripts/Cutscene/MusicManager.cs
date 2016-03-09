@@ -13,11 +13,10 @@ public class MusicManager : MonoBehaviour
 
 	[SerializeField] AudioClip[] music;
 
-    void Start()
+    public void Play()
     {
         GetComponent<AudioSource>().clip = music[0];
         StartCoroutine("DelayMusic");
-
     }
 
 	void Update()
