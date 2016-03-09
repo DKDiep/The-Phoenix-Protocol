@@ -9,22 +9,29 @@ type Enemy struct {
     posX float64
     posY float64
     isControlled bool
+    controllingPlayer *Player
 }
 
 // The collection of all enemies
 type EnemyMap struct {
     m      map[uint64]*Enemy
-    delC   chan uint64            // channel for requesting the deletion of an enemy
-    setC   chan NewEnemy       // channel for requesting the updating of an enemy
-    ctrlC  chan uint64         // channel for setttin an enemy as controlled
-    resetC chan struct{}       // channel for clearing out the map
-    copyC  chan map[uint64]*Enemy // channel for getting a copy of the map
+    delC   chan uint64            // used for requesting the deletion of an enemy
+    setC   chan NewEnemy       // used for requesting the updating of an enemy
+    ctrlC  chan ControllingPlayer // used for setttin an enemy as controlled
+    resetC chan struct{}       // used for clearing out the map
+    copyC  chan map[uint64]*Enemy // used for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
 type NewEnemy struct {
     id    uint64
     enemy *Enemy
+}
+
+// Wrapper of id and player used to set controll of enemy
+type ControllingPlayer struct {
+    id uint64
+    player *Player
 }
 
 // Manages concurrent access to the enemy map data structure
@@ -34,7 +41,13 @@ func (enemies *EnemyMap) accessManager() {
         select {
         // deletion of an enemy
         case id := <-enemies.delC:
-            delete(enemies.m, id)
+            if enm, ok := enemies.m[id]; ok {
+                if enm.isControlled {
+                    enm.controllingPlayer.isControllingEnemy = false
+                    enm.controllingPlayer.controlledEnemyId = 0
+                }
+                delete(enemies.m, id)
+            }
         // setting of enemy values
         case toSet := <-enemies.setC:
             if enm, ok := enemies.m[toSet.id]; ok {
@@ -44,12 +57,14 @@ func (enemies *EnemyMap) accessManager() {
                 enemies.m[toSet.id] = toSet.enemy
             }
         // set an enemy as being controlled
-        case id := <-enemies.ctrlC:
-            if enm, ok := enemies.m[id]; ok && !enm.isControlled {
+        case ctrlData := <-enemies.ctrlC:
+            if enm, ok := enemies.m[ctrlData.id]; ok && !enm.isControlled {
                 enm.isControlled = true
-                enemies.ctrlC <- id
+                enm.controllingPlayer = ctrlData.player
+                enemies.ctrlC <- ctrlData
             } else {
-                enemies.ctrlC <- id+1 // a way to signal failure
+                // a way to signal failure
+                enemies.ctrlC <- ControllingPlayer{player: nil}
             }
         // clears the map
         case <-enemies.resetC:
@@ -78,10 +93,10 @@ func (enemies *EnemyMap) remove(id uint64) {
 
 // Sets an enemy as being controlled
 // return value indicates success or failure
-func (enemies *EnemyMap) setControlled(id uint64) bool {
-    enemies.ctrlC <- id
+func (enemies *EnemyMap) setControlled(id uint64, plr *Player) bool {
+    enemies.ctrlC <- ControllingPlayer{id, plr}
     res := <-enemies.ctrlC
-    return res == id // if it doesn't return the same id an error occured
+    return res.player != nil // if the player in answer is nil, error occured
 }
 
 // Request the resetting of the structure

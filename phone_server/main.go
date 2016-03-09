@@ -60,7 +60,7 @@ var enemyMap *EnemyMap = &EnemyMap{
     m:      make(map[uint64]*Enemy),
     delC:   make(chan uint64),
     setC:   make(chan NewEnemy),
-    ctrlC:  make(chan uint64),
+    ctrlC:  make(chan ControllingPlayer),
     resetC: make(chan struct{}),
     copyC:  make(chan map[uint64]*Enemy),
 }

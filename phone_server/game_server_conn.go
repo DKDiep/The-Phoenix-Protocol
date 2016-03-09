@@ -182,6 +182,7 @@ func setEnemies(data []interface{}) {
                 posX: enemy["x"].(float64),
                 posY: enemy["y"].(float64),
                 isControlled: false,
+                controllingPlayer: nil,
             })
     }
 }

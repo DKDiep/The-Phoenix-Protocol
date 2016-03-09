@@ -50,9 +50,11 @@ func (plr *Player) setControlledEnemy(enemyId uint64) {
         return
     }
 
-    if !enemyMap.setControlled(enemyId) {
+    if !enemyMap.setControlled(enemyId, plr) {
         return
     }
+
+    // TODO: notify Game Server
 
     plr.isControllingEnemy = true
     plr.controlledEnemyId = enemyId
