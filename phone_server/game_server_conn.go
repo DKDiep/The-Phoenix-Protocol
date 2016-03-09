@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "net"
+    "strconv"
     "time"
 )
 
@@ -133,10 +134,25 @@ func decodeGameServerMessage(rawData []byte) {
 func sendSignalToGameServer(msgType GameServerMessageType) bool {
     switch msgType {
     case START_GAME:
-        return sendTCPMsgToGameServer("START")
+        return sendStartGameSignalToGameServer()
     default:
         return false
     }
+}
+
+// Send a start game signal with all accepted officers
+func sendStartGameSignalToGameServer() bool {
+    officers, _ := playerMap.getPlayerLists()
+
+    msg := "START:"
+
+    for _, officer := range officers {
+        msg += officer.UserName + "+"
+        msg += strconv.FormatUint(officer.UserId, 10) + ","
+    }
+    msg = msg[:len(msg)-1]
+
+    return sendTCPMsgToGameServer(msg)
 }
 
 // Send a string to the Game Server
