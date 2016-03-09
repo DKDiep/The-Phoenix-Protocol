@@ -21,12 +21,6 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text droneCostLabel;
     [SerializeField] private Text storageCostLabel;
 
-	[SerializeField] private Text popUpText;
-	[SerializeField] private GameObject popUp;
-	[SerializeField] private GameObject levelCounter1;
-	[SerializeField] private GameObject levelCounter2;
-	[SerializeField] private GameObject levelCounter3;
-	[SerializeField] private GameObject levelCounter4;
 	[SerializeField] private GameObject newsFeed;
 	#pragma warning restore 0649
 
@@ -71,15 +65,7 @@ public class CommandConsoleState : MonoBehaviour {
         droneCostLabel.text = droneInitialCost.ToString();
         storageCostLabel.text = storageInitialCost.ToString();
 
-        levelCounter1.SetActive(true);
-        levelCounter2.SetActive(false);
-        levelCounter3.SetActive(false);
-        levelCounter4.SetActive(false);
         newsFeed.SetActive(false);
-
-		// Hide the popup by default
-        popUpText.text = "";
-        popUp.SetActive(false);
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
@@ -110,39 +96,6 @@ public class CommandConsoleState : MonoBehaviour {
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
-    }
-        		
-    public void systemPopUp(int system)
-    {
-        switch (system)
-        {
-            case 0:
-                popUpText.text = "Shields";
-                showLevelCounters(shieldsLevel);
-                break;
-            case 1:
-                popUpText.text = "Turrets";
-                showLevelCounters(turretsLevel);
-                break;
-            case 2:
-                showLevelCounters(engineLevel);
-                popUpText.text = "Engines";
-                break;
-        }
-        popUp.SetActive(true);
-    }
-
-    //Enables/disables level counter objects such that there are <level> of them visible
-    private void showLevelCounters(int level)
-    {
-        levelCounter1.SetActive(false);
-        levelCounter2.SetActive(false);
-        levelCounter3.SetActive(false);
-        levelCounter4.SetActive(false);
-        if (level > 0) levelCounter1.SetActive(true);
-        if (level > 1) levelCounter2.SetActive(true);
-        if (level > 2) levelCounter3.SetActive(true);
-        if (level > 3) levelCounter4.SetActive(true);
     }
 
     /// <summary>
@@ -179,7 +132,6 @@ public class CommandConsoleState : MonoBehaviour {
         if(CheckUpgradeCost(baseCost, level))
         {
             gameState.UseShipResources(GetUpgradeCost(baseCost, level));
-            showLevelCounters(level);
             playerController.CmdAddUpgrade(type);
             UpdateAllText();
             return true;
