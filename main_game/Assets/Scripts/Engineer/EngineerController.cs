@@ -443,6 +443,7 @@ public class EngineerController : NetworkBehaviour
             engineerCanvas.SetActive(!isDocked);
             gameObject.transform.parent = startPosition.transform;
             gameObject.transform.localPosition = new Vector3(0,0,0);
+            gameObject.transform.rotation = startPosition.transform.rotation;
         }
     }
 
