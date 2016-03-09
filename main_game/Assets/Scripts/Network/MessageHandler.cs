@@ -70,4 +70,21 @@ public class MessageHandler : MonoBehaviour {
         ComponentStatusMessage msg = netMsg.ReadMessage<ComponentStatusMessage>();
         controller.UpdateComponentStatus(msg.health, msg.level);
     }
+
+    /// <summary>
+    /// Client side handler for the JOB_FINISHED message.
+    /// This message is the same as an EngineerJobMessage but is used
+    /// in a different way. The isUpgrade boolean is ignored and the part
+    /// represents the part that has just been upgraded
+    /// </summary>
+    /// <param name="netMsg"></param>
+    public void OnJobFinished(NetworkMessage netMsg)
+    {
+        // This works because of short circuiting
+        if (controller == null && !SetController())
+            return;
+
+        EngineerJobMessage msg = netMsg.ReadMessage<EngineerJobMessage>();
+        controller.FinishUpgrade(msg.part);
+    }
 }

@@ -61,6 +61,11 @@ public class ServerLobby : MonoBehaviour {
         // Tell the server which clients will be engineers
         serverManager.SetEngineers(engControllerIds);
 
+        PlayerTokenController commandConsole = commandPanel.transform.GetComponentInChildren<PlayerTokenController>();
+
+        // Tell the server which client will be the commander
+        serverManager.SetCommander(commandConsole.GetPlayerController().netId.Value);
+
 
 		serverManager.SetServerId(serverId);
 

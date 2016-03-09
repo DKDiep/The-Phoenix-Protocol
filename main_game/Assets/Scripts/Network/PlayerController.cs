@@ -176,6 +176,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdDoUpgrade(ComponentType part)
     {
         gameState.GetUpgradableComponent(part).Upgrade();
+        serverManager.SendUpgradeFinished(part);
     }
 
     /// <summary>
@@ -248,5 +249,14 @@ public class PlayerController : NetworkBehaviour
             return;
 
         engController.SetComponentStatus(health, level);
+    }
+
+    /// <summary>
+    /// Notify the CommandConsole that an upgrade has finished
+    /// </summary>
+    /// <param name="component"></param>
+    public void FinishUpgrade(ComponentType component)
+    {
+        commandConsoleState.ConfirmUpgrade(component);
     }
 }

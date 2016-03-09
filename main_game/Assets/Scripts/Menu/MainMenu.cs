@@ -71,6 +71,10 @@ public class MainMenu : NetworkBehaviour
         // Register handler for ComponentStatus messages from the server
         // These carry the health and upgrade level of a component
         client.RegisterHandler(MessageID.COMPONENT_STATUS, messageHandler.OnServerComponentStatus);
+
+        // Handler for JobFinished messages from the server. These are used by the
+        // CommandConsole.
+        client.RegisterHandler(MessageID.JOB_FINISHED, messageHandler.OnJobFinished);
     }
 
     public void UpdateAddress()

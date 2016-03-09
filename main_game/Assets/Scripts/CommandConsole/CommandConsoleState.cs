@@ -195,7 +195,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// Confirms the upgrade, is called when the engineer has completed the upgrade.
     /// </summary>
     /// <param name="type">Type.</param>
-    private void ConfirmUpgrade(ComponentType type)
+    public void ConfirmUpgrade(ComponentType type)
     {
         upgradeButtonLabels[GetIdFromComponentType(type)].text = "Upgrade";
         switch(type)

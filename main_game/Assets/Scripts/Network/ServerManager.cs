@@ -97,11 +97,13 @@ public class ServerManager : NetworkBehaviour
 
         uint netId = netMsg.conn.playerControllers[0].gameObject.GetComponent<NetworkIdentity>().netId.Value;
         netIdToConn.Add(netId, netMsg.conn);
-        Debug.Log(netId);
     }
 
-    // Takes the list of player controller IDs that will be engineers
-    // and updates the map of <ControllerID, Role>
+    /// <summary>
+    /// Associates each player controller in the list of player controller IDs
+    /// with the Engineer role
+    /// </summary>
+    /// <param name="playerControllerIds">IDs of the player controllers to be associated as Engineer</param>
     public void SetEngineers(uint[] playerControllerIds)
     {
         foreach (uint id in playerControllerIds)
@@ -111,6 +113,15 @@ public class ServerManager : NetworkBehaviour
             else
                 Debug.LogError("The host cannot be an engineer!");
         }
+    }
+
+    /// <summary>
+    /// Associates the player controller with given ID to the role Commander
+    /// </summary>
+    /// <param name="playerControllerId">ID of the player controller to be associated as Commander</param>
+    public void SetCommander(uint playerControllerId)
+    {
+        netIdToRole.Add(playerControllerId, RoleEnum.Commander);
     }
 
     /// <summary>
@@ -153,6 +164,22 @@ public class ServerManager : NetworkBehaviour
 
         // Send the message
         NetworkServer.SendToClient(netIdToConn[netId].connectionId, MessageID.COMPONENT_STATUS, msg);
+    }
+
+    public void SendUpgradeFinished(ComponentType component)
+    {
+        // Find the commander's netId
+        foreach (KeyValuePair<uint,RoleEnum> client in netIdToRole)
+        {
+            if (client.Value == RoleEnum.Commander)
+            {
+                EngineerJobMessage msg = new EngineerJobMessage();
+                msg.upgrade = false;    // Doesn't matter what this is set to as it should be ignored
+                msg.part = component;
+
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.JOB_FINISHED, msg);
+            }
+        }
     }
 
     private void CreateServerSetup()
