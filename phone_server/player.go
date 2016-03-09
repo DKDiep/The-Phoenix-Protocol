@@ -22,7 +22,7 @@ type Player struct {
     state    PlayerState
     score    int
     isControllingEnemy bool
-    controlledEnemyId uint64
+    controlledEnemyId int64
     user     *User
 }
 
@@ -49,12 +49,12 @@ func (plr *Player) setState(st PlayerState) {
 }
 
 // Sets the currently controlled enemy
-func (plr *Player) setControlledEnemy(enemyId uint64) {
+func (plr *Player) setControlledEnemy(enemyId int64) {
     if plr.isControllingEnemy {
         return
     }
 
-    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatUint(enemyId, 10)) {
+    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatInt(enemyId, 10)) {
         return
     }
 
@@ -86,7 +86,7 @@ func (plr *Player) sendStateUpdate() {
 }
 
 // Sends a user state data update
-func (plr *Player) sendDataUpdate(enemies map[uint64]*Enemy, asteroids map[int]*Asteroid) {
+func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*Asteroid) {
     // players with no active user don't need updating
     if plr.user == nil {
         return
@@ -132,7 +132,7 @@ func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
     }
 
     msg := "MV:"
-    msg += strconv.FormatUint(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","
     msg += strconv.FormatFloat(data["x"].(float64), 'f', -1, 64) + ","
     msg += strconv.FormatFloat(data["y"].(float64), 'f', -1, 64)
 
@@ -140,14 +140,14 @@ func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
 }
 
 // Send attack command for the controlled enemy to the game server
-func (plr *Player) sendAttackCommandToGameServer(enemyId uint64) {
+func (plr *Player) sendAttackCommandToGameServer(enemyId int64) {
     if !plr.isControllingEnemy {
         return
     }
 
     msg := "ATT:"
-    msg += strconv.FormatUint(plr.controlledEnemyId, 10) + ","
-    msg += strconv.FormatUint(enemyId, 10)
+    msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","
+    msg += strconv.FormatInt(enemyId, 10)
 
     sendUDPMsgToGameServer(msg)
 }

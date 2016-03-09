@@ -14,23 +14,23 @@ type Enemy struct {
 
 // The collection of all enemies
 type EnemyMap struct {
-    m      map[uint64]*Enemy
-    delC   chan uint64            // used for requesting the deletion of an enemy
+    m      map[int64]*Enemy
+    delC   chan int64            // used for requesting the deletion of an enemy
     setC   chan NewEnemy       // used for requesting the updating of an enemy
     ctrlC  chan ControllingPlayer // used for setttin an enemy as controlled
     resetC chan struct{}       // used for clearing out the map
-    copyC  chan map[uint64]*Enemy // used for getting a copy of the map
+    copyC  chan map[int64]*Enemy // used for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
 type NewEnemy struct {
-    id    uint64
+    id    int64
     enemy *Enemy
 }
 
 // Wrapper of id and player used to set controll of enemy
 type ControllingPlayer struct {
-    id uint64
+    id int64
     player *Player
 }
 
@@ -68,10 +68,10 @@ func (enemies *EnemyMap) accessManager() {
             }
         // clears the map
         case <-enemies.resetC:
-            enemies.m = make(map[uint64]*Enemy)
+            enemies.m = make(map[int64]*Enemy)
         // sending of a copy of the map
         case <-enemies.copyC:
-            newCopy := make(map[uint64]*Enemy)
+            newCopy := make(map[int64]*Enemy)
             for k, v := range enemies.m {
                 enemyCopy := *v
                 newCopy[k] = &enemyCopy
@@ -82,18 +82,18 @@ func (enemies *EnemyMap) accessManager() {
 }
 
 // Request an enemy data update
-func (enemies *EnemyMap) set(id uint64, data *Enemy) {
+func (enemies *EnemyMap) set(id int64, data *Enemy) {
     enemies.setC <- NewEnemy{id, data}
 }
 
 // Request an enemy deletion
-func (enemies *EnemyMap) remove(id uint64) {
+func (enemies *EnemyMap) remove(id int64) {
     enemies.delC <- id
 }
 
 // Sets an enemy as being controlled
 // return value indicates success or failure
-func (enemies *EnemyMap) setControlled(id uint64, plr *Player) bool {
+func (enemies *EnemyMap) setControlled(id int64, plr *Player) bool {
     enemies.ctrlC <- ControllingPlayer{id, plr}
     res := <-enemies.ctrlC
     return res.player != nil // if the player in answer is nil, error occured
@@ -105,7 +105,7 @@ func (enemies *EnemyMap) reset() {
 }
 
 // Request a copy of the enemy map
-func (enemies *EnemyMap) getCopy() map[uint64]*Enemy {
+func (enemies *EnemyMap) getCopy() map[int64]*Enemy {
     enemies.copyC <- nil
     return <-enemies.copyC
 }

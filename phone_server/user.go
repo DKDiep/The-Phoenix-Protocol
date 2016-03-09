@@ -79,11 +79,11 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
     case "PROM":
         usr.player.processPromotionAnswer(msg["data"].(bool))
     case "ENM_CTRL":
-        usr.player.setControlledEnemy(uint64(msg["data"].(float64)))
+        usr.player.setControlledEnemy(int64(msg["data"].(float64)))
     case "ENM_MV":
         usr.player.sendMoveToGameServer(msg["data"].(map[string]interface{}))
     case "ENM_ATT":
-        usr.player.sendAttackCommandToGameServer(uint64(msg["data"].(float64)))
+        usr.player.sendAttackCommandToGameServer(int64(msg["data"].(float64)))
     default:
         fmt.Println("Received unexpected message of type: ", msg["type"])
     }
