@@ -29,16 +29,22 @@ public class FadeTexture : NetworkBehaviour
 	{
 		fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
         gameStarted = true;
-        RpcStartClientFade();
+        RpcFadeClient();
 		StartCoroutine ("Fading");
 	}
 
     [ClientRpc]
-    void RpcStartClientFade()
+    void RpcFadeClient()
     {
         fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
         gameStarted = true;
-        StartCoroutine ("Fading");
+        canFade = true;
+    }
+
+    [ClientRpc]
+    void RpcFadeOutClient()
+    {
+        canFade = false;
     }
 	
 	void Update()
@@ -74,6 +80,7 @@ public class FadeTexture : NetworkBehaviour
 		//yield return new WaitForSeconds(enterWait);
 		canFade = true;
 		yield return new WaitForSeconds(exitWait);
+        RpcFadeOutClient();
 		canFade = false;
 		yield return new WaitForSeconds(5f);
 		Destroy (this);
