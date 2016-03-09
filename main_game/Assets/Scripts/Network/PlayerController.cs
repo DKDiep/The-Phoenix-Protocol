@@ -90,26 +90,6 @@ public class PlayerController : NetworkBehaviour
     {
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
     }
-		
-    private void Update()
-    {
-        // Make sure the server doesn't execute this and that the game has started
-        if (!isLocalPlayer || !gameStarted)
-            return;
-
-		if (role == RoleEnum.Engineer)
-            engController.EngUpdate();
-    }
-
-    private void FixedUpdate()
-    {
-        // Make sure the server doesn't execute this and that the game has started
-        if (!isLocalPlayer || !gameStarted)
-            return;
-
-		if (role == RoleEnum.Engineer)
-            engController.EngFixedUpdate();
-    }
 
     [ClientRpc]
     public void RpcSetRole(RoleEnum newRole)
