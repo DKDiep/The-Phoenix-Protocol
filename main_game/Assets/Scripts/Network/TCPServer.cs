@@ -18,8 +18,9 @@ public class TCPServer : MonoBehaviour
     private int listenPort;
     private int maxReceivedMessagesPerInterval;
     
-    // Constant for splitting the received messages
+    // Constants for splitting the received messages
     private readonly String[] semiColon = {";"};
+    private readonly String[] colon = {":"};
 
     private UDPServer udpServer;
     private TcpListener tcpServer = null;
@@ -89,7 +90,6 @@ public class TCPServer : MonoBehaviour
                 while (client.Available > 0 && receivedMessages < maxReceivedMessagesPerInterval)
                 {
                     numRead = client.Receive(recvBuff, recvBuff.Length, 0);
-                    // TODO: deal with received data
                     newData = Encoding.ASCII.GetString(recvBuff, 0, numRead);
                     // It is possible to get multiple messages in a single receive
                     messages = newData.Split(semiColon, StringSplitOptions.RemoveEmptyEntries);
@@ -140,10 +140,16 @@ public class TCPServer : MonoBehaviour
     // Multiplexes the received message into unique actions
     private void HandleMessage(String msg)
     {
-        switch(msg) {
+        String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
+        switch(parts[0]) {
             case "START":
                 // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal.");
+                break;
+            case "CTRL":
+                // TODO: set the enemy as controlled and change AI settings
+                int idOfControlled = Int32.Parse(parts[1]);
+                Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

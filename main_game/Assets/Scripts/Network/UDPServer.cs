@@ -10,6 +10,10 @@ public class UDPServer : MonoBehaviour
 {
 	private GameSettings settings;
 
+    // Constants for splitting the received messages
+    private readonly String[] comma = {","};
+    private readonly String[] colon = {":"};
+
 	// Configuration parameters loaded through GameSettings
     private int listenPort;
     private int clientPort;
@@ -70,13 +74,38 @@ public class UDPServer : MonoBehaviour
                 
                 if (sender.Equals(clientEndPoint)) {
                     string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-                    Debug.Log("UDP Received Data: " + received_data);
-                    
-                    // TODO: Handle received data here
+                    HandleMessage(received_data);
                 }
                 receivedMessages++;
             }
             yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    // Multiplexes the received message into unique actions
+    private void HandleMessage(String msg)
+    {
+        String[] fields;
+        String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
+        switch(parts[0]) {
+            case "MV":
+                // TODO: move enemy
+                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                int idToMove = Int32.Parse(fields[0]);
+                float posX = float.Parse(fields[1]);
+                float posZ = float.Parse(fields[2]);
+                Debug.Log("Received a Move Command: id: " + idToMove + " x: " + posX + " z: " + posZ);
+                break;
+            case "ATT":
+                // TODO: attack specified enemy
+                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                int idOfAttacker = Int32.Parse(fields[0]);
+                int idOfAttacked = Int32.Parse(fields[1]);
+                Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
+                break;
+            default:
+                Debug.Log("Received an unexpected message: " + msg);
+                break;
         }
     }
 
@@ -155,7 +184,7 @@ public class UDPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
             foreach (GameObject enemy in enemies)
             {
-                jsonMsg += "{\"id\":" + (uint)enemy.GetInstanceID() +
+                jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
                             ",\"x\":" + enemy.transform.position.x +
                             ",\"y\":" + enemy.transform.position.z +
                             "},";
@@ -168,11 +197,11 @@ public class UDPServer : MonoBehaviour
     
     private void SendRemovedEnemies()
     {
-        List<uint> removedEnemies = state.GetRemovedEnemies();
+        List<int> removedEnemies = state.GetRemovedEnemies();
         if (removedEnemies != null && removedEnemies.Count > 0)
         {
             string jsonMsg = "{\"type\":\"RMV_ENM\",\"data\":[";
-            foreach (uint id in removedEnemies)
+            foreach (int id in removedEnemies)
             {
                 jsonMsg += id + ",";
             }
