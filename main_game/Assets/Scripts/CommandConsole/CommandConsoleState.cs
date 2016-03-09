@@ -15,17 +15,14 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text upgradeButtonLabel;
     [SerializeField] private Text costLabel;
 
-    [SerializeField] private Text shieldsCostLabel;
-    [SerializeField] private Text turretsCostLabel;
-    [SerializeField] private Text engineCostLabel;
-    [SerializeField] private Text hullCostLabel;
-    [SerializeField] private Text droneCostLabel;
-    [SerializeField] private Text storageCostLabel;
+
+ 
 
 	[SerializeField] private GameObject newsFeed;
 
     [SerializeField] private GameObject[] levelIndicator;
     [SerializeField] private GameObject[] backgrounds;
+    [SerializeField] private Text[] upgradeCostLabel;
 	#pragma warning restore 0649
 
     private PlayerController playerController;
@@ -65,12 +62,12 @@ public class CommandConsoleState : MonoBehaviour {
 
 		UpdateAllText();
 
-        shieldsCostLabel.text = shieldsInitialCost.ToString();
-        turretsCostLabel.text = turretsInitialCost.ToString();
-        engineCostLabel.text = enginesInitialCost.ToString();
-        hullCostLabel.text = hullInitialCost.ToString();
-        droneCostLabel.text = droneInitialCost.ToString();
-        storageCostLabel.text = storageInitialCost.ToString();
+        upgradeCostLabel[0].text = shieldsInitialCost.ToString();
+        upgradeCostLabel[1].text = turretsInitialCost.ToString();
+        upgradeCostLabel[2].text = enginesInitialCost.ToString();
+        upgradeCostLabel[3].text = hullInitialCost.ToString();
+        upgradeCostLabel[4].text = droneInitialCost.ToString();
+        upgradeCostLabel[5].text = storageInitialCost.ToString();
 
         newsFeed.SetActive(false);
 
@@ -281,37 +278,37 @@ public class CommandConsoleState : MonoBehaviour {
             case 0: 
                 if(!UpgradeComponent(ComponentType.ShieldGenerator, shieldsInitialCost, shieldsLevel))
                     return;
-                shieldsCostLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
+                upgradeCostLabel[0].text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
                 break;
             // Turrets Upgrade
             case 1:
                 if(!UpgradeComponent(ComponentType.Turret, turretsInitialCost, turretsLevel))
                     return;
-                turretsCostLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
+                upgradeCostLabel[1].text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
                 break;
             // Engine Upgrade
             case 2:
                 if(!UpgradeComponent(ComponentType.Engine, enginesInitialCost, engineLevel))
                     return;
-                engineCostLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
+                upgradeCostLabel[2].text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
                 break;
             // Hull Upgrade
             case 3:
                 if(!UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel))
                     return;
-                hullCostLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
+                upgradeCostLabel[3].text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
                 break;
             // Drone Upgrade
             case 4:
                 if(!UpgradeComponent(ComponentType.Drone, droneInitialCost, droneLevel))
                     return;
-                droneCostLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
+                upgradeCostLabel[4].text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
                 break;
             // Resource Storage Upgrade
             case 5:
                 if(!UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel))
                     return;
-                storageCostLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
+                upgradeCostLabel[5].text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
                 break;
         }
         //upgradeButtonLabel.text = "Waiting";

@@ -1840,12 +1840,6 @@ MonoBehaviour:
   shieldsText: {fileID: 11496964}
   upgradeButtonLabel: {fileID: 11492108}
   costLabel: {fileID: 11487994}
-  shieldsCostLabel: {fileID: 11456180}
-  turretsCostLabel: {fileID: 11439378}
-  engineCostLabel: {fileID: 11489390}
-  hullCostLabel: {fileID: 11422260}
-  droneCostLabel: {fileID: 11408224}
-  storageCostLabel: {fileID: 11478798}
   newsFeed: {fileID: 167460}
   levelIndicator:
   - {fileID: 175934}
@@ -1861,6 +1855,13 @@ MonoBehaviour:
   - {fileID: 178452}
   - {fileID: 193110}
   - {fileID: 140042}
+  upgradeCostLabel:
+  - {fileID: 11456180}
+  - {fileID: 11439378}
+  - {fileID: 11489390}
+  - {fileID: 11422260}
+  - {fileID: 11408224}
+  - {fileID: 11478798}
 --- !u!114 &11411522
 MonoBehaviour:
   m_ObjectHideFlags: 1
