@@ -76,7 +76,7 @@ public class CommandConsoleState : MonoBehaviour {
         // Hide all level indicators.
         for(int i = 0; i < 6; i++)
             for(int k = 0; k < 3; k++)
-                levelIndicator[i].transform.GetChild(k).gameObject.SetActive(false);
+                levelIndicator[i].transform.GetChild(k).gameObject.GetComponent<Image>().color = new Vector4(0, 0, 0, 86);
         
     }
         
@@ -138,7 +138,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="level">Level.</param>
     private void UpdateLevelIndicator(ComponentType type, int level)
     {
-        levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.SetActive(true);
+        levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.GetComponent<Image>().color = new Vector4(255, 255, 255, 86);
     }
     /// <summary>
     /// Checks the upgrade cost of a component
