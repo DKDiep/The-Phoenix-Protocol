@@ -12,6 +12,7 @@ public class ReadyScreen : MonoBehaviour {
     void Awake()
     {
         GameObject server = GameObject.Find("GameManager");
+        AudioListener.volume = 0;
         if (server != null)
         {
             serverManager = server.GetComponent<ServerManager>();
@@ -23,6 +24,7 @@ public class ReadyScreen : MonoBehaviour {
     {
         // Start the game
         serverManager.Play();
+        AudioListener.volume = 1;
         // Disable self until restart
         gameObject.SetActive(false);
     }

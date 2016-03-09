@@ -12,7 +12,6 @@ public class LoadingText : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        AudioListener.volume = 0;
         StartCoroutine("Loaded");
 	}
 
@@ -25,10 +24,10 @@ public class LoadingText : MonoBehaviour
 
     void Update()
     {
-        if(AudioListener.volume < 1f && fadeSound)
+        /*if(AudioListener.volume < 1f && fadeSound)
         {
             AudioListener.volume += 10f * Time.deltaTime;
-        }
+        }*/
     }
 	
     void OnGUI()
