@@ -97,7 +97,7 @@ public class ShipMovement : MonoBehaviour
 		bool canPitchUp = pitchVelocity < maxTurnSpeed;
 		bool canPitchDown = pitchVelocity > maxTurnSpeed * (-1f);
 
-        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z - sideRoll);
+        //controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z - sideRoll);
 
         // Control movement. slowTime used to make ship smoothly decrease velocity when key unpressed
         if (Input.GetKey (KeyCode.W) && canPitchUp)
@@ -184,7 +184,7 @@ public class ShipMovement : MonoBehaviour
         }
 
             //Debug.Log(sideRoll);
-        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z + sideRoll);
+        //controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z + sideRoll);
 	
 	}
        
