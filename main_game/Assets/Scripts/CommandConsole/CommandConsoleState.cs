@@ -54,7 +54,7 @@ public class CommandConsoleState : MonoBehaviour {
     void Start () {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-        upgradeArea = GameObject.Find("UpgradeArea");
+        upgradeArea = GameObject.Find("UpgradeInfo");
 
         LoadSettings(); 
 
