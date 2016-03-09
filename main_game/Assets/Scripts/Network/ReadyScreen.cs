@@ -24,6 +24,8 @@ public class ReadyScreen : MonoBehaviour {
     {
         // Start the game
         serverManager.Play();
+        serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
+        serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
         AudioListener.volume = 1;
         // Disable self until restart
         gameObject.SetActive(false);

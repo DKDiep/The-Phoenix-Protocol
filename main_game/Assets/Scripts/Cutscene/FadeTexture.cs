@@ -21,27 +21,41 @@ public class FadeTexture : MonoBehaviour
 	[SerializeField] float alpha = 1.0f; // Starting alpha value
 	Color fading;
 	bool canFade = false;
+    private bool gameStarted = false;
 
 	// Use this for initialization
-	void Start () 
+	public void Play () 
 	{
 		fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
+        gameStarted = true;
 		StartCoroutine ("Fading");
 	}
 	
 	void Update()
 	{
-		if(canFade && alpha < 1.0f) alpha += fadeSpeed * Time.deltaTime;
-		else if(!canFade && alpha > 0.0f) alpha -= fadeSpeed * Time.deltaTime;
+        if(gameStarted)
+        {
+		    if(canFade && alpha < 1.0f) 
+                alpha += fadeSpeed * Time.deltaTime;
+		    else if(!canFade && alpha > 0.0f) 
+                alpha -= fadeSpeed * Time.deltaTime;
+        }
 	}
 	
 	void OnGUI()
 	{
-		fading.a = alpha; // Set a color's alpha value
-		GUI.color = fading; // Set the texture color
-		if(fullScreen) GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), texture, ScaleMode.StretchToFill);
-		else if(centered) GUI.DrawTexture (new Rect ((Screen.width / 2) - (texture.width / 2) + xPos, (Screen.height / 2) - (texture.height / 2) + yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
-		else GUI.DrawTexture (new Rect (xPos, yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
+        if(gameStarted)
+        {
+		    fading.a = alpha; // Set a color's alpha value
+		    GUI.color = fading; // Set the texture color
+
+            if(fullScreen) 
+                GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), texture, ScaleMode.StretchToFill);
+		    else if(centered) 
+                GUI.DrawTexture (new Rect ((Screen.width / 2) - (texture.width / 2) + xPos, (Screen.height / 2) - (texture.height / 2) + yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
+		    else 
+                GUI.DrawTexture (new Rect (xPos, yPos, texture.width, texture.height), texture, ScaleMode.ScaleToFit);
+        }
 	}
 
     // Controls when fading is triggered

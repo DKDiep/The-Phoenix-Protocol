@@ -25,6 +25,7 @@ public class ServerManager : NetworkBehaviour
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner, musicManager;
+    public GameObject cutsceneManager;
 
 	private uint serverId;
     public int clientIdCount()
@@ -164,7 +165,7 @@ public class ServerManager : NetworkBehaviour
     {
 
         // Spawn Cutscene Manager
-        GameObject cutsceneManager = Instantiate(Resources.Load("Prefabs/CutsceneManager", typeof(GameObject))) as GameObject;
+        cutsceneManager = Instantiate(Resources.Load("Prefabs/CutsceneManager", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(cutsceneManager);
 
         // Spawn networked ship
