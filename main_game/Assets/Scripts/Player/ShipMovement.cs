@@ -32,6 +32,8 @@ public class ShipMovement : MonoBehaviour
 	private float slowTime = 0f;
 	private float slowTime2 = 0f;
 	private bool left, right, up, down;
+    private float sideRoll = 0f;
+    private float sideRollOld = 0f;
 	private DamageEffects myDamage;
 
     // Initialise object
@@ -95,6 +97,8 @@ public class ShipMovement : MonoBehaviour
 		bool canPitchUp = pitchVelocity < maxTurnSpeed;
 		bool canPitchDown = pitchVelocity > maxTurnSpeed * (-1f);
 
+        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z - sideRoll);
+
         // Control movement. slowTime used to make ship smoothly decrease velocity when key unpressed
         if (Input.GetKey (KeyCode.W) && canPitchUp)
 		{
@@ -123,27 +127,51 @@ public class ShipMovement : MonoBehaviour
         bool canRollRight = rollVelocity < maxTurnSpeed;
         bool canRollLeft = rollVelocity > maxTurnSpeed * (-1f);
 
-        if (Input.GetKey (KeyCode.D) && canRollRight)
+        if (Input.GetKey (KeyCode.D))
 		{
-			rollVelocity += Time.deltaTime * turnSpeed;
-			slowTime2 = 0f;
-			rollOld = rollVelocity;
+            if(sideRoll < 10f)
+            {
+                sideRoll += Time.deltaTime * 6f;
+            }
+
+            slowTime2 = 0f;
+
+            sideRollOld = sideRoll;
+            if(canRollRight)
+            {
+    			rollVelocity += Time.deltaTime * turnSpeed;
+    			rollOld = rollVelocity;
+            }
 		}
-		else if(Input.GetKey (KeyCode.A) && canRollLeft)
+		else if(Input.GetKey (KeyCode.A))
 		{
-			rollVelocity -= Time.deltaTime * turnSpeed;
-			slowTime2 = 0f;
-			rollOld = rollVelocity;
+            if(sideRoll > -10f)
+            {
+                sideRoll -= Time.deltaTime * 6f;
+            }
+            sideRollOld = sideRoll;
+            slowTime2 = 0f;
+
+            if(canRollLeft)
+            {
+                rollVelocity -= Time.deltaTime * turnSpeed;
+                rollOld = rollVelocity;
+            }
 		}
         else if ((joyH < 0 && canRollLeft) || (joyH > 0 && canRollRight))
         {
             rollVelocity += joyH * Time.deltaTime * turnSpeed;
+            if(sideRoll < 10f && sideRoll > -10f)
+                sideRoll += joyH * Time.deltaTime * 6f;
+
+            sideRollOld = sideRoll;
 			slowTime2 = 0f;
 			rollOld = rollVelocity;
         }
 		else
 		{
 			rollVelocity = Mathf.Lerp(rollOld, 0f, slowTime2);
+            sideRoll = Mathf.Lerp(sideRollOld, 0f, slowTime2);
 			slowTime2 += slowDown * Time.deltaTime;
 		}
 
@@ -154,6 +182,9 @@ public class ShipMovement : MonoBehaviour
             controlObject.transform.Rotate(Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
 			controlObject.transform.Translate(Vector3.forward * gameState.GetShipSpeed() * Time.deltaTime);
         }
+
+            //Debug.Log(sideRoll);
+        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z + sideRoll);
 	
 	}
        
