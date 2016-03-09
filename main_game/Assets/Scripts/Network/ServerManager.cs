@@ -62,9 +62,6 @@ public class ServerManager : NetworkBehaviour
 			netIdToRole = new Dictionary<uint, RoleEnum>();
             netIdToConn = new Dictionary<uint, NetworkConnection>();
 
-            // Host is client Id #0. Using -1 as the role for the Host
-			netIdToRole.Add(0, RoleEnum.Host);
-
             // Assign clients
             gameState = gameObject.GetComponent<GameState>();
 
