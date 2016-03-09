@@ -15,7 +15,6 @@ public class EarthFX : MonoBehaviour {
         waveManager = GameObject.Find("ImpactWaveManager").GetComponent<ObjectPoolManager>();
     }
       
-
     void Update()
     {
         if(currentExplosions < maxExplosions)
@@ -32,6 +31,8 @@ public class EarthFX : MonoBehaviour {
         explosion.transform.position = transform.position;
         explosion.transform.rotation = Random.rotation;
         explosion.transform.Translate(transform.forward * radius);
+        float size = Random.Range(0.15f, 2f);
+        explosion.transform.localScale = new Vector3(size, size, size);
         waveManager.EnableClientObject(explosion.name, explosion.transform.position, explosion.transform.rotation, explosion.transform.localScale);
         yield return new WaitForSeconds(3f);
         waveManager.DisableClientObject(explosion.name);
