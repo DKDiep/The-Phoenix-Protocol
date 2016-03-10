@@ -12,22 +12,22 @@ public class CommandConsoleState : MonoBehaviour {
 	[SerializeField] private Text resourcesText;
     [SerializeField] private Text shieldsText;
 
-    [SerializeField] private Text[] upgradeButtonLabels;
+    [SerializeField] private Text upgradeButtonLabel;
+    [SerializeField] private Text costLabel;
 
-    [SerializeField] private Text shieldsCostLabel;
-    [SerializeField] private Text turretsCostLabel;
-    [SerializeField] private Text engineCostLabel;
-    [SerializeField] private Text hullCostLabel;
-    [SerializeField] private Text droneCostLabel;
-    [SerializeField] private Text storageCostLabel;
+
+ 
 
 	[SerializeField] private GameObject newsFeed;
 
     [SerializeField] private GameObject[] levelIndicator;
+    [SerializeField] private GameObject[] backgrounds;
+    [SerializeField] private Text[] upgradeCostLabel;
 	#pragma warning restore 0649
 
     private PlayerController playerController;
 	private GameObject ship;
+    private GameObject upgradeArea;
 	private GameState gameState;
     private GameSettings settings;
 
@@ -38,6 +38,7 @@ public class CommandConsoleState : MonoBehaviour {
     private int hullLevel = 1;
     private int droneLevel = 1;
     private int storageLevel = 1;
+    private int componentToUpgrade = 0;
 
     private double second = 0; 
 
@@ -48,9 +49,12 @@ public class CommandConsoleState : MonoBehaviour {
     private int droneInitialCost;
     private int storageInitialCost;
 
+    Color upgradeDefaultColor = new Vector4(27f/255f, 46f/255f, 91f/255f, 200f/255f);
+
     void Start () {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        upgradeArea = GameObject.Find("UpgradeInfo");
 
         LoadSettings(); 
 
@@ -62,26 +66,31 @@ public class CommandConsoleState : MonoBehaviour {
 
 		UpdateAllText();
 
-        shieldsCostLabel.text = shieldsInitialCost.ToString();
-        turretsCostLabel.text = turretsInitialCost.ToString();
-        engineCostLabel.text = enginesInitialCost.ToString();
-        hullCostLabel.text = hullInitialCost.ToString();
-        droneCostLabel.text = droneInitialCost.ToString();
-        storageCostLabel.text = storageInitialCost.ToString();
+        upgradeCostLabel[0].text = shieldsInitialCost.ToString();
+        upgradeCostLabel[1].text = turretsInitialCost.ToString();
+        upgradeCostLabel[2].text = enginesInitialCost.ToString();
+        upgradeCostLabel[3].text = hullInitialCost.ToString();
+        upgradeCostLabel[4].text = droneInitialCost.ToString();
+        upgradeCostLabel[5].text = storageInitialCost.ToString();
 
         newsFeed.SetActive(false);
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
 
+        upgradeArea.SetActive(false);
+
+        for(int i = 0; i < 6; i++)
+            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
+       
 
         // Hide all level indicators.
         for(int i = 0; i < 6; i++)
             for(int k = 0; k < 3; k++)
-                levelIndicator[i].transform.GetChild(k).gameObject.SetActive(false);
+                levelIndicator[i].transform.GetChild(k).gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
         
     }
-        
+
     private void LoadSettings() 
     {
         shieldsInitialCost  = settings.ShieldsInitialCost;
@@ -98,6 +107,7 @@ public class CommandConsoleState : MonoBehaviour {
         if(second >= 1)
         {
             UpdateAllText();
+            UpdateCostTextColor();
             second = 0;
         }
     }
@@ -113,22 +123,16 @@ public class CommandConsoleState : MonoBehaviour {
         {
             case ComponentType.ShieldGenerator:
                 return 0;
-                break;
             case ComponentType.Turret:
                 return 1;
-                break;
             case ComponentType.Engine:
                 return 2;
-                break;
             case ComponentType.Bridge:
                 return 3;
-                break;
             case ComponentType.Drone:
                 return 4;
-                break;
             case ComponentType.ResourceStorage:
                 return 5;
-                break;
         }
         return 0;
     }
@@ -140,7 +144,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="level">Level.</param>
     private void UpdateLevelIndicator(ComponentType type, int level)
     {
-        levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.SetActive(true);
+        levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
     }
     /// <summary>
     /// Checks the upgrade cost of a component
@@ -197,7 +201,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type.</param>
     public void ConfirmUpgrade(ComponentType type)
     {
-        upgradeButtonLabels[GetIdFromComponentType(type)].text = "Upgrade";
+        //upgradeButtonLabels[GetIdFromComponentType(type)].text = "Upgrade";
         switch(type)
         {
         case ComponentType.ShieldGenerator:
@@ -222,53 +226,100 @@ public class CommandConsoleState : MonoBehaviour {
 
     }
 
+    public void HighlightComponent(int component)
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
+        }
+        backgrounds[component].GetComponent<Image>().color = new Vector4(28f/255f, 47f/255f, 98f/255f, 1);
+    }
+    public void OnClickUpgrade(int component)
+    {
+        upgradeArea.SetActive(true);
+        componentToUpgrade = component;
+        HighlightComponent(component);
+        switch (component)
+        {
+            // Shields Upgrade
+            case 0: 
+                costLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel).ToString();
+                break;
+            // Turrets Upgrade
+            case 1:
+                costLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel).ToString();
+                break;
+            // Engine Upgrade
+            case 2:
+                costLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel).ToString();
+                break;
+            // Hull Upgrade
+            case 3:
+                costLabel.text = GetUpgradeCost(hullInitialCost, hullLevel).ToString();
+                break;
+            // Drone Upgrade
+            case 4:
+                costLabel.text = GetUpgradeCost(droneInitialCost, droneLevel).ToString();
+                break;
+            // Resource Storage Upgrade
+            case 5:
+                costLabel.text = GetUpgradeCost(storageInitialCost, storageLevel).ToString();
+                break;
+        }
+        UpdateCostTextColor();
+    }
+
+    public void RepairShip(int component)
+    {
+
+    }
     //Called whenever an upgrade is purchased (by clicking yellow button)
-    public void UpgradeShip(int component)
+    public void UpgradeShip()
     {
         // If we are already waiting then we don't want to upgrade again.
-        if(upgradeButtonLabels[component].text == "Waiting")
-            return;
+        //if(upgradeButtonLabels[component].text == "Waiting")
+        //    return;
         
-        switch (component)
+        switch (componentToUpgrade)
         {
             // Shields Upgrade
             case 0: 
                 if(!UpgradeComponent(ComponentType.ShieldGenerator, shieldsInitialCost, shieldsLevel))
                     return;
-                shieldsCostLabel.text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
+                upgradeCostLabel[0].text = GetUpgradeCost(shieldsInitialCost, shieldsLevel + 1).ToString();
                 break;
             // Turrets Upgrade
             case 1:
                 if(!UpgradeComponent(ComponentType.Turret, turretsInitialCost, turretsLevel))
                     return;
-                turretsCostLabel.text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
+                upgradeCostLabel[1].text = GetUpgradeCost(turretsInitialCost, turretsLevel + 1).ToString();
                 break;
             // Engine Upgrade
             case 2:
                 if(!UpgradeComponent(ComponentType.Engine, enginesInitialCost, engineLevel))
                     return;
-                engineCostLabel.text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
+                upgradeCostLabel[2].text = GetUpgradeCost(enginesInitialCost, engineLevel + 1).ToString();
                 break;
             // Hull Upgrade
             case 3:
                 if(!UpgradeComponent(ComponentType.Bridge, hullInitialCost, hullLevel))
                     return;
-                hullCostLabel.text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
+                upgradeCostLabel[3].text = GetUpgradeCost(hullInitialCost, hullLevel + 1).ToString();
                 break;
             // Drone Upgrade
             case 4:
                 if(!UpgradeComponent(ComponentType.Drone, droneInitialCost, droneLevel))
                     return;
-                droneCostLabel.text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
+                upgradeCostLabel[4].text = GetUpgradeCost(droneInitialCost, droneLevel + 1).ToString();
                 break;
             // Resource Storage Upgrade
             case 5:
                 if(!UpgradeComponent(ComponentType.ResourceStorage, storageInitialCost, storageLevel))
                     return;
-                storageCostLabel.text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
+                upgradeCostLabel[5].text = GetUpgradeCost(storageInitialCost, storageLevel + 1).ToString();
                 break;
         }
-        upgradeButtonLabels[component].text = "Waiting";
+        //upgradeButtonLabel.text = "Waiting";
     }
         
 	/// <summary>
@@ -288,6 +339,19 @@ public class CommandConsoleState : MonoBehaviour {
         healthText.text    = shipHealth.ToString();;
         shieldsText.text   = shipShields.ToString();;
 	}
+
+    private void UpdateCostTextColor()
+    {
+        if(int.Parse(costLabel.text) > gameState.GetShipResources())
+        {
+            costLabel.color = new Color(95f/255f, 24f/255f, 24f/255f, 1);
+        }
+        else
+        {
+            costLabel.color = new Color(176f/255f, 176f/255f, 176f/255f, 1);
+        }
+          
+    }
     
     public void foundOutpost(string message)
     {

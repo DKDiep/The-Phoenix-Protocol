@@ -77,7 +77,7 @@ public class PlayerController : NetworkBehaviour
         {
             commandConsoleGameObject = Instantiate(Resources.Load("Prefabs/CommanderManager", typeof(GameObject))) as GameObject;
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
-            commandConsoleState.givePlayerControllerReference(this);
+            commandConsoleState.givePlayerControllerReference(localController);
         }
 
     }

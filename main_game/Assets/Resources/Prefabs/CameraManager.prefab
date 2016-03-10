@@ -31,7 +31,7 @@ GameObject:
   - 114: {fileID: 11487436}
   - 114: {fileID: 11483508}
   - 114: {fileID: 11457318}
-  - 114: {fileID: 11402096}
+  - 114: {fileID: 11429248}
   - 114: {fileID: 11444728}
   - 114: {fileID: 11426972}
   - 124: {fileID: 12422896}
@@ -163,29 +163,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185312}
   m_Enabled: 1
---- !u!114 &11402096
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef2ca7c3e6f3bd4c84157d0d38d8079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MainCurve:
-    m_BlackPoint: 0
-    m_WhitePoint: 4
-    m_CrossOverPoint: 0.12
-    m_ToeStrength: 0.385
-    m_ShoulderStrength: 0.883
-    m_LuminositySaturationPoint: 0.95
-    m_k: 0.13983631
-    m_ToeCoef: {x: 0.08599933, y: -0.385, z: -0, w: 0.12}
-    m_ShoulderCoef: {x: 0.8601637, y: 0.883, z: -0.10321964, w: 0.34799993}
-  m_Tint: {r: 1, g: 1, b: 1, a: 1}
-  m_Mode: 2
 --- !u!114 &11406702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -241,6 +218,31 @@ MonoBehaviour:
   gamma: 1
   strength: 0.315
   steps: 5
+--- !u!114 &11429248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50e925fb93c78246bf995d9dc3a2330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  adaptiveTextureSize: 256
+  remapCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  exposureAdjustment: 1.5
+  middleGrey: 0.4
+  white: 2
+  adaptionSpeed: 1.5
+  tonemapper: {fileID: 4800000, guid: 003377fc2620a44939dadde6fe3f8190, type: 3}
+  validRenderTextureFormat: 1
 --- !u!114 &11444728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -424,7 +426,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185312}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f806e3b8d9cc4fccaaa41ff23a975c2, type: 3}
   m_Name: 
@@ -750,6 +752,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: exposureAdjustment
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
