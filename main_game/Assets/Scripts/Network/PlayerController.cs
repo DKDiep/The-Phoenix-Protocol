@@ -80,7 +80,6 @@ public class PlayerController : NetworkBehaviour
             localController.commandConsoleState = commandConsoleState;
             commandConsoleState.givePlayerControllerReference(localController);
         }
-
     }
     
 	public int GetScreenIndex() 

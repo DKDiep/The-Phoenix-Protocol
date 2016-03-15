@@ -34,17 +34,18 @@ public class PlayerShooting : MonoBehaviour
 	private ObjectPoolManager impactManager;
 
     private GameState gameState;
+    private ServerManager serverManager;
 
-	// Which player are we controlling via the mouse. (For debugging different players)
-	private int currentPlayerId = 0;
+    // Which player are we controlling via the mouse. (For debugging different players)
+    private int currentPlayerId = 0;
 
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
-
+        
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
-	}
+    }
 
 	private void LoadSettings()
 	{
@@ -63,7 +64,10 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 0;
 		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
-        GameObject crosshairContainer = GameObject.Find("Crosshairs");
+        //GameObject crosshairContainer = GameObject.Find("Crosshairs");
+        // Get screen with index 0
+        GameObject crosshairContainer = GameObject.Find("GameManager").GetComponent<ServerManager>().GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
+
 
         crosshairs = new GameObject[4];
 

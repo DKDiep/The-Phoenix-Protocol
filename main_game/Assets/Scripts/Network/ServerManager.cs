@@ -86,6 +86,11 @@ public class ServerManager : NetworkBehaviour
 			screenIdToCrosshair[screenId].SetActive(false);
 		}
 	}
+
+    public GameObject GetCrosshairObject(int screenId)
+    {
+        return screenIdToCrosshair[screenId];
+    }
 		
     // Called automatically by Unity when a player joins
     private void OnClientAddPlayer(NetworkMessage netMsg)
@@ -187,7 +192,6 @@ public class ServerManager : NetworkBehaviour
 
     public void StartGame()
     {
-
         // Spawn Cutscene Manager
         cutsceneManager = Instantiate(Resources.Load("Prefabs/CutsceneManager", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(cutsceneManager);
@@ -225,7 +229,6 @@ public class ServerManager : NetworkBehaviour
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         if (playerController != null)
-            print("calling rpcroleinit");
             playerController.RpcRoleInit();
 
         // Spawn music controller only on server
@@ -249,7 +252,7 @@ public class ServerManager : NetworkBehaviour
         //Instantiate ship shoot logic on server only
         GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
         playerShootLogic.transform.parent = playerShip.transform;
-        playerShootLogic.GetComponent<PlayerShooting>().Setup();
+        //playerShootLogic.GetComponent<PlayerShooting>().Setup();
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
@@ -257,6 +260,8 @@ public class ServerManager : NetworkBehaviour
 
     public void Play()
     {
+        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
+
         //Reset Player's scores
         gameState.ResetPlayerScores();
         GameObject gameTimer = GameObject.Find("GameTimerText");
