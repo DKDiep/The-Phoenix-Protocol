@@ -11,8 +11,9 @@ public class UDPServer : MonoBehaviour
 	private GameSettings settings;
 
     // Constants for splitting the received messages
-    private readonly String[] comma = {","};
     private readonly String[] colon = {":"};
+    private readonly String[] comma = {","};
+    private readonly String[] plus = {"+"};
 
 	// Configuration parameters loaded through GameSettings
     private int listenPort;
@@ -72,10 +73,8 @@ public class UDPServer : MonoBehaviour
             {
                 receive_byte_array = socket.Receive(ref sender);
                 
-                if (sender.Equals(clientEndPoint)) {
-                    string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-                    HandleMessage(received_data);
-                }
+                string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
+                HandleMessage(received_data);
                 receivedMessages++;
             }
             yield return new WaitForSeconds(0.05f);
@@ -86,6 +85,7 @@ public class UDPServer : MonoBehaviour
     private void HandleMessage(String msg)
     {
         String[] fields;
+        String[] subFields;
         String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
         switch(parts[0]) {
             case "MV":
@@ -102,6 +102,18 @@ public class UDPServer : MonoBehaviour
                 int idOfAttacker = Int32.Parse(fields[0]);
                 int idOfAttacked = Int32.Parse(fields[1]);
                 Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
+                break;
+            case "CH":
+                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                foreach (String plr in fields)
+                {
+                    subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                    uint controllerId = UInt32.Parse(subFields[0]);
+                    uint screenId = UInt32.Parse(subFields[1]);
+                    float x = float.Parse(subFields[2]);
+                    float y = float.Parse(subFields[3]);
+                    Debug.Log("Controller: " + controllerId + " screenId: " + screenId + " x: " + x + " y: " + y);
+                }
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);
