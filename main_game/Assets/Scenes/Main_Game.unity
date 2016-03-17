@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   size: 5
   serverOnly: 0
+  useInterpolation: 0
 --- !u!1001 &222016100
 Prefab:
   m_ObjectHideFlags: 0
@@ -294,6 +295,7 @@ MonoBehaviour:
   - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   size: 5
   serverOnly: 0
+  useInterpolation: 0
 --- !u!1001 &547959170
 Prefab:
   m_ObjectHideFlags: 0
@@ -476,6 +478,7 @@ MonoBehaviour:
   - {fileID: 176114, guid: a75ec3e4bf14c4b63aac7ac0788b96b3, type: 2}
   size: 1000
   serverOnly: 1
+  useInterpolation: 0
 --- !u!114 &707978710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +562,7 @@ MonoBehaviour:
   - {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
   size: 1000
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &842514792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +640,7 @@ MonoBehaviour:
   - {fileID: 181100, guid: d7d902bfc1a5345e4b31072eaaff541a, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 1
 --- !u!114 &877425281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +863,7 @@ MonoBehaviour:
   - {fileID: 108092, guid: b10a77be15ffd466580b7727445ad99e, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 1
 --- !u!1 &1130805093
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +909,7 @@ MonoBehaviour:
   - {fileID: 136190, guid: 963cc59b6ac094abd9bd7a70ab1fd92e, type: 2}
   size: 200
   serverOnly: 1
+  useInterpolation: 0
 --- !u!114 &1130805096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,6 +987,7 @@ MonoBehaviour:
   - {fileID: 136190, guid: 8f7ab184deaf149e7a7cb7869c99cb82, type: 2}
   size: 500
   serverOnly: 1
+  useInterpolation: 0
 --- !u!114 &1235259026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,6 +1065,7 @@ MonoBehaviour:
   - {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &1355289503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1134,6 +1143,7 @@ MonoBehaviour:
   - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
   size: 500
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &1499734231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,6 +1221,7 @@ MonoBehaviour:
   - {fileID: 124810, guid: 9025b9b978f9c7145a49a33d9be4b990, type: 2}
   size: 200
   serverOnly: 1
+  useInterpolation: 0
 --- !u!114 &1504611903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1288,6 +1299,7 @@ MonoBehaviour:
   - {fileID: 131070, guid: 3d2fb4ef4cf0544389326dac5cdc8c2c, type: 2}
   size: 50
   serverOnly: 1
+  useInterpolation: 0
 --- !u!114 &1559813132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,6 +1409,7 @@ MonoBehaviour:
   - {fileID: 100002, guid: ae5ec65fc4184544f9632d832229f9d0, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 0
 --- !u!1 &1633265208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1455,7 @@ MonoBehaviour:
   - {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
   size: 20
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &1633265211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,6 +1623,7 @@ MonoBehaviour:
   - {fileID: 175078, guid: ab76f5cce85974ccd8c91fd33f318031, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 1
 --- !u!1 &1872929111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,6 +1669,7 @@ MonoBehaviour:
   - {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
   size: 200
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &1872929114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1763,6 +1779,7 @@ MonoBehaviour:
   - {fileID: 194068, guid: 8469e4d809a134109a9fbc42a56261aa, type: 2}
   size: 100
   serverOnly: 0
+  useInterpolation: 1
 --- !u!1 &1924423020 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
@@ -1844,6 +1861,7 @@ MonoBehaviour:
   - {fileID: 110426, guid: dd92841f647154f1890e6e0cf65ee4ca, type: 2}
   size: 500
   serverOnly: 0
+  useInterpolation: 0
 --- !u!1 &2101001577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,6 +1907,7 @@ MonoBehaviour:
   - {fileID: 195300, guid: 6c3c26a045fe8443399866ac1a572972, type: 2}
   size: 30
   serverOnly: 0
+  useInterpolation: 0
 --- !u!114 &2101001580
 MonoBehaviour:
   m_ObjectHideFlags: 0

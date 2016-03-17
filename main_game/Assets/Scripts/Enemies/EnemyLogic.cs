@@ -96,7 +96,9 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager enemyManager;
     private ObjectPoolManager gnatManager;
     private ObjectPoolManager fireflyManager;
-    
+    private ObjectPoolManager termiteManager;
+    private ObjectPoolManager lightningBugManager;
+
 	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
@@ -137,10 +139,18 @@ public class EnemyLogic : MonoBehaviour
             enemyManager = gnatManager;
             bulletManager = gnatBulletManager;
         }
-        else
+        else if(type == EnemyType.Firefly)
         {
             enemyManager = fireflyManager;
             bulletManager = fireflyBulletManager;
+        }
+        else if(type == EnemyType.Termite)
+        {
+            enemyManager = termiteManager;
+        }
+        else if(type == EnemyType.LightningBug)
+        {
+            enemyManager = lightningBugManager;
         }
 
         StartCoroutine("UpdateTransform");
@@ -163,6 +173,12 @@ public class EnemyLogic : MonoBehaviour
 
         if(fireflyManager == null)
             fireflyManager      = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+
+        if(termiteManager == null)
+            termiteManager      = GameObject.Find("TermiteManager").GetComponent<ObjectPoolManager>();
+
+        if(lightningBugManager == null)
+            lightningBugManager      = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
 
 
             //Debug.Log("My type is " + type);

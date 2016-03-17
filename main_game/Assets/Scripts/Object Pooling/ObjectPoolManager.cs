@@ -17,12 +17,58 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] private GameObject[] obj; // Object to spawn
     [SerializeField] private int size; // Number of objects to spawn
     [SerializeField] private bool serverOnly;
+
+    [SerializeField] private bool useInterpolation;
+    private Vector3[] newPositions;
+    private Quaternion[] newRotations;
+    private float[] times;
+    private bool amServer = false;
+
+    //private bool isServer;
 	#pragma warning restore 0649
+
+    [Server]
+    private void CheckServer()
+    {
+        amServer = true;
+    }
+
+    private void FixedUpdate()
+    {
+        if(!amServer && useInterpolation)
+        {
+            for(int i = 0; i < size; ++i)
+            {
+                if(pool[i].transform.position != null)
+                {
+                    pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 5f);
+                    pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 5f);
+                }
+            }
+        }
+    }
+
 
 	// Use this for initialization
 	public void SpawnObjects () 
     {
+        CheckServer();
+
+        if(!amServer && serverOnly)
+            Destroy(this);
+
+        newPositions = new Vector3[size];
+        newRotations = new Quaternion[size];
+        times = new float[size];
+
         pool = new GameObject[size];
+
+        if(useInterpolation && !amServer)
+        {
+            newPositions = new Vector3[size];
+            newRotations = new Quaternion[size];
+            times = new float[size];
+        }
 
 	    for(int i = 0; i < size; ++i)
         {
@@ -63,13 +109,15 @@ public class ObjectPoolManager : NetworkBehaviour
     public void EnableClientObject(string name, Vector3 position, Quaternion rotation, Vector3 scale)
     {
        int id = int.Parse(name);
-       RpcEnableObject(id, position, rotation, scale);
+       if(!serverOnly)
+            RpcEnableObject(id, position, rotation, scale);
     }
 
     public void DisableClientObject(string name)
     {
        int id = int.Parse(name);
-       RpcDisableObject(id);
+       if(!serverOnly)
+            RpcDisableObject(id);
     }
 
     public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
@@ -80,8 +128,10 @@ public class ObjectPoolManager : NetworkBehaviour
     [ClientRpc]
     void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
     {
-        pool[id].transform.position = position;
-        pool[id].transform.rotation = rotation;
+        newPositions[id] = position;
+        newRotations[id] = rotation;
+        //pool[id].transform.position = position;
+        //pool[id].transform.rotation = rotation;
     }
 
     [ClientRpc]
