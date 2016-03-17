@@ -36,7 +36,8 @@ public class OutpostManager : MonoBehaviour {
                     if (Vector3.Distance(outpost.transform.position, Camera.main.transform.position) < 2000)
                     {
                         outpost.GetComponentInChildren<OutpostLogic>().discovered = true;
-                        playerController.RpcOutpostNotification("Mayday SOS we're being attacked by alien explosions or something");
+                        if(outpost!=null)   
+                        playerController.RpcOutpostNotification(outpost);
                         print("Mayday SOS we're being attacked by alien explosions or something");
                     }
                 }

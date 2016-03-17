@@ -28,6 +28,7 @@ public class CommandConsoleState : MonoBehaviour {
     private PlayerController playerController;
 	private GameObject ship;
     private GameObject upgradeArea;
+    private StratMap stratMap;
 	private GameState gameState;
     private GameSettings settings;
 
@@ -55,7 +56,7 @@ public class CommandConsoleState : MonoBehaviour {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
-
+        stratMap = GameObject.Find("Map").GetComponent<StratMap>();
         LoadSettings(); 
 
 		// Load the ship model into the scene. 
@@ -353,9 +354,10 @@ public class CommandConsoleState : MonoBehaviour {
           
     }
     
-    public void foundOutpost(string message)
+    public void FoundOutpost(GameObject outpost)
     {
         newsFeed.SetActive(true);
-        newsFeed.GetComponent<Text>().text = message;
+        //newsFeed.GetComponent<Text>().text = message;
+        stratMap.NewOutpost(outpost);
     }
 }

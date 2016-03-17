@@ -124,11 +124,11 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcOutpostNotification(string message)
+    public void RpcOutpostNotification(GameObject outpost)
     {
         if (commandConsoleState != null)
         {
-            commandConsoleState.foundOutpost(message);
+            commandConsoleState.FoundOutpost(outpost);
         }
     }
 
