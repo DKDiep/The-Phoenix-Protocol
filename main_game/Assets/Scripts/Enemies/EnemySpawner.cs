@@ -182,7 +182,6 @@ public class EnemySpawner : MonoBehaviour
 	{
 		// Spawn enemy and server logic
         GameObject enemyLogicObject = logicManager.RequestObject();
-        enemyObject = null;
 
         int random = Random.Range(1,101);
         int type = -1;
@@ -200,15 +199,16 @@ public class EnemySpawner : MonoBehaviour
         if(type == -1)
             type = 0;
 
-        //int type = Random.Range(0, enemyTypeList.Count);
-        if(type == 0) 
-            enemyObject = gnatManager.RequestObject();
-        else if(type == 1)
+        if(type == 1)
             enemyObject = fireflyManager.RequestObject();
         else if(type == 2)
             enemyObject = termiteManager.RequestObject();
         else if(type == 3)
             enemyObject = lightningBugManager.RequestObject();
+        else
+        {
+            enemyObject = gnatManager.RequestObject();
+        }
 
         enemyObject.transform.position = spawnLocation.transform.position;
         enemyLogicObject.transform.parent = enemyObject.transform;

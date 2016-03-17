@@ -33,20 +33,20 @@ public class ObjectPoolManager : NetworkBehaviour
         amServer = true;
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
-        if(!amServer)
+        if(!amServer && useInterpolation)
         {
             for(int i = 0; i < size; ++i)
             {
-                if(pool[i].activeInHierarchy && pool[i].transform.position != null)
+                if(pool[i].transform.position != null)
                 {
                     pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 15f);
                     pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 15f);
                 }
             }
         }
-    }
+    }*/
 
 
 	// Use this for initialization
@@ -128,10 +128,10 @@ public class ObjectPoolManager : NetworkBehaviour
     [ClientRpc]
     void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
     {
-        newPositions[id] = position;
-        newRotations[id] = rotation;
-        //pool[id].transform.position = position;
-        //pool[id].transform.rotation = rotation;
+        //newPositions[id] = position;
+        //newRotations[id] = rotation;
+        pool[id].transform.position = position;
+        pool[id].transform.rotation = rotation;
     }
 
     [ClientRpc]
