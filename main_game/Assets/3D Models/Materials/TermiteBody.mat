@@ -182,7 +182,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.85294116, g: 0.7941177, b: 0, a: 1}
+        second: {r: 0.5514706, g: 0.51343817, b: 0, a: 1}
       data:
         first:
           name: _DiffuseColor
