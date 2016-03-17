@@ -89,13 +89,15 @@ public class ObjectPoolManager : NetworkBehaviour
     public void EnableClientObject(string name, Vector3 position, Quaternion rotation, Vector3 scale)
     {
        int id = int.Parse(name);
-       RpcEnableObject(id, position, rotation, scale);
+       if(!serverOnly)
+            RpcEnableObject(id, position, rotation, scale);
     }
 
     public void DisableClientObject(string name)
     {
        int id = int.Parse(name);
-       RpcDisableObject(id);
+       if(!serverOnly)
+            RpcDisableObject(id);
     }
 
     public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
