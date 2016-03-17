@@ -547,6 +547,7 @@ GameObject:
   - 114: {fileID: 11411522}
   - 222: {fileID: 22288782}
   - 114: {fileID: 11438918}
+  - 114: {fileID: 11424434}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -750,7 +751,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 424172}
   - 114: {fileID: 11410788}
-  m_Layer: 0
+  - 114: {fileID: 11449148}
+  m_Layer: 5
   m_Name: CommanderManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1204,7 +1206,7 @@ GameObject:
   - 224: {fileID: 22465854}
   - 222: {fileID: 22219434}
   - 114: {fileID: 11402718}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: NewsFeedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1619,7 +1621,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2448225, y: -2.1946807, z: -144.38579}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 22450872}
@@ -2327,6 +2329,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11424434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7de42fa600f4fb4840947d482e1c83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11426960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3040,6 +3053,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Repair
+--- !u!114 &11449148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3991deb10cb4a4d3aa4c334469c0ab52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11449998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5041,7 +5065,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -6763,7 +6787,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144818}

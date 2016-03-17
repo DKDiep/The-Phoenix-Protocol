@@ -5,7 +5,7 @@ using System.Collections;
 public class EyeAdaptation : MonoBehaviour 
 {
     [SerializeField]
-    public DeluxeEyeAdaptationLogic m_Logic;
+    public EyeAdaptationLogic m_Logic;
 
 
     [SerializeField]
@@ -83,7 +83,7 @@ public class EyeAdaptation : MonoBehaviour
         CreateMaterials();
 
         if (m_Logic == null)
-            m_Logic = new DeluxeEyeAdaptationLogic();
+            m_Logic = new EyeAdaptationLogic();
 
         DeluxeTonemapper tonemapper = GetComponent<DeluxeTonemapper>();
         if (tonemapper != null)
