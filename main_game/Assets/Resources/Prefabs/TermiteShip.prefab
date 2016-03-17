@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4a82f7574a14921a1d8169840d739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionDamage: 10
+  collisionDamage: 15
 --- !u!114 &11474920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3719,6 +3719,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collisionDamage
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
