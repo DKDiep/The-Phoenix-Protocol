@@ -8,7 +8,7 @@ using UnityEditor;
 #endif
 
 [Serializable]
-public class DeluxeEyeAdaptationLogic
+public class EyeAdaptationLogic
 {
     [SerializeField]
     public float m_MinimumExposure = 0.4f;
