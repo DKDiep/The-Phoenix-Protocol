@@ -17,12 +17,38 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] private GameObject[] obj; // Object to spawn
     [SerializeField] private int size; // Number of objects to spawn
     [SerializeField] private bool serverOnly;
+
+    [SerializeField] private bool useInterpolation;
+    private Vector3[] newPositions;
+    private Quaternion[] newRotations;
+    private float[] times;
+    private bool amServer = false;
+
+    //private bool isServer;
 	#pragma warning restore 0649
+
+    [Server]
+    void CheckServer()
+    {
+        amServer = true;
+    }
 
 	// Use this for initialization
 	public void SpawnObjects () 
     {
+        CheckServer();
+
+        if(!amServer && serverOnly)
+            Destroy(this);
+
         pool = new GameObject[size];
+
+        if(useInterpolation && !amServer)
+        {
+            newPositions = new Vector3[size];
+            newRotations = new Quaternion[size];
+            times = new float[size];
+        }
 
 	    for(int i = 0; i < size; ++i)
         {
