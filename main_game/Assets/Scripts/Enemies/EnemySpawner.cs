@@ -182,6 +182,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		// Spawn enemy and server logic
         GameObject enemyLogicObject = logicManager.RequestObject();
+        enemyObject = null;
 
         int random = Random.Range(1,101);
         int type = -1;
@@ -206,7 +207,7 @@ public class EnemySpawner : MonoBehaviour
             enemyObject = fireflyManager.RequestObject();
         else if(type == 2)
             enemyObject = termiteManager.RequestObject();
-        else
+        else if(type == 3)
             enemyObject = lightningBugManager.RequestObject();
 
         enemyObject.transform.position = spawnLocation.transform.position;
@@ -226,8 +227,12 @@ public class EnemySpawner : MonoBehaviour
 		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
 		if(type == 0)
             gnatManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
-        else
+        else if(type == 1)
             fireflyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else if(type == 2)
+            termiteManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else if(type == 3)
+            lightningBugManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
 	}
