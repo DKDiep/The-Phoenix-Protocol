@@ -152,11 +152,13 @@ public class EnemySpawner : MonoBehaviour
 	}
 
 	// Create an EnemyProperties object for each type of enemy that will be used
+    // Type, max health, maxShield, collisionDamage, speed, isSuicidal, shootPeriod, shotsPerSec
+
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 15, false, 3f, 4f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 20, false, 3f, 7f ));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 4, false, 3f, 4f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 5, false, 3f, 7f ));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
