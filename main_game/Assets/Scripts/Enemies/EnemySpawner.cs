@@ -48,6 +48,8 @@ public class EnemySpawner : MonoBehaviour
     private ObjectPoolManager logicManager;
     private ObjectPoolManager gnatManager;
     private ObjectPoolManager fireflyManager;
+    private ObjectPoolManager termiteManager;
+    private ObjectPoolManager lightningBugManager;
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
 
     void Start()
@@ -61,6 +63,8 @@ public class EnemySpawner : MonoBehaviour
         player = null;
         gnatManager = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
         fireflyManager = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+        termiteManager = GameObject.Find("TermiteManager").GetComponent<ObjectPoolManager>();
+        lightningBugManager = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
@@ -96,30 +100,10 @@ public class EnemySpawner : MonoBehaviour
         {
             case 1 :
                 maxEnemies = 20;
-                gnatLimit = 80;
-                fireflyLimit = 100;
-                termiteLimit = 101;
-                lightningBugLimit = 101;
-                hornetLimit = 101;
-                blackWidowLimit = 101;
-                glomCruiserLimit = 101;
-                break;
-        case 2 :
-                maxEnemies = 30;
-                gnatLimit = 60;
-                fireflyLimit = 100;
-                termiteLimit = 101;
-                lightningBugLimit = 101;
-                hornetLimit = 101;
-                blackWidowLimit = 101;
-                glomCruiserLimit = 101;
-                break;
-        case 3 :
-                maxEnemies = 35;
-                gnatLimit = 50;
-                fireflyLimit = 100;
-                termiteLimit = 101;
-                lightningBugLimit = 101;
+                gnatLimit = 20;
+                fireflyLimit = 40;
+                termiteLimit = 75;
+                lightningBugLimit = 100;
                 hornetLimit = 101;
                 blackWidowLimit = 101;
                 glomCruiserLimit = 101;
@@ -159,8 +143,8 @@ public class EnemySpawner : MonoBehaviour
 		enemyTypeList = new List<EnemyProperties>();
 		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 8, false, 3f, 4f, 150f));
         enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 10, false, 3f, 7f, 200f ));
-        //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
-        //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 12, true, 0f, 0f, 1000f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 12, true, 0f, 0f, 1000f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
@@ -206,6 +190,10 @@ public class EnemySpawner : MonoBehaviour
             type = 0;
         else if(random < fireflyLimit)
             type = 1;
+        else if(random < termiteLimit)
+            type = 2;
+        else if(random < lightningBugLimit)
+            type = 3;
 
         // Default enemy type is the Gnat
         if(type == -1)
@@ -214,8 +202,12 @@ public class EnemySpawner : MonoBehaviour
         //int type = Random.Range(0, enemyTypeList.Count);
         if(type == 0) 
             enemyObject = gnatManager.RequestObject();
-        else 
+        else if(type == 1)
             enemyObject = fireflyManager.RequestObject();
+        else if(type == 2)
+            enemyObject = termiteManager.RequestObject();
+        else
+            enemyObject = lightningBugManager.RequestObject();
 
         enemyObject.transform.position = spawnLocation.transform.position;
         enemyLogicObject.transform.parent = enemyObject.transform;
