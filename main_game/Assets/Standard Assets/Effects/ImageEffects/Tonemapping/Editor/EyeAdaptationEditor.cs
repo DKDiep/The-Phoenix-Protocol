@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.IO;
 
-[CustomEditor(typeof(DeluxeEyeAdaptation))]
-class DeluxeEyeAdaptationEditor : Editor
+[CustomEditor(typeof(EyeAdaptation))]
+class EyeAdaptationEditor : Editor
 {
     Texture2D m_Logo;
 
@@ -20,7 +20,7 @@ class DeluxeEyeAdaptationEditor : Editor
 
     public override void OnInspectorGUI () 
     {
-        DeluxeEyeAdaptation de = (DeluxeEyeAdaptation)target;
+        EyeAdaptation de = (EyeAdaptation)target;
         Undo.RecordObject(de, "Deluxe Eye Adaptation");
 
         if (m_Logo != null)
@@ -93,7 +93,7 @@ class DeluxeEyeAdaptationEditor : Editor
         if (obj.GetComponent<Camera>() == null)
             return;
 
-        obj.AddComponent<DeluxeEyeAdaptation>();
+        obj.AddComponent<EyeAdaptation>();
     }
 
     float DoSlider(string label, float value, float min, float max)

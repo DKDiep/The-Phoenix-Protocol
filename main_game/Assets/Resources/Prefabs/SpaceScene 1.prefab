@@ -233,7 +233,6 @@ GameObject:
   - 4: {fileID: 432468}
   - 33: {fileID: 3344736}
   - 23: {fileID: 2307774}
-  - 114: {fileID: 11468526}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -373,7 +372,6 @@ GameObject:
   - 23: {fileID: 2366814}
   - 54: {fileID: 5445656}
   - 135: {fileID: 13591776}
-  - 114: {fileID: 11495676}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -389,8 +387,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 431864}
-  - 114: {fileID: 11411824}
-  - 114: {fileID: 11409930}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -920,7 +916,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112826}
-  m_LocalRotation: {x: 0.58426046, y: 0.14289315, z: 0.11199599, w: -0.7909983}
+  m_LocalRotation: {x: 0.5842604, y: 0.14289314, z: 0.11199597, w: -0.79099816}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2151,36 +2147,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &11409930
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 167754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d77afa74cfb516b46a6262a9f00dcd03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11411824
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 167754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0808dbd6f3abca74c873a380223d3bbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_sun: {fileID: 192886}
-  m_groundMaterial: {fileID: 2100000, guid: 1a7e5cb427d25f3439f61d57e2b88c71, type: 2}
-  m_skyMaterial: {fileID: 2100000, guid: b4620d2bbad484a45bc3c8fc54349998, type: 2}
-  m_hdrExposure: 0.6
-  m_atmoColor: {x: 0.8, y: 0.7, z: 0.5}
-  m_ESun: 20
-  bleed: 1
-  scatter_strength: 1
 --- !u!114 &11449840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2247,19 +2213,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &11468526
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 150814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ea9833562df6e468119658906fc530, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: -0.2
-  linkedObject: {fileID: 473602}
 --- !u!114 &11469072
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2292,19 +2245,6 @@ MonoBehaviour:
     i15: 218
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11495676
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 166304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ea9833562df6e468119658906fc530, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: -0.1
-  linkedObject: {fileID: 0}
 --- !u!135 &13591776
 SphereCollider:
   m_ObjectHideFlags: 1
