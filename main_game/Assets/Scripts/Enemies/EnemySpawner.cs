@@ -157,8 +157,8 @@ public class EnemySpawner : MonoBehaviour
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 4, false, 3f, 4f, 150f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 5, false, 3f, 7f, 200f ));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 8, false, 3f, 4f, 150f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 10, false, 3f, 7f, 200f ));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
