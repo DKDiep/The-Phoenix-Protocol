@@ -6,6 +6,7 @@ public class StratMap : MonoBehaviour {
     private GameObject playerIcon;
     private Transform shipTransform;
     private RectTransform playerIconTransform;
+    private float panelHeight;
 	// Use this for initialization
 	void Start () {
         var panel = this;
@@ -14,6 +15,8 @@ public class StratMap : MonoBehaviour {
                     playerIcon.transform.SetParent(panel.transform, false);
         playerIcon.transform.SetParent(panel.transform, false);
         playerIconTransform = (RectTransform)playerIcon.transform;
+        RectTransform panelRectTransform = (RectTransform)panel.transform;
+        panelHeight = panelRectTransform.sizeDelta.y;
     }
 
     public void NewOutpost(GameObject outpost)
@@ -24,18 +27,18 @@ public class StratMap : MonoBehaviour {
             GameObject outPostSymbol = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
             outPostSymbol.transform.SetParent(panel.transform, false);
             RectTransform arrowRectTransform = (RectTransform)outPostSymbol.transform;
-            Vector3 screenPos = new Vector3(0, 0, 0);
+            Vector3 screenPos = new Vector3(outpost.transform.position.x/6, outpost.transform.position.z/6 + panelHeight*0.3f,0);
             arrowRectTransform.anchoredPosition = screenPos;
         }
-        print("new outpost location: (" + outpost.transform.position.x + ", " + 
-            outpost.transform.position.y + ", " + outpost.transform.position.z + ")");
-    }
+     }
 
 	// Update is called once per frame
 	void Update () {
-        playerIconTransform.anchoredPosition = new Vector3(shipTransform.position.x / 3, shipTransform.position.z / 3,0);
-        //Quaternion shipRotation = shipTransform.rotation;
-        //shipRotation.SetLookRotation(Vector3.up, new Vector3(1, 0, 0));
-        //playerIconTransform.localRotation = shipRotation;
+        playerIconTransform.anchoredPosition = new Vector3(shipTransform.position.x / 6, shipTransform.position.z/6+panelHeight*0.3f,0);
+        Quaternion shipRotation = shipTransform.rotation;
+        Vector3 eulerRotation = shipRotation.eulerAngles;
+        Quaternion newRotation = Quaternion.identity;
+        newRotation.eulerAngles = new Vector3(0, 0, -eulerRotation.y);
+        playerIconTransform.localRotation = newRotation;
     }
 }
