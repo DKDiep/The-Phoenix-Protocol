@@ -77,6 +77,7 @@ public class OutpostCollision : NetworkBehaviour
                 GameObject explosion = Instantiate(Resources.Load("Prefabs/OutpostExplode", typeof(GameObject))) as GameObject;
                 explosion.transform.position = col.transform.position;
                 explosion.SetActive(true);
+                ServerManager.NetworkSpawn(explosion);
 
                 Destroy(this.gameObject);
             }
