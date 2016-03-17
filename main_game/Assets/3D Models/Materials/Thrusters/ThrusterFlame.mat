@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: ThrusterFlame
-  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 31bfda934c27bd54a96d5f3f1ae1d398, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -27,11 +27,15 @@ Material:
         first:
           name: _InvFade
         second: 0.9126415
+      data:
+        first:
+          name: _EmissionGain
+        second: 0.32
     m_Colors:
       data:
         first:
           name: _TintColor
-        second: {r: 0.5, g: 0.5, b: 0.5, a: 0.74509805}
+        second: {r: 0.8602941, g: 0.9075051, b: 1, a: 0.74509805}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
