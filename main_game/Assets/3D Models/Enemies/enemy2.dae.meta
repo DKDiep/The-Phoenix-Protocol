@@ -1,47 +1,37 @@
 fileFormatVersion: 2
-guid: ba99b167c5a4c194b9489dcfaa2eb47e
-timeCreated: 1457831325
-licenseType: Free
+guid: bde70216eddb04e01b643ab4c7b6e18d
+timeCreated: 1458213330
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: body
     100002: //RootNode
     100004: glow
-    100006: glow1
-    100008: lightLine
-    100010: plating
-    100012: polySurface8
-    100014: sides
+    100006: lightLine
+    100008: plating
+    100010: sides
     400000: body
     400002: //RootNode
     400004: glow
-    400006: glow1
-    400008: lightLine
-    400010: plating
-    400012: polySurface8
-    400014: sides
+    400006: lightLine
+    400008: plating
+    400010: sides
     2300000: body
-    2300002: glow1
+    2300002: glow
     2300004: lightLine
     2300006: plating
-    2300008: polySurface8
-    2300010: sides
-    2300012: glow
+    2300008: sides
     3300000: body
-    3300002: glow1
+    3300002: glow
     3300004: lightLine
     3300006: plating
-    3300008: polySurface8
-    3300010: sides
-    3300012: glow
-    4300000: polySurface8
-    4300002: lightLine
-    4300004: sides
-    4300006: plating
-    4300008: glow1
-    4300010: body
-    4300012: glow
+    3300008: sides
+    4300000: lightLine
+    4300002: sides
+    4300004: plating
+    4300006: body
+    4300008: glow
     9500000: //RootNode
   materials:
     importMaterials: 1
