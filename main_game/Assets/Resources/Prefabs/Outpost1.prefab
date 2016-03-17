@@ -664,6 +664,7 @@ GameObject:
   - 114: {fileID: 11492126}
   - 114: {fileID: 11440756}
   - 65: {fileID: 6500730}
+  - 114: {fileID: 11455434}
   m_Layer: 4
   m_Name: Outpost1
   m_TagString: Outpost
@@ -3186,6 +3187,19 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &11455434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec8b98b0750a47c5927df3f070d299c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helpMat: {fileID: 2100000, guid: b162bc0558fb64c1c9ee723480ee156c, type: 2}
+  savedMat: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
 --- !u!114 &11467666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3285,6 +3299,14 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: helpMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b162bc0558fb64c1c9ee723480ee156c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: savedMat
+      value: 
+      objectReference: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 170194}

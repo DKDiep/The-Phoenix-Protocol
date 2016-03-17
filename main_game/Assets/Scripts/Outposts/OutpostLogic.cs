@@ -17,8 +17,7 @@ public class OutpostLogic : MonoBehaviour {
 	private int numberOfResources;
 	private int numberOfCivilians;
 
-    [SerializeField] Material helpMat;
-    [SerializeField] Material savedMat;
+    private OutpostCollision collision;
 
 	// Use this for initialization
 	void Start () 
@@ -34,38 +33,21 @@ public class OutpostLogic : MonoBehaviour {
 	/// </summary>
 	public void ResourceCollision ()
 	{
+        if(collision == null)
+            collision = transform.parent.GetComponent<OutpostCollision>();
 		if(!resourcesCollected) 
 		{
 			CollectResources();
 			resourcesCollected = true;
-            SwitchMaterial();
+            collision.SwitchMaterial();
 		}
 		if(!civiliansCollected) 
 		{
 			CollectCivilians();
 			civiliansCollected = true;
-            SwitchMaterial();
+            collision.SwitchMaterial();
 		}
 	}
-
-    private void SwitchMaterial()
-    {
-        GameObject light = null;
-
-        foreach(Transform child in transform.parent)
-        {
-            if(child.gameObject.name.Equals("TopCap"))
-            {
-                light = child.gameObject;
-                break;
-            }
-        }
-
-        if(light == null)
-            Debug.LogError("TopCap game object in outpost could not be found");
-
-        light.GetComponent<Renderer>().material = savedMat;
-    }
 
 	/// <summary>
 	/// Handle the player colliding into the outpost.
