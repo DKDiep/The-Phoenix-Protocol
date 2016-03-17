@@ -152,13 +152,13 @@ public class EnemySpawner : MonoBehaviour
 	}
 
 	// Create an EnemyProperties object for each type of enemy that will be used
-    // Type, max health, maxShield, collisionDamage, speed, isSuicidal, shootPeriod, shotsPerSec
+    // Type, max health, maxShield, collisionDamage, speed, isSuicidal, shootPeriod, shotsPerSec, engageDistance
 
 	private static void InitialiseEnemyTypes()
 	{
 		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 4, false, 3f, 4f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 5, false, 3f, 7f ));
+		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 4, false, 3f, 4f, 150f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 5, false, 3f, 7f, 200f ));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 25, true, 0f, 0f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
@@ -377,11 +377,11 @@ public class EnemySpawner : MonoBehaviour
 	{
 		public int maxHealth, maxShield, collisionDamage, speed;
         public bool isSuicidal;
-        public float shootPeriod, shotsPerSec;
+        public float shootPeriod, shotsPerSec, engageDistance;
 		public EnemyType Type { get; private set; }
 
 		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage,
-         int speed, bool isSuicidal, float shootPeriod, float shotsPerSec)
+         int speed, bool isSuicidal, float shootPeriod, float shotsPerSec, float engageDistance)
 		{
 			this.Type            = type;
 			this.maxHealth       = maxHealth;
@@ -391,6 +391,7 @@ public class EnemySpawner : MonoBehaviour
             this.isSuicidal = isSuicidal;
             this.shootPeriod = shootPeriod;
             this.shotsPerSec = shotsPerSec;
+            this.engageDistance = engageDistance;
 		}
 	}
 
@@ -416,6 +417,7 @@ public class EnemySpawner : MonoBehaviour
         enemy.isSuicidal = props.isSuicidal;
         enemy.shootPeriod = props.shootPeriod;
         enemy.shotsPerSec = props.shotsPerSec;
+        enemy.engageDistance = props.engageDistance;
 		enemy.type            = props.Type;
 	}
 

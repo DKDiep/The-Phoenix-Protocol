@@ -34,6 +34,7 @@ public class EnemyLogic : MonoBehaviour
     internal bool isSuicidal;
     internal float shotsPerSec;
     internal float shootPeriod;                  // How long in seconds the enemy should shoot for when it fires
+    internal float engageDistance;
 	internal EnemyType type;
 
 	private AudioSource mySrc;
@@ -63,7 +64,6 @@ public class EnemyLogic : MonoBehaviour
 
 	// The current state of the ship's AI
 	internal EnemyAIState state;
-	private const int ENGAGE_DISTANCE      = 400;
 
 	// Waypoints are used to move around the player when close enough
 	private List<GameObject> aiWaypoints;
@@ -312,7 +312,7 @@ public class EnemyLogic : MonoBehaviour
 		Vector3 direction             = player.transform.position - controlObject.transform.position;
 		float angle                   = Vector3.Angle(controlObject.transform.forward, direction);
 		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
-		angleGoodForShooting          = (distance < ENGAGE_DISTANCE) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
+		angleGoodForShooting          = (distance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
 		
 		// Avoid obsctales if needed
 		if (state == EnemyAIState.AvoidObstacle)
@@ -339,12 +339,12 @@ public class EnemyLogic : MonoBehaviour
 				currentWaypoint                   = returnWaypoint;
 			}
 			// Engage player when close enough, otherwise catch up to them
-			else if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= ENGAGE_DISTANCE)
+			else if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= engageDistance)
 			{
 				state = EnemyAIState.EngagePlayer;
 				currentWaypoint = GetNextWaypoint();
 			}
-			else if (state == EnemyAIState.EngagePlayer && distance > ENGAGE_DISTANCE)
+			else if (state == EnemyAIState.EngagePlayer && distance > engageDistance)
 			{
 				state = EnemyAIState.SeekPlayer;
 			}
