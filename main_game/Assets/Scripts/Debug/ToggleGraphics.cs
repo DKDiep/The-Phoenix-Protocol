@@ -20,7 +20,7 @@ public class ToggleGraphics : MonoBehaviour
 	
 	void Start () 
 	{
-		enableGraphics = true;
+		enableGraphics = false;
         swap           = false;
 		sessao         = GetComponent<SESSAO>();
 		bloom          = GetComponent<SENaturalBloomAndDirtyLens>();
