@@ -7,6 +7,8 @@ public class StratMap : MonoBehaviour {
     private Transform shipTransform;
     private RectTransform playerIconTransform;
     private float panelHeight;
+
+    private Vector3 offset = new Vector3(0, 200, 0);
 	// Use this for initialization
 	void Start () {
         var panel = this;
@@ -27,14 +29,14 @@ public class StratMap : MonoBehaviour {
             GameObject outPostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outPostSymbol.transform.SetParent(panel.transform, false);
             RectTransform arrowRectTransform = (RectTransform)outPostSymbol.transform;
-            Vector3 screenPos = new Vector3(outpost.transform.position.x/6, outpost.transform.position.z/6 + panelHeight*0.3f,0);
+            Vector3 screenPos = new Vector3(outpost.transform.position.x/6, outpost.transform.position.z/6 + panelHeight*0.3f,0) - offset;
             arrowRectTransform.anchoredPosition = screenPos;
         }
      }
 
 	// Update is called once per frame
 	void Update () {
-        playerIconTransform.anchoredPosition = new Vector3(shipTransform.position.x / 6, shipTransform.position.z/6+panelHeight*0.3f,0);
+        playerIconTransform.anchoredPosition = new Vector3(shipTransform.position.x / 6, shipTransform.position.z/6+panelHeight*0.3f,0) - offset;
         Quaternion shipRotation = shipTransform.rotation;
         Vector3 eulerRotation = shipRotation.eulerAngles;
         Quaternion newRotation = Quaternion.identity;
