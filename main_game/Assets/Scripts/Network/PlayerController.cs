@@ -60,10 +60,11 @@ public class PlayerController : NetworkBehaviour
         {
             // Reset the camera rotation which was set in the lobby
             playerCamera.transform.localRotation = Quaternion.identity;
+            playerCamera.transform.parent = localController.controlledObject.transform;
 
             // Set the camera's parent as the engineer instance
-            playerCamera.transform.localPosition = new Vector3(0f, 0.8f, 0f);  // May need to be changed/removed
-            playerCamera.transform.parent = localController.controlledObject.transform;
+            playerCamera.transform.localPosition = new Vector3(0f, 0.17f, 0.73f);  // May need to be changed/removed
+
 
             // Set the controlled object for the server side PlayerController
             controlledObject = localController.controlledObject;
