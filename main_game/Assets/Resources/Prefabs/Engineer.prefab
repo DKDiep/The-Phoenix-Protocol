@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11402522}
   - 114: {fileID: 11458680}
   - 114: {fileID: 11446836}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Engineer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ GameObject:
   - 4: {fileID: 495618}
   - 33: {fileID: 3368054}
   - 23: {fileID: 2347858}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: led
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   - 4: {fileID: 496370}
   - 33: {fileID: 3348640}
   - 23: {fileID: 2319330}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: inner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   - 4: {fileID: 450496}
   - 33: {fileID: 3356520}
   - 23: {fileID: 2345496}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: wings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - 4: {fileID: 447886}
   - 33: {fileID: 3325924}
   - 23: {fileID: 2338570}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: bars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - 4: {fileID: 442340}
   - 33: {fileID: 3301748}
   - 23: {fileID: 2317394}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: plating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - 4: {fileID: 411280}
   - 33: {fileID: 3345174}
   - 23: {fileID: 2345938}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: tools
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 461786}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,6 +629,10 @@ Prefab:
       propertyPath: upgradeMat
       value: 
       objectReference: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}

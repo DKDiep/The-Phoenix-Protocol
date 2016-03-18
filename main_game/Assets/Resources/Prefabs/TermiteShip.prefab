@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 491922}
   - 33: {fileID: 3331348}
   - 23: {fileID: 2320058}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: lightLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 476538}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - 4: {fileID: 451016}
   - 33: {fileID: 3355262}
   - 23: {fileID: 2389412}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - 4: {fileID: 414652}
   - 33: {fileID: 3381832}
   - 23: {fileID: 2368284}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - 4: {fileID: 483060}
   - 33: {fileID: 3305260}
   - 23: {fileID: 2366804}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: sides
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - 4: {fileID: 456130}
   - 33: {fileID: 3328484}
   - 23: {fileID: 2319992}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: plating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
