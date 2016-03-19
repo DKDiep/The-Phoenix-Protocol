@@ -61,7 +61,7 @@ public class CommandConsoleState : MonoBehaviour {
 
 		// Load the ship model into the scene. 
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
-        ship.transform.position = new Vector3(15, -7, 50);
+        ship.transform.position = new Vector3(15, -7, -1950);
         ship.transform.eulerAngles = new Vector3(0, -140f, 0);
 		ship.AddComponent<ConsoleShipControl>();
 
