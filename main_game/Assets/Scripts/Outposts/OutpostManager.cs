@@ -9,8 +9,10 @@ public class OutpostManager : MonoBehaviour {
     private float timeSinceLastEvent = 0;
     private GameObject canvas;
     private List<GameObject> arrowList = new List<GameObject>();
+    private List<GameObject> outpostList;
+    private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
+    private int arrowsRequired = 0;
 
-    // Use this for initialization
     void Start()
     {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
@@ -18,53 +20,60 @@ public class OutpostManager : MonoBehaviour {
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
     }
 
-    // Update is called once per frame
-    void Update () {
+    void Update () 
+    {
+        outpostList = gameState.GetOutpostList();
+
+        if(outpostList.Count != 0 && outpostList != null)
+        {
+            if(arrowsRequired < outpostList.Count)
+            {
+                for (int i = arrowsRequired; i < outpostList.Count; i++)
+                {
+                    arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
+                    outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
+                    arrowsRequired++;
+                }
+            }
         timeSinceLastEvent += Time.deltaTime;
-        List<GameObject> outpostList = gameState.GetOutpostList();
-        bool arrowListInstantiated = false;
+
         if (timeSinceLastEvent > 10)
         {
-            if (outpostList != null && outpostList.Count > 0)
-            {
-            }
             timeSinceLastEvent = 0;
-            foreach (GameObject outpost in outpostList)
+
+            for(int i = 0; i < outpostList.Count; i++)
             {
-                if (outpost.GetComponentInChildren<OutpostLogic>().discovered == false)
+                if (outpostLogic[i].discovered == false)
                 {
-                    if (Vector3.Distance(outpost.transform.position, Camera.main.transform.position) < 2000)
+                    if (Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position) < 2000)
                     {
-                        outpost.GetComponentInChildren<OutpostLogic>().discovered = true;
-                        if(outpost!=null)   
-                        playerController.RpcOutpostNotification(outpost);
-                        print("Mayday SOS we're being attacked by alien explosions or something");
+                        outpostLogic[i].discovered = true;
+                        if(outpostList[i] != null)   
+                            playerController.RpcOutpostNotification(outpostList[i]);
                     }
                 }
             }
         }
-        if(canvas == null) canvas = GameObject.Find("CrosshairCanvas(Clone)");
+
+        if(canvas == null) 
+            canvas = GameObject.Find("CrosshairCanvas(Clone)");
         //note canvas might still be null if CrosshairCanvas isn't created yet
         if (outpostList != null && canvas != null && outpostList.Count > 0)
         {
             /*A list of arrows is instantiated such that the index of each arrow is 
             the same as the index of the outpostList object it tracks. Note that 
             this means that outposts added to the list part-way through execution will not be tracked*/
-            if (!arrowListInstantiated) 
-            {
-                for (int i = 0; i < outpostList.Count; i++) arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
-                arrowListInstantiated = true;
-            }
+
             for (int index = 0; index < outpostList.Count; index++)
             {
-                if (outpostList[index].GetComponentInChildren<OutpostLogic>().discovered &&
-                    !outpostList[index].GetComponentInChildren<OutpostLogic>().resourcesCollected &&
-                    !outpostList[index].GetComponentInChildren<OutpostLogic>().civiliansCollected &&
-                    outpostList[index] != null
+                if (outpostLogic[index].discovered && !outpostLogic[index].resourcesCollected && 
+                    !outpostLogic[index].civiliansCollected && outpostList[index] != null
                     )
                     Indicator(outpostList[index], index);
-                else arrowList[index].SetActive(false);
+                else 
+                    arrowList[index].SetActive(false);
             }
+        }
         }
     }
 
