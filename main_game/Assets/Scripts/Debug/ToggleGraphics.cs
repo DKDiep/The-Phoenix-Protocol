@@ -17,6 +17,7 @@ public class ToggleGraphics : MonoBehaviour
 	private AmplifyColorEffect color;
 	private Smaa.SMAA smaa;
 	private LightShafts volumetricLighting;
+    private bool foundLight = false;
 	
 	void Start () 
 	{
@@ -59,9 +60,10 @@ public class ToggleGraphics : MonoBehaviour
             swap = false; 
         }
 
-        if(GameObject.Find("StarLight") != null)
+        if(!foundLight && GameObject.Find("StarLight") != null)
         {
             volumetricLighting = GameObject.Find("StarLight").GetComponent<LightShafts>();
+            foundLight = true;
         } 
 	}
 }
