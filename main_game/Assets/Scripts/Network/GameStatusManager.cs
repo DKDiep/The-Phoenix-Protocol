@@ -12,6 +12,7 @@ public class GameStatusManager : NetworkBehaviour
 
     private GameObject server;
     private PlayerController playerController;
+    private MusicManager musicManager;
 	// Use this for initialization
 	void Start () {
 		server = GameObject.Find("GameManager");
@@ -26,6 +27,9 @@ public class GameStatusManager : NetworkBehaviour
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
+            if(musicManager == null)
+                musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
+
             GameObject gameTimer = GameObject.Find("GameTimerText");
             gameTimer.SetActive(false);
 
@@ -34,9 +38,17 @@ public class GameStatusManager : NetworkBehaviour
             // Set an overlay on the screen
 			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
+            {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship and the crew were killed.";
+                musicManager.PlayMusic(2);
+            }
+
 			else
+            {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
+                musicManager.PlayMusic(2);
+            }
+
 
             if(playerController.GetRole() == RoleEnum.Camera)
             {
