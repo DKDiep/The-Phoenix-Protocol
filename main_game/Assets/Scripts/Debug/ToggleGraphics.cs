@@ -31,7 +31,7 @@ public class ToggleGraphics : MonoBehaviour
 		UpdateGraphics ();
 	}
 	
-	void UpdateGraphics()
+	public void UpdateGraphics()
 	{
 		enableGraphics = !enableGraphics;
 
@@ -46,6 +46,14 @@ public class ToggleGraphics : MonoBehaviour
 
 		Debug.Log ("Graphics are now " + enableGraphics);
 	}
+
+    public void SetCommandGraphics()
+    {
+        sessao.enabled = true;
+        smaa.enabled   = true;
+        bloom.enabled = true;
+
+    }
 
 	void Update () 
 	{

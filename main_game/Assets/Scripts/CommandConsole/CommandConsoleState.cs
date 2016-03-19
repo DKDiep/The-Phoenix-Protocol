@@ -57,7 +57,10 @@ public class CommandConsoleState : MonoBehaviour {
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
         stratMap = GameObject.Find("Map").GetComponent<StratMap>();
-        LoadSettings(); 
+        LoadSettings();
+
+        Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
+        Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
 
 		// Load the ship model into the scene. 
 		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
