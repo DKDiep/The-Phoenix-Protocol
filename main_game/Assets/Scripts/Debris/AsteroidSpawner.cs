@@ -104,7 +104,6 @@ public class AsteroidSpawner : MonoBehaviour
 	// aka "How to Kill Paralellism in a Nutshell"
 	private void SpawnAsteroid()
 	{
-        Debug.Log("Spawn asteroid called");
 		int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
 
 		// Spawn object and logic
