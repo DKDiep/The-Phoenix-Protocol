@@ -7,11 +7,10 @@
 
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class AsteroidRotation : NetworkBehaviour
+public class AsteroidRotation : MonoBehaviour
 {
-	[SyncVar] private float speed;
+	private float speed;
 	private GameObject player;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields	
@@ -21,18 +20,28 @@ public class AsteroidRotation : NetworkBehaviour
 	#pragma warning restore 0649
 
 	private MeshFilter myFilter;
+    private ObjectPoolManager poolManager;
 
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
 	{
-	    if(isServer)
-			speed = GetComponentInChildren<AsteroidLogic>().Speed;
-	    
-			player   = GameObject.Find("PlayerShip(Clone)");
-	   
-		myFilter = GetComponent<MeshFilter>();
+		player   = GameObject.Find("PlayerShip(Clone)");
+        myFilter = GetComponent<MeshFilter>();
 		StartCoroutine("AsteroidLOD");
 	}
+
+    public void SetSpeed(float tempSpeed)
+    {
+        if(poolManager == null)
+            poolManager = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
+        poolManager.SetAsteroidSpeed(gameObject.name, tempSpeed);
+        speed = tempSpeed;
+    }
+
+    public void SetClientSpeed(float tempSpeed)
+    {
+        speed = tempSpeed;
+    }
 	
 	void Update()
 	{

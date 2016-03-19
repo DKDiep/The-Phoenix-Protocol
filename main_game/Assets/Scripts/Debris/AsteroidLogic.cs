@@ -14,10 +14,6 @@ public class AsteroidLogic : MonoBehaviour
 
 	// Configuration parameters loaded through GameSettings
 	private int maxDroppedResources; // The maximum number of resources that can be dropped by an asteroid. 
-	private float minSpeed;
-	private float maxSpeed;
-
-	public float Speed { get; private set; }
 
 	private float health;
 	private int droppedResources;                 // The amount of resources dropped by the asteroid
@@ -30,13 +26,12 @@ public class AsteroidLogic : MonoBehaviour
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        
 		LoadSettings();
 	}
 
 	private void LoadSettings()
 	{
-		minSpeed 			= settings.AsteroidMinSpeed;
-		maxSpeed 			= settings.AsteroidMaxSpeed;
 		maxDroppedResources = settings.AsteroidMaxDroppedResources;
 	}
 
@@ -57,7 +52,6 @@ public class AsteroidLogic : MonoBehaviour
         transform.parent.gameObject.GetComponent<AsteroidCollision>().SetCollisionDamage(random);
         health = (transform.parent.localScale.x + transform.parent.localScale.y + transform.parent.localScale.z) * 2f;
 		transform.parent.rotation = Random.rotation;
-		Speed = Random.Range(minSpeed,maxSpeed);
 	}
 
 	public void SetStateReference(GameState state)

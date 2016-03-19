@@ -113,6 +113,18 @@ public class ObjectPoolManager : NetworkBehaviour
             RpcEnableObject(id, position, rotation, scale);
     }
 
+    public void SetAsteroidSpeed(string name, float speed)
+    {
+        int id = int.Parse(name);
+        RpcSetAsteroidSpeed(id, speed);
+    }
+
+    [ClientRpc]
+    public void RpcSetAsteroidSpeed(int id, float speed)
+    {
+        pool[id].GetComponent<AsteroidRotation>().SetClientSpeed(speed);
+    }
+
     public void DisableClientObject(string name)
     {
        int id = int.Parse(name);
