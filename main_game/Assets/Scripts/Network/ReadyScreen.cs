@@ -8,6 +8,7 @@ public class ReadyScreen : MonoBehaviour {
     private Button goButton;
 
     private ServerManager serverManager;
+    private MusicManager musicManager;
 
     void Awake()
     {
@@ -22,7 +23,9 @@ public class ReadyScreen : MonoBehaviour {
 
     void Start()
     {
-        serverManager.cutsceneManager.GetComponent<LoadingText>().MuteAudio();
+        //serverManager.cutsceneManager.GetComponent<LoadingText>().MuteAudio();
+        musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
+        musicManager.PlayMusic(1);
     }
 
     public void OnClickStartButton()
