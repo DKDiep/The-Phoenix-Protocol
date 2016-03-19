@@ -160,7 +160,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 6
   m_Type: 2
-  m_Color: {r: 0.6691177, g: 0.7809331, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8539554, b: 0.6691177, a: 1}
   m_Intensity: 1
   m_Range: 30
   m_SpotAngle: 30
@@ -399,7 +399,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
-        rgba: 4294963681
+        rgba: 4293000703
       maxColor:
         serializedVersion: 2
         rgba: 4294967295
@@ -1848,7 +1848,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
-        rgba: 4294961603
+        rgba: 4291032063
       maxColor:
         serializedVersion: 2
         rgba: 4294967295
@@ -3272,7 +3272,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
-        rgba: 4294959555
+        rgba: 4291034111
       maxColor:
         serializedVersion: 2
         rgba: 4294967295
@@ -4696,7 +4696,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
-        rgba: 4294959555
+        rgba: 4291033343
       maxColor:
         serializedVersion: 2
         rgba: 4294967295
@@ -6120,7 +6120,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
-        rgba: 4294962883
+        rgba: 4291034623
       maxColor:
         serializedVersion: 2
         rgba: 4294967295
