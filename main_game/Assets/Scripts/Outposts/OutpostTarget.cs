@@ -20,10 +20,11 @@ public class OutpostTarget : MonoBehaviour
         if(distance < 600)
             renderer.enabled = false;
         else
+        {
+            Vector3 v3 = player.transform.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(-v3);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, player.transform.eulerAngles.z);
             renderer.enabled = true;
-
-		Vector3 v3 = player.transform.position - transform.position;
-		transform.rotation = Quaternion.LookRotation(-v3);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, player.transform.eulerAngles.z);
+        }
 	}
 }
