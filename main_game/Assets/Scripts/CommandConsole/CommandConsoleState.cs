@@ -15,6 +15,9 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text upgradeButtonLabel;
     [SerializeField] private Text costLabel;
 
+    [SerializeField] Material defaultMat;
+    [SerializeField] Material highlightMat;
+
 
  
 
@@ -197,6 +200,34 @@ public class CommandConsoleState : MonoBehaviour {
             return true;
         }
         return false;
+    }
+
+    public void HighlightObject(GameObject obj)
+    {
+        if(obj != null)
+        {
+            Renderer renderer = obj.GetComponent<Renderer>();
+            Material[] mats = renderer.materials;
+
+            for(int j = 0; j < mats.Length; ++j)
+                mats[j] = highlightMat;
+
+            renderer.materials = mats;
+        }
+    }
+
+    public void UnhighlightObject(GameObject obj)
+    {
+        if(obj != null)
+        {
+            Renderer renderer = obj.GetComponent<Renderer>();
+            Material[] mats = renderer.materials;
+
+            for(int j = 0; j < mats.Length; ++j)
+                mats[j] = defaultMat;
+
+            renderer.materials = mats;
+        }
     }
 
     /// <summary>
