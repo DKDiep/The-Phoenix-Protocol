@@ -12,8 +12,6 @@ public class GameSettings : MonoBehaviour
 
 	[Header("Asteroid Logic")]
 	public int AsteroidMaxDroppedResources; // The maximum number of resources that can be dropped by an asteroid. 
-	public float AsteroidMinSpeed;
-	public float AsteroidMaxSpeed;
 
 	[Header("Asteroid Spawner")]
 	public int MaxAsteroids;            		// Maximum number of asteroids that can exist simultaneously
