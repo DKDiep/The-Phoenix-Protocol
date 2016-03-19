@@ -17,14 +17,15 @@ public class TargetScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-		Vector3 v3 = player.transform.position - transform.position;
-		transform.rotation = Quaternion.LookRotation(-v3);
         distance = Vector3.Distance(transform.position, player.transform.position);
 
         if(distance > 800f || distance < 25f)
             renderer.enabled = false;
         else
+        {
+            Vector3 v3 = player.transform.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(-v3);
             renderer.enabled = true;
-            
+        }    
 	}
 }
