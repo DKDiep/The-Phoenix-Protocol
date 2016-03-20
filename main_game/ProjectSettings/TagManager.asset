@@ -15,6 +15,7 @@ TagManager:
   - SpaceScene_LocalStar
   - Outpost
   - Resources
+  - SmartBomb
   layers:
   - Default
   - TransparentFX

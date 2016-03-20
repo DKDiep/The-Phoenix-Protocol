@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11438428}
   - 114: {fileID: 11432840}
   - 114: {fileID: 11460696}
+  - 114: {fileID: 11447670}
   m_Layer: 0
   m_Name: CommanderAbilities
   m_TagString: Untagged
@@ -52,6 +53,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c366308d1394b45ac02e1b7cd9d1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11447670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25ba783c33e844dcbfd29f0a002b1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smartBomb: {fileID: 116046, guid: 2242dfbbb211649d892836213c5abccd, type: 2}
 --- !u!114 &11460696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,7 +82,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: smartBomb
+      value: 
+      objectReference: {fileID: 116046, guid: 2242dfbbb211649d892836213c5abccd, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164280}

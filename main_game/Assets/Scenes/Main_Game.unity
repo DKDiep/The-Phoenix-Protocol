@@ -1532,7 +1532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 112660, guid: 4d97abc9e0fb8475caf2d1b64fda3cbc, type: 2}
-  size: 20
+  size: 100
   serverOnly: 0
   useInterpolation: 0
 --- !u!114 &1633265211
@@ -1645,6 +1645,18 @@ Prefab:
     - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
       propertyPath: shieldOverdriveCooldown
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: smartBombCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: smartBombRadius
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: smartBombDamage
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}

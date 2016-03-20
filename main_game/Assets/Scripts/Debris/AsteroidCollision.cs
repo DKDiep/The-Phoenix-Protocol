@@ -43,5 +43,10 @@ public class AsteroidCollision : MonoBehaviour
             if(myLogic != null)
 				myLogic.collision(1000f);
 		}
+        else if(col.gameObject.tag.Equals ("SmartBomb"))
+        {
+            if(myLogic != null)
+                myLogic.collision(1000f);
+        }
 	}
 }

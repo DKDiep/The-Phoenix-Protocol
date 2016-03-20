@@ -29,6 +29,8 @@ public class GameSettings : MonoBehaviour
     public float boostSpeedMultiplier;
     public float shieldOverdriveDuration;
     public float shieldOverdriveCooldown;
+    public float smartBombCooldown;
+    public float smartBombRadius;
 
 	[Header("Enemy Spawner")]
 	public float EnemyMinSpawnDistance;

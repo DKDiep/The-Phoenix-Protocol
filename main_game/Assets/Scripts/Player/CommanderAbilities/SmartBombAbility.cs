@@ -4,20 +4,20 @@ using System.Collections;
 public class SmartBombAbility : CommanderAbility {
 
     private float originalSpeed;
+    [SerializeField] GameObject smartBomb;
 
 	// Use this for initialization
 	private void Awake () 
     {
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-        cooldown = settings.boostCooldown;
-        duration = settings.boostDuration;
+        cooldown = settings.smartBombCooldown;
         state = GameObject.Find("GameManager").GetComponent<GameState>();
 	}
 
 	// Update is called once per frame
 	private void Update () 
     {
-	    if(Input.GetKeyDown(KeyCode.Alpha6))
+	    if(Input.GetKeyDown(KeyCode.Alpha9))
         {
             UseAbility();
         }
@@ -25,15 +25,13 @@ public class SmartBombAbility : CommanderAbility {
 
     internal override void ActivateAbility()
     {
-        Debug.Log("Boost ability enabled");
-        originalSpeed = state.GetShipSpeed();
-        state.SetShipSpeed (originalSpeed * settings.boostSpeedMultiplier);
+        Debug.Log("Smart bomb used");
+        Instantiate(smartBomb,state.PlayerShip.transform.position, Quaternion.identity);
     }
 
     internal override void DeactivateAbility()
     {
-        Debug.Log("Boost ability disabled");
-        state.SetShipSpeed(originalSpeed);
+
     }
 
 

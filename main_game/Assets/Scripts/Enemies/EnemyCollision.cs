@@ -38,5 +38,10 @@ public class EnemyCollision : MonoBehaviour
 			if(myLogic != null)
 				myLogic.collision(collisionDamage, -1);
         }
+        else if(col.gameObject.tag.Equals ("SmartBomb"))
+        {
+            if(myLogic != null)
+                myLogic.collision(1000f, -1);
+        }
     }
 }
