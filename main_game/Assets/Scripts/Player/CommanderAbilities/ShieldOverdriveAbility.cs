@@ -29,12 +29,14 @@ public class ShieldOverdriveAbility : CommanderAbility {
 
     internal override void ActivateAbility()
     {
+        Debug.Log("Shield ability enabled");
         originalShield = state.GetShipShield();
         abilityActive = true;
     }
 
     internal override void DeactivateAbility()
     {
+        Debug.Log("Shield ability disabled");
         abilityActive = false;
         state.SetShipShield(originalShield);
     }

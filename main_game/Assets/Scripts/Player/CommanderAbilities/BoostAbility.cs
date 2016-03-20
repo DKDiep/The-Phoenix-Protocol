@@ -25,12 +25,14 @@ public class BoostAbility : CommanderAbility {
 
     internal override void ActivateAbility()
     {
+        Debug.Log("Boost ability enabled");
         originalSpeed = state.GetShipSpeed();
         state.SetShipSpeed (originalSpeed * settings.boostSpeedMultiplier);
     }
 
     internal override void DeactivateAbility()
     {
+        Debug.Log("Boost ability disabled");
         state.SetShipSpeed(originalSpeed);
     }
 
