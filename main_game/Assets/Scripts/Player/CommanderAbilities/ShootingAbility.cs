@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shooting : CommanderAbility {
+public class ShootingAbility : CommanderAbility {
 
     [SerializeField] float readyDelay;
+    private GameObject shootAnchor;
 
 	// Use this for initialization
 	private void Awake () 
@@ -16,6 +17,8 @@ public class Shooting : CommanderAbility {
     {
 	    if(Input.GetMouseButtonDown(0))
         {
+            if(shootAnchor == null)
+                shootAnchor = GameObject.Find("CommanderShootAnchor");
             UseAbility();
         }
 	}
