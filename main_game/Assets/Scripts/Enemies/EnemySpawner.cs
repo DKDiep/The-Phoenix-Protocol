@@ -182,9 +182,10 @@ public class EnemySpawner : MonoBehaviour
 	{
 		// Spawn enemy and server logic
         GameObject enemyLogicObject = logicManager.RequestObject();
+        enemyObject = null;
 
         int random = Random.Range(1,101);
-        int type = -1;
+        int type = 0;
 
         if(random < gnatLimit)
             type = 0;
@@ -195,30 +196,26 @@ public class EnemySpawner : MonoBehaviour
         else if(random < lightningBugLimit)
             type = 3;
 
-        // Default enemy type is the Gnat
-        if(type == -1)
-            type = 0;
-
         if(type == 1)
             enemyObject = fireflyManager.RequestObject();
         else if(type == 2)
             enemyObject = termiteManager.RequestObject();
         else if(type == 3)
             enemyObject = lightningBugManager.RequestObject();
-        else
+        else if(type == 0)
         {
             enemyObject = gnatManager.RequestObject();
         }
 
         enemyObject.transform.position = spawnLocation.transform.position;
-        enemyLogicObject.transform.parent = enemyObject.transform;
-        enemyLogicObject.transform.localPosition = Vector3.zero;
 
 
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
 
 		ApplyEnemyType (enemyLogic, type); // random enemy type
+        enemyLogicObject.transform.parent = enemyObject.transform;
+        enemyLogicObject.transform.localPosition = Vector3.zero;
 		enemyLogic.SetControlObject(enemyObject);
 		enemyLogic.SetPlayer(state.PlayerShip);
 		enemyLogic.SetPlayerShipTargets(playerShipTargets);
@@ -235,6 +232,8 @@ public class EnemySpawner : MonoBehaviour
             lightningBugManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
+        enemyLogicObject.transform.parent = enemyObject.transform;
+        enemyLogicObject.transform.localPosition = Vector3.zero;
 	}
 
 	// Spawn an enemy with the default settings

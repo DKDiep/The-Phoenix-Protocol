@@ -12,23 +12,24 @@ public class EnemyCollision : MonoBehaviour
 {
     public float collisionDamage;
     private EnemyLogic myLogic;
-
-    void Start()
-    {
-        if(GetComponentInChildren<EnemyLogic>() != null)
-			myLogic = GetComponentInChildren<EnemyLogic>();
-    }
+    private ShipMovement shipMovement;
 
     void OnTriggerEnter (Collider col)
     {
+        myLogic = GetComponentInChildren<EnemyLogic>();
+
     	if(col.gameObject.tag.Equals ("Player"))
     	{
             GameObject hitObject = col.gameObject;
-			ShipMovement movementObject = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
-            if(movementObject != null)
-                movementObject.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+            if(shipMovement == null)
+			    shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
             
-			if(myLogic != null) myLogic.collision(1000f, -1);
+            shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+
+            Debug.Log("Enemy " + gameObject.name + " sending collision message to logic " + myLogic.gameObject.name);
+            
+			if(myLogic != null) 
+                myLogic.collision(1000f, -1);
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {

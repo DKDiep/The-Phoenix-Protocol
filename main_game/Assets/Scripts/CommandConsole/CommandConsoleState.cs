@@ -202,6 +202,7 @@ public class CommandConsoleState : MonoBehaviour {
         return false;
     }
 
+    // Sets all materials belonging to a gameobject to the highlight material
     public void HighlightObject(GameObject obj)
     {
         if(obj != null)
@@ -216,6 +217,7 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    // Restores original game object materials
     public void UnhighlightObject(GameObject obj)
     {
         if(obj != null)

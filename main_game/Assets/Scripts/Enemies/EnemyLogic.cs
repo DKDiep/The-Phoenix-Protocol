@@ -180,9 +180,6 @@ public class EnemyLogic : MonoBehaviour
         if(lightningBugManager == null)
             lightningBugManager      = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
 
-
-            //Debug.Log("My type is " + type);
-
         StartCoroutine("UpdateDelay");
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
@@ -553,51 +550,52 @@ public class EnemyLogic : MonoBehaviour
     // Detect collisions with other game objects
 	public void collision(float damage, int playerId)
 	{
-    if(enemyManager != null){
-		if (shield > damage)
-		{
-			shield -= damage;
-		}
-		else if (shield > 0)
-		{
-			float remDamage = damage - shield;
-			shield = 0;
+        if(enemyManager != null)
+        {
+    		if (shield > damage)
+    		{
+    			shield -= damage;
+    		}
+    		else if (shield > 0)
+    		{
+    			float remDamage = damage - shield;
+    			shield = 0;
 
-			health -= remDamage;
-		}
-		else if(health > damage)
-		{
-			health -= damage;
-		}
-		else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
-		{
-			if(playerId != -1)
-			{
-				// Update player score
-				gameState.AddToPlayerScore(playerId, 10);
-			}
+    			health -= remDamage;
+    		}
+    		else if(health > damage)
+    		{
+    			health -= damage;
+    		}
+    		else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
+    		{
+    			if(playerId != -1)
+    			{
+    				// Update player score
+    				gameState.AddToPlayerScore(playerId, 10);
+    			}
 
-            string removeName = transform.parent.gameObject.name;
+                string removeName = transform.parent.gameObject.name;
 
-			// Automatically collect resources from enemy ship
-			gameState.AddShipResources(droppedResources);
+    			// Automatically collect resources from enemy ship
+    			gameState.AddShipResources(droppedResources);
 
-			// Destroy Object
-            GameObject temp = explosionManager.RequestObject();
-            temp.transform.position = transform.position;
+    			// Destroy Object
+                GameObject temp = explosionManager.RequestObject();
+                temp.transform.position = transform.position;
 
-            explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
+                explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
 
-            //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
+                //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
 
-			gameState.RemoveEnemy (controlObject.gameObject);
-            //GetComponent<bl_MiniMapItem>().DestroyItem();
-           
-            transform.parent = null;
-            enemyManager.DisableClientObject(removeName);
-            enemyManager.RemoveObject(removeName);
-            enemyLogicManager.RemoveObject(gameObject.name);
-		}
+    			gameState.RemoveEnemy (controlObject.gameObject);
+                //GetComponent<bl_MiniMapItem>().DestroyItem();
+               
+                transform.parent = null;
+                enemyManager.DisableClientObject(removeName);
+                enemyManager.RemoveObject(removeName);
+                enemyLogicManager.RemoveObject(gameObject.name);
+    		}
         }
 	}
 
