@@ -5,6 +5,7 @@ public class ShieldOverdriveAbility : CommanderAbility {
 
     private float originalShield;
     private bool abilityActive = false;
+    private ShieldEffects shieldEffects;
 
 	// Use this for initialization
 	private void Awake () 
@@ -29,7 +30,11 @@ public class ShieldOverdriveAbility : CommanderAbility {
 
     internal override void ActivateAbility()
     {
+        if(shieldEffects == null)
+                shieldEffects = state.PlayerShip.GetComponentInChildren<ShieldEffects>();
+
         Debug.Log("Shield ability enabled");
+        shieldEffects.overdriveEnabled = true;
         originalShield = state.GetShipShield();
         abilityActive = true;
     }
@@ -37,6 +42,7 @@ public class ShieldOverdriveAbility : CommanderAbility {
     internal override void DeactivateAbility()
     {
         Debug.Log("Shield ability disabled");
+        shieldEffects.overdriveEnabled = false;
         abilityActive = false;
         state.SetShipShield(originalShield);
     }

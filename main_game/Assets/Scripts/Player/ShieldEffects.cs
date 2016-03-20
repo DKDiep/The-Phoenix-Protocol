@@ -20,12 +20,14 @@ public class ShieldEffects : NetworkBehaviour
 
 	private Color fullShield;  // Colour of shield when full
 	private Color emptyShield; // Color of shield when empty
+    private Color overdrive;
 	private Color fading;      // Intermediate colour
 	private Color startFade;   // Temporary colour used when fading
 	private Renderer myMat;
 	private float shieldAlpha; // Alpha value of shield colour
 	private float meshOffset;  // Positional offset from player ship mesh
 	private bool burstShield;  // Detect when shield is depleted
+    public bool overdriveEnabled = false;
 
     void Start() 
     {
@@ -42,43 +44,61 @@ public class ShieldEffects : NetworkBehaviour
 
         fullShield = new Color(0.20f, 0.57f, 1.0f);
         emptyShield = new Color(0.76f, 0.12f, 0.12f);
+        overdrive = new Color(0f,1f,0f);
         shieldAlpha = 0;
         burstShield = false;
     }
 
     void Update()
     {
-	   // When hit, fade in shield
-	  if(shieldAlpha > 0 && !burstShield)
-	  {
-		shieldAlpha -= 4f * Time.deltaTime;
-		Color shieldCol = Color.Lerp(Color.black, startFade, shieldAlpha);
-		myMat.material.SetColor("_InnerTint", shieldCol);
-		myMat.material.SetColor("_OuterTint", shieldCol);
-	  }
+        if(!overdriveEnabled)
+        {
+                // When hit, fade in shield
+          if(shieldAlpha > 0 && !burstShield)
+          {
+            shieldAlpha -= 4f * Time.deltaTime;
+            Color shieldCol = Color.Lerp(Color.black, startFade, shieldAlpha);
+            myMat.material.SetColor("_InnerTint", shieldCol);
+            myMat.material.SetColor("_OuterTint", shieldCol);
+          }
 
-	  // When shield is initially depleted, increase meshOffset and size for burst effect
-	  if(burstShield)
-	  {
-		if(meshOffset < 600 || shieldAlpha > 0f)
-		{
-		  meshOffset += 400f * Time.deltaTime;
-		  myMat.material.SetFloat("_Offset", meshOffset);
-		  shieldAlpha -= 2f * Time.deltaTime;
-		  Color shieldCol = Color.Lerp(Color.black, emptyShield, shieldAlpha);
-		  myMat.material.SetColor("_InnerTint", shieldCol);
-		  myMat.material.SetColor("_OuterTint", shieldCol);
+          // When shield is initially depleted, increase meshOffset and size for burst effect
+          if(burstShield)
+          {
+            if(meshOffset < 600 || shieldAlpha > 0f)
+            {
+              meshOffset += 400f * Time.deltaTime;
+              myMat.material.SetFloat("_Offset", meshOffset);
+              shieldAlpha -= 2f * Time.deltaTime;
+              Color shieldCol = Color.Lerp(Color.black, emptyShield, shieldAlpha);
+              myMat.material.SetColor("_InnerTint", shieldCol);
+              myMat.material.SetColor("_OuterTint", shieldCol);
 
-		}
-		else
-		{
-		  burstShield = false;
-		  meshOffset = 0.05f;
-		  myMat.material.SetFloat("_Offset", meshOffset);
-		  shieldAlpha = 0f;
-          
-		}
-	  }
+            }
+            else
+            {
+              burstShield = false;
+              meshOffset = 0.05f;
+              myMat.material.SetFloat("_Offset", meshOffset);
+              shieldAlpha = 0f;
+              
+            }
+          }
+        }
+        else
+        {
+            if(shieldAlpha < 1f)
+            {
+                shieldAlpha += 8f * Time.deltaTime;
+                Color shieldCol = Color.Lerp(Color.black, overdrive, shieldAlpha);
+                startFade = overdrive;
+                myMat.material.SetColor("_InnerTint", shieldCol);
+                myMat.material.SetColor("_OuterTint", shieldCol);
+            }
+
+
+        }
+
     }
 
     // When player is hit, initialise shield fade values

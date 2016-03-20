@@ -22,14 +22,15 @@ public class ShootingAbility : CommanderAbility {
     {
 	    if(Input.GetKeyDown(KeyCode.Alpha5))
         {
-            if(shootAnchor == null)
-                shootAnchor = GameObject.Find("CommanderShootAnchor");
             UseAbility();
         }
 	}
 
     internal override void ActivateAbility()
     {
+        if(shootAnchor == null)
+                shootAnchor = GameObject.Find("CommanderShootAnchor");
+
         if(bulletManager == null)
             bulletManager      = GameObject.Find("CommanderRocketManager").GetComponent<ObjectPoolManager>();
 
