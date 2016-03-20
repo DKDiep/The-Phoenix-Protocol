@@ -24,6 +24,7 @@ public class GameSettings : MonoBehaviour
 
     [Header("Commander Abilities")]
     public float shootCooldown;
+    public float projectileCount;
     public float boostDuration;
     public float boostCooldown;
     public float boostSpeedMultiplier;
