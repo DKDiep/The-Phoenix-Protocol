@@ -75,7 +75,7 @@ public class BulletLogic : MonoBehaviour
             mySrc = GetComponent<AudioSource>();
 		}
 
-		obj.transform.localScale = new Vector3(xScale, yScale, zScale);
+		//obj.transform.localScale = new Vector3(xScale, yScale, zScale);
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
 

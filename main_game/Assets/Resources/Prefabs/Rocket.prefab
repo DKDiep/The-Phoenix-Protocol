@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 408910}
   - 33: {fileID: 3339658}
   - 23: {fileID: 2366094}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rocket1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 451480}
   - 108: {fileID: 10891856}
   - 114: {fileID: 11416944}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 449068}
   - 198: {fileID: 19849802}
   - 199: {fileID: 19992214}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,9 +63,9 @@ GameObject:
   - 135: {fileID: 13547914}
   - 54: {fileID: 5482954}
   - 114: {fileID: 11432494}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rocket
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,7 +80,7 @@ GameObject:
   - 4: {fileID: 487182}
   - 198: {fileID: 19802770}
   - 199: {fileID: 19982330}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ParticlesSmoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3191,7 +3191,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: PlayerBullet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 186138}

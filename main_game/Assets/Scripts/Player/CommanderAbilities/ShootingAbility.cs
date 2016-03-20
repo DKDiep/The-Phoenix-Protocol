@@ -4,13 +4,17 @@ using System.Collections;
 public class ShootingAbility : CommanderAbility {
 
     [SerializeField] float readyDelay;
-    [SerializeField] GameObject projectile;
     private GameObject shootAnchor;
+    private ObjectPoolManager bulletManager;
+    private ObjectPoolManager logicManager;
+    private ObjectPoolManager impactManager;
+    private GameObject target;
 
 	// Use this for initialization
 	private void Awake () 
     {
         cooldown = readyDelay;
+        target = new GameObject();
 	}
 
 	// Update is called once per frame
@@ -26,7 +30,32 @@ public class ShootingAbility : CommanderAbility {
 
     internal override void AbilityEffect()
     {
-        Instantiate(projectile, shootAnchor.transform.position, shootAnchor.transform.rotation);
+
+        if(bulletManager == null)
+            bulletManager      = GameObject.Find("CommanderRocketManager").GetComponent<ObjectPoolManager>();
+
+        if(logicManager == null)
+            logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
+
+        if(impactManager == null)
+            impactManager      = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
+
+        GameObject obj = bulletManager.RequestObject();
+        obj.transform.position = shootAnchor.transform.position;
+        obj.transform.localScale = new Vector3(5f,5f,5f);
+
+        GameObject logic = logicManager.RequestObject();
+        BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+        logicComponent.SetParameters(0.1f, 250f, 5f);
+
+        logic.transform.parent = obj.transform;
+        target.transform.position = shootAnchor.transform.position;
+        target.transform.Translate(transform.forward * 1000f);
+
+        logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+
+        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+
     }
 
 
