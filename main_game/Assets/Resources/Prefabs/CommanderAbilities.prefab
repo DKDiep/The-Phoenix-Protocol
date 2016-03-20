@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11432840}
   - 114: {fileID: 11460696}
   - 114: {fileID: 11447670}
+  - 114: {fileID: 11474922}
   m_Layer: 0
   m_Name: CommanderAbilities
   m_TagString: Untagged
@@ -76,6 +77,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03ac76e8363645b78ee0250e1c04a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11474922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa90433140b14d2094c70cb52ce3b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emp: {fileID: 148212, guid: 0e5a5b520b83d4504a6267938161b972, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -86,7 +99,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: smartBomb
       value: 
-      objectReference: {fileID: 116046, guid: 2242dfbbb211649d892836213c5abccd, type: 2}
+      objectReference: {fileID: 148212, guid: 0e5a5b520b83d4504a6267938161b972, type: 2}
+    - target: {fileID: 0}
+      propertyPath: emp
+      value: 
+      objectReference: {fileID: 148212, guid: 0e5a5b520b83d4504a6267938161b972, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164280}
