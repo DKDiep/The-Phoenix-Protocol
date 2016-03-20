@@ -104,24 +104,31 @@ public class ShieldEffects : NetworkBehaviour
     // When player is hit, initialise shield fade values
     public void Impact(float value)
     {
-        Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
-        startFade = shieldCol;
-        myMat.material.SetColor("_InnerTint", shieldCol);
-        myMat.material.SetColor("_OuterTint", shieldCol);
-        shieldAlpha = 1f;
-        RpcClientImpact(value);
+        if(!overdriveEnabled)
+        {
+            Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
+            startFade = shieldCol;
+            myMat.material.SetColor("_InnerTint", shieldCol);
+            myMat.material.SetColor("_OuterTint", shieldCol);
+            shieldAlpha = 1f;
+            RpcClientImpact(value);
+        }
+
     }
 
     // When shield is down, initialise burst effect values
     public void ShieldDown()
     {
-        Debug.Log("Shield is down");
-        meshOffset = 0.05f;
-        burstShield = true;
-        myMat.material.SetColor("_InnerTint", emptyShield);
-        myMat.material.SetColor("_OuterTint", emptyShield);
-        shieldAlpha = 1f;
-        RpcClientShieldDown();
+        if(!overdriveEnabled)
+        {
+            meshOffset = 0.05f;
+            burstShield = true;
+            myMat.material.SetColor("_InnerTint", emptyShield);
+            myMat.material.SetColor("_OuterTint", emptyShield);
+            shieldAlpha = 1f;
+            RpcClientShieldDown();
+        }
+
     }
 
     // Client RPC calls are duplicates of the server functions, makes sure effect is also visible on clients
