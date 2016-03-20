@@ -30,7 +30,6 @@ public class ShootingAbility : CommanderAbility {
 
     internal override void AbilityEffect()
     {
-
         if(bulletManager == null)
             bulletManager      = GameObject.Find("CommanderRocketManager").GetComponent<ObjectPoolManager>();
 
