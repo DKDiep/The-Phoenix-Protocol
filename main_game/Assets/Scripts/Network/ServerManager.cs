@@ -254,6 +254,10 @@ public class ServerManager : NetworkBehaviour
         playerShootLogic.transform.parent = playerShip.transform;
         //playerShootLogic.GetComponent<PlayerShooting>().Setup();
 
+        GameObject commander = Instantiate(Resources.Load("Prefabs/CommanderAbilities", typeof(GameObject))) as GameObject;
+        commander.transform.parent = playerShip.transform;
+        commander.transform.localPosition = Vector3.zero;
+
         //Set up the game state
         playerController.SetControlledObject(playerShip);
     }

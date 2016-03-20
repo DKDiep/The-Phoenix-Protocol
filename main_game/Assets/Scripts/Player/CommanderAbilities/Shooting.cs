@@ -22,7 +22,7 @@ public class Shooting : CommanderAbility {
 
     internal override void AbilityEffect()
     {
-        Debug.Log("Shoot");
+        Debug.Log("Commander Shoot");
     }
 
 

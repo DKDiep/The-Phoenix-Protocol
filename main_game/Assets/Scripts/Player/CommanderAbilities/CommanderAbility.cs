@@ -19,7 +19,7 @@ public abstract class CommanderAbility : MonoBehaviour {
         if(ready)
         {
             ready = false;
-            CoolDown();
+            StartCoroutine("CoolDown");
             AbilityEffect();
         }
      }
