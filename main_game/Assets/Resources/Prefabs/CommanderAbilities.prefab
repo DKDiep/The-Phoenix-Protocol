@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 427586}
   - 114: {fileID: 11438428}
+  - 114: {fileID: 11432840}
   m_Layer: 0
   m_Name: CommanderAbilities
   m_TagString: Untagged
@@ -28,6 +29,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11432840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6fb0935839fa465fa4dd4ba6b830f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11438428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c366308d1394b45ac02e1b7cd9d1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  readyDelay: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

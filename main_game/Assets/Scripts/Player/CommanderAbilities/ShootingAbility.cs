@@ -20,7 +20,7 @@ public class ShootingAbility : CommanderAbility {
 	// Update is called once per frame
 	private void Update () 
     {
-	    if(Input.GetMouseButtonDown(0))
+	    if(Input.GetKeyDown(KeyCode.Alpha5))
         {
             if(shootAnchor == null)
                 shootAnchor = GameObject.Find("CommanderShootAnchor");
@@ -28,7 +28,7 @@ public class ShootingAbility : CommanderAbility {
         }
 	}
 
-    internal override void AbilityEffect()
+    internal override void ActivateAbility()
     {
         if(bulletManager == null)
             bulletManager      = GameObject.Find("CommanderRocketManager").GetComponent<ObjectPoolManager>();
@@ -55,6 +55,11 @@ public class ShootingAbility : CommanderAbility {
 
         bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
+    }
+
+    internal override void DeactivateAbility()
+    {
+        // No operation
     }
 
 
