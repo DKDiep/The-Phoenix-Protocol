@@ -270,6 +270,16 @@ public class ShipMovement : MonoBehaviour
         if(myDamage == null) 
             myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
 
+
+        // Check to see if the hull is hit, otherwise damage component
+        if (component == ComponentType.None)
+        {
+            gameState.DamageShip(damage);
+        }
+        else
+            gameState.ReduceComponentHealth(component, damage);
+           
+
         // Show directional damage effect
 		if(left && !(up || down))
 		{
@@ -295,21 +305,13 @@ public class ShipMovement : MonoBehaviour
 		{
 			myDamage.Damage(7,damage, gameState.GetShipHealth());
 		}
-		if(up && !(left || right))
+		else if(up && !(left || right))
 		{
 			myDamage.Damage(1,damage, gameState.GetShipHealth());
 		}
-		else if(down && !(up || down))
+		else
 		{
 			myDamage.Damage(3,damage, gameState.GetShipHealth());
 		}
-			
-		// Check to see if the hull is hit, otherwise damage component
-		if (component == ComponentType.None)
-		{
-			gameState.DamageShip(damage);
-		}
-        else
-            gameState.ReduceComponentHealth(component, damage);
 	}
 }

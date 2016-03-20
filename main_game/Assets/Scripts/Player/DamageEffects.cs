@@ -57,7 +57,7 @@ public class DamageEffects : NetworkBehaviour
 	public void Damage(int dir, float damage, float hp)
 	{
         health           = hp;
-        lowHealth.amount = Mathf.Clamp(0.25f - ((float)health/100f),0f,0.25f);
+        lowHealth.amount = Mathf.Clamp(0.35f - ((float)health/100f),0f,0.35f);
 		direction        = dir;
 		alpha            = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}
