@@ -384,7 +384,7 @@ public class EnemyLogic : MonoBehaviour
 			// if (state == EnemyAIState.Wait) do nothing
 		}
 
-        if(type == EnemyType.Gnat || type == EnemyType.LightningBug)
+        if(type == EnemyType.Termite || type == EnemyType.LightningBug)
             shoot = false;
        
 
