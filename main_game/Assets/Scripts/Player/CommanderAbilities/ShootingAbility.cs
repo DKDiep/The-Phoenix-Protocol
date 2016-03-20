@@ -4,6 +4,7 @@ using System.Collections;
 public class ShootingAbility : CommanderAbility {
 
     [SerializeField] float readyDelay;
+    [SerializeField] GameObject projectile;
     private GameObject shootAnchor;
 
 	// Use this for initialization
@@ -25,7 +26,7 @@ public class ShootingAbility : CommanderAbility {
 
     internal override void AbilityEffect()
     {
-        Debug.Log("Commander Shoot");
+        Instantiate(projectile, shootAnchor.transform.position, shootAnchor.transform.rotation);
     }
 
 
