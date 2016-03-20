@@ -84,7 +84,6 @@ public class ShieldEffects : NetworkBehaviour
     // When player is hit, initialise shield fade values
     public void Impact(float value)
     {
-        Debug.Log("Shield hit: " + value);
         Color shieldCol = Color.Lerp(emptyShield, fullShield, value / 100f);
         startFade = shieldCol;
         myMat.material.SetColor("_InnerTint", shieldCol);

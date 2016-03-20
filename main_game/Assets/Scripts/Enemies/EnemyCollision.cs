@@ -25,8 +25,6 @@ public class EnemyCollision : MonoBehaviour
 			    shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
             
             shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
-
-            Debug.Log("Enemy " + gameObject.name + " sending collision message to logic " + myLogic.gameObject.name);
             
 			if(myLogic != null) 
                 myLogic.collision(1000f, -1);
