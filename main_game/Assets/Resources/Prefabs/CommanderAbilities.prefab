@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 427586}
   - 114: {fileID: 11438428}
   - 114: {fileID: 11432840}
+  - 114: {fileID: 11460696}
   m_Layer: 0
   m_Name: CommanderAbilities
   m_TagString: Untagged
@@ -49,6 +50,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40c366308d1394b45ac02e1b7cd9d1b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11460696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03ac76e8363645b78ee0250e1c04a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &100100000

@@ -569,7 +569,7 @@ public class GameState : NetworkBehaviour {
 	/// Sets the ship shield.
 	/// </summary>
 	/// <param name="shield">Shield.</param>
-	private void SetShipShield(float shield)
+	public void SetShipShield(float shield)
 	{
 		shipShield = shield;
 	}
