@@ -7,13 +7,13 @@ public class ShootingAbility : CommanderAbility {
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
-    private GameObject target;
+    [SerializeField] GameObject enemyFinderObject;
 
 	// Use this for initialization
 	private void Awake () 
     {
-        target = new GameObject();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        state = GameObject.Find("GameManager").GetComponent<GameState>();
         cooldown = settings.shootCooldown;
 	}
 
@@ -25,6 +25,40 @@ public class ShootingAbility : CommanderAbility {
             UseAbility();
         }
 	}
+
+    private IEnumerator FireMissiles(EnemyFinder enemyFinder)
+    {
+        yield return new WaitForSeconds(0.1f);
+        if(enemyFinder.searchCompleted)
+        {
+            for(int i = 0; i < settings.projectileCount; i++)
+            {
+                if(enemyFinder.enemyList[i] != null)
+                {
+                    GameObject obj = bulletManager.RequestObject();
+                    obj.transform.position = shootAnchor.transform.position;
+                    obj.transform.localScale = new Vector3(5f,5f,5f);
+
+                    GameObject logic = logicManager.RequestObject();
+                    BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+                    logicComponent.SetParameters(0.1f, 250f, 5f);
+
+                    logic.transform.parent = obj.transform;
+
+                    logicComponent.SetDestination(enemyFinder.enemyList[i].transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+
+                    bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+                }
+            }
+
+            Destroy(enemyFinder.gameObject);
+        }
+        else
+        {
+            StartCoroutine(FireMissiles(enemyFinder));
+        }
+
+    }
 
     internal override void ActivateAbility()
     {
@@ -40,27 +74,11 @@ public class ShootingAbility : CommanderAbility {
         if(impactManager == null)
             impactManager      = GameObject.Find("AsteroidExplosionManager").GetComponent<ObjectPoolManager>();
 
-        for(int i = 0; i < settings.projectileCount; i++)
-        {
-            GameObject obj = bulletManager.RequestObject();
-            obj.transform.position = shootAnchor.transform.position;
-            obj.transform.localScale = new Vector3(5f,5f,5f);
+        GameObject temp = Instantiate(enemyFinderObject, state.PlayerShip.transform.position, Quaternion.identity) as GameObject;
+        EnemyFinder enemyFinder = temp.GetComponent<EnemyFinder>();
 
-            GameObject logic = logicManager.RequestObject();
-            BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-            logicComponent.SetParameters(0.1f, 250f, 5f);
-
-            logic.transform.parent = obj.transform;
-            target.transform.position = shootAnchor.transform.position;
-            target.transform.Translate(transform.forward * 1000f);
-
-            logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
-
-            bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
-        }
-
-
-    }
+        StartCoroutine(FireMissiles(enemyFinder));
+     }
 
     internal override void DeactivateAbility()
     {

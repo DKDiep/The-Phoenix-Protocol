@@ -17,6 +17,7 @@ TagManager:
   - Resources
   - SmartBomb
   - EMP
+  - TargetFinder
   layers:
   - Default
   - TransparentFX

@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c366308d1394b45ac02e1b7cd9d1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyFinderObject: {fileID: 138186, guid: 2ad4b4c2a949a41a5aff572bfcbced58, type: 2}
 --- !u!114 &11447670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,6 +105,14 @@ Prefab:
       propertyPath: emp
       value: 
       objectReference: {fileID: 148212, guid: 0e5a5b520b83d4504a6267938161b972, type: 2}
+    - target: {fileID: 0}
+      propertyPath: enemyFinder
+      value: 
+      objectReference: {fileID: 138186, guid: 2ad4b4c2a949a41a5aff572bfcbced58, type: 2}
+    - target: {fileID: 0}
+      propertyPath: enemyFinderObject
+      value: 
+      objectReference: {fileID: 138186, guid: 2ad4b4c2a949a41a5aff572bfcbced58, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 164280}
