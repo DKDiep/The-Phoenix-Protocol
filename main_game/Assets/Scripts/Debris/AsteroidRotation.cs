@@ -10,7 +10,7 @@ using System.Collections;
 
 public class AsteroidRotation : MonoBehaviour
 {
-	private float speed;
+	private float speed, distance;
 	private GameObject player;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields	
@@ -45,12 +45,13 @@ public class AsteroidRotation : MonoBehaviour
 	
 	void Update()
 	{
-		transform.Rotate(transform.forward * speed * Time.deltaTime);
+        if(distance < 800)
+		    transform.Rotate(transform.forward * speed * Time.deltaTime);
 	}
 
 	IEnumerator AsteroidLOD()
 	{
-		float distance = Vector3.Distance(transform.position, player.transform.position);
+		distance = Vector3.Distance(transform.position, player.transform.position);
 		if(distance < 250)
 		    myFilter.mesh = highPoly;
 		else if(distance < 500)
