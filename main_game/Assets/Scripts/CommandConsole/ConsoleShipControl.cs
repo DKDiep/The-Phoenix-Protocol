@@ -10,6 +10,9 @@ public class ConsoleShipControl : MonoBehaviour {
 	private Quaternion rotation;
 	private float xDeg, yDeg;
 
+    private Material defaultMat;
+    private Material highlightMat;
+
 	void Start () {
 
  
@@ -27,5 +30,59 @@ public class ConsoleShipControl : MonoBehaviour {
 			transform.rotation = rotation;
 		}
 	}
-        
+  
+    public void HighlightComponent(int component)
+    {
+        Transform[] children = gameObject.GetComponentsInChildren<Transform>();
+        foreach (Transform child in children) {
+            if(child.name.Contains("Bridge") || child.name.Contains("Turret") || child.name.Contains("Engine")) 
+                UnhighlightObject(child.gameObject);
+        }
+        foreach (Transform child in children) {
+            if(component == 0 && (child.name.Contains("Bridge"))) 
+                HighlightObject(child.gameObject); 
+            if(component == 1 && (child.name.Contains("Turret"))) 
+                HighlightObject(child.gameObject);
+            if(component == 2 && (child.name.Contains("Engine"))) 
+                HighlightObject(child.gameObject);
+            if(component == 3 && (child.name.Contains("Bridge"))) 
+                HighlightObject(child.gameObject);
+        }
+    }
+
+    public void SetMaterials(Material defaultMat, Material highlightMat) 
+    {
+        this.defaultMat = defaultMat;
+        this.highlightMat = highlightMat;
+    }
+
+    // Sets all materials belonging to a gameobject to the highlight material
+    public void HighlightObject(GameObject obj)
+    {
+        if(obj != null)
+        {
+            Renderer renderer = obj.GetComponent<Renderer>();
+            Material[] mats = renderer.materials;
+
+            for(int j = 0; j < mats.Length; ++j)
+                mats[j] = highlightMat;
+
+            renderer.materials = mats;
+        }
+    }
+
+    // Restores original game object materials
+    public void UnhighlightObject(GameObject obj)
+    {
+        if(obj != null)
+        {
+            Renderer renderer = obj.GetComponent<Renderer>();
+            Material[] mats = renderer.materials;
+
+            for(int j = 0; j < mats.Length; ++j)
+                mats[j] = defaultMat;
+
+            renderer.materials = mats;
+        }
+    }
 }

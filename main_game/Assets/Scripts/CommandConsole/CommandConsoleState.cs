@@ -18,9 +18,6 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] Material defaultMat;
     [SerializeField] Material highlightMat;
 
-
- 
-
 	[SerializeField] private GameObject newsFeed;
 
     [SerializeField] private GameObject[] levelIndicator;
@@ -53,6 +50,8 @@ public class CommandConsoleState : MonoBehaviour {
     private int droneInitialCost;
     private int storageInitialCost;
 
+    private ConsoleShipControl shipControl;
+
     Color upgradeDefaultColor = new Vector4(27f/255f, 46f/255f, 91f/255f, 200f/255f);
 
     void Start () {
@@ -70,6 +69,8 @@ public class CommandConsoleState : MonoBehaviour {
         ship.transform.position = new Vector3(15, -7, -1950);
         ship.transform.eulerAngles = new Vector3(0, -140f, 0);
 		ship.AddComponent<ConsoleShipControl>();
+        shipControl = ship.GetComponent<ConsoleShipControl>();
+        shipControl.SetMaterials(defaultMat, highlightMat);
 
 		UpdateAllText();
 
@@ -202,36 +203,6 @@ public class CommandConsoleState : MonoBehaviour {
         return false;
     }
 
-    // Sets all materials belonging to a gameobject to the highlight material
-    public void HighlightObject(GameObject obj)
-    {
-        if(obj != null)
-        {
-            Renderer renderer = obj.GetComponent<Renderer>();
-            Material[] mats = renderer.materials;
-
-            for(int j = 0; j < mats.Length; ++j)
-                mats[j] = highlightMat;
-
-            renderer.materials = mats;
-        }
-    }
-
-    // Restores original game object materials
-    public void UnhighlightObject(GameObject obj)
-    {
-        if(obj != null)
-        {
-            Renderer renderer = obj.GetComponent<Renderer>();
-            Material[] mats = renderer.materials;
-
-            for(int j = 0; j < mats.Length; ++j)
-                mats[j] = defaultMat;
-
-            renderer.materials = mats;
-        }
-    }
-
     /// <summary>
     /// Confirms the upgrade, is called when the engineer has completed the upgrade.
     /// </summary>
@@ -262,7 +233,7 @@ public class CommandConsoleState : MonoBehaviour {
         }
 
     }
-
+        
     public void HighlightComponent(int component)
     {
         for(int i = 0; i < 6; i++)
@@ -270,7 +241,10 @@ public class CommandConsoleState : MonoBehaviour {
             backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
         }
         backgrounds[component].GetComponent<Image>().color = new Vector4(28f/255f, 47f/255f, 98f/255f, 1);
+
+        shipControl.HighlightComponent(component);
     }
+
     public void OnClickUpgrade(int component)
     {
         upgradeArea.SetActive(true);
