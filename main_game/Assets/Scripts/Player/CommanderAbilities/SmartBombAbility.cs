@@ -26,7 +26,8 @@ public class SmartBombAbility : CommanderAbility {
     internal override void ActivateAbility()
     {
         Debug.Log("Smart bomb used");
-        Instantiate(smartBomb,state.PlayerShip.transform.position, Quaternion.identity);
+        GameObject temp = Instantiate(smartBomb,state.PlayerShip.transform.position, Quaternion.identity) as GameObject;
+        ServerManager.NetworkSpawn(temp);
     }
 
     internal override void DeactivateAbility()
