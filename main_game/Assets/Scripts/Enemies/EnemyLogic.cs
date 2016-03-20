@@ -23,6 +23,7 @@ public class EnemyLogic : MonoBehaviour
 	private float shieldRechargeRate; 			// Units of shield to increase per second
 	private AudioClip fireSnd;
 	private bool randomPitch;
+    private GameObject empEffect;
 
 	/* These fields are set when assigning a type to the enemy. They should not be initilaised manually.
 	 * Please use the internal modifier for all of them to make it clear that they are set somewhere else in code,
@@ -388,6 +389,17 @@ public class EnemyLogic : MonoBehaviour
        
 
 	}
+
+    public IEnumerator EMPEffect()
+    {
+        empEffect = transform.parent.Find("EMPEffect").gameObject;
+        float originalSpeed = speed;
+        speed = 0;
+        empEffect.SetActive(true);
+        yield return new WaitForSeconds(settings.empDuration);
+        empEffect.SetActive(false);
+        speed = originalSpeed;
+    }
 
 	// When not engaged, try and get closer to the player
 	private void MoveTowardsPlayer()

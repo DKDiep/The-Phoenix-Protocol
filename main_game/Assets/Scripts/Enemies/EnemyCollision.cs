@@ -43,5 +43,10 @@ public class EnemyCollision : MonoBehaviour
             if(myLogic != null)
                 myLogic.collision(1000f, -1);
         }
+        else if(col.gameObject.tag.Equals ("EMP"))
+        {
+            if(myLogic != null)
+                StartCoroutine(myLogic.EMPEffect());
+        }
     }
 }

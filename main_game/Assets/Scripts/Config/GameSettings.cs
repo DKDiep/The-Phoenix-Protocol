@@ -31,6 +31,7 @@ public class GameSettings : MonoBehaviour
     public float shieldOverdriveCooldown;
     public float empCooldown;
     public float empRadius;
+    public float empDuration;
     public float smartBombCooldown;
     public float smartBombRadius;
 
