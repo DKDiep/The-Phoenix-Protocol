@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ShootingAbility : CommanderAbility {
 
-    [SerializeField] float readyDelay;
     private GameObject shootAnchor;
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager logicManager;
@@ -13,8 +12,9 @@ public class ShootingAbility : CommanderAbility {
 	// Use this for initialization
 	private void Awake () 
     {
-        cooldown = readyDelay;
         target = new GameObject();
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        cooldown = settings.shootCooldown;
 	}
 
 	// Update is called once per frame

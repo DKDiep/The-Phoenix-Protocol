@@ -5,6 +5,7 @@ public abstract class CommanderAbility : MonoBehaviour {
 
     internal float cooldown;
     internal bool ready = true;
+    internal GameSettings settings;
 
     internal abstract void AbilityEffect();
 
