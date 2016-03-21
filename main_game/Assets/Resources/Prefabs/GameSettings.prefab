@@ -88,6 +88,7 @@ MonoBehaviour:
   EngineerMouseLookMaximumX: 90
   EngineerMouseLookSmooth: 0
   EngineerMouseLookSmoothTime: 5
+  EngineerMaxDistance: 50
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100

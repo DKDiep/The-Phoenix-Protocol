@@ -26,6 +26,7 @@ public class EngineerController : NetworkBehaviour
     private Vector2 input;
     private float m_StepCycle = 0f;
     private float m_NextStep;
+    private float engineerMaxDistance;
 
     private float componentHealth;
     private int componentUpgradeLevel;
@@ -96,6 +97,7 @@ public class EngineerController : NetworkBehaviour
 	private void LoadSettings()
 	{
 		walkSpeed = settings.EngineerWalkSpeed;
+        engineerMaxDistance = settings.EngineerMaxDistance;
 	}
 
     [Command]
@@ -411,7 +413,10 @@ public class EngineerController : NetworkBehaviour
                 actualMove.y += jumpSpeed;
             }
 
-            transform.position += actualMove;
+            // Only move the engineer if it is within the bounds of the player ship
+            Vector3 newPosition = transform.position + actualMove;
+            if (Vector3.Distance(newPosition, playerShip.transform.position) < engineerMaxDistance)
+                transform.position = newPosition;
         }
 
         // Do upgrades/repairs
