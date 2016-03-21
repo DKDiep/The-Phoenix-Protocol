@@ -136,6 +136,12 @@ MonoBehaviour:
   DroneDescription: 'The drone is a remote device that enables officers to upgrade
     parts of the ship. '
   StorageDescription: Enables the ship to carry more resources.
+  ShieldsUpgradeLevels: 3
+  TurretsUpgradeLevels: 5
+  EnginesUpgradeLevels: 3
+  HullUpgradeLevels: 5
+  DroneUpgradeLevels: 2
+  StorageUpgradeLevels: 4
   BulletSpeed: 600
   PlayerRateOfFire: 0.025
   PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
@@ -230,6 +236,30 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: StorageDescription
       value: Enables the ship to carry more resources.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ShieldsUpgradeLevels
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: TurretsUpgradeLevels
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EnginesUpgradeLevels
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: HullUpgradeLevels
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DroneUpgradeLevels
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: StorageUpgradeLevels
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
