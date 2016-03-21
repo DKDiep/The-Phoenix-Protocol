@@ -49,6 +49,7 @@ MonoBehaviour:
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
+  AsteroidVisibilityEdgeSpawnMaxAngle: 45
   shootCooldown: 4
   projectileCount: 8
   maxTargetRadius: 600

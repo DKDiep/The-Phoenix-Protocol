@@ -24,6 +24,7 @@ public class GameSettings : MonoBehaviour
 	public int MaxAsteroidsSpawnedPerFrame;
 	public float AsteroidAvgSize;               // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
 	public float AsteroidFieldSpacingFactor;    // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
+	public float AsteroidVisibilityEdgeSpawnMaxAngle; // The maximum rotation angle on the x and y axes when spawning on the visibility edge
 
     [Header("Commander Abilities")]
     public float shootCooldown;

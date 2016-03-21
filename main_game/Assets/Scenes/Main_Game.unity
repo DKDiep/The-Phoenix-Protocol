@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 176114, guid: a75ec3e4bf14c4b63aac7ac0788b96b3, type: 2}
-  size: 1000
+  size: 5000
   serverOnly: 1
   useInterpolation: 0
 --- !u!114 &707978710
@@ -641,7 +641,7 @@ MonoBehaviour:
   - {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
   - {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
   - {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
-  size: 1000
+  size: 5000
   serverOnly: 0
   useInterpolation: 0
 --- !u!114 &842514792

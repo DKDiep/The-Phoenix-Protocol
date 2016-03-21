@@ -27,6 +27,7 @@ public class AsteroidRotation : MonoBehaviour
 	private MeshFilter myFilter;
     private ObjectPoolManager poolManager;
 	private new Renderer renderer;
+	private AsteroidSpawner spawner;
 
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
@@ -34,6 +35,7 @@ public class AsteroidRotation : MonoBehaviour
 		player   = GameObject.Find("PlayerShip(Clone)");
         myFilter = GetComponent<MeshFilter>();
 		renderer = GetComponent<Renderer>();
+		spawner  = GameObject.Find("Spawner").GetComponent<AsteroidSpawner>();
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -64,7 +66,13 @@ public class AsteroidRotation : MonoBehaviour
         if(distance < 800)
 		    transform.Rotate(transform.forward * speed * Time.deltaTime);
 
-		renderer.enabled = distance < maxRenderDistance;
+		bool newState = distance < maxRenderDistance, oldState = renderer.enabled;
+		renderer.enabled = newState;
+		if (newState != oldState)
+		{
+			spawner.RegisterVisibilityChange(newState);
+			Debug.Log("New visibility: " + newState);
+		}
 	}
 
 	IEnumerator AsteroidLOD()

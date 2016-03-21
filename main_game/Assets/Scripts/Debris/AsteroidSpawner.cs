@@ -24,11 +24,14 @@ public class AsteroidSpawner : MonoBehaviour
 	private int maxSpawnedPerFrame;
 	private float avgSize;               // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
 	private float fieldSpacingFactor;    // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
+	private float visibilityEdgeSpawnMaxAngle; // The maximum rotation angle on the x and y axes when spawning on the visibility edge
+	private int visibilityEdgeDistance;
 
     private GameObject player, spawnLocation;
 	private GameState state;
 
 	private int numAsteroids;
+	private int visibleAsteroids;
 
 	private bool fieldSpawned = false;
 
@@ -38,7 +41,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     void Start ()
     {
-		numAsteroids = 0;
+		numAsteroids = visibleAsteroids = 0;
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -68,7 +71,11 @@ public class AsteroidSpawner : MonoBehaviour
 		maxDistance 	   = settings.AsteroidMaxDistance;
 		maxSpawnedPerFrame = settings.MaxAsteroidsSpawnedPerFrame;
 		avgSize 		   = settings.AsteroidAvgSize;
+
 		fieldSpacingFactor = settings.AsteroidFieldSpacingFactor;
+
+		visibilityEdgeSpawnMaxAngle = settings.AsteroidVisibilityEdgeSpawnMaxAngle;
+		visibilityEdgeDistance      = settings.AsteroidMaxRenderDistance;
 	}
 
     void Update () 
@@ -152,6 +159,7 @@ public class AsteroidSpawner : MonoBehaviour
 	public void DecrementNumAsteroids()
 	{
 		numAsteroids--;
+		visibleAsteroids--;
 	}
 
 	// Create an asteroid field centred around position with specified dimensions and density
@@ -161,6 +169,39 @@ public class AsteroidSpawner : MonoBehaviour
 		count *= density / fieldSpacingFactor;
 
 		CreateAsteroidField(position, count);
+	}
+
+	/// <summary>
+	/// Registers that an asteroid has gone in or out of view.
+	/// </summary>
+	/// <param name="visible">The new visibility state.</param>
+	public void RegisterVisibilityChange(bool visible)
+	{
+		if (visible)
+			visibleAsteroids++;
+		else
+			visibleAsteroids--;
+
+		// After the initial spawning of all asteroids, spawn a new one every time one goes out of view
+		if (visibleAsteroids < maxAsteroids && numAsteroids >= maxAsteroids)
+			SpawnAsteroidAtVisibilityEdge();
+	}
+
+	/// <summary>
+	/// Spawns a new asteroid on the player's visibility edge, i.e. as far as they can see.
+	/// 
+	/// This should be called when a new asteroid is needed affter one has moved out of view.
+	/// </summary>
+	private void SpawnAsteroidAtVisibilityEdge()
+	{
+		spawnLocation.transform.position = player.transform.position;
+
+		float halfAngle = visibilityEdgeSpawnMaxAngle / 2.0f;
+		spawnLocation.transform.rotation = player.transform.rotation;
+		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle), Random.Range(-halfAngle, halfAngle), 0);
+		spawnLocation.transform.Translate(spawnLocation.transform.forward * visibilityEdgeDistance);
+
+		SpawnAsteroid();
 	}
 
     // Remove asteroid from GameState if destroyed
