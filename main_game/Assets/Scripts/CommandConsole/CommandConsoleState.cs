@@ -34,7 +34,6 @@ public class CommandConsoleState : MonoBehaviour {
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
 
-    private bool upgrade = true;
     private int shieldsLevel = 1;
     private int engineLevel = 1;
     private int turretsLevel = 1;
