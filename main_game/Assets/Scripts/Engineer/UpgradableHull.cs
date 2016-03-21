@@ -5,12 +5,6 @@
 /// </summary>
 public class UpgradableHull : UpgradableComponent
 {
-	/// <summary>
-	/// The maximum ship health.
-	/// </summary>
-	/// <value>The maximum health value.</value>
-	public int MaxHealth { get; private set; }
-
 	public UpgradableHull() : base()
 	{
 		this.Type = ComponentType.Bridge;
