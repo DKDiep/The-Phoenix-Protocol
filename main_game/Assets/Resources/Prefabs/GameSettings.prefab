@@ -107,6 +107,7 @@ MonoBehaviour:
   HardMinEnemies: 20
   HardMaxEnemies: 30
   OutpostMinDistance: 800
+  OutpostGuardTriggerDistance: 600
   PlayerShipTurnSpeed: 5.5
   PlayerShipMaxTurnSpeed: 3.5
   PlayerShipSlowDown: 1

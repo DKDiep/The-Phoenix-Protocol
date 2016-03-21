@@ -249,7 +249,7 @@ public class EnemySpawner : MonoBehaviour
 			{
 				OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
 				for (int i = 0; i < req.NumEnemies; i++)
-					SpawnWaitingEnemy(req.Location);
+					SpawnWaitingEnemy(req.Location, req.TriggerDistance);
 			}
         }
 	}
@@ -337,7 +337,7 @@ public class EnemySpawner : MonoBehaviour
 	}
 
 	// Spawn an enemy waiting at a location
-	private void SpawnWaitingEnemy(Vector3 location)
+	private void SpawnWaitingEnemy(Vector3 location, int triggerDistance)
 	{
 		spawnLocation.transform.position = location + Random.insideUnitSphere * outpostSpawnRadius;
 		spawnLocation.transform.rotation = Random.rotation;
@@ -346,7 +346,7 @@ public class EnemySpawner : MonoBehaviour
 		EnemyLogic logic;
 		InstantiateEnemy(out enemy, out logic);
 
-		logic.SetGuarding(location);
+		logic.SetGuarding(location, triggerDistance);
 	}
 
 	// Generate a list of waypoints around the player to guide the enemy ships
@@ -520,19 +520,21 @@ public class EnemySpawner : MonoBehaviour
 	{
 		public int NumEnemies { get; private set; }
 		public Vector3 Location { get; private set; }
+		public int TriggerDistance { get; private set; }
 
-		public OutpostSpawnRequest(int numEnemies, Vector3 location)
+		public OutpostSpawnRequest(int numEnemies, Vector3 location, int triggerDistance)
 		{
-			this.NumEnemies = numEnemies;
-			this.Location   = location;
+			this.NumEnemies 	 = numEnemies;
+			this.Location   	 = location;
+			this.TriggerDistance = triggerDistance;
 		}
 	}
 
 	// Request spawning of count enemies around outpostLocation
-	public void RequestSpawnForOutpost (int count, Vector3 outpostLocation)
+	public void RequestSpawnForOutpost (int count, Vector3 outpostLocation, int triggerDistance)
 	{
 		// Only register the request here. It will be spawned on the next frame after all regular enemies are spawned.
-		outpostSpawnRequests.Enqueue(new OutpostSpawnRequest(count, outpostLocation));
+		outpostSpawnRequests.Enqueue(new OutpostSpawnRequest(count, outpostLocation, triggerDistance));
 	}
 }
 

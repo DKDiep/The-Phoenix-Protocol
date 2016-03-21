@@ -70,8 +70,8 @@ public class EnemyLogic : MonoBehaviour
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
 	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
-	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;   // Distance when a waypoint is considered reached
-	private const float AI_SHOOT_MAX_ANGLE           = 50f;  // Maximum angle with the player when shooting is possible
+	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;    // Distance when a waypoint is considered reached
+	private const float AI_SHOOT_MAX_ANGLE           = 50f;    // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 
 	private List<GameObject> playerShipTargets;
@@ -107,6 +107,7 @@ public class EnemyLogic : MonoBehaviour
 	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
+	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
 
     private Renderer meshRenderer;
 
@@ -270,10 +271,11 @@ public class EnemyLogic : MonoBehaviour
 	}
 
 	// Make this enemy guard location
-	public void SetGuarding(Vector3 location)
+	public void SetGuarding(Vector3 location, int distance)
 	{
-		state         = EnemyAIState.Wait;
-		guardLocation = location;
+		state         		 = EnemyAIState.Wait;
+		guardLocation 		 = location;
+		guardTriggerDistance = distance;
 	}
 
     // Avoids null reference during initial spawning
@@ -387,10 +389,11 @@ public class EnemyLogic : MonoBehaviour
 				currentWaypoint                   = returnWaypoint;
 			}
 			// Engage player when close enough, otherwise catch up to them
-			else if ((state == EnemyAIState.SeekPlayer || state == EnemyAIState.Wait) && distance <= engageDistance)
+			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance) ||
+				(state == EnemyAIState.Wait && distance <= guardTriggerDistance))
 			{
-				state = EnemyAIState.EngagePlayer;
 				currentWaypoint = GetNextWaypoint();
+				state = EnemyAIState.EngagePlayer;
 			}
 			else if (state == EnemyAIState.EngagePlayer && distance > engageDistance)
 			{

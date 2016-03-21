@@ -11,6 +11,7 @@ public class OutpostSpawner : MonoBehaviour
 	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
 	private float minDistance; // The minimum distance between outposts
+	private int guardTriggerDistance;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -44,11 +45,12 @@ public class OutpostSpawner : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		gameManager 	   = settings.GameManager;
-		outpost1 		   = settings.OutpostModel1Prefab;
-		collectionDistance = settings.OutpostResourceCollectionDistance;
-		minDistance        = settings.OutpostMinDistance;
-        totalOutposts	   = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
+		gameManager 	     = settings.GameManager;
+		outpost1 		     = settings.OutpostModel1Prefab;
+		collectionDistance   = settings.OutpostResourceCollectionDistance;
+		minDistance          = settings.OutpostMinDistance;
+		guardTriggerDistance = settings.OutpostGuardTriggerDistance;
+        totalOutposts	     = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
 	}
 		
 	void Update() {
@@ -122,21 +124,21 @@ public class OutpostSpawner : MonoBehaviour
         if(hardOutposts < settings.HardOutposts)
         {
             int numGuards = Random.Range(settings.HardMinEnemies, settings.HardMaxEnemies);
-            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.HardMultiplier);
             hardOutposts++;
         }
         else if(mediumOutposts < settings.MediumOutposts)
         {
             int numGuards = Random.Range(settings.MediumMinEnemies, settings.MediumMaxEnemies);
-            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(2, settings.MediumMultiplier);
             mediumOutposts++;
         }
         else
         {
             int numGuards = Random.Range(settings.EasyMinEnemies, settings.EasyMaxEnemies);
-            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(3, settings.EasyMultiplier);
             easyOutposts++;
         }
