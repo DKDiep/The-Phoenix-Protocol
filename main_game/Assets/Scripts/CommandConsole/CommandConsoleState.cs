@@ -21,8 +21,6 @@ public class CommandConsoleState : MonoBehaviour {
 
 	[SerializeField] private GameObject newsFeed;
 
-    //[SerializeField] private GameObject[] upgradeBoxes;
-
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
 	#pragma warning restore 0649
@@ -239,11 +237,6 @@ public class CommandConsoleState : MonoBehaviour {
         
     public void HighlightComponent(int component)
     {
-        for(int i = 0; i < 6; i++)
-        {
-            //upgradeBoxes[i].transform.GetChild(0).GetComponent<Image>().color = defaultColor;
-        }
-        //upgradeBoxes[component].transform.GetChild(0).GetComponent<Image>().color = highlightColor;
         shipControl.HighlightComponent(component);
     }
 
