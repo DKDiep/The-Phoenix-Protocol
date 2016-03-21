@@ -24,6 +24,7 @@ public class MissionManager : MonoBehaviour
         if(gameState.Status == GameState.GameStatus.Started)
         {
             CheckMissionTriggers();
+            CheckMissionsCompleted();
         }
     }
 
@@ -46,10 +47,28 @@ public class MissionManager : MonoBehaviour
         }
     }
 
+    private void CheckMissionsCompleted() 
+    {
+        for(int id = 0; id < missions.Length; id++)
+        {
+            if(CheckCompletion(missions[id].completionType, missions[id].completionValue) && 
+               missions[id].hasStarted() == true && missions[id].isComplete() == false)
+            {
+                CompleteMission(id);
+            }
+        }
+    }
+
     private void StartMission(int missionId)
     {
         missions[missionId].start();
         playerController.RpcStartMission(missions[missionId].name, missions[missionId].description);
+    }
+
+    private void CompleteMission(int missionId)
+    {
+        missions[missionId].completeMission();
+        playerController.RpcCompleteMission(missions[missionId].completedDescription);
     }
 
     /// <summary>
@@ -84,20 +103,45 @@ public class MissionManager : MonoBehaviour
         return false;
     }
 
+    private bool CheckCompletion(CompletionType type, int value)
+    {
+        switch(type)
+        {
+        case CompletionType.Enemies:
+            if(gameState.GetTotalKills() > value)
+                return true;
+            break;
+        case CompletionType.Outpost:
+            // Check if we have visited the outpost with id 'value'
+            break;
+        }
+        return false;
+    }
         
     [System.Serializable] 
     public class Mission
     {
-        public string name, description;
+        public string name, description, completedDescription;
         public TriggerType triggerType;
-        public int triggerValue;
+        public CompletionType completionType;
+        public int triggerValue, completionValue;
         private bool started = false;
+        private bool complete = false;
+
         public Mission(string name, string description, TriggerType triggerType, int triggerValue) 
         {
             this.name         = name;
             this.description  = description;
             this.triggerType  = triggerType;
             this.triggerValue = triggerValue;
+        }
+        public bool isComplete()
+        {
+            return complete;
+        }
+        public void completeMission()
+        {
+            complete = true;
         }
         public bool hasStarted()
         {
@@ -112,9 +156,15 @@ public class MissionManager : MonoBehaviour
 
 public enum TriggerType
 {
-    Time,
-    Health,
-    Shields,
-    Resources,
-    OutpostDistance
+    Time,                   // Trigger after a certain time
+    Health,                 // Trigger if the ships health is below a specific value
+    Shields,                // Trigger if the ships shields are below a specific value
+    Resources,              // Trigger if the player has collected a certain amount of resources.
+    OutpostDistance         // Trigger if the player is a certain distence from any outpost
+}
+
+public enum CompletionType
+{
+    Enemies,                // Complete mission if x enemies are destroyed
+    Outpost                 // Complete mission if outpost is visited
 }

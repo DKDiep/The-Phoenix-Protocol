@@ -150,12 +150,18 @@ MonoBehaviour:
   missionProperties:
   - name: Mission 1
     description: Destroy these enemies
+    completedDescription: You managed to kill 5
     triggerType: 2
-    triggerValue: 50
+    completionType: 0
+    triggerValue: 90
+    completionValue: 5
   - name: Mission 2
     description: Navigate to the outpost
+    completedDescription: jknsdkjnsd
     triggerType: 1
+    completionType: 1
     triggerValue: 50
+    completionValue: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -276,7 +282,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[0].triggerValue
-      value: 50
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completedDescription
+      value: You managed to kill 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completionValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].completionType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].completionValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].completedDescription
+      value: jknsdkjnsd
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
