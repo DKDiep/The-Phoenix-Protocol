@@ -148,14 +148,14 @@ MonoBehaviour:
   PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   PlayerFireSoundRandomPitch: 1
   missionProperties:
-  - name: 
-    description: 
-    triggerType: 0
-    triggerValue: 0
-  - name: 
-    description: 
-    triggerType: 0
-    triggerValue: 0
+  - name: Mission 1
+    description: Destroy these enemies
+    triggerType: 2
+    triggerValue: 50
+  - name: Mission 2
+    description: Navigate to the outpost
+    triggerType: 1
+    triggerValue: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -245,6 +245,38 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: StorageDescription
       value: Enables the ship to carry more resources.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].name
+      value: Mission 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].name
+      value: Mission 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].description
+      value: Destroy these enemies
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].description
+      value: Navigate to the outpost
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].triggerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].triggerValue
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerValue
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
