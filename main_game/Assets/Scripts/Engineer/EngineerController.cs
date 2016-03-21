@@ -54,6 +54,8 @@ public class EngineerController : NetworkBehaviour
     private Texture emptyProgressBar;
     private Texture filledProgressBar;
 
+    private Vector2 progressBarLocation;
+
     private EngineerInteraction interactiveObject;
     private NetworkStartPosition startPosition;
 
@@ -67,7 +69,6 @@ public class EngineerController : NetworkBehaviour
     [SerializeField] Material defaultMat;
     [SerializeField] Material repairMat;
     [SerializeField] Material upgradeMat;
-
 
     private enum InteractionKey
     {
@@ -162,6 +163,9 @@ public class EngineerController : NetworkBehaviour
             repairString = "Press Mouse2 to repair";
             dockString = "Press L Shift to dock";
         }
+
+        // Set the progress bar location
+        progressBarLocation = new Vector2((Screen.width / 2) - 50, (Screen.height / 2) + 130);
 
         // Get a reference to the player ship
         playerShip = GameObject.Find("PlayerShip(Clone)");
@@ -581,14 +585,14 @@ public class EngineerController : NetworkBehaviour
         if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
         {
             float progress = keyPressTime[InteractionKey.Repair] / REPAIR_TIME;
-            GUI.DrawTexture(new Rect(0, 0, 100, 50), emptyProgressBar);
-            GUI.DrawTexture(new Rect(0, 0, 100 * progress, 50), filledProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
         }
         else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] > 0)
         {
             float progress = keyPressTime[InteractionKey.Upgrade] / UPGRADE_TIME;
-            GUI.DrawTexture(new Rect(0, 0, 100, 50), emptyProgressBar);
-            GUI.DrawTexture(new Rect(0, 0, 100 * progress, 50), filledProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
         }
     }
 }
