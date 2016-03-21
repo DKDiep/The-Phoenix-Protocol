@@ -17,7 +17,7 @@ public class GameState : NetworkBehaviour {
 
     private GameSettings settings;
 
-	private AsteroidSpawner asteroidSpawner;
+	private AsteroidSpawner asteroidSpawner = null;
 	private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
@@ -71,9 +71,7 @@ public class GameState : NetworkBehaviour {
 
 	void Start()
 	{
-		GameObject spawnerObj = GameObject.Find("Spawner");
-		if (spawnerObj != null)
-			asteroidSpawner = spawnerObj.GetComponent<AsteroidSpawner>();
+		asteroidSpawner = GetComponentInChildren<AsteroidSpawner>(true); // For some reason, the spawner is disabled, so need to pass true here
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         difficulty = 0;
@@ -99,7 +97,7 @@ public class GameState : NetworkBehaviour {
     }
         
     void Update()
-    {
+    {		
         if(Input.GetKeyDown (KeyCode.Escape))
         {
             Application.Quit ();
