@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f0b6773e9df4273b77f48696977991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 2800000, guid: 9e9671ffe8f8646a09db70793e421189, type: 3}
+  texture: {fileID: 2800000, guid: c7a098a7b5e7441ebae088df696909ec, type: 3}
   enterWait: 0
   exitWait: 3
   fadeSpeed: 1
@@ -105,6 +105,10 @@ Prefab:
       propertyPath: text
       value: 
       objectReference: {fileID: 2800000, guid: a092e48b07e5e480290abb920e17f01e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c7a098a7b5e7441ebae088df696909ec, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116588}
