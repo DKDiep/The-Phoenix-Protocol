@@ -8,6 +8,8 @@ public abstract class CommanderAbility : MonoBehaviour {
     internal bool ready = true;
     internal GameSettings settings;
     internal GameState state;
+    internal AudioSource audioSource;
+    public AudioClip soundEffect;
 
     internal abstract void ActivateAbility();
     internal abstract void DeactivateAbility();
@@ -29,6 +31,10 @@ public abstract class CommanderAbility : MonoBehaviour {
     {
         if(ready)
         {
+            if(audioSource == null)
+                audioSource = GetComponent<AudioSource>();
+            if(soundEffect != null)
+                audioSource.PlayOneShot(soundEffect);
             ready = false;
             StartCoroutine("DeactivateTimer");
             ActivateAbility();
