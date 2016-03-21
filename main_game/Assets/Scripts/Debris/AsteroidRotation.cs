@@ -10,6 +10,11 @@ using System.Collections;
 
 public class AsteroidRotation : MonoBehaviour
 {
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private int maxRenderDistance;
+
 	private float speed, distance;
 	private GameObject player;
 
@@ -21,13 +26,24 @@ public class AsteroidRotation : MonoBehaviour
 
 	private MeshFilter myFilter;
     private ObjectPoolManager poolManager;
+	private new Renderer renderer;
 
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
 	{
 		player   = GameObject.Find("PlayerShip(Clone)");
         myFilter = GetComponent<MeshFilter>();
+		renderer = GetComponent<Renderer>();
+
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
 		StartCoroutine("AsteroidLOD");
+	}
+
+	private void LoadSettings()
+	{
+		maxRenderDistance = settings.AsteroidMaxRenderDistance;
 	}
 
     public void SetSpeed(float tempSpeed)
@@ -47,6 +63,8 @@ public class AsteroidRotation : MonoBehaviour
 	{
         if(distance < 800)
 		    transform.Rotate(transform.forward * speed * Time.deltaTime);
+
+		renderer.enabled = distance < maxRenderDistance;
 	}
 
 	IEnumerator AsteroidLOD()
