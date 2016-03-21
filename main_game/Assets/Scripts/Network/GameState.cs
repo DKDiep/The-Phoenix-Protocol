@@ -502,12 +502,39 @@ public class GameState : NetworkBehaviour {
 			break;
 		case ComponentType.Engine:
 			engineHealth -= value;
+			Debug.Log("Engine health: " + engineHealth);
 			break;
 		case ComponentType.Turret:
 			turretHealth -= value;
 			break;
 		case ComponentType.ShieldGenerator:
 			shieldGeneratorHealth -= value;
+			break;
+		}
+	}
+
+	/// <summary>
+	/// Repairs a ship part.
+	/// </summary>
+	/// <param name="part">The part to repair.</param>
+	public void RepairPart(ComponentType part)
+	{
+		int maxHealth = GetUpgradableComponent(part).MaxHealth;
+
+		switch(part)
+		{
+		case ComponentType.Bridge:
+			shipHealth = maxHealth;
+			break;
+		case ComponentType.Engine:
+			engineHealth = maxHealth;
+			Debug.Log("Engine repaired: " + engineHealth);
+			break;
+		case ComponentType.Turret:
+			turretHealth = maxHealth;
+			break;
+		case ComponentType.ShieldGenerator:
+			shieldGeneratorHealth = maxHealth;
 			break;
 		}
 	}
