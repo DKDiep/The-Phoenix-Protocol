@@ -51,6 +51,9 @@ public class EngineerController : NetworkBehaviour
     private GameObject engineerCanvas;
     private GameObject lastLookedAt;
 
+    private Texture emptyProgressBar;
+    private Texture filledProgressBar;
+
     private EngineerInteraction interactiveObject;
     private NetworkStartPosition startPosition;
 
@@ -568,6 +571,22 @@ public class EngineerController : NetworkBehaviour
 
                 renderer.materials = mats;
             }
+        }
+    }
+
+    private void OnGUI()
+    {
+        if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
+        {
+            float progress = keyPressTime[InteractionKey.Repair] / REPAIR_TIME;
+            GUI.DrawTexture(new Rect(0, 0, 100, 50), emptyProgressBar);
+            GUI.DrawTexture(new Rect(0, 0, 100 * progress, 50), filledProgressBar);
+        }
+        else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] > 0)
+        {
+            float progress = keyPressTime[InteractionKey.Upgrade] / UPGRADE_TIME;
+            GUI.DrawTexture(new Rect(0, 0, 100, 50), emptyProgressBar);
+            GUI.DrawTexture(new Rect(0, 0, 100 * progress, 50), filledProgressBar);
         }
     }
 }
