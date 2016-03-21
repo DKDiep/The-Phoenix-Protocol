@@ -185,35 +185,32 @@ public class EnemySpawner : MonoBehaviour
         enemyObject = null;
 
         int random = Random.Range(1,101);
-        int type = 0;
+        EnemyType type;
 
         if(random < gnatLimit)
-            type = 0;
+			type = EnemyType.Gnat;
         else if(random < fireflyLimit)
-            type = 1;
+			type = EnemyType.Firefly;
         else if(random < termiteLimit)
-            type = 2;
+			type = EnemyType.Termite;
         else if(random < lightningBugLimit)
-            type = 3;
+			type = EnemyType.LightningBug;
 
-        if(type == 1)
+		if(type == EnemyType.Gnat)
+			enemyObject = gnatManager.RequestObject();
+		else if(type == EnemyType.Firefly)
             enemyObject = fireflyManager.RequestObject();
-        else if(type == 2)
+		else if(type == EnemyType.Termite)
             enemyObject = termiteManager.RequestObject();
-        else if(type == 3)
+		else if(type == EnemyType.LightningBug)
             enemyObject = lightningBugManager.RequestObject();
-        else if(type == 0)
-        {
-            enemyObject = gnatManager.RequestObject();
-        }
 
         enemyObject.transform.position = spawnLocation.transform.position;
-
 
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
 
-		ApplyEnemyType (enemyLogic, type); // random enemy type
+		ApplyEnemyType (enemyLogic, type); 
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
 		enemyLogic.SetControlObject(enemyObject);
@@ -222,14 +219,16 @@ public class EnemySpawner : MonoBehaviour
 		enemyLogic.SetAIWaypoints(GetAIWaypointsForEnemy ());
 
 		enemyObject.transform.eulerAngles = new Vector3(-90, 0, 0); // Set to correct rotation
-		if(type == 0)
+
+		if(type == EnemyType.Gnat)
             gnatManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
-        else if(type == 1)
+		else if(type == EnemyType.Firefly)
             fireflyManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
-        else if(type == 2)
+		else if(type == EnemyType.Termite)
             termiteManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
-        else if(type == 3)
+		else if(type == EnemyType.LightningBug)
             lightningBugManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
         enemyLogicObject.transform.parent = enemyObject.transform;
@@ -368,7 +367,6 @@ public class EnemySpawner : MonoBehaviour
     }
 
 	// This class holds the various atributes of an enemy. Each enemy type will be be represented by a separate instance
-	// TODO: the enemies should look differently based on their type
 	private class EnemyProperties
 	{
 		public int maxHealth, maxShield, collisionDamage, speed;
