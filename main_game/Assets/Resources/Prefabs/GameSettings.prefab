@@ -127,6 +127,15 @@ MonoBehaviour:
   HullInitialCost: 200
   DroneInitialCost: 100
   StorageInitialCost: 100
+  ShieldsDescription: Shields cover the ship in a force field to help protect the
+    ship from enemy fire.
+  TurretsDescription: Turrets help fend of enemy fighters by blasting them with a
+    powerful ball of energy.
+  EnginesDescription: Engines enable the ship to go at greater speeds.
+  HullDescription: The hull is what protects the ship if our shields have been penetrated.
+  DroneDescription: 'The drone is a remote device that enables officers to upgrade
+    parts of the ship. '
+  StorageDescription: Enables the ship to carry more resources.
   BulletSpeed: 600
   PlayerRateOfFire: 0.025
   PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
@@ -194,6 +203,33 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: StorageInitialCost
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ShieldsDescription
+      value: Shields cover the ship in a force field to help protect the ship from
+        enemy fire.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: TurretsDescription
+      value: Turrets help fend of enemy fighters by blasting them with a powerful
+        ball of energy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EnginesDescription
+      value: Engines enable the ship to go at greater speeds.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: HullDescription
+      value: The hull is what protects the ship if our shields have been penetrated.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DroneDescription
+      value: 'The drone is a remote device that enables officers to upgrade parts
+        of the ship. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: StorageDescription
+      value: Enables the ship to carry more resources.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

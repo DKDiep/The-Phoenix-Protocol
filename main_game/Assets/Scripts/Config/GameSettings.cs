@@ -126,6 +126,14 @@ public class GameSettings : MonoBehaviour
     public int DroneInitialCost;
     public int StorageInitialCost;
 
+    [Header("Ship Upgrade Descriptions")]
+    public string ShieldsDescription;
+    public string TurretsDescription;
+    public string EnginesDescription;
+    public string HullDescription;
+    public string DroneDescription;
+    public string StorageDescription;
+
 	[Header("Bullet Movement")]
 	public float BulletSpeed;
 
