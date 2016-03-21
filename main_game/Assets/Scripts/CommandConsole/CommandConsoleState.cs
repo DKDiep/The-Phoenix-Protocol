@@ -21,6 +21,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] Material highlightMat;
 
 	[SerializeField] private GameObject newsFeed;
+    [SerializeField] private GameObject popupWindow;
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
@@ -60,25 +61,18 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeArea = GameObject.Find("UpgradeInfo");
         stratMap = GameObject.Find("Map").GetComponent<StratMap>();
         LoadSettings();
-
-
+       
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
         Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
 
-		// Load the ship model into the scene. 
-		ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
-        ship.transform.position = new Vector3(18f, -2.5f, -1961f);
-        ship.transform.eulerAngles = new Vector3(0, 250f, 0);
-		ship.AddComponent<ConsoleShipControl>();
-        shipControl = ship.GetComponent<ConsoleShipControl>();
-        shipControl.SetMaterials(defaultMat, highlightMat);
+        LoadShipModel();
 
 		UpdateAllText();
-       
-        newsFeed.SetActive(false);
-
+      
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
+        newsFeed.SetActive(false);
+        ClosePopupWindow();
 
         upgradeArea.SetActive(false);
 
@@ -121,6 +115,16 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    private void LoadShipModel()
+    {
+        // Load the ship model into the scene. 
+        ship = Instantiate(Resources.Load("Prefabs/CommandShip", typeof(GameObject))) as GameObject;
+        ship.transform.position = new Vector3(18f, -2.5f, -1961f);
+        ship.transform.eulerAngles = new Vector3(0, 250f, 0);
+        ship.AddComponent<ConsoleShipControl>();
+        shipControl = ship.GetComponent<ConsoleShipControl>();
+        shipControl.SetMaterials(defaultMat, highlightMat);
+    }
     private void AddUpgradeBoxes()
     {
         Transform canvas = gameObject.transform.Find("Canvas");
@@ -136,6 +140,7 @@ public class CommandConsoleState : MonoBehaviour {
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
         }
     }
+        
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
@@ -352,8 +357,8 @@ public class CommandConsoleState : MonoBehaviour {
 		// Get resources and health from the gamestate.
         int shipCivilians   = gameState.GetCivilians();
 		int shipResources   = gameState.GetShipResources();
-		float shipHealth      = gameState.GetShipHealth();
-		float shipShields     = gameState.GetShipShield();
+		float shipHealth    = gameState.GetShipHealth();
+		float shipShields   = gameState.GetShipShield();
 
 		// Update the text
         civiliansText.text = shipCivilians.ToString();;
@@ -380,5 +385,16 @@ public class CommandConsoleState : MonoBehaviour {
         newsFeed.SetActive(true);
         //newsFeed.GetComponent<Text>().text = message;
         stratMap.NewOutpost(outpost);
+    }
+
+
+    public void ShowMissionPopup(int missionId)
+    {
+        popupWindow.SetActive(true);
+    }
+
+    public void ClosePopupWindow()
+    {
+        popupWindow.SetActive(false);
     }
 }

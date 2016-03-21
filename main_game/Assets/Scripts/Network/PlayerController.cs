@@ -260,4 +260,12 @@ public class PlayerController : NetworkBehaviour
     {
         commandConsoleState.ConfirmUpgrade(component);
     }
+    [ClientRpc]
+    public void RpcStartMission(int missionId)
+    {
+        if (commandConsoleState != null)
+        {
+            commandConsoleState.ShowMissionPopup(missionId);
+        }
+    }
 }

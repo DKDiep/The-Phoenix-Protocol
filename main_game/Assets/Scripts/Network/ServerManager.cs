@@ -236,6 +236,7 @@ public class ServerManager : NetworkBehaviour
 
         // Spawn mission manager only on server
         missionManager = Instantiate(Resources.Load("Prefabs/MissionManager", typeof(GameObject))) as GameObject;
+        missionManager.GetComponent<MissionManager>().SetPlayerController(playerController);
 
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;

@@ -6,6 +6,7 @@ public class MissionManager : MonoBehaviour
     private GameState gameState;
     private GameSettings settings;
     private Mission[] missions;
+    private PlayerController playerController;
     void Start () 
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
@@ -26,6 +27,10 @@ public class MissionManager : MonoBehaviour
         }
     }
 
+    public void SetPlayerController(PlayerController controller)
+    {
+        playerController = controller;
+    }
     /// <summary>
     /// Checks if any of the missions have triggered. 
     /// </summary>
@@ -44,6 +49,7 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
+        playerController.RpcStartMission(missionId);
         Debug.Log("Starting Mission " + missions[missionId].description);
     }
 
