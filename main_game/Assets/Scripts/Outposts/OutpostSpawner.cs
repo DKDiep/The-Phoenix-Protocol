@@ -9,7 +9,7 @@ public class OutpostSpawner : MonoBehaviour
 	private GameObject outpost1;
 	private GameObject gameManager;
 	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
-	private int maxOutposts;
+	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -17,7 +17,7 @@ public class OutpostSpawner : MonoBehaviour
 
 	private GameState gameState;
 	private EnemySpawner enemySpawner;
-	private const float OUTPOST_MIN_DISTANCE = 1000;
+	private const float OUTPOST_MIN_DISTANCE = 800;
 
 	private GameObject player, outpost, logic, spawnLocation, outpostManager;
 
@@ -45,13 +45,16 @@ public class OutpostSpawner : MonoBehaviour
 		gameManager 	   = settings.GameManager;
 		outpost1 		   = settings.OutpostModel1Prefab;
 		collectionDistance = settings.OutpostResourceCollectionDistance;
-		maxOutposts 	   = settings.MaxOutposts;
+		easyOutposts 	   = 0;
+        mediumOutposts       = 0;
+        hardOutposts       = 0;
+        totalOutposts = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
 	}
 		
 	void Update() {
 		if (gameState.Status == GameState.GameStatus.Started)
 		{
-			if(numOutposts < maxOutposts)
+			if(numOutposts < totalOutposts)
 			{
 				if(player == null) 
 					player = gameState.PlayerShip;
@@ -63,7 +66,7 @@ public class OutpostSpawner : MonoBehaviour
 
 				// Loop until we find a position that is not close to another outpost
 				do {
-					spawnLocation.transform.Translate(transform.forward * Random.Range(1000,2000));
+					spawnLocation.transform.Translate(transform.forward * Random.Range(1000,3500));
 				} while(!CheckOutpostProximity(spawnLocation.transform.position));
 
 				SpawnOutpost ();
@@ -116,8 +119,26 @@ public class OutpostSpawner : MonoBehaviour
 		gameState.AddToOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
 
-		// Request the enemy spawner to spawn protecting ships around this outpost
-		int numGuards = Random.Range(5, 10); // TODO: might want to set this manually based on difficulty
-		enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+        if(hardOutposts < settings.HardOutposts)
+        {
+            int numGuards = Random.Range(settings.HardMinEnemies, settings.HardMaxEnemies);
+            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.HardMultiplier);
+            hardOutposts++;
+        }
+        else if(mediumOutposts < settings.MediumOutposts)
+        {
+            int numGuards = Random.Range(settings.MediumMinEnemies, settings.MediumMaxEnemies);
+            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(2, settings.MediumMultiplier);
+            mediumOutposts++;
+        }
+        else
+        {
+            int numGuards = Random.Range(settings.EasyMinEnemies, settings.EasyMaxEnemies);
+            enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(3, settings.EasyMultiplier);
+            easyOutposts++;
+        }
 	}
 }

@@ -83,7 +83,18 @@ public class GameSettings : MonoBehaviour
 	[Header("Outposts")]
 	public GameObject OutpostModel1Prefab;
 	public float OutpostResourceCollectionDistance; // The distance from the outpost the ship has to be in order to collect resources
-	public int MaxOutposts;
+	public int EasyOutposts;
+    public int MediumOutposts;
+    public int HardOutposts;
+    public int EasyMultiplier;
+    public int MediumMultiplier;
+    public int HardMultiplier;
+    public int EasyMinEnemies;
+    public int EasyMaxEnemies;
+    public int MediumMinEnemies;
+    public int MediumMaxEnemies;
+    public int HardMinEnemies;
+    public int HardMaxEnemies;
 
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;

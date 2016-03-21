@@ -6,9 +6,9 @@ public class OutpostLogic : MonoBehaviour {
 	private GameState gameState;
 
 	private const int MIN_OUTPOST_RESOURCES = 100;
-	private const int MAX_OUTPOST_RESOURCES = 500;
+	private const int MAX_OUTPOST_RESOURCES = 300;
 	private const int MIN_OUTPOST_CIVILIANS = 100;
-	private const int MAX_OUTPOST_CIVILIANS = 500;
+	private const int MAX_OUTPOST_CIVILIANS = 300;
 
 	public bool resourcesCollected = false;
     public bool civiliansCollected = false;
@@ -16,16 +16,18 @@ public class OutpostLogic : MonoBehaviour {
 
 	private int numberOfResources;
 	private int numberOfCivilians;
+    private int difficulty;
 
     private OutpostCollision collision;
 
-	// Use this for initialization
-	void Start () 
+    public void SetDifficulty(int diff, int multiplier)
     {
-		// Set the number of resources for this outpost to be between the min and max value.
-		numberOfResources = Random.Range(MIN_OUTPOST_RESOURCES, MAX_OUTPOST_RESOURCES);
-		numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
-	}
+        difficulty = diff;
+        numberOfResources = Random.Range(MIN_OUTPOST_RESOURCES, MAX_OUTPOST_RESOURCES);
+        numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
+        numberOfCivilians *= multiplier;
+        numberOfResources *= multiplier;
+    }
 		
 	/// <summary>
 	/// Handle the player coming into resource collision range.
@@ -71,14 +73,14 @@ public class OutpostLogic : MonoBehaviour {
     {
 		// Add ship resources to the game state
 		gameState.AddShipResources(numberOfResources);
-		Debug.Log("Collected Resources from outpost");
+		Debug.Log("Collected " + numberOfResources + " Resources from outpost with difficulty " + difficulty);
 	}
 		
 	public void CollectCivilians() 
     {
 		// Add ship resources to the game state
 		gameState.AddCivilians(numberOfCivilians);
-		Debug.Log("Collected Civilians from outpost");
+		Debug.Log("Collected " + numberOfCivilians + " Civilians from outpost");
 	}
 		
 }
