@@ -79,13 +79,13 @@ public class EnemyLogic : MonoBehaviour
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
-	private const int AI_OBSTACLE_RAY_FRONT_OFFSET = 15;
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 200;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 30;
 	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
 	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
 	private const int AI_OBSTACLE_AVOID_ROTATION   = 45;
 	private int previousAvoidDirection             = 0;
 	private int avoidDirection;
+	private float aiObstacleRayFrontOffset;
 
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager gnatBulletManager;
@@ -195,6 +195,7 @@ public class EnemyLogic : MonoBehaviour
     {
         controlObject = newControlObject;
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
+		aiObstacleRayFrontOffset = controlObject.GetComponent<Collider>().bounds.extents.y / 2.0f;
     }
 
     // This function is run when the object is spawned
@@ -462,37 +463,39 @@ public class EnemyLogic : MonoBehaviour
 		RaycastHit hitInfoLeft, hitInfoRight;
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
-		hitLeft = Physics.Raycast (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, objectTransform.forward,
+		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
 			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
-		hitRight = Physics.Raycast (objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right, objectTransform.forward,
+		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
 			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
 
 		// If an obstacle is found, return its tag
 		// Uncomment to show a ray when a collision is detected
 		if (hitLeft)
 		{
-			/*Debug.DrawRay (objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET * objectTransform.right,
-				-AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.up, Color.magenta, 3, false);*/
+			/*Debug.DrawRay (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.forward, Color.magenta, 3, false);*/
 			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
 		}
 		else if (hitRight)
 		{
-			/*Debug.DrawRay(objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
-				-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.magenta, 3, false);*/
+			/*Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.magenta, 3, false);*/
 			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
 		}
 		else
-			return AvoidInfo.None();
+		{
+			// Uncomment to debug raycasting parameters
+			/*Debug.DrawRay(objectTransform.position - aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);
+			Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);*/
+			/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
+				-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
+			Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
+				+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
 
-		// Uncomment to debug raycasting parameters
-		/*Debug.DrawRay(objectTransform.position - AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
-			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);
-		Debug.DrawRay(objectTransform.position + AI_OBSTACLE_RAY_FRONT_OFFSET*objectTransform.right,
-			-AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.up, Color.green, 0, false);*/
-		/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-			-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
-		Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-			+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
+			return AvoidInfo.None();
+		}
 	}
 
 	// Control shooting based on attributes
