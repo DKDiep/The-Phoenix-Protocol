@@ -108,6 +108,8 @@ public class EnemyLogic : MonoBehaviour
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
 
+    private Renderer meshRenderer;
+
 	void Start ()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -221,6 +223,7 @@ public class EnemyLogic : MonoBehaviour
         controlObject = newControlObject;
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
 		aiObstacleRayFrontOffset = controlObject.GetComponent<Collider>().bounds.extents.y / 2.0f;
+        meshRenderer = controlObject.GetComponent<MeshRenderer>();
     }
 
     // This function is run when the object is spawned
@@ -301,6 +304,11 @@ public class EnemyLogic : MonoBehaviour
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
 		distance   = Vector3.Distance(transform.position, player.transform.position);
+
+        if(distance > 1000)
+            meshRenderer.enabled = false;
+        else
+            meshRenderer.enabled = true;
 
 		// Check if about to collide with something
 		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
