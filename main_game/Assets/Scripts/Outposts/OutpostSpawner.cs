@@ -9,7 +9,7 @@ public class OutpostSpawner : MonoBehaviour
 	private GameObject outpost1;
 	private GameObject gameManager;
 	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
-	private int maxOutposts;
+	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -45,13 +45,16 @@ public class OutpostSpawner : MonoBehaviour
 		gameManager 	   = settings.GameManager;
 		outpost1 		   = settings.OutpostModel1Prefab;
 		collectionDistance = settings.OutpostResourceCollectionDistance;
-		maxOutposts 	   = settings.MaxOutposts;
+		easyOutposts 	   = settings.EasyOutposts;
+        mediumOutposts       = settings.MediumOutposts;
+        hardOutposts       = settings.HardOutposts;
+        totalOutposts = easyOutposts + mediumOutposts + hardOutposts;
 	}
 		
 	void Update() {
 		if (gameState.Status == GameState.GameStatus.Started)
 		{
-			if(numOutposts < maxOutposts)
+			if(numOutposts < totalOutposts)
 			{
 				if(player == null) 
 					player = gameState.PlayerShip;
