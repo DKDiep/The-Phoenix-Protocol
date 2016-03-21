@@ -63,6 +63,12 @@ public class ShipMovement : MonoBehaviour
 		shieldDelay = settings.PlayerShipShieldDelay;
 	}
 
+    public void LightningBugEffect()
+    {
+        myDamage.DistortionEffect();
+    }
+
+
 	IEnumerator RechargeShields()
 	{
 		if(lastShieldCheck == gameState.GetShipShield() && 

@@ -61,6 +61,20 @@ public class DamageEffects : NetworkBehaviour
 		direction        = dir;
 		alpha            = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}
+
+    public void DistortionEffect()
+    {
+        lowHealth.amount = 1.0f;
+        StartCoroutine("ReduceEffect");
+    }
+
+    private IEnumerator ReduceEffect()
+    {
+        lowHealth.amount -= 0.01f;
+        yield return new WaitForSeconds(0.1f);
+        if(lowHealth.amount > 0)
+            StartCoroutine("ReduceEffect"); 
+    }
 }
 
 

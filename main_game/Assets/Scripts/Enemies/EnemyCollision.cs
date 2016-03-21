@@ -26,8 +26,15 @@ public class EnemyCollision : MonoBehaviour
             
             shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
             
-			if(myLogic != null) 
+			if(myLogic != null)
+            {
                 myLogic.collision(1000f, -1);
+                if(myLogic.type == EnemyType.LightningBug)
+                {
+                    shipMovement.LightningBugEffect();
+                }
+            }
+                
     	}
         else if(col.gameObject.tag.Equals ("Debris"))
         {
