@@ -57,6 +57,9 @@ public class CommandConsoleState : MonoBehaviour {
     private string[] upgradeNames = new string[6] {"SHIELDS", "TURRETS", "ENGINES", "HULL", "DRONE", "STORAGE"};
     private int[] upgradeMaxLevels = new int[6] {5, 5, 3, 4, 2, 3};
 
+    // Indicates which upgrade is in progress.
+    private int[] upgradeProgress = new int[6] {0,0,0,0,0,0};
+
     private ConsoleShipControl shipControl;
    
     void Start () {
@@ -208,26 +211,27 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type.</param>
     public void ConfirmUpgrade(ComponentType type)
     {
-        //upgradeButtonLabels[GetIdFromComponentType(type)].text = "Upgrade";
+        upgradeProgress[GetIdFromComponentType(type)] = 0;
+        upgradeButtonLabel.text = "Upgrade";
         switch(type)
         {
-        case ComponentType.ShieldGenerator:
-            shieldsLevel++;
-            break;
-        case ComponentType.Turret:
-            turretsLevel++;
-            break;
-        case ComponentType.Engine:
-            engineLevel++;
-            break;
-        case ComponentType.Bridge:
-            hullLevel++;
-            break;
-        case ComponentType.Drone:
-            droneLevel++;
-            break;
-        case ComponentType.ResourceStorage:
-            storageLevel++;
+            case ComponentType.ShieldGenerator:
+                shieldsLevel++;
+                break;
+            case ComponentType.Turret:
+                turretsLevel++;
+                break;
+            case ComponentType.Engine:
+                engineLevel++;
+                break;
+            case ComponentType.Bridge:
+                hullLevel++;
+                break;
+            case ComponentType.Drone:
+                droneLevel++;
+                break;
+            case ComponentType.ResourceStorage:
+                storageLevel++;
             break;
         }
 
@@ -276,6 +280,10 @@ public class CommandConsoleState : MonoBehaviour {
                 break;
         }
         UpdateCostTextColor();
+        if(upgradeProgress[component] == 1) 
+            upgradeButtonLabel.text = "Waiting";
+        else
+            upgradeButtonLabel.text = "Upgrade";
     }
 
     public void RepairShip(int component)
@@ -287,8 +295,8 @@ public class CommandConsoleState : MonoBehaviour {
     {
         int tmpLevel = 0;
         // If we are already waiting then we don't want to upgrade again.
-        //if(upgradeButtonLabels[component].text == "Waiting")
-        //    return;
+        if(upgradeProgress[componentToUpgrade] == 1)
+            return;
         
         switch (componentToUpgrade)
         {
@@ -331,7 +339,8 @@ public class CommandConsoleState : MonoBehaviour {
         }
         consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(costs[componentToUpgrade], tmpLevel + 1));
 
-        //upgradeButtonLabel.text = "Waiting";
+        upgradeProgress[componentToUpgrade] = 1;
+        upgradeButtonLabel.text = "Waiting";
     }
         
 	/// <summary>
