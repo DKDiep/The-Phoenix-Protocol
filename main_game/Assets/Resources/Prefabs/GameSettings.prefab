@@ -48,19 +48,19 @@ MonoBehaviour:
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
-  shootCooldown: 0.5
-  projectileCount: 0
-  maxTargetRadius: 0
-  boostDuration: 0
-  boostCooldown: 0
-  boostSpeedMultiplier: 0
-  shieldOverdriveDuration: 0
-  shieldOverdriveCooldown: 0
-  empCooldown: 0
-  empRadius: 0
-  empDuration: 0
-  smartBombCooldown: 0
-  smartBombRadius: 0
+  shootCooldown: 4
+  projectileCount: 8
+  maxTargetRadius: 600
+  boostDuration: 4
+  boostCooldown: 5
+  boostSpeedMultiplier: 2
+  shieldOverdriveDuration: 5
+  shieldOverdriveCooldown: 5
+  empCooldown: 5
+  empRadius: 500
+  empDuration: 8
+  smartBombCooldown: 5
+  smartBombRadius: 300
   EnemyMinSpawnDistance: 750
   EnemyMaxSpawnDistance: 1200
   AIWaypointsPerEnemy: 10
@@ -93,19 +93,19 @@ MonoBehaviour:
   UDPClientPort: 46578
   UDPMaxReceivedMessagesPerInterval: 100
   OutpostModel1Prefab: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
-  OutpostResourceCollectionDistance: 500
-  EasyOutposts: 0
-  MediumOutposts: 0
-  HardOutposts: 0
-  EasyMultiplier: 0
-  MediumMultiplier: 0
-  HardMultiplier: 0
-  EasyMinEnemies: 0
-  EasyMaxEnemies: 0
-  MediumMinEnemies: 0
-  MediumMaxEnemies: 0
-  HardMinEnemies: 0
-  HardMaxEnemies: 0
+  OutpostResourceCollectionDistance: 400
+  EasyOutposts: 3
+  MediumOutposts: 3
+  HardOutposts: 3
+  EasyMultiplier: 1
+  MediumMultiplier: 2
+  HardMultiplier: 4
+  EasyMinEnemies: 5
+  EasyMaxEnemies: 10
+  MediumMinEnemies: 10
+  MediumMaxEnemies: 20
+  HardMinEnemies: 20
+  HardMaxEnemies: 30
   OutpostMinDistance: 800
   PlayerShipTurnSpeed: 5.5
   PlayerShipMaxTurnSpeed: 3.5
