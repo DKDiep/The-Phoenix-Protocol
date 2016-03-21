@@ -86,6 +86,15 @@ public class GameSettings : MonoBehaviour
 	public int EasyOutposts;
     public int MediumOutposts;
     public int HardOutposts;
+    public int EasyMultiplier;
+    public int MediumMultiplier;
+    public int HardMultiplier;
+    public int EasyMinEnemies;
+    public int EasyMaxEnemies;
+    public int MediumMinEnemies;
+    public int MediumMaxEnemies;
+    public int HardMinEnemies;
+    public int HardMaxEnemies;
 
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;

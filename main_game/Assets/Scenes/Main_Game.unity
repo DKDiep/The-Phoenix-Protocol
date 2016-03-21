@@ -1678,6 +1678,70 @@ Prefab:
       propertyPath: maxTargetRadius
       value: 600
       objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostResourceCollectionDistance
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EasyOutposts
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: MediumOutposts
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: HardOutposts
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: easyMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: mediumMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: hardMultiplier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EasyMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: MediumMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: HardMultiplier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EasyMinEnemies
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EasyMaxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: MediumMinEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: MediumMaxEnemies
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: HardMinEnemies
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: HardMaxEnemies
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
   m_IsPrefabParent: 0
