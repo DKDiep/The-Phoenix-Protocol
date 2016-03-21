@@ -90,6 +90,8 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager gnatBulletManager;
     private ObjectPoolManager fireflyBulletManager;
+    private ObjectPoolManager hornetBulletManager;
+    private ObjectPoolManager blackWidowBulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
     private ObjectPoolManager explosionManager;
@@ -99,6 +101,8 @@ public class EnemyLogic : MonoBehaviour
     private ObjectPoolManager fireflyManager;
     private ObjectPoolManager termiteManager;
     private ObjectPoolManager lightningBugManager;
+    private ObjectPoolManager hornetManager;
+    private ObjectPoolManager blackWidowManager;
 
 	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
@@ -114,6 +118,8 @@ public class EnemyLogic : MonoBehaviour
 
         gnatBulletManager     = GameObject.Find("GnatBulletManager").GetComponent<ObjectPoolManager>();
         fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
+        hornetBulletManager = GameObject.Find("HornetBulletManager").GetComponent<ObjectPoolManager>();
+        blackWidowBulletManager = GameObject.Find("BlackWidowBulletManager").GetComponent<ObjectPoolManager>();
         logicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
@@ -148,11 +154,24 @@ public class EnemyLogic : MonoBehaviour
         else if(type == EnemyType.Termite)
         {
             enemyManager = termiteManager;
+            bulletManager = null;
         }
         else if(type == EnemyType.LightningBug)
         {
             enemyManager = lightningBugManager;
+            bulletManager = null;
         }
+        else if (type == EnemyType.Hornet)
+        {
+            enemyManager = hornetManager;
+            bulletManager = hornetBulletManager;
+        }
+        else if(type == EnemyType.BlackWidow)
+        {
+            enemyManager = blackWidowManager;
+            bulletManager = blackWidowBulletManager;
+        }
+
 
         StartCoroutine("UpdateTransform");
     }
@@ -180,6 +199,12 @@ public class EnemyLogic : MonoBehaviour
 
         if(lightningBugManager == null)
             lightningBugManager      = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
+
+         if(hornetManager == null)
+            hornetManager      = GameObject.Find("HornetManager").GetComponent<ObjectPoolManager>();
+
+        if(blackWidowManager == null)
+            blackWidowManager      = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
 
         StartCoroutine("UpdateDelay");
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
@@ -528,8 +553,12 @@ public class EnemyLogic : MonoBehaviour
 
         if(type == EnemyType.Gnat)
             bulletLogic.SetParameters(0.3f, 1f, 600f);
-        else
+        else if(type == EnemyType.Firefly)
             bulletLogic.SetParameters(0.15f, 2f, 600f);
+         else if(type == EnemyType.Hornet)
+            bulletLogic.SetParameters(0.05f, 5f, 800f);
+         else if(type == EnemyType.BlackWidow)
+            bulletLogic.SetParameters(0.05f, 10f, 800f);
 
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;

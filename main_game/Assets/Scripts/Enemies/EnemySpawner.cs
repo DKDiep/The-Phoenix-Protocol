@@ -50,6 +50,8 @@ public class EnemySpawner : MonoBehaviour
     private ObjectPoolManager fireflyManager;
     private ObjectPoolManager termiteManager;
     private ObjectPoolManager lightningBugManager;
+    private ObjectPoolManager hornetManager;
+    private ObjectPoolManager blackWidowManager;
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
 
     void Start()
@@ -65,6 +67,8 @@ public class EnemySpawner : MonoBehaviour
         fireflyManager = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
         termiteManager = GameObject.Find("TermiteManager").GetComponent<ObjectPoolManager>();
         lightningBugManager = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
+        hornetManager = GameObject.Find("HornetManager").GetComponent<ObjectPoolManager>();
+        blackWidowManager = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
         logicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
@@ -100,12 +104,12 @@ public class EnemySpawner : MonoBehaviour
         {
             case 1 :
                 maxEnemies = 20;
-                gnatLimit = 20;
-                fireflyLimit = 40;
-                termiteLimit = 75;
-                lightningBugLimit = 100;
-                hornetLimit = 101;
-                blackWidowLimit = 101;
+                gnatLimit = 15;
+                fireflyLimit = 30;
+                termiteLimit = 45;
+                lightningBugLimit = 60;
+                hornetLimit = 75;
+                blackWidowLimit = 100;
                 glomCruiserLimit = 101;
                 break;
             // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
@@ -145,8 +149,8 @@ public class EnemySpawner : MonoBehaviour
         enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 10, false, 3f, 7f, 200f ));
         enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 12, true, 0f, 0f, 1000f));
         enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 12, true, 0f, 0f, 1000f));
-        //enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f));
-        //enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f, 250f));
+        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f, 300f));
         //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
 	}
 
@@ -195,6 +199,10 @@ public class EnemySpawner : MonoBehaviour
 			type = EnemyType.Termite;
         else if(random < lightningBugLimit)
 			type = EnemyType.LightningBug;
+        else if(random < hornetLimit)
+            type = EnemyType.Hornet;
+        else if(random < blackWidowLimit)
+            type = EnemyType.BlackWidow;
 
 		if(type == EnemyType.Gnat)
 			enemyObject = gnatManager.RequestObject();
@@ -204,6 +212,10 @@ public class EnemySpawner : MonoBehaviour
             enemyObject = termiteManager.RequestObject();
 		else if(type == EnemyType.LightningBug)
             enemyObject = lightningBugManager.RequestObject();
+        else if(type == EnemyType.Hornet)
+            enemyObject = hornetManager.RequestObject();
+        else if(type == EnemyType.BlackWidow)
+            enemyObject = blackWidowManager.RequestObject();
 
         enemyObject.transform.position = spawnLocation.transform.position;
 
@@ -228,6 +240,10 @@ public class EnemySpawner : MonoBehaviour
             termiteManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 		else if(type == EnemyType.LightningBug)
             lightningBugManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else if(type == EnemyType.Hornet)
+            hornetManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
+        else if(type == EnemyType.BlackWidow)
+            blackWidowManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 
 		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
