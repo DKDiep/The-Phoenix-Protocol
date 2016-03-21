@@ -19,7 +19,8 @@ public class ConsoleShipControl : MonoBehaviour {
 	}
 		
 	void Update () {
-		
+		/*
+         * Disabled the rotation as it was getting annoying. Not sure if we actually need this. 
 		if (Input.GetMouseButton(0))
 		{
 			// Get mouse x position and rotate the ship about the y axis
@@ -29,6 +30,7 @@ public class ConsoleShipControl : MonoBehaviour {
 			rotation = Quaternion.Lerp(currentRotation, desiredRotation, Time.deltaTime);
 			transform.rotation = rotation;
 		}
+        */      
 	}
   
     public void HighlightComponent(int component)
