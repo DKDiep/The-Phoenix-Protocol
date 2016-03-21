@@ -18,7 +18,6 @@ public class ShipMovement : MonoBehaviour
 	private float slowDown;
 	private float shieldDelay; // Delay in seconds to wait before recharging shield
 
-	private float shieldRechargeValue; // The value by which to recharge the shields each tick
 	private bool rechargeShield;
 	private float lastShieldCheck;    // Temp variable allows us to see whether I've taken damage since last checking
 	private GameObject controlObject;
@@ -49,8 +48,6 @@ public class ShipMovement : MonoBehaviour
 		wii = remoteManager.GetComponent<WiiRemoteManager>();
 
     	controlObject = transform.parent.gameObject;
-		// TODO: I'm not sure where the 10f is from, it was in the code when I refactored it. This value should probably be related to the recherge rate
-		shieldRechargeValue = gameState.GetShipShieldRechargeRate() / 10f;
 		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine ("RechargeShields");
     }
@@ -74,7 +71,7 @@ public class ShipMovement : MonoBehaviour
 		if(lastShieldCheck == gameState.GetShipShield() && 
 		   gameState.GetShipShield() < gameState.GetShipMaxShields()) // Ensure shield is below max value and the player hasn't been hit
 		{
-			gameState.RechargeShield(shieldRechargeValue);
+			gameState.RechargeShield();
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(0.1f);
 			StartCoroutine ("RechargeShields");

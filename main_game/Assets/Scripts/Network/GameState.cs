@@ -122,10 +122,24 @@ public class GameState : NetworkBehaviour {
             Debug.Log("NOS mode " + nosMode);
         }
 
+		UpdateComponents();
+
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
     }
+
+	/// <summary>
+	/// Update ship parameters based on components health.
+	/// 
+	/// This should be called every frame.
+	/// </summary>
+	private void UpdateComponents()
+	{
+		UpgradableShieldGenerator shieldGen = (UpgradableShieldGenerator)upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
+		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
+		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
+	}
 
     /// <summary>
     /// Increase the current difficulty of the game.
@@ -164,7 +178,7 @@ public class GameState : NetworkBehaviour {
 		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		= new UpgradableEngine();
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
-		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    = new UpgradableShieldGenerator();
+		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    = new UpgradableShieldGenerator(shipMaxShields, shipShieldRechargeRate);
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
 		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] = new UpgradableResourceStorage();
 	}
@@ -581,6 +595,7 @@ public class GameState : NetworkBehaviour {
 	/// <param name="shield">Shield.</param>
 	public void SetShipShield(float shield)
 	{
+		Debug.Log("Shield recharged: " + shield);
 		shipShield = shield;
 	}
 
@@ -594,11 +609,12 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Recharge the ship's shield by a given value.
+	/// Recharge the ship's shield..
 	/// </summary>
-	/// <param name="value">The ammount by which to recharge the shields.</param>
-	public void RechargeShield(float value)
+	public void RechargeShield()
 	{
+		float value = shipShieldRechargeRate / 10f; // The 10f is copied over from old code. It translates rate into value per tick
+
 		// Don't recharge the shields over the maximum value
 		float newShieldvalue = shipShield + value;
 		if (newShieldvalue > shipMaxShields)
