@@ -677,16 +677,10 @@ MonoBehaviour:
   shieldsText: {fileID: 11496964}
   upgradeButtonLabel: {fileID: 11492108}
   costLabel: {fileID: 11487994}
+  upgradeDescription: {fileID: 11406322}
   defaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   highlightMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   newsFeed: {fileID: 167460}
-  upgradeBoxes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   defaultColor: {r: 0.13333334, g: 0.2509804, b: 0.50980395, a: 1}
   highlightColor: {r: 0.17787631, g: 0.33828261, b: 0.6911765, a: 1}
 --- !u!114 &11411522
