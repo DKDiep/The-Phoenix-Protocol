@@ -17,7 +17,8 @@ public class GameState : NetworkBehaviour {
 
     private GameSettings settings;
 
-    private List<GameObject> asteroidList;
+	private AsteroidSpawner asteroidSpawner;
+	private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
 
@@ -70,13 +71,14 @@ public class GameState : NetworkBehaviour {
 
 	void Start()
 	{
-        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		asteroidSpawner = GameObject.Find("Spawner").GetComponent<AsteroidSpawner>();
+
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         difficulty = 0;
         LoadSettings();
 		
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
-
 	}
         
     private void LoadSettings()
@@ -215,7 +217,7 @@ public class GameState : NetworkBehaviour {
         bool wasDeleted = newAsteroids.Remove(removeObject);
         if (!wasDeleted) removedAsteroids.Add((uint)removeObject.GetInstanceID());
         asteroidList.Remove(removeObject);
-		AsteroidSpawner.DecrementNumAsteroids();
+		asteroidSpawner.DecrementNumAsteroids();
     }
 
     private void RemoveAsteroidAt(int i)
@@ -224,7 +226,7 @@ public class GameState : NetworkBehaviour {
         if (!wasDeleted)
 			removedAsteroids.Add((uint)asteroidList[i].GetInstanceID());
         asteroidList.RemoveAt(i);
-		AsteroidSpawner.DecrementNumAsteroids();
+		asteroidSpawner.DecrementNumAsteroids();
     }
 
 	/// <summary>

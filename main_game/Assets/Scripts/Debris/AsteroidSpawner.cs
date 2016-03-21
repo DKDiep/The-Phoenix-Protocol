@@ -28,7 +28,7 @@ public class AsteroidSpawner : MonoBehaviour
     private GameObject player, spawnLocation;
 	private GameState state;
 
-	private static int numAsteroids;
+	private int numAsteroids;
 
 	private bool fieldSpawned = false;
 
@@ -149,7 +149,7 @@ public class AsteroidSpawner : MonoBehaviour
 	/// <summary>
 	/// Decrements the asteroid count. Call this when an asteroid is destroyed.
 	/// </summary>
-	public static void DecrementNumAsteroids()
+	public void DecrementNumAsteroids()
 	{
 		numAsteroids--;
 	}
