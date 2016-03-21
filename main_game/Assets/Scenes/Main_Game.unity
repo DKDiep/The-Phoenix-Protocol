@@ -719,7 +719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 181100, guid: d7d902bfc1a5345e4b31072eaaff541a, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!114 &877425281

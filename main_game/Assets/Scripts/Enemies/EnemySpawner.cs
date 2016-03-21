@@ -87,7 +87,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator TimedDifficulty()
     {
         IncreaseDifficulty();
-        yield return new WaitForSeconds(45f);
+        yield return new WaitForSeconds(60f);
         StartCoroutine("TimedDifficulty");
 
     }
@@ -104,18 +104,90 @@ public class EnemySpawner : MonoBehaviour
         {
             case 1 :
                 maxEnemies = 20;
-                gnatLimit = 15;
+                gnatLimit = 80;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                break;
+
+        case 2 :
+                maxEnemies = 25;
+                gnatLimit = 60;
+                fireflyLimit = 100;
+                termiteLimit = 101;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                break;
+        case 3 :
+                maxEnemies = 30;
+                gnatLimit = 20;
+                fireflyLimit = 70;
+                termiteLimit = 100;
+                lightningBugLimit = 101;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                break;
+        case 4 :
+                maxEnemies = 35;
+                gnatLimit = 20;
+                fireflyLimit = 60;
+                termiteLimit = 90;
+                lightningBugLimit = 100;
+                hornetLimit = 101;
+                blackWidowLimit = 101;
+                break;
+        case 5 :
+                maxEnemies = 40;
+                gnatLimit = 20;
+                fireflyLimit = 50;
+                termiteLimit = 70;
+                lightningBugLimit = 90;
+                hornetLimit = 100;
+                blackWidowLimit = 101;
+                break;
+        case 6 :
+                maxEnemies = 40;
+                gnatLimit = 20;
+                fireflyLimit = 40;
+                termiteLimit = 60;
+                lightningBugLimit = 80;
+                hornetLimit = 100;
+                blackWidowLimit = 101;
+                break;
+        case 7 :
+                maxEnemies = 45;
+                gnatLimit = 10;
                 fireflyLimit = 30;
-                termiteLimit = 45;
+                termiteLimit = 50;
                 lightningBugLimit = 60;
-                hornetLimit = 75;
+                hornetLimit = 100;
+                blackWidowLimit = 101;
+                break;
+        case 8 :
+                maxEnemies = 50;
+                gnatLimit = 10;
+                fireflyLimit = 25;
+                termiteLimit = 40;
+                lightningBugLimit = 50;
+                hornetLimit = 85;
                 blackWidowLimit = 100;
-                glomCruiserLimit = 101;
+                break;
+        case 9 :
+                maxEnemies = 50;
+                gnatLimit = 10;
+                fireflyLimit = 20;
+                termiteLimit = 35;
+                lightningBugLimit = 45;
+                hornetLimit = 70;
+                blackWidowLimit = 100;
                 break;
             // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
             default :
-                if(maxEnemies < 100)
-                    maxEnemies += 10;
+                if(maxEnemies < 70)
+                    maxEnemies += 5;
                 break;
         }
 
