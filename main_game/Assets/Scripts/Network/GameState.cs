@@ -71,7 +71,9 @@ public class GameState : NetworkBehaviour {
 
 	void Start()
 	{
-		asteroidSpawner = GameObject.Find("Spawner").GetComponent<AsteroidSpawner>();
+		GameObject spawnerObj = GameObject.Find("Spawner");
+		if (spawnerObj != null)
+			asteroidSpawner = spawnerObj.GetComponent<AsteroidSpawner>();
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         difficulty = 0;

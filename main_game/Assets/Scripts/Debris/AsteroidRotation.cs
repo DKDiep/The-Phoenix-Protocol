@@ -35,7 +35,10 @@ public class AsteroidRotation : MonoBehaviour
 		player   = GameObject.Find("PlayerShip(Clone)");
         myFilter = GetComponent<MeshFilter>();
 		renderer = GetComponent<Renderer>();
-		spawner  = GameObject.Find("Spawner").GetComponent<AsteroidSpawner>();
+
+		GameObject spawnerObj = GameObject.Find("Spawner");
+		if (spawnerObj != null)
+			spawner  = spawnerObj.GetComponent<AsteroidSpawner>();
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -68,11 +71,8 @@ public class AsteroidRotation : MonoBehaviour
 
 		bool newState = distance < maxRenderDistance, oldState = renderer.enabled;
 		renderer.enabled = newState;
-		if (newState != oldState)
-		{
+		if (spawner != null && newState != oldState)
 			spawner.RegisterVisibilityChange(newState);
-			Debug.Log("New visibility: " + newState);
-		}
 	}
 
 	IEnumerator AsteroidLOD()
