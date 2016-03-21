@@ -24,7 +24,7 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<int, GameObject> screenIdToCrosshair;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
-    private GameObject spawner, musicManager;
+    private GameObject spawner, musicManager, missionManager;
     public GameObject cutsceneManager;
 
 	private uint serverId;
@@ -233,7 +233,10 @@ public class ServerManager : NetworkBehaviour
 
         // Spawn music controller only on server
         musicManager = Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject))) as GameObject;
-        
+
+        // Spawn mission manager only on server
+        missionManager = Instantiate(Resources.Load("Prefabs/MissionManager", typeof(GameObject))) as GameObject;
+
         //Spawn shield
         GameObject playerShield = Instantiate(Resources.Load("Prefabs/Shield", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(playerShield);
