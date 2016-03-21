@@ -449,15 +449,6 @@ public class GameState : NetworkBehaviour {
 	{
 		return shipHealth;
 	}
-		
-	/// <summary>
-	/// Sets the ship health to a specific value
-	/// </summary>
-	/// <param name="value">Value.</param>
-	private void SetShipHealth(float value) 
-	{
-		shipHealth = value;
-	}
 
 	/// <summary>
 	/// Damage the ship's main hull.
@@ -465,7 +456,6 @@ public class GameState : NetworkBehaviour {
 	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the hull.</param>
 	/// <param name="damage">The ammount of damage to inflict.</param>
 	/// <returns><c>true</c> if shields are still available</returns>
-
 	public bool DamageShip(float damage)
 	{
 		if (shipShield > damage)
@@ -550,15 +540,6 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Sets the ship max shields.
-	/// </summary>
-	/// <param name="shield">Shield.</param>
-	public void SetShipMaxShields(float shield)
-	{
-		shipMaxShields = shield;
-	}
-
-	/// <summary>
 	/// Gets the ship shield value.
 	/// </summary>
 	/// <returns>The ship shield.</returns>
@@ -583,15 +564,6 @@ public class GameState : NetworkBehaviour {
 	public float GetShipShieldRechargeRate()
 	{
 		return shipShieldRechargeRate;
-	}
-
-	/// <summary>
-	/// Sets the ships shield recharge rate.
-	/// </summary>
-	/// <param name="shieldRechargeRate">Shield recharge rate.</param>
-	public void SetShipShieldRechargeRate(float shieldRechargeRate)
-	{
-		shipShieldRechargeRate = shieldRechargeRate;
 	}
 
 	/// <summary>
