@@ -20,6 +20,7 @@ public class EngineerController : NetworkBehaviour
 
     private Text upgradeText;
     private Text dockText;
+    private Text popupText;
     private PlayerController playerController;
     private new Camera camera;
     private MouseLook mouseLook;
@@ -34,6 +35,7 @@ public class EngineerController : NetworkBehaviour
     private string upgradeString;
     private string repairString;
     private string dockString;
+    private string popupString;
 
     private bool canUpgrade;
     private bool canRepair;
@@ -41,6 +43,7 @@ public class EngineerController : NetworkBehaviour
     private bool pressedRepair;
     private bool isDocked = false;
     private bool jump;
+    private bool showPopup = false;
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
@@ -65,6 +68,7 @@ public class EngineerController : NetworkBehaviour
     // TODO: Make these depend on Engineer upgrade level
     private const float REPAIR_TIME = 5;
     private const float UPGRADE_TIME = 5;
+    private const float POPUP_TIME = 5;
 
     [SerializeField] Material defaultMat;
     [SerializeField] Material repairMat;
@@ -73,7 +77,8 @@ public class EngineerController : NetworkBehaviour
     private enum InteractionKey
     {
         Repair,
-        Upgrade
+        Upgrade,
+        Popup
     }
 
 
@@ -93,6 +98,11 @@ public class EngineerController : NetworkBehaviour
 
 		int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
 		keyPressTime     = new Dictionary<InteractionKey, float>(enumElements);
+
+        // Initialize with keys
+        keyPressTime[InteractionKey.Upgrade] = 0f;
+        keyPressTime[InteractionKey.Repair] = 0f;
+        keyPressTime[InteractionKey.Popup] = 0f;
 
         // Remove crosshair from this scene. 
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
@@ -156,12 +166,14 @@ public class EngineerController : NetworkBehaviour
             upgradeString = "Press LT to upgrade";
             repairString = "Press RT to repair";
             dockString = "Press B to dock";
+            popupString = "Job finished. Press B to dock, or continue doing jobs";
         }
         else
         {
             upgradeString = "Press Mouse1 to upgrade";
             repairString = "Press Mouse2 to repair";
             dockString = "Press L Shift to dock";
+            popupString = "Job finished. Press L Shift to dock, or continue doing jobs";
         }
 
         // Set the progress bar location
@@ -177,15 +189,14 @@ public class EngineerController : NetworkBehaviour
         engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
         Text[] tmp = engineerCanvas.GetComponentsInChildren<Text>();
 
-        if (tmp[0].name.Equals("Upgrade Text"))
+        foreach (Text t in tmp)
         {
-            upgradeText = tmp[0];
-            dockText = tmp[1];
-        }
-        else
-        {
-            upgradeText = tmp[1];
-            dockText = tmp[0];
+            if (t.name.Equals("Upgrade Text"))
+                upgradeText = t;
+            else if (t.name.Equals("Dock Text"))
+                dockText = t;
+            else if (t.name.Equals("Popup Text"))
+                popupText = t;
         }
         dockText.text = dockString;
 
@@ -337,6 +348,18 @@ public class EngineerController : NetworkBehaviour
         else
             keyPressTime[InteractionKey.Repair] = 0;
 
+        // Artificial way of having the popup show for 2 seconds
+        if (showPopup)
+        {
+            keyPressTime[InteractionKey.Popup] += Time.deltaTime;
+            popupText.text = popupString;
+        }
+        else
+        {
+            keyPressTime[InteractionKey.Popup] = 0;
+            popupText.text = "";
+        }
+
         // Do forward raycast from camera to the center of the screen to see if an upgradeable object is in front of the player
         int x = Screen.width / 2;
         int y = Screen.height / 2;
@@ -428,6 +451,11 @@ public class EngineerController : NetworkBehaviour
                 transform.position = newPosition;
         }
 
+        // If the popup has been show for the required amount of time then
+        // we make it disappear
+        if (showPopup && keyPressTime[InteractionKey.Popup] >= POPUP_TIME)
+            showPopup = false;
+
         // Do upgrades/repairs
         // Force engineer to repair before upgrading if
         // both are possible
@@ -435,11 +463,13 @@ public class EngineerController : NetworkBehaviour
         {
             FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
+            showPopup = true;
         }
         else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= UPGRADE_TIME)
         {
             FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
+            showPopup = true;
         }
 
         ProgressStepCycle(speed);
