@@ -72,8 +72,8 @@ public class GameSettings : MonoBehaviour
 	public bool EngineerMouseLookSmooth;
 	public float EngineerMouseLookSmoothTime;
     public float EngineerMaxDistance;
-    public Texture emptyProgressBar;
-    public Texture filledProgressBar;
+    public Texture EmptyProgressBar;
+    public Texture FilledProgressBar;
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;

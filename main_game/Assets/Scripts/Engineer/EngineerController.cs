@@ -101,6 +101,8 @@ public class EngineerController : NetworkBehaviour
 	{
 		walkSpeed = settings.EngineerWalkSpeed;
         engineerMaxDistance = settings.EngineerMaxDistance;
+        emptyProgressBar = settings.EmptyProgressBar;
+        filledProgressBar = settings.FilledProgressBar;
 	}
 
     [Command]
