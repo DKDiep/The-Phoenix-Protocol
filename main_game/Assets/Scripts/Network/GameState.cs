@@ -33,6 +33,7 @@ public class GameState : NetworkBehaviour {
 	public GameObject PlayerShip { get; set; }
 
     public SyncListInt playerScore = new SyncListInt();
+    private int totalKills = 0;
 
     public ShieldEffects myShield = null;
 
@@ -370,6 +371,7 @@ public class GameState : NetworkBehaviour {
 	public void AddToPlayerScore(int playerId, int score) 
 	{
 		playerScore[playerId] += score;
+        totalKills += 1;
 	}
       
     /// <summary>
@@ -380,6 +382,11 @@ public class GameState : NetworkBehaviour {
     public int GetPlayerScore(int id)
     {
         return playerScore[id];
+    }
+
+    public int GetTotalKills()
+    {
+        return totalKills;
     }
 
 	/// <summary>

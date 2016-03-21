@@ -153,4 +153,7 @@ public class GameSettings : MonoBehaviour
 	public Texture2D PlayerHitmarker; // Hitmarker texture
 	public AudioClip PlayerFireSound; // Sound to make when firing
 	public bool PlayerFireSoundRandomPitch;
+
+    [Header("Mission Settings")]
+    public MissionManager.Mission[] missionProperties;
 }
