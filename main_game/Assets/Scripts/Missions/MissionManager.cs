@@ -49,8 +49,7 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
-        playerController.RpcStartMission(missionId);
-        Debug.Log("Starting Mission " + missions[missionId].description);
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description);
     }
 
     /// <summary>

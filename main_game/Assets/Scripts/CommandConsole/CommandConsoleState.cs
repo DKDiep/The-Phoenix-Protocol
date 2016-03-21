@@ -388,9 +388,12 @@ public class CommandConsoleState : MonoBehaviour {
     }
 
 
-    public void ShowMissionPopup(int missionId)
+    public void ShowMissionPopup(string title, string descrption)
     {
         popupWindow.SetActive(true);
+        popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
+        popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = descrption;
+
     }
 
     public void ClosePopupWindow()
