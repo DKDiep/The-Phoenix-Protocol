@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CommandConsoleState : MonoBehaviour {
 
@@ -20,7 +21,7 @@ public class CommandConsoleState : MonoBehaviour {
 
 	[SerializeField] private GameObject newsFeed;
 
-    [SerializeField] private GameObject[] upgradeBoxes;
+    //[SerializeField] private GameObject[] upgradeBoxes;
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
@@ -32,6 +33,7 @@ public class CommandConsoleState : MonoBehaviour {
     private StratMap stratMap;
 	private GameState gameState;
     private GameSettings settings;
+    private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
 
     private bool upgrade = true;
     private int shieldsLevel = 1;
@@ -52,7 +54,9 @@ public class CommandConsoleState : MonoBehaviour {
     private int storageInitialCost;
 
     private int[] costs;
-        
+    private string[] upgradeNames = new string[6] {"SHIELDS", "TURRETS", "ENGINES", "HULL", "DRONE", "STORAGE"};
+    private int[] upgradeMaxLevels = new int[6] {5, 5, 3, 4, 2, 3};
+
     private ConsoleShipControl shipControl;
    
     void Start () {
@@ -84,18 +88,8 @@ public class CommandConsoleState : MonoBehaviour {
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
 
         upgradeArea.SetActive(false);
-       
-        // Hide all level indicators.
-        //for(int i = 0; i < 6; i++)
-        //    for(int k = 0; k < 3; k++)
-        //        levelIndicator[i].transform.GetChild(k).gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
 
-        upgradeBoxes[0].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("SHIELDS", shieldsInitialCost, 3);
-        upgradeBoxes[1].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("TURRETS", turretsInitialCost, 5);
-        upgradeBoxes[2].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("ENGINES", enginesInitialCost, 5);
-        upgradeBoxes[3].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("HULL", hullInitialCost, 3);
-        upgradeBoxes[4].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("DRONE", droneInitialCost, 2);
-        upgradeBoxes[5].GetComponent<ConsoleUpgrade>().SetUpgradeInfo("STORAGE", storageInitialCost, 3);
+        AddUpgradeBoxes();
     }
 
     private void LoadSettings() 
@@ -119,6 +113,21 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    private void AddUpgradeBoxes()
+    {
+        Transform canvas = gameObject.transform.Find("Canvas");
+        for(int i = 0; i < 6; i++) 
+        {
+            int component = i;
+            GameObject upgradeBox = Instantiate(Resources.Load("Prefabs/UpgradeBox", typeof(GameObject))) as GameObject;
+            upgradeBox.transform.SetParent(canvas);
+            upgradeBox.transform.localScale = new Vector3(1,1,1);
+            upgradeBox.transform.localPosition = new Vector3(-483, 200 - (i*80), 0);
+            upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeNames[i], costs[i], upgradeMaxLevels[i]);
+            upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
+            consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
+        }
+    }
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
@@ -142,16 +151,6 @@ public class CommandConsoleState : MonoBehaviour {
                 return 5;
         }
         return 0;
-    }
-
-    /// <summary>
-    /// Updates the level indicator under each upgrade menu item.
-    /// </summary>
-    /// <param name="type">Type.</param>
-    /// <param name="level">Level.</param>
-    private void UpdateLevelIndicator(ComponentType type, int level)
-    {
-        //levelIndicator[GetIdFromComponentType(type)].transform.GetChild(level - 1).gameObject.GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
     }
 
     /// <summary>
@@ -191,7 +190,7 @@ public class CommandConsoleState : MonoBehaviour {
             gameState.UseShipResources(GetUpgradeCost(baseCost, level));
 
             // Show level indictor for new level.
-            UpdateLevelIndicator(type, level);
+            consoleUpgrades[GetIdFromComponentType(type)].UpdateLevelIndicator(level);
 
             // Send request to engineer to upgrade
             playerController.CmdAddUpgrade(type);
@@ -238,9 +237,9 @@ public class CommandConsoleState : MonoBehaviour {
     {
         for(int i = 0; i < 6; i++)
         {
-            upgradeBoxes[i].transform.GetChild(0).GetComponent<Image>().color = defaultColor;
+            //upgradeBoxes[i].transform.GetChild(0).GetComponent<Image>().color = defaultColor;
         }
-        upgradeBoxes[component].transform.GetChild(0).GetComponent<Image>().color = highlightColor;
+        //upgradeBoxes[component].transform.GetChild(0).GetComponent<Image>().color = highlightColor;
         shipControl.HighlightComponent(component);
     }
 
@@ -330,7 +329,7 @@ public class CommandConsoleState : MonoBehaviour {
                 tmpLevel = storageLevel; 
                 break;
         }
-        upgradeBoxes[componentToUpgrade].GetComponent<ConsoleUpgrade>().UpdateCost(GetUpgradeCost(costs[componentToUpgrade], tmpLevel + 1));
+        consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(costs[componentToUpgrade], tmpLevel + 1));
 
         //upgradeButtonLabel.text = "Waiting";
     }

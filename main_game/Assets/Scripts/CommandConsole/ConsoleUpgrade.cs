@@ -12,8 +12,11 @@ public class ConsoleUpgrade : MonoBehaviour
     private int upgradeCost;
     private int maxLevels;
 
+    private Transform levelIndicator;
+
     void Start ()
     {
+        
     }
 
     void Update()
@@ -49,9 +52,24 @@ public class ConsoleUpgrade : MonoBehaviour
 
     private void InitialiseLevels()
     {
-        // Use maxLevels to change number of level cells.
+        GameObject level;
+        levelIndicator = gameObject.transform.Find("LevelIndicatorWrapper");
+
+        for(int i = 0; i < maxLevels; i++)
+        {
+            level = Instantiate(Resources.Load("Prefabs/levelIndicator", typeof(GameObject))) as GameObject;
+            level.transform.SetParent(levelIndicator);
+            level.transform.localPosition = new Vector3(15*i, 0, 0);
+            level.transform.localScale = new Vector3(1,1,1);
+            level.GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
+        }
+
     }
 
+    public void UpdateLevelIndicator(int level)
+    {
+        levelIndicator.GetChild(level-1).gameObject.GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
+    }
 }
 
 
