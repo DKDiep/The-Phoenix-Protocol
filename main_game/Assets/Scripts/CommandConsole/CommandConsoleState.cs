@@ -23,6 +23,9 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private GameObject[] levelIndicator;
     [SerializeField] private GameObject[] backgrounds;
     [SerializeField] private Text[] upgradeCostLabel;
+
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Color highlightColor;
 	#pragma warning restore 0649
 
     private PlayerController playerController;
@@ -51,9 +54,7 @@ public class CommandConsoleState : MonoBehaviour {
     private int storageInitialCost;
 
     private ConsoleShipControl shipControl;
-
-    Color upgradeDefaultColor = new Vector4(27f/255f, 46f/255f, 91f/255f, 200f/255f);
-
+   
     void Start () {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -87,11 +88,7 @@ public class CommandConsoleState : MonoBehaviour {
         GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
 
         upgradeArea.SetActive(false);
-
-        for(int i = 0; i < 6; i++)
-            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
        
-
         // Hide all level indicators.
         for(int i = 0; i < 6; i++)
             for(int k = 0; k < 3; k++)
@@ -236,11 +233,13 @@ public class CommandConsoleState : MonoBehaviour {
         
     public void HighlightComponent(int component)
     {
+        Debug.Log(defaultColor);
+        //Debug.Log(highlightColor);
         for(int i = 0; i < 6; i++)
         {
-            backgrounds[i].GetComponent<Image>().color = upgradeDefaultColor;
+            backgrounds[i].GetComponent<Image>().color = defaultColor;
         }
-        backgrounds[component].GetComponent<Image>().color = new Vector4(28f/255f, 47f/255f, 98f/255f, 1);
+        backgrounds[component].GetComponent<Image>().color = highlightColor;
 
         shipControl.HighlightComponent(component);
     }

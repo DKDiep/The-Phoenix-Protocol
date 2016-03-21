@@ -2016,6 +2016,8 @@ MonoBehaviour:
   - {fileID: 11422260}
   - {fileID: 11408224}
   - {fileID: 11478798}
+  defaultColor: {r: 0.13333334, g: 0.2509804, b: 0.50980395, a: 1}
+  highlightColor: {r: 0.17787631, g: 0.33828261, b: 0.6911765, a: 1}
 --- !u!114 &11411522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6806,6 +6808,14 @@ Prefab:
       propertyPath: highlightMat
       value: 
       objectReference: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
+    - target: {fileID: 0}
+      propertyPath: highlightColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: defaultColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144818}
