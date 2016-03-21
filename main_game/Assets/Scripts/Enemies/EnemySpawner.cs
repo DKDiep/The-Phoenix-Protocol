@@ -185,7 +185,7 @@ public class EnemySpawner : MonoBehaviour
         enemyObject = null;
 
         int random = Random.Range(1,101);
-        EnemyType type;
+		EnemyType type = EnemyType.Gnat;
 
         if(random < gnatLimit)
 			type = EnemyType.Gnat;
