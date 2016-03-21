@@ -95,6 +95,7 @@ public class GameSettings : MonoBehaviour
     public int MediumMaxEnemies;
     public int HardMinEnemies;
     public int HardMaxEnemies;
+	public int OutpostMinDistance; // The minimum distance between outposts
 
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;

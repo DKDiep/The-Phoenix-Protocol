@@ -41,8 +41,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
-  AsteroidMinSpeed: 5
-  AsteroidMaxSpeed: 50
   MaxAsteroids: 300
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
@@ -50,6 +48,19 @@ MonoBehaviour:
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
+  shootCooldown: 0.5
+  projectileCount: 0
+  maxTargetRadius: 0
+  boostDuration: 0
+  boostCooldown: 0
+  boostSpeedMultiplier: 0
+  shieldOverdriveDuration: 0
+  shieldOverdriveCooldown: 0
+  empCooldown: 0
+  empRadius: 0
+  empDuration: 0
+  smartBombCooldown: 0
+  smartBombRadius: 0
   EnemyMinSpawnDistance: 750
   EnemyMaxSpawnDistance: 1200
   AIWaypointsPerEnemy: 10
@@ -83,7 +94,19 @@ MonoBehaviour:
   UDPMaxReceivedMessagesPerInterval: 100
   OutpostModel1Prefab: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
   OutpostResourceCollectionDistance: 500
-  MaxOutposts: 5
+  EasyOutposts: 0
+  MediumOutposts: 0
+  HardOutposts: 0
+  EasyMultiplier: 0
+  MediumMultiplier: 0
+  HardMultiplier: 0
+  EasyMinEnemies: 0
+  EasyMaxEnemies: 0
+  MediumMinEnemies: 0
+  MediumMaxEnemies: 0
+  HardMinEnemies: 0
+  HardMaxEnemies: 0
+  OutpostMinDistance: 800
   PlayerShipTurnSpeed: 5.5
   PlayerShipMaxTurnSpeed: 3.5
   PlayerShipSlowDown: 1

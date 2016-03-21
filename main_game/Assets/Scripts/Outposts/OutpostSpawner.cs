@@ -10,6 +10,7 @@ public class OutpostSpawner : MonoBehaviour
 	private GameObject gameManager;
 	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
+	private float minDistance; // The minimum distance between outposts
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -17,7 +18,6 @@ public class OutpostSpawner : MonoBehaviour
 
 	private GameState gameState;
 	private EnemySpawner enemySpawner;
-	private const float OUTPOST_MIN_DISTANCE = 800;
 
 	private GameObject player, outpost, logic, spawnLocation, outpostManager;
 
@@ -27,6 +27,8 @@ public class OutpostSpawner : MonoBehaviour
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
+
+		easyOutposts = mediumOutposts = hardOutposts = 0;
 
 		gameState    = gameManager.GetComponent<GameState>();
 		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
@@ -45,10 +47,8 @@ public class OutpostSpawner : MonoBehaviour
 		gameManager 	   = settings.GameManager;
 		outpost1 		   = settings.OutpostModel1Prefab;
 		collectionDistance = settings.OutpostResourceCollectionDistance;
-		easyOutposts 	   = 0;
-        mediumOutposts       = 0;
-        hardOutposts       = 0;
-        totalOutposts = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
+		minDistance        = settings.OutpostMinDistance;
+        totalOutposts	   = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
 	}
 		
 	void Update() {
@@ -77,14 +77,14 @@ public class OutpostSpawner : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks if the new outpost is closer than OUTPOST_MIN_DISTANCE to any existing outposts
+	/// Checks if the new outpost is closer than minDistance to any existing outposts
 	/// </summary>
-	/// <returns><c>true</c>, if outpost is further than OUTPOST_MIN_DISTANCE away from any outposts, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c>, if outpost is further than minDistance away from any outposts, <c>false</c> otherwise.</returns>
 	/// <param name="position">Position.</param>
 	private bool CheckOutpostProximity(Vector3 position) 
 	{
 		foreach(GameObject outpost in gameState.GetOutpostList()) {
-			if(Vector3.Distance(position, outpost.transform.position) < OUTPOST_MIN_DISTANCE) {
+			if(Vector3.Distance(position, outpost.transform.position) < minDistance) {
 				return false;
 			}
 		}
