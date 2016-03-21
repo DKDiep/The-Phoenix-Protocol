@@ -298,7 +298,7 @@ public class EnemySpawner : MonoBehaviour
 				pos.x *= aiWaypointWidthScale; // Widen the sphere on the horizontal axis
 				pos.y *= aiWaypointHeightScale; // Squash the sphere on the vertical axis
 
-				waypoint.transform.position = pos;
+				waypoint.transform.position = player.transform.position + pos;
 				waypoint.transform.Translate (aiWaypointShift); // Shift the waypoints a upwards and forwards a little, to keep enemies on sight more
 				waypoint.transform.parent = player.transform;
 
