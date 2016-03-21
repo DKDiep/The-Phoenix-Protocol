@@ -35,45 +35,45 @@ public class OutpostManager : MonoBehaviour {
                     arrowsRequired++;
                 }
             }
-        timeSinceLastEvent += Time.deltaTime;
+            timeSinceLastEvent += Time.deltaTime;
 
-        if (timeSinceLastEvent > 10)
-        {
-            timeSinceLastEvent = 0;
-
-            for(int i = 0; i < outpostList.Count; i++)
+            if (timeSinceLastEvent > 10)
             {
-                if (outpostLogic[i].discovered == false)
+                timeSinceLastEvent = 0;
+
+                for(int i = 0; i < outpostList.Count; i++)
                 {
-                    if (Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position) < 2000)
+                    if (outpostLogic[i].discovered == false)
                     {
-                        outpostLogic[i].discovered = true;
-                        if(outpostList[i] != null)   
-                            playerController.RpcOutpostNotification(outpostList[i]);
+                        if (Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position) < 2000)
+                        {
+                            outpostLogic[i].discovered = true;
+                            if(outpostList[i] != null)
+                                playerController.RpcOutpostNotification(outpostList[i]);
+                        }
                     }
                 }
             }
-        }
 
-        if(canvas == null) 
-            canvas = GameObject.Find("CrosshairCanvas(Clone)");
-        //note canvas might still be null if CrosshairCanvas isn't created yet
-        if (outpostList != null && canvas != null && outpostList.Count > 0)
-        {
-            /*A list of arrows is instantiated such that the index of each arrow is 
-            the same as the index of the outpostList object it tracks. Note that 
-            this means that outposts added to the list part-way through execution will not be tracked*/
-
-            for (int index = 0; index < outpostList.Count; index++)
+            if(canvas == null) 
+                canvas = GameObject.Find("CrosshairCanvas(Clone)");
+            //note canvas might still be null if CrosshairCanvas isn't created yet
+            if (outpostList != null && canvas != null && outpostList.Count > 0)
             {
-                if (outpostLogic[index].discovered && !outpostLogic[index].resourcesCollected && 
-                    !outpostLogic[index].civiliansCollected && outpostList[index] != null
-                    )
-                    Indicator(outpostList[index], index);
-                else 
-                    arrowList[index].SetActive(false);
+                /*A list of arrows is instantiated such that the index of each arrow is 
+                the same as the index of the outpostList object it tracks. Note that 
+                this means that outposts added to the list part-way through execution will not be tracked*/
+
+                for (int index = 0; index < outpostList.Count; index++)
+                {
+                    if (outpostLogic[index].discovered && !outpostLogic[index].resourcesCollected && 
+                        !outpostLogic[index].civiliansCollected && outpostList[index] != null
+                        )
+                        Indicator(outpostList[index], index);
+                    else
+                        arrowList[index].SetActive(false);
+                }
             }
-        }
         }
     }
 
