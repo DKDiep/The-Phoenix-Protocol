@@ -18,13 +18,22 @@ public class OutpostTarget : MonoBehaviour
     {
         float distance = Vector3.Distance(player.transform.position, transform.position);
         if(distance < 600)
-            renderer.enabled = false;
+            HideTarget();
         else
         {
             Vector3 v3 = player.transform.position - transform.position;
             transform.rotation = Quaternion.LookRotation(-v3);
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, player.transform.eulerAngles.z);
-            renderer.enabled = true;
         }
 	}
+
+    public void ShowTarget()
+    {
+        renderer.enabled = true;
+    }
+
+    public void HideTarget()
+    {
+        renderer.enabled = false;
+    }
 }
