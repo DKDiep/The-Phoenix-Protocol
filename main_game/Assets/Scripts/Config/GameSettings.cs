@@ -134,6 +134,14 @@ public class GameSettings : MonoBehaviour
     public string DroneDescription;
     public string StorageDescription;
 
+    [Header("Ship Upgrade Levels")]
+    public int ShieldsUpgradeLevels;
+    public int TurretsUpgradeLevels;
+    public int EnginesUpgradeLevels;
+    public int HullUpgradeLevels;
+    public int DroneUpgradeLevels;
+    public int StorageUpgradeLevels;
+
 	[Header("Bullet Movement")]
 	public float BulletSpeed;
 

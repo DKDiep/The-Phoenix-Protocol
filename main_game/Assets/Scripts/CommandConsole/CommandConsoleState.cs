@@ -45,10 +45,10 @@ public class CommandConsoleState : MonoBehaviour {
 
     private double second = 0; 
 
-    private int[] upgradeCosts = new int[6];
     private string[] upgradeNames = new string[6] {"SHIELDS", "TURRETS", "ENGINES", "HULL", "DRONE", "STORAGE"};
+    private int[] upgradeCosts = new int[6];
     private string[] upgradeDescriptions = new string[6];
-    private int[] upgradeMaxLevels = new int[6] {5, 5, 3, 4, 2, 3};
+    private int[] upgradeMaxLevels = new int[6];
 
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] {0,0,0,0,0,0};
@@ -101,6 +101,14 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeDescriptions[3] = settings.HullDescription;
         upgradeDescriptions[4] = settings.DroneDescription;
         upgradeDescriptions[5] = settings.StorageDescription;
+
+        upgradeMaxLevels[0] = settings.ShieldsUpgradeLevels;
+        upgradeMaxLevels[1] = settings.TurretsUpgradeLevels;
+        upgradeMaxLevels[2] = settings.EnginesUpgradeLevels;
+        upgradeMaxLevels[3] = settings.HullUpgradeLevels;
+        upgradeMaxLevels[4] = settings.DroneUpgradeLevels;
+        upgradeMaxLevels[5] = settings.StorageUpgradeLevels;
+
     }
 
     void FixedUpdate ()
