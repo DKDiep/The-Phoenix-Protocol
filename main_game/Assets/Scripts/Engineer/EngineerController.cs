@@ -45,6 +45,8 @@ public class EngineerController : NetworkBehaviour
     private List<GameObject> engines;
     private List<GameObject> turrets;
     private List<GameObject> bridge;
+	private List<GameObject> shieldGen;
+	private List<GameObject> resourceStorage;
 
     private GameObject playerShip;
     private GameObject dockCanvas;
@@ -193,10 +195,12 @@ public class EngineerController : NetworkBehaviour
         // Get the components of the main ship that can be upgraded and/or repaired
         EngineerInteraction[] interactionObjects = playerShip.GetComponentsInChildren<EngineerInteraction>();
 
-        engines = new List<GameObject>();
-        turrets = new List<GameObject>();
-        bridge = new List<GameObject>();
-        foreach (EngineerInteraction interaction in interactionObjects)
+        engines 		= new List<GameObject>();
+        turrets 		= new List<GameObject>();
+        bridge 			= new List<GameObject>();
+		shieldGen 		= new List<GameObject>();
+		resourceStorage = new List<GameObject>();
+		foreach (EngineerInteraction interaction in interactionObjects)
         {
             // Ensure that the properties of the Interaction
             // script are initialized as normally they are only
@@ -214,8 +218,13 @@ public class EngineerController : NetworkBehaviour
 			case ComponentType.Turret:
 				turrets.Add (interaction.gameObject);
 				break;
+			case ComponentType.ShieldGenerator:
+				shieldGen.Add(interaction.gameObject);
+				break;
+			case ComponentType.ResourceStorage:
+				resourceStorage.Add(interaction.gameObject);
+				break;
 			}
-            // TODO: add shield generator
         }
     }
 
@@ -224,7 +233,7 @@ public class EngineerController : NetworkBehaviour
     /// for each game object in the list to value
     /// </summary>
     /// <param name="isUpgrade">Wether the job is an upgrade or a repair</param>
-    /// /// <param name="value">The value to set Upgradeable/Repairable property to</param>
+    /// <param name="value">The value to set Upgradeable/Repairable property to</param>
     /// <param name="parts">The list of parts this job applies to</param>
     private void ProcessJob(bool isUpgrade, bool value, List<GameObject> parts)
     {
@@ -239,6 +248,37 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
+	/// <summary>
+	/// Gets list of parts of a specified type.
+	/// </summary>
+	/// <returns>The part list.</returns>
+	/// <param name="type">The component type.</param>
+	private List<GameObject> GetPartListByType(ComponentType type)
+	{
+		List<GameObject> partList = null;
+
+		switch (type)
+		{
+		case ComponentType.Turret:
+			partList = turrets;
+			break;
+		case ComponentType.Engine:
+			partList = engines;
+			break;
+		case ComponentType.Bridge:
+			partList = bridge;
+			break;
+		case ComponentType.ShieldGenerator:
+			partList = shieldGen;
+			break;
+		case ComponentType.ResourceStorage:
+			partList = resourceStorage;
+			break;
+		}
+
+		return partList;
+	}
+
     /// <summary>
     /// Adds the uprade/repair job to the engineer's list
     /// </summary>
@@ -246,18 +286,9 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part">The part of the ship this job applies to</param>
 	public void AddJob(bool isUpgrade, ComponentType part)
     {
-		if (part == ComponentType.Turret)
-        {
-            this.ProcessJob(isUpgrade, true, turrets);
-        }
-		else if (part == ComponentType.Engine)
-        {
-            this.ProcessJob(isUpgrade, true, engines);
-        }
-		else if (part == ComponentType.Bridge)
-        {
-            this.ProcessJob(isUpgrade, true, bridge);
-        }
+		List<GameObject> partList = GetPartListByType(part);
+
+		this.ProcessJob(isUpgrade, true, partList);
 
         // Highlight the appropriate components
         Highlight(part);
@@ -271,18 +302,9 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part"></param>
     private void FinishJob(bool isUpgrade, ComponentType part)
     {
-        if (part == ComponentType.Turret)
-        {
-            this.ProcessJob(isUpgrade, false, turrets);
-        }
-        else if (part == ComponentType.Engine)
-        {
-            this.ProcessJob(isUpgrade, false, engines);
-        }
-        else if (part == ComponentType.Bridge)
-        {
-            this.ProcessJob(isUpgrade, false, bridge);
-        }
+		List<GameObject> partList = GetPartListByType(part);
+
+		this.ProcessJob(isUpgrade, false, partList);
 
         // Un-highlight the appropriate components
         Highlight(part);
