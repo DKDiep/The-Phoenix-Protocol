@@ -18,6 +18,7 @@ public class ToggleGraphics : MonoBehaviour
 	private Smaa.SMAA smaa;
 	private LightShafts volumetricLighting;
     private bool foundLight = false;
+    private EyeAdaptation eyeAdaptation;
 	
 	void Start () 
 	{
@@ -27,6 +28,7 @@ public class ToggleGraphics : MonoBehaviour
 		bloom          = GetComponent<SENaturalBloomAndDirtyLens>();
 		color          = GetComponent<AmplifyColorEffect>();
 		smaa           = GetComponent<Smaa.SMAA>();
+        eyeAdaptation = GetComponent<EyeAdaptation>();
 		
 		UpdateGraphics ();
 	}
@@ -52,6 +54,8 @@ public class ToggleGraphics : MonoBehaviour
         sessao.enabled = true;
         smaa.enabled   = true;
         bloom.enabled = true;
+        eyeAdaptation.enabled = false;
+
 
     }
 
