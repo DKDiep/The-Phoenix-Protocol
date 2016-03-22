@@ -298,7 +298,6 @@ public class EngineerController : NetworkBehaviour
 
     private void Update()
     {
-
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
