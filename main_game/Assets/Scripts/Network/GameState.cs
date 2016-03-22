@@ -129,7 +129,7 @@ public class GameState : NetworkBehaviour {
             Debug.Log("NOS mode " + nosMode);
         }
 
-		UpdateComponents();
+		StartCoroutine("UpdateComponents");
 
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
@@ -137,13 +137,10 @@ public class GameState : NetworkBehaviour {
     }
 
 	/// <summary>
-	/// Update ship parameters based on components health.
-	/// 
-	/// This should be called every frame.
+	/// Update ship parameters based on components health and upgrade levels.
 	/// </summary>
-	private void UpdateComponents()
+	IEnumerator UpdateComponents()
 	{
-		// TODO: run this every second or so instead of every frame
 		UpgradableShieldGenerator shieldGen = (UpgradableShieldGenerator)upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
 		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
 		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
@@ -158,6 +155,9 @@ public class GameState : NetworkBehaviour {
 		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
 		droneSpeed 			  = drone.MovementSpeed;
 		droneWorkTime   	  = drone.ImprovementTime;
+
+		yield return new WaitForSeconds(0.5f);
+		StartCoroutine("UpdateComponents");
 	}
 
 	/// <summary>
