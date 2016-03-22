@@ -171,6 +171,13 @@ MonoBehaviour:
     completionType: 1
     triggerValue: 50
     completionValue: 1
+  - name: Timed Mission test
+    description: This should trigger after 30 seconds.
+    completedDescription: DONE
+    triggerType: 0
+    completionType: 1
+    triggerValue: 30
+    completionValue: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

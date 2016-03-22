@@ -254,6 +254,7 @@ public class ServerManager : NetworkBehaviour
         GameObject gameTimer = GameObject.Find("GameTimerText");
         gameTimer.SetActive(true);
         gameTimer.GetComponent<TimerScript>().ResetTimer();
+        missionManager.GetComponent<MissionManager>().ResetMissions();
         //Start the game
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
         gameState.Status = GameState.GameStatus.Started;

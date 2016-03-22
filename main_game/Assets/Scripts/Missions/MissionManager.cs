@@ -7,11 +7,18 @@ public class MissionManager : MonoBehaviour
     private GameSettings settings;
     private Mission[] missions;
     private PlayerController playerController;
+    private float startTime;
+
     void Start () 
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         LoadSettings();
+    }
+
+    public void ResetMissions() 
+    {
+        startTime = Time.time;
     }
 
     private void LoadSettings()
@@ -32,6 +39,7 @@ public class MissionManager : MonoBehaviour
     {
         playerController = controller;
     }
+
     /// <summary>
     /// Checks if any of the missions have triggered. 
     /// </summary>
@@ -97,7 +105,8 @@ public class MissionManager : MonoBehaviour
                     return true;
                 break;
             case TriggerType.Time:
-                // Check game time.
+                if((Time.time - startTime) > value)
+                    return true;
                 break;
         }
         return false;
