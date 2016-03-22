@@ -32,6 +32,9 @@ public class OutpostManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Updates the outpost indicator arrows.
+    /// </summary>
     private void UpdateOutpostArrows()
     {
         if(canvas == null) 
@@ -54,6 +57,10 @@ public class OutpostManager : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// Discovers the outposts based on time and distance.
+    /// </summary>
     private void DiscoverOutposts()
     {
         timeSinceLastEvent += Time.deltaTime;
@@ -78,6 +85,10 @@ public class OutpostManager : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// Spawns the outpost arrows.
+    /// </summary>
     private void SpawnOutpostArrows()
     {
         if(arrowsRequired < outpostList.Count)
@@ -90,6 +101,7 @@ public class OutpostManager : MonoBehaviour {
             }
         }
     }
+
     public void giveGameStateReference(GameState newGameState)
     {
         gameState = newGameState;
