@@ -12,14 +12,13 @@ public class TargetScript : MonoBehaviour
     {
 	    player = GameObject.Find("CameraManager(Clone)");
         renderer = GetComponent<Renderer>();
+        StartCoroutine("UpdateDistance");
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        distance = Vector3.Distance(transform.position, player.transform.position);
-
-        if(distance > 800f || distance < 25f)
+        if(distance > 650f || distance < 25f)
             renderer.enabled = false;
         else
         {
@@ -28,4 +27,11 @@ public class TargetScript : MonoBehaviour
             renderer.enabled = true;
         }    
 	}
+
+    private IEnumerator UpdateDistance()
+    {
+        yield return new WaitForSeconds(0.5f);
+        distance = Vector3.Distance(transform.position, player.transform.position);
+        StartCoroutine("UpdateDistance");
+    }
 }
