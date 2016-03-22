@@ -58,7 +58,8 @@ public class CrosshairMovement : NetworkBehaviour
         numberOfCrossHairs = wii.GetNumberOfRemotes();
         
 		// If there are no wii remotes connected, set the default to 2
-		if(numberOfCrossHairs == 0) numberOfCrossHairs = 2;
+		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
+		if(numberOfCrossHairs == 0) numberOfCrossHairs = 1;
 
 		crosshairPosition = new Vector3[numberOfCrossHairs];
 

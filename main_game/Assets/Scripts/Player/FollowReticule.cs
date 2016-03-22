@@ -29,7 +29,7 @@ public class FollowReticule : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (crosshair != null)
+		if (crosshair != null && crosshair.activeSelf)
         {
             Ray ray = Camera.main.ScreenPointToRay(crosshair.transform.position);
             RaycastHit hit;
