@@ -4,16 +4,20 @@ using System.Collections;
 public class OutpostTarget : MonoBehaviour 
 {
     private GameObject player;
+    private float distance;
+    private Renderer myRenderer;
+
 	// Use this for initialization
 	void Start () 
     {
 	    player = GameObject.Find("CameraManager(Clone)");
+        StartCoroutine("UpdateDistance");
+
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
-        float distance = Vector3.Distance(player.transform.position, transform.position);
         if(distance < 600)
             HideTarget();
         else
@@ -24,13 +28,30 @@ public class OutpostTarget : MonoBehaviour
         }
 	}
 
+    private void GetRenderer()
+    {
+        myRenderer = GetComponent<Renderer>();
+    }
+
+
+    private IEnumerator UpdateDistance()
+    {
+        distance = Vector3.Distance(player.transform.position, transform.position);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine("UpdateDistance");
+    }
+
     public void ShowTarget()
     {
-        GetComponent<Renderer>().enabled = true;
+        if(myRenderer == null)
+            GetRenderer();
+        myRenderer.enabled = true;
     }
 
     public void HideTarget()
     {
-        GetComponent<Renderer>().enabled = false;
+        if(myRenderer == null)
+            GetRenderer();
+        myRenderer.enabled = false;
     }
 }
