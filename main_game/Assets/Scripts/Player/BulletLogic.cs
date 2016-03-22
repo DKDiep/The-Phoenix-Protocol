@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Handles bullet properties and destruction
+    Handles bullet properties and destruction
 */
 
 using UnityEngine;

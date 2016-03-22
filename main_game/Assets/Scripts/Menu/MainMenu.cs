@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene, Dillon Diep
-    Description: Basic menu system
+    Basic menu system
 */
 
 using UnityEngine;

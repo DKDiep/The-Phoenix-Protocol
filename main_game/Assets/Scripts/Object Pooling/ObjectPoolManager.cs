@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Instantiates a number of objects at startup on both the Server and Clients
+    Instantiates a number of objects at startup on both the Server and Clients
 */
 
 using UnityEngine;

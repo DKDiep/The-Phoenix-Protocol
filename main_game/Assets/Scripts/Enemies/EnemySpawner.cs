@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
-    Description: Server-side logic for enemy spawner
+    Server-side logic for enemy spawner
 
 	Relevant Documentation:
 	  * Enemy AI:    https://bitbucket.org/pyrolite/game/wiki/Enemy%20AI

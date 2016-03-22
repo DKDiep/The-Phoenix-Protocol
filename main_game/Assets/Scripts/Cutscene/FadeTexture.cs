@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Full screen color fade in and out
+    Full screen color fade in and out
 */
 
 using UnityEngine;

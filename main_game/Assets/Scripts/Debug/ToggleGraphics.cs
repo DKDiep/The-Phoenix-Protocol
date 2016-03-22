@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Disables post processing effects by default to increase FPS during development
+    Disables post processing effects by default to increase FPS during development
 */
 
 using UnityEngine;

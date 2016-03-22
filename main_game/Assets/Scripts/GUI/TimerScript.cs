@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Counts number of seconds survived
+    Counts number of seconds survived
 */
 
 using UnityEngine;

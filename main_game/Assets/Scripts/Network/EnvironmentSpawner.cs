@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Spawn environment object
+    Spawn environment object
 */
 
 using UnityEngine;

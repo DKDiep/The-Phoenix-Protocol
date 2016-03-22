@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Damage the player upon collision with an enemy
+    Damage the player upon collision with an enemy
 */
 
 using UnityEngine;

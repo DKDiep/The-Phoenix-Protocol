@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Turrets aim at player reticule position
+    Turrets aim at player reticule position
 */
 
 using UnityEngine;

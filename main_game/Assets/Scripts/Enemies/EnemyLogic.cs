@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene, Andrei Poenaru
-    Description: Control enemy ship attributes and AI
+    Control enemy ship attributes and AI
 		
     Relevant Documentation:
 	  * Enemy AI:    https://bitbucket.org/pyrolite/game/wiki/Enemy%20AI

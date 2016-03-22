@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Handles cutscene events including music tracks
+    Handles cutscene events including music tracks
 */
 
 using UnityEngine;

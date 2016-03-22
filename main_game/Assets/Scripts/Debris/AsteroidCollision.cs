@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Handles the detection of collisions between an asteroid and another object
+    Handles the detection of collisions between an asteroid and another object
 */
 
 using UnityEngine;

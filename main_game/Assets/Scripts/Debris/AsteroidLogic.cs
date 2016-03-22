@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Sets a unique scale and rotation. Handles destruction effects.
+    Sets a unique scale and rotation. Handles destruction effects.
 */
 
 using UnityEngine;

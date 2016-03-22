@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Displays visual warnings when health is low and direction from which the player was hit
+    Displays visual warnings when health is low and direction from which the player was hit
 */
 
 using UnityEngine;

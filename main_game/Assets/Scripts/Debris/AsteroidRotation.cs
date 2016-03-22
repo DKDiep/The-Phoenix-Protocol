@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Causes client-side rotation of asteroid based on speed sent from server
+    Causes client-side rotation of asteroid based on speed sent from server
 */
 
 using UnityEngine;

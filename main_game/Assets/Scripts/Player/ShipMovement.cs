@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene, Andrei Poenaru
-    Description: Control ship flying
+    Control ship flying
 */
 
 using UnityEngine;

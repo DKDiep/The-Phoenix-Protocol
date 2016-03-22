@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Alter shield material when hit by bullet
+    Alter shield material when hit by bullet
 */
 
 using UnityEngine;

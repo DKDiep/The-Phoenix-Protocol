@@ -1,8 +1,5 @@
 /*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Dillon Keith Diep, Andrei Poenaru
-    Description: The game state resides solely on the server, holding a collection of data that allows clients to replicate
+    The game state resides solely on the server, holding a collection of data that allows clients to replicate
 */
 
 using System;

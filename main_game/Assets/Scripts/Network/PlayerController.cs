@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene, Luke Bryant
-    Description: Networked player entity, input management and RPCs
+    Networked player entity, input management and RPCs
 */
 
 using UnityEngine;

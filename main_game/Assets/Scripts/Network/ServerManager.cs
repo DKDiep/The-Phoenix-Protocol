@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
-    Description: Manage network initialisation
+    Manage network initialisation
 */
 
 using UnityEngine;

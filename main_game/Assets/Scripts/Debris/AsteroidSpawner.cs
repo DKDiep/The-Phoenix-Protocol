@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Dillon Keith Diep, Andrei Poenaru, Marc Steene
-    Description: Server-side logic for asteroid spawner
+    Server-side logic for asteroid spawner
 
 	Relevant Documentation:
 	  * Asteroid Fields:    https://bitbucket.org/pyrolite/game/wiki/Asteroid%20Fields

@@ -1,8 +1,5 @@
 ﻿/*
-    2015-2016 Team Pyrolite
-    Project "Sky Base"
-    Authors: Marc Steene
-    Description: Plays a sound then destroys particle effects upon completion
+    Plays a sound then destroys particle effects upon completion
 */
 
 using UnityEngine;
