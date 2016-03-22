@@ -210,7 +210,7 @@ public class GameState : NetworkBehaviour {
 			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed);
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		=
-			new UpgradableTurret(settings.PlayerShipStartingFiringDelay);
+			new UpgradableTurret(settings.PlayerShipStartingFiringDelay, settings.PlayerShipStartingBulletDamage);
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
 			new UpgradableShieldGenerator(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingRechargeRate);
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    =
@@ -686,6 +686,15 @@ public class GameState : NetworkBehaviour {
 	public float GetFiringDelay()
 	{
 		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentFireDelay();
+	}
+
+	/// <summary>
+	/// Gets the damage per bullet fired.
+	/// </summary>
+	/// <returns>The bullet damage.</returns>
+	public float GetBulletDamage()
+	{
+		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentDamage();
 	}
 
 	/// <summary>

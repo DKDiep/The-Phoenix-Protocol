@@ -121,6 +121,7 @@ public class GameSettings : MonoBehaviour
 	public float PlayerShipInitialResourceBonus;
 	public float PlayerShipInitialResourceInterest;
 	public float PlayerShipStartingFiringDelay;
+	public int PlayerShipStartingBulletDamage;
 
     // Initial costs for the ship upgrades. 
     [Header("Ship Upgrade Costs")]

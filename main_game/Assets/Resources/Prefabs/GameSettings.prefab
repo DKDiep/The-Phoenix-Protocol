@@ -126,6 +126,7 @@ MonoBehaviour:
   PlayerShipInitialResourceBonus: 0
   PlayerShipInitialResourceInterest: 0
   PlayerShipStartingFiringDelay: 0.025
+  PlayerShipStartingBulletDamage: 25
   ShieldsInitialCost: 150
   TurretsInitialCost: 200
   EnginesInitialCost: 150

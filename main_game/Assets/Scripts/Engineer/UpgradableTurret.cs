@@ -5,8 +5,6 @@
 /// </summary>
 public class UpgradableTurret : UpgradableComponent
 {
-	// TODO: currently, we cannot easily change the damage of the bullets, so only the fire rate is used.
-
 	/// <summary>
 	/// The maximum damage per shot.
 	/// </summary>
@@ -23,11 +21,12 @@ public class UpgradableTurret : UpgradableComponent
 	/// Initializes a new <see cref="UpgradableTurret"/>.
 	/// </summary>
 	/// <param name="initialDelay">The initial firing delay.</param>
-	public UpgradableTurret(float initialDelay) : base()
+	public UpgradableTurret(float initialDelay, int initialDamage) : base()
 	{
 		this.Type         = ComponentType.Turret;
 		this.MaxHealth    = this.Health = 100; // TODO: read this from GameSettings
 		this.MinFireDelay = initialDelay;
+		this.MaxDamage    = initialDamage;
 	}
 
 	// TODO: balance values
@@ -46,9 +45,9 @@ public class UpgradableTurret : UpgradableComponent
 	/// Gets the damage per shot at the current health level.
 	/// </summary>
 	/// <returns>The maximum shield value.</returns>
-	public int GetCurrentDamage()
+	public float GetCurrentDamage()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxDamage);
+		return GetEfficiency() * MaxDamage;
 	}
 
 	/// <summary>
@@ -68,11 +67,10 @@ public class UpgradableTurret : UpgradableComponent
 	{
 		base.Upgrade();
 
-		// TODO: the damage is currently not upgraded
-		/*if (Level % 2 == 0)
-			MaxDamage = Convert.ToInt32(MaxDamage * 1.5);
-		else*/
-		MinFireDelay = MinFireDelay / 1.5f;
+		if (Level % 2 == 0)
+			MaxDamage *= 2;
+		else
+			MinFireDelay = MinFireDelay / 1.5f;
 	}
 }
 
