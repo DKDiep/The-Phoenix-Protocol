@@ -204,7 +204,7 @@ public class GameState : NetworkBehaviour {
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
-			new UpgradableShieldGenerator(shipMaxShields, shipShieldRechargeRate);
+			new UpgradableShieldGenerator(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingRechargeRate);
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
 		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] =
 			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest);
