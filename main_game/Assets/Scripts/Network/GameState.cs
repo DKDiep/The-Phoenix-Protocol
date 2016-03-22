@@ -79,6 +79,8 @@ public class GameState : NetworkBehaviour {
 		
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
+
+		StartCoroutine("ResourceInterest");
 	}
         
     private void LoadSettings()
@@ -139,6 +141,21 @@ public class GameState : NetworkBehaviour {
 		UpgradableShieldGenerator shieldGen = (UpgradableShieldGenerator)upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
 		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
 		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
+
+		UpgradableResourceStorage storage = (UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage];
+
+	}
+
+	/// <summary>
+	/// Gives resource interest every 10 seconds based on the resource storage upgrade level.
+	/// </summary>
+	IEnumerator ResourceInterest()
+	{
+		float rate = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).InterestRate;
+		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
+
+		yield return new WaitForSeconds(10f);
+		StartCoroutine("ResourceInterest");
 	}
 
     /// <summary>
@@ -178,9 +195,11 @@ public class GameState : NetworkBehaviour {
 		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		= new UpgradableEngine();
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
-		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    = new UpgradableShieldGenerator(shipMaxShields, shipShieldRechargeRate);
+		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
+			new UpgradableShieldGenerator(shipMaxShields, shipShieldRechargeRate);
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
-		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] = new UpgradableResourceStorage();
+		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] =
+			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest);
 	}
 
 	/// <summary>
@@ -440,8 +459,11 @@ public class GameState : NetworkBehaviour {
 	/// <param name="resources">Resources.</param>
 	public void AddShipResources(int resources) 
 	{
+		float bonus = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).CollectionBonus;
+		resources   = Convert.ToInt32(resources * (1 + bonus));
+
 		currentShipResources += resources;
-		totalShipResources += resources;
+		totalShipResources   += resources;
 	}
 
 	/// <summary>
@@ -516,7 +538,6 @@ public class GameState : NetworkBehaviour {
 			break;
 		case ComponentType.Engine:
 			engineHealth -= value;
-			Debug.Log("Engine health: " + engineHealth);
 			break;
 		case ComponentType.Turret:
 			turretHealth -= value;
@@ -542,7 +563,6 @@ public class GameState : NetworkBehaviour {
 			break;
 		case ComponentType.Engine:
 			engineHealth = maxHealth;
-			Debug.Log("Engine repaired: " + engineHealth);
 			break;
 		case ComponentType.Turret:
 			turretHealth = maxHealth;
@@ -595,7 +615,6 @@ public class GameState : NetworkBehaviour {
 	/// <param name="shield">Shield.</param>
 	public void SetShipShield(float shield)
 	{
-		Debug.Log("Shield recharged: " + shield);
 		shipShield = shield;
 	}
 

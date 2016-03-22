@@ -117,6 +117,8 @@ public class GameSettings : MonoBehaviour
     public int PlayerShipStartingResources;
     public int PlayerShipStartingCivilians;
     public float PlayerShipComponentHealth;
+	public float PlayerShipInitialResourceBonus;
+	public float PlayerShipInitialResourceInterest;
 
     // Initial costs for the ship upgrades. 
     [Header("Ship Upgrade Costs")]
