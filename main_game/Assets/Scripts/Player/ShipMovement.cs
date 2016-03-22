@@ -14,7 +14,6 @@ public class ShipMovement : MonoBehaviour
 
 	// Configuration parameters loaded through GameSettings
 	private float turnSpeed;
-	private float maxTurnSpeed;
 	private float slowDown;
 	private float shieldDelay; // Delay in seconds to wait before recharging shield
 
@@ -55,7 +54,6 @@ public class ShipMovement : MonoBehaviour
 	private void LoadSettings()
 	{
 		turnSpeed = settings.PlayerShipTurnSpeed;
-		maxTurnSpeed = settings.PlayerShipMaxTurnSpeed;
 		slowDown = settings.PlayerShipSlowDown;
 		shieldDelay = settings.PlayerShipShieldDelay;
 	}
@@ -93,6 +91,8 @@ public class ShipMovement : MonoBehaviour
 	{
         if (gameState.Status != GameState.GameStatus.Started)
             return;
+
+		float maxTurnSpeed = gameState.GetShipMaxTurnSpeed();
 
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
 

@@ -9,18 +9,25 @@ public class UpgradableEngine : UpgradableComponent
 	/// The maximum forwards speed.
 	/// </summary>
 	/// <value>The speed.</value>
-	public int MaxSpeed { get; private set; }
+	public float MaxSpeed { get; private set; }
 
 	/// <summary>
 	/// The maximum turning speed.
 	/// </summary>
 	/// <value>The turning speed.</value>
-	public int MaxTurningSpeed { get; private set; }
+	public float MaxTurningSpeed { get; private set; }
 
-	public UpgradableEngine() : base()
+	/// <summary>
+	/// Initializes a new <see cref="UpgradableEngine"/>.
+	/// </summary>
+	/// <param name="initialSpeed">The initial ship speed.</param>
+	/// <param name="initialTurningSpeed">The initial ship turning speed.</param>
+	public UpgradableEngine(float initialSpeed, float initialTurningSpeed) : base()
 	{
-		this.Type = ComponentType.Engine;
-		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
+		this.Type 	   		 = ComponentType.Engine;
+		this.MaxHealth 		 = this.Health = 100; // TODO: read this from GameSettings
+		this.MaxSpeed  		 = initialSpeed;
+		this.MaxTurningSpeed = initialTurningSpeed;
 	}
 
 	// TODO: balance values
@@ -39,18 +46,18 @@ public class UpgradableEngine : UpgradableComponent
 	/// Gets the speed at the current health level.
 	/// </summary>
 	/// <returns>The current speed.</returns>
-	public int GetCurrentSpeed()
+	public float GetCurrentSpeed()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxSpeed);
+		return GetEfficiency() * MaxSpeed;
 	}
 
 	/// <summary>
 	/// Gets the turning speed at the current health level.
 	/// </summary>
 	/// <returns>The current turning speed.</returns>
-	public int GetCurrentTurningSpeed()
+	public float GetCurrentTurningSpeed()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxTurningSpeed);
+		return GetEfficiency() * MaxTurningSpeed;
 	}
 
 	/// <summary>
@@ -62,9 +69,9 @@ public class UpgradableEngine : UpgradableComponent
 		base.Upgrade();
 
 		if (Level % 2 == 0)
-			MaxSpeed = Convert.ToInt32(MaxSpeed * 1.5);
+			MaxSpeed = MaxSpeed * 1.5f;
 		else
-			MaxTurningSpeed = Convert.ToInt32(MaxTurningSpeed * 1.5);
+			MaxTurningSpeed = MaxTurningSpeed * 1.5f;
 	}
 }
 

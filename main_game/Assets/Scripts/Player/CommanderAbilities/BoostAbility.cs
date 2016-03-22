@@ -3,8 +3,6 @@ using System.Collections;
 
 public class BoostAbility : CommanderAbility {
 
-    private float originalSpeed;
-
 	// Use this for initialization
 	private void Awake () 
     {
@@ -26,14 +24,14 @@ public class BoostAbility : CommanderAbility {
     internal override void ActivateAbility()
     {
         Debug.Log("Boost ability enabled");
-        originalSpeed = state.GetShipSpeed();
-        state.SetShipSpeed (originalSpeed * settings.boostSpeedMultiplier);
+        float originalSpeed = state.GetShipSpeed();
+		state.ActivateBoost(originalSpeed * settings.boostSpeedMultiplier);
     }
 
     internal override void DeactivateAbility()
     {
         Debug.Log("Boost ability disabled");
-        state.SetShipSpeed(originalSpeed);
+		state.DeactivateBoost();
     }
 
 

@@ -112,16 +112,18 @@ MonoBehaviour:
   OutpostMinDistance: 800
   OutpostGuardTriggerDistance: 600
   PlayerShipTurnSpeed: 5.5
-  PlayerShipMaxTurnSpeed: 3.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 5
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
   PlayerShipStartingRechargeRate: 10
   PlayerShipStartingSpeed: 10
+  PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100
   PlayerShipStartingCivilians: 10000
   PlayerShipComponentHealth: 100
+  PlayerShipInitialResourceBonus: 0
+  PlayerShipInitialResourceInterest: 0
   ShieldsInitialCost: 150
   TurretsInitialCost: 200
   EnginesInitialCost: 150

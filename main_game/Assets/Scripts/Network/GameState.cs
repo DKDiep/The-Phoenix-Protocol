@@ -37,7 +37,9 @@ public class GameState : NetworkBehaviour {
     public ShieldEffects myShield = null;
 
 	// Ship variables used for modifying the ships behaviour
+	private bool boostOn = false;
 	private float shipSpeed;
+
 	private float shipMaxShields;
     private float shipShieldRechargeRate;
  
@@ -142,7 +144,12 @@ public class GameState : NetworkBehaviour {
 		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
 		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
 
-		UpgradableResourceStorage storage = (UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage];
+		// When the boost is on, keep the boost speed
+		if (!boostOn)
+		{
+			UpgradableEngine engine = (UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines];
+			shipSpeed               = engine.GetCurrentSpeed();
+		}
 
 	}
 
@@ -192,7 +199,8 @@ public class GameState : NetworkBehaviour {
 		int numComponents    = Enum.GetNames(typeof(UpgradableComponentIndex)).Length;
 		upgradableComponents = new UpgradableComponent[numComponents];
 
-		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		= new UpgradableEngine();
+		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		=
+			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed);
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
@@ -583,12 +591,32 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Sets the ship speed.
+	/// Activates the ship's boost ability.
 	/// </summary>
-	/// <param name="speed">Speed.</param>
-	public void SetShipSpeed(float speed)
+	/// <param name="boostSpeed">The boost speed.</param>
+	public void ActivateBoost(float boostSpeed)
 	{
-		shipSpeed = speed;
+		boostOn   = true;
+		shipSpeed = boostSpeed;
+	}
+
+	/// <summary>
+	/// Deactivates the ship's boost ability.
+	/// </summary>
+	public void DeactivateBoost()
+	{
+		boostOn     = false;
+		float speed = ((UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines]).GetCurrentSpeed();
+		shipSpeed   = speed;
+	}
+
+	/// <summary>
+	/// Gets the max ship turn speed.
+	/// </summary>
+	/// <returns>The max turn speed.</returns>
+	public float GetShipMaxTurnSpeed()
+	{
+		return ((UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines]).GetCurrentTurningSpeed();
 	}
 
 	/// <summary>
