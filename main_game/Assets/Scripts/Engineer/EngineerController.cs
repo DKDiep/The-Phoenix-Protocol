@@ -63,10 +63,11 @@ public class EngineerController : NetworkBehaviour
     private const float REPAIR_TIME = 5;
     private const float UPGRADE_TIME = 5;
 
-    [SerializeField] Material defaultMat;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] Material defaultMat;
     [SerializeField] Material repairMat;
     [SerializeField] Material upgradeMat;
-
+	#pragma warning restore 0649
 
     private enum InteractionKey
     {
@@ -322,16 +323,8 @@ public class EngineerController : NetworkBehaviour
         componentUpgradeLevel = level;
     }
 
-	bool hacked = false;
-
     private void Update()
     {
-		if (!hacked)
-		{
-			hacked = true;
-			AddJob(true, ComponentType.ShieldGenerator);
-		}
-
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
