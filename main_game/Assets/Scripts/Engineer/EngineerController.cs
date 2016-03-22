@@ -66,11 +66,9 @@ public class EngineerController : NetworkBehaviour
 
 	private float workTime; // The repair and upgrade time in seconds
 
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] Material defaultMat;
-    [SerializeField] Material repairMat;
-    [SerializeField] Material upgradeMat;
-	#pragma warning restore 0649
+	private Material defaultMat;
+    private Material repairMat;
+    private Material upgradeMat;
 
     private enum InteractionKey
     {
@@ -111,6 +109,9 @@ public class EngineerController : NetworkBehaviour
         engineerMaxDistance = settings.EngineerMaxDistance;
         emptyProgressBar = settings.EmptyProgressBar;
         filledProgressBar = settings.FilledProgressBar;
+        defaultMat = settings.EngineerDefaultMat;
+        repairMat = settings.EngineerRepairMat;
+        upgradeMat = settings.EngineerUpgradeMat;
 	}
 
     /// <summary>
