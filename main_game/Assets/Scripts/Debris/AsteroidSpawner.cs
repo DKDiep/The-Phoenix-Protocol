@@ -196,7 +196,7 @@ public class AsteroidSpawner : MonoBehaviour
 		float halfAngle = visibilityEdgeSpawnMaxAngle / 2.0f;
 		spawnLocation.transform.rotation = player.transform.rotation;
 		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle), Random.Range(-halfAngle, halfAngle), 0);
-		spawnLocation.transform.Translate(spawnLocation.transform.forward * visibilityEdgeDistance);
+		spawnLocation.transform.Translate(Vector3.forward * visibilityEdgeDistance);
 
 		SpawnAsteroid();
 	}
