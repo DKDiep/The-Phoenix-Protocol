@@ -29,9 +29,6 @@ public class EngineerController : NetworkBehaviour
     private float m_NextStep;
     private float engineerMaxDistance;
 
-    private float componentHealth;
-    private int componentUpgradeLevel;
-
     private string upgradeString;
     private string repairString;
     private string dockString;
@@ -56,7 +53,6 @@ public class EngineerController : NetworkBehaviour
     private GameObject playerShip;
     private GameObject dockCanvas;
     private GameObject engineerCanvas;
-    private GameObject lastLookedAt;
 
     private Texture emptyProgressBar;
     private Texture filledProgressBar;
@@ -117,33 +113,6 @@ public class EngineerController : NetworkBehaviour
         filledProgressBar = settings.FilledProgressBar;
 	}
 
-    [Command]
-    void CmdSetRotation(Quaternion rotation)
-    {
-        gameObject.transform.rotation = rotation;
-    }
-
-    [Command]
-    void CmdMove(Vector2 movement, bool jumping, bool sprinting)
-    {
-        // always move along the camera forward as it is the direction that it being aimed at
-        Vector3 desiredMove = transform.forward * movement.y + transform.right * movement.x +
-            transform.up * (movement.y * gameObject.transform.rotation.x * upMultiplier);
-
-        float speed = sprinting ? runSpeed : walkSpeed;
-        Vector3 actualMove;
-        actualMove.x = desiredMove.x * speed;
-        actualMove.z = desiredMove.z * speed;
-        actualMove.y = desiredMove.y * speed;
-
-        if (jumping)
-        {
-            actualMove.y += jumpSpeed;
-        }
-
-        gameObject.transform.Translate(actualMove);
-    }
-
     /// <summary>
     /// Use this to initialize the Engineer once the main_game
     /// scene has been loaded. This acts as a replacement for Unity's
@@ -182,9 +151,6 @@ public class EngineerController : NetworkBehaviour
 
         // Get a reference to the player ship
         playerShip = GameObject.Find("PlayerShip(Clone)");
-
-        // The engineer hasn't looked at anything yet
-        lastLookedAt = null;
 
         // Create the upgrade text object to use
         engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
@@ -329,18 +295,6 @@ public class EngineerController : NetworkBehaviour
         Highlight(part);
     }
 
-    /// <summary>
-    /// Sets the health and upgrade level of the component
-    /// that the engineer is currently looking at
-    /// </summary>
-    /// <param name="health">The health of the component</param>
-    /// <param name="level">The upgrade level of the component</param>
-    public void SetComponentStatus(float health, int level)
-    {
-        componentHealth = health;
-        componentUpgradeLevel = level;
-    }
-
     private void Update()
     {
 
@@ -405,14 +359,6 @@ public class EngineerController : NetworkBehaviour
                 {
                     canUpgrade = interactiveObject.Upgradeable;
                     canRepair = interactiveObject.Repairable;
-
-                    // If the object we are currently looking at is not the same one
-                    // we last looked at we need to request health and upgrade level values
-                    if (lastLookedAt != objectLookedAt)
-                    {
-                        playerController.CmdGetComponentStatus(interactiveObject.Type);
-                        lastLookedAt = objectLookedAt;
-                    }
                 }
             }
 
@@ -426,7 +372,6 @@ public class EngineerController : NetworkBehaviour
         else
         {
             ResetUpgradeText();
-            lastLookedAt = null;
         }
     }
 
@@ -442,17 +387,8 @@ public class EngineerController : NetworkBehaviour
         // Move the player if they have moved
         if (input.x != 0 || input.y != 0 || jump == true)
         {
-            //CmdMove(input, jump, !isWalking);  UNCOMMENT LATER
-
             // If the engineer is docked we undock first
             UnDock();
-
-            // Display health and upgrade level of the component that the engineer is looking at
-            if (lastLookedAt != null)
-            {
-                //TODO: Replace with UI things
-                Debug.Log("Health: " + componentHealth + ", UpgradeLevel: " + componentUpgradeLevel);
-            }
 
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
@@ -568,8 +504,6 @@ public class EngineerController : NetworkBehaviour
     private void RotateView()
     {
         mouseLook.LookRotation(transform, camera.transform);
-        // Send the rotaion to the server
-        //CmdSetRotation(transform.rotation);  UNCOMMENT TO SEE NETWORK ISSUES
     }
 
     private void ResetUpgradeText()
