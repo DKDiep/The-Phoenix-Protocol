@@ -143,8 +143,8 @@ public class GameState : NetworkBehaviour {
 		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
 		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
 
-		// When the boost is on, keep the boost speed
-		if (!boostOn)
+		// When the boost (NOS) is on, keep the boost (NOS) speed
+		if (!boostOn && !nosMode)
 		{
 			UpgradableEngine engine = (UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines];
 			shipSpeed               = engine.GetCurrentSpeed();
@@ -599,10 +599,7 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	/// <returns>The ship speed.</returns>
 	public float GetShipSpeed()
-	{
-        if (nosMode)
-            return NOS_SPEED;
-        
+	{        
 		return shipSpeed;
 	}
 
