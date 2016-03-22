@@ -4,13 +4,10 @@ using System.Collections;
 public class OutpostTarget : MonoBehaviour 
 {
     private GameObject player;
-    private MeshRenderer renderer;
-
 	// Use this for initialization
 	void Start () 
     {
 	    player = GameObject.Find("CameraManager(Clone)");
-        renderer = GetComponent<MeshRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -29,11 +26,11 @@ public class OutpostTarget : MonoBehaviour
 
     public void ShowTarget()
     {
-        renderer.enabled = true;
+        GetComponent<Renderer>().enabled = true;
     }
 
     public void HideTarget()
     {
-        renderer.enabled = false;
+        GetComponent<Renderer>().enabled = false;
     }
 }
