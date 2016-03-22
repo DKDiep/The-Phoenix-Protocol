@@ -600,6 +600,9 @@ public class GameState : NetworkBehaviour {
 	/// <returns>The ship speed.</returns>
 	public float GetShipSpeed()
 	{
+        if (nosMode)
+            return NOS_SPEED;
+        
 		return shipSpeed;
 	}
 
