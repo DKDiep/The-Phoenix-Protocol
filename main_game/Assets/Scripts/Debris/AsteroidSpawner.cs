@@ -22,13 +22,13 @@ public class AsteroidSpawner : MonoBehaviour
 	private float avgSize;               // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
 	private float fieldSpacingFactor;    // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
 	private float visibilityEdgeSpawnMaxAngle; // The maximum rotation angle on the x and y axes when spawning on the visibility edge
-	private int visibilityEdgeDistance;
 
     private GameObject player, spawnLocation;
 	private GameState state;
 
 	private int numAsteroids;
 	private int visibleAsteroids;
+	private int numAsteroidsInFields;
 
 	private bool fieldSpawned = false;
 
@@ -38,7 +38,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     void Start ()
     {
-		numAsteroids = visibleAsteroids = 0;
+		numAsteroids = visibleAsteroids = numAsteroidsInFields = 0;
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -72,7 +72,6 @@ public class AsteroidSpawner : MonoBehaviour
 		fieldSpacingFactor = settings.AsteroidFieldSpacingFactor;
 
 		visibilityEdgeSpawnMaxAngle = settings.AsteroidVisibilityEdgeSpawnMaxAngle;
-		visibilityEdgeDistance      = settings.AsteroidMaxRenderDistance;
 	}
 
     void Update () 
@@ -148,6 +147,8 @@ public class AsteroidSpawner : MonoBehaviour
 
 			SpawnAsteroid();
 		}
+
+		numAsteroidsInFields += numAsteroids;
 	}
 
 	/// <summary>
@@ -180,7 +181,7 @@ public class AsteroidSpawner : MonoBehaviour
 			visibleAsteroids--;
 
 		// After the initial spawning of all asteroids, spawn a new one every time one goes out of view
-		if (visibleAsteroids < maxAsteroids && numAsteroids >= maxAsteroids)
+		if ((visibleAsteroids - numAsteroidsInFields) < maxAsteroids && numAsteroids >= maxAsteroids)
 			SpawnAsteroidAtVisibilityEdge();
 	}
 
@@ -195,8 +196,8 @@ public class AsteroidSpawner : MonoBehaviour
 
 		float halfAngle = visibilityEdgeSpawnMaxAngle / 2.0f;
 		spawnLocation.transform.rotation = player.transform.rotation;
-		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle), Random.Range(-halfAngle, halfAngle), 0);
-		spawnLocation.transform.Translate(Vector3.forward * visibilityEdgeDistance);
+		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle+1), Random.Range(-90f, 91), 0);
+		spawnLocation.transform.Translate(Vector3.forward * maxDistance);
 
 		SpawnAsteroid();
 	}

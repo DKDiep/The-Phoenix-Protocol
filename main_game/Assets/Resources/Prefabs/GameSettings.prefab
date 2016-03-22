@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 187334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9389906, y: -0.10501766, z: 2.7301414}
+  m_LocalPosition: {x: 897.245, y: -188.29657, z: 8.355331}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -41,11 +41,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
-  AsteroidMaxRenderDistance: 2000
-  MaxAsteroids: 300
+  MaxAsteroids: 900
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
-  AsteroidMaxDistance: 1000
+  AsteroidMaxDistance: 3000
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2

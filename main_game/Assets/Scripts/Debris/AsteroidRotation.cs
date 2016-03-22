@@ -10,7 +10,7 @@ public class AsteroidRotation : MonoBehaviour
 	private GameSettings settings;
 
 	// Configuration parameters loaded through GameSettings
-	private int maxRenderDistance;
+	private float maxRenderDistance;
 
 	private float speed, distance;
 	private GameObject player;
@@ -45,7 +45,7 @@ public class AsteroidRotation : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		maxRenderDistance = settings.AsteroidMaxRenderDistance;
+		maxRenderDistance = settings.AsteroidMaxDistance;
 	}
 
     public void SetSpeed(float tempSpeed)
