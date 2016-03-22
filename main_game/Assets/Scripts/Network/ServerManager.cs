@@ -147,24 +147,6 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Sends a ComponentStatus message to the specified client
-    /// with the specified values
-    /// </summary>
-    /// <param name="health">The component's health</param>
-    /// <param name="level">The component's ugprade level</param>
-    /// <param name="netId">The netid of the client we wish to send the message to</param>
-    public void SendComponentStatus(float health, int level, uint netId)
-    {
-        // Create the Component Status message
-        ComponentStatusMessage msg = new ComponentStatusMessage();
-        msg.health = health;
-        msg.level = level;
-
-        // Send the message
-        NetworkServer.SendToClient(netIdToConn[netId].connectionId, MessageID.COMPONENT_STATUS, msg);
-    }
-
     public void SendUpgradeFinished(ComponentType component)
     {
         // Find the commander's netId

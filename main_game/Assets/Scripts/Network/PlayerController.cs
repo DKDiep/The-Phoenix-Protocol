@@ -210,14 +210,6 @@ public class PlayerController : NetworkBehaviour
         serverManager.NotifyEngineer(false, part);
     }
 
-    [Command]
-    public void CmdGetComponentStatus(ComponentType part)
-    {
-        float health = gameState.GetComponentHealth(part);
-        int level = 0; //TODO: REPLACE THIS WITH AN ACTUAL CALL
-        serverManager.SendComponentStatus(health, level, netId.Value);
-    }
-
 	/// <summary>
 	/// Adds a job to the engineer's job queue
 	/// </summary>
@@ -231,22 +223,6 @@ public class PlayerController : NetworkBehaviour
             return;
 
         engController.AddJob(isUpgrade, part);
-    }
-
-    /// <summary>
-    /// Tells the engineer of the requested component's status.
-    /// The request happens in CmdGetComponentStatus
-    /// </summary>
-    /// <param name="health">The health of the component</param>
-    /// <param name="level">The upgrade level of the component</param>
-    public void UpdateComponentStatus(float health, int level)
-    {
-        // If this is somehow invoked on a client that isn't an engineer
-        // or something that isn't a client at all it should be ignored
-        if (role != RoleEnum.Engineer || !isLocalPlayer)
-            return;
-
-        engController.SetComponentStatus(health, level);
     }
 
     /// <summary>

@@ -75,6 +75,9 @@ public class GameSettings : MonoBehaviour
     public Texture EmptyProgressBar;
     public Texture FilledProgressBar;
 	public float EngineerStartingWorkTime;
+    public Material EngineerDefaultMat;
+    public Material EngineerRepairMat;
+    public Material EngineerUpgradeMat;
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;

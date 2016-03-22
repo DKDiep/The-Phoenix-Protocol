@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 187334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 897.245, y: -188.29657, z: 8.355331}
+  m_LocalPosition: {x: -1.9389906, y: -0.10501766, z: 2.7301414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -37,8 +37,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb4b2966695559e4f8623be43db1e917, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
   AsteroidMaxRenderDistance: 2000
@@ -92,6 +92,9 @@ MonoBehaviour:
   EmptyProgressBar: {fileID: 2800000, guid: 88c6ec4d3c1bf11458ae95ed0f85e652, type: 3}
   FilledProgressBar: {fileID: 2800000, guid: 77f8b955c13988041bfed4b046731fe3, type: 3}
   EngineerStartingWorkTime: 5
+  EngineerDefaultMat: {fileID: 2100000, guid: f9a02e8a4fa01d14e8a3747542ac9cde, type: 2}
+  EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
+  EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
@@ -190,15 +193,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: AsteroidModel1Prefab
-      value:
+      value: 
       objectReference: {fileID: 180310, guid: 7829dc2017f56437f8f9597fd46b2d77, type: 2}
     - target: {fileID: 0}
       propertyPath: AsteroidModel2Prefab
-      value:
+      value: 
       objectReference: {fileID: 180310, guid: fa6e5f3b919f24857aa5ec85e11739c6, type: 2}
     - target: {fileID: 0}
       propertyPath: AsteroidModel3Prefab
-      value:
+      value: 
       objectReference: {fileID: 180310, guid: 61ac235973f664e6e97eb3841b4d1c9d, type: 2}
     - target: {fileID: 0}
       propertyPath: EngineerWalkSpeed
@@ -282,6 +285,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: StorageUpgradeLevels
       value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[0].name
       value: Mission 1
