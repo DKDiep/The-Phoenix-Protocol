@@ -13,8 +13,7 @@ public class FollowReticule : MonoBehaviour
 
 	// Empty game object to use as the target position
     private GameObject targetPoint;
-    private GameObject crosshairContainer;
-    private GameObject[] crosshairs;
+    private GameObject crosshair;
 
     // Draws line between turret position and aim position if true
     private bool debug = false;
@@ -25,30 +24,21 @@ public class FollowReticule : MonoBehaviour
         targetPoint = new GameObject();
         targetPoint.name = "AimTarget" + controlledByPlayerId.ToString();
 
-		crosshairContainer = GameObject.Find("Crosshairs");
-
-        if (crosshairContainer != null)
-        {
-            crosshairs = new GameObject[4];
-
-            // Find crosshair images
-            for (int i = 0; i < 4; ++i)
-                crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
-        }
+        crosshair = GameObject.Find("Crosshairs").transform.GetChild(controlledByPlayerId).gameObject;
     }
 
     void FixedUpdate()
     {
-        if (crosshairContainer != null)
+        if (crosshair != null)
         {
-            Ray ray = Camera.main.ScreenPointToRay(crosshairs[controlledByPlayerId].transform.position);
+            Ray ray = Camera.main.ScreenPointToRay(crosshair.transform.position);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag.Equals("Debris") || hit.transform.gameObject.tag.Equals("EnemyShip")))
                 targetPoint.transform.position = hit.transform.position;
             else
             {
-                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairs[controlledByPlayerId].transform.position.x, crosshairs[controlledByPlayerId].transform.position.y, 1000));
+                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x, crosshair.transform.position.y, 1000));
                 targetPoint.transform.Translate(transform.parent.transform.forward * (-10f));
             }
 
