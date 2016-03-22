@@ -16,6 +16,7 @@ public class GameStatusManager : NetworkBehaviour
 	// Use this for initialization
 	void Start () {
 		server = GameObject.Find("GameManager");
+
 		gameState = server.GetComponent<GameState>();
 
         if (ClientScene.localPlayers[0].IsValid)
@@ -27,7 +28,9 @@ public class GameStatusManager : NetworkBehaviour
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
-
+            
+            DisableThrusterSound();
+            
             // Set an overlay on the screen
 			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
@@ -82,5 +85,12 @@ public class GameStatusManager : NetworkBehaviour
 		}
 	}
 
+
+    private void DisableThrusterSound()
+    {
+        GameObject playerShip = GameObject.Find("PlayerShip(Clone)");
+        if(playerShip != null)
+            playerShip.GetComponent<AudioSource>().mute = true;
+    }
 
 }
