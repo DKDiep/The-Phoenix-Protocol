@@ -322,8 +322,16 @@ public class EngineerController : NetworkBehaviour
         componentUpgradeLevel = level;
     }
 
+	bool hacked = false;
+
     private void Update()
     {
+		if (!hacked)
+		{
+			hacked = true;
+			AddJob(true, ComponentType.ShieldGenerator);
+		}
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
@@ -539,23 +547,7 @@ public class EngineerController : NetworkBehaviour
     private void Highlight(ComponentType component)
     {
         // The list of game objects that need to be highlighted
-        List<GameObject> toHighlight = null;
-
-        switch (component)
-        {
-            case ComponentType.Engine:
-                toHighlight = engines;
-                break;
-            case ComponentType.Turret:
-                toHighlight = turrets;
-                break;
-            case ComponentType.Bridge:
-                toHighlight = bridge;
-                break;
-            default:
-                Debug.Log("ERROR: Failed to identify component type for highlighting");
-                return;
-        }
+		List<GameObject> toHighlight = GetPartListByType(component);
 
         for(int i = 0; i < toHighlight.Count; i++)
         {
