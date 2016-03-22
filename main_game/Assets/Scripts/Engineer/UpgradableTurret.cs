@@ -5,6 +5,8 @@
 /// </summary>
 public class UpgradableTurret : UpgradableComponent
 {
+	// TODO: currently, we cannot easily change the damage of the bullets, so only the fire rate is used.
+
 	/// <summary>
 	/// The maximum damage per shot.
 	/// </summary>
@@ -12,15 +14,20 @@ public class UpgradableTurret : UpgradableComponent
 	public int MaxDamage { get; private set; }
 
 	/// <summary>
-	/// The maximum fire rate.
+	/// The base firing delay.
 	/// </summary>
-	/// <value>The fire rate.</value>
-	public int MaxFireRate { get; private set; }
+	/// <value>The firing delay.</value>
+	public float MinFireDelay { get; private set; }
 
-	public UpgradableTurret() : base()
+	/// <summary>
+	/// Initializes a new <see cref="UpgradableTurret"/>.
+	/// </summary>
+	/// <param name="initialDelay">The initial firing delay.</param>
+	public UpgradableTurret(float initialDelay) : base()
 	{
-		this.Type = ComponentType.Turret;
-		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
+		this.Type         = ComponentType.Turret;
+		this.MaxHealth    = this.Health = 100; // TODO: read this from GameSettings
+		this.MinFireDelay = initialDelay;
 	}
 
 	// TODO: balance values
@@ -45,12 +52,12 @@ public class UpgradableTurret : UpgradableComponent
 	}
 
 	/// <summary>
-	/// Gets the firing rate at the current health level.
+	/// Gets the firing delay at the current health level.
 	/// </summary>
-	/// <returns>The current recharge rate.</returns>
-	public int GetCurrentFireRate()
+	/// <returns>The current firring delay.</returns>
+	public float GetCurrentFireDelay()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxFireRate);
+		return MinFireDelay / GetEfficiency();
 	}
 
 	/// <summary>
@@ -61,10 +68,11 @@ public class UpgradableTurret : UpgradableComponent
 	{
 		base.Upgrade();
 
-		if (Level % 2 == 0)
+		// TODO: the damage is currently not upgraded
+		/*if (Level % 2 == 0)
 			MaxDamage = Convert.ToInt32(MaxDamage * 1.5);
-		else
-			MaxFireRate = Convert.ToInt32(MaxFireRate * 1.5);
+		else*/
+		MinFireDelay = MinFireDelay / 1.5f;
 	}
 }
 

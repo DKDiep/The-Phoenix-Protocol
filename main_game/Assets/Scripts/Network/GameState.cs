@@ -162,6 +162,7 @@ public class GameState : NetworkBehaviour {
 		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
 
 		yield return new WaitForSeconds(10f);
+		upgradableComponents[(int)UpgradableComponentIndex.Turrets].Upgrade();
 		StartCoroutine("ResourceInterest");
 	}
 
@@ -202,7 +203,8 @@ public class GameState : NetworkBehaviour {
 		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		=
 			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed);
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
-		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
+		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		=
+			new UpgradableTurret(settings.PlayerShipStartingFiringDelay);
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
 			new UpgradableShieldGenerator(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingRechargeRate);
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
@@ -668,6 +670,15 @@ public class GameState : NetworkBehaviour {
 			value = shipMaxShields - shipShield;
 			
 		SetShipShield(shipShield + value);
+	}
+
+	/// <summary>
+	/// Gets the turret firing delay.
+	/// </summary>
+	/// <returns>The firing delay.</returns>
+	public float GetFiringDelay()
+	{
+		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentFireDelay();
 	}
 
 	/// <summary>

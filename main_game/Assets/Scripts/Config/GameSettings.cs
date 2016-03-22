@@ -119,6 +119,7 @@ public class GameSettings : MonoBehaviour
     public float PlayerShipComponentHealth;
 	public float PlayerShipInitialResourceBonus;
 	public float PlayerShipInitialResourceInterest;
+	public float PlayerShipStartingFiringDelay;
 
     // Initial costs for the ship upgrades. 
     [Header("Ship Upgrade Costs")]
@@ -149,7 +150,6 @@ public class GameSettings : MonoBehaviour
 	public float BulletSpeed;
 
 	[Header("Player Shooting")]
-	public float PlayerRateOfFire;
 	public Texture2D PlayerHitmarker; // Hitmarker texture
 	public AudioClip PlayerFireSound; // Sound to make when firing
 	public bool PlayerFireSoundRandomPitch;
