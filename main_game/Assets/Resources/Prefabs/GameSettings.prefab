@@ -89,6 +89,7 @@ MonoBehaviour:
   EngineerMouseLookSmooth: 0
   EngineerMouseLookSmoothTime: 5
   EngineerMaxDistance: 50
+  EngineerStartingWorkTime: 5
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
@@ -147,7 +148,6 @@ MonoBehaviour:
   DroneUpgradeLevels: 2
   StorageUpgradeLevels: 4
   BulletSpeed: 600
-  PlayerRateOfFire: 0.025
   PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
   PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   PlayerFireSoundRandomPitch: 1

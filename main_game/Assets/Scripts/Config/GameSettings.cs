@@ -72,6 +72,7 @@ public class GameSettings : MonoBehaviour
 	public bool EngineerMouseLookSmooth;
 	public float EngineerMouseLookSmoothTime;
     public float EngineerMaxDistance;
+	public float EngineerStartingWorkTime;
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;

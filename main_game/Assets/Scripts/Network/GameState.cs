@@ -63,6 +63,9 @@ public class GameState : NetworkBehaviour {
 	[SyncVar] private float turretHealth;
 	[SyncVar] private float shieldGeneratorHealth;
 
+	[SyncVar] private float droneSpeed;
+	[SyncVar] private float droneWorkTime;
+
 	// Upgradable components
 	// TODO: once all components are implemented like this, they will replace the current variables
 	private UpgradableComponent[] upgradableComponents;
@@ -140,6 +143,7 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	private void UpdateComponents()
 	{
+		// TODO: run this every second or so instead of every frame
 		UpgradableShieldGenerator shieldGen = (UpgradableShieldGenerator)upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
 		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
 		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
@@ -151,6 +155,9 @@ public class GameState : NetworkBehaviour {
 			shipSpeed               = engine.GetCurrentSpeed();
 		}
 
+		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
+		droneSpeed 			  = drone.MovementSpeed;
+		droneWorkTime   	  = drone.ImprovementTime;
 	}
 
 	/// <summary>
@@ -162,7 +169,6 @@ public class GameState : NetworkBehaviour {
 		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
 
 		yield return new WaitForSeconds(10f);
-		upgradableComponents[(int)UpgradableComponentIndex.Turrets].Upgrade();
 		StartCoroutine("ResourceInterest");
 	}
 
@@ -207,7 +213,8 @@ public class GameState : NetworkBehaviour {
 			new UpgradableTurret(settings.PlayerShipStartingFiringDelay);
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
 			new UpgradableShieldGenerator(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingRechargeRate);
-		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
+		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    =
+			new UpgradableDrone(settings.EngineerWalkSpeed, settings.EngineerStartingWorkTime);
 		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] =
 			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest);
 	}
@@ -679,6 +686,18 @@ public class GameState : NetworkBehaviour {
 	public float GetFiringDelay()
 	{
 		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentFireDelay();
+	}
+
+	/// <summary>
+	/// Gets the drone stats.
+	/// </summary>
+	/// <param name="movementSpeed">The movement speed.</param>
+	/// <param name="workTime">The improvement work time.</param>
+	public void GetDroneStats(out float movementSpeed, out float workTime)
+	{
+		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
+		movementSpeed         = drone.MovementSpeed;
+		workTime              = drone.ImprovementTime;
 	}
 
 	/// <summary>

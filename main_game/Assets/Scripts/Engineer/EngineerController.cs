@@ -42,6 +42,8 @@ public class EngineerController : NetworkBehaviour
     private bool isDocked = false;
     private bool jump;
 
+	private GameState gameState = null;
+
     private List<GameObject> engines;
     private List<GameObject> turrets;
     private List<GameObject> bridge;
@@ -58,10 +60,7 @@ public class EngineerController : NetworkBehaviour
 
     private Dictionary<InteractionKey, float> keyPressTime;
 
-    // The repair and upgrade time in seconds
-    // TODO: Make these depend on Engineer upgrade level
-    private const float REPAIR_TIME = 5;
-    private const float UPGRADE_TIME = 5;
+	private float workTime; // The repair and upgrade time in seconds
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] Material defaultMat;
@@ -99,7 +98,6 @@ public class EngineerController : NetworkBehaviour
 
 	private void LoadSettings()
 	{
-		walkSpeed = settings.EngineerWalkSpeed;
         engineerMaxDistance = settings.EngineerMaxDistance;
 	}
 
@@ -325,6 +323,7 @@ public class EngineerController : NetworkBehaviour
 
     private void Update()
     {
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
@@ -445,12 +444,12 @@ public class EngineerController : NetworkBehaviour
         // Do upgrades/repairs
         // Force engineer to repair before upgrading if
         // both are possible
-        if (canRepair && keyPressTime[InteractionKey.Repair] >= REPAIR_TIME)
+		if (canRepair && keyPressTime[InteractionKey.Repair] >= workTime)
         {
             FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
         }
-        else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= UPGRADE_TIME)
+		else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= workTime)
         {
             FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
@@ -464,15 +463,21 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void Dock()
     {
-        if (!isDocked)
-        {
-            isDocked = true;
-            dockCanvas.SetActive(isDocked);
-            engineerCanvas.SetActive(!isDocked);
-            gameObject.transform.parent = startPosition.transform;
-            gameObject.transform.localPosition = new Vector3(0,0,0);
-            gameObject.transform.rotation = startPosition.transform.rotation;
-        }
+		if (isDocked)
+			return; 
+        
+        isDocked = true;
+        dockCanvas.SetActive(isDocked);
+        engineerCanvas.SetActive(!isDocked);
+        gameObject.transform.parent = startPosition.transform;
+        gameObject.transform.localPosition = new Vector3(0,0,0);
+        gameObject.transform.rotation = startPosition.transform.rotation;
+
+		// Update the drone stats
+		if (gameState == null) // This is needed because the engineer can't always get the game state from the start
+			gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+		if (gameState != null)
+			gameState.GetDroneStats(out walkSpeed, out workTime);
     }
 
     /// <summary>
@@ -480,13 +485,13 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void UnDock()
     {
-        if (isDocked)
-        {
-            isDocked = false;
-            dockCanvas.SetActive(isDocked);
-            engineerCanvas.SetActive(!isDocked);
-            gameObject.transform.parent = playerShip.transform;
-        }
+		if (!isDocked)
+			return;
+	
+        isDocked = false;
+        dockCanvas.SetActive(isDocked);
+        engineerCanvas.SetActive(!isDocked);
+        gameObject.transform.parent = playerShip.transform;
     }
 
     private void ProgressStepCycle(float speed)
