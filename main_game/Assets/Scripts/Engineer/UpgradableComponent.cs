@@ -21,7 +21,7 @@ public abstract class UpgradableComponent
 	/// The component's maximum health value.
 	/// </summary>
 	/// <value>The max health value.</value>
-	protected int MaxHealth { get; set; }
+	public int MaxHealth { get; protected set; }
 
 	/// <summary>
 	/// The component's type.

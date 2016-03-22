@@ -74,6 +74,7 @@ public class GameSettings : MonoBehaviour
     public float EngineerMaxDistance;
     public Texture EmptyProgressBar;
     public Texture FilledProgressBar;
+	public float EngineerStartingWorkTime;
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;
@@ -107,7 +108,6 @@ public class GameSettings : MonoBehaviour
 
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;
-	public float PlayerShipMaxTurnSpeed;
 	public float PlayerShipSlowDown;
 	public float PlayerShipShieldDelay; // Delay in seconds to wait before recharging shield
 
@@ -116,9 +116,14 @@ public class GameSettings : MonoBehaviour
     public float PlayerShipStartingShields;
     public float PlayerShipStartingRechargeRate;
     public float PlayerShipStartingSpeed;
+	public float PlayerShipStartingMaxTurnSpeed;
     public int PlayerShipStartingResources;
     public int PlayerShipStartingCivilians;
     public float PlayerShipComponentHealth;
+	public float PlayerShipInitialResourceBonus;
+	public float PlayerShipInitialResourceInterest;
+	public float PlayerShipStartingFiringDelay;
+	public int PlayerShipStartingBulletDamage;
 
     // Initial costs for the ship upgrades. 
     [Header("Ship Upgrade Costs")]
@@ -149,7 +154,6 @@ public class GameSettings : MonoBehaviour
 	public float BulletSpeed;
 
 	[Header("Player Shooting")]
-	public float PlayerRateOfFire;
 	public Texture2D PlayerHitmarker; // Hitmarker texture
 	public AudioClip PlayerFireSound; // Sound to make when firing
 	public bool PlayerFireSoundRandomPitch;

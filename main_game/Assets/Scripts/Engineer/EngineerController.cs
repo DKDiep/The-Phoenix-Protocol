@@ -45,9 +45,13 @@ public class EngineerController : NetworkBehaviour
     private bool jump;
     private bool showPopup = false;
 
+	private GameState gameState = null;
+
     private List<GameObject> engines;
     private List<GameObject> turrets;
     private List<GameObject> bridge;
+	private List<GameObject> shieldGen;
+	private List<GameObject> resourceStorage;
 
     private GameObject playerShip;
     private GameObject dockCanvas;
@@ -64,15 +68,13 @@ public class EngineerController : NetworkBehaviour
 
     private Dictionary<InteractionKey, float> keyPressTime;
 
-    // The repair and upgrade time in seconds
-    // TODO: Make these depend on Engineer upgrade level
-    private const float REPAIR_TIME = 5;
-    private const float UPGRADE_TIME = 5;
-    private const float POPUP_TIME = 5;
+	private float workTime; // The repair and upgrade time in seconds
 
-    [SerializeField] Material defaultMat;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] Material defaultMat;
     [SerializeField] Material repairMat;
     [SerializeField] Material upgradeMat;
+	#pragma warning restore 0649
 
     private enum InteractionKey
     {
@@ -110,7 +112,6 @@ public class EngineerController : NetworkBehaviour
 
 	private void LoadSettings()
 	{
-		walkSpeed = settings.EngineerWalkSpeed;
         engineerMaxDistance = settings.EngineerMaxDistance;
         emptyProgressBar = settings.EmptyProgressBar;
         filledProgressBar = settings.FilledProgressBar;
@@ -213,10 +214,12 @@ public class EngineerController : NetworkBehaviour
         // Get the components of the main ship that can be upgraded and/or repaired
         EngineerInteraction[] interactionObjects = playerShip.GetComponentsInChildren<EngineerInteraction>();
 
-        engines = new List<GameObject>();
-        turrets = new List<GameObject>();
-        bridge = new List<GameObject>();
-        foreach (EngineerInteraction interaction in interactionObjects)
+        engines 		= new List<GameObject>();
+        turrets 		= new List<GameObject>();
+        bridge 			= new List<GameObject>();
+		shieldGen 		= new List<GameObject>();
+		resourceStorage = new List<GameObject>();
+		foreach (EngineerInteraction interaction in interactionObjects)
         {
             // Ensure that the properties of the Interaction
             // script are initialized as normally they are only
@@ -234,8 +237,13 @@ public class EngineerController : NetworkBehaviour
 			case ComponentType.Turret:
 				turrets.Add (interaction.gameObject);
 				break;
+			case ComponentType.ShieldGenerator:
+				shieldGen.Add(interaction.gameObject);
+				break;
+			case ComponentType.ResourceStorage:
+				resourceStorage.Add(interaction.gameObject);
+				break;
 			}
-            // TODO: add shield generator
         }
     }
 
@@ -244,7 +252,7 @@ public class EngineerController : NetworkBehaviour
     /// for each game object in the list to value
     /// </summary>
     /// <param name="isUpgrade">Wether the job is an upgrade or a repair</param>
-    /// /// <param name="value">The value to set Upgradeable/Repairable property to</param>
+    /// <param name="value">The value to set Upgradeable/Repairable property to</param>
     /// <param name="parts">The list of parts this job applies to</param>
     private void ProcessJob(bool isUpgrade, bool value, List<GameObject> parts)
     {
@@ -259,6 +267,37 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
+	/// <summary>
+	/// Gets list of parts of a specified type.
+	/// </summary>
+	/// <returns>The part list.</returns>
+	/// <param name="type">The component type.</param>
+	private List<GameObject> GetPartListByType(ComponentType type)
+	{
+		List<GameObject> partList = null;
+
+		switch (type)
+		{
+		case ComponentType.Turret:
+			partList = turrets;
+			break;
+		case ComponentType.Engine:
+			partList = engines;
+			break;
+		case ComponentType.Bridge:
+			partList = bridge;
+			break;
+		case ComponentType.ShieldGenerator:
+			partList = shieldGen;
+			break;
+		case ComponentType.ResourceStorage:
+			partList = resourceStorage;
+			break;
+		}
+
+		return partList;
+	}
+
     /// <summary>
     /// Adds the uprade/repair job to the engineer's list
     /// </summary>
@@ -266,18 +305,9 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part">The part of the ship this job applies to</param>
 	public void AddJob(bool isUpgrade, ComponentType part)
     {
-		if (part == ComponentType.Turret)
-        {
-            this.ProcessJob(isUpgrade, true, turrets);
-        }
-		else if (part == ComponentType.Engine)
-        {
-            this.ProcessJob(isUpgrade, true, engines);
-        }
-		else if (part == ComponentType.Bridge)
-        {
-            this.ProcessJob(isUpgrade, true, bridge);
-        }
+		List<GameObject> partList = GetPartListByType(part);
+
+		this.ProcessJob(isUpgrade, true, partList);
 
         // Highlight the appropriate components
         Highlight(part);
@@ -291,18 +321,9 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part"></param>
     private void FinishJob(bool isUpgrade, ComponentType part)
     {
-        if (part == ComponentType.Turret)
-        {
-            this.ProcessJob(isUpgrade, false, turrets);
-        }
-        else if (part == ComponentType.Engine)
-        {
-            this.ProcessJob(isUpgrade, false, engines);
-        }
-        else if (part == ComponentType.Bridge)
-        {
-            this.ProcessJob(isUpgrade, false, bridge);
-        }
+		List<GameObject> partList = GetPartListByType(part);
+
+		this.ProcessJob(isUpgrade, false, partList);
 
         // Un-highlight the appropriate components
         Highlight(part);
@@ -322,6 +343,7 @@ public class EngineerController : NetworkBehaviour
 
     private void Update()
     {
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
@@ -453,19 +475,19 @@ public class EngineerController : NetworkBehaviour
 
         // If the popup has been show for the required amount of time then
         // we make it disappear
-        if (showPopup && keyPressTime[InteractionKey.Popup] >= POPUP_TIME)
+		if (showPopup && keyPressTime[InteractionKey.Popup] >= workTime)
             showPopup = false;
 
         // Do upgrades/repairs
         // Force engineer to repair before upgrading if
         // both are possible
-        if (canRepair && keyPressTime[InteractionKey.Repair] >= REPAIR_TIME)
+		if (canRepair && keyPressTime[InteractionKey.Repair] >= workTime)
         {
             FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
             showPopup = true;
         }
-        else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= UPGRADE_TIME)
+		else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= workTime)
         {
             FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
@@ -480,15 +502,21 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void Dock()
     {
-        if (!isDocked)
-        {
-            isDocked = true;
-            dockCanvas.SetActive(isDocked);
-            engineerCanvas.SetActive(!isDocked);
-            gameObject.transform.parent = startPosition.transform;
-            gameObject.transform.localPosition = new Vector3(0,0,0);
-            gameObject.transform.rotation = startPosition.transform.rotation;
-        }
+		if (isDocked)
+			return; 
+        
+        isDocked = true;
+        dockCanvas.SetActive(isDocked);
+        engineerCanvas.SetActive(!isDocked);
+        gameObject.transform.parent = startPosition.transform;
+        gameObject.transform.localPosition = new Vector3(0,0,0);
+        gameObject.transform.rotation = startPosition.transform.rotation;
+
+		// Update the drone stats
+		if (gameState == null) // This is needed because the engineer can't always get the game state from the start
+			gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+		if (gameState != null)
+			gameState.GetDroneStats(out walkSpeed, out workTime);
     }
 
     /// <summary>
@@ -496,13 +524,13 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void UnDock()
     {
-        if (isDocked)
-        {
-            isDocked = false;
-            dockCanvas.SetActive(isDocked);
-            engineerCanvas.SetActive(!isDocked);
-            gameObject.transform.parent = playerShip.transform;
-        }
+		if (!isDocked)
+			return;
+	
+        isDocked = false;
+        dockCanvas.SetActive(isDocked);
+        engineerCanvas.SetActive(!isDocked);
+        gameObject.transform.parent = playerShip.transform;
     }
 
     private void ProgressStepCycle(float speed)
@@ -556,23 +584,7 @@ public class EngineerController : NetworkBehaviour
     private void Highlight(ComponentType component)
     {
         // The list of game objects that need to be highlighted
-        List<GameObject> toHighlight = null;
-
-        switch (component)
-        {
-            case ComponentType.Engine:
-                toHighlight = engines;
-                break;
-            case ComponentType.Turret:
-                toHighlight = turrets;
-                break;
-            case ComponentType.Bridge:
-                toHighlight = bridge;
-                break;
-            default:
-                Debug.Log("ERROR: Failed to identify component type for highlighting");
-                return;
-        }
+		List<GameObject> toHighlight = GetPartListByType(component);
 
         for(int i = 0; i < toHighlight.Count; i++)
         {
@@ -614,13 +626,13 @@ public class EngineerController : NetworkBehaviour
     {
         if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
         {
-            float progress = keyPressTime[InteractionKey.Repair] / REPAIR_TIME;
+			float progress = keyPressTime[InteractionKey.Repair] / workTime;
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
         }
         else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] > 0)
         {
-            float progress = keyPressTime[InteractionKey.Upgrade] / UPGRADE_TIME;
+			float progress = keyPressTime[InteractionKey.Upgrade] / workTime;
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
         }

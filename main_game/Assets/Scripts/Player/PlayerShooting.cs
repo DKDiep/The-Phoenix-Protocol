@@ -12,7 +12,6 @@ public class PlayerShooting : MonoBehaviour
 	private GameSettings settings;
 
 	// Configuration parameters loaded through GameSettings
-	private float rateOfFire;
 	private Texture2D hitmarker; // Hitmarker texture
 	private AudioClip fireSound; // Sound to make when firing
 	private bool randomPitch;
@@ -46,7 +45,6 @@ public class PlayerShooting : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		rateOfFire  = settings.PlayerRateOfFire;
 		hitmarker   = settings.PlayerHitmarker;
 		fireSound   = settings.PlayerFireSound;
 		randomPitch = settings.PlayerFireSoundRandomPitch;
@@ -149,7 +147,7 @@ public class PlayerShooting : MonoBehaviour
 
             GameObject logic = logicManager.RequestObject();
             BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-            logicComponent.SetParameters(0.1f, 25f, 800f);
+			logicComponent.SetParameters(0.1f, gameState.GetBulletDamage(), 800f);
             logicComponent.SetID(this, playerId);
 
             logic.transform.parent = obj.transform;
@@ -208,7 +206,7 @@ public class PlayerShooting : MonoBehaviour
     // Delay before player can shoot again
 	IEnumerator Delay()
 	{
-		yield return new WaitForSeconds(rateOfFire);
+		yield return new WaitForSeconds(gameState.GetFiringDelay());
 		canShoot = true;
 	}
 }

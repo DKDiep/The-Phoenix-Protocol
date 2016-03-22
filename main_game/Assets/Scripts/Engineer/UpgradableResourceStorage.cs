@@ -6,21 +6,28 @@
 public class UpgradableResourceStorage : UpgradableComponent
 {
 	/// <summary>
-	/// The extra amount of resources received when collecting resources.
+	/// The percentage of extra resources received when collecting resources.
 	/// </summary>
 	/// <value>The bonus value.</value>
-	public int CollectionBonus { get; private set; }
+	public float CollectionBonus { get; private set; }
 
 	/// <summary>
 	/// The resource interest rate. Interest rate regularly increases the player's resources based on the amount already in storage
 	/// </summary>
 	/// <value>The interest rate.</value>
-	public int InterestRate { get; private set; }
+	public float InterestRate { get; private set; }
 
-	public UpgradableResourceStorage() : base()
+	/// <summary>
+	/// Initializes a new <see cref="UpgradableResourceStorage"/>.
+	/// </summary>
+	/// <param name="initialCollectionBonus">The initial resource collection bonus percentage.</param>
+	/// <param name="initialInterestRate">The initial interest rate.</param>
+	public UpgradableResourceStorage(float initialCollectionBonus, float initialInterestRate) : base()
 	{
-		this.Type = ComponentType.Turret;
-		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
+		this.Type 			 = ComponentType.ResourceStorage;
+		this.MaxHealth 		 = this.Health = 100; // Currently, this can't be damaged
+		this.CollectionBonus = initialCollectionBonus;
+		this.InterestRate    = initialInterestRate;
 	}
 
 	// TODO: balance values
@@ -42,10 +49,11 @@ public class UpgradableResourceStorage : UpgradableComponent
 	{
 		base.Upgrade();
 
+		// TODO: maybe move these to GameSettings?
 		if (Level % 2 == 0)
-			CollectionBonus = Convert.ToInt32(CollectionBonus * 1.5);
+			CollectionBonus += 0.15f;
 		else
-			InterestRate = Convert.ToInt32(InterestRate * 1.5);
+			InterestRate += 0.05f;
 	}
 }
 

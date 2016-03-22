@@ -35,7 +35,9 @@ public class GameState : NetworkBehaviour {
     public ShieldEffects myShield = null;
 
 	// Ship variables used for modifying the ships behaviour
+	private bool boostOn = false;
 	private float shipSpeed;
+
 	private float shipMaxShields;
     private float shipShieldRechargeRate;
  
@@ -59,6 +61,9 @@ public class GameState : NetworkBehaviour {
 	[SyncVar] private float turretHealth;
 	[SyncVar] private float shieldGeneratorHealth;
 
+	[SyncVar] private float droneSpeed;
+	[SyncVar] private float droneWorkTime;
+
 	// Upgradable components
 	// TODO: once all components are implemented like this, they will replace the current variables
 	private UpgradableComponent[] upgradableComponents;
@@ -77,6 +82,8 @@ public class GameState : NetworkBehaviour {
 		
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
+
+		StartCoroutine("ResourceInterest");
 	}
         
     private void LoadSettings()
@@ -120,10 +127,48 @@ public class GameState : NetworkBehaviour {
             Debug.Log("NOS mode " + nosMode);
         }
 
+		StartCoroutine("UpdateComponents");
+
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
     }
+
+	/// <summary>
+	/// Update ship parameters based on components health and upgrade levels.
+	/// </summary>
+	IEnumerator UpdateComponents()
+	{
+		UpgradableShieldGenerator shieldGen = (UpgradableShieldGenerator)upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
+		shipMaxShields 						= shieldGen.GetCurrentMaxShield();
+		shipShieldRechargeRate 				= shieldGen.GetCurrentRechargeRate();
+
+		// When the boost is on, keep the boost speed
+		if (!boostOn)
+		{
+			UpgradableEngine engine = (UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines];
+			shipSpeed               = engine.GetCurrentSpeed();
+		}
+
+		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
+		droneSpeed 			  = drone.MovementSpeed;
+		droneWorkTime   	  = drone.ImprovementTime;
+
+		yield return new WaitForSeconds(0.5f);
+		StartCoroutine("UpdateComponents");
+	}
+
+	/// <summary>
+	/// Gives resource interest every 10 seconds based on the resource storage upgrade level.
+	/// </summary>
+	IEnumerator ResourceInterest()
+	{
+		float rate = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).InterestRate;
+		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
+
+		yield return new WaitForSeconds(10f);
+		StartCoroutine("ResourceInterest");
+	}
 
     /// <summary>
     /// Increase the current difficulty of the game.
@@ -159,12 +204,17 @@ public class GameState : NetworkBehaviour {
 		int numComponents    = Enum.GetNames(typeof(UpgradableComponentIndex)).Length;
 		upgradableComponents = new UpgradableComponent[numComponents];
 
-		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		= new UpgradableEngine();
+		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		=
+			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed);
 		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
-		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		= new UpgradableTurret();
-		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    = new UpgradableShieldGenerator();
-		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    = new UpgradableDrone();
-		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] = new UpgradableResourceStorage();
+		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		=
+			new UpgradableTurret(settings.PlayerShipStartingFiringDelay, settings.PlayerShipStartingBulletDamage);
+		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
+			new UpgradableShieldGenerator(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingRechargeRate);
+		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    =
+			new UpgradableDrone(settings.EngineerWalkSpeed, settings.EngineerStartingWorkTime);
+		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] =
+			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest);
 	}
 
 	/// <summary>
@@ -430,8 +480,11 @@ public class GameState : NetworkBehaviour {
 	/// <param name="resources">Resources.</param>
 	public void AddShipResources(int resources) 
 	{
+		float bonus = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).CollectionBonus;
+		resources   = Convert.ToInt32(resources * (1 + bonus));
+
 		currentShipResources += resources;
-		totalShipResources += resources;
+		totalShipResources   += resources;
 	}
 
 	/// <summary>
@@ -517,6 +570,31 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
+	/// Repairs a ship part.
+	/// </summary>
+	/// <param name="part">The part to repair.</param>
+	public void RepairPart(ComponentType part)
+	{
+		int maxHealth = GetUpgradableComponent(part).MaxHealth;
+
+		switch(part)
+		{
+		case ComponentType.Bridge:
+			shipHealth = maxHealth;
+			break;
+		case ComponentType.Engine:
+			engineHealth = maxHealth;
+			break;
+		case ComponentType.Turret:
+			turretHealth = maxHealth;
+			break;
+		case ComponentType.ShieldGenerator:
+			shieldGeneratorHealth = maxHealth;
+			break;
+		}
+	}
+
+	/// <summary>
 	/// Gets the ship speed.
 	/// </summary>
 	/// <returns>The ship speed.</returns>
@@ -526,12 +604,32 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Sets the ship speed.
+	/// Activates the ship's boost ability.
 	/// </summary>
-	/// <param name="speed">Speed.</param>
-	public void SetShipSpeed(float speed)
+	/// <param name="boostSpeed">The boost speed.</param>
+	public void ActivateBoost(float boostSpeed)
 	{
-		shipSpeed = speed;
+		boostOn   = true;
+		shipSpeed = boostSpeed;
+	}
+
+	/// <summary>
+	/// Deactivates the ship's boost ability.
+	/// </summary>
+	public void DeactivateBoost()
+	{
+		boostOn     = false;
+		float speed = ((UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines]).GetCurrentSpeed();
+		shipSpeed   = speed;
+	}
+
+	/// <summary>
+	/// Gets the max ship turn speed.
+	/// </summary>
+	/// <returns>The max turn speed.</returns>
+	public float GetShipMaxTurnSpeed()
+	{
+		return ((UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines]).GetCurrentTurningSpeed();
 	}
 
 	/// <summary>
@@ -571,17 +669,48 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Recharge the ship's shield by a given value.
+	/// Recharge the ship's shield..
 	/// </summary>
-	/// <param name="value">The ammount by which to recharge the shields.</param>
-	public void RechargeShield(float value)
+	public void RechargeShield()
 	{
+		float value = shipShieldRechargeRate / 10f; // The 10f is copied over from old code. It translates rate into value per tick
+
 		// Don't recharge the shields over the maximum value
 		float newShieldvalue = shipShield + value;
 		if (newShieldvalue > shipMaxShields)
 			value = shipMaxShields - shipShield;
 			
 		SetShipShield(shipShield + value);
+	}
+
+	/// <summary>
+	/// Gets the turret firing delay.
+	/// </summary>
+	/// <returns>The firing delay.</returns>
+	public float GetFiringDelay()
+	{
+		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentFireDelay();
+	}
+
+	/// <summary>
+	/// Gets the damage per bullet fired.
+	/// </summary>
+	/// <returns>The bullet damage.</returns>
+	public float GetBulletDamage()
+	{
+		return ((UpgradableTurret)upgradableComponents[(int)UpgradableComponentIndex.Turrets]).GetCurrentDamage();
+	}
+
+	/// <summary>
+	/// Gets the drone stats.
+	/// </summary>
+	/// <param name="movementSpeed">The movement speed.</param>
+	/// <param name="workTime">The improvement work time.</param>
+	public void GetDroneStats(out float movementSpeed, out float workTime)
+	{
+		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
+		movementSpeed         = drone.MovementSpeed;
+		workTime              = drone.ImprovementTime;
 	}
 
 	/// <summary>

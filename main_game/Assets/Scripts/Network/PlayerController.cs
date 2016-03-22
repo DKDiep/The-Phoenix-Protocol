@@ -185,7 +185,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdDoRepair(ComponentType part)
     {
-        gameState.GetUpgradableComponent(part).Repair();
+		gameState.RepairPart(part);
     }
 
     /// <summary>

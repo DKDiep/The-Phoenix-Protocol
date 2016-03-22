@@ -12,15 +12,21 @@ public class UpgradableTurret : UpgradableComponent
 	public int MaxDamage { get; private set; }
 
 	/// <summary>
-	/// The maximum fire rate.
+	/// The base firing delay.
 	/// </summary>
-	/// <value>The fire rate.</value>
-	public int MaxFireRate { get; private set; }
+	/// <value>The firing delay.</value>
+	public float MinFireDelay { get; private set; }
 
-	public UpgradableTurret() : base()
+	/// <summary>
+	/// Initializes a new <see cref="UpgradableTurret"/>.
+	/// </summary>
+	/// <param name="initialDelay">The initial firing delay.</param>
+	public UpgradableTurret(float initialDelay, int initialDamage) : base()
 	{
-		this.Type = ComponentType.Turret;
-		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
+		this.Type         = ComponentType.Turret;
+		this.MaxHealth    = this.Health = 100; // TODO: read this from GameSettings
+		this.MinFireDelay = initialDelay;
+		this.MaxDamage    = initialDamage;
 	}
 
 	// TODO: balance values
@@ -39,18 +45,18 @@ public class UpgradableTurret : UpgradableComponent
 	/// Gets the damage per shot at the current health level.
 	/// </summary>
 	/// <returns>The maximum shield value.</returns>
-	public int GetCurrentDamage()
+	public float GetCurrentDamage()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxDamage);
+		return GetEfficiency() * MaxDamage;
 	}
 
 	/// <summary>
-	/// Gets the firing rate at the current health level.
+	/// Gets the firing delay at the current health level.
 	/// </summary>
-	/// <returns>The current recharge rate.</returns>
-	public int GetCurrentFireRate()
+	/// <returns>The current firring delay.</returns>
+	public float GetCurrentFireDelay()
 	{
-		return Convert.ToInt32(GetEfficiency() * MaxFireRate);
+		return MinFireDelay / GetEfficiency();
 	}
 
 	/// <summary>
@@ -62,9 +68,9 @@ public class UpgradableTurret : UpgradableComponent
 		base.Upgrade();
 
 		if (Level % 2 == 0)
-			MaxDamage = Convert.ToInt32(MaxDamage * 1.5);
+			MaxDamage *= 2;
 		else
-			MaxFireRate = Convert.ToInt32(MaxFireRate * 1.5);
+			MinFireDelay = MinFireDelay / 1.5f;
 	}
 }
 

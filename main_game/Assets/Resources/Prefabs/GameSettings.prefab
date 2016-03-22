@@ -91,6 +91,7 @@ MonoBehaviour:
   EngineerMaxDistance: 50
   EmptyProgressBar: {fileID: 2800000, guid: 88c6ec4d3c1bf11458ae95ed0f85e652, type: 3}
   FilledProgressBar: {fileID: 2800000, guid: 77f8b955c13988041bfed4b046731fe3, type: 3}
+  EngineerStartingWorkTime: 5
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
@@ -114,16 +115,20 @@ MonoBehaviour:
   OutpostMinDistance: 800
   OutpostGuardTriggerDistance: 600
   PlayerShipTurnSpeed: 5.5
-  PlayerShipMaxTurnSpeed: 3.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 5
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
   PlayerShipStartingRechargeRate: 10
   PlayerShipStartingSpeed: 10
+  PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100
   PlayerShipStartingCivilians: 10000
   PlayerShipComponentHealth: 100
+  PlayerShipInitialResourceBonus: 0
+  PlayerShipInitialResourceInterest: 0
+  PlayerShipStartingFiringDelay: 0.025
+  PlayerShipStartingBulletDamage: 25
   ShieldsInitialCost: 150
   TurretsInitialCost: 200
   EnginesInitialCost: 150
@@ -146,7 +151,6 @@ MonoBehaviour:
   DroneUpgradeLevels: 2
   StorageUpgradeLevels: 4
   BulletSpeed: 600
-  PlayerRateOfFire: 0.025
   PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
   PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   PlayerFireSoundRandomPitch: 1
