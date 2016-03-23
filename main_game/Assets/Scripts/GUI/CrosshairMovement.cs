@@ -7,7 +7,12 @@ using System;
 
 public class CrosshairMovement : NetworkBehaviour
 {
-    private int controlling = 0;
+	GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float playerBulletSpeed;
+
+	private int controlling = 0;
 	private int numberOfCrossHairs;
 	private float posReadDelay = 0.0001f;
 	private bool[] init;
@@ -30,7 +35,9 @@ public class CrosshairMovement : NetworkBehaviour
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
 	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
-	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
+	private const int AUTOAIM_ADVANCE_OFFSET      = 4;  // The distance at which to aim in front of the target to account for bullet speed
+
+	private GameObject playerShip;
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
@@ -42,6 +49,10 @@ public class CrosshairMovement : NetworkBehaviour
 		gameManager = GameObject.Find("GameManager");
 		serverManager = gameManager.GetComponent<ServerManager>();
 
+		playerShip = GameObject.Find("PlayerShip(Clone)");
+
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
 
 		if (ClientScene.localPlayers[0].IsValid)
 			playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
@@ -77,6 +88,11 @@ public class CrosshairMovement : NetworkBehaviour
         }
 			
 		StartCoroutine(FindRemotes());
+	}
+
+	private void LoadSettings()
+	{
+		playerBulletSpeed = settings.BulletSpeed;
 	}
 	
 	// Update is called once per frame
@@ -133,7 +149,10 @@ public class CrosshairMovement : NetworkBehaviour
         Target target = GetClosestTarget(currentPosition);
         if (!target.IsNone())
         {
-            serverManager.SetCrosshairPosition(controlling, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+			Vector3 aimPosition = target.GetAimPosition(playerShip.transform, playerBulletSpeed);
+			Debug.DrawLine(playerShip.transform.position, aimPosition);
+            serverManager.SetCrosshairPosition(controlling, screenControlling,
+				Camera.main.WorldToScreenPoint(aimPosition));
         }
         else
         {
@@ -204,7 +223,8 @@ public class CrosshairMovement : NetworkBehaviour
                                 Target target = GetClosestTarget(position);
                                 if (!target.IsNone())
                                 {
-                                    serverManager.SetCrosshairPosition(remoteId, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+                                    serverManager.SetCrosshairPosition(remoteId, screenControlling,
+										Camera.main.WorldToScreenPoint(target.GetAimPosition(playerShip.transform, playerBulletSpeed)));
                                 }
                                 else 
                                 {
@@ -373,20 +393,30 @@ public class CrosshairMovement : NetworkBehaviour
 				}
 			}
 		}
+
+		if (aimSpot == null)
+		{
+			aimSpot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			aimSpot.GetComponent<Renderer>().material.color = Color.red;
+		}
 			
 		// If a target is found, return it 
 		if (closestCol != null)
 		{
-			// targetGizmoLoc = closestCol.transform.position; // Uncomment this to use with target gizmos
-			return new Target(closestCol.gameObject, minDistance);
+			//targetGizmoLoc = closestCol.transform.position; // Uncomment this to use with target gizmos
+			Target t = new Target(closestCol.gameObject, minDistance);
+			aimSpot.transform.position = t.GetAimPosition(playerShip.transform, playerBulletSpeed);
+			return t;
 		}
 
-		// targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
+		//targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
+		aimSpot.transform.position = Vector3.zero;
 		return Target.None;
 	}
 
 	// Uncomment below for visual debug cues
-	// private Vector3 targetGizmoLoc;
+	//private Vector3 targetGizmoLoc;
+	private GameObject aimSpot;
 	void OnDrawGizmos()
 	{
 		// Debug aim sphere
@@ -437,11 +467,17 @@ public class CrosshairMovement : NetworkBehaviour
 		}
 
 		// Get the aim position of this object. For ships, this will be a little in front of their current position to account for their movement
-		public Vector3 GetAimPosition()
+		public Vector3 GetAimPosition(Transform turret, float bulletSpeed)
 		{
 			if (this.Object.CompareTag("EnemyShip"))
-				// TODO: We might need to aim a bit more in front
-				return this.Position + this.Object.transform.forward * AUTOAIM_ADVANCE_OFFSET;
+			{
+				// TODO: This is unfinished. Comment out the gizmos and debug objects when done
+				//return this.Position + this.Object.transform.forward * AUTOAIM_ADVANCE_OFFSET;
+				float distance = Vector3.Distance(turret.position, Position);
+				float travelTime = distance / bulletSpeed;
+				Vector3 targetVelocity = Object.GetComponentInChildren<EnemyLogic>().GetVelocity();
+				return Position +  targetVelocity * travelTime /*- (turret.forward * 10f * Time.fixedDeltaTime)*/;
+			}
 			else
 				return this.Position;
 		}

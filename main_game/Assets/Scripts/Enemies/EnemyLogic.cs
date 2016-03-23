@@ -281,6 +281,16 @@ public class EnemyLogic : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 	}
 
+	/// <summary>
+	/// Gets the velocity of this enemy.
+	/// </summary>
+	/// <returns>The velocity.</returns>
+	public Vector3 GetVelocity()
+	{
+		// We don't have a proper velocity, so we just estimate it as speed * transform.forward
+		return controlObject.transform.forward * speed;
+	}
+
 	void Update ()
 	{
 		// If this enemy has gone mad, its sole purpose is to crash into the player

@@ -15,6 +15,7 @@ public class PlayerShooting : MonoBehaviour
 	private Texture2D hitmarker; // Hitmarker texture
 	private AudioClip fireSound; // Sound to make when firing
 	private bool randomPitch;
+	private float bulletSpeed;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -48,6 +49,7 @@ public class PlayerShooting : MonoBehaviour
 		hitmarker   = settings.PlayerHitmarker;
 		fireSound   = settings.PlayerFireSound;
 		randomPitch = settings.PlayerFireSoundRandomPitch;
+		bulletSpeed = settings.BulletSpeed;
 	}
     
 	public void Setup () 
@@ -147,7 +149,7 @@ public class PlayerShooting : MonoBehaviour
 
             GameObject logic = logicManager.RequestObject();
             BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-			logicComponent.SetParameters(0.1f, gameState.GetBulletDamage(), 800f);
+			logicComponent.SetParameters(0.1f, gameState.GetBulletDamage(), bulletSpeed);
             logicComponent.SetID(this, playerId);
 
             logic.transform.parent = obj.transform;
