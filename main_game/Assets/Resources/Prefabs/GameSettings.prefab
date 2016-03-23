@@ -66,10 +66,10 @@ MonoBehaviour:
   EnemyMaxSpawnDistance: 1200
   AIWaypointsPerEnemy: 10
   AIWaypointGenerationFactor: 8
-  AIWaypointRadius: 100
+  AIWaypointRadius: 150
   AIWaypointWidthScale: 1.5
-  AIWaypointHeightScale: 0.5
-  AIWaypointShift: {x: 0, y: 15, z: 30}
+  AIWaypointHeightScale: 0.6
+  AIWaypointShift: {x: 0, y: 20, z: 30}
   EnemyOutpostSpawnRadius: 200
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
