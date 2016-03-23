@@ -7,12 +7,14 @@ public class MissionManager : MonoBehaviour
     private GameSettings settings;
     private Mission[] missions;
     private PlayerController playerController;
+    private OutpostManager outpostManager;
     private float startTime;
 
     void Start () 
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        outpostManager = GameObject.Find("OutpostManager(Clone)").GetComponent<OutpostManager>();
         LoadSettings();
     }
 
@@ -94,7 +96,8 @@ public class MissionManager : MonoBehaviour
                     return true;
                 break;
             case TriggerType.OutpostDistance:
-                // Check outpost distance
+                if(outpostManager.GetClosestOutpostDistance() < value)
+                    return true;
                 break;
             case TriggerType.Resources:
                 if(gameState.GetShipResources() > value)

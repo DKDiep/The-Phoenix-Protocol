@@ -102,6 +102,26 @@ public class OutpostManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets the closest outpost distance.
+    /// </summary>
+    /// <returns>The closest outpost distance.</returns>
+    public int GetClosestOutpostDistance()
+    {
+        int minDistance = -1;
+        int distance;
+
+        for(int i = 0; i < outpostList.Count; i++)
+        {
+            distance = (int)Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position);
+            if(distance < minDistance || minDistance == -1)
+            {
+                minDistance = distance; 
+            }
+        }
+        return minDistance;
+    }
+
     public void giveGameStateReference(GameState newGameState)
     {
         gameState = newGameState;
