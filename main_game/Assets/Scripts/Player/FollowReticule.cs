@@ -31,27 +31,36 @@ public class FollowReticule : MonoBehaviour
     {
 		if (crosshair != null && crosshair.activeSelf)
         {
-            Ray ray = Camera.main.ScreenPointToRay(crosshair.transform.position);
-            RaycastHit hit;
+			// Get the point the crosshair is pointing at
+			targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x,
+				crosshair.transform.position.y, Camera.main.farClipPlane));
 
-            if (Physics.Raycast(ray, out hit) && (hit.transform.gameObject.tag.Equals("Debris") || hit.transform.gameObject.tag.Equals("EnemyShip")))
-                targetPoint.transform.position = hit.transform.position;
-            else
-            {
-                targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x, crosshair.transform.position.y, 1000));
-                targetPoint.transform.Translate(transform.parent.transform.forward * (-10f));
-            }
+			// Project the shooting direction on the ship's XZ plane (the turret only rotates around the ship's Y direction)
+			Vector3 turretToCrosshairDirection = targetPoint.transform.position - transform.position;
+			Vector3 projectionOnNormal = Vector3.Project(turretToCrosshairDirection, transform.parent.transform.up);
+			Vector3 projectedAimingDirection = targetPoint.transform.position - projectionOnNormal;
 
-            //transform.LookAt(targetPoint.transform.position);
-            Quaternion targetRotation = Quaternion.LookRotation(targetPoint.transform.position - transform.position);
-            transform.rotation = targetRotation;
+			// Align the turret's X axis (the guns direction) with the (projected) shooting direction
+			transform.rotation = Quaternion.FromToRotation(Vector3.right, projectedAimingDirection);
 
-            // Angle correction
-            transform.localEulerAngles = new Vector3(270f, transform.localEulerAngles.y - 90f, transform.localEulerAngles.z);
+            // Keep the turret aligned horizontaly with the ship
+			transform.localEulerAngles = new Vector3(270f, transform.localEulerAngles.y, transform.localEulerAngles.z);
 
             // Draw line between turret position and aim position. Gizmos needs to be enabled in Game View to see the line (click Gizmos in top right)
-            if(debug)
-                Debug.DrawRay(transform.position, targetPoint.transform.position - transform.position, Color.green);
+			if (debug)
+			{
+				Debug.DrawRay(transform.position, targetPoint.transform.position - transform.position, Color.green);
+				Debug.DrawLine(transform.position, projectedAimingDirection, Color.red);
+			}
         }
     }
+
+	private Vector3 GetWorldPositionOnPlane(Vector3 screenPosition, float z)
+	{
+		Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+		Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, z));
+		float distance;
+		xy.Raycast(ray, out distance);
+		return ray.GetPoint(distance);
+	}
 }
