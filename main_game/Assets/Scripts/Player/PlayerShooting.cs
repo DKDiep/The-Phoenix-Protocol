@@ -15,6 +15,7 @@ public class PlayerShooting : MonoBehaviour
 	private Texture2D hitmarker; // Hitmarker texture
 	private AudioClip fireSound; // Sound to make when firing
 	private bool randomPitch;
+	private float accuracy;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -49,6 +50,7 @@ public class PlayerShooting : MonoBehaviour
 		hitmarker   = settings.PlayerHitmarker;
 		fireSound   = settings.PlayerFireSound;
 		randomPitch = settings.PlayerFireSoundRandomPitch;
+		accuracy    = settings.PlayerBulletAccuracy;
 	}
     
 	public void Setup () 
@@ -152,14 +154,14 @@ public class PlayerShooting : MonoBehaviour
 
             GameObject logic = logicManager.RequestObject();
             BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-			logicComponent.SetParameters(0.1f, gameState.GetBulletDamage(), 800f);
+			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage(), 800f);
             logicComponent.SetID(this, playerId);
 
             logic.transform.parent = obj.transform;
             logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
-			// If this bullet was shot at a target, make it follow that target
-			if (autoaimScripts[playerId].Target != null)
+			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
+			if (autoaimScripts[playerId].Target != null && UnityEngine.Random.value < accuracy)
 				obj.GetComponent<BulletMove>().SetTarget(autoaimScripts[playerId].Target);
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
