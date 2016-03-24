@@ -14,15 +14,13 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] private GameObject[] obj; // Object to spawn
     [SerializeField] private int size; // Number of objects to spawn
     [SerializeField] private bool serverOnly;
-
     [SerializeField] private bool useInterpolation;
+	#pragma warning restore 0649
+
     private Vector3[] newPositions;
     private Quaternion[] newRotations;
     private float[] times;
     private bool amServer = false;
-
-    //private bool isServer;
-	#pragma warning restore 0649
 
     [Server]
     private void CheckServer()

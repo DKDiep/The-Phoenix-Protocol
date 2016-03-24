@@ -24,7 +24,6 @@ public class PlayerController : NetworkBehaviour
     private GameState gameState;
     private ServerManager serverManager;
     private NetworkClient client;
-    private bool gameStarted = false;
     private ShipMovement shipMovement;
 
     public GameObject GetControlledObject()
@@ -42,10 +41,6 @@ public class PlayerController : NetworkBehaviour
     {
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
-
-        // This RPC is only called once the game has started so we update the variable
-        gameStarted = true;
-        localController.gameStarted = true;
 
         playerCamera = GameObject.Find("CameraManager(Clone)");
 		if (localController.role == RoleEnum.Camera)

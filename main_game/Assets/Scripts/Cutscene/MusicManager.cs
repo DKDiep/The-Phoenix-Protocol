@@ -7,8 +7,9 @@ using System.Collections;
 
 public class MusicManager : MonoBehaviour 
 {
-
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] AudioClip[] music;
+	#pragma warning restore 0649
 
     public void Play()
     {

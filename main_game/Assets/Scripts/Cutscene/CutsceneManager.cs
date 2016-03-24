@@ -8,9 +8,11 @@ using System.Collections;
 
 public class CutsceneManager : MonoBehaviour 
 {
-
 	public bool playCutscene = true; // Used to disable the cutscene when testing
+
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] MusicManager music;
+	#pragma warning restore 0649
     
 	void Play () 
 	{

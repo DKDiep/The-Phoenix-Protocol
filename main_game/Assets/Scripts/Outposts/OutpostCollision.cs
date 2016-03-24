@@ -8,8 +8,11 @@ public class OutpostCollision : NetworkBehaviour
 
 	private const int PLAYER_COLLISION_DAMAGE = 50; // This is currently half of the ship's health
 
-    [SerializeField] Material helpMat;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] Material helpMat;
     [SerializeField] Material savedMat;
+	#pragma warning restore 0649 
+
     bool client = false;
 
 	void Start()
@@ -18,8 +21,7 @@ public class OutpostCollision : NetworkBehaviour
         if(outpostLogic == null)
             client = true;
 	}
-
-
+		
     public void SwitchMaterial()
     {
         RpcSwitchMaterial();

@@ -4,9 +4,12 @@ using System.Collections;
 
 public class ScoreBoardManager : MonoBehaviour 
 {
-
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] private GameObject[] scoreBoardItems;
+	#pragma warning restore 0649
+
     private GameState gameState;
+
     void Start() 
     {
         GameObject server = GameObject.Find("GameManager");
@@ -16,11 +19,6 @@ public class ScoreBoardManager : MonoBehaviour
             scoreBoardItems[i].transform.FindChild("playerScore").GetComponent<Text>().text = gameState.GetPlayerScore(i).ToString();
         }
     }
-
-
-
-
-
 }
 
 

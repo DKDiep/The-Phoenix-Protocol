@@ -5,7 +5,7 @@ public class TargetScript : MonoBehaviour
 {
     private GameObject player;
     private float distance; // Distance to the player
-    private Renderer renderer;
+    private new Renderer renderer;
 
 	// Use this for initialization
 	void Start () 

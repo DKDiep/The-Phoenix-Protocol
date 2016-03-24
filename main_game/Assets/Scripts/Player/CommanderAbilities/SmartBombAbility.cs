@@ -4,7 +4,10 @@ using System.Collections;
 public class SmartBombAbility : CommanderAbility {
 
     private float originalSpeed;
+
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] GameObject smartBomb;
+	#pragma warning restore 0649 
 
 	// Use this for initialization
 	private void Awake () 

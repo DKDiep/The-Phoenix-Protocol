@@ -3,7 +3,9 @@ using System.Collections;
 
 public class EMPAbility : CommanderAbility {
 
-    [SerializeField] GameObject emp;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] GameObject emp;
+	#pragma warning restore 0649
 
 	// Use this for initialization
 	private void Awake () 
@@ -33,6 +35,4 @@ public class EMPAbility : CommanderAbility {
     {
 
     }
-
-
 }

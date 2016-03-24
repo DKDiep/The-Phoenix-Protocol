@@ -7,7 +7,10 @@ public class ShootingAbility : CommanderAbility {
     private ObjectPoolManager bulletManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager impactManager;
+
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] GameObject enemyFinderObject;
+	#pragma warning restore 0649
 
 	// Use this for initialization
 	private void Awake () 

@@ -7,9 +7,11 @@ using System.Collections;
 
 public class SmoothCamera : MonoBehaviour 
 {
+	private GameObject parent;
 
-GameObject parent;
-[SerializeField] float damping;
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+	[SerializeField] float damping;
+	#pragma warning restore 0649
     
     // Update is called once per frame
     void LateUpdate () 
