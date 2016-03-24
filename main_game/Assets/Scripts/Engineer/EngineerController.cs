@@ -375,25 +375,25 @@ public class EngineerController : NetworkBehaviour
 
         // Cast rays for checking collisions
         // Forward ray
-        if (Physics.Raycast(transform.position, transform.forward, 15f))
+        if (Physics.Raycast(transform.position, transform.forward, 9f))
             collideFront = true;
         else
             collideFront = false;
 
         // Left ray
-        if (Physics.Raycast(transform.position, -transform.right, 15f))
+        if (Physics.Raycast(transform.position, -transform.right, 9f))
             collideLeft = true;
         else
             collideLeft = false;
 
         // Back ray
-        if (Physics.Raycast(transform.position, -transform.forward, 15f))
+        if (Physics.Raycast(transform.position, -transform.forward, 9f))
             collideBack = true;
         else
             collideBack = false;
 
         // Right ray
-        if (Physics.Raycast(transform.position, transform.right, 15f))
+        if (Physics.Raycast(transform.position, transform.right, 9f))
             collideRight = true;
         else
             collideRight = false;
