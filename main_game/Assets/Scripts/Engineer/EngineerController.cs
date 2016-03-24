@@ -41,6 +41,10 @@ public class EngineerController : NetworkBehaviour
     private bool isDocked = false;
     private bool jump;
     private bool showPopup = false;
+    private bool collideFront;
+    private bool collideLeft;
+    private bool collideBack;
+    private bool collideRight;
 
 	private GameState gameState = null;
 
@@ -373,6 +377,31 @@ public class EngineerController : NetworkBehaviour
         {
             ResetUpgradeText();
         }
+
+        // Cast rays for checking collisions
+        // Forward ray
+        if (Physics.Raycast(transform.position, transform.forward, 15f))
+            collideFront = true;
+        else
+            collideFront = false;
+
+        // Left ray
+        if (Physics.Raycast(transform.position, -transform.right, 15f))
+            collideLeft = true;
+        else
+            collideLeft = false;
+
+        // Back ray
+        if (Physics.Raycast(transform.position, -transform.forward, 15f))
+            collideBack = true;
+        else
+            collideBack = false;
+
+        // Right ray
+        if (Physics.Raycast(transform.position, transform.right, 15f))
+            collideRight = true;
+        else
+            collideRight = false;
     }
 
     private void FixedUpdate()
@@ -391,7 +420,25 @@ public class EngineerController : NetworkBehaviour
             UnDock();
 
             // always move along the camera forward as it is the direction that it being aimed at
-            Vector3 desiredMove = transform.forward * input.y + transform.right * input.x;
+            // using the collision info to decide wheter to move in a direction or not
+            float forwardMul;
+            float rightMul;
+
+            if (collideFront && input.y > 0)
+                forwardMul = 0;
+            else if (collideBack && input.y < 0)
+                forwardMul = 0;
+            else
+                forwardMul = 1;
+
+            if (collideLeft && input.x < 0)
+                rightMul = 0;
+            else if (collideRight && input.x > 0)
+                rightMul = 0;
+            else
+                rightMul = 1;
+
+            Vector3 desiredMove = transform.forward * forwardMul * input.y + transform.right * rightMul * input.x;
 
             Vector3 actualMove;
             actualMove.x = desiredMove.x * speed;
