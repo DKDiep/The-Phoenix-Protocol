@@ -7,8 +7,6 @@ using System.Collections;
 
 public class BulletLogic : MonoBehaviour 
 {
-	public float speed; // Bullet speed
-
 	// These cannot be easily moved to GameSettings because they are set to different values based on the object they are attached to
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	private float accuracy; // 0 = perfectly accurate, 1 = very inaccurate
@@ -47,13 +45,10 @@ public class BulletLogic : MonoBehaviour
         }
     }
 
-    public void SetParameters(float t_accuracy, float t_damage, float t_speed)
+    public void SetParameters(float t_accuracy, float t_damage)
     {
         accuracy = t_accuracy;
         damage = t_damage;
-        speed = t_speed;
-
-		transform.parent.gameObject.GetComponent<BulletMove>().Speed = t_speed;
     }
 
     // Initialise object when spawned

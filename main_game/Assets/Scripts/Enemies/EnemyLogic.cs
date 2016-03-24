@@ -562,15 +562,31 @@ public class EnemyLogic : MonoBehaviour
 		logic.transform.localPosition = Vector3.zero;
 
         BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
+		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-        if(type == EnemyType.Gnat)
-            bulletLogic.SetParameters(0.3f, 1f, 600f);
-        else if(type == EnemyType.Firefly)
-            bulletLogic.SetParameters(0.15f, 2f, 600f);
+		float bulletSpeed = 0f;
+		if (type == EnemyType.Gnat)
+		{
+			bulletSpeed = 600f;
+			bulletLogic.SetParameters(0.3f, 1f);
+		}
+		else if (type == EnemyType.Firefly)
+		{
+			bulletSpeed = 600f;
+			bulletLogic.SetParameters(0.15f, 2f);
+		}
          else if(type == EnemyType.Hornet)
-            bulletLogic.SetParameters(0.05f, 5f, 800f);
+		{
+			bulletSpeed = 800f;
+			bulletLogic.SetParameters(0.05f, 5f);
+		}
          else if(type == EnemyType.BlackWidow)
-            bulletLogic.SetParameters(0.05f, 10f, 800f);
+		{
+			bulletSpeed = 800f;
+			bulletLogic.SetParameters(0.05f, 10f);
+		}
+		bulletMove.Speed = bulletSpeed;
+		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
 		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
