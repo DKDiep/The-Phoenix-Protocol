@@ -10,6 +10,7 @@ GameObject:
   - 224: {fileID: 22478952}
   - 222: {fileID: 22267026}
   - 114: {fileID: 11410946}
+  - 114: {fileID: 11435662}
   m_Layer: 5
   m_Name: CrosshairImage0
   m_TagString: Untagged
@@ -47,6 +48,7 @@ GameObject:
   - 224: {fileID: 22474510}
   - 222: {fileID: 22273688}
   - 114: {fileID: 11419594}
+  - 114: {fileID: 11442090}
   m_Layer: 5
   m_Name: CrosshairImage2
   m_TagString: Untagged
@@ -79,6 +81,7 @@ GameObject:
   - 224: {fileID: 22440444}
   - 222: {fileID: 22214376}
   - 114: {fileID: 11483434}
+  - 114: {fileID: 11405174}
   m_Layer: 5
   m_Name: CrosshairImage3
   m_TagString: Untagged
@@ -96,6 +99,7 @@ GameObject:
   - 224: {fileID: 22480886}
   - 222: {fileID: 22263990}
   - 114: {fileID: 11421410}
+  - 114: {fileID: 11491240}
   m_Layer: 5
   m_Name: CrosshairImage1
   m_TagString: Untagged
@@ -119,6 +123,17 @@ Transform:
   - {fileID: 22440444}
   m_Father: {fileID: 22438294}
   m_RootOrder: 0
+--- !u!114 &11405174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a030b2833c9f94d806213b29cc1384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11409714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +251,28 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11435662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a030b2833c9f94d806213b29cc1384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11442090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a030b2833c9f94d806213b29cc1384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11452814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -311,6 +348,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11491240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a030b2833c9f94d806213b29cc1384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &22214376
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -23,6 +23,7 @@ public class PlayerShooting : MonoBehaviour
 	private float alpha;
 	private Vector3 crosshairPosition;
 	private GameObject[] crosshairs;
+	private CrosshairAutoaimAssist[] autoaimScripts;
 
 	private ObjectPoolManager bulletManager;
 	private ObjectPoolManager logicManager;
@@ -64,11 +65,15 @@ public class PlayerShooting : MonoBehaviour
         GameObject crosshairContainer = GameObject.Find("GameManager").GetComponent<ServerManager>().GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
 
-        crosshairs = new GameObject[4];
+        crosshairs 	   = new GameObject[4];
+		autoaimScripts = new CrosshairAutoaimAssist[4];
 
-        // Find crosshair images
-        for(int i = 0; i < 4; ++i)
-            crosshairs[i] = crosshairContainer.transform.GetChild(i).gameObject;
+        // Find crosshairs
+		for (int i = 0; i < 4; ++i)
+		{
+			crosshairs[i]     = crosshairContainer.transform.GetChild(i).gameObject;
+			autoaimScripts[i] = crosshairs[i].GetComponent<CrosshairAutoaimAssist>();
+		}
 
         bulletAnchor = new GameObject[4];
 
@@ -152,6 +157,10 @@ public class PlayerShooting : MonoBehaviour
 
             logic.transform.parent = obj.transform;
             logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+
+			// If this bullet was shot at a target, make it follow that target
+			if (autoaimScripts[playerId].Target != null)
+				obj.GetComponent<BulletMove>().SetTarget(autoaimScripts[playerId].Target);
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 

@@ -12,6 +12,8 @@ public class BulletMove : MonoBehaviour
 	// Configuration parameters loaded through GameSettings
 	private float speed;
 
+	private GameObject target = null;
+
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -25,6 +27,17 @@ public class BulletMove : MonoBehaviour
 
 	void Update () 
 	{
+		if (target != null)
+			transform.LookAt(target.transform);
 		transform.position += transform.forward * Time.deltaTime * speed;
+	}
+
+	/// <summary>
+	/// Sets a target that this bullet will follow.
+	/// </summary>
+	/// <param name="targetObject">The target object.</param>
+	public void SetTarget(GameObject targetObject)
+	{
+		target = targetObject;
 	}
 }

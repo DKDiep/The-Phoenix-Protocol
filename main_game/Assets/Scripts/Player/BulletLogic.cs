@@ -111,6 +111,8 @@ public class BulletLogic : MonoBehaviour
             impactTemp.transform.position = col.transform.position;
             impactManager.EnableClientObject(impactTemp.name, impactTemp.transform.position, impactTemp.transform.rotation, impactTemp.transform.localScale);
         }
+
+		RemoveFollowTarget();
         bulletManager.DisableClientObject(gameObject.name);
         bulletManager.RemoveObject(gameObject.name);
         logicManager.RemoveObject(gameObject.name);
@@ -120,8 +122,21 @@ public class BulletLogic : MonoBehaviour
     IEnumerator DestroyObject()
     {
         yield return new WaitForSeconds(4f);
+
+		RemoveFollowTarget();
         bulletManager.DisableClientObject(gameObject.name);
         bulletManager.RemoveObject(gameObject.name);
         logicManager.RemoveObject(gameObject.name);
     }
+
+	/// <summary>
+	/// Removes the target this bullet is following, if any .
+	/// 
+	/// This should be called whenever the bullet is destroyed. If it is not, and object pooling later gives
+	/// this object to a shot not aimed at an enemy, the old target will be used.
+	/// </summary>
+	private void RemoveFollowTarget()
+	{
+		transform.parent.gameObject.GetComponent<BulletMove>().SetTarget(null);
+	}
 }

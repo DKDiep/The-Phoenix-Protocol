@@ -31,6 +31,7 @@ public class CrosshairMovement : NetworkBehaviour
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
 	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
 	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
+	private CrosshairAutoaimAssist[] autoaimScripts;
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
@@ -63,13 +64,16 @@ public class CrosshairMovement : NetworkBehaviour
 
 		crosshairPosition = new Vector3[numberOfCrossHairs];
 
-		init = new bool[4];
-		crosshairs = new GameObject[4];
+		init 		   = new bool[4];
+		crosshairs 	   = new GameObject[4];
+		autoaimScripts = new CrosshairAutoaimAssist[4];
 			
         // Find crosshairs
 		for(int i = 0; i < 4; ++i)
         {
-            crosshairs[i] = gameObject.transform.Find("Crosshairs").GetChild(i).gameObject;
+            crosshairs[i] 	  = gameObject.transform.Find("Crosshairs").GetChild(i).gameObject;
+			autoaimScripts[i] = crosshairs[i].GetComponent<CrosshairAutoaimAssist>();
+
 			// Hide crosshairs we are not using
 			if(i >= numberOfCrossHairs) crosshairs[i].SetActive(false);
 
@@ -131,14 +135,17 @@ public class CrosshairMovement : NetworkBehaviour
 
         // If there's an autoaim target in range, use that instead of the cursor position
         Target target = GetClosestTarget(currentPosition);
+		GameObject targetObject = null;
         if (!target.IsNone())
         {
             serverManager.SetCrosshairPosition(controlling, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+			targetObject = target.Object;
         }
         else
         {
             serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
         }
+		autoaimScripts[controlling].Target = targetObject;
     }
         
     /// <summary>
