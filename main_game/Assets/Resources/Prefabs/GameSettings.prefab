@@ -81,7 +81,7 @@ MonoBehaviour:
   EnemyFireSoundRandomPitch: 1
   EnemySuicidalSpeedUpdateInterval: 1
   EnemySuicidalExtraSpeed: 5
-  EngineerWalkSpeed: 2
+  EngineerWalkSpeed: 0.2
   EngineerMouseLookXSensitivity: 2
   EngineerMouseLookYSensitivity: 2
   EngineerMouseLookClampVerticalRotation: 1
