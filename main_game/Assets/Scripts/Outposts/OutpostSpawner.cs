@@ -8,6 +8,7 @@ public class OutpostSpawner : MonoBehaviour
 	// Configuration parameters loaded through GameSettings
 	private GameObject outpost1;
 	private GameObject gameManager;
+    private OutpostManager outpostManagerScript;
 	private float collectionDistance; // The distance from the outpost the ship has to be in order to collect resources
 	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
 	private float minDistance; // The minimum distance between outposts
@@ -36,7 +37,7 @@ public class OutpostSpawner : MonoBehaviour
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
         outpostManager = Instantiate(Resources.Load("Prefabs/OutpostManager", typeof(GameObject))) as GameObject;
-        OutpostManager outpostManagerScript = outpostManager.GetComponent<OutpostManager>();
+        outpostManagerScript = outpostManager.GetComponent<OutpostManager>();
         outpostManagerScript.giveGameStateReference(gameState);
 
         spawnLocation = new GameObject();
@@ -73,7 +74,9 @@ public class OutpostSpawner : MonoBehaviour
 
 				SpawnOutpost ();
 				numOutposts++;
-			}
+            } else {
+                outpostManagerScript.outpostSpawned = true;
+            }
 		}
 
 	}

@@ -9,6 +9,7 @@ public class MissionManager : MonoBehaviour
     private PlayerController playerController;
     private OutpostManager outpostManager;
     private float startTime;
+    private bool missionInit = false;
 
     void Start () 
     {
@@ -32,6 +33,9 @@ public class MissionManager : MonoBehaviour
     {
         if(gameState.Status == GameState.GameStatus.Started)
         {
+            // Initialise any variables for missions
+            InitialiseMissions();
+
             CheckMissionTriggers();
             CheckMissionsCompleted();
         }
@@ -40,6 +44,25 @@ public class MissionManager : MonoBehaviour
     public void SetPlayerController(PlayerController controller)
     {
         playerController = controller;
+    }
+
+
+    private void InitialiseMissions()
+    {
+        if(!missionInit)
+        {
+            for(int id = 0; id < missions.Length; id++)
+            {
+                // If the missions completion type is an outpost, we randomly assign it a close outpost.
+                if(missions[id].completionType == CompletionType.Outpost)
+                {
+                    missions[id].completionValue = outpostManager.GetRandomCloseOutpost(2000);
+                    // If we have successfully initialised the completion value.
+                    if(missions[id].completionValue != -1)
+                        missionInit = true;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -140,13 +163,6 @@ public class MissionManager : MonoBehaviour
         private bool started = false;
         private bool complete = false;
 
-        public Mission(string name, string description, TriggerType triggerType, int triggerValue) 
-        {
-            this.name         = name;
-            this.description  = description;
-            this.triggerType  = triggerType;
-            this.triggerValue = triggerValue;
-        }
         public bool isComplete()
         {
             return complete;

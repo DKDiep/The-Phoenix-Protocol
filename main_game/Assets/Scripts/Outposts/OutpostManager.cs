@@ -12,7 +12,7 @@ public class OutpostManager : MonoBehaviour {
     private List<GameObject> outpostList;
     private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
     private int arrowsRequired = 0;
-
+    public bool outpostSpawned = false;
     void Start()
     {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
@@ -23,7 +23,6 @@ public class OutpostManager : MonoBehaviour {
     void Update () 
     {
         outpostList = gameState.GetOutpostList();
-
         if(outpostList.Count != 0 && outpostList != null)
         {
             SpawnOutpostArrows();
@@ -68,7 +67,6 @@ public class OutpostManager : MonoBehaviour {
         if (timeSinceLastEvent > 10)
         {
             timeSinceLastEvent = 0;
-
             for(int i = 0; i < outpostList.Count; i++)
             {
                 if (outpostLogic[i].discovered == false)
@@ -120,6 +118,27 @@ public class OutpostManager : MonoBehaviour {
             }
         }
         return minDistance;
+    }
+
+    public int GetRandomCloseOutpost(int maxDistance)
+    {
+        int distance;
+        List<int> outpostsInRange = new List<int>();
+
+        if(!outpostSpawned)
+            return -1;
+        
+        for(int i = 0; i < outpostList.Count; i++)
+        {
+            distance = (int)Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position);
+            if(distance < maxDistance)
+            {   
+                outpostsInRange.Add(i);
+            }
+        }
+        // Return random element
+
+        return outpostsInRange[Random.Range(0, outpostsInRange.Count)];
     }
 
     public void giveGameStateReference(GameState newGameState)
