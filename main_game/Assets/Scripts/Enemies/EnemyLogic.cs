@@ -556,7 +556,11 @@ public class EnemyLogic : MonoBehaviour
 
         GameObject obj = bulletManager.RequestObject();
         obj.transform.position = shootAnchor.transform.position;
+
         GameObject logic = logicManager.RequestObject();
+		logic.transform.parent = obj.transform;
+		logic.transform.localPosition = Vector3.zero;
+
         BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
 
         if(type == EnemyType.Gnat)
@@ -567,9 +571,6 @@ public class EnemyLogic : MonoBehaviour
             bulletLogic.SetParameters(0.05f, 5f, 800f);
          else if(type == EnemyType.BlackWidow)
             bulletLogic.SetParameters(0.05f, 10f, 800f);
-
-		logic.transform.parent = obj.transform;
-		logic.transform.localPosition = Vector3.zero;
 
 		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 

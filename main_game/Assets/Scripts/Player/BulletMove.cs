@@ -7,29 +7,20 @@ using System.Collections;
 
 public class BulletMove : MonoBehaviour 
 {
-	private GameSettings settings;
-
-	// Configuration parameters loaded through GameSettings
-	private float speed;
-
 	private GameObject target = null;
+
+	public float Speed { get; set; }
 
 	void Start()
 	{
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
-	}
-
-	private void LoadSettings()
-	{
-		speed = settings.BulletSpeed;
+		
 	}
 
 	void Update () 
 	{
 		if (target != null)
 			transform.LookAt(target.transform);
-		transform.position += transform.forward * Time.deltaTime * speed;
+		transform.position += transform.forward * Time.deltaTime * Speed;
 	}
 
 	/// <summary>

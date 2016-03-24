@@ -52,6 +52,8 @@ public class BulletLogic : MonoBehaviour
         accuracy = t_accuracy;
         damage = t_damage;
         speed = t_speed;
+
+		transform.parent.gameObject.GetComponent<BulletMove>().Speed = t_speed;
     }
 
     // Initialise object when spawned

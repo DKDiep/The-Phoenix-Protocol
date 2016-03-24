@@ -16,6 +16,7 @@ public class PlayerShooting : MonoBehaviour
 	private AudioClip fireSound; // Sound to make when firing
 	private bool randomPitch;
 	private float accuracy;
+	private float speed;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -51,6 +52,7 @@ public class PlayerShooting : MonoBehaviour
 		fireSound   = settings.PlayerFireSound;
 		randomPitch = settings.PlayerFireSoundRandomPitch;
 		accuracy    = settings.PlayerBulletAccuracy;
+		speed 		= settings.PlayerBulletSpeed;
 	}
     
 	public void Setup () 
@@ -153,11 +155,11 @@ public class PlayerShooting : MonoBehaviour
             obj.transform.position = bulletAnchor[playerId].transform.position;
 
             GameObject logic = logicManager.RequestObject();
-            BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage(), 800f);
-            logicComponent.SetID(this, playerId);
+			logic.transform.parent = obj.transform;
 
-            logic.transform.parent = obj.transform;
+            BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage(), speed);
+            logicComponent.SetID(this, playerId);
             logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
 			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
