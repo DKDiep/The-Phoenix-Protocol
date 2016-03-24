@@ -59,10 +59,6 @@ public class EnemyLogic : MonoBehaviour
 	private int droppedResources;
 	private const int DROP_RESOURCE_RANGE = 100;
 
-	// The probability than the enemy goes suicidal, assumming a check per frame @ 60 fps for 10 minutes
-	private const double MADNESS_PROB = 0.999999720824043; // 1% probability
-	private System.Random sysRand;
-
 	// The current state of the ship's AI
 	internal EnemyAIState state;
 
@@ -269,9 +265,6 @@ public class EnemyLogic : MonoBehaviour
 
 		StartCoroutine ("ShootManager");
 		StartCoroutine("DrawDelay");
-
-		// Get a System.Random object that will be used for madness checks
-		sysRand = new System.Random();
 	}
 
 	// Set the waypoints to follow when engaging the player
@@ -309,16 +302,6 @@ public class EnemyLogic : MonoBehaviour
 			MoveTowardsPlayer ();
 			return;
 		}
-
-		// Check to see if this enemy is going mad this frame
-		/* Assuming a 10 minute game, there is a 1% chance that an enemy will go mad.
-		 * It's pointless to add a parameter and do the calculations in engine, since it involves finding the 36000th root of the probability value.
-		 * We use C#'s random instead of Unity's because we need double precision. */
-
-         /*
-		double madnessCheck = sysRand.NextDouble ();
-		if (madnessCheck > MADNESS_PROB)
-			isSuicidal = true;*/
 
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
