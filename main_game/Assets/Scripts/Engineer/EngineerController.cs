@@ -531,6 +531,9 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Used to rotate the engineer camera based on mouse movement
+    /// </summary>
     private void RotateView()
     {
         mouseLook.LookRotation(transform, camera.transform);
@@ -586,6 +589,10 @@ public class EngineerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Listens for GUI events. Used to draw the upgrade/repair
+    /// progress bar
+    /// </summary>
     private void OnGUI()
     {
         if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
