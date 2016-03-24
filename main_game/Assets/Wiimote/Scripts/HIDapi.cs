@@ -62,6 +62,7 @@ public class HIDapi {
 }
 
 struct hid_device_info {
+	#pragma warning disable 0649 // Disable warnings about unset SerializeFields
     public string path;
     public ushort vendor_id;
     public ushort product_id;
@@ -73,4 +74,5 @@ struct hid_device_info {
     public ushort usage;
     public int interface_number;
     public IntPtr next;
+	#pragma warning restore 0649
 }

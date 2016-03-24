@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 
 public class FadeTexture : NetworkBehaviour 
 {
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] Texture2D texture;
 	[SerializeField] float enterWait; // How long to wait before fading in the texture
 	[SerializeField] float exitWait; // How long to wait before fading out
@@ -17,6 +18,8 @@ public class FadeTexture : NetworkBehaviour
 	[SerializeField] float xPos; // x Offset
 	[SerializeField] float yPos; // y Offset
 	[SerializeField] float alpha = 1.0f; // Starting alpha value
+	#pragma warning restore 0649
+
 	Color fading;
 	bool canFade = false;
     private bool gameStarted = false;
