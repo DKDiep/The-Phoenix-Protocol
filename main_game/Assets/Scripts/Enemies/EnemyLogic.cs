@@ -48,6 +48,9 @@ public class EnemyLogic : MonoBehaviour
 	private float lastShieldCheck; // Temp variable allows us to see whether I've taken damage since last checking
 	private float randomZ;         // A random Z angle to give the enemies some uniqueness
 
+	private float speedUpdateDelay;
+	private float suicidalExtraSpeed;
+
 	private GameObject shootAnchor;
 	private Vector3 prevPos, currentPos;
 	private GameObject controlObject;
@@ -128,13 +131,15 @@ public class EnemyLogic : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		shotsPerSec = settings.EnemyShotsPerSec;
-		shootPeriod = settings.EnemyShootPeriod;
+		shotsPerSec 				   = settings.EnemyShotsPerSec;
+		shootPeriod 				   = settings.EnemyShootPeriod;
 		shootPeriodPercentageVariation = settings.EnemyShootPeriodPercentageVariation;
-		shieldDelay = settings.EnemyShieldDelay;
-		shieldRechargeRate = settings.EnemyShieldRechargeRate;
-		fireSnd = settings.EnemyFireSoundPrefab;
-		randomPitch = settings.EnemyFireSoundRandomPitch;
+		shieldDelay					   = settings.EnemyShieldDelay;
+		shieldRechargeRate			   = settings.EnemyShieldRechargeRate;
+		fireSnd						   = settings.EnemyFireSoundPrefab;
+		randomPitch					   = settings.EnemyFireSoundRandomPitch;
+		speedUpdateDelay		   	   = settings.EnemySuicidalSpeedUpdateInterval;
+		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
 	}
 
     IEnumerator UpdateDelay()
@@ -172,7 +177,8 @@ public class EnemyLogic : MonoBehaviour
             bulletManager = blackWidowBulletManager;
         }
 
-
+		if (type == EnemyType.Termite || type == EnemyType.LightningBug)
+			StartCoroutine("MatchPlayerSpeed");
         StartCoroutine("UpdateTransform");
     }
 
@@ -184,6 +190,20 @@ public class EnemyLogic : MonoBehaviour
         StartCoroutine("UpdateTransform");
     }
 
+	/// <summary>
+	/// Keeps the enemy always moving faster than the player.
+	/// 
+	/// This should only be used on suicidal enemies.
+	/// </summary>
+	IEnumerator MatchPlayerSpeed()
+	{
+		float playerSpeed = gameState.GetShipSpeed();
+		if (speed < playerSpeed + suicidalExtraSpeed)
+			speed = playerSpeed + suicidalExtraSpeed;
+
+		yield return new WaitForSeconds(speedUpdateDelay);
+		StartCoroutine("MatchPlayerSpeed");
+	}
 
     void OnEnable()
     {

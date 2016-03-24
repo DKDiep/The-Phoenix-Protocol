@@ -79,6 +79,8 @@ MonoBehaviour:
   EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
     type: 3}
   EnemyFireSoundRandomPitch: 1
+  EnemySuicidalSpeedUpdateInterval: 1
+  EnemySuicidalExtraSpeed: 5
   EngineerWalkSpeed: 2
   EngineerMouseLookXSensitivity: 2
   EngineerMouseLookYSensitivity: 2
@@ -152,7 +154,6 @@ MonoBehaviour:
   HullUpgradeLevels: 5
   DroneUpgradeLevels: 2
   StorageUpgradeLevels: 4
-  BulletSpeed: 600
   PlayerHitmarker: {fileID: 2800000, guid: 9f43664df4ccb4770ab66f1829bd49e5, type: 3}
   PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   PlayerFireSoundRandomPitch: 1
