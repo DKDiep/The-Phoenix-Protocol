@@ -110,18 +110,6 @@ public class ObjectPoolManager : NetworkBehaviour
             RpcEnableObject(id, position, rotation, scale);
     }
 
-    public void SetAsteroidSpeed(string name, float speed)
-    {
-        int id = int.Parse(name);
-        RpcSetAsteroidSpeed(id, speed);
-    }
-
-    [ClientRpc]
-    public void RpcSetAsteroidSpeed(int id, float speed)
-    {
-        pool[id].GetComponent<AsteroidRotation>().SetClientSpeed(speed);
-    }
-
     public void DisableClientObject(string name)
     {
        int id = int.Parse(name);
@@ -158,4 +146,33 @@ public class ObjectPoolManager : NetworkBehaviour
         pool[id].transform.parent = null;
         pool[id].SetActive(false);
     }
+
+	////////////////////////////////////////////////////////////////////
+	/// Type-specific methods
+	/// aka "Team Pyrolite doesn't give a shit about object orientation"
+	////////////////////////////////////////////////////////////////////
+
+	public void SetAsteroidSpeed(string name, float speed)
+	{
+		int id = int.Parse(name);
+		RpcSetAsteroidSpeed(id, speed);
+	}
+
+	[ClientRpc]
+	public void RpcSetAsteroidSpeed(int id, float speed)
+	{
+		pool[id].GetComponent<AsteroidRotation>().SetClientSpeed(speed);
+	}
+
+	public void SetBulletSpeed(string name, float speed)
+	{
+		int id = int.Parse(name);
+		RpcSetBulletSpeed(id, speed);
+	}
+
+	[ClientRpc]
+	public void RpcSetBulletSpeed(int id, float speed)
+	{
+		pool[id].GetComponent<BulletMove>().Speed = speed;
+	}
 }

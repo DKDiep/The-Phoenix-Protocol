@@ -157,6 +157,7 @@ MonoBehaviour:
   PlayerFireSound: {fileID: 8300000, guid: 6f7acd323a1bf67478789091edc809b3, type: 3}
   PlayerFireSoundRandomPitch: 1
   PlayerBulletAccuracy: 0.9
+  PlayerBulletSpeed: 800
   missionProperties:
   - name: Mission 1
     description: Destroy these enemies

@@ -16,6 +16,7 @@ public class PlayerShooting : MonoBehaviour
 	private AudioClip fireSound; // Sound to make when firing
 	private bool randomPitch;
 	private float accuracy;
+	private float speed;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -51,6 +52,7 @@ public class PlayerShooting : MonoBehaviour
 		fireSound   = settings.PlayerFireSound;
 		randomPitch = settings.PlayerFireSoundRandomPitch;
 		accuracy    = settings.PlayerBulletAccuracy;
+		speed 		= settings.PlayerBulletSpeed;
 	}
     
 	public void Setup () 
@@ -152,17 +154,23 @@ public class PlayerShooting : MonoBehaviour
             GameObject obj = bulletManager.RequestObject();
             obj.transform.position = bulletAnchor[playerId].transform.position;
 
-            GameObject logic = logicManager.RequestObject();
-            BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage(), 800f);
-            logicComponent.SetID(this, playerId);
+			BulletMove moveComponent = obj.GetComponent<BulletMove>();
+			moveComponent.Speed = speed;
+			bulletManager.SetBulletSpeed(obj.name, speed);
 
-            logic.transform.parent = obj.transform;
+            GameObject logic = logicManager.RequestObject();
+			logic.transform.parent = obj.transform;
+
+            // TODO: this is now broken because the logic is only spawned on the server, so the bullets don't move on the clients
+			// Suggest add a BulletMove method for the speed and remove it from the logic
+			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage());
+            logicComponent.SetID(this, playerId);
             logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
 			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
 			if (autoaimScripts[playerId].Target != null && UnityEngine.Random.value < accuracy)
-				obj.GetComponent<BulletMove>().SetTarget(autoaimScripts[playerId].Target);
+				moveComponent.SetTarget(autoaimScripts[playerId].Target);
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 

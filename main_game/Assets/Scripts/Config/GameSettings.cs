@@ -150,14 +150,12 @@ public class GameSettings : MonoBehaviour
     public int DroneUpgradeLevels;
     public int StorageUpgradeLevels;
 
-	[Header("Bullet Movement")]
-	public float BulletSpeed;
-
 	[Header("Player Shooting")]
 	public Texture2D PlayerHitmarker; // Hitmarker texture
 	public AudioClip PlayerFireSound; // Sound to make when firing
 	public bool PlayerFireSoundRandomPitch;
 	public float PlayerBulletAccuracy;
+	public float PlayerBulletSpeed;
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;
