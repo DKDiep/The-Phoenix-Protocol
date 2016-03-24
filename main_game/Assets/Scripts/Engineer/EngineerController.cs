@@ -14,9 +14,7 @@ public class EngineerController : NetworkBehaviour
 
 	private float runSpeed;
 	private float jumpSpeed;
-	private float upMultiplier;
 	private bool isWalking;
-	private float stepInterval;
 
     private Text upgradeText;
     private Text dockText;
@@ -25,8 +23,6 @@ public class EngineerController : NetworkBehaviour
     private new Camera camera;
     private MouseLook mouseLook;
     private Vector2 input;
-    private float m_StepCycle = 0f;
-    private float m_NextStep;
     private float engineerMaxDistance;
 
     private string upgradeString;
@@ -94,7 +90,6 @@ public class EngineerController : NetworkBehaviour
 
         runSpeed     = walkSpeed * 2;
         jumpSpeed    = walkSpeed;
-        upMultiplier = jumpSpeed / 2;
 
 		int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
 		keyPressTime     = new Dictionary<InteractionKey, float>(enumElements);
@@ -476,8 +471,6 @@ public class EngineerController : NetworkBehaviour
             playerController.CmdDoUpgrade(interactiveObject.Type);
             showPopup = true;
         }
-
-        ProgressStepCycle(speed);
     }
 
     /// <summary>
@@ -514,16 +507,6 @@ public class EngineerController : NetworkBehaviour
         dockCanvas.SetActive(isDocked);
         engineerCanvas.SetActive(!isDocked);
         gameObject.transform.parent = playerShip.transform;
-    }
-
-    private void ProgressStepCycle(float speed)
-    {
-        if (!(m_StepCycle > m_NextStep))
-        {
-            return;
-        }
-
-        m_NextStep = m_StepCycle + stepInterval;
     }
 
     private void GetInput(out float speed)
