@@ -340,6 +340,13 @@ public class GameState : NetworkBehaviour {
 		return outpostList;
 	}
 
+    public GameObject GetOutpostById(int outpostId)
+    {
+        if(outpostList.Count < 1)
+            return null;
+        return outpostList[outpostId];
+    }
+
 	public void AddToOutpostList(GameObject outpostObject)
 	{
 		outpostList.Add(outpostObject);

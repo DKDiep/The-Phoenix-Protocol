@@ -7,12 +7,15 @@ public class MissionManager : MonoBehaviour
     private GameSettings settings;
     private Mission[] missions;
     private PlayerController playerController;
+    private OutpostManager outpostManager;
     private float startTime;
+    private bool missionInit = false;
 
     void Start () 
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        outpostManager = GameObject.Find("OutpostManager(Clone)").GetComponent<OutpostManager>();
         LoadSettings();
     }
 
@@ -30,6 +33,9 @@ public class MissionManager : MonoBehaviour
     {
         if(gameState.Status == GameState.GameStatus.Started)
         {
+            // Initialise any variables for missions
+            InitialiseMissions();
+
             CheckMissionTriggers();
             CheckMissionsCompleted();
         }
@@ -38,6 +44,25 @@ public class MissionManager : MonoBehaviour
     public void SetPlayerController(PlayerController controller)
     {
         playerController = controller;
+    }
+
+
+    private void InitialiseMissions()
+    {
+        if(!missionInit)
+        {
+            for(int id = 0; id < missions.Length; id++)
+            {
+                // If the missions completion type is an outpost, we randomly assign it a close outpost.
+                if(missions[id].completionType == CompletionType.Outpost)
+                {
+                    missions[id].completionValue = outpostManager.GetRandomCloseOutpost(2000);
+                    // If we have successfully initialised the completion value.
+                    if(missions[id].completionValue != -1)
+                        missionInit = true;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -94,7 +119,8 @@ public class MissionManager : MonoBehaviour
                     return true;
                 break;
             case TriggerType.OutpostDistance:
-                // Check outpost distance
+                if(outpostManager.GetClosestOutpostDistance() < value)
+                    return true;
                 break;
             case TriggerType.Resources:
                 if(gameState.GetShipResources() > value)
@@ -121,7 +147,12 @@ public class MissionManager : MonoBehaviour
                 return true;
             break;
         case CompletionType.Outpost:
-            // Check if we have visited the outpost with id 'value'
+            if(value != -1)
+            {
+                GameObject outpost = gameState.GetOutpostById(value);
+                if(outpost != null && outpost.GetComponentInChildren<OutpostLogic>().resourcesCollected == true)
+                    return true;
+            }
             break;
         }
         return false;
@@ -137,13 +168,6 @@ public class MissionManager : MonoBehaviour
         private bool started = false;
         private bool complete = false;
 
-        public Mission(string name, string description, TriggerType triggerType, int triggerValue) 
-        {
-            this.name         = name;
-            this.description  = description;
-            this.triggerType  = triggerType;
-            this.triggerValue = triggerValue;
-        }
         public bool isComplete()
         {
             return complete;
