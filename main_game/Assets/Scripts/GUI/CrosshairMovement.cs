@@ -248,7 +248,7 @@ public class CrosshairMovement : NetworkBehaviour
             else
             {
                 int apex = 0;
-                float midx = 0;
+                //float midx = 0;
                 float midy = 0;
 
                 // Points of the triangle
@@ -268,19 +268,19 @@ public class CrosshairMovement : NetworkBehaviour
                 if(e2 > e1 && e2 > e3)
                 {
                     apex = 0;
-                    midx = (x2+x3)/2;
+                    //midx = (x2+x3)/2;
                     midy = (y2+y3)/2;
                 }
                 else if(e3 > e2 && e3 > e1)
                 {
                     apex = 1;
-                    midx = (x1+x3)/2;
+                    //midx = (x1+x3)/2;
                     midy = (y1+y3)/2;
                 }
                 else if(e1 > e2 && e1 > e3)
                 {
                     apex = 2;
-                    midx = (x2+x1)/2;
+                    //midx = (x2+x1)/2;
                     midy = (y2+y1)/2;
                 }
                     
