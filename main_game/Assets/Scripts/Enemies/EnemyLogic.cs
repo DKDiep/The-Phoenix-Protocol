@@ -50,6 +50,7 @@ public class EnemyLogic : MonoBehaviour
 
 	private float speedUpdateDelay;
 	private float suicidalExtraSpeed;
+	private float suicidalMinFrontDist; // The minimum distance in front of the ship a suicidal enemy has to reach before going for the player
 
 	private GameObject shootAnchor;
 	private Vector3 prevPos, currentPos;
@@ -69,6 +70,7 @@ public class EnemyLogic : MonoBehaviour
 	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;    // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;    // Maximum angle with the player when shooting is possible
 	private float lastYRot;
+	private bool reachedFrontOfPlayer = false;
 
 	private List<GameObject> playerShipTargets;
 	private GameObject currentTarget;
@@ -173,7 +175,7 @@ public class EnemyLogic : MonoBehaviour
             bulletManager = blackWidowBulletManager;
         }
 
-		if (type == EnemyType.Termite || type == EnemyType.LightningBug)
+		if (isSuicidal)
 			StartCoroutine("MatchPlayerSpeed");
         StartCoroutine("UpdateTransform");
     }
@@ -243,9 +245,14 @@ public class EnemyLogic : MonoBehaviour
     // This function is run when the object is spawned
     public void SetPlayer(GameObject temp)
 	{
-        mySrc = GetComponent<AudioSource>();
+        mySrc 	   = GetComponent<AudioSource>();
         mySrc.clip = fireSnd;
+
 		player = temp;
+
+		Transform playerCommanderShootAnchor = player.transform.Find("CommanderShootAnchor"); // The CommanderShootAnchor is basically the front point of the ship
+		suicidalMinFrontDist 				 = playerCommanderShootAnchor.transform.localPosition.z;
+
 		state = EnemyAIState.SeekPlayer;
         controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
@@ -299,6 +306,7 @@ public class EnemyLogic : MonoBehaviour
 		// If this enemy has gone mad, its sole purpose is to crash into the player
 		if (isSuicidal)
 		{
+
 			MoveTowardsPlayer ();
 			return;
 		}
@@ -374,10 +382,27 @@ public class EnemyLogic : MonoBehaviour
 			{
 				state                  = EnemyAIState.SeekPlayer;
 				previousAvoidDirection = 0;
+				currentWaypoint 	   = null;
 			}
 		}
 		else
 		{
+			// Suicidal enemies first get in front of the player, then crash into them
+			if (isSuicidal)
+			{
+				if (!reachedFrontOfPlayer)
+				{
+					if (currentWaypoint == null)
+						currentWaypoint = GetNextWaypoint();
+
+					reachedFrontOfPlayer = MoveTowardsCurrentWaypoint();
+				}
+				else
+					MoveTowardsPlayer();
+				
+				return;
+			}
+
 			// If this enemy is a guard and is too far from its guarding location, turn back towards it
 			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
 				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
@@ -420,11 +445,6 @@ public class EnemyLogic : MonoBehaviour
 			}
 			// if (state == EnemyAIState.Wait) do nothing
 		}
-
-        if(type == EnemyType.Termite || type == EnemyType.LightningBug)
-            shoot = false;
-       
-
 	}
 
     public IEnumerator EMPEffect()
@@ -443,20 +463,26 @@ public class EnemyLogic : MonoBehaviour
 	{
 		controlObject.transform.LookAt(player.transform.position);
 		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
-		/*controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x - 90, controlObject.transform.eulerAngles.y,
-			controlObject.transform.eulerAngles.z);*/
 	}
 
 	// Get the next engagement waypoint to follow, which should be different from the previous one
 	private GameObject GetNextWaypoint()
 	{
 		GameObject nextWaypoint;
+		bool getAnother;
 
 		do
 		{
-			int r = Random.Range (0, aiWaypoints.Count);
+			getAnother   = false;
+			int r		 = Random.Range (0, aiWaypoints.Count);
 			nextWaypoint = aiWaypoints [r];
-		} while (currentWaypoint != null && nextWaypoint.Equals (currentWaypoint));
+
+			Vector3 waypointRelativeToPlayer = player.transform.InverseTransformPoint(nextWaypoint.transform.position);
+			if (isSuicidal && waypointRelativeToPlayer.z < suicidalMinFrontDist)
+				getAnother = true;
+			else if (currentWaypoint != null && nextWaypoint.Equals(currentWaypoint))
+				getAnother = true;
+		} while (getAnother);
 
 		return nextWaypoint;
 	}
@@ -537,6 +563,10 @@ public class EnemyLogic : MonoBehaviour
 	// Control shooting based on attributes
 	IEnumerator ShootManager()
 	{
+		// Suicidal enemies don't shoot
+		if (isSuicidal)
+			yield break; // this means "return" in coroutine speak
+		
 		if(!shoot && angleGoodForShooting)
 		{
 			yield return new WaitForSeconds(0.1f);
