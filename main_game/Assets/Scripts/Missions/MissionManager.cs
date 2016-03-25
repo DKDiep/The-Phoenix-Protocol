@@ -147,7 +147,12 @@ public class MissionManager : MonoBehaviour
                 return true;
             break;
         case CompletionType.Outpost:
-            // Check if we have visited the outpost with id 'value'
+            if(value != -1)
+            {
+                GameObject outpost = gameState.GetOutpostById(value);
+                if(outpost != null && outpost.GetComponentInChildren<OutpostLogic>().resourcesCollected == true)
+                    return true;
+            }
             break;
         }
         return false;

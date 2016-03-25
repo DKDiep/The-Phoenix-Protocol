@@ -167,15 +167,15 @@ MonoBehaviour:
   - name: Mission 2
     description: Navigate to the outpost
     completedDescription: jknsdkjnsd
-    triggerType: 4
+    triggerType: 0
     completionType: 1
-    triggerValue: 500
-    completionValue: 1
+    triggerValue: 10
+    completionValue: -1
   - name: Timed Mission test
     description: This should trigger after 30 seconds.
     completedDescription: DONE
     triggerType: 0
-    completionType: 1
+    completionType: 0
     triggerValue: 30
     completionValue: 1
 --- !u!1001 &100100000
