@@ -21,7 +21,7 @@ public class UDPServer : MonoBehaviour
     private int maxReceivedMessagesPerInterval;
 
     private GameState state;
-
+    private PlayerShooting playerShooting;
     private UdpClient socket;
     private IPEndPoint clientEndPoint;
     private byte[] receive_byte_array;
@@ -29,6 +29,7 @@ public class UDPServer : MonoBehaviour
     void Start()
     {
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
 		LoadSettings();
 
         if (MainMenu.startServer)
@@ -103,7 +104,7 @@ public class UDPServer : MonoBehaviour
                 int idOfAttacked = Int32.Parse(fields[1]);
                 Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
                 break;
-            case "CH":
+            case "CH": // Wii remote x,y data
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 foreach (String plr in fields)
                 {
@@ -113,7 +114,16 @@ public class UDPServer : MonoBehaviour
                     float x = float.Parse(subFields[2]);
                     float y = float.Parse(subFields[3]);
                     Debug.Log("Controller: " + controllerId + " screenId: " + screenId + " x: " + x + " y: " + y);
+                    GameObject gameManager = GameObject.Find("GameManager");
+                    ServerManager serverManager = gameManager.GetComponent<ServerManager>();
+                    serverManager.SetCrosshairPosition((int)controllerId, 0, new Vector2(x, y));
                 }
+                break;
+            case "BP": // Wii remot button shoot press
+                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                int idOfPlayer = Int32.Parse(fields[0]);
+                Debug.Log(idOfPlayer);
+                playerShooting.ShootBullet(idOfPlayer);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

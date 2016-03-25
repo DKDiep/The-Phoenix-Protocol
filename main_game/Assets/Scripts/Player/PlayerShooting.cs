@@ -4,7 +4,6 @@
 
 using UnityEngine;
 using System.Collections;
-using WiimoteApi;
 using System;
 
 public class PlayerShooting : MonoBehaviour 
@@ -98,39 +97,10 @@ public class PlayerShooting : MonoBehaviour
 
         SwitchPlayers();
 
-		// Use mouse if there are no wii remotes.
-		if (WiimoteManager.Wiimotes.Count < 1) 
-		{
-			if(Input.GetMouseButton (0) && canShoot)
-			{
-				ShootBullet (currentPlayerId);
-			}
-		} 
-		else 
-		{
-			int remoteId = 0;
 
-			// Loop through all connected wii remotes
-			foreach(Wiimote remote in WiimoteManager.Wiimotes) 
-			{
-				try 
-				{
-					// if finished reading data from remote
-					if (remote.ReadWiimoteData () > 0) 
-					{
-						if (remote.Button.b && canShoot) 
-						{
-							// Shoot bullet for the player associated with the remote
-							ShootBullet (remoteId);
-						}
-					}
-				} 
-				catch (Exception) 
-				{
-					WiimoteManager.FindWiimotes ();
-				}  
-				remoteId++;
-			}
+		if(Input.GetMouseButton (0) && canShoot)
+		{
+			ShootBullet (currentPlayerId);
 		}
 
         // Control alpha of hitmarker
@@ -141,7 +111,7 @@ public class PlayerShooting : MonoBehaviour
 	}
 
 	// Shoot a bullet for a specific player
-	void ShootBullet(int playerId) 
+	public void ShootBullet(int playerId) 
 	{
         if (crosshairs != null)
         {

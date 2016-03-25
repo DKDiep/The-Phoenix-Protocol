@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
-using WiimoteApi;
+//using WiimoteApi;
 using System;
 
 public class CrosshairMovement : NetworkBehaviour
@@ -18,7 +18,7 @@ public class CrosshairMovement : NetworkBehaviour
 	public Vector3[] crosshairPosition;
 	private float oldAccel, newAccel;
     private GameObject[] crosshairs;
-	private WiiRemoteManager wii;
+	//private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
 
@@ -52,11 +52,11 @@ public class CrosshairMovement : NetworkBehaviour
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
 
-		GameObject remoteManager = GameObject.Find("WiiRemoteManager");
-		wii = remoteManager.GetComponent<WiiRemoteManager>();
+		//GameObject remoteManager = GameObject.Find("WiiRemoteManager");
+		//wii = remoteManager.GetComponent<WiiRemoteManager>();
 
         // Get number of connected wii remotes
-        numberOfCrossHairs = wii.GetNumberOfRemotes();
+        //numberOfCrossHairs = wii.GetNumberOfRemotes();
         
 		// If there are no wii remotes connected, set the default to 2
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
@@ -80,7 +80,7 @@ public class CrosshairMovement : NetworkBehaviour
 			init[i] = true;
         }
 			
-		StartCoroutine(FindRemotes());
+		//StartCoroutine(FindRemotes());
 	}
 	
 	// Update is called once per frame
@@ -93,11 +93,11 @@ public class CrosshairMovement : NetworkBehaviour
 		if(playerController.netId.Value == serverManager.GetServerId())
         {
 			// If there is no wii remotes connected.
-			if (WiimoteManager.Wiimotes.Count < 1) 
-			{
-                SwitchPlayers();
-                ChangeScreenManually();
-			}
+			//if (WiimoteManager.Wiimotes.Count < 1) 
+			//{
+            //    SwitchPlayers();
+            //    ChangeScreenManually();
+			//}
 		} 
 
 		// Update position of crosshairs
@@ -109,19 +109,7 @@ public class CrosshairMovement : NetworkBehaviour
         
 	void FixedUpdate ()
     {
-		if(playerController.netId.Value == serverManager.GetServerId())
-        {
-			// Control crosshair by mouse if there is no wii remote connected.
-			if (WiimoteManager.Wiimotes.Count < 1) 
-			{
-                SetCrosshairPositionMouse();
-			} 
-			else 
-			{
-                DetermineCrosshairScreen();
-                SetCrosshairPositionWiimote();
-			}
-		}
+
     }
 
     /// <summary>
@@ -167,7 +155,7 @@ public class CrosshairMovement : NetworkBehaviour
     /// Sets the crosshair position using the wii remote
     /// Sends the crosshair position to the correct screen.
     /// </summary>
-    private void SetCrosshairPositionWiimote()
+    /*private void SetCrosshairPositionWiimote()
     {
         int remoteId = 0;
         foreach(Wiimote remote in WiimoteManager.Wiimotes) 
@@ -298,7 +286,7 @@ public class CrosshairMovement : NetworkBehaviour
             remoteId++;
         }
     }
-
+*/
 
     /// <summary>
     /// Changes the screen manually using the 1-3 keys, this is for debugging when wiimotes are not connected
@@ -329,11 +317,11 @@ public class CrosshairMovement : NetworkBehaviour
 		return new Vector2(position[i], position[i + 1]);
 	}
 
-	IEnumerator FindRemotes()
+	/*IEnumerator FindRemotes()
 	{	
 		WiimoteManager.FindWiimotes ();
 		yield return new WaitForSeconds(5f);
-	}
+	}*/
 
 	IEnumerator Delay()
 	{
