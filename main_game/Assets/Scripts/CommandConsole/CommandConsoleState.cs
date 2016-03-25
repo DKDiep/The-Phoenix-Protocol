@@ -35,12 +35,7 @@ public class CommandConsoleState : MonoBehaviour {
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
 
-    private int shieldsLevel = 1;
-    private int engineLevel = 1;
-    private int turretsLevel = 1;
-    private int hullLevel = 1;
-    private int droneLevel = 1;
-    private int storageLevel = 1;
+    private int[] componentLevels = new int[6] {1,1,1,1,1,1};
     private int componentToUpgrade = 0;
 
     private double second = 0; 
@@ -223,28 +218,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         upgradeProgress[GetIdFromComponentType(type)] = 0;
         upgradeButtonLabel.text = "Upgrade";
-        switch(type)
-        {
-            case ComponentType.ShieldGenerator:
-                shieldsLevel++;
-                break;
-            case ComponentType.Turret:
-                turretsLevel++;
-                break;
-            case ComponentType.Engine:
-                engineLevel++;
-                break;
-            case ComponentType.Bridge:
-                hullLevel++;
-                break;
-            case ComponentType.Drone:
-                droneLevel++;
-                break;
-            case ComponentType.ResourceStorage:
-                storageLevel++;
-            break;
-        }
-
+        componentLevels[GetIdFromComponentType(type)]++;
     }
         
     public void HighlightComponent(int component)
@@ -254,38 +228,17 @@ public class CommandConsoleState : MonoBehaviour {
 
     public void OnClickUpgrade(int component)
     {
+        // Set the upgrade area active.
         upgradeArea.SetActive(true);
         componentToUpgrade = component;
+        // Highlight the selected component on the ship model.
         HighlightComponent(component);
+        // Upgrade description and cost labels
         upgradeDescription.text = upgradeDescriptions[component];
-        switch (component)
-        {
-            // Shields Upgrade
-            case 0: 
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], shieldsLevel).ToString();
-                break;
-            // Turrets Upgrade
-            case 1:
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], turretsLevel).ToString();
-                break;
-            // Engine Upgrade
-            case 2:
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], engineLevel).ToString();
-                break;
-            // Hull Upgrade
-            case 3:
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], hullLevel).ToString();
-                break;
-            // Drone Upgrade
-            case 4:
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], droneLevel).ToString();
-                break;
-            // Resource Storage Upgrade
-            case 5:
-                costLabel.text = GetUpgradeCost(upgradeCosts[component], storageLevel).ToString();
-                break;
-        }
+        costLabel.text = GetUpgradeCost(upgradeCosts[component], componentLevels[component]).ToString();
+        // Upgrade the cost text to display in red if the player does not have enough resources.
         UpdateCostTextColor();
+
         if(upgradeProgress[component] == 1) 
             upgradeButtonLabel.text = "Waiting";
         else
@@ -299,51 +252,16 @@ public class CommandConsoleState : MonoBehaviour {
     //Called whenever an upgrade is purchased (by clicking yellow button)
     public void UpgradeShip()
     {
-        int tmpLevel = 0;
         // If we are already waiting then we don't want to upgrade again.
         if(upgradeProgress[componentToUpgrade] == 1)
             return;
-        
-        switch (componentToUpgrade)
-        {
-            // Shields Upgrade
-            case 0: 
-                if(!UpgradeComponent(ComponentType.ShieldGenerator, upgradeCosts[componentToUpgrade], shieldsLevel))
-                    return;
-                tmpLevel = shieldsLevel;
-                break;
-            // Turrets Upgrade
-            case 1:
-                if(!UpgradeComponent(ComponentType.Turret, upgradeCosts[componentToUpgrade], turretsLevel))
-                    return;
-                tmpLevel = turretsLevel;                
-                break;
-            // Engine Upgrade
-            case 2:
-                if(!UpgradeComponent(ComponentType.Engine, upgradeCosts[componentToUpgrade], engineLevel))
-                    return;
-                tmpLevel = engineLevel; 
-                break;
-            // Hull Upgrade
-            case 3:
-                if(!UpgradeComponent(ComponentType.Bridge, upgradeCosts[componentToUpgrade], hullLevel))
-                    return;
-                tmpLevel = hullLevel; 
-                break;
-            // Drone Upgrade
-            case 4:
-                if(!UpgradeComponent(ComponentType.Drone, upgradeCosts[componentToUpgrade], droneLevel))
-                    return;
-                tmpLevel = droneLevel; 
-                break;
-            // Resource Storage Upgrade
-            case 5:
-                if(!UpgradeComponent(ComponentType.ResourceStorage, upgradeCosts[componentToUpgrade], storageLevel))
-                    return;
-                tmpLevel = storageLevel; 
-                break;
-        }
-        consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(upgradeCosts[componentToUpgrade], tmpLevel + 1));
+
+        // Try to upgrade the component
+        if(!UpgradeComponent(ComponentType.ShieldGenerator, upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade]))
+            return;
+
+        // Update the cost of the component
+        consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade] + 1));
 
         upgradeProgress[componentToUpgrade] = 1;
         upgradeButtonLabel.text = "Waiting";
