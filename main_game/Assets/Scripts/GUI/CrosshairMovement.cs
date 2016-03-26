@@ -109,6 +109,30 @@ public class CrosshairMovement : NetworkBehaviour
     }
 
     /// <summary>
+    /// Sets the crosshair position wii remote.
+    /// This is called by the UDPServer
+    /// </summary>
+    /// <param name="playerId">Player identifier.</param>
+    /// <param name="screenId">Screen identifier.</param>
+    /// <param name="position">Position.</param>
+    public void SetCrosshairPositionWiiRemote(int playerId, int screenId, Vector2 position)
+    {
+        // If there's an autoaim target in range, use that instead of the wii remote position
+        Target target = GetClosestTarget(position);
+        GameObject targetObject = null;
+        if (!target.IsNone())
+        {
+            serverManager.SetCrosshairPosition(playerId, screenId, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+            targetObject = target.Object;
+        }
+        else
+        {
+            serverManager.SetCrosshairPosition(playerId, screenId, position);
+        }
+        autoaimScripts[playerId].Target = targetObject;
+    }
+
+    /// <summary>
     /// Sets the crosshair position using the current mouse x and y position. 
     /// Sends the crosshair position to the correct screen.
     /// </summary>
