@@ -9,11 +9,15 @@ import (
 )
 
 const (
+    DATABASE_HOST           string        = "tcp(localhost:3306)"
+    DATABASE_NAME           string        = "game"
+    DATABASE_USER           string        = "root"
+    DATABASE_PASS           string        = "stoil"
     ADMIN_WEB_DIR           string        = "../web/admin_web"
     ADMIN_PORT              string        = "52932"
     ADMIN_UPDATE_INTERVAL   time.Duration = 3 * time.Second
-    USER_WEB_DIR            string        = "../web/phone_web"
-    USER_PORT               string        = "8080"
+    USERS_WEB_DIR           string        = "../web/phone_web"
+    USERS_PORT              string        = "8080"
     LOCAL_UDP_PORT          string        = "46578"
     GAME_SERVER_ADDRESS     string        = "192.168.56.1"
     GAME_SERVER_UDP_PORT    string        = "2345"
@@ -30,6 +34,9 @@ const (
     ENEMY_DRAW_RANGE_Y     float64 = 500
     ENEMY_DRAW_RANGE_Z     float64 = 300
 )
+
+// Structure dealing with the database operations
+var gameDatabase *GameDatabase
 
 // Structures dealing with the Game Server Connections
 var gameServerUDPConn *net.UDPConn
@@ -93,6 +100,14 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
 
 // Starts all necessary subroutines
 func main() {
+    gameDatabase := ConnectToDatabase()
+    if gameDatabase == nil {
+        fmt.Println("Failed to start Phone Server.")
+        return
+    }
+    defer gameDatabase.Close()
+    fmt.Println("Database: Ready to query.")
+
     go stdinHandler()
     go gameServerTCPConnectionHandler()
     go gameServerUDPConnectionHandler()
@@ -105,14 +120,14 @@ func main() {
     // Server for the users
     usersServerMux := http.NewServeMux()
     usersServerMux.Handle("/web_socket", websocket.Handler(userWebSocketHandler))
-    usersServerMux.Handle("/", http.FileServer(http.Dir(USER_WEB_DIR)))
+    usersServerMux.Handle("/", http.FileServer(http.Dir(USERS_WEB_DIR)))
 
     // Server for the admin
     adminServerMux := http.NewServeMux()
     adminServerMux.Handle("/web_socket", websocket.Handler(adminWebSocketHandler))
     adminServerMux.Handle("/", http.FileServer(http.Dir(ADMIN_WEB_DIR)))
 
-    go listenWrapper(usersServerMux, USER_PORT)
+    go listenWrapper(usersServerMux, USERS_PORT)
     listenWrapper(adminServerMux, ADMIN_PORT)
 }
 
