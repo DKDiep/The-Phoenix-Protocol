@@ -102,6 +102,16 @@ public class CommandConsoleState : MonoBehaviour {
 
     }
 
+    void Update()
+    {
+        // Cheat code! But seriously, this will ease development so much.
+        // Upgrades all in progress upgrade requests, basically makes it so you don't need to run the engineer. 
+        if (Input.GetKeyDown ("c") && Input.GetKeyDown ("u")) 
+        {
+            EngineerUpgradeAllCheat();
+        }
+    }
+
     void FixedUpdate ()
     { 
         second += Time.deltaTime;
@@ -340,5 +350,22 @@ public class CommandConsoleState : MonoBehaviour {
     public void ClosePopupWindow()
     {
         popupWindow.SetActive(false);
+    }
+
+
+    /// <summary>
+    /// This is a cheat, it confirms the upgrade of all in progress upgrade requests. 
+    /// It saves loading up another instance of the game for the engineer.
+    /// </summary>
+    private void EngineerUpgradeAllCheat()
+    {
+        foreach(ComponentType type in ComponentType.GetValues(typeof(ComponentType)))
+        {
+            if(upgradeProgress[GetIdFromComponentType(type)] == 1)
+            {
+                Debug.Log("Cheating engineer upgrade for " + type.ToString());
+                ConfirmUpgrade(type);
+            }
+        }
     }
 }
