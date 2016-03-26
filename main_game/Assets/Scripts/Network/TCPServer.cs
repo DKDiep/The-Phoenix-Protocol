@@ -163,6 +163,9 @@ public class TCPServer : MonoBehaviour
                 // TODO: set the enemy as controlled and change AI settings
                 int idOfControlled = Int32.Parse(parts[1]);
                 Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
+
+                // Set enemy to controlled by spectator
+                udpServer.InstanceIDToEnemy[idOfControlled].setHacked(true);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

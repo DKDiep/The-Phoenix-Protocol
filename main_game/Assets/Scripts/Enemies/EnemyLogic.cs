@@ -40,7 +40,8 @@ public class EnemyLogic : MonoBehaviour
 	private GameObject player;
 
 	private bool shoot = false, angleGoodForShooting = false;
-	private bool rechargeShield;   
+	private bool rechargeShield;
+    private bool hacked = false;
 
 	internal float health;
 	private float shield;
@@ -700,6 +701,37 @@ public class EnemyLogic : MonoBehaviour
     		}
         }
 	}
+
+    /// <summary>
+    /// Sets the hacked attribute of this object
+    /// to val
+    /// </summary>
+    /// <param name="val">The boolean value that hacked should take</param>
+    public void setHacked(bool val)
+    {
+        hacked = val;
+    }
+
+    /// <summary>
+    /// Moves the enemy to the position (x,z)
+    /// </summary>
+    /// <param name="posX">The X coordinate to move to</param>
+    /// <param name="posZ">The Z coordinate to move to</param>
+    public void move (float posX, float posZ)
+    {
+        // TODO: Implement move here
+        // This could be done with move waypoints or something like that
+    }
+
+    /// <summary>
+    /// Makes the enemy attack the specified target
+    /// </summary>
+    /// <param name="target">The target to attack</param>
+    public void attack(GameObject target)
+    {
+        // TODO: Implement attacking here
+        // Could this be done similarly to the way the ship is attacked?
+    }
 
 	// Class that shows obstacle detection info to be used for avoiding moves
 	private class AvoidInfo
