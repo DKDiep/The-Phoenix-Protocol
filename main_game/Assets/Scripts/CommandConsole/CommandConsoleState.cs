@@ -164,6 +164,26 @@ public class CommandConsoleState : MonoBehaviour {
         return 0;
     }
 
+    private ComponentType GetComponentTypeFromId(int id)
+    {
+        switch(id)
+        {
+        case 0:
+            return ComponentType.ShieldGenerator;
+        case 1:
+            return ComponentType.Turret;
+        case 2:
+            return ComponentType.Engine;
+        case 3:
+            return ComponentType.Bridge;
+        case 4:
+            return ComponentType.Drone;
+        case 5:
+            return ComponentType.ResourceStorage;
+        }
+        return 0;
+    }
+
     /// <summary>
     /// Checks the upgrade cost of a component
     /// </summary>
@@ -193,7 +213,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type of component</param>
     /// <param name="baseCost">Base cost of the component</param>
     /// <param name="level">Level of the component</param>
-    private bool UpgradeComponent(ComponentType type, int baseCost, int level)
+    private bool UpgradeComponent(int componentId, int baseCost, int level)
     {
         if(CheckUpgradeCost(baseCost, level))
         {
@@ -201,10 +221,10 @@ public class CommandConsoleState : MonoBehaviour {
             gameState.UseShipResources(GetUpgradeCost(baseCost, level));
 
             // Show level indictor for new level.
-            consoleUpgrades[GetIdFromComponentType(type)].UpdateLevelIndicator(level);
+            consoleUpgrades[componentId].UpdateLevelIndicator(level);
 
             // Send request to engineer to upgrade
-            playerController.CmdAddUpgrade(type);
+            playerController.CmdAddUpgrade(GetComponentTypeFromId(componentId));
 
             // Update resources text with new value.
             UpdateAllText();
@@ -260,7 +280,7 @@ public class CommandConsoleState : MonoBehaviour {
             return;
 
         // Try to upgrade the component
-        if(!UpgradeComponent(ComponentType.ShieldGenerator, upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade]))
+        if(!UpgradeComponent(componentToUpgrade, upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade]))
             return;
 
         // Update the cost of the component

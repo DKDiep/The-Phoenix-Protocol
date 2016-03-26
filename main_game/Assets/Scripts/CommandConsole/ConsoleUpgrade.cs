@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class ConsoleUpgrade : MonoBehaviour
@@ -14,6 +15,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     private Transform levelIndicator;
 
+    private List<GameObject> levelIndicators = new List<GameObject>();
     void Start ()
     {
         
@@ -62,13 +64,14 @@ public class ConsoleUpgrade : MonoBehaviour
             level.transform.localPosition = new Vector3(15*i, 0, 0);
             level.transform.localScale = new Vector3(1,1,1);
             level.GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
+            levelIndicators.Add(level);
         }
 
     }
 
     public void UpdateLevelIndicator(int level)
     {
-        levelIndicator.GetChild(level-1).gameObject.GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
+        levelIndicators[level-1].GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
     }
 }
 
