@@ -21,6 +21,7 @@ public class CrosshairMovement : NetworkBehaviour
 	//private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
+    private bool usingMouse = true;
 
 	private GameObject gameManager;
 	private ServerManager serverManager;
@@ -47,17 +48,10 @@ public class CrosshairMovement : NetworkBehaviour
 		if (ClientScene.localPlayers[0].IsValid)
 			playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
-
-		//GameObject remoteManager = GameObject.Find("WiiRemoteManager");
-		//wii = remoteManager.GetComponent<WiiRemoteManager>();
-
-        // Get number of connected wii remotes
-        //numberOfCrossHairs = wii.GetNumberOfRemotes();
-        
+                    
 		// If there are no wii remotes connected, set the default to 2
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 1;
@@ -88,17 +82,19 @@ public class CrosshairMovement : NetworkBehaviour
     {
 		Transform selectedCrosshair;
 
-
-        // If the current instance of crosshairMovement is on the server.
-		if(playerController.netId.Value == serverManager.GetServerId())
+        // Toggle usage of mouse when pressing 'c'
+        if (Input.GetKeyDown ("c")) 
         {
-			// If there is no wii remotes connected.
-			//if (WiimoteManager.Wiimotes.Count < 1) 
-			//{
-            //    SwitchPlayers();
-            //    ChangeScreenManually();
-			//}
-		} 
+            usingMouse = !usingMouse;
+            Debug.Log("Using Mouse? " + usingMouse);
+        }
+
+        if(usingMouse)
+        {
+            SwitchPlayers();
+            ChangeScreenManually();
+            SetCrosshairPositionMouse();
+        }
 
 		// Update position of crosshairs
 		for(int i = 0; i < 4; i++) {
@@ -150,143 +146,7 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
     }
-        
-    /// <summary>
-    /// Sets the crosshair position using the wii remote
-    /// Sends the crosshair position to the correct screen.
-    /// </summary>
-    /*private void SetCrosshairPositionWiimote()
-    {
-        int remoteId = 0;
-        foreach(Wiimote remote in WiimoteManager.Wiimotes) 
-        {
-            // Get the currently controlled crosshair
-            Transform selectedCrosshair = crosshairs[remoteId].transform;
-            if (this.init[remoteId]) 
-            {
-                wii.SetPlayerLeds(remote, remoteId);
 
-                // Set up the IR camera on the wii remote
-                remote.SetupIRCamera (IRDataType.BASIC);
-                this.init[remoteId] = false;
-            }
-            try 
-            {
-                if (remote.ReadWiimoteData () > 0) 
-                { 
-                    float[] pointer = remote.Ir.GetPointingPosition ();
-
-                    // If the delay is over and the crosshair can be updated
-                    if(canMove) 
-                    {
-                        if(pointer[0] != -1 && pointer[1] != -1) 
-                        {
-                            oldAccel = newAccel;
-
-                            // Get data from the accelerometer
-                            newAccel = remote.Accel.GetCalibratedAccelData()[1] + remote.Accel.GetCalibratedAccelData()[2];
-
-                            // If there is little movement, don't bother doing this. (Should stop shaking)
-                            if(Math.Abs(newAccel - oldAccel) > 0.03) 
-                            {
-
-                                Vector3 position = selectedCrosshair.position;
-                                position.x = pointer[0] * Screen.width;
-                                position.y = pointer[1] * Screen.height;
-
-                                // If there's an autoaim target in range, use that instead of the pointing position
-                                // TODO: this is not tested with a Wiimote and might interfere with smoothing
-                                Target target = GetClosestTarget(position);
-                                if (!target.IsNone())
-                                {
-                                    serverManager.SetCrosshairPosition(remoteId, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
-                                }
-                                else 
-                                {
-                                    serverManager.SetCrosshairPosition(remoteId, screenControlling, position);
-                                }
-
-
-                                canMove = false;
-                                StartCoroutine("Delay");
-                            }
-                        }
-                    }
-                }
-            } 
-            catch (Exception) 
-            {
-                // Sometimes the wii remote will disconnect so for this we re connect the remote and run the initialise function again.
-                WiimoteManager.FindWiimotes ();
-                this.init[remoteId] = true;
-            }  
-            remoteId++;
-        }
-    }
-
-    private void DetermineCrosshairScreen()
-    {
-        int remoteId = 0;
-        foreach(Wiimote remote in WiimoteManager.Wiimotes)
-        {
-            if(remote.Ir.ir[2, 0] == -1)
-            {
-                screenControlling = 0;
-            }
-            else
-            {
-                int apex = 0;
-                //float midx = 0;
-                float midy = 0;
-
-                // Points of the triangle
-                float x1 = (float)remote.Ir.ir[0, 0];
-                float y1 = (float)remote.Ir.ir[0, 1];
-                float x2 = (float)remote.Ir.ir[1, 0];
-                float y2 = (float)remote.Ir.ir[1, 1];
-                float x3 = (float)remote.Ir.ir[2, 0];
-                float y3 = (float)remote.Ir.ir[2, 1];
-
-                // Calculate the length of each edge of the triangle
-                double e1 = Math.Sqrt(Math.Pow(x1 - x2,2) + Math.Pow(y1 - y2,2));
-                double e2 = Math.Sqrt(Math.Pow(x2 - x3,2) + Math.Pow(y2 - y3,2));
-                double e3 = Math.Sqrt(Math.Pow(x3 - x1,2) + Math.Pow(y3 - y1,2));
-
-                // Which lines are bigger
-                if(e2 > e1 && e2 > e3)
-                {
-                    apex = 0;
-                    //midx = (x2+x3)/2;
-                    midy = (y2+y3)/2;
-                }
-                else if(e3 > e2 && e3 > e1)
-                {
-                    apex = 1;
-                    //midx = (x1+x3)/2;
-                    midy = (y1+y3)/2;
-                }
-                else if(e1 > e2 && e1 > e3)
-                {
-                    apex = 2;
-                    //midx = (x2+x1)/2;
-                    midy = (y2+y1)/2;
-                }
-                    
-                if(e1 < 400 && e2 < 400 && e3 < 400)
-                {
-                    // If the apex is greater than the y value of the mid point of the two points then it
-                    // is on the right screen.
-                    screenControlling = -1;
-                    if(remote.Ir.ir[apex, 1] > midy)
-                    {
-                        screenControlling = 1;
-                    }
-                }
-            }
-            remoteId++;
-        }
-    }
-*/
 
     /// <summary>
     /// Changes the screen manually using the 1-3 keys, this is for debugging when wiimotes are not connected
