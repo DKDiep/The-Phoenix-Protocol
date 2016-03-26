@@ -29,7 +29,6 @@ public class UDPServer : MonoBehaviour
     void Start()
     {
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-        playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
 		LoadSettings();
 
         if (MainMenu.startServer)
@@ -111,8 +110,8 @@ public class UDPServer : MonoBehaviour
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     uint controllerId = UInt32.Parse(subFields[0]);
                     uint screenId = UInt32.Parse(subFields[1]);
-                    float x = float.Parse(subFields[2]);
-                    float y = float.Parse(subFields[3]);
+                    float x = float.Parse(subFields[2]) * Screen.width;
+                    float y = float.Parse(subFields[3]) * Screen.height;
                     Debug.Log("Controller: " + controllerId + " screenId: " + screenId + " x: " + x + " y: " + y);
                     GameObject gameManager = GameObject.Find("GameManager");
                     ServerManager serverManager = gameManager.GetComponent<ServerManager>();
@@ -123,6 +122,7 @@ public class UDPServer : MonoBehaviour
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 Debug.Log(idOfPlayer);
+                playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
                 playerShooting.ShootBullet(idOfPlayer);
                 break;
             default:
