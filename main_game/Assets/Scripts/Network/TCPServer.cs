@@ -165,7 +165,11 @@ public class TCPServer : MonoBehaviour
                 Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
 
                 // Set enemy to controlled by spectator
-                udpServer.InstanceIDToEnemy[idOfControlled].setHacked(true);
+                if (udpServer.InstanceIDToEnemy.ContainsKey(idOfControlled))
+                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponent<EnemyLogic>().setHacked(true);
+                else
+                    Debug.LogError("Tried to take control of invalid enemy");
+
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

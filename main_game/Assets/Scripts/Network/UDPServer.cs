@@ -21,7 +21,7 @@ public class UDPServer : MonoBehaviour
     private int maxReceivedMessagesPerInterval;
 
     private GameState state;
-    public Dictionary<int, GameObject> InstanceIDToEnemy { private set; public get; }
+    public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
 
     private UdpClient socket;
     private IPEndPoint clientEndPoint;
