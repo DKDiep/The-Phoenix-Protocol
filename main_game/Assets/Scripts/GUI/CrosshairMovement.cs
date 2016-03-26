@@ -9,12 +9,10 @@ public class CrosshairMovement : NetworkBehaviour
 {
     private int controlling = 0;
 	private int numberOfCrossHairs;
-	private float posReadDelay = 0.0001f;
 	private bool[] init;
 	private Vector3 initPos;
 	private float movx;
 	private float movy;
-	private bool canMove = true;
 	public Vector3[] crosshairPosition;
 	private float oldAccel, newAccel;
     private GameObject[] crosshairs;
@@ -25,7 +23,6 @@ public class CrosshairMovement : NetworkBehaviour
 
 	private GameObject gameManager;
 	private ServerManager serverManager;
-	private PlayerController playerController;
 
 	// Autoaiming looks for objects inside a sphere in front of the player
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
@@ -43,10 +40,6 @@ public class CrosshairMovement : NetworkBehaviour
 
 		gameManager = GameObject.Find("GameManager");
 		serverManager = gameManager.GetComponent<ServerManager>();
-
-
-		if (ClientScene.localPlayers[0].IsValid)
-			playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
@@ -170,8 +163,7 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
     }
-
-
+        
     /// <summary>
     /// Changes the screen manually using the 1-3 keys, this is for debugging when wiimotes are not connected
     /// </summary>
@@ -200,19 +192,7 @@ public class CrosshairMovement : NetworkBehaviour
 		int i = crosshairId * 2;
 		return new Vector2(position[i], position[i + 1]);
 	}
-
-	/*IEnumerator FindRemotes()
-	{	
-		WiimoteManager.FindWiimotes ();
-		yield return new WaitForSeconds(5f);
-	}*/
-
-	IEnumerator Delay()
-	{
-		yield return new WaitForSeconds(posReadDelay);
-		canMove = true;
-	}
-
+        
 	// Get the target closest to where the player is aiming (within bounds)
 	private Target GetClosestTarget(Vector3 aimPosition)
 	{
