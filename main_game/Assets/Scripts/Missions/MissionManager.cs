@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 public class MissionManager : MonoBehaviour 
 {
@@ -34,10 +35,11 @@ public class MissionManager : MonoBehaviour
         if(gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
-            InitialiseMissions();
-
-            CheckMissionTriggers();
-            CheckMissionsCompleted();
+            if(!missionInit)
+            {
+                InitialiseMissions();
+                StartCoroutine("UpdateMissions");
+            }
         }
     }
 
@@ -49,20 +51,25 @@ public class MissionManager : MonoBehaviour
 
     private void InitialiseMissions()
     {
-        if(!missionInit)
+        for(int id = 0; id < missions.Length; id++)
         {
-            for(int id = 0; id < missions.Length; id++)
+            // If the missions completion type is an outpost, we randomly assign it a close outpost.
+            if(missions[id].completionType == CompletionType.Outpost)
             {
-                // If the missions completion type is an outpost, we randomly assign it a close outpost.
-                if(missions[id].completionType == CompletionType.Outpost)
-                {
-                    missions[id].completionValue = outpostManager.GetRandomCloseOutpost(2000);
-                    // If we have successfully initialised the completion value.
-                    if(missions[id].completionValue != -1)
-                        missionInit = true;
-                }
+                missions[id].completionValue = outpostManager.GetRandomCloseOutpost(2000);
+                // If we have successfully initialised the completion value.
+                if(missions[id].completionValue != -1)
+                    missionInit = true;
             }
         }
+    }
+
+    private IEnumerator UpdateMissions()
+    {
+        CheckMissionTriggers();
+        CheckMissionsCompleted(); 
+        yield return new WaitForSeconds(1f);
+        StartCoroutine("UpdateMissions");
     }
 
     /// <summary>
