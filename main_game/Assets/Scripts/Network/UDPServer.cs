@@ -22,6 +22,8 @@ public class UDPServer : MonoBehaviour
 
     private GameState state;
     private PlayerShooting playerShooting;
+    public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
+
     private UdpClient socket;
     private IPEndPoint clientEndPoint;
     private byte[] receive_byte_array;
@@ -35,6 +37,7 @@ public class UDPServer : MonoBehaviour
         {
             Debug.Log("Starting UDP server on port: " + listenPort);
 
+            InstanceIDToEnemy = new Dictionary<int, GameObject>();
             socket = new UdpClient(listenPort);
             clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
             state = this.gameObject.GetComponent<GameState>();
@@ -89,19 +92,31 @@ public class UDPServer : MonoBehaviour
         String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
         switch(parts[0]) {
             case "MV":
-                // TODO: move enemy
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idToMove = Int32.Parse(fields[0]);
                 float posX = float.Parse(fields[1]);
                 float posZ = float.Parse(fields[2]);
                 Debug.Log("Received a Move Command: id: " + idToMove + " x: " + posX + " z: " + posZ);
+
+                // Move specified enemy
+                if (InstanceIDToEnemy.ContainsKey(idToMove))
+                    InstanceIDToEnemy[idToMove].GetComponent<EnemyLogic>().HackedMove(posX, posZ);
+                else
+                    Debug.LogError("Tried to move non existant enemy from phone server");
+
                 break;
             case "ATT":
-                // TODO: attack specified enemy
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idOfAttacker = Int32.Parse(fields[0]);
                 int idOfAttacked = Int32.Parse(fields[1]);
                 Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
+
+                // Give the order to attack
+                if (InstanceIDToEnemy.ContainsKey(idOfAttacker) && InstanceIDToEnemy.ContainsKey(idOfAttacked))
+                    InstanceIDToEnemy[idOfAttacker].GetComponent<EnemyLogic>().HackedAttack(InstanceIDToEnemy[idOfAttacked]);
+                else
+                    Debug.LogError("Tried to attack with non existent ID, or target ID is non existant");
+
                 break;
             case "CH": // Wii remote x,y data
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
@@ -203,6 +218,10 @@ public class UDPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
             foreach (GameObject enemy in enemies)
             {
+                // Add the enemy to the dictionary if it isn't already in there
+                if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
+                    InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
+
                 jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
                             ",\"x\":" + enemy.transform.position.x +
                             ",\"y\":" + enemy.transform.position.z +
@@ -222,6 +241,10 @@ public class UDPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"RMV_ENM\",\"data\":[";
             foreach (int id in removedEnemies)
             {
+                // Remove the instance ID from the dictionary if it is in there
+                if (InstanceIDToEnemy.ContainsKey(id))
+                    InstanceIDToEnemy.Remove(id);
+
                 jsonMsg += id + ",";
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);

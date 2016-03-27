@@ -40,7 +40,10 @@ public class EnemyLogic : MonoBehaviour
 	private GameObject player;
 
 	private bool shoot = false, angleGoodForShooting = false;
-	private bool rechargeShield;   
+	private bool rechargeShield;
+    
+	private bool hacked = false;
+	private GameObject hackedAttackTraget = null;
 
 	internal float health;
 	private float shield;
@@ -366,11 +369,29 @@ public class EnemyLogic : MonoBehaviour
 			}
 		}
 
-		// Check if the angle is good for shooting and the enemy is in front of the player
-		Vector3 direction             = player.transform.position - controlObject.transform.position;
-		float angle                   = Vector3.Angle(controlObject.transform.forward, direction);
-		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
-		angleGoodForShooting          = (distance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
+		// Check if this enemy can shoot
+		if (hacked)
+		{
+			// Hacked enemies that aren't set to attack don't shoot at all
+			if (hackedAttackTraget == null)
+				angleGoodForShooting = false;
+			else
+			{
+				// Check if the angle is good for shooting
+				Vector3 direction 	 = hackedAttackTraget.transform.position - controlObject.transform.position;
+				float angle 		 = Vector3.Angle(controlObject.transform.forward, direction);
+				float targetDistance = Vector3.Distance(controlObject.transform.position, hackedAttackTraget.transform.position);
+				angleGoodForShooting = (targetDistance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE);
+			}
+		}
+		else
+		{
+			// Check if the angle is good for shooting and the enemy is in front of the player
+			Vector3 direction = player.transform.position - controlObject.transform.position;
+			float angle = Vector3.Angle(controlObject.transform.forward, direction);
+			Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
+			angleGoodForShooting = (distance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
+		}
 		
 		// Avoid obsctales if needed
 		if (state == EnemyAIState.AvoidObstacle)
@@ -401,6 +422,22 @@ public class EnemyLogic : MonoBehaviour
 					MoveTowardsPlayer();
 				
 				return;
+			}
+
+			// Hacked enemies can move to a location or attack another enemy
+			// When attacking another enemy, try to get behind him so we get a better shot
+			if (hacked)
+			{
+				if (currentWaypoint != null)
+				{
+					bool reached = MoveTowardsCurrentWaypoint();
+
+					// When a hacked enemy reaches its destination, it stops moving, unless it's following an enemy
+					if (reached && hackedAttackTraget == null)
+						currentWaypoint = null;
+				}
+
+				return; 
 			}
 
 			// If this enemy is a guard and is too far from its guarding location, turn back towards it
@@ -505,11 +542,15 @@ public class EnemyLogic : MonoBehaviour
 		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
 		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
 		{
-			// If the reached waypoint is an avoid waypoint, it is not needed any more
-			if (state == EnemyAIState.AvoidObstacle)
+			// If the reached waypoint is an avoid or a hacked move waypoint, it is not needed any more
+			if (state == EnemyAIState.AvoidObstacle || (hacked && hackedAttackTraget == null))
 				Destroy(currentWaypoint);
 			
-			currentWaypoint = GetNextWaypoint();
+			// If this enemy is hacked to attack a target, never stop following that target
+			if (hackedAttackTraget != null)
+				currentWaypoint = hackedAttackTraget;
+			else
+				currentWaypoint = GetNextWaypoint();
 			return true;
 		}
 
@@ -700,6 +741,48 @@ public class EnemyLogic : MonoBehaviour
     		}
         }
 	}
+
+    /// <summary>
+    /// Sets the hacked attribute of this object
+    /// to val
+    /// </summary>
+    /// <param name="val">The boolean value that hacked should take</param>
+    public void setHacked(bool val)
+    {
+        hacked 			   = val;
+		hackedAttackTraget = null;
+
+		// When an enemy becomes hacked, it stops moving and waits for orders
+		if (hacked)
+			currentWaypoint = null;
+    }
+
+    /// <summary>
+    /// Moves the enemy to the position (x,z)
+    /// </summary>
+    /// <param name="posX">The X coordinate to move to</param>
+    /// <param name="posZ">The Z coordinate to move to</param>
+    public void HackedMove (float posX, float posZ)
+    {
+		// Uncomment this to see waypoints as spheres
+		/*if (Debug.isDebugBuild)
+	    {
+			waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+			waypoint.GetComponent<Renderer>().material.color = Color.blue;
+	    }
+		else*/
+		currentWaypoint = new GameObject("HackWaypoint");
+		currentWaypoint.transform.position = new Vector3(posX, controlObject.transform.transform.position.y, posZ);
+    }
+
+    /// <summary>
+    /// Makes the enemy attack the specified target
+    /// </summary>
+    /// <param name="target">The target to attack</param>
+    public void HackedAttack(GameObject target)
+    {
+		hackedAttackTraget = currentWaypoint = currentTarget = target;
+    }
 
 	// Class that shows obstacle detection info to be used for avoiding moves
 	private class AvoidInfo
