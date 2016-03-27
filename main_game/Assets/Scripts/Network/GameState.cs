@@ -84,6 +84,7 @@ public class GameState : NetworkBehaviour {
 		InitialiseUpgradableComponents();
 
 		StartCoroutine("ResourceInterest");
+        StartCoroutine("UpdateComponents");
 	}
         
     private void LoadSettings()
@@ -127,8 +128,6 @@ public class GameState : NetworkBehaviour {
             Debug.Log("NOS mode " + nosMode);
         }
 
-		StartCoroutine("UpdateComponents");
-
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
@@ -154,7 +153,7 @@ public class GameState : NetworkBehaviour {
 		droneSpeed 			  = drone.MovementSpeed;
 		droneWorkTime   	  = drone.ImprovementTime;
 
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1f);
 		StartCoroutine("UpdateComponents");
 	}
 
