@@ -197,8 +197,8 @@ MonoBehaviour:
   drawDistanceFadeSize: 1
   reduceSelfBleeding: 1
   useDownsampling: 0
-  halfSampling: 0
-  preserveDetails: 0
+  halfSampling: 1
+  preserveDetails: 1
   attachedCamera: {fileID: 2005218}
 --- !u!114 &11426972
 MonoBehaviour:
@@ -738,6 +738,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: drawDistance
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: preserveDetails
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: halfSampling
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
