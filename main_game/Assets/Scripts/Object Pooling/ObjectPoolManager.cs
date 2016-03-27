@@ -34,7 +34,7 @@ public class ObjectPoolManager : NetworkBehaviour
         {
             for(int i = 0; i < size; ++i)
             {
-                if(pool[i].transform.position != null)
+                if(pool[i] != null)
                 {
                     pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 5f);
                     pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 5f);
