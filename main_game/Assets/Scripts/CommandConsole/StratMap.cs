@@ -21,7 +21,6 @@ public class StratMap : MonoBehaviour {
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
-        print("panel height = " + panelHeight + "panel width = " + panelWidth);
     }
 
     public void NewOutpost(GameObject outpost)
@@ -32,7 +31,7 @@ public class StratMap : MonoBehaviour {
             GameObject outpostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outpostSymbol.transform.SetParent(panel.transform, false);
             RectTransform arrowRectTransform = (RectTransform)outpostSymbol.transform;
-            Vector3 screenPos = new Vector3(outpost.transform.position.x/15, outpost.transform.position.z/15,0);
+            Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
             arrowRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
                 outpostSymbol.SetActive(true);
@@ -42,16 +41,16 @@ public class StratMap : MonoBehaviour {
 
     private bool WithinBounds(Vector3 screenPos)
     {
-        if (screenPos.x > -200 && screenPos.x < 200 &&
-            screenPos.y > -200 && screenPos.y < 200 &&
-            screenPos.z > -200 && screenPos.z < 200
-        ) return true;
-        else return false;
+        if (screenPos.x > -(panelWidth/2) && screenPos.x < (panelWidth/2) && 
+            screenPos.y > -(panelHeight/2) && screenPos.y < (panelHeight/2)) 
+            return true;
+
+        return false;
     }
 
 	// Update is called once per frame
 	void Update () {
-        Vector3 screenPos = new Vector3(shipTransform.position.x / 15, shipTransform.position.z / 15, 0);
+        Vector3 screenPos = new Vector3(shipTransform.position.x / 20, shipTransform.position.z / 20, 0);
         playerIconTransform.anchoredPosition = screenPos;
         Quaternion shipRotation = shipTransform.rotation;
         Vector3 eulerRotation = shipRotation.eulerAngles;
