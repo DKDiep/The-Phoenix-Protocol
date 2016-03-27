@@ -3165,8 +3165,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.42, y: 0.77, z: 1.52}
-  m_Center: {x: 0.000000059604645, y: 0.17, z: -0.00000008940697}
+  m_Size: {x: 1.42, y: 0.47, z: 1.52}
+  m_Center: {x: 0.000000059604645, y: 0.29, z: -0.00000008940697}
 --- !u!114 &11440756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3253,9 +3253,9 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.38
-  m_Height: 2.26
+  m_Height: 1.86
   m_Direction: 1
-  m_Center: {x: 0, y: 0.12, z: 0}
+  m_Center: {x: -0.27, y: 0.12, z: -0.06}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
