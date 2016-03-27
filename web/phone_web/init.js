@@ -16,7 +16,7 @@ function initScreen() {
 
 // Display the page version for unregistered users
 function initUnregistered() {
-    transitionTo("register")
+    changeScreen("register", startRegisterScreen, finaliseRegisterScreen)
 }
 
 // Save user identification information as a cookie

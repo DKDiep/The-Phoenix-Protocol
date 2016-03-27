@@ -1,6 +1,7 @@
 var controlledEnemyId = 0;
 var isControllingEnemy = false;
 
+// Action related to an enemy object
 function actionOnEnemy(id) {
     console.log("enemy action ", id)
     if(!isControllingEnemy) {
@@ -10,6 +11,7 @@ function actionOnEnemy(id) {
     }
 }
 
+// Action related to movement
 function moveAction(x, y) {
     console.log("move action ", x, y)
     if(isControllingEnemy) {

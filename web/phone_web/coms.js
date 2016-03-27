@@ -45,6 +45,7 @@ function onMessage(event) {
             updateScreen(msg.data)
             break;
         case "STATE_UPDATE":
+        // in transition.js
             updateObjects(msg.data);
             break;
         default:
@@ -106,19 +107,10 @@ function requestUserCreation(username) {
     serverSocket.send(JSON.stringify(msg));
 }
 
-function acceptPromotion() {
+function sendPromotionResponse(answer) {
     var msg = {
         type: "PROM",
-        data: true
-    }
-
-    serverSocket.send(JSON.stringify(msg));
-}
-
-function declinePromotion() {
-    var msg = {
-        type: "PROM",
-        data: false
+        data: answer
     }
 
     serverSocket.send(JSON.stringify(msg));

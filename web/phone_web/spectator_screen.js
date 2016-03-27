@@ -24,20 +24,23 @@ var loadedResources;
 // Background Image
 var bg;
 
+// Used to interrupt the rendering
+var keepRendering = false;
+
 // Game variables
 var playerShip;
 var enemies = new Array();
 var asteroids = new Array();
 
 // Initiates the game
-function startSpectatorGame() {
+function startSpectatorScreen() {
     renderer = new PIXI.CanvasRenderer(10, 10);
     oldWidth = renderer.width;
     oldHeight = renderer.height;
     maxDim = Math.max(renderer.width, renderer.height);
 
     // The renderer will create a canvas element for you that you can then insert into the DOM.
-    $("#gameScreen").append(renderer.view);
+    $("#spectatorScreen").append(renderer.view);
 
     // You need to create a root container that will hold the scene you want to draw.
     stage = new PIXI.Container();
@@ -62,6 +65,34 @@ function startSpectatorGame() {
         // init rendering
         init();
     });
+}
+
+// Clear states before exiting the spectator game
+function finaliseSpectatorScreen() {
+    renderer = undefined;
+    oldWidth = undefined;
+    oldHeight = undefined;
+    maxDim = undefined;
+
+    // You need to create a root container that will hold the scene you want to draw.
+    stage = undefined;
+
+    // Texture loader
+    loader = undefined;
+
+    // Holds the textures after the loading is done
+    loadedResources = undefined;
+
+    // Background Image
+    bg = undefined;
+
+    // Used to interrupt the rendering
+    keepRendering = false;
+
+    // Game variables
+    playerShip = undefined;
+    enemies = new Array();
+    asteroids = new Array();
 }
 
 // Deals with movement
@@ -101,11 +132,17 @@ function init() {
     stage.addChild(playerShip);
 
     // kick off the animation loop (defined below)
+    keepRendering = true
     resize();
     renderUpdate();
 }
 
+// Render function
 function renderUpdate() {
+    // exit if we dont have to render anymore
+    if(!keepRendering) {
+        return
+    }
     // start the timer for the next animation loop
     requestAnimationFrame(renderUpdate);
 
@@ -160,7 +197,7 @@ function spritePosition(sprite, x, y) {
 }
 
 // Update the objects based on received data
-function updateObjects(data) {
+function updateSprites(data) {
     // Update asteroids
     var newTmp = new Array();
     var toAdd = new Array();
