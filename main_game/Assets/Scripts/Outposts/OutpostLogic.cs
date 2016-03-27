@@ -19,6 +19,12 @@ public class OutpostLogic : MonoBehaviour {
     private int difficulty;
 
     private OutpostCollision collision;
+    private PlayerController playerController;
+    void Start()
+    {
+        GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
+        playerController = playerControllerObject.GetComponent<PlayerController>();
+    }
 
     public void SetDifficulty(int diff, int multiplier)
     {
@@ -42,6 +48,7 @@ public class OutpostLogic : MonoBehaviour {
 			CollectResources();
 			resourcesCollected = true;
             collision.SwitchMaterial();
+            playerController.RpcNotifyOutpostVisit(numberOfResources, numberOfCivilians);
 		}
 		if(!civiliansCollected) 
 		{
@@ -49,6 +56,7 @@ public class OutpostLogic : MonoBehaviour {
 			civiliansCollected = true;
             collision.SwitchMaterial();
 		}
+
 	}
 
 	/// <summary>

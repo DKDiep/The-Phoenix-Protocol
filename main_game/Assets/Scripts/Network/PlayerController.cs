@@ -120,9 +120,19 @@ public class PlayerController : NetworkBehaviour
     public void RpcOutpostNotification(GameObject outpost)
     {
         if (commandConsoleState != null)
-        {
             commandConsoleState.FoundOutpost(outpost);
-        }
+    }
+
+    /// <summary>
+    /// Notifies command console of outpost visit
+    /// </summary>
+    /// <param name="resources">Resources.</param>
+    /// <param name="civilians">Civilians.</param>
+    [ClientRpc]
+    public void RpcNotifyOutpostVisit(int resources, int civilians)
+    {
+        if (commandConsoleState != null)
+            commandConsoleState.OutpostVisitNotify(resources, civilians);
     }
 
     void Start()

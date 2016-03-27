@@ -70,11 +70,10 @@ public class CommandConsoleState : MonoBehaviour {
         if(crosshairCanvas != null)
             crosshairCanvas.SetActive(false);
         
-        newsFeed.SetActive(false);
         ClosePopupWindow();
 
         upgradeArea.SetActive(false);
-
+        newsFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
     }
 
@@ -247,6 +246,12 @@ public class CommandConsoleState : MonoBehaviour {
         return false;
     }
 
+    public void OutpostVisitNotify(int resources, int civilians)
+    {
+        UpdateNewsFeed("[Outpost] Collected " + resources + " Resources");
+        UpdateNewsFeed("[Outpost] Saved " + civilians + " Civilians");
+    }
+
     /// <summary>
     /// Confirms the upgrade, is called when the engineer has completed the upgrade.
     /// </summary>
@@ -256,6 +261,7 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeProgress[GetIdFromComponentType(type)] = 0;
         upgradeButtonLabel.text = "Upgrade";
         componentLevels[GetIdFromComponentType(type)]++;
+        UpdateNewsFeed("[Engineer] " + upgradeNames[GetIdFromComponentType(type)] + " upgrade is complete.");
     }
         
     public void HighlightComponent(int component)
@@ -337,8 +343,7 @@ public class CommandConsoleState : MonoBehaviour {
     
     public void FoundOutpost(GameObject outpost)
     {
-        newsFeed.SetActive(true);
-        //newsFeed.GetComponent<Text>().text = message;
+        UpdateNewsFeed("[Outpost] Outpost Discovered!");
         stratMap.NewOutpost(outpost);
     }
 
@@ -371,5 +376,11 @@ public class CommandConsoleState : MonoBehaviour {
                 ConfirmUpgrade(type);
             }
         }
+    }
+
+
+    private void UpdateNewsFeed(string message)
+    {
+        newsFeed.GetComponent<Text>().text = message + "\n" + newsFeed.GetComponent<Text>().text;
     }
 }
