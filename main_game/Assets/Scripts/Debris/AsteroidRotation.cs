@@ -99,7 +99,7 @@ public class AsteroidRotation : MonoBehaviour
         }
 		   
         currentStatus = renderer.enabled;
-        if(currentStatus != oldStatus)
+        if(spawner != null && currentStatus != oldStatus)
         {
             spawner.RegisterVisibilityChange(currentStatus);
             oldStatus = currentStatus;
