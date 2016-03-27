@@ -41,6 +41,8 @@ function startSpectatorGame() {
 
     // You need to create a root container that will hold the scene you want to draw.
     stage = new PIXI.Container();
+    stage.interactive = true
+    stage.mousedown = stage.touchstart = handleGeneralPress
 
     // Resize listener
     window.addEventListener("resize", function() {
@@ -60,6 +62,18 @@ function startSpectatorGame() {
         // init rendering
         init();
     });
+}
+
+// Deals with movement
+function handleGeneralPress(eventData) {
+    screenX = eventData.data.originalEvent.pageX
+    screenY = eventData.data.originalEvent.pageY
+
+    // Invert coordinates to game space
+    gameX = (screenX - (0.5*renderer.width))/(zoom*maxDim);
+    gameY = (screenY - (0.5*renderer.height))/(zoom*maxDim);
+
+    moveAction(gameX, gameY)
 }
 
 // Place player ship in middle and add moving background
@@ -207,14 +221,21 @@ function updateObjects(data) {
     for (id in toAdd) {
         var enm = toAdd[id]
         newEnm = new PIXI.Sprite(loadedResources.enm.texture);
+        newEnm.spaceGameId = enm.id
         newEnm.anchor.x = 0.5
         newEnm.anchor.y = 0.5
         spritePosition(newEnm, enm.x, enm.y);
         // TODO: implement rotation
         // sprite.rotation = 12
         spriteScale(newEnm);
+        newEnm.interactive = newEnm.buttonMode = true;
+        newEnm.mousedown = newEnm.touchstart = function (eventData) {
+            actionOnEnemy(eventData.target.spaceGameId)
+            // Prevents the triggering of the move event
+            eventData.stopPropagation()
+        };
         newTmp[enm.id] = newEnm;
-        stage.addChild(newEnm)
+        stage.addChild(newEnm);
     }
     // Finalise by setting the asteroid list
     enemies = newTmp
