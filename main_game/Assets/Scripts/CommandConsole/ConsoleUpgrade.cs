@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class ConsoleUpgrade : MonoBehaviour
 {
+    private GameState gameState;
     // The text fields in the upgrade box
     private Text upgradeNameTxt;
     private Text upgradeCostTxt;
@@ -19,29 +20,45 @@ public class ConsoleUpgrade : MonoBehaviour
 
     private Transform levelIndicator;
 
+    private bool setupDone = false;
+
     private List<GameObject> levelIndicators = new List<GameObject>();
     void Start ()
     {
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+
         // Hide the repair button from the start
         gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(false);
     }
 
     void Update()
     {
+        if(setupDone)
+        {
+            // If this component is repairable.
+            if(repairable)
+            {
+                if(gameState.GetComponentHealth(type) < 80) 
+                    gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(true);
+                else
+                    gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(false);
 
+            }
+        }
     }
 
-    public void SetUpgradeInfo(ComponentType type, string name, int cost, int levels, bool repariable)
+    public void SetUpgradeInfo(ComponentType type, string name, int cost, int levels, bool canRepair)
     {
+        
         this.type       = type;
         upgradeName     = name;
         upgradeCost     = cost;
         maxLevels       = levels;
-        this.repairable = repairable;
+        this.repairable = canRepair;
 
         InitialiseLevels();
         UpdateTextFields();
-       
+        setupDone = true;
     }
 
     public void UpdateCost(int cost)
