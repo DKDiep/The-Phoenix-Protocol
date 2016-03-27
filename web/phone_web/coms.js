@@ -45,7 +45,7 @@ function onMessage(event) {
             updateScreen(msg.data)
             break;
         case "STATE_UPDATE":
-            data.objects = msg.data;
+            updateObjects(msg.data);
             break;
         default:
             console.log("Received unexpected message type: "+msg.type)
