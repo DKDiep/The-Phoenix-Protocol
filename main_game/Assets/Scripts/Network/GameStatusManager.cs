@@ -22,13 +22,17 @@ public class GameStatusManager : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 	}
+
+    public void Reset()
+    {
+        gameOverScreen = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
-            
             DisableThrusterSound();
             
             // Set an overlay on the screen

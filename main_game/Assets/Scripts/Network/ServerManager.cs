@@ -23,6 +23,8 @@ public class ServerManager : NetworkBehaviour
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner, musicManager, missionManager;
     public GameObject cutsceneManager;
+    private GameObject gameTimer;
+    private GameObject portal;
 
 	private uint serverId;
     public int clientIdCount()
@@ -222,7 +224,7 @@ public class ServerManager : NetworkBehaviour
         ServerManager.NetworkSpawn(playerShield);
 
 		// Spawn portal
-		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
+		portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
         portal.transform.position = new Vector3(0,1000,1000);
 		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
@@ -251,7 +253,7 @@ public class ServerManager : NetworkBehaviour
 
         //Reset Player's scores
         gameState.ResetPlayerScores();
-        GameObject gameTimer = GameObject.Find("GameTimerText");
+        gameTimer = GameObject.Find("GameTimerText");
         gameTimer.SetActive(true);
         gameTimer.GetComponent<TimerScript>().ResetTimer();
         missionManager.GetComponent<MissionManager>().ResetMissions();
@@ -266,11 +268,32 @@ public class ServerManager : NetworkBehaviour
         // Prevent game loop updating
         gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
-        //Reset Player's scores
-        gameState.ResetPlayerScores();
-        GameObject gameTimer = GameObject.Find("GameTimerText");
+
+        // Restart music
+
+        // Remove screen overlays
+        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas(Clone)");
+        if (gameOverCanvas != null)
+            Destroy(gameOverCanvas);
+
+        // Reactivate possibly deactivated objects
+        if (!gameTimer.activeSelf)
+        {
+            gameTimer.SetActive(true); 
+        }
+        if (!portal.activeSelf)
+        {
+            portal.SetActive(true);
+        }
+
+        // Reset objects
         gameTimer.GetComponent<TimerScript>().ResetTimer();
+        // Reset portal trigger
+        gameState.gameObject.GetComponent<GameStatusManager>().Reset();
+        // Reset missions
         missionManager.GetComponent<MissionManager>().ResetMissions();
+        // Reset Player's scores
+        gameState.ResetPlayerScores();
 
         //Reset player ship
         gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,0.0f);
@@ -278,16 +301,14 @@ public class ServerManager : NetworkBehaviour
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
 
-        // Restart music
-
         // Reset asteroids
-        gameState.CleanUpAsteroids();
+        /*gameState.CleanUpAsteroids(); // temporarily disabled due to fps issues
         List<GameObject> asteroidList = gameState.GetAsteroidList();
         // Must loop backwards as removing
         for (int i = asteroidList.Count-1; i >= 0; i--)
         {
             gameState.RemoveAsteroidAt(i);
-        }
+        }*/
 
         // Reset enemies
         gameState.CleanupEnemies();
