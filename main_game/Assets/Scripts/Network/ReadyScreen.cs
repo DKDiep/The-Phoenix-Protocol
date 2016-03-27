@@ -24,6 +24,11 @@ public class ReadyScreen : MonoBehaviour
 
     void Start()
     {
+        Reset();
+    }
+
+    void Reset()
+    {
         musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
         musicManager.PlayMusic(1);
     }

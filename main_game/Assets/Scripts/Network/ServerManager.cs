@@ -256,9 +256,40 @@ public class ServerManager : NetworkBehaviour
         gameTimer.GetComponent<TimerScript>().ResetTimer();
         missionManager.GetComponent<MissionManager>().ResetMissions();
         //Start the game
-        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
+        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
         gameState.Status = GameState.GameStatus.Started;
         musicManager.GetComponent<MusicManager>().Play();
+    }
+
+    public void Reset()
+    {
+        Debug.Log("Resetting values");
+        //Reset Player's scores
+        gameState.ResetPlayerScores();
+        GameObject gameTimer = GameObject.Find("GameTimerText");
+        gameTimer.GetComponent<TimerScript>().ResetTimer();
+        missionManager.GetComponent<MissionManager>().ResetMissions();
+
+        //Reset player ship
+        gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,0.0f);
+        gameState.PlayerShip.transform.rotation = Quaternion.identity;
+        gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
+        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
+        gameState.Status = GameState.GameStatus.Started;
+
+        // restart music
+
+        // respawn asteroids
+    }
+
+    // Temporary to test reset
+    void FixedUpdate()
+    {
+        if (Input.GetKeyUp("space"))
+        {
+            Reset();
+            Debug.Log("how mny");
+        }
     }
 
 	public void SetServerId(uint serverId) 
