@@ -715,9 +715,8 @@ public class GameState : NetworkBehaviour {
 	/// <param name="workTime">The improvement work time.</param>
 	public void GetDroneStats(out float movementSpeed, out float workTime)
 	{
-		UpgradableDrone drone = (UpgradableDrone)upgradableComponents[(int)UpgradableComponentIndex.Drone];
-		movementSpeed         = drone.MovementSpeed;
-		workTime              = drone.ImprovementTime;
+		movementSpeed = droneSpeed;
+		workTime      = droneWorkTime;
 	}
 
 	/// <summary>
