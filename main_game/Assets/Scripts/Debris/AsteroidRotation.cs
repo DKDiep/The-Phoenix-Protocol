@@ -25,6 +25,8 @@ public class AsteroidRotation : MonoBehaviour
     private ObjectPoolManager poolManager;
 	private new Renderer renderer;
 	private AsteroidSpawner spawner;
+    private bool rotateEnabled = true;
+    private bool currentStatus, oldStatus;
 
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
@@ -63,24 +65,43 @@ public class AsteroidRotation : MonoBehaviour
 	
 	void Update()
 	{
-        if(distance < 800)
+        if(rotateEnabled)
 		    transform.Rotate(transform.forward * speed * Time.deltaTime);
-
-		bool newState = distance < maxRenderDistance, oldState = renderer.enabled;
-		renderer.enabled = newState;
-		if (spawner != null && newState != oldState)
-			spawner.RegisterVisibilityChange(newState);
 	}
 
 	IEnumerator AsteroidLOD()
 	{
 		distance = Vector3.Distance(transform.position, player.transform.position);
-		if(distance < 250)
+		if(distance < 300)
+        {
 		    myFilter.mesh = highPoly;
-		else if(distance < 500)
+            rotateEnabled = true;
+            renderer.enabled = true;
+        }
+		else if(distance < 600)
+        {
 		    myFilter.mesh = medPoly;
-		else
-		    myFilter.mesh = lowPoly;
+            rotateEnabled = true;
+            renderer.enabled = true;
+        }
+		else if(distance < 2000)
+        {
+            myFilter.mesh = lowPoly;
+            rotateEnabled = false;
+            renderer.enabled = true;
+        }
+        else
+        {
+            renderer.enabled = false;
+            rotateEnabled = false;
+        }
+		   
+        currentStatus = renderer.enabled;
+        if(currentStatus != oldStatus)
+        {
+            spawner.RegisterVisibilityChange(currentStatus);
+            oldStatus = currentStatus;
+        }
 
 		yield return new WaitForSeconds(1f);
 		StartCoroutine("AsteroidLOD");
