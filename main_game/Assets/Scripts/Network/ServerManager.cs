@@ -263,6 +263,8 @@ public class ServerManager : NetworkBehaviour
 
     public void Reset()
     {
+        // Prevent game loop updating
+        gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
         //Reset Player's scores
         gameState.ResetPlayerScores();
@@ -275,11 +277,28 @@ public class ServerManager : NetworkBehaviour
         gameState.PlayerShip.transform.rotation = Quaternion.identity;
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
+
+        // Restart music
+
+        // Reset asteroids
+        gameState.CleanUpAsteroids();
+        List<GameObject> asteroidList = gameState.GetAsteroidList();
+        // Must loop backwards as removing
+        for (int i = asteroidList.Count-1; i >= 0; i--)
+        {
+            gameState.RemoveAsteroidAt(i);
+        }
+
+        // Reset enemies
+        gameState.CleanupEnemies();
+        List<GameObject> enemyList = gameState.GetEnemyList();
+        for (int i = enemyList.Count - 1; i >= 0; i--)
+        {
+            gameState.RemoveEnemyAt(i);
+        }
+
+        // Enable game loop to update again
         gameState.Status = GameState.GameStatus.Started;
-
-        // restart music
-
-        // respawn asteroids
     }
 
     // Temporary to test reset
