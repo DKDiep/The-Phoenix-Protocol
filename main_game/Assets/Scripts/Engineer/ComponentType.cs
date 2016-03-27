@@ -2,13 +2,13 @@
 
 public enum ComponentType
 {
-    None,
-	Bridge,
-	Engine,
-	Turret,
-	Drone,
-	ShieldGenerator,
-	ResourceStorage
+    ShieldGenerator     = 0,
+    Turret              = 1,
+    Engine              = 2,
+    Bridge              = 3,
+	Drone               = 4,
+	ResourceStorage     = 5,
+    None                = 6
 }
 
 public static class ComponentTypeMethods

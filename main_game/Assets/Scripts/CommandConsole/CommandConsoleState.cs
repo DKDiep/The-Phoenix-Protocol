@@ -47,6 +47,7 @@ public class CommandConsoleState : MonoBehaviour {
 
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] {0,0,0,0,0,0};
+    private bool[] componentRepairable = new bool[6] {true, true, true, true, false, false};
 
     private ConsoleShipControl shipControl;
    
@@ -136,14 +137,17 @@ public class CommandConsoleState : MonoBehaviour {
     private void AddUpgradeBoxes()
     {
         Transform canvas = gameObject.transform.Find("Canvas");
-        for(int i = 0; i < 6; i++) 
+        foreach(ComponentType type in Enum.GetValues(typeof(ComponentType)))
         {
-            int component = i;
+            if(type == ComponentType.None)
+                continue;
+            
+            int component = (int)type;
             GameObject upgradeBox = Instantiate(Resources.Load("Prefabs/UpgradeBox", typeof(GameObject))) as GameObject;
             upgradeBox.transform.SetParent(canvas);
             upgradeBox.transform.localScale = new Vector3(1,1,1);
-            upgradeBox.transform.localPosition = new Vector3(-483, 200 - (i*80), 0);
-            upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeNames[i], upgradeCosts[i], upgradeMaxLevels[i]);
+            upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
+            upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(type, upgradeNames[component], upgradeCosts[component], upgradeMaxLevels[component], componentRepairable[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
         }
