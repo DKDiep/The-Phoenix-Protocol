@@ -156,16 +156,19 @@ func (players *PlayerMap) updateData() {
     asteroidData := asteroidMap.getCopy()
 
     // Transform asteroid coordinates into phone screen space
-    for _, asteroid := range asteroidData {
+    for id, asteroid := range asteroidData {
         // Centre grid around player ship
         asteroid.posX -= playerShipData.posX
         asteroid.posY -= playerShipData.posY
         // Rotate grid so ship is pointing north on the screen
         newX := asteroid.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - asteroid.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
         newY := asteroid.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + asteroid.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
-        // Translate grid so ship is in the centre
-        asteroid.posX = newX + 50
-        asteroid.posY = -(newY) + 50 // flip Y to match rendering orientation
+        // TODO: nasty way of removing far asteroids, needs improving
+        if math.Abs(newY) > 250 || math.Abs(newX) > 250 {
+            delete(asteroidData, id)
+        }
+        asteroid.posX = newX
+        asteroid.posY = -(newY) // flip Y to match rendering orientation
     }
 
     // Transform enemy coordinates into phone screen space
@@ -176,9 +179,8 @@ func (players *PlayerMap) updateData() {
         // Rotate grid so ship is pointing north on the screen
         newX := enemy.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
         newY := enemy.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
-        // Translate grid so ship is in the centre
-        enemy.posX = newX + 50
-        enemy.posY = -(newY) + 50 // flip Y to match rendering orientation
+        enemy.posX = newX
+        enemy.posY = -(newY) // flip Y to match rendering orientation
     }
 
     // Send updated data

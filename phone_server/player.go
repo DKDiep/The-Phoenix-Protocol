@@ -95,32 +95,31 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     // TODO: add other objects
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
-    dataSegment := make([]map[string]interface{}, 0)
-
+    enms_data := make([]map[string]interface{}, 0)
     // Add enemies to the message
     for id, enemy := range enemies {
-        dataSegment = append(dataSegment, map[string]interface{}{
-            "type": "ship",
-            "position": map[string]interface{}{
-                "id": id,
-                "x" : enemy.posX,
-                "y" : enemy.posY,
-            },
+        enms_data = append(enms_data, map[string]interface{}{
+            "id": id,
+            "x" : enemy.posX,
+            "y" : enemy.posY,
         })
     }
 
+
+    asts_data := make([]map[string]interface{}, 0)
     // Add asteroids to the message
-    for _, ast := range asteroids {
-        dataSegment = append(dataSegment, map[string]interface{}{
-            "type": "asteroid",
-            "position": map[string]interface{}{
-                "x": ast.posX,
-                "y": ast.posY,
-            },
+    for id, ast := range asteroids {
+        asts_data = append(asts_data, map[string]interface{}{
+            "id": id,
+            "x" : ast.posX,
+            "y" : ast.posY,
         })
     }
 
-    msg["data"] = dataSegment
+    msg["data"] = map[string]interface{}{
+        "asts": asts_data,
+        "enms": enms_data,
+    }
 
     plr.user.sendMsg(msg)
 }

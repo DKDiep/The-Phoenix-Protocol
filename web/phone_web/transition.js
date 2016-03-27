@@ -5,7 +5,7 @@ function updateScreen(userData) {
     switch (userData.state) {
         case "SPECTATOR":
             transitionTo("spectator", function() {
-              startGame();
+              startSpectatorGame();
             });
             break;
         case "PROMOTION":
