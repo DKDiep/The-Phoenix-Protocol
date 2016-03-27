@@ -56,7 +56,7 @@ public class MissionManager : MonoBehaviour
             // If the missions completion type is an outpost, we randomly assign it a close outpost.
             if(missions[id].completionType == CompletionType.Outpost)
             {
-                missions[id].completionValue = outpostManager.GetRandomCloseOutpost(2000);
+                missions[id].completionValue = outpostManager.GetClosestOutpost();
                 // If we have successfully initialised the completion value.
                 if(missions[id].completionValue != -1)
                     missionInit = true;

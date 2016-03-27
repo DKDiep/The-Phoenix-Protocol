@@ -18,6 +18,7 @@ public class OutpostManager : MonoBehaviour {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
         playerController = playerControllerObject.GetComponent<PlayerController>();
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
+
     }
 
     void Update () 
@@ -120,25 +121,29 @@ public class OutpostManager : MonoBehaviour {
         return minDistance;
     }
 
-    public int GetRandomCloseOutpost(int maxDistance)
+    /// <summary>
+    /// Gets the closest outpost.
+    /// </summary>
+    /// <returns>The closest outpost.</returns>
+    public int GetClosestOutpost()
     {
-        int distance;
-        List<int> outpostsInRange = new List<int>();
-
         if(!outpostSpawned)
             return -1;
         
+        int minDistance = -1;
+        int minId = -1;
+        int distance;
+
         for(int i = 0; i < outpostList.Count; i++)
         {
             distance = (int)Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position);
-            if(distance < maxDistance)
-            {   
-                outpostsInRange.Add(i);
+            if(distance < minDistance || minDistance == -1)
+            {
+                minDistance = distance; 
+                minId = i;
             }
         }
-        // Return random element
-
-        return outpostsInRange[Random.Range(0, outpostsInRange.Count)];
+        return minId;
     }
 
     public void giveGameStateReference(GameState newGameState)
