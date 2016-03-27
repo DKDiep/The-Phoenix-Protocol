@@ -4,8 +4,9 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class AsteroidLogic : MonoBehaviour 
+public class AsteroidLogic : MonoBehaviour, DestructibleObject
 {
 	private GameSettings settings;
 
@@ -20,11 +21,15 @@ public class AsteroidLogic : MonoBehaviour
     private ObjectPoolManager logicManager;
     private ObjectPoolManager asteroidManager;
 
+	private List<DestructionListener> destructionListeners;
+
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         
 		LoadSettings();
+
+		destructionListeners = new List<DestructionListener>();
 	}
 
 	private void LoadSettings()
@@ -63,6 +68,8 @@ public class AsteroidLogic : MonoBehaviour
 
 		if (health <= 0 && transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
         {
+			NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+
 			// Ship automatically collects resources from destroyed asteroids. 
 			gameState.AddShipResources(droppedResources);
             gameState.RemoveAsteroid(transform.parent.gameObject);
@@ -77,5 +84,25 @@ public class AsteroidLogic : MonoBehaviour
             asteroidManager.RemoveObject(removeName);
             logicManager.RemoveObject(gameObject.name);
         }
+	}
+
+	/// <summary>
+	/// Registers a listener to be notified when this object is destroyed.
+	/// </summary>
+	/// <param name="listener">The listener.</param>
+	public void RegisterDestructionListener(DestructionListener listener)
+	{
+		destructionListeners.Add(listener);
+	}
+
+	/// <summary>
+	/// Notifies the registered destruction listeners and clears the list.
+	/// </summary>
+	private void NotifyDestructionListeners()
+	{
+		foreach (DestructionListener listener in destructionListeners)
+			listener.OnObjectDestructed(transform.parent.gameObject);
+
+		destructionListeners.Clear();
 	}
 }

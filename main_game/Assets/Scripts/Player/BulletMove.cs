@@ -5,7 +5,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BulletMove : MonoBehaviour 
+public class BulletMove : MonoBehaviour, DestructionListener
 {
 	private GameObject target = null;
 
@@ -30,5 +30,31 @@ public class BulletMove : MonoBehaviour
 	public void SetTarget(GameObject targetObject)
 	{
 		target = targetObject;
+
+		// Register to receive a notification when the object is destroyed
+		if (target != null)
+		{
+			// The target could be an enemy...
+			EnemyLogic targetEnemyLogic = target.GetComponentInChildren<EnemyLogic>();
+			if (targetEnemyLogic != null)
+				targetEnemyLogic.RegisterDestructionListener(this);
+			else
+			{
+				// ... or an asteroid
+				AsteroidLogic targetAsteroidLogic = target.GetComponentInChildren<AsteroidLogic>();
+				if (targetAsteroidLogic != null)
+					targetAsteroidLogic.RegisterDestructionListener(this);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Receives a notification that an object has been destroyed.
+	/// </summary>
+	/// <param name="destructed">The destructed object.</param>
+	public void OnObjectDestructed(GameObject destructed)
+	{
+		if (destructed == target)
+			target = null;
 	}
 }

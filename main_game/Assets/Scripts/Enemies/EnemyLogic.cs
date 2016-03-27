@@ -10,7 +10,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyLogic : MonoBehaviour
+public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
 {
 	private GameSettings settings;
 
@@ -112,6 +112,8 @@ public class EnemyLogic : MonoBehaviour
 
     private Renderer meshRenderer;
 
+	private List<DestructionListener> destructionListeners;
+
 	void Start ()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -128,6 +130,8 @@ public class EnemyLogic : MonoBehaviour
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
+
+		destructionListeners = new List<DestructionListener>();
 	}
 
 	private void LoadSettings()
@@ -718,6 +722,8 @@ public class EnemyLogic : MonoBehaviour
     				gameState.AddToPlayerScore(playerId, 10);
     			}
 
+				NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+
                 string removeName = transform.parent.gameObject.name;
 
     			// Automatically collect resources from enemy ship
@@ -782,7 +788,41 @@ public class EnemyLogic : MonoBehaviour
     public void HackedAttack(GameObject target)
     {
 		hackedAttackTraget = currentWaypoint = currentTarget = target;
+
+		EnemyLogic targetLogic = hackedAttackTraget.GetComponentInChildren<EnemyLogic>();
+		if (targetLogic != null)
+			targetLogic.RegisterDestructionListener(this);
     }
+
+	/// <summary>
+	/// Registers a listener to be notified when this object is destroyed.
+	/// </summary>
+	/// <param name="listener">The listener.</param>
+	public void RegisterDestructionListener(DestructionListener listener)
+	{
+		destructionListeners.Add(listener);
+	}
+
+	/// <summary>
+	/// Notifies the registered destruction listeners and clears the list.
+	/// </summary>
+	private void NotifyDestructionListeners()
+	{
+		foreach (DestructionListener listener in destructionListeners)
+			listener.OnObjectDestructed(transform.parent.gameObject);
+
+		destructionListeners.Clear();
+	}
+
+	/// <summary>
+	/// Receives a notification that an object has been destroyed.
+	/// </summary>
+	/// <param name="destructed">The destructed object.</param>
+	public void OnObjectDestructed(GameObject destructed)
+	{
+		if (destructed == hackedAttackTraget)
+			hackedAttackTraget = currentWaypoint = null;
+	}
 
 	// Class that shows obstacle detection info to be used for avoiding moves
 	private class AvoidInfo
