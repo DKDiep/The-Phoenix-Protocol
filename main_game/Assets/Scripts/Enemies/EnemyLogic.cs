@@ -404,6 +404,22 @@ public class EnemyLogic : MonoBehaviour
 				return;
 			}
 
+			// Hacked enemies can move to a location or attack another enemy
+			// When attacking another enemy, try to get behind him so we get a better shot
+			if (hacked)
+			{
+				if (currentWaypoint != null)
+				{
+					bool reached = MoveTowardsCurrentWaypoint();
+
+					// When a hacked enemy reaches its destination, it stops moving
+					if (reached)
+						currentWaypoint = null;
+				}
+
+				return; 
+			}
+
 			// If this enemy is a guard and is too far from its guarding location, turn back towards it
 			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
 				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
@@ -506,8 +522,8 @@ public class EnemyLogic : MonoBehaviour
 		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
 		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
 		{
-			// If the reached waypoint is an avoid waypoint, it is not needed any more
-			if (state == EnemyAIState.AvoidObstacle)
+			// If the reached waypoint is an avoid or hack waypoint, it is not needed any more
+			if (state == EnemyAIState.AvoidObstacle || hacked)
 				Destroy(currentWaypoint);
 			
 			currentWaypoint = GetNextWaypoint();
@@ -710,6 +726,10 @@ public class EnemyLogic : MonoBehaviour
     public void setHacked(bool val)
     {
         hacked = val;
+
+		// When an enemy becomes hacked, it stops moving and waits for orders
+		if (hacked)
+			currentWaypoint = null;
     }
 
     /// <summary>
@@ -717,17 +737,24 @@ public class EnemyLogic : MonoBehaviour
     /// </summary>
     /// <param name="posX">The X coordinate to move to</param>
     /// <param name="posZ">The Z coordinate to move to</param>
-    public void move (float posX, float posZ)
+    public void HackedMove (float posX, float posZ)
     {
-        // TODO: Implement move here
-        // This could be done with move waypoints or something like that
+		// Uncomment this to see waypoints as spheres
+		/*if (Debug.isDebugBuild)
+	    {
+			waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+			waypoint.GetComponent<Renderer>().material.color = Color.blue;
+	    }
+		else*/
+		currentWaypoint = new GameObject("HackWaypoint");
+		currentWaypoint.transform.position = new Vector3(posX, controlObject.transform.transform.position.y, posZ);
     }
 
     /// <summary>
     /// Makes the enemy attack the specified target
     /// </summary>
     /// <param name="target">The target to attack</param>
-    public void attack(GameObject target)
+    public void HackedAttack(GameObject target)
     {
         // TODO: Implement attacking here
         // Could this be done similarly to the way the ship is attacked?
