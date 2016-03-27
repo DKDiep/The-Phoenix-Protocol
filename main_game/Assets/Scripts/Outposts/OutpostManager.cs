@@ -138,7 +138,7 @@ public class OutpostManager : MonoBehaviour {
         }
         // Return random element
 
-        return outpostsInRange[Random.Range(0, outpostsInRange.Count)];
+        return outpostsInRange[Random.Range(0, outpostsInRange.Count-1)];
     }
 
     public void giveGameStateReference(GameState newGameState)
