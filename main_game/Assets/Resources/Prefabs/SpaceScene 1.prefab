@@ -44,7 +44,6 @@ GameObject:
   - 4: {fileID: 404666}
   - 33: {fileID: 3391692}
   - 23: {fileID: 2347928}
-  - 111: {fileID: 11159448}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -77,7 +76,6 @@ GameObject:
   - 4: {fileID: 454804}
   - 33: {fileID: 3399100}
   - 23: {fileID: 2361460}
-  - 111: {fileID: 11157540}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -110,7 +108,6 @@ GameObject:
   - 4: {fileID: 473974}
   - 33: {fileID: 3321764}
   - 23: {fileID: 2396354}
-  - 111: {fileID: 11105768}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -180,7 +177,6 @@ GameObject:
   - 4: {fileID: 434002}
   - 33: {fileID: 3335876}
   - 23: {fileID: 2390100}
-  - 111: {fileID: 11147886}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -198,7 +194,6 @@ GameObject:
   - 4: {fileID: 411816}
   - 33: {fileID: 3384218}
   - 23: {fileID: 2344704}
-  - 111: {fileID: 11104252}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -233,7 +228,6 @@ GameObject:
   - 4: {fileID: 404374}
   - 33: {fileID: 3326656}
   - 23: {fileID: 2318426}
-  - 111: {fileID: 11135352}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -299,7 +293,6 @@ GameObject:
   - 4: {fileID: 483166}
   - 33: {fileID: 3365378}
   - 23: {fileID: 2312372}
-  - 111: {fileID: 11174930}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -317,7 +310,6 @@ GameObject:
   - 4: {fileID: 400192}
   - 33: {fileID: 3300224}
   - 23: {fileID: 2372066}
-  - 111: {fileID: 11153168}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -335,7 +327,6 @@ GameObject:
   - 4: {fileID: 486944}
   - 33: {fileID: 3306508}
   - 23: {fileID: 2377912}
-  - 111: {fileID: 11184912}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -403,7 +394,6 @@ GameObject:
   - 4: {fileID: 451450}
   - 33: {fileID: 3317308}
   - 23: {fileID: 2386282}
-  - 111: {fileID: 11156812}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -452,7 +442,6 @@ GameObject:
   - 4: {fileID: 445076}
   - 33: {fileID: 3362416}
   - 23: {fileID: 2321198}
-  - 111: {fileID: 11126038}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -470,7 +459,6 @@ GameObject:
   - 4: {fileID: 477392}
   - 33: {fileID: 3341186}
   - 23: {fileID: 2326754}
-  - 111: {fileID: 11180700}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -488,7 +476,6 @@ GameObject:
   - 4: {fileID: 412426}
   - 33: {fileID: 3321734}
   - 23: {fileID: 2362614}
-  - 111: {fileID: 11134976}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -506,7 +493,6 @@ GameObject:
   - 4: {fileID: 421120}
   - 33: {fileID: 3324824}
   - 23: {fileID: 2344348}
-  - 111: {fileID: 11164800}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -524,7 +510,6 @@ GameObject:
   - 4: {fileID: 426846}
   - 33: {fileID: 3390524}
   - 23: {fileID: 2395816}
-  - 111: {fileID: 11115646}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -576,7 +561,6 @@ GameObject:
   - 4: {fileID: 482006}
   - 33: {fileID: 3321300}
   - 23: {fileID: 2329200}
-  - 111: {fileID: 11148880}
   m_Layer: 0
   m_Name: Nebula
   m_TagString: SpaceScene_Nebula
@@ -898,7 +882,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112826}
-  m_LocalRotation: {x: 0.5842604, y: 0.14289314, z: 0.11199597, w: -0.79099816}
+  m_LocalRotation: {x: 0.58426046, y: 0.14289315, z: 0.11199599, w: -0.7909983}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1756,7 +1740,7 @@ Light:
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: 28f1e8eff353b4e69941c036ea093e73, type: 2}
+  m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1822,7 +1806,7 @@ Light:
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: 28f1e8eff353b4e69941c036ea093e73, type: 2}
+  m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1846,236 +1830,12 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!111 &11104252
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145492}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11105768
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116934}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11115646
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191388}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11126038
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 178112}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11134976
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183966}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11135352
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 153444}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11147886
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138808}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11148880
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195722}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11153168
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 163262}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11156812
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 172706}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11157540
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112826}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11159448
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 110140}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!111 &11164466
 Animation:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105802}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11164800
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 184470}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11174930
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 157616}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11180700
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 178616}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &11184912
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165416}
   m_Enabled: 1
   serializedVersion: 3
   m_Animation: {fileID: 0}
