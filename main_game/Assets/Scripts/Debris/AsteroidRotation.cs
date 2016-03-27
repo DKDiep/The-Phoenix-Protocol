@@ -27,6 +27,7 @@ public class AsteroidRotation : MonoBehaviour
 	private AsteroidSpawner spawner;
     private bool rotateEnabled = true;
     private bool currentStatus, oldStatus;
+    private float waitTime;
 
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
@@ -34,6 +35,7 @@ public class AsteroidRotation : MonoBehaviour
 		player   = GameObject.Find("PlayerShip(Clone)");
         myFilter = GetComponent<MeshFilter>();
 		renderer = GetComponent<Renderer>();
+        waitTime = Random.Range(0.75f, 1.5f);
 
 		GameObject spawnerObj = GameObject.Find("Spawner");
 		if (spawnerObj != null)
@@ -103,7 +105,7 @@ public class AsteroidRotation : MonoBehaviour
             oldStatus = currentStatus;
         }
 
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(waitTime);
 		StartCoroutine("AsteroidLOD");
 	}
 }
