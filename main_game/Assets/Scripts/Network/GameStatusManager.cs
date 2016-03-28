@@ -13,6 +13,8 @@ public class GameStatusManager : NetworkBehaviour
     private GameObject server;
     private PlayerController playerController;
     private MusicManager musicManager;
+    private GameObject localPortal;
+
 	// Use this for initialization
 	void Start () {
 		server = GameObject.Find("GameManager");
@@ -25,7 +27,28 @@ public class GameStatusManager : NetworkBehaviour
 
     public void Reset()
     {
+        RpcReset();
+    }
+
+    [ClientRpc]
+    void RpcReset()
+    {
         gameOverScreen = false;
+        // Remove screen overlays
+        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas(Clone)");
+        if (gameOverCanvas != null)
+        {
+            // Destroy as gameOverCanvas is instantiated each time
+            Destroy(gameOverCanvas);
+        }
+        // Re-enable portals disabled previously by game over
+        if (playerController.GetRole() == RoleEnum.Camera)
+        {
+            // Null check required if restart is before portal deactivation
+            if (localPortal != null)
+                localPortal.SetActive(true);
+        }
+        Debug.Log("RpcReset");
     }
 	
 	// Update is called once per frame
@@ -49,10 +72,11 @@ public class GameStatusManager : NetworkBehaviour
             if(playerController.GetRole() == RoleEnum.Camera)
             {
                 // Disable the portal on all screens
-                GameObject.Find("Portal(Clone)").SetActive(false);
+                localPortal = GameObject.Find("Portal(Clone)");
+                localPortal.SetActive(false);
 
                 // If it is the server
-                if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+                if (playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
                 {
                     // Do not display stats on server.
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);

@@ -270,12 +270,8 @@ public class ServerManager : NetworkBehaviour
         gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
 
-        // Restart music
-
-        // Remove screen overlays
-        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas(Clone)");
-        if (gameOverCanvas != null)
-            Destroy(gameOverCanvas);
+        // Restart music - consider reset method for sound system
+        musicManager.GetComponent<MusicManager>().PlayMusic(0);
 
         // Reactivate possibly deactivated objects
         if (!gameTimer.activeSelf)
@@ -293,6 +289,7 @@ public class ServerManager : NetworkBehaviour
         gameState.gameObject.GetComponent<GameStatusManager>().Reset();
         // Reset missions
         missionManager.GetComponent<MissionManager>().ResetMissions();
+        
         // Reset Player's scores
         gameState.ResetPlayerScores();
         // Reset spawner attributes, each spawner removes objects from logic using state list
@@ -316,7 +313,6 @@ public class ServerManager : NetworkBehaviour
         if (Input.GetKeyUp("space"))
         {
             Reset();
-            Debug.Log("how mny");
         }
     }
 
