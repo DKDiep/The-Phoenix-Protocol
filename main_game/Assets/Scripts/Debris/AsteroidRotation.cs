@@ -29,6 +29,8 @@ public class AsteroidRotation : MonoBehaviour
     private bool currentStatus, oldStatus;
     private float waitTime;
 
+	private bool coroutineRunning;
+
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
 	{
@@ -44,7 +46,8 @@ public class AsteroidRotation : MonoBehaviour
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
 
-		StartCoroutine("AsteroidLOD");
+		/*StartCoroutine("AsteroidLOD");
+		coroutineRunning = true;*/
 	}
 
 	private void LoadSettings()
@@ -58,17 +61,29 @@ public class AsteroidRotation : MonoBehaviour
             poolManager = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
         poolManager.SetAsteroidSpeed(gameObject.name, tempSpeed);
         speed = tempSpeed;
+
+		coroutineRunning = false;
     }
 
     public void SetClientSpeed(float tempSpeed)
     {
         speed = tempSpeed;
+
+		coroutineRunning = false;
     }
 	
 	void Update()
 	{
         if(rotateEnabled)
 		    transform.Rotate(transform.forward * speed * Time.deltaTime);
+
+		// Because coroutines are stopped when the object becomes inactive, we need a way to restart them once it becomes active again
+		// We know it will have its speed set, so we can start the coroutines on the next frame
+		if (!coroutineRunning)
+		{
+			StartCoroutine("AsteroidLOD");
+			coroutineRunning = true;
+		}
 	}
 
 	IEnumerator AsteroidLOD()
@@ -86,7 +101,7 @@ public class AsteroidRotation : MonoBehaviour
             rotateEnabled = true;
             renderer.enabled = true;
         }
-		else if(distance < 2000)
+		else if(distance < maxRenderDistance)
         {
             myFilter.mesh = lowPoly;
             rotateEnabled = false;
@@ -94,15 +109,17 @@ public class AsteroidRotation : MonoBehaviour
         }
         else
         {
-            renderer.enabled = false;
-            rotateEnabled = false;
-        }
-		   
-        currentStatus = renderer.enabled;
-        if(spawner != null && currentStatus != oldStatus)
-        {
-            spawner.RegisterVisibilityChange(currentStatus);
-            oldStatus = currentStatus;
+			// When the asteroid goes out of range, destroy it
+			AsteroidLogic logic = this.gameObject.GetComponentInChildren<AsteroidLogic>();
+			if (logic != null)
+			{
+				if (spawner == null)
+					Debug.LogWarning("Spawner is null when logic is not. This shouldn't happen.");
+				
+				coroutineRunning = false;
+				spawner.OnAsteroidOutOfView();
+				logic.Despawn();
+			}
         }
 
 		yield return new WaitForSeconds(waitTime);

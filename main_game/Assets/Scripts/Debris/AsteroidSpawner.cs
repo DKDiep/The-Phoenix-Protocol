@@ -27,9 +27,9 @@ public class AsteroidSpawner : MonoBehaviour
 	private GameState state;
 
 	private int numAsteroids;
-	private int visibleAsteroids;
 	private int numAsteroidsInFields;
 
+	private bool initialSpawnCompleted = false;
 	private bool fieldSpawned = false;
 
     private ObjectPoolManager explosionManager;
@@ -38,7 +38,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     void Start ()
     {
-		numAsteroids = visibleAsteroids = numAsteroidsInFields = 0;
+		numAsteroids = numAsteroidsInFields = 0;
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -82,7 +82,7 @@ public class AsteroidSpawner : MonoBehaviour
 				player = state.PlayerShip;
 
 			// Spawn up to maxSpawnedPerFrame asteroids in a random position if there are less than specified by maxAsteroids
-			for (int i = 0; i < maxSpawnedPerFrame && numAsteroids < maxAsteroids; i++)
+			for (int i = 0; !initialSpawnCompleted && i < maxSpawnedPerFrame && numAsteroids < maxAsteroids; i++)
 			{
 				// The spawn location is positioned randomly within the bounds set by minDistance and maxDistance
 				spawnLocation.transform.position = player.transform.position;
@@ -92,14 +92,17 @@ public class AsteroidSpawner : MonoBehaviour
 				SpawnAsteroid ();
 			}
 
+			if (numAsteroids == maxAsteroids)
+				initialSpawnCompleted = true;
+
 			// Create a demo asteroid field
 			// TODO: this is for demonstration purposes only and should be removed in the final game
-			if (numAsteroids >= maxAsteroids && !fieldSpawned)
+			/*if (numAsteroids >= maxAsteroids && !fieldSpawned)
 			{
 				Vector3 count = new Vector3(10, 3, 10);
 				CreateAsteroidField(player.transform.position - Vector3.right * 1000, count);
 				fieldSpawned = true;
-			}
+			}*/
         }
     }
 
@@ -157,7 +160,6 @@ public class AsteroidSpawner : MonoBehaviour
 	public void DecrementNumAsteroids()
 	{
 		numAsteroids--;
-		visibleAsteroids--;
 	}
 
 	// Create an asteroid field centred around position with specified dimensions and density
@@ -170,18 +172,14 @@ public class AsteroidSpawner : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Registers that an asteroid has gone in or out of view.
+	/// Registers that an Asteroid has gone out of view.
+	/// 
+	/// This currently spawns a new aasteroid in front of the player to keep the number constant.
+	/// Asteroid fields will probably fuck up the count.
 	/// </summary>
-	/// <param name="visible">The new visibility state.</param>
-	public void RegisterVisibilityChange(bool visible)
+	public void OnAsteroidOutOfView()
 	{
-		if (visible)
-			visibleAsteroids++;
-		else
-			visibleAsteroids--;
-
-		// After the initial spawning of all asteroids, spawn a new one every time one goes out of view
-		if ((visibleAsteroids - numAsteroidsInFields) < maxAsteroids && numAsteroids >= maxAsteroids)
+		if ((numAsteroids - numAsteroidsInFields) < maxAsteroids)
 			SpawnAsteroidAtVisibilityEdge();
 	}
 
@@ -196,7 +194,7 @@ public class AsteroidSpawner : MonoBehaviour
 
 		float halfAngle = visibilityEdgeSpawnMaxAngle / 2.0f;
 		spawnLocation.transform.rotation = player.transform.rotation;
-		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle+1), Random.Range(-90f, 91), 0);
+		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle), Random.Range(-90f, 90), 0);
 		spawnLocation.transform.Translate(Vector3.forward * maxDistance);
 
 		SpawnAsteroid();

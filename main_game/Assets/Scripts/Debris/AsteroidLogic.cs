@@ -17,6 +17,7 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
 	private int droppedResources;                 // The amount of resources dropped by the asteroid
 
     private GameState gameState;
+
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager asteroidManager;
@@ -68,22 +69,31 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
 
 		if (health <= 0 && transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
         {
-			NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
-
 			// Ship automatically collects resources from destroyed asteroids. 
 			gameState.AddShipResources(droppedResources);
-            gameState.RemoveAsteroid(transform.parent.gameObject);
 
             GameObject temp = explosionManager.RequestObject();
             temp.transform.position = transform.position;
             explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
-            
-			string removeName = transform.parent.gameObject.name;
-            transform.parent = null;
-            asteroidManager.DisableClientObject(removeName);
-            asteroidManager.RemoveObject(removeName);
-            logicManager.RemoveObject(gameObject.name);
+
+			Despawn();
         }
+	}
+
+	/// <summary>
+	/// Despawns this asteroid.
+	/// </summary>
+	public void Despawn()
+	{
+		NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+
+		gameState.RemoveAsteroid(transform.parent.gameObject);
+
+		string removeName = transform.parent.gameObject.name;
+		transform.parent  = null;
+		asteroidManager.DisableClientObject(removeName);
+		asteroidManager.RemoveObject(removeName);
+		logicManager.RemoveObject(gameObject.name);
 	}
 
 	/// <summary>

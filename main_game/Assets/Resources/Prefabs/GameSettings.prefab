@@ -44,7 +44,7 @@ MonoBehaviour:
   MaxAsteroids: 900
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
-  AsteroidMaxDistance: 3000
+  AsteroidMaxDistance: 2000
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 2
