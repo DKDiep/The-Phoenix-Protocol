@@ -13,6 +13,7 @@ public class OutpostLogic : MonoBehaviour {
 	public bool resourcesCollected = false;
     public bool civiliansCollected = false;
     public bool discovered = false; 
+    public int id;
 
 	private int numberOfResources;
 	private int numberOfCivilians;
@@ -48,7 +49,7 @@ public class OutpostLogic : MonoBehaviour {
 			CollectResources();
 			resourcesCollected = true;
             collision.SwitchMaterial();
-            playerController.RpcNotifyOutpostVisit(numberOfResources, numberOfCivilians);
+            playerController.RpcNotifyOutpostVisit(numberOfResources, numberOfCivilians, id);
 		}
 		if(!civiliansCollected) 
 		{

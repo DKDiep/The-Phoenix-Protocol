@@ -117,10 +117,10 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcOutpostNotification(GameObject outpost)
+    public void RpcOutpostNotification(GameObject outpost, int id)
     {
         if (commandConsoleState != null)
-            commandConsoleState.FoundOutpost(outpost);
+            commandConsoleState.FoundOutpost(outpost, id);
     }
 
     [ClientRpc]
@@ -136,10 +136,10 @@ public class PlayerController : NetworkBehaviour
     /// <param name="resources">Resources.</param>
     /// <param name="civilians">Civilians.</param>
     [ClientRpc]
-    public void RpcNotifyOutpostVisit(int resources, int civilians)
+    public void RpcNotifyOutpostVisit(int resources, int civilians, int id)
     {
         if (commandConsoleState != null)
-            commandConsoleState.OutpostVisitNotify(resources, civilians);
+            commandConsoleState.OutpostVisitNotify(resources, civilians, id);
     }
 
     void Start()

@@ -72,7 +72,7 @@ public class OutpostSpawner : MonoBehaviour
 					spawnLocation.transform.Translate(transform.forward * Random.Range(1000,3500));
 				} while(!CheckOutpostProximity(spawnLocation.transform.position));
 
-				SpawnOutpost ();
+				SpawnOutpost (numOutposts);
 				numOutposts++;
             } else {
                 outpostManagerScript.outpostSpawned = true;
@@ -96,7 +96,7 @@ public class OutpostSpawner : MonoBehaviour
 		return true;
 	}
 
-	private void SpawnOutpost() 
+	private void SpawnOutpost(int id) 
 	{
 		// Set up like this as we may have different outposts models like we do with asteroids. 
 		outpost = outpost1;
@@ -113,9 +113,9 @@ public class OutpostSpawner : MonoBehaviour
 
 		//outpostLogic.GetComponent<OutpostLogic>().SetPlayer(state.GetPlayerShip(), maxVariation, rnd);
 		outpostLogic.GetComponent<OutpostLogic>().SetStateReference(gameState);
-
-		// Set the resources collider on a child object to avoid shooting and outpost collision issues
-		outpostResources.transform.parent = outpostObject.transform;
+        outpostLogic.GetComponent<OutpostLogic>().id = id;
+        // Set the resources collider on a child object to avoid shooting and outpost collision issues
+        outpostResources.transform.parent = outpostObject.transform;
 		outpostResources.GetComponent<ResourcesCollision>().SetOutpost(outpostObject);
 		outpostResources.GetComponent<SphereCollider>().radius = collectionDistance;
 

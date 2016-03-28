@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class StratMap : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class StratMap : MonoBehaviour {
     private RectTransform playerIconTransform;
     private float panelHeight;
     private float panelWidth;
+    Dictionary<int,GameObject> outpostIconDict;
     public GameObject Portal { get; set; }
 
     private Vector3 offset = new Vector3(0, 200, 0);
@@ -24,21 +26,25 @@ public class StratMap : MonoBehaviour {
         panelWidth = panelRectTransform.sizeDelta.x;
         if (Portal == null) print("portal undefined at stratmap start (Luke's fault)");
         else PortalInit();
+        outpostIconDict = new Dictionary<int,GameObject>();
     }
 
-    public void NewOutpost(GameObject outpost)
+    public void NewOutpost(GameObject outpost, int id)
     {
         var panel = this;
         if (panel != null)  // make sure you actually found it!
         {
-            GameObject outpostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
-            outpostSymbol.transform.SetParent(panel.transform, false);
-            RectTransform outpostRectTransform = (RectTransform)outpostSymbol.transform;
+            GameObject outpostIcon = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
+            outpostIcon.transform.SetParent(panel.transform, false);
+            RectTransform outpostRectTransform = (RectTransform)outpostIcon.transform;
             Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
             outpostRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
-                outpostSymbol.SetActive(true);
-            else outpostSymbol.SetActive(false);
+                outpostIcon.SetActive(true);
+            else outpostIcon.SetActive(false);
+            Image outpostImage = outpostIcon.GetComponent<Image>();
+            outpostImage.color = Color.yellow;
+            outpostIconDict.Add(id, outpostIcon);
         }
     }
 
@@ -63,8 +69,13 @@ public class StratMap : MonoBehaviour {
         if (screenPos.x > -(panelWidth/2) && screenPos.x < (panelWidth/2) && 
             screenPos.y > -(panelHeight/2) && screenPos.y < (panelHeight/2)) 
             return true;
-
         return false;
+    }
+
+    public void outpostVisitNotify(int id)
+    {
+        print("inside outpostVisitNotify");
+        outpostIconDict[id].GetComponent<Image>().color = Color.grey;
     }
 
 	// Update is called once per frame

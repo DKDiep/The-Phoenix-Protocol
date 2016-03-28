@@ -249,10 +249,11 @@ public class CommandConsoleState : MonoBehaviour {
         return false;
     }
 
-    public void OutpostVisitNotify(int resources, int civilians)
+    public void OutpostVisitNotify(int resources, int civilians, int id)
     {
         UpdateNewsFeed("[Outpost] Collected " + resources + " Resources");
         UpdateNewsFeed("[Outpost] Saved " + civilians + " Civilians");
+        if (stratMap != null) stratMap.outpostVisitNotify(id);
     }
 
     /// <summary>
@@ -354,10 +355,10 @@ public class CommandConsoleState : MonoBehaviour {
           
     }
     
-    public void FoundOutpost(GameObject outpost)
+    public void FoundOutpost(GameObject outpost, int id)
     {
         UpdateNewsFeed("[Outpost] Outpost Discovered!");
-        stratMap.NewOutpost(outpost);
+        stratMap.NewOutpost(outpost,id);
     }
 
     public void PortalInit(GameObject portal)
