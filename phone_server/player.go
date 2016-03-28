@@ -66,6 +66,32 @@ func (plr *Player) setControlledEnemy(enemyId int64) {
 
     plr.isControllingEnemy = true
     plr.controlledEnemyId = enemyId
+    plr.sendControlledEnemyInfo()
+}
+
+// Sets the player as no longer controlling an enemy
+func (plr *Player) unsetControlledEnemy() {
+    plr.isControllingEnemy = false
+    plr.controlledEnemyId = 0
+    plr.sendControlledEnemyInfo()
+}
+
+// Sends the controlled enemy data to the phone client
+func (plr *Player) sendControlledEnemyInfo() {
+    // players with no active user don't need updating
+    if plr.user == nil {
+        return
+    }
+
+    msg := map[string]interface{}{
+        "type": "ENM_CTRL",
+        "data": map[string]interface{}{
+            "isControlling": plr.isControllingEnemy,
+            "controlledId": plr.controlledEnemyId,
+        },
+    }
+
+    plr.user.sendMsg(msg)
 }
 
 // Sends a user state update
@@ -83,6 +109,7 @@ func (plr *Player) sendStateUpdate() {
     }
 
     plr.user.sendMsg(msg)
+    plr.sendControlledEnemyInfo()
 }
 
 // Sends a user state data update
@@ -95,10 +122,10 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     // TODO: add other objects
     msg := make(map[string]interface{})
     msg["type"] = "STATE_UPDATE"
-    enms_data := make([]map[string]interface{}, 0)
+    enemies_data := make([]map[string]interface{}, 0)
     // Add enemies to the message
     for id, enemy := range enemies {
-        enms_data = append(enms_data, map[string]interface{}{
+        enemies_data = append(enemies_data, map[string]interface{}{
             "id": id,
             "x" : enemy.posX,
             "y" : enemy.posY,
@@ -106,10 +133,10 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     }
 
 
-    asts_data := make([]map[string]interface{}, 0)
+    asteroids_data := make([]map[string]interface{}, 0)
     // Add asteroids to the message
     for id, ast := range asteroids {
-        asts_data = append(asts_data, map[string]interface{}{
+        asteroids_data = append(asteroids_data, map[string]interface{}{
             "id": id,
             "x" : ast.posX,
             "y" : ast.posY,
@@ -117,8 +144,8 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     }
 
     msg["data"] = map[string]interface{}{
-        "asts": asts_data,
-        "enms": enms_data,
+        "asts": asteroids_data,
+        "enms": enemies_data,
     }
 
     plr.user.sendMsg(msg)

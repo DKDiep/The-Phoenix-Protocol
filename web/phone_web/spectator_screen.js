@@ -93,6 +93,10 @@ function finaliseSpectatorScreen() {
     playerShip = undefined;
     enemies = new Array();
     asteroids = new Array();
+
+    // Controll data
+    controlledEnemyId = 0;
+    isControllingEnemy = false;
 }
 
 // Deals with movement

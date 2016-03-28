@@ -43,8 +43,7 @@ func (enemies *EnemyMap) accessManager() {
         case id := <-enemies.delC:
             if enm, ok := enemies.m[id]; ok {
                 if enm.isControlled {
-                    enm.controllingPlayer.isControllingEnemy = false
-                    enm.controllingPlayer.controlledEnemyId = 0
+                    enm.controllingPlayer.unsetControlledEnemy()
                 }
                 delete(enemies.m, id)
             }

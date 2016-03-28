@@ -48,6 +48,9 @@ function onMessage(event) {
         // in transition.js
             updateObjects(msg.data);
             break;
+        case "ENM_CTRL":
+            updateControllInfo(msg.data)
+            break;
         default:
             console.log("Received unexpected message type: "+msg.type)
     }
