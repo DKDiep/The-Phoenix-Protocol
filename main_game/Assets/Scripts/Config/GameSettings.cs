@@ -107,6 +107,10 @@ public class GameSettings : MonoBehaviour
     public int HardMaxEnemies;
 	public int OutpostMinDistance; // The minimum distance between outposts
 	public int OutpostGuardTriggerDistance; // The distance at which the guards are triggered
+	public float OutpostMinAsteroidFieldSize;
+	public float OutpostMaxAsteroidFieldSize;
+	public float OutpostMinAsteroidFieldDensity;
+	public float OutpostMaxAsteroidFieldDensity;
 
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;

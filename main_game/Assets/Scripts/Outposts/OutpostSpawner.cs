@@ -13,6 +13,8 @@ public class OutpostSpawner : MonoBehaviour
 	private int hardOutposts, mediumOutposts, easyOutposts, totalOutposts;
 	private float minDistance; // The minimum distance between outposts
 	private int guardTriggerDistance;
+	private float minAsteroidFieldSize, maxAsteroidFieldSize;
+	private float minAsteroidFieldDensity, maxAsteroidFieldDensity;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -20,6 +22,7 @@ public class OutpostSpawner : MonoBehaviour
 
 	private GameState gameState;
 	private EnemySpawner enemySpawner;
+	private AsteroidSpawner asteroidSpawner;
 
 	private GameObject player, outpost, logic, spawnLocation, outpostManager;
 
@@ -32,8 +35,9 @@ public class OutpostSpawner : MonoBehaviour
 
 		easyOutposts = mediumOutposts = hardOutposts = 0;
 
-		gameState    = gameManager.GetComponent<GameState>();
-		enemySpawner = gameState.GetComponentInChildren<EnemySpawner>();
+		gameState    	= gameManager.GetComponent<GameState>();
+		enemySpawner 	= gameManager.GetComponentInChildren<EnemySpawner>();
+		asteroidSpawner = gameManager.GetComponentInChildren<AsteroidSpawner>();
 
 		logic = Instantiate(Resources.Load("Prefabs/OutpostLogic", typeof(GameObject))) as GameObject;
         outpostManager = Instantiate(Resources.Load("Prefabs/OutpostManager", typeof(GameObject))) as GameObject;
@@ -52,6 +56,11 @@ public class OutpostSpawner : MonoBehaviour
 		minDistance          = settings.OutpostMinDistance;
 		guardTriggerDistance = settings.OutpostGuardTriggerDistance;
         totalOutposts	     = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
+
+		minAsteroidFieldSize    = settings.OutpostMinAsteroidFieldSize;
+		maxAsteroidFieldSize    = settings.OutpostMaxAsteroidFieldSize;
+		minAsteroidFieldDensity = settings.OutpostMinAsteroidFieldDensity;
+		maxAsteroidFieldDensity = settings.OutpostMaxAsteroidFieldDensity;
 	}
 		
 	void Update() {
@@ -131,6 +140,7 @@ public class OutpostSpawner : MonoBehaviour
         {
             int numGuards = Random.Range(settings.HardMinEnemies, settings.HardMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
+			SpawnAsteroidFieldAroundOutpost(outpostObject.transform.position);
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.HardMultiplier);
             hardOutposts++;
         }
@@ -148,5 +158,22 @@ public class OutpostSpawner : MonoBehaviour
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(3, settings.EasyMultiplier);
             easyOutposts++;
         }
+	}
+
+	/// <summary>
+	/// Spaws an asteroid field around an outpost.
+	/// </summary>
+	/// <param name="outpostLoc">The outpost location.</param>
+	private void SpawnAsteroidFieldAroundOutpost(Vector3 outpostLoc)
+	{
+		Vector3 size = new Vector3(Random.Range(minAsteroidFieldSize, maxAsteroidFieldSize),
+	       Random.Range(minAsteroidFieldSize / 2 , maxAsteroidFieldSize / 2),
+	       Random.Range(minAsteroidFieldSize, maxAsteroidFieldSize));
+		Vector3 offset = new Vector3(Random.Range(-size.x / 4, size.x / 4),
+			Random.Range(-size.y / 4, size.y / 4),
+			Random.Range(-size.z / 4, size.z / 4));
+		float density = Random.Range(minAsteroidFieldDensity, maxAsteroidFieldDensity);
+
+		asteroidSpawner.RequestAsteroidField(outpostLoc + offset, size, density);
 	}
 }

@@ -118,6 +118,10 @@ MonoBehaviour:
   HardMaxEnemies: 30
   OutpostMinDistance: 800
   OutpostGuardTriggerDistance: 600
+  OutpostMinAsteroidFieldSize: 500
+  OutpostMaxAsteroidFieldSize: 1000
+  OutpostMinAsteroidFieldDensity: 0.75
+  OutpostMaxAsteroidFieldDensity: 1
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 5

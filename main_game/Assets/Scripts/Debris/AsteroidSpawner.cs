@@ -31,7 +31,6 @@ public class AsteroidSpawner : MonoBehaviour
 	private int numAsteroidsInFields;
 
 	private bool initialSpawnCompleted = false;
-	private AsteroidField testField;
 	private List<AsteroidField> fields;
 
     private ObjectPoolManager explosionManager;
@@ -101,13 +100,9 @@ public class AsteroidSpawner : MonoBehaviour
 			if (numAsteroids == maxAsteroids)
 				initialSpawnCompleted = true;
 
-			// Create a demo asteroid field
-			// TODO: this is for demonstration purposes only and should be removed in the final game
-			if (numAsteroids >= maxAsteroids && testField == null)
-			{
-				testField = AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10));
-				fields.Add(testField);
-			}
+			// Uncomment this to create a demo asteroid field
+			/*if (numAsteroids >= maxAsteroids && testField == null)
+				fields.Add(AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10)));*/
         }
     }
 
@@ -193,6 +188,29 @@ public class AsteroidSpawner : MonoBehaviour
 		field.Spawned 		  = false;
 		numAsteroidsInFields -= field.TotalNumAsteroids;
 	}
+
+	/// <summary>
+	/// Requests an asteroid field to be spawned.
+	/// </summary>
+	/// <param name="position">The field position.</param>
+	/// <param name="size">The number of asteroids in the field.</param>
+	public void RequestAsteroidField(Vector3 position, Vector3 count)
+	{
+		AsteroidField field = AsteroidField.Create(position, count);
+		fields.Add(field);
+	}
+
+	/// <summary>
+	/// Requests an asteroid field to be spawned.
+	/// </summary>
+	/// <param name="position">The field position.</param>
+	/// <param name="size">The field size.</param>
+	/// <param name="density">The field density.</param>
+	public void RequestAsteroidField(Vector3 position, Vector3 size, float density)
+	{
+		AsteroidField field = AsteroidField.Create(position, size, density);
+		fields.Add(field);
+	}
 		
 	/// <summary>
 	/// Decrements the asteroid count. Call this when an asteroid is destroyed.
@@ -259,7 +277,7 @@ public class AsteroidSpawner : MonoBehaviour
 	/// <summary>
 	/// Class describing an asteroid field.
 	/// </summary>
-	private class AsteroidField
+	public class AsteroidField
 	{
 		/// <summary>
 		/// Indicates whether this <see cref="AsteroidSpawner+AsteroidField"/> is spawned.
@@ -325,7 +343,7 @@ public class AsteroidSpawner : MonoBehaviour
 		/// <param name="density">The density.</param>
 		public static AsteroidField Create(Vector3 position, Vector3 size, float density)
 		{
-			Vector3 count  = new Vector3(size.x / avgSize, size.z / avgSize, size.z / avgSize);
+			Vector3 count  = new Vector3(size.x / avgSize, size.y / avgSize, size.z / avgSize);
 			count 	      *= density / fieldSpacingFactor;
 
 			return new AsteroidField(position, count);
