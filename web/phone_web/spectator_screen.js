@@ -58,6 +58,7 @@ function startSpectatorScreen() {
     loader.add("stars", "img/stars.png");
     loader.add("ast", "img/rock.png");
     loader.add("enm", "img/enemy.png");
+    loader.add("hacked", "img/enemy_hacked.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -248,6 +249,9 @@ function updateSprites(data) {
             toAdd.push(enm)
         } else {
             spritePosition(sprite, enm.x, enm.y);
+            if(sprite.spaceGameId == controlledEnemyId) {
+                sprite.texture = loadedResources.hacked.texture
+            }
             // TODO: implement rotation
             // sprite.rotation = 12
             newTmp[enm.id] = sprite;
