@@ -21,6 +21,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Transform levelIndicator;
 
     private bool setupDone = false;
+    private GameObject repairButton;
 
     private List<GameObject> levelIndicators = new List<GameObject>();
     void Start ()
@@ -28,7 +29,8 @@ public class ConsoleUpgrade : MonoBehaviour
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
 
         // Hide the repair button from the start
-        gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(false);
+        repairButton = gameObject.transform.Find("UpgradeRepairButton").gameObject;
+        repairButton.SetActive(false);
     }
 
     void Update()
@@ -39,13 +41,15 @@ public class ConsoleUpgrade : MonoBehaviour
             if(repairable)
             {
                 if(gameState.GetComponentHealth(type) < 80) 
-                    gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(true);
+                    repairButton.SetActive(true);
                 else
-                    gameObject.transform.Find("UpgradeRepairButton").gameObject.SetActive(false);
+                    repairButton.SetActive(false);
 
             }
         }
     }
+
+
 
     public void SetUpgradeInfo(ComponentType type, string name, int cost, int levels, bool canRepair)
     {
