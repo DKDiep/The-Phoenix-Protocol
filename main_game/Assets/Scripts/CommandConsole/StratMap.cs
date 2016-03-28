@@ -33,9 +33,9 @@ public class StratMap : MonoBehaviour {
         {
             GameObject outpostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outpostSymbol.transform.SetParent(panel.transform, false);
-            RectTransform arrowRectTransform = (RectTransform)outpostSymbol.transform;
+            RectTransform outpostRectTransform = (RectTransform)outpostSymbol.transform;
             Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
-            arrowRectTransform.anchoredPosition = screenPos;
+            outpostRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
                 outpostSymbol.SetActive(true);
             else outpostSymbol.SetActive(false);
@@ -47,14 +47,14 @@ public class StratMap : MonoBehaviour {
         var panel = this;
         if (panel != null)  // make sure you actually found it!
         {
-            GameObject outpostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
-            outpostSymbol.transform.SetParent(panel.transform, false);
-            RectTransform arrowRectTransform = (RectTransform)outpostSymbol.transform;
+            GameObject portalSymbol = Instantiate(Resources.Load("Prefabs/PortalIcon", typeof(GameObject))) as GameObject;
+            portalSymbol.transform.SetParent(panel.transform, false);
+            RectTransform portalRectTransform = (RectTransform)portalSymbol.transform;
             Vector3 screenPos = new Vector3(Portal.transform.position.x / 20, Portal.transform.position.z / 20, 0);
-            arrowRectTransform.anchoredPosition = screenPos;
+            portalRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
-                outpostSymbol.SetActive(true);
-            else outpostSymbol.SetActive(false);
+                portalSymbol.SetActive(true);
+            else portalSymbol.SetActive(false);
         }
     }
 
