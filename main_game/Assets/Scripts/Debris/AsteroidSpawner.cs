@@ -19,8 +19,8 @@ public class AsteroidSpawner : MonoBehaviour
 	private float minDistance;   // Minimum distance to the player that an asteroid can spawn
 	private float maxDistance;   // Maximum distance to the player that an asteroid can spawn
 	private int maxSpawnedPerFrame;
-	private float avgSize;               // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
-	private float fieldSpacingFactor;    // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
+	private static float avgSize;              // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
+	private static float fieldSpacingFactor;   // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
 	private float visibilityEdgeSpawnMaxAngle; // The maximum rotation angle on the x and y axes when spawning on the visibility edge
 
     private GameObject player, spawnLocation;
@@ -97,12 +97,12 @@ public class AsteroidSpawner : MonoBehaviour
 
 			// Create a demo asteroid field
 			// TODO: this is for demonstration purposes only and should be removed in the final game
-			/*if (numAsteroids >= maxAsteroids && !fieldSpawned)
+			if (numAsteroids >= maxAsteroids && !fieldSpawned)
 			{
 				Vector3 count = new Vector3(10, 3, 10);
-				CreateAsteroidField(player.transform.position - Vector3.right * 1000, count);
+				SpawnAsteroidField(AsteroidField.Create(player.transform.position - Vector3.right * 1000, count));
 				fieldSpawned = true;
-			}*/
+			}
         }
     }
 
@@ -132,19 +132,23 @@ public class AsteroidSpawner : MonoBehaviour
 		numAsteroids += 1;
 	}
 
-	// Create an asteroid field of the default density around a specified poistion and with a set number of asteroids
-	private void CreateAsteroidField(Vector3 position, Vector3 count)
+	/// <summary>
+	/// Spawns an asteroid field.
+	/// </summary>
+	/// <param name="field">The field description.</param>
+	private void SpawnAsteroidField(AsteroidField field)
 	{
-		Vector3 size = new Vector3(count.x * avgSize, count.y * avgSize, count.z * avgSize) * fieldSpacingFactor;
-		int numAsteroids = System.Convert.ToInt32(count.x * count.y * count.z);
+		Vector3 size = new Vector3(field.AsteroidCount.x * avgSize, field.AsteroidCount.y * avgSize,
+			field.AsteroidCount.z * avgSize) * fieldSpacingFactor;
+		int numAsteroids = System.Convert.ToInt32(field.AsteroidCount.x * field.AsteroidCount.y * field.AsteroidCount.z);
 		Vector3 spawnPosition = new Vector3();
 
 		for (int i = 0; i < numAsteroids; i++)
 		{
 			// Get a random position inside the field
-			spawnPosition.x = position.x + Random.Range(-size.x / 2, size.x / 2);
-			spawnPosition.y = position.y + Random.Range(-size.y / 2, size.y / 2);
-			spawnPosition.z = position.z + Random.Range(-size.z / 2, size.z / 2);
+			spawnPosition.x = field.Position.x + Random.Range(-size.x / 2, size.x / 2);
+			spawnPosition.y = field.Position.y + Random.Range(-size.y / 2, size.y / 2);
+			spawnPosition.z = field.Position.z + Random.Range(-size.z / 2, size.z / 2);
 
 			spawnLocation.transform.position = spawnPosition;
 
@@ -153,22 +157,13 @@ public class AsteroidSpawner : MonoBehaviour
 
 		numAsteroidsInFields += numAsteroids;
 	}
-
+		
 	/// <summary>
 	/// Decrements the asteroid count. Call this when an asteroid is destroyed.
 	/// </summary>
 	public void DecrementNumAsteroids()
 	{
 		numAsteroids--;
-	}
-
-	// Create an asteroid field centred around position with specified dimensions and density
-	private void CreateAsteroidField(Vector3 position, Vector3 size, float density)
-	{
-		Vector3 count = new Vector3(size.x / avgSize, size.z / avgSize, size.z / avgSize);
-		count *= density / fieldSpacingFactor;
-
-		CreateAsteroidField(position, count);
 	}
 
 	/// <summary>
@@ -209,4 +204,72 @@ public class AsteroidSpawner : MonoBehaviour
 
         StartCoroutine("Cleanup");
     }
+
+	/// <summary>
+	/// Class describing an asteroid field.
+	/// </summary>
+	private class AsteroidField
+	{
+		/// <summary>
+		/// Indicates whether this <see cref="AsteroidSpawner+AsteroidField"/> is spawned.
+		/// </summary>
+		/// <value><c>true</c> if spawned; otherwise, <c>false</c>.</value>
+		public bool Spawned { get; set; }
+
+		/// <summary>
+		/// Gets the position of the field.
+		/// </summary>
+		/// <value>The centre of the field.</value>
+		public Vector3 Position { get; private set; }
+
+		/// <summary>
+		/// Gets the asteroid count in each direction.
+		/// </summary>
+		/// <value>The asteroid count.</value>
+		public Vector3 AsteroidCount { get; private set; }
+
+		/// <summary>
+		/// Gets the total number of asteroids in this field.
+		/// </summary>
+		/// <value>The total number of asteroids.</value>
+		public int TotalNumAsteroids
+		{
+			get { return System.Convert.ToInt32(AsteroidCount.x * AsteroidCount.y * AsteroidCount.z); }
+		}
+
+		/// <summary>
+		/// Initializes a new <see cref="AsteroidSpawner+AsteroidField"/>.
+		/// </summary>
+		/// <param name="position">The centre position.</param>
+		/// <param name="count">The asteroid count.</param>
+		private AsteroidField(Vector3 position, Vector3 count)
+		{
+			this.Position 	   = position;
+			this.AsteroidCount = count;
+		}
+			
+		/// <summary>
+		/// Creates an asteroid field of the default density around a specified poistion and with a set number of asteroids
+		/// </summary>
+		/// <param name="position">The position.</param>
+		/// <param name="count">The asteroid count.</param>
+		public static AsteroidField Create(Vector3 position, Vector3 count)
+		{
+			return new AsteroidField(position, count);
+		}
+
+		/// <summary>
+		/// Creates an asteroid field centred around <c>position</c> with specified dimensions and density.
+		/// </summary>
+		/// <param name="position">The centre position.</param>
+		/// <param name="size">The size.</param>
+		/// <param name="density">The density.</param>
+		public static AsteroidField Create(Vector3 position, Vector3 size, float density)
+		{
+			Vector3 count  = new Vector3(size.x / avgSize, size.z / avgSize, size.z / avgSize);
+			count 	      *= density / fieldSpacingFactor;
+
+			return new AsteroidField(position, count);
+		}
+	}
 }
