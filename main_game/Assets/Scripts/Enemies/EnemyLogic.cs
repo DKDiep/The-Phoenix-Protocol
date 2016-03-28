@@ -740,8 +740,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
         //GetComponent<bl_MiniMapItem>().DestroyItem();
+        if (enemyManager != null)
+            enemyManager.DisableClientObject(removeName);
         transform.parent = null;
-        enemyManager.DisableClientObject(removeName);
         enemyManager.RemoveObject(removeName);
         enemyLogicManager.RemoveObject(gameObject.name);
     }
