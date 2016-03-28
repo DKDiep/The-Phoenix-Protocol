@@ -71,6 +71,61 @@ MonoBehaviour:
   AIWaypointHeightScale: 0.6
   AIWaypointShift: {x: 0, y: 20, z: 30}
   EnemyOutpostSpawnRadius: 200
+  enemyProperties:
+  - type: 0
+    maxHealth: 50
+    maxShield: 0
+    collisionDamage: 20
+    speed: 8
+    isSuicidal: 0
+    shootPeriod: 3
+    shotsPerSec: 4
+    engageDistance: 150
+  - type: 1
+    maxHealth: 125
+    maxShield: 0
+    collisionDamage: 35
+    speed: 10
+    isSuicidal: 0
+    shootPeriod: 3
+    shotsPerSec: 7
+    engageDistance: 200
+  - type: 2
+    maxHealth: 30
+    maxShield: 0
+    collisionDamage: 10
+    speed: 12
+    isSuicidal: 1
+    shootPeriod: 0
+    shotsPerSec: 0
+    engageDistance: 1000
+  - type: 3
+    maxHealth: 30
+    maxShield: 0
+    collisionDamage: 5
+    speed: 12
+    isSuicidal: 0
+    shootPeriod: 0
+    shotsPerSec: 0
+    engageDistance: 1000
+  - type: 4
+    maxHealth: 200
+    maxShield: 0
+    collisionDamage: 60
+    speed: 12
+    isSuicidal: 0
+    shootPeriod: 3
+    shotsPerSec: 4
+    engageDistance: 250
+  - type: 5
+    maxHealth: 350
+    maxShield: 0
+    collisionDamage: 75
+    speed: 18
+    isSuicidal: 0
+    shootPeriod: 4
+    shotsPerSec: 6
+    engageDistance: 300
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
   EnemyShootPeriodPercentageVariation: 0

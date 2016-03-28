@@ -18,16 +18,19 @@ public class EnemySpawner : MonoBehaviour
 	private GameObject gameManager;
 	private float minDistance;
 	private float maxDistance;
-	private int maxEnemies;         // Maximum number of enemies at a time
+    // Maximum number of enemies at a time
+	private int maxEnemies;
 	private int aiWaypointsPerEnemy;
 	private int aiWaypointGenerationFactor;
 	private int aiWaypointRadius;
 	private float aiWaypointWidthScale;
 	private float aiWaypointHeightScale;
 	private Vector3 aiWaypointShift;
-	private int outpostSpawnRadius; // The radius of the sphere around an outpost in which to spawn protecting enemies
+    // The radius of the sphere around an outpost in which to spawn protecting enemies
+	private int outpostSpawnRadius;
 
-	private static int numEnemies = 0; // Number of currently active enemies
+    // Number of currently active enemies
+	private static int numEnemies = 0;
 
     // These control the likelihood of each enemy type to be spawned. Set in IncreaseDifficulty. See InstantiateEnemy for usage.
     private int gnatLimit, fireflyLimit, termiteLimit, lightningBugLimit, 
@@ -40,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private List<GameObject> playerShipTargets = null;
 
-	private static List<EnemyProperties> enemyTypeList = null;
+	private static EnemyProperties[] enemyTypeList;
 
     private ObjectPoolManager logicManager;
     private ObjectPoolManager gnatManager;
@@ -72,12 +75,56 @@ public class EnemySpawner : MonoBehaviour
 
         StartCoroutine("Cleanup");
 
-		if (enemyTypeList == null)
-			InitialiseEnemyTypes ();
-
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
 
         StartCoroutine("TimedDifficulty");
+    }
+
+    // Spawn a new enemy in a random position if less than specified by maxEnemies
+    void Update ()
+    {
+        if (state.Status == GameState.GameStatus.Started)
+        {
+            if(player == null)
+            {
+                player = state.PlayerShip;
+
+                Transform playerSpaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
+                CreateAIWaypoints(playerSpaceshipModel);
+                GetPlayerShipTargets(playerSpaceshipModel);
+            }
+
+            // First, spawn regular enemies. Then, spawn enemies around outposts, if needed
+            if (numEnemies < maxEnemies)
+            {
+                SpawnEnemy();
+            }
+            else if (outpostSpawnRequests.Count > 0)
+            {
+                OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
+                for (int i = 0; i < req.NumEnemies; i++)
+                    SpawnWaitingEnemy(req.Location, req.TriggerDistance);
+            }
+        }
+    }
+
+    private void LoadSettings()
+    {
+        gameManager = settings.GameManager;
+
+        minDistance = settings.EnemyMinSpawnDistance;
+        maxDistance = settings.EnemyMaxSpawnDistance;
+
+        aiWaypointsPerEnemy        = settings.AIWaypointsPerEnemy;
+        aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
+        aiWaypointRadius           = settings.AIWaypointRadius;
+        aiWaypointWidthScale       = settings.AIWaypointWidthScale;
+        aiWaypointHeightScale      = settings.AIWaypointHeightScale;
+        aiWaypointShift            = settings.AIWaypointShift;
+
+        outpostSpawnRadius = settings.EnemyOutpostSpawnRadius;
+
+        enemyTypeList = settings.enemyProperties;
     }
 
     // Increase difficulty by 1 every 30 seconds
@@ -86,7 +133,6 @@ public class EnemySpawner : MonoBehaviour
         IncreaseDifficulty();
         yield return new WaitForSeconds(60f);
         StartCoroutine("TimedDifficulty");
-
     }
 
     private void IncreaseDifficulty()
@@ -189,67 +235,6 @@ public class EnemySpawner : MonoBehaviour
         }
 
     }
-
-
-	private void LoadSettings()
-	{
-		gameManager = settings.GameManager;
-
-		minDistance = settings.EnemyMinSpawnDistance;
-		maxDistance = settings.EnemyMaxSpawnDistance;
-
-		aiWaypointsPerEnemy		   = settings.AIWaypointsPerEnemy;
-		aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
-		aiWaypointRadius 		   = settings.AIWaypointRadius;
-		aiWaypointWidthScale 	   = settings.AIWaypointWidthScale;
-		aiWaypointHeightScale 	   = settings.AIWaypointHeightScale;
-		aiWaypointShift 		   = settings.AIWaypointShift;
-
-		outpostSpawnRadius = settings.EnemyOutpostSpawnRadius;
-	}
-
-	// Create an EnemyProperties object for each type of enemy that will be used
-    // Type, max health, maxShield, collisionDamage, speed, isSuicidal, shootPeriod, shotsPerSec, engageDistance
-
-	private static void InitialiseEnemyTypes()
-	{
-		enemyTypeList = new List<EnemyProperties>();
-		enemyTypeList.Add(new EnemyProperties(EnemyType.Gnat, 50, 0, 20, 8, false, 3f, 4f, 150f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Firefly, 125, 0, 35, 10, false, 3f, 7f, 200f ));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Termite, 30, 0, 10, 12, true, 0f, 0f, 1000f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.LightningBug, 30, 0, 5, 12, true, 0f, 0f, 1000f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.Hornet, 200, 0, 60, 12, false, 3f, 4f, 250f));
-        enemyTypeList.Add(new EnemyProperties(EnemyType.BlackWidow, 350, 0, 75, 18, false, 4f, 6f, 300f));
-        //enemyTypeList.Add(new EnemyProperties(EnemyType.GlomCruiser, 1000, 0, 1000, 5, false, 5f, 5f));
-	}
-
-    // Spawn a new enemy in a random position if less than specified by maxEnemies
-    void Update ()
-	{
-        if (state.Status == GameState.GameStatus.Started)
-        {
-            if(player == null)
-            {
-                player = state.PlayerShip;
-
-				Transform playerSpaceshipModel = player.transform.Find ("Model").Find ("Spaceship");
-				CreateAIWaypoints(playerSpaceshipModel);
-				GetPlayerShipTargets(playerSpaceshipModel);
-            }
-
-            // First, spawn regular enemies. Then, spawn enemies around outposts, if needed
-			if (numEnemies < maxEnemies)
-            {
-				SpawnEnemy();
-            }
-			else if (outpostSpawnRequests.Count > 0)
-			{
-				OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
-				for (int i = 0; i < req.NumEnemies; i++)
-					SpawnWaitingEnemy(req.Location, req.TriggerDistance);
-			}
-        }
-	}
 		
 	private void InstantiateEnemy(out GameObject enemyObject, out EnemyLogic enemyLogic)
 	{
@@ -452,26 +437,13 @@ public class EnemySpawner : MonoBehaviour
     }
 
 	// This class holds the various atributes of an enemy. Each enemy type will be be represented by a separate instance
-	private class EnemyProperties
+    [System.Serializable] 
+	public class EnemyProperties
 	{
+        public EnemyType type;
 		public int maxHealth, maxShield, collisionDamage, speed;
         public bool isSuicidal;
         public float shootPeriod, shotsPerSec, engageDistance;
-		public EnemyType Type { get; private set; }
-
-		public EnemyProperties(EnemyType type, int maxHealth, int maxShield, int collisionDamage,
-         int speed, bool isSuicidal, float shootPeriod, float shotsPerSec, float engageDistance)
-		{
-			this.Type            = type;
-			this.maxHealth       = maxHealth;
-			this.maxShield       = maxShield;
-			this.collisionDamage = collisionDamage;
-			this.speed           = speed;
-            this.isSuicidal = isSuicidal;
-            this.shootPeriod = shootPeriod;
-            this.shotsPerSec = shotsPerSec;
-            this.engageDistance = engageDistance;
-		}
 	}
 
 	// Apply properties to an enemy object, i.e. make it be of certain type
@@ -483,7 +455,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private static void ApplyEnemyType (EnemyLogic enemy, int index)
 	{
-		ApplyEnemyType (enemy, enemyTypeList [index]);
+		ApplyEnemyType (enemy, enemyTypeList[index]);
 	}
 
 	private static void ApplyEnemyType (EnemyLogic enemy, EnemyProperties props)
@@ -493,18 +465,18 @@ public class EnemySpawner : MonoBehaviour
 		enemy.maxShield       = props.maxShield;
 		enemy.speed           = props.speed;
 		enemy.collisionDamage = props.collisionDamage;
-        enemy.isSuicidal = props.isSuicidal;
-        enemy.shootPeriod = props.shootPeriod;
-        enemy.shotsPerSec = props.shotsPerSec;
-        enemy.engageDistance = props.engageDistance;
-		enemy.type            = props.Type;
+        enemy.isSuicidal      = props.isSuicidal;
+        enemy.shootPeriod     = props.shootPeriod;
+        enemy.shotsPerSec     = props.shotsPerSec;
+        enemy.engageDistance  = props.engageDistance;
+		enemy.type            = props.type;
 	}
 
 	private static EnemyProperties GetPropertiesOfType(EnemyType type)
 	{
 		foreach (EnemyProperties props in enemyTypeList)
 		{
-			if (props.Type == type)
+			if (props.type == type)
 				return props;
 		}
 

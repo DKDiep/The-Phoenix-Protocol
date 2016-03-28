@@ -49,6 +49,9 @@ public class GameSettings : MonoBehaviour
 	public float AIWaypointHeightScale;
 	public Vector3 AIWaypointShift;
 	public int EnemyOutpostSpawnRadius; // The radius of the sphere around an outpost in which to spawn protecting enemies
+
+    [Header("Enemy Type Settings")]
+    public EnemySpawner.EnemyProperties[] enemyProperties;
 	
 	[Header("Enemy Logic")]
 	public float EnemyShotsPerSec;
