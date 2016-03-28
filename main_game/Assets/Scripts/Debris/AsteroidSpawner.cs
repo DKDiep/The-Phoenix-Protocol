@@ -30,11 +30,13 @@ public class AsteroidSpawner : MonoBehaviour
 	private int numAsteroidsInFields;
 
 	private bool initialSpawnCompleted = false;
-	private bool fieldSpawned = false;
+	private AsteroidField testField;
 
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager logicManager;
     private ObjectPoolManager asteroidManager;
+
+	private const string TAG_DEBRIS = "Debris";
 
     void Start ()
     {
@@ -97,11 +99,10 @@ public class AsteroidSpawner : MonoBehaviour
 
 			// Create a demo asteroid field
 			// TODO: this is for demonstration purposes only and should be removed in the final game
-			if (numAsteroids >= maxAsteroids && !fieldSpawned)
+			if (numAsteroids >= maxAsteroids && testField == null)
 			{
-				Vector3 count = new Vector3(10, 3, 10);
-				SpawnAsteroidField(AsteroidField.Create(player.transform.position - Vector3.right * 1000, count));
-				fieldSpawned = true;
+				testField = AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10));
+				SpawnAsteroidField(testField);
 			}
         }
     }
@@ -133,29 +134,67 @@ public class AsteroidSpawner : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Spawns an asteroid field.
+	/// Spawns an asteroid field if not already spawned.
 	/// </summary>
 	/// <param name="field">The field description.</param>
 	private void SpawnAsteroidField(AsteroidField field)
 	{
-		Vector3 size = new Vector3(field.AsteroidCount.x * avgSize, field.AsteroidCount.y * avgSize,
-			field.AsteroidCount.z * avgSize) * fieldSpacingFactor;
-		int numAsteroids = System.Convert.ToInt32(field.AsteroidCount.x * field.AsteroidCount.y * field.AsteroidCount.z);
-		Vector3 spawnPosition = new Vector3();
+		// Don't spawn a field if it's already spawned
+		if (field.Spawned)
+			return;
 
-		for (int i = 0; i < numAsteroids; i++)
+		Vector3 spawnPosition = new Vector3();
+		spawnLocation.transform.rotation = Quaternion.identity;
+
+		for (int i = 0; i < field.TotalNumAsteroids; i++)
 		{
 			// Get a random position inside the field
-			spawnPosition.x = field.Position.x + Random.Range(-size.x / 2, size.x / 2);
-			spawnPosition.y = field.Position.y + Random.Range(-size.y / 2, size.y / 2);
-			spawnPosition.z = field.Position.z + Random.Range(-size.z / 2, size.z / 2);
+			spawnPosition.x = field.Position.x + Random.Range(-field.Size.x / 2, field.Size.x / 2);
+			spawnPosition.y = field.Position.y + Random.Range(-field.Size.y / 2, field.Size.y / 2);
+			spawnPosition.z = field.Position.z + Random.Range(-field.Size.z / 2, field.Size.z / 2);
 
 			spawnLocation.transform.position = spawnPosition;
 
 			SpawnAsteroid();
 		}
 
-		numAsteroidsInFields += numAsteroids;
+		field.Spawned = true;
+
+		numAsteroidsInFields += field.TotalNumAsteroids;
+		Debug.Log("Spawned field: " + field.TotalNumAsteroids);
+	}
+
+	/// <summary>
+	/// Despawns an asteroid field if it is spawned.
+	/// </summary>
+	/// <param name="field">The field description.</param>
+	private void DespawnAsteroidField(AsteroidField field)
+	{
+		// Don't despawn a field that is not spawned
+		if (!field.Spawned)
+			return;
+
+		// Find the asteroids in the field's area and despawn them
+		// Of course, this might hit asteroids that are not part of the field but are in the same general area,
+		// but that's fine.
+		Collider[] asteroids = Physics.OverlapBox(field.Position, field.Size / 2);
+		int despawned = 0;
+		foreach (Collider col in asteroids)
+		{
+			if (col.CompareTag(TAG_DEBRIS))
+			{
+				AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
+				/*if (logic != null)
+				{*/
+				logic.Despawn();
+				despawned++;
+				//}
+			}
+		}
+
+		field.Spawned 		  = false;
+		numAsteroidsInFields -= field.TotalNumAsteroids;
+		Debug.Log("Despawned: " + despawned);
 	}
 		
 	/// <summary>
@@ -238,6 +277,12 @@ public class AsteroidSpawner : MonoBehaviour
 		}
 
 		/// <summary>
+		/// Gets the spacial dimensions of the field.
+		/// </summary>
+		/// <value>The field size.</value>
+		public Vector3 Size { get; private set; }
+
+		/// <summary>
 		/// Initializes a new <see cref="AsteroidSpawner+AsteroidField"/>.
 		/// </summary>
 		/// <param name="position">The centre position.</param>
@@ -246,6 +291,8 @@ public class AsteroidSpawner : MonoBehaviour
 		{
 			this.Position 	   = position;
 			this.AsteroidCount = count;
+			this.Size 		   = new Vector3(count.x * avgSize, count.y * avgSize,
+				count.z * avgSize) * fieldSpacingFactor;
 		}
 			
 		/// <summary>
