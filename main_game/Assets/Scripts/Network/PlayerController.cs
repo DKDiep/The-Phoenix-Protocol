@@ -179,7 +179,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdDoUpgrade(ComponentType part)
     {
         gameState.GetUpgradableComponent(part).Upgrade();
-        serverManager.SendUpgradeFinished(part);
+        serverManager.SendJobFinished(true, part);
     }
 
     /// <summary>
@@ -191,6 +191,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdDoRepair(ComponentType part)
     {
 		gameState.RepairPart(part);
+        serverManager.SendJobFinished(false, part);
     }
 
     /// <summary>

@@ -147,7 +147,12 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
-    public void SendUpgradeFinished(ComponentType component)
+    /// <summary>
+    /// Sends a job finished message to the command console
+    /// </summary>
+    /// <param name="isUpgrade">Whether the job is an upgrade or a repair</param>
+    /// <param name="component">The component that the job was completed on</param>
+    public void SendJobFinished(bool isUpgrade, ComponentType component)
     {
         // Find the commander's netId
         foreach (KeyValuePair<uint,RoleEnum> client in netIdToRole)
@@ -155,7 +160,7 @@ public class ServerManager : NetworkBehaviour
             if (client.Value == RoleEnum.Commander)
             {
                 EngineerJobMessage msg = new EngineerJobMessage();
-                msg.upgrade = false;    // Doesn't matter what this is set to as it should be ignored
+                msg.upgrade = isUpgrade;
                 msg.part = component;
 
                 NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.JOB_FINISHED, msg);
