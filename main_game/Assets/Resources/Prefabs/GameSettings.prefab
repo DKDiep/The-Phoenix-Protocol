@@ -93,7 +93,7 @@ MonoBehaviour:
   EmptyProgressBar: {fileID: 2800000, guid: 88c6ec4d3c1bf11458ae95ed0f85e652, type: 3}
   FilledProgressBar: {fileID: 2800000, guid: 77f8b955c13988041bfed4b046731fe3, type: 3}
   EngineerStartingWorkTime: 5
-  EngineerDefaultMat: {fileID: 2100000, guid: f9a02e8a4fa01d14e8a3747542ac9cde, type: 2}
+  EngineerDefaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
   EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   MainMenuRotationSpeed: 2
