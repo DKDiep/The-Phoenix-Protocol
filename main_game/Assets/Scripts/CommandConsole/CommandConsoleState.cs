@@ -30,6 +30,7 @@ public class CommandConsoleState : MonoBehaviour {
     private PlayerController playerController;
 	private GameObject ship;
     private GameObject upgradeArea;
+    private GameObject portal;
     private StratMap stratMap;
 	private GameState gameState;
     private GameSettings settings;
@@ -56,6 +57,7 @@ public class CommandConsoleState : MonoBehaviour {
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
         stratMap = GameObject.Find("Map").GetComponent<StratMap>();
+        stratMap.Portal = portal;
         LoadSettings();
        
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
@@ -358,6 +360,10 @@ public class CommandConsoleState : MonoBehaviour {
         stratMap.NewOutpost(outpost);
     }
 
+    public void PortalInit(GameObject portal)
+    {
+        this.portal = portal;
+    }
 
     public void ShowMissionPopup(string title, string descrption)
     {

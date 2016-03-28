@@ -8,6 +8,7 @@ public class StratMap : MonoBehaviour {
     private RectTransform playerIconTransform;
     private float panelHeight;
     private float panelWidth;
+    public GameObject Portal { get; set; }
 
     private Vector3 offset = new Vector3(0, 200, 0);
 	// Use this for initialization
@@ -21,6 +22,8 @@ public class StratMap : MonoBehaviour {
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
+        if (Portal == null) print("portal undefined at stratmap start (Luke's fault)");
+        else PortalInit();
     }
 
     public void NewOutpost(GameObject outpost)
@@ -32,6 +35,22 @@ public class StratMap : MonoBehaviour {
             outpostSymbol.transform.SetParent(panel.transform, false);
             RectTransform arrowRectTransform = (RectTransform)outpostSymbol.transform;
             Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
+            arrowRectTransform.anchoredPosition = screenPos;
+            if (WithinBounds(screenPos))
+                outpostSymbol.SetActive(true);
+            else outpostSymbol.SetActive(false);
+        }
+    }
+
+    public void PortalInit()
+    {
+        var panel = this;
+        if (panel != null)  // make sure you actually found it!
+        {
+            GameObject outpostSymbol = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
+            outpostSymbol.transform.SetParent(panel.transform, false);
+            RectTransform arrowRectTransform = (RectTransform)outpostSymbol.transform;
+            Vector3 screenPos = new Vector3(Portal.transform.position.x / 20, Portal.transform.position.z / 20, 0);
             arrowRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
                 outpostSymbol.SetActive(true);

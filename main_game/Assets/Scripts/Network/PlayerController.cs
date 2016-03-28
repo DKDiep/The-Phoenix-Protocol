@@ -123,6 +123,13 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState.FoundOutpost(outpost);
     }
 
+    [ClientRpc]
+    public void RpcPortalInit(GameObject portal)
+    {
+        if (commandConsoleState != null)
+            commandConsoleState.PortalInit(portal);
+    }
+
     /// <summary>
     /// Notifies command console of outpost visit
     /// </summary>

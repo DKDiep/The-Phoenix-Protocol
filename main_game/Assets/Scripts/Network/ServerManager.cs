@@ -232,6 +232,7 @@ public class ServerManager : NetworkBehaviour
 		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();
+        playerController.RpcPortalInit(portal);
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
