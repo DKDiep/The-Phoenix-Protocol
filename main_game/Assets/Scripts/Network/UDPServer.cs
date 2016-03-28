@@ -100,7 +100,7 @@ public class UDPServer : MonoBehaviour
 
                 // Move specified enemy
                 if (InstanceIDToEnemy.ContainsKey(idToMove))
-                    InstanceIDToEnemy[idToMove].GetComponent<EnemyLogic>().HackedMove(posX, posZ);
+                    InstanceIDToEnemy[idToMove].GetComponentInChildren<EnemyLogic>().HackedMove(posX, posZ);
                 else
                     Debug.LogError("Tried to move non existant enemy from phone server");
 
@@ -113,7 +113,7 @@ public class UDPServer : MonoBehaviour
 
                 // Give the order to attack
                 if (InstanceIDToEnemy.ContainsKey(idOfAttacker) && InstanceIDToEnemy.ContainsKey(idOfAttacked))
-                    InstanceIDToEnemy[idOfAttacker].GetComponent<EnemyLogic>().HackedAttack(InstanceIDToEnemy[idOfAttacked]);
+                    InstanceIDToEnemy[idOfAttacker].GetComponentInChildren<EnemyLogic>().HackedAttack(InstanceIDToEnemy[idOfAttacked]);
                 else
                     Debug.LogError("Tried to attack with non existent ID, or target ID is non existant");
 
