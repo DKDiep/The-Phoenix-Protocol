@@ -97,6 +97,8 @@ public class ObjectPoolManager : NetworkBehaviour
     public void RemoveObject(string objName)
     {
         int id = int.Parse(objName);
+        if (id >= pool.Length)
+            Debug.Log("OUT OF RANGE HERE - id = "+id+", pool name = "+gameObject.name);
         pool[id].transform.parent = null;
         pool[id].SetActive(false);
     }

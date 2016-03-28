@@ -187,6 +187,11 @@ public class GameState : NetworkBehaviour {
         difficulty -= amount;
     }
 
+    public void SetDifficulty(int newDifficulty)
+    {
+        difficulty = newDifficulty;
+    }
+
     /// <summary>
     /// Returns the current difficulty
     /// </summary>

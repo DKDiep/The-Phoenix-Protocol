@@ -80,6 +80,29 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine("TimedDifficulty");
     }
 
+    public void Reset()
+    {
+        StopAllCoroutines();
+
+        state.CleanupEnemies();
+        List<GameObject> enemyList = state.GetEnemyList();
+        // Get 
+        for (int i = enemyList.Count - 1; i >= 0; i--)
+        {
+            // Remove using logic
+            EnemyLogic logic = enemyList[i].GetComponentInChildren<EnemyLogic>();
+            if (logic != null)
+            { 
+               logic.Despawn();
+            }
+        }
+
+        state.SetDifficulty(0);
+        outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+        StartCoroutine("Cleanup");
+        StartCoroutine("TimedDifficulty");
+    }
+
     // Increase difficulty by 1 every 30 seconds
     IEnumerator TimedDifficulty()
     {

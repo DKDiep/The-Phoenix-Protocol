@@ -261,6 +261,7 @@ public class ServerManager : NetworkBehaviour
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
         gameState.Status = GameState.GameStatus.Started;
         musicManager.GetComponent<MusicManager>().Play();
+        spawner = GameObject.Find("Spawner");
     }
 
     public void Reset()
@@ -294,29 +295,16 @@ public class ServerManager : NetworkBehaviour
         missionManager.GetComponent<MissionManager>().ResetMissions();
         // Reset Player's scores
         gameState.ResetPlayerScores();
+        // Reset spawner attributes, each spawner removes objects from logic using state list
+        spawner.GetComponent<EnemySpawner>().Reset();
+        spawner.GetComponent<OutpostSpawner>().Reset();
+        spawner.GetComponent<AsteroidSpawner>().Reset();
 
         //Reset player ship
         gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,0.0f);
         gameState.PlayerShip.transform.rotation = Quaternion.identity;
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
-
-        // Reset asteroids
-        /*gameState.CleanUpAsteroids(); // temporarily disabled due to fps issues
-        List<GameObject> asteroidList = gameState.GetAsteroidList();
-        // Must loop backwards as removing
-        for (int i = asteroidList.Count-1; i >= 0; i--)
-        {
-            gameState.RemoveAsteroidAt(i);
-        }*/
-
-        // Reset enemies
-        gameState.CleanupEnemies();
-        List<GameObject> enemyList = gameState.GetEnemyList();
-        for (int i = enemyList.Count - 1; i >= 0; i--)
-        {
-            gameState.RemoveEnemyAt(i);
-        }
 
         // Enable game loop to update again
         gameState.Status = GameState.GameStatus.Started;
