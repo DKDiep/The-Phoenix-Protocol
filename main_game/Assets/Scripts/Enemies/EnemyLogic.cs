@@ -773,12 +773,15 @@ public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
 		// Uncomment this to see waypoints as spheres
 		/*if (Debug.isDebugBuild)
 	    {
-			waypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-			waypoint.GetComponent<Renderer>().material.color = Color.blue;
+			currentWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+			currentWaypoint.GetComponent<Renderer>().material.color = Color.blue;
 	    }
 		else*/
 		currentWaypoint = new GameObject("HackWaypoint");
-		currentWaypoint.transform.position = new Vector3(posX, controlObject.transform.transform.position.y, posZ);
+
+		Vector3 playerPos = player.transform.position;
+		currentWaypoint.transform.position = new Vector3(playerPos.x + posX, controlObject.transform.transform.position.y,
+			playerPos.z + posZ);
     }
 
     /// <summary>
