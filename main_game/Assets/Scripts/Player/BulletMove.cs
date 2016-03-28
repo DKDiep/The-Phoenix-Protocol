@@ -5,7 +5,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BulletMove : MonoBehaviour, DestructionListener
+public class BulletMove : MonoBehaviour, IDestructionListener
 {
 	private GameObject target = null;
 

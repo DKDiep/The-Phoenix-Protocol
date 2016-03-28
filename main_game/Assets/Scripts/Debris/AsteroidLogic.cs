@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AsteroidLogic : MonoBehaviour, DestructibleObject
+public class AsteroidLogic : MonoBehaviour, IDestructibleObject
 {
 	private GameSettings settings;
 
@@ -22,7 +22,7 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
     private ObjectPoolManager logicManager;
     private ObjectPoolManager asteroidManager;
 
-	private List<DestructionListener> destructionListeners;
+	private List<IDestructionListener> destructionListeners;
 
 	void Start()
 	{
@@ -30,7 +30,7 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
         
 		LoadSettings();
 
-		destructionListeners = new List<DestructionListener>();
+		destructionListeners = new List<IDestructionListener>();
 	}
 
 	private void LoadSettings()
@@ -100,7 +100,7 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
 	/// Registers a listener to be notified when this object is destroyed.
 	/// </summary>
 	/// <param name="listener">The listener.</param>
-	public void RegisterDestructionListener(DestructionListener listener)
+	public void RegisterDestructionListener(IDestructionListener listener)
 	{
 		destructionListeners.Add(listener);
 	}
@@ -110,7 +110,7 @@ public class AsteroidLogic : MonoBehaviour, DestructibleObject
 	/// </summary>
 	private void NotifyDestructionListeners()
 	{
-		foreach (DestructionListener listener in destructionListeners)
+		foreach (IDestructionListener listener in destructionListeners)
 			listener.OnObjectDestructed(transform.parent.gameObject);
 
 		destructionListeners.Clear();

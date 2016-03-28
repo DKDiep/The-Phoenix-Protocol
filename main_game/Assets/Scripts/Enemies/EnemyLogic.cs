@@ -10,7 +10,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
+public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListener
 {
 	private GameSettings settings;
 
@@ -112,7 +112,7 @@ public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
 
     private Renderer meshRenderer;
 
-	private List<DestructionListener> destructionListeners;
+	private List<IDestructionListener> destructionListeners;
 
 	void Start ()
 	{
@@ -131,7 +131,7 @@ public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 
-		destructionListeners = new List<DestructionListener>();
+		destructionListeners = new List<IDestructionListener>();
 	}
 
 	private void LoadSettings()
@@ -801,7 +801,7 @@ public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
 	/// Registers a listener to be notified when this object is destroyed.
 	/// </summary>
 	/// <param name="listener">The listener.</param>
-	public void RegisterDestructionListener(DestructionListener listener)
+	public void RegisterDestructionListener(IDestructionListener listener)
 	{
 		destructionListeners.Add(listener);
 	}
@@ -811,7 +811,7 @@ public class EnemyLogic : MonoBehaviour, DestructibleObject, DestructionListener
 	/// </summary>
 	private void NotifyDestructionListeners()
 	{
-		foreach (DestructionListener listener in destructionListeners)
+		foreach (IDestructionListener listener in destructionListeners)
 			listener.OnObjectDestructed(transform.parent.gameObject);
 
 		destructionListeners.Clear();
