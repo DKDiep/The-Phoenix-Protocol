@@ -148,6 +148,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(type, upgradeNames[component], upgradeCosts[component], upgradeMaxLevels[component], componentRepairable[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
+            upgradeBox.transform.Find("UpgradeRepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
         }
     }
@@ -288,9 +289,9 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeButtonLabel.text = "Upgrade";
     }
 
-    public void RepairShip(int component)
+    public void OnClickRepair(int component)
     {
-
+        playerController.CmdAddRepair(GetComponentTypeFromId(component));
     }
     //Called whenever an upgrade is purchased (by clicking yellow button)
     public void UpgradeShip()
