@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AsteroidSpawner : MonoBehaviour 
 {
@@ -31,6 +32,7 @@ public class AsteroidSpawner : MonoBehaviour
 
 	private bool initialSpawnCompleted = false;
 	private AsteroidField testField;
+	private List<AsteroidField> fields;
 
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager logicManager;
@@ -41,6 +43,7 @@ public class AsteroidSpawner : MonoBehaviour
     void Start ()
     {
 		numAsteroids = numAsteroidsInFields = 0;
+		fields       = new List<AsteroidField>();
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
@@ -59,6 +62,7 @@ public class AsteroidSpawner : MonoBehaviour
         asteroidManager    = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
         
 		StartCoroutine("Cleanup");
+		StartCoroutine("AsteroidFieldVisibility");
     }
 
 	private void LoadSettings()
@@ -102,7 +106,7 @@ public class AsteroidSpawner : MonoBehaviour
 			if (numAsteroids >= maxAsteroids && testField == null)
 			{
 				testField = AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10));
-				SpawnAsteroidField(testField);
+				fields.Add(testField);
 			}
         }
     }
@@ -161,7 +165,6 @@ public class AsteroidSpawner : MonoBehaviour
 		field.Spawned = true;
 
 		numAsteroidsInFields += field.TotalNumAsteroids;
-		Debug.Log("Spawned field: " + field.TotalNumAsteroids);
 	}
 
 	/// <summary>
@@ -178,23 +181,17 @@ public class AsteroidSpawner : MonoBehaviour
 		// Of course, this might hit asteroids that are not part of the field but are in the same general area,
 		// but that's fine.
 		Collider[] asteroids = Physics.OverlapBox(field.Position, field.Size / 2);
-		int despawned = 0;
 		foreach (Collider col in asteroids)
 		{
 			if (col.CompareTag(TAG_DEBRIS))
 			{
 				AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
-				/*if (logic != null)
-				{*/
 				logic.Despawn();
-				despawned++;
-				//}
 			}
 		}
 
 		field.Spawned 		  = false;
 		numAsteroidsInFields -= field.TotalNumAsteroids;
-		Debug.Log("Despawned: " + despawned);
 	}
 		
 	/// <summary>
@@ -243,6 +240,21 @@ public class AsteroidSpawner : MonoBehaviour
 
         StartCoroutine("Cleanup");
     }
+
+	IEnumerator AsteroidFieldVisibility()
+	{
+		foreach (AsteroidField field in fields)
+		{
+			float distance = Vector3.Distance(field.Position, player.transform.position);
+			if (field.Spawned && distance > maxDistance)
+				DespawnAsteroidField(field);
+			else if (!field.Spawned && distance < maxDistance)
+				SpawnAsteroidField(field);
+		}
+
+		yield return new WaitForSeconds(1f);
+		StartCoroutine("AsteroidFieldVisibility");
+	}
 
 	/// <summary>
 	/// Class describing an asteroid field.
