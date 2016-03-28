@@ -239,6 +239,15 @@ public class PlayerController : NetworkBehaviour
         commandConsoleState.ConfirmUpgrade(component);
     }
 
+    /// <summary>
+    /// Notify the CommandConsole that a repair has finished
+    /// </summary>
+    /// <param name="component"></param>
+    public void FinishRepair(ComponentType component)
+    {
+        commandConsoleState.ConfirmRepair(component);
+    }
+
     [ClientRpc]
     public void RpcStartMission(string title, string description)
     {

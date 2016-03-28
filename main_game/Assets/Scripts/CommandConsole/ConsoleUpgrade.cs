@@ -101,6 +101,11 @@ public class ConsoleUpgrade : MonoBehaviour
     {
         levelIndicators[level-1].GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
     }
+
+    public void HideRepairButton()
+    {
+        repairButton.SetActive(false);
+    }
 }
 
 

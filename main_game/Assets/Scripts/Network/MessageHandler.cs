@@ -70,6 +70,9 @@ public class MessageHandler : MonoBehaviour {
             return;
 
         EngineerJobMessage msg = netMsg.ReadMessage<EngineerJobMessage>();
-        controller.FinishUpgrade(msg.part);
+        if(msg.upgrade == true)
+            controller.FinishUpgrade(msg.part);
+        else 
+            controller.FinishRepair(msg.part);
     }
 }

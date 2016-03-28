@@ -264,6 +264,16 @@ public class CommandConsoleState : MonoBehaviour {
         componentLevels[GetIdFromComponentType(type)]++;
         UpdateNewsFeed("[Engineer] " + upgradeNames[GetIdFromComponentType(type)] + " upgrade is complete.");
     }
+
+    /// <summary>
+    /// Confirms the repair, is called when the engineer has completed the repair.
+    /// </summary>
+    /// <param name="type">Type.</param>
+    public void ConfirmRepair(ComponentType type)
+    {
+        consoleUpgrades[(int)type].HideRepairButton();
+        UpdateNewsFeed("[Engineer] " + upgradeNames[GetIdFromComponentType(type)] + " has been repaired.");
+    }
         
     public void HighlightComponent(int component)
     {
