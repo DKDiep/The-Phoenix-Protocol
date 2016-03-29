@@ -12,11 +12,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Text upgradeCostTxt;
 
     // Information about the upgrade
-    private ComponentType type;
-    private string upgradeName;
-    private int upgradeCost;
-    private int maxLevels;
-    private bool repairable;
+    private UpgradeProperties properties;
 
     private Transform levelIndicator;
 
@@ -38,9 +34,9 @@ public class ConsoleUpgrade : MonoBehaviour
         if(setupDone)
         {
             // If this component is repairable.
-            if(repairable)
+            if(properties.repairable)
             {
-                if(gameState.GetComponentHealth(type) < 80) 
+                if(gameState.GetComponentHealth(properties.type) < 80) 
                     repairButton.SetActive(true);
                 else
                     repairButton.SetActive(false);
@@ -48,18 +44,10 @@ public class ConsoleUpgrade : MonoBehaviour
             }
         }
     }
-
-
-
-    public void SetUpgradeInfo(ComponentType type, string name, int cost, int levels, bool canRepair)
-    {
         
-        this.type       = type;
-        upgradeName     = name;
-        upgradeCost     = cost;
-        maxLevels       = levels;
-        this.repairable = canRepair;
-
+    public void SetUpgradeInfo(UpgradeProperties properties)
+    {
+        this.properties = properties;
         InitialiseLevels();
         UpdateTextFields();
         setupDone = true;
@@ -67,17 +55,17 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void UpdateCost(int cost)
     {
-        upgradeCost = cost;
-        upgradeCostTxt.text = upgradeCost.ToString();
+        properties.cost = cost;
+        upgradeCostTxt.text = properties.cost.ToString();
     }
 
     private void UpdateTextFields()
     {
         upgradeNameTxt = gameObject.transform.Find("UpgradeLabel").GetComponent<Text>();
-        upgradeNameTxt.text = upgradeName;
+        upgradeNameTxt.text = properties.name;
 
         upgradeCostTxt = gameObject.transform.Find("UpgradeCostText").GetComponent<Text>();
-        upgradeCostTxt.text = upgradeCost.ToString();
+        upgradeCostTxt.text = properties.cost.ToString();
     }
 
     private void InitialiseLevels()
@@ -85,7 +73,7 @@ public class ConsoleUpgrade : MonoBehaviour
         GameObject level;
         levelIndicator = gameObject.transform.Find("LevelIndicatorWrapper");
 
-        for(int i = 0; i < maxLevels; i++)
+        for(int i = 0; i < properties.numberOfLevels; i++)
         {
             level = Instantiate(Resources.Load("Prefabs/levelIndicator", typeof(GameObject))) as GameObject;
             level.transform.SetParent(levelIndicator);
@@ -105,6 +93,18 @@ public class ConsoleUpgrade : MonoBehaviour
     public void HideRepairButton()
     {
         repairButton.SetActive(false);
+    }
+
+    [System.Serializable]
+    public class UpgradeProperties
+    {
+        public string name;
+        public ComponentType type;
+        public string description;
+        public int cost;
+        public int numberOfLevels;
+        public bool repairable;
+        public int currentLevel;
     }
 }
 

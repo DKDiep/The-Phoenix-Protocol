@@ -35,20 +35,13 @@ public class CommandConsoleState : MonoBehaviour {
 	private GameState gameState;
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
+    private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
 
-    private int[] componentLevels = new int[6] {1,1,1,1,1,1};
     private int componentToUpgrade = 0;
-
     private double second = 0; 
-
-    private string[] upgradeNames = new string[6] {"SHIELDS", "TURRETS", "ENGINES", "HULL", "DRONE", "STORAGE"};
-    private int[] upgradeCosts = new int[6];
-    private string[] upgradeDescriptions = new string[6];
-    private int[] upgradeMaxLevels = new int[6];
 
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] {0,0,0,0,0,0};
-    private bool[] componentRepairable = new bool[6] {true, true, true, true, false, false};
 
     private ConsoleShipControl shipControl;
    
@@ -81,27 +74,7 @@ public class CommandConsoleState : MonoBehaviour {
 
     private void LoadSettings() 
     {
-        upgradeCosts[0]  = settings.ShieldsInitialCost;
-        upgradeCosts[1]  = settings.TurretsInitialCost;
-        upgradeCosts[2]  = settings.EnginesInitialCost;
-        upgradeCosts[3]  = settings.HullInitialCost;
-        upgradeCosts[4]  = settings.DroneInitialCost;
-        upgradeCosts[5]  = settings.StorageInitialCost;
-
-        upgradeDescriptions[0] = settings.ShieldsDescription;
-        upgradeDescriptions[1] = settings.TurretsDescription;
-        upgradeDescriptions[2] = settings.EnginesDescription;
-        upgradeDescriptions[3] = settings.HullDescription;
-        upgradeDescriptions[4] = settings.DroneDescription;
-        upgradeDescriptions[5] = settings.StorageDescription;
-
-        upgradeMaxLevels[0] = settings.ShieldsUpgradeLevels;
-        upgradeMaxLevels[1] = settings.TurretsUpgradeLevels;
-        upgradeMaxLevels[2] = settings.EnginesUpgradeLevels;
-        upgradeMaxLevels[3] = settings.HullUpgradeLevels;
-        upgradeMaxLevels[4] = settings.DroneUpgradeLevels;
-        upgradeMaxLevels[5] = settings.StorageUpgradeLevels;
-
+        upgradeProperties = settings.upgradeProperties;
     }
 
     void Update()
@@ -148,7 +121,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.SetParent(canvas);
             upgradeBox.transform.localScale = new Vector3(1,1,1);
             upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
-            upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(type, upgradeNames[component], upgradeCosts[component], upgradeMaxLevels[component], componentRepairable[component]);
+            upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
             upgradeBox.transform.Find("UpgradeRepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
@@ -225,8 +198,8 @@ public class CommandConsoleState : MonoBehaviour {
     {
         upgradeProgress[(int)type] = 0;
         upgradeButtonLabel.text = "Upgrade";
-        componentLevels[(int)type]++;
-        UpdateNewsFeed("[Engineer] " + upgradeNames[(int)type] + " upgrade is complete.");
+        upgradeProperties[(int)type].currentLevel++;
+        UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
     }
 
     /// <summary>
@@ -236,7 +209,7 @@ public class CommandConsoleState : MonoBehaviour {
     public void ConfirmRepair(ComponentType type)
     {
         consoleUpgrades[(int)type].HideRepairButton();
-        UpdateNewsFeed("[Engineer] " + upgradeNames[(int)type] + " has been repaired.");
+        UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " has been repaired.");
     }
         
     public void HighlightComponent(int component)
@@ -252,8 +225,8 @@ public class CommandConsoleState : MonoBehaviour {
         // Highlight the selected component on the ship model.
         HighlightComponent(component);
         // Upgrade description and cost labels
-        upgradeDescription.text = upgradeDescriptions[component];
-        costLabel.text = GetUpgradeCost(upgradeCosts[component], componentLevels[component]).ToString();
+        upgradeDescription.text = upgradeProperties[component].description;
+        costLabel.text = GetUpgradeCost(upgradeProperties[component].cost, upgradeProperties[component].currentLevel).ToString();
         // Upgrade the cost text to display in red if the player does not have enough resources.
         UpdateCostTextColor();
 
@@ -276,11 +249,11 @@ public class CommandConsoleState : MonoBehaviour {
             return;
 
         // Try to upgrade the component
-        if(!UpgradeComponent(componentToUpgrade, upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade]))
+        if(!UpgradeComponent(componentToUpgrade, upgradeProperties[componentToUpgrade].cost, upgradeProperties[componentToUpgrade].currentLevel))
             return;
 
         // Update the cost of the component
-        consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(upgradeCosts[componentToUpgrade], componentLevels[componentToUpgrade] + 1));
+        consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(upgradeProperties[componentToUpgrade].cost, upgradeProperties[componentToUpgrade].currentLevel + 1));
 
         upgradeProgress[componentToUpgrade] = 1;
         upgradeButtonLabel.text = "Waiting";

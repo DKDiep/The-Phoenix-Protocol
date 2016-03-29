@@ -134,30 +134,10 @@ public class GameSettings : MonoBehaviour
 	public float PlayerShipStartingFiringDelay;
 	public int PlayerShipStartingBulletDamage;
 
-    // Initial costs for the ship upgrades. 
-    [Header("Ship Upgrade Costs")]
-    public int ShieldsInitialCost;
-    public int TurretsInitialCost;
-    public int EnginesInitialCost;
-    public int HullInitialCost;
-    public int DroneInitialCost;
-    public int StorageInitialCost;
 
-    [Header("Ship Upgrade Descriptions")]
-    public string ShieldsDescription;
-    public string TurretsDescription;
-    public string EnginesDescription;
-    public string HullDescription;
-    public string DroneDescription;
-    public string StorageDescription;
+    [Header("Ship Upgrade Properties")]
+    public ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
 
-    [Header("Ship Upgrade Levels")]
-    public int ShieldsUpgradeLevels;
-    public int TurretsUpgradeLevels;
-    public int EnginesUpgradeLevels;
-    public int HullUpgradeLevels;
-    public int DroneUpgradeLevels;
-    public int StorageUpgradeLevels;
 
 	[Header("Player Shooting")]
 	public Texture2D PlayerHitmarker; // Hitmarker texture
