@@ -25,8 +25,9 @@ public class ServerManager : NetworkBehaviour
     public GameObject cutsceneManager;
     private GameObject gameTimer;
     private GameObject portal;
+    private GameObject readyScreen;
 
-	private uint serverId;
+    private uint serverId;
     public int clientIdCount()
     {
         return netIdToRole.Count;
@@ -247,21 +248,9 @@ public class ServerManager : NetworkBehaviour
         playerController.SetControlledObject(playerShip);
     }
 
-    public void Play()
+    public void SetReadyScreen(GameObject newReadyScreen)
     {
-        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
-
-        //Reset Player's scores
-        gameState.ResetPlayerScores();
-        gameTimer = GameObject.Find("GameTimerText");
-        gameTimer.SetActive(true);
-        gameTimer.GetComponent<TimerScript>().ResetTimer();
-        missionManager.GetComponent<MissionManager>().ResetMissions();
-        //Start the game
-        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
-        gameState.Status = GameState.GameStatus.Started;
-        musicManager.GetComponent<MusicManager>().Play();
-        spawner = GameObject.Find("Spawner");
+        readyScreen = newReadyScreen;
     }
 
     public void Reset()
@@ -269,6 +258,14 @@ public class ServerManager : NetworkBehaviour
         // Prevent game loop updating
         gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
+
+        // These can be moved to one time execution
+        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
+        spawner = GameObject.Find("Spawner");
+        gameTimer = GameObject.Find("GameTimerText");
+
+        // Overlay ready screen
+        readyScreen.GetComponent<ReadyScreen>().Reset();
 
         // Restart music - consider reset method for sound system
         musicManager.GetComponent<MusicManager>().PlayMusic(0);
@@ -308,12 +305,10 @@ public class ServerManager : NetworkBehaviour
     }
 
     // Temporary to test reset
-    void FixedUpdate()
+    void OnGUI()
     {
-        if (Input.GetKeyUp("space"))
-        {
+        if (GUI.Button(new Rect(10, 10, 80, 30), "Reset"))
             Reset();
-        }
     }
 
 	public void SetServerId(uint serverId) 

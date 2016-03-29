@@ -91,7 +91,9 @@ public class ServerLobby : MonoBehaviour {
         // Start game only spawns, call begin to play
         serverManager.StartGame();
         // Instantiate ready screen then remove listener and destroy self
-        GameObject ReadyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
+        GameObject readyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(readyScreen);
+        serverManager.SetReadyScreen(readyScreen);
         Destroy(this.gameObject);
     }
 
