@@ -267,7 +267,8 @@ public class CommandConsoleState : MonoBehaviour {
     {
         playerController.CmdAddRepair((ComponentType)component);
     }
-    //Called whenever an upgrade is purchased (by clicking yellow button)
+
+    //Called whenever an upgrade is purchased
     public void UpgradeShip()
     {
         // If we are already waiting then we don't want to upgrade again.
@@ -290,17 +291,11 @@ public class CommandConsoleState : MonoBehaviour {
 	/// </summary>
 	private void UpdateAllText()
 	{
-		// Get resources and health from the gamestate.
-        int shipCivilians   = gameState.GetCivilians();
-		int shipResources   = gameState.GetShipResources();
-		float shipHealth    = gameState.GetShipHealth();
-		float shipShields   = gameState.GetShipShield();
-
-		// Update the text
-        civiliansText.text = shipCivilians.ToString();;
-        resourcesText.text = shipResources.ToString();;
-        healthText.text    = shipHealth.ToString();;
-        shieldsText.text   = shipShields.ToString();;
+		// Update the text with values from gamestate.
+        civiliansText.text = gameState.GetCivilians().ToString();;
+        resourcesText.text = gameState.GetShipResources().ToString();;
+        healthText.text    = gameState.GetShipHealth().ToString();;
+        shieldsText.text   = gameState.GetShipShield().ToString();;
 	}
 
     private void UpdateCostTextColor()
@@ -313,7 +308,6 @@ public class CommandConsoleState : MonoBehaviour {
         {
             costLabel.color = new Color(176f/255f, 176f/255f, 176f/255f, 1);
         }
-          
     }
     
     public void FoundOutpost(GameObject outpost, int id)
@@ -332,14 +326,12 @@ public class CommandConsoleState : MonoBehaviour {
         popupWindow.SetActive(true);
         popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
         popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = descrption;
-
     }
 
     public void ClosePopupWindow()
     {
         popupWindow.SetActive(false);
     }
-
 
     /// <summary>
     /// This is a cheat, it confirms the upgrade of all in progress upgrade requests. 
@@ -359,7 +351,6 @@ public class CommandConsoleState : MonoBehaviour {
             }
         }
     }
-
 
     private void UpdateNewsFeed(string message)
     {
