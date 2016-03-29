@@ -627,6 +627,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     // Spawn bullet, use predication, and player sound
 	IEnumerator Shoot()
 	{
+		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
+		if (hacked && currentTarget == null)
+			yield break;
+		
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 
         GameObject obj = bulletManager.RequestObject();
@@ -639,33 +643,51 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
 		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-		float bulletSpeed = 0f;
+		// TODO: these should be set when the enemy type is applied
+		float bulletSpeed = 0f, bulletAccuracy = 1f, bulletDamage = 1f;
 		if (type == EnemyType.Gnat)
 		{
-			bulletSpeed = 600f;
-			bulletLogic.SetParameters(0.3f, 1f);
+			bulletSpeed    = 600f;
+			bulletAccuracy = 0.3f;
+			bulletDamage   = 1f;
 		}
 		else if (type == EnemyType.Firefly)
 		{
-			bulletSpeed = 600f;
-			bulletLogic.SetParameters(0.15f, 2f);
+			bulletSpeed     = 600f;
+			bulletAccuracy 	= 0.15f;
+			bulletDamage    = 2f;
 		}
          else if(type == EnemyType.Hornet)
 		{
-			bulletSpeed = 800f;
-			bulletLogic.SetParameters(0.05f, 5f);
+			bulletSpeed    = 800f;
+			bulletAccuracy = 0.05f;
+			bulletDamage   = 5f;
 		}
          else if(type == EnemyType.BlackWidow)
 		{
-			bulletSpeed = 800f;
-			bulletLogic.SetParameters(0.05f, 10f);
+			bulletSpeed    = 800f;
+			bulletAccuracy = 0.05f;
+			bulletDamage   = 10f;
 		}
+		bulletLogic.SetParameters(bulletAccuracy, bulletDamage);
 		bulletMove.Speed = bulletSpeed;
 		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
-		Vector3 destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+		Vector3 destination;
 
-		bulletLogic.SetDestination (destination, false, player, bulletManager, logicManager, impactManager);
+		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
+		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
+		if (hackedAttackTraget != null)
+		{
+			destination = currentTarget.transform.position;
+			if (Random.value > bulletAccuracy)
+				bulletMove.SetTarget(currentTarget);
+			obj.layer = LayerMask.NameToLayer("Player");
+		}
+		else
+			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+
+		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);
 
         bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
