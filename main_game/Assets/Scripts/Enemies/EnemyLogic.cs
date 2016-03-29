@@ -314,10 +314,15 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		currentPos = player.transform.position;
 		distance   = Vector3.Distance(transform.position, player.transform.position);
 
-        if(distance > 1000)
-            meshRenderer.enabled = false;
-        else
-            meshRenderer.enabled = true;
+		if (meshRenderer == null)
+			meshRenderer = controlObject.GetComponent<MeshRenderer>();
+		else
+		{
+			if (distance > 1000)
+				meshRenderer.enabled = false;
+			else
+				meshRenderer.enabled = true;
+		}
 
 		// Check if about to collide with something
 		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
