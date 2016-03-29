@@ -109,7 +109,8 @@ public class MissionManager : MonoBehaviour
     private void CompleteMission(int missionId)
     {
         missions[missionId].completeMission();
-        playerController.RpcCompleteMission(missions[missionId].completedDescription);
+        bool outpostMission = missions[missionId].completionType == CompletionType.Outpost ? true : false;
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, outpostMission, missions[missionId].completionValue);
     }
 
     /// <summary>
