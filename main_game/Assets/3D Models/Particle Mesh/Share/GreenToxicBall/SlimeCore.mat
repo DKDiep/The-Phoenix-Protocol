@@ -88,7 +88,7 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: 0.3455882, g: 0.3771804, b: 1, a: 1}
+        second: {r: 0.7743407, g: 0.3455882, b: 1, a: 1}
       data:
         first:
           name: _TintColor
@@ -100,4 +100,4 @@ Material:
       data:
         first:
           name: _ReflectColor
-        second: {r: 0.42647058, g: 0.4778903, b: 1, a: 1}
+        second: {r: 0.94462466, g: 0.42647052, b: 1, a: 1}

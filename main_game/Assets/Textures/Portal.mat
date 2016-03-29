@@ -93,10 +93,6 @@ Material:
         second: 0.5
       data:
         first:
-          name: _InvFade
-        second: 1
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
@@ -135,6 +131,10 @@ Material:
         first:
           name: _EmissionGain
         second: 0.2
+      data:
+        first:
+          name: _InvFade
+        second: 1
     m_Colors:
       data:
         first:
@@ -147,4 +147,4 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: 0.5483774, g: 0.46323532, b: 1, a: 0.5}
+        second: {r: 0.8425966, g: 0.28676468, b: 1, a: 0.5}
