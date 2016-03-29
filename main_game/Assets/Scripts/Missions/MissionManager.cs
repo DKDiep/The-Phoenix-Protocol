@@ -1,7 +1,8 @@
 ﻿using System;
-using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MissionManager : MonoBehaviour 
 {
@@ -105,13 +106,33 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
-        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description);
+        bool outpostMission = false;
+        int outpostId = 0;
+        foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
+        {
+            if (completeCondition.completionType == CompletionType.Outpost)
+            {
+                outpostMission = true;
+                outpostId = completeCondition.completionValue;
+            }
+        }
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, outpostId);
     }
 
     private void CompleteMission(int missionId)
     {
         missions[missionId].completeMission();
-        playerController.RpcCompleteMission(missions[missionId].completedDescription);
+        bool outpostMission = false;
+        int outpostId = 0;
+        foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
+        {
+            if (completeCondition.completionType == CompletionType.Outpost)
+            {
+                outpostMission = true;
+                outpostId = completeCondition.completionValue;
+            }
+        }
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, outpostMission, outpostId);
     }
 
     /// <summary>
@@ -257,6 +278,7 @@ public class MissionManager : MonoBehaviour
             Debug.Log("Completed Mission " + name);
             if(onCompletion != null)
                 onCompletion.Invoke();
+
             complete = true;
         }
         public bool hasStarted()

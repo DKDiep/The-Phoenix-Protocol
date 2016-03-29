@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class StratMap : MonoBehaviour {
 
     private GameObject playerIcon;
+    private GameObject objectiveIcon;
+    private RectTransform objectiveIconRectTransform;
     private Transform shipTransform;
     private RectTransform playerIconTransform;
     private float panelHeight;
@@ -21,6 +23,10 @@ public class StratMap : MonoBehaviour {
         playerIcon.transform.SetParent(panel.transform, false);
         playerIcon.transform.SetParent(panel.transform, false);
         playerIconTransform = (RectTransform)playerIcon.transform;
+        objectiveIcon  = Instantiate(Resources.Load("Prefabs/ObjectiveIcon", typeof(GameObject))) as GameObject;
+        objectiveIcon.SetActive(false);
+        objectiveIcon.transform.SetParent(panel.transform, false);
+        objectiveIconRectTransform = (RectTransform)objectiveIcon.transform;
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
@@ -74,8 +80,24 @@ public class StratMap : MonoBehaviour {
 
     public void outpostVisitNotify(int id)
     {
-        print("inside outpostVisitNotify");
-        outpostIconDict[id].GetComponent<Image>().color = Color.grey;
+        //outpostIconDict[id].GetComponent<Image>().color = Color.grey;
+    }
+
+    public void startMission(int id)
+    {
+        if (outpostIconDict[id] == null) print("outpostIconDict[id] == null");
+        else
+        {
+            RectTransform outpostRectTransform = (RectTransform)outpostIconDict[id].transform;
+            objectiveIconRectTransform.anchoredPosition = outpostRectTransform.anchoredPosition;
+            objectiveIcon.SetActive(true);
+        }
+    }
+
+    public void endMission(int id)
+    {
+        //outpostIconDict[id].GetComponent<Image>().color = Color.green;
+        objectiveIcon.SetActive(false);
     }
 
 	// Update is called once per frame

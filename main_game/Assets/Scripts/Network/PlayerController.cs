@@ -257,20 +257,24 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcStartMission(string title, string description)
+    public void RpcStartMission(string title, string description, bool outpostMission, int missionValue)
     {
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup(title, description);
+            if(outpostMission)
+            commandConsoleState.StartMissionOnMap(missionValue);
         }
     }
 
     [ClientRpc]
-    public void RpcCompleteMission(string description)
+    public void RpcCompleteMission(string description, bool outpostMission, int missionValue)
     {
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup("MISSION COMPLETE", description);
+            if (outpostMission)
+                commandConsoleState.EndMissionOnMap(missionValue);
         }
     }
 }
