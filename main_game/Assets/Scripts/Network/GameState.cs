@@ -187,6 +187,11 @@ public class GameState : NetworkBehaviour {
         difficulty -= amount;
     }
 
+    public void SetDifficulty(int newDifficulty)
+    {
+        difficulty = newDifficulty;
+    }
+
     /// <summary>
     /// Returns the current difficulty
     /// </summary>
@@ -249,10 +254,15 @@ public class GameState : NetworkBehaviour {
 
 		return upgradableComponents[(int)index];
 	}
-        
-	/*
+
+    /*
 	 *  Getters and setters for Asteroid list
 	 */
+    public List<GameObject> GetAsteroidList()
+    {
+        return asteroidList;
+    }
+
     public void AddToAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);
@@ -267,7 +277,7 @@ public class GameState : NetworkBehaviour {
 		asteroidSpawner.DecrementNumAsteroids();
     }
 
-    private void RemoveAsteroidAt(int i)
+    public void RemoveAsteroidAt(int i)
     {
         bool wasDeleted = newAsteroids.Remove(asteroidList[i]);
         if (!wasDeleted)
@@ -301,10 +311,11 @@ public class GameState : NetworkBehaviour {
         enemyList.Add(enemyObject);
     }
 
-    private void RemoveEnemyAt(int i)
+    public void RemoveEnemyAt(int i)
     {
         removedEnemies.Add(enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
+        EnemySpawner.DecrementNumEnemies();
     }
 
 	public void RemoveEnemy(GameObject enemy)

@@ -17,6 +17,19 @@ public class LoadingText : NetworkBehaviour
         StartCoroutine("Loaded");
 	}
 
+    public void Reset()
+    {
+        RpcReset();
+    }
+
+    [ClientRpc]
+    void RpcReset()
+    {
+        StopAllCoroutines();
+        fadeSound = false;
+        gameStarted = false;
+    }
+
     public void MuteAudio()
     {
         AudioListener.volume = 0;
@@ -34,7 +47,7 @@ public class LoadingText : NetworkBehaviour
         gameStarted = true;
         yield return new WaitForSeconds(3f);
         fadeSound = true;
-        Destroy(this, 3f);
+        //Destroy(this, 3f);
     }
 
     void Update()

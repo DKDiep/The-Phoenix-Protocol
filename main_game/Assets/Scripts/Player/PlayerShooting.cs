@@ -40,9 +40,14 @@ public class PlayerShooting : MonoBehaviour
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
+        Reset();
         
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+    }
+
+    public void Reset()
+    {
+        LoadSettings();
     }
 
 	private void LoadSettings()

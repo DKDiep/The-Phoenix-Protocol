@@ -64,7 +64,26 @@ public class AsteroidSpawner : MonoBehaviour
 		StartCoroutine("AsteroidFieldVisibility");
     }
 
-	private void LoadSettings()
+    public void Reset()
+    {
+        state.CleanUpAsteroids();
+        List<GameObject> asteroidList = state.GetAsteroidList();
+        // Must loop backwards as removing
+        for (int i = asteroidList.Count - 1; i >= 0; i--)
+        {
+            // Remove using logic
+            AsteroidLogic logic = asteroidList[i].GetComponentInChildren<AsteroidLogic>();
+            if (logic != null)
+            {
+                logic.Despawn();
+            }
+        }
+
+        numAsteroids = numAsteroidsInFields = 0;
+        LoadSettings();
+    }
+
+    private void LoadSettings()
 	{
 		gameManager 	   = settings.GameManager;
 		maxAsteroids 	   = settings.MaxAsteroids;

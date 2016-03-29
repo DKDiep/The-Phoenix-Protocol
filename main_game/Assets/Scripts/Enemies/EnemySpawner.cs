@@ -115,16 +115,39 @@ public class EnemySpawner : MonoBehaviour
         minDistance = settings.EnemyMinSpawnDistance;
         maxDistance = settings.EnemyMaxSpawnDistance;
 
-        aiWaypointsPerEnemy        = settings.AIWaypointsPerEnemy;
+        aiWaypointsPerEnemy = settings.AIWaypointsPerEnemy;
         aiWaypointGenerationFactor = settings.AIWaypointGenerationFactor;
-        aiWaypointRadius           = settings.AIWaypointRadius;
-        aiWaypointWidthScale       = settings.AIWaypointWidthScale;
-        aiWaypointHeightScale      = settings.AIWaypointHeightScale;
-        aiWaypointShift            = settings.AIWaypointShift;
+        aiWaypointRadius = settings.AIWaypointRadius;
+        aiWaypointWidthScale = settings.AIWaypointWidthScale;
+        aiWaypointHeightScale = settings.AIWaypointHeightScale;
+        aiWaypointShift = settings.AIWaypointShift;
 
         outpostSpawnRadius = settings.EnemyOutpostSpawnRadius;
 
         enemyTypeList = settings.enemyProperties;
+    }
+
+    public void Reset()
+    {
+        StopAllCoroutines();
+
+        state.CleanupEnemies();
+        List<GameObject> enemyList = state.GetEnemyList();
+        // Get 
+        for (int i = enemyList.Count - 1; i >= 0; i--)
+        {
+            // Remove using logic
+            EnemyLogic logic = enemyList[i].GetComponentInChildren<EnemyLogic>();
+            if (logic != null)
+            { 
+               logic.Despawn();
+            }
+        }
+
+        state.SetDifficulty(0);
+        outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+        StartCoroutine("Cleanup");
+        StartCoroutine("TimedDifficulty");
     }
 
     // Increase difficulty by 1 every 30 seconds

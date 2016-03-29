@@ -33,6 +33,24 @@ public class FadeTexture : NetworkBehaviour
 		StartCoroutine ("Fading");
 	}
 
+    public void Reset()
+    {
+        RpcReset();
+        /*StopAllCoroutines();
+        alpha = 1.0f;
+        canFade = false;
+        gameStarted = false;*/
+    }
+
+    [ClientRpc]
+    void RpcReset()
+    {
+        //StopAllCoroutines();
+        alpha = 1.0f;
+        canFade = false;
+        gameStarted = false;
+    }
+
     [ClientRpc]
     void RpcFadeClient()
     {
@@ -83,6 +101,6 @@ public class FadeTexture : NetworkBehaviour
         RpcFadeOutClient();
 		canFade = false;
 		yield return new WaitForSeconds(5f);
-		Destroy (this);
+		//Destroy (this);
 	}
 }

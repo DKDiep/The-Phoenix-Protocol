@@ -717,11 +717,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     				// Update player score
     				gameState.AddToPlayerScore(playerId, 10);
     			}
-
-				NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
-
-                string removeName = transform.parent.gameObject.name;
-
     			// Automatically collect resources from enemy ship
     			gameState.AddShipResources(droppedResources);
 
@@ -730,19 +725,25 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                 temp.transform.position = transform.position;
 
                 explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
-
-                //GameObject temp = Instantiate(destroyEffect, transform.position, transform.rotation) as GameObject;
-
-    			gameState.RemoveEnemy (controlObject.gameObject);
-                //GetComponent<bl_MiniMapItem>().DestroyItem();
-               
-                transform.parent = null;
-                enemyManager.DisableClientObject(removeName);
-                enemyManager.RemoveObject(removeName);
-                enemyLogicManager.RemoveObject(gameObject.name);
+                Despawn();
     		}
         }
 	}
+
+    public void Despawn()
+    {
+        NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+        string removeName = transform.parent.gameObject.name;
+        gameState.RemoveEnemy(controlObject.gameObject);
+        //GetComponent<bl_MiniMapItem>().DestroyItem();
+        if (enemyManager != null)
+        {
+            enemyManager.DisableClientObject(removeName);
+            enemyManager.RemoveObject(removeName);
+        }
+        transform.parent = null;
+        enemyLogicManager.RemoveObject(gameObject.name);
+    }
 
     /// <summary>
     /// Sets the hacked attribute of this object

@@ -48,6 +48,18 @@ public class OutpostSpawner : MonoBehaviour
 		spawnLocation.name = "OutpostSpawnLocation";
 	}
 
+    public void Reset()
+    {
+        LoadSettings();
+        numOutposts = easyOutposts = mediumOutposts = hardOutposts = 0;
+        // Remove outposts
+        for (int i = gameState.GetOutpostList().Count-1; i >= 0; i--)
+        {
+            Destroy(gameState.GetOutpostList()[i]);
+            gameState.RemoveOutpost(gameState.GetOutpostList()[i]);
+        }
+    }
+
 	private void LoadSettings()
 	{
 		gameManager 	     = settings.GameManager;

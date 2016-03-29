@@ -13,8 +13,8 @@ public class GameStatusManager : NetworkBehaviour
     private GameObject server;
     private PlayerController playerController;
     private MusicManager musicManager;
-
 	private ObjectPoolManager enemyLogicManager;
+    private GameObject localPortal;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +27,33 @@ public class GameStatusManager : NetworkBehaviour
 
 		enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 	}
+
+    public void Reset()
+    {
+        RpcReset();
+    }
+
+    [ClientRpc]
+    void RpcReset()
+    {
+        gameOverScreen = false;
+        // Remove screen overlays
+        GameObject resultCanvas = GameObject.Find("GameOverCanvas(Clone)");
+        if (resultCanvas != null)
+        {
+            // Force if sync var delayed
+            if (gameState.Status != GameState.GameStatus.Setup)
+                gameState.Status = GameState.GameStatus.Setup;
+            Destroy(resultCanvas);
+        }
+        // Re-enable portals disabled previously by game over
+        if (playerController.GetRole() == RoleEnum.Camera)
+        {
+            // Null check required if restart is before portal deactivation
+            if (localPortal != null)
+                localPortal.SetActive(true);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,7 +76,6 @@ public class GameStatusManager : NetworkBehaviour
             }
             
             DisableThrusterSound();
-            
             // Set an overlay on the screen
 			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
@@ -64,10 +90,11 @@ public class GameStatusManager : NetworkBehaviour
             if(playerController.GetRole() == RoleEnum.Camera)
             {
                 // Disable the portal on all screens
-                GameObject.Find("Portal(Clone)").SetActive(false);
+                localPortal = GameObject.Find("Portal(Clone)");
+                localPortal.SetActive(false);
 
                 // If it is the server
-                if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+                if (playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
                 {
                     // Do not display stats on server.
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
