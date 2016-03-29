@@ -779,6 +779,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Vector3 localMove = new Vector3(posX, 0, posZ);
 		Vector3 worldMove = player.transform.rotation * localMove;
 		currentWaypoint.transform.position = player.transform.position + worldMove;
+
+		// If this enemey was previously issued an attack command, clear it
+		hackedAttackTraget = null;
     }
 
     /// <summary>
