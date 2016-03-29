@@ -168,7 +168,7 @@ func (players *PlayerMap) updateData() {
             delete(asteroidData, id)
         }
         asteroid.posX = newX
-        asteroid.posY = -(newY) // flip Y to match rendering orientation
+        asteroid.posY = newY 
     }
 
     // Transform enemy coordinates into phone screen space
@@ -180,7 +180,7 @@ func (players *PlayerMap) updateData() {
         newX := enemy.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
         newY := enemy.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
         enemy.posX = newX
-        enemy.posY = -(newY) // flip Y to match rendering orientation
+        enemy.posY = newY
     }
 
     // Send updated data

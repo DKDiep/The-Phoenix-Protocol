@@ -14,6 +14,11 @@ var maxDim;
 
 // You need to create a root container that will hold the scene you want to draw.
 var stage;
+// Layers
+var enemyLayer;
+var asteroidLayer;
+var hackingGameLayer;
+var tutorialLayer;
 
 // Texture loader
 var loader;
@@ -50,10 +55,7 @@ function startSpectatorScreen() {
     // The renderer will create a canvas element for you that you can then insert into the DOM.
     $("#spectatorScreen").append(renderer.view);
 
-    // You need to create a root container that will hold the scene you want to draw.
-    stage = new PIXI.Container();
-    stage.interactive = true
-    stage.mousedown = stage.touchstart = handleGeneralPress
+    initLayers()
 
     // Resize listener
     window.addEventListener("resize", function() {
@@ -85,6 +87,10 @@ function finaliseSpectatorScreen() {
     maxDim = undefined;
 
     stage = undefined;
+    enemyLayer = undefined;
+    asteroidLayer = undefined;
+    hackingGameLayer = undefined;
+    tutorialLayer = undefined;
 
     loader = undefined;
 
@@ -114,7 +120,8 @@ function handleGeneralPress(eventData) {
 
     // Invert coordinates to game space
     gameX = (screenX - (0.5*renderer.width))/(zoom*maxDim);
-    gameY = (screenY - (0.5*renderer.height))/(zoom*maxDim);
+    // Negate Y to revert from rendering orientation
+    gameY = -(screenY - (0.5*renderer.height))/(zoom*maxDim);
 
     moveAction(gameX, gameY)
 }
@@ -128,11 +135,29 @@ function init() {
     initTractorBeam(loadedResources);
     // Add player ship
     initPlayerShip(loadedResources);
+    stage.addChild(enemyLayer);
+    stage.addChild(asteroidLayer);
+    // TODO: Only placeholders for now
+    stage.addChild(hackingGameLayer);
+    stage.addChild(tutorialLayer);
 
     // kick off the animation loop (defined below)
     keepRendering = true
     resize();
     renderUpdate();
+}
+
+// Initialises the grouping layers
+function initLayers() {
+    // You need to create a root container that will hold the scene you want to draw.
+    stage = new PIXI.Container();
+    stage.interactive = true
+    stage.mousedown = stage.touchstart = handleGeneralPress
+
+    asteroidLayer = new PIXI.Container();
+    enemyLayer = new PIXI.Container();
+    hackingGameLayer = new PIXI.Container();
+    tutorialLayer = new PIXI.Container();
 }
 
 function initBackground(resources) {
@@ -270,7 +295,8 @@ function spriteScale(sprite) {
 // positions around the centre
 function spritePosition(sprite, x, y) {
     sprite.position.x = (0.5*renderer.width) + (x*zoom*maxDim);
-    sprite.position.y = (0.5*renderer.height) + (y*zoom*maxDim);
+    // Invert Y to put object in rendering orientation
+    sprite.position.y = (0.5*renderer.height) + ((-y)*zoom*maxDim);
 }
 
 // Update the objects based on received data
@@ -294,7 +320,7 @@ function updateSprites(data) {
     }
     // Remove those that didn't get an update
     for (id in asteroids) {
-        stage.removeChild(asteroids[id]);
+        asteroidLayer.removeChild(asteroids[id]);
     }
     // Add new ones
     for (id in toAdd) {
@@ -305,7 +331,7 @@ function updateSprites(data) {
         spritePosition(newAst, ast.x, ast.y);
         spriteScale(newAst);
         newTmp[ast.id] = newAst;
-        stage.addChild(newAst);
+        asteroidLayer.addChild(newAst);
     }
     // Finalise by setting the asteroid list
     asteroids = newTmp
@@ -329,7 +355,7 @@ function updateSprites(data) {
     }
     // Remove those that didn't get an update
     for (id in enemies) {
-        stage.removeChild(enemies[id]);
+        enemyLayer.removeChild(enemies[id]);
     }
     // Add new ones
     for (id in toAdd) {
@@ -349,7 +375,7 @@ function updateSprites(data) {
             eventData.stopPropagation()
         };
         newTmp[enm.id] = newEnm;
-        stage.addChild(newEnm);
+        enemyLayer.addChild(newEnm);
     }
     // Finalise by setting the asteroid list
     enemies = newTmp

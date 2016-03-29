@@ -160,8 +160,7 @@ func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
     msg := "MV:"
     msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","
     msg += strconv.FormatFloat(data["x"].(float64), 'f', -1, 64) + ","
-    // Flip Y to convert back from rendering orientation
-    msg += strconv.FormatFloat(-data["y"].(float64), 'f', -1, 64)
+    msg += strconv.FormatFloat(data["y"].(float64), 'f', -1, 64)
 
     sendUDPMsgToGameServer(msg)
 }
