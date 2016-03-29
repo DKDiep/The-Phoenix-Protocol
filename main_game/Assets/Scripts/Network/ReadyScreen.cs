@@ -39,7 +39,10 @@ public class ReadyScreen : NetworkBehaviour
     public void Reset()
     {
         musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
-        musicManager.PlayMusic(1);
+        if (musicManager != null)
+        {
+            musicManager.PlayMusic(1);
+        }
         RpcShow();  
     }
 

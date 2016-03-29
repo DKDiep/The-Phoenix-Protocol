@@ -246,6 +246,9 @@ public class ServerManager : NetworkBehaviour
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
+
+        spawner = GameObject.Find("Spawner");
+        gameTimer = GameObject.Find("GameTimerText");
     }
 
     public void SetReadyScreen(GameObject newReadyScreen)
@@ -261,12 +264,10 @@ public class ServerManager : NetworkBehaviour
 
         // These can be moved to one time execution
         GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
-        spawner = GameObject.Find("Spawner");
-        gameTimer = GameObject.Find("GameTimerText");
 
         // Overlay ready screen
         readyScreen.GetComponent<ReadyScreen>().Reset();
-
+            
         // Restart music - consider reset method for sound system
         musicManager.GetComponent<MusicManager>().PlayMusic(0);
 
