@@ -24,11 +24,19 @@ var loadedResources;
 // Background Image
 var bg;
 
+// Tractor beam sprite
+var tractorBeam;
+
 // Used to interrupt the rendering
 var keepRendering = false;
 
+// Holds a function that needs to be called on first available update
+// Deals with a change in controlled enemy
+var enemyControllUpdate;
+
 // Game variables
 var playerShip;
+var controlledEnemySprite;
 var enemies = new Array();
 var asteroids = new Array();
 
@@ -59,6 +67,7 @@ function startSpectatorScreen() {
     loader.add("ast", "img/rock.png");
     loader.add("enm", "img/enemy.png");
     loader.add("hacked", "img/enemy_hacked.png");
+    loader.add("tract_beam", "img/tractor_beam.png")
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -75,27 +84,25 @@ function finaliseSpectatorScreen() {
     oldHeight = undefined;
     maxDim = undefined;
 
-    // You need to create a root container that will hold the scene you want to draw.
     stage = undefined;
 
-    // Texture loader
     loader = undefined;
 
-    // Holds the textures after the loading is done
     loadedResources = undefined;
 
-    // Background Image
     bg = undefined;
 
-    // Used to interrupt the rendering
+    tractorBeam = undefined;
+
     keepRendering = false;
 
-    // Game variables
+    enemyControllUpdate = undefined
+
     playerShip = undefined;
+    controlledEnemySprite = undefined;
     enemies = new Array();
     asteroids = new Array();
 
-    // Controll data
     controlledEnemyId = 0;
     isControllingEnemy = false;
 }
@@ -114,6 +121,47 @@ function handleGeneralPress(eventData) {
 
 // Place player ship in middle and add moving background
 function init() {
+    // Rendering order is based on the order in which things were added
+    // Add moving background
+    initBackground(loadedResources);
+    // Define tractor beam
+    initTractorBeam(loadedResources);
+    // Add player ship
+    initPlayerShip(loadedResources);
+
+    // kick off the animation loop (defined below)
+    keepRendering = true
+    resize();
+    renderUpdate();
+}
+
+function initBackground(resources) {
+    bg = new PIXI.extras.TilingSprite(resources.stars.texture,
+                                        renderer.width, renderer.height);
+    bg.position.x = 0;
+    bg.position.y = 0;
+    bg.tilePosition.x = 0;
+    bg.tilePosition.y = 0;
+
+    stage.addChild(bg);
+}
+
+function initTractorBeam(resources) {
+    tractorBeam = new PIXI.extras.TilingSprite(resources.tract_beam.texture, 1, 1);
+    tractorBeam.anchor.y = 0.5;
+
+    tractorBeam.position.x = 0.5*renderer.width;
+    tractorBeam.position.y = 0.5*renderer.height;
+
+    tractorBeam.tilePosition.x = 0;
+    tractorBeam.tilePosition.y = 0;
+
+    disableTractorBeam();
+
+    stage.addChild(tractorBeam);
+}
+
+function initPlayerShip(resources) {
     playerShip = new PIXI.Sprite(loadedResources.ship.texture);
 
     // Set center of mass atound center
@@ -124,22 +172,7 @@ function init() {
     playerShip.position.x = 0.5*renderer.width;
     playerShip.position.y = 0.5*renderer.height;
 
-    // Add moving background
-    bg = new PIXI.extras.TilingSprite(loadedResources.stars.texture,
-                                        renderer.width, renderer.height);
-    bg.position.x = 0;
-    bg.position.y = 0;
-    bg.tilePosition.x = 0;
-    bg.tilePosition.y = 0;
-
-    // Add ship and background to the scene we are building.
-    stage.addChild(bg)
     stage.addChild(playerShip);
-
-    // kick off the animation loop (defined below)
-    keepRendering = true
-    resize();
-    renderUpdate();
 }
 
 // Render function
@@ -148,14 +181,40 @@ function renderUpdate() {
     if(!keepRendering) {
         return
     }
+
     // start the timer for the next animation loop
     requestAnimationFrame(renderUpdate);
 
+    // Update display information about controlled enemy if necessary
+    if(enemyControllUpdate != undefined) {
+        enemyControllUpdate()
+        enemyControllUpdate = undefined
+    }
+
+    // Animate tracktor beam
+    updateTractorBeam()
+
     // move background
-    bg.tilePosition.y += 0.5
+    updateBackground()
 
     // this is the main render call that makes pixi draw your container and its children.
     renderer.render(stage);
+}
+
+// Animate tractor beam
+function updateTractorBeam() {
+    if(tractorBeam.target != undefined) {
+        distance = distanceOfTwoSprites(tractorBeam, tractorBeam.target);
+        angle = angleOfLine(tractorBeam, tractorBeam.target);
+        tractorBeam.rotation = angle;
+        tractorBeam.width = distance;
+        tractorBeam.tilePosition.x -= 0.8;
+    }
+}
+
+// Move background a bit
+function updateBackground() {
+    bg.tilePosition.y += 0.5
 }
 
 // Resizing function
@@ -167,24 +226,37 @@ function resize() {
 
     oldHeight = renderer.height;
     oldWidth = renderer.width;
-    renderer.resize(newWidth, newHeight)
-    bg.width = newWidth
-    bg.height = newHeight
-    for(i = 0; i < stage.children.length; i++) {
-        sprite = stage.getChildAt(i);
-        if (sprite != bg) {
-            spriteResize(sprite);
-        }
+    renderer.resize(newWidth, newHeight);
+
+    // Recale background
+    bg.width = newWidth;
+    bg.height = newHeight;
+
+    // Reposition and rescale tractor beam
+    spriteReposition(tractorBeam);
+    // Thinkness of beam in game length units
+    var beamThickness = 7;
+    tractorBeam.height = beamThickness*zoom*maxDim;
+
+    // Reposition and rescale game objects
+    spriteReposition(playerShip);
+    spriteScale(playerShip);
+    for (id in asteroids) {
+        var sprite = asteroids[id];
+        spriteReposition(sprite);
+        spriteScale(sprite);
+    }
+    for (id in enemies) {
+        var sprite = enemies[id];
+        spriteReposition(sprite);
+        spriteScale(sprite);
     }
 }
 
 // Sets the scale of the sprite based on a number of factors
-function spriteResize(sprite) {
-    // Reposition
+function spriteReposition(sprite) {
     sprite.position.x = (sprite.position.x/oldWidth)*renderer.width;
     sprite.position.y = (sprite.position.y/oldHeight)*renderer.height;
-    // Rescale
-    spriteScale(sprite)
 }
 
 // Scales the sprite
@@ -249,9 +321,6 @@ function updateSprites(data) {
             toAdd.push(enm)
         } else {
             spritePosition(sprite, enm.x, enm.y);
-            if(sprite.spaceGameId == controlledEnemyId) {
-                sprite.texture = loadedResources.hacked.texture
-            }
             // TODO: implement rotation
             // sprite.rotation = 12
             newTmp[enm.id] = sprite;
@@ -284,4 +353,35 @@ function updateSprites(data) {
     }
     // Finalise by setting the asteroid list
     enemies = newTmp
+}
+
+// Set the target of the tractor beam
+function enableTractorBeam(target) {
+    tractorBeam.target = target;
+}
+
+function disableTractorBeam() {
+    tractorBeam.target = undefined;
+    tractorBeam.width = 0;
+}
+
+function angleOfLine(origin, end) {
+    var deltaX = end.position.x - origin.position.x;
+    var deltaY = end.position.y - origin.position.y;
+    return Math.atan2(deltaY, deltaX);
+}
+
+function distanceOfTwoSprites(a, b) {
+    var xDiff = a.position.x - b.position.x;
+    var yDiff = a.position.y - b.position.y;
+    return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+}
+
+function findControlledEnemy() {
+    for (id in enemies) {
+        var sprite = enemies[id]
+        if(sprite.spaceGameId == controlledEnemyId) {
+            return sprite
+        }
+    }
 }

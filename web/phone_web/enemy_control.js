@@ -24,8 +24,23 @@ function updateControllInfo(data) {
     controlledEnemyId = data.controlledId
     isControllingEnemy = data.isControlling
     if(isControllingEnemy) {
-        // TODO: indicate that someting is being controlled
+        enemyControllUpdate = displayNewControlledEnemy
     } else {
-        // TODO: indicate that nothing is being controlled
+        enemyControllUpdate = clearDisplayingOfControlledEnemy
     }
+}
+
+// Highligth controlled enemy and deals with other state changes
+function displayNewControlledEnemy() {
+    controlledEnemySprite = findControlledEnemy()
+    controlledEnemySprite.texture = loadedResources.hacked.texture
+    // Enabling tractor beam as example of usage
+    enableTractorBeam(controlledEnemySprite)
+}
+
+// Clear controll enemy visualisations and data
+function clearDisplayingOfControlledEnemy() {
+    controlledEnemySprite = undefined
+    // Disabling tractor beam as example of usage
+    disableTractorBeam()
 }
