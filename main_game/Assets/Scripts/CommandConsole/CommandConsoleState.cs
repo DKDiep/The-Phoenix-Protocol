@@ -160,45 +160,6 @@ public class CommandConsoleState : MonoBehaviour {
         playerController = controller;
     }
         
-    private int GetIdFromComponentType(ComponentType type)
-    {
-        switch(type)
-        {
-            case ComponentType.ShieldGenerator:
-                return 0;
-            case ComponentType.Turret:
-                return 1;
-            case ComponentType.Engine:
-                return 2;
-            case ComponentType.Bridge:
-                return 3;
-            case ComponentType.Drone:
-                return 4;
-            case ComponentType.ResourceStorage:
-                return 5;
-        }
-        return 0;
-    }
-
-    private ComponentType GetComponentTypeFromId(int id)
-    {
-        switch(id)
-        {
-        case 0:
-            return ComponentType.ShieldGenerator;
-        case 1:
-            return ComponentType.Turret;
-        case 2:
-            return ComponentType.Engine;
-        case 3:
-            return ComponentType.Bridge;
-        case 4:
-            return ComponentType.Drone;
-        case 5:
-            return ComponentType.ResourceStorage;
-        }
-        return 0;
-    }
 
     /// <summary>
     /// Checks the upgrade cost of a component
@@ -240,7 +201,7 @@ public class CommandConsoleState : MonoBehaviour {
             consoleUpgrades[componentId].UpdateLevelIndicator(level);
 
             // Send request to engineer to upgrade
-            playerController.CmdAddUpgrade(GetComponentTypeFromId(componentId));
+            playerController.CmdAddUpgrade((ComponentType)componentId);
 
             // Update resources text with new value.
             UpdateAllText();
@@ -262,10 +223,10 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type.</param>
     public void ConfirmUpgrade(ComponentType type)
     {
-        upgradeProgress[GetIdFromComponentType(type)] = 0;
+        upgradeProgress[(int)type] = 0;
         upgradeButtonLabel.text = "Upgrade";
-        componentLevels[GetIdFromComponentType(type)]++;
-        UpdateNewsFeed("[Engineer] " + upgradeNames[GetIdFromComponentType(type)] + " upgrade is complete.");
+        componentLevels[(int)type]++;
+        UpdateNewsFeed("[Engineer] " + upgradeNames[(int)type] + " upgrade is complete.");
     }
 
     /// <summary>
@@ -275,7 +236,7 @@ public class CommandConsoleState : MonoBehaviour {
     public void ConfirmRepair(ComponentType type)
     {
         consoleUpgrades[(int)type].HideRepairButton();
-        UpdateNewsFeed("[Engineer] " + upgradeNames[GetIdFromComponentType(type)] + " has been repaired.");
+        UpdateNewsFeed("[Engineer] " + upgradeNames[(int)type] + " has been repaired.");
     }
         
     public void HighlightComponent(int component)
@@ -304,7 +265,7 @@ public class CommandConsoleState : MonoBehaviour {
 
     public void OnClickRepair(int component)
     {
-        playerController.CmdAddRepair(GetComponentTypeFromId(component));
+        playerController.CmdAddRepair((ComponentType)component);
     }
     //Called whenever an upgrade is purchased (by clicking yellow button)
     public void UpgradeShip()
@@ -388,7 +349,10 @@ public class CommandConsoleState : MonoBehaviour {
     {
         foreach(ComponentType type in ComponentType.GetValues(typeof(ComponentType)))
         {
-            if(upgradeProgress[GetIdFromComponentType(type)] == 1)
+            if(type == ComponentType.None)
+                continue;
+            
+            if(upgradeProgress[(int)type] == 1)
             {
                 Debug.Log("Cheating engineer upgrade for " + type.ToString());
                 ConfirmUpgrade(type);
