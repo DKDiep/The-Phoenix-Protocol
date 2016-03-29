@@ -145,6 +145,19 @@ public class ObjectPoolManager : NetworkBehaviour
         pool[id].SetActive(false);
     }
 
+	/// <summary>
+	/// Disables all of this manager's objects.
+	/// </summary>
+	public void DisableAll()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			string name = i.ToString();
+			DisableClientObject(name);
+			RemoveObject(name);
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/// Type-specific methods
 	/// aka "Team Pyrolite doesn't give a shit about object orientation"

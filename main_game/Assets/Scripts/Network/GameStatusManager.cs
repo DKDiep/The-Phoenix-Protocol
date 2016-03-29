@@ -13,6 +13,9 @@ public class GameStatusManager : NetworkBehaviour
     private GameObject server;
     private PlayerController playerController;
     private MusicManager musicManager;
+
+	private ObjectPoolManager enemyLogicManager;
+
 	// Use this for initialization
 	void Start () {
 		server = GameObject.Find("GameManager");
@@ -21,6 +24,8 @@ public class GameStatusManager : NetworkBehaviour
 
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+		enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 	}
 	
 	// Update is called once per frame
@@ -54,6 +59,8 @@ public class GameStatusManager : NetworkBehaviour
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
                     Debug.Log("Final Game Score: " + this.gameObject.GetComponent<GameStatsManager>().CalculateAndSendGameScore());
 
+					// Disable the enemies to stop them from shooting
+					enemyLogicManager.DisableAll();
                   
                     // Manage end game music
                     if(musicManager == null)
