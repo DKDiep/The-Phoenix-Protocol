@@ -35,11 +35,13 @@ public class GameStatusManager : NetworkBehaviour
     {
         gameOverScreen = false;
         // Remove screen overlays
-        GameObject gameOverCanvas = GameObject.Find("GameOverCanvas(Clone)");
-        if (gameOverCanvas != null)
+        GameObject resultCanvas = GameObject.Find("GameOverCanvas(Clone)");
+        if (resultCanvas != null)
         {
-            // Destroy as gameOverCanvas is instantiated each time
-            Destroy(gameOverCanvas);
+            // Force if sync var delayed
+            if (gameState.Status != GameState.GameStatus.Setup)
+                gameState.Status = GameState.GameStatus.Setup;
+            Destroy(resultCanvas);
         }
         // Re-enable portals disabled previously by game over
         if (playerController.GetRole() == RoleEnum.Camera)
@@ -48,7 +50,6 @@ public class GameStatusManager : NetworkBehaviour
             if (localPortal != null)
                 localPortal.SetActive(true);
         }
-        Debug.Log("RpcReset");
     }
 	
 	// Update is called once per frame
@@ -57,7 +58,6 @@ public class GameStatusManager : NetworkBehaviour
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
             DisableThrusterSound();
-            
             // Set an overlay on the screen
 			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 

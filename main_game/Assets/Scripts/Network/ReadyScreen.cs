@@ -15,35 +15,35 @@ public class ReadyScreen : NetworkBehaviour
 
     private bool blackScreen = false;
 
-    void Awake()
+    void Start()
     {
         GameObject server = GameObject.Find("GameManager");
-
-        if (server != null)
-        {
-            serverManager = server.GetComponent<ServerManager>();
-            goButton.onClick.AddListener(() => OnClickStartButton());
-        }
+        serverManager = server.GetComponent<ServerManager>();
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
         if (playerController.netId.Value != serverManager.GetServerId())
+        {
             goButton.gameObject.SetActive(false);
-    }
-
-    void Start()
-    {
-        Reset();
+        }
+        else
+        {
+            serverManager = server.GetComponent<ServerManager>();
+            goButton.onClick.AddListener(() => OnClickStartButton());
+            Reset();
+        }
     }
 
     public void Reset()
     {
-        musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
-        if (musicManager != null)
+        GameObject musicObect = GameObject.Find("MusicManager(Clone)");
+        if (musicObect != null)
         {
+            musicManager = musicObect.GetComponent<MusicManager>();
             musicManager.PlayMusic(1);
         }
-        RpcShow();  
+        if (playerController.netId.Value == serverManager.GetServerId())
+            RpcShow();  
     }
 
     public void OnClickStartButton()
@@ -53,11 +53,11 @@ public class ReadyScreen : NetworkBehaviour
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Reset();
         serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
+        // Setup shoot logic now that dependencies are ready
+        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
         // Start the game
-        serverManager.Reset();
-
+        GameObject.Find("GameManager").GetComponent<GameState>().Status = GameState.GameStatus.Started;
         // Disable self until restart
-        //gameObject.SetActive(false);
         RpcHide();
     }
 

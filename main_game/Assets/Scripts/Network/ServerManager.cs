@@ -262,9 +262,6 @@ public class ServerManager : NetworkBehaviour
         gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
 
-        // These can be moved to one time execution
-        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
-
         // Overlay ready screen
         readyScreen.GetComponent<ReadyScreen>().Reset();
             
@@ -281,10 +278,12 @@ public class ServerManager : NetworkBehaviour
             portal.SetActive(true);
         }
 
-        // Reset objects
-        gameTimer.GetComponent<TimerScript>().ResetTimer();
-        // Reset portal trigger
+        // Reset portal trigger - this needs to be before game status change
         gameState.gameObject.GetComponent<GameStatusManager>().Reset();
+
+        // Reset timer  
+        gameTimer.GetComponent<TimerScript>().ResetTimer();
+        
         // Reset missions
         missionManager.GetComponent<MissionManager>().ResetMissions();
         
@@ -295,14 +294,13 @@ public class ServerManager : NetworkBehaviour
         spawner.GetComponent<OutpostSpawner>().Reset();
         spawner.GetComponent<AsteroidSpawner>().Reset();
 
-        //Reset player ship
+        // Reset player ship
         gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,-2000.0f);
         gameState.PlayerShip.transform.rotation = Quaternion.identity;
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
 
-        // Enable game loop to update again
-        gameState.Status = GameState.GameStatus.Started;
+        // Game state to be updated through ReadyScreen
     }
 
     // Temporary to test reset
