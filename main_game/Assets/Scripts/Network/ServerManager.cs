@@ -295,7 +295,7 @@ public class ServerManager : NetworkBehaviour
         spawner.GetComponent<AsteroidSpawner>().Reset();
 
         //Reset player ship
-        gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,0.0f);
+        gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,-2000.0f);
         gameState.PlayerShip.transform.rotation = Quaternion.identity;
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
