@@ -54,13 +54,16 @@ public class MissionManager : MonoBehaviour
     {
         for(int id = 0; id < missions.Length; id++)
         {
-            // If the missions completion type is an outpost, we randomly assign it a close outpost.
-            if(missions[id].completionType == CompletionType.Outpost)
+            foreach (MissionCompletion completeCondition in missions[id].completionConditions)
             {
-                missions[id].completionValue = outpostManager.GetClosestOutpost();
-                // If we have successfully initialised the completion value.
-                if(missions[id].completionValue != -1)
-                    missionInit = true;
+                // If the missions completion type is an outpost, we randomly assign it a close outpost.
+                if(completeCondition.completionType == CompletionType.Outpost)
+                {
+                    completeCondition.completionValue = outpostManager.GetClosestOutpost();
+                    // If we have successfully initialised the completion value.
+                    if(completeCondition.completionValue != -1)
+                        missionInit = true;
+                }
             }
         }
     }
@@ -81,7 +84,7 @@ public class MissionManager : MonoBehaviour
         // Loop through mission ids
         for(int id = 0; id < missions.Length; id++)
         {
-            if(CheckTrigger(missions[id].triggerType, missions[id].triggerValue) && missions[id].hasStarted() == false)
+            if(CheckTrigger(id) && missions[id].hasStarted() == false)
             {
                 StartMission(id);
             }
@@ -92,8 +95,7 @@ public class MissionManager : MonoBehaviour
     {
         for(int id = 0; id < missions.Length; id++)
         {
-            if(CheckCompletion(missions[id].completionType, missions[id].completionValue) && 
-               missions[id].hasStarted() == true && missions[id].isComplete() == false)
+            if(CheckCompletion(id) && missions[id].hasStarted() == true && missions[id].isComplete() == false)
             {
                 CompleteMission(id);
             }
@@ -118,63 +120,131 @@ public class MissionManager : MonoBehaviour
     /// <returns><c>true</c>, if trigger was checked, <c>false</c> otherwise.</returns>
     /// <param name="trigger">Trigger.</param>
     /// <param name="value">Value.</param>
-    private bool CheckTrigger(TriggerType trigger, int value)
+    private bool CheckTrigger(int missionId)
     {
-        switch(trigger)
+        // Loop through each trigger condition
+        foreach (MissionTrigger trigger in missions[missionId].triggerConditions)
         {
-            case TriggerType.Health:
-                if(gameState.GetShipHealth() < value)
-                    return true;
-                break;
-            case TriggerType.OutpostDistance:
-                if(outpostManager.GetClosestOutpostDistance() < value)
-                    return true;
-                break;
-            case TriggerType.Resources:
-                if(gameState.GetShipResources() > value)
-                    return true;
-                break;
-            case TriggerType.Shields:
-                if(gameState.GetShipShield() < value)
-                    return true;
-                break;
-            case TriggerType.Time:
-                if((Time.time - startTime) > value)
-                    return true;
-                break;
+            switch(trigger.triggerType)
+            {
+                case TriggerType.Health:
+                    if(gameState.GetShipHealth() < trigger.triggerValue)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
+                case TriggerType.OutpostDistance:
+                    if(outpostManager.GetClosestOutpostDistance() < trigger.triggerValue)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }   
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
+                case TriggerType.Resources:
+                    if(gameState.GetShipResources() > trigger.triggerValue)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
+                case TriggerType.Shields:
+                    if(gameState.GetShipShield() < trigger.triggerValue)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
+                case TriggerType.Time:
+                    if((Time.time - startTime) > trigger.triggerValue)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
+            }
         }
-        return false;
+
+        if(missions[missionId].triggerOnAny)
+            return false;
+        else 
+            return true;
     }
 
-    private bool CheckCompletion(CompletionType type, int value)
+    private bool CheckCompletion(int missionId)
     {
-        switch(type)
+        // Loop through each completion condition
+        foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
         {
-        case CompletionType.Enemies:
-            if(gameState.GetTotalKills() > value)
-                return true;
-            break;
-        case CompletionType.Outpost:
-            if(value != -1)
+            switch(completeCondition.completionType)
             {
-                GameObject outpost = gameState.GetOutpostById(value);
-                if(outpost != null && outpost.GetComponentInChildren<OutpostLogic>().resourcesCollected == true)
-                    return true;
+                case CompletionType.Enemies:     
+                    if(gameState.GetTotalKills() >= completeCondition.completionValue)
+                    {
+                        if(missions[missionId].completeOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].completeOnAny) return false;
+                    }
+                    break;
+                case CompletionType.Outpost:
+                    if(completeCondition.completionValue != -1)
+                    {
+                        GameObject outpost = gameState.GetOutpostById(completeCondition.completionValue);
+                        if(outpost != null && outpost.GetComponentInChildren<OutpostLogic>().resourcesCollected == true)
+                        {
+                            if(missions[missionId].completeOnAny) return true;
+                        }
+                        else
+                        {
+                            if(!missions[missionId].completeOnAny) return false;
+                        }
+                    }
+                    break;
             }
-            break;
         }
-        return false;
+        if(missions[missionId].completeOnAny)
+            return false;
+        else 
+            return true;
+
     }
         
     [System.Serializable] 
     public class Mission
     {
         public string name, description, completedDescription;
-        public TriggerType triggerType;
-        public CompletionType completionType;
-        public int triggerValue, completionValue;
-        public UnityEvent onTrigger;
+
+        // If true then any trigger condiiton will trigger this mission;
+        // If false then ALL trigger conditions will have to be true to trigger the mission;
+        public bool triggerOnAny;
+        public MissionTrigger[] triggerConditions;
+
+        // If true then any completion condition will complete this mission;
+        // If false then ALL completion conditions will have to be true to complete the mission;
+        public bool completeOnAny;
+        public MissionCompletion[] completionConditions;
+
+        // Functions can be added to be triggered 'onStart' or 'onComplete'
+        public UnityEvent onStart;
         public UnityEvent onCompletion;
+
         private bool started = false;
         private bool complete = false;
 
@@ -184,6 +254,7 @@ public class MissionManager : MonoBehaviour
         }
         public void completeMission()
         {
+            Debug.Log("Completed Mission " + name);
             if(onCompletion != null)
                 onCompletion.Invoke();
             complete = true;
@@ -194,10 +265,25 @@ public class MissionManager : MonoBehaviour
         }
         public void start()
         {
-            if(onTrigger != null)
-                onTrigger.Invoke();
+            Debug.Log("Starting Mission " + name);
+            if(onStart != null)
+                onStart.Invoke();
             started = true;
         }
+    }
+
+    [System.Serializable]
+    public class MissionTrigger
+    {
+        public TriggerType triggerType;
+        public int triggerValue;
+    }
+
+    [System.Serializable]
+    public class MissionCompletion
+    {
+        public CompletionType completionType;
+        public int completionValue;
     }
 }
 

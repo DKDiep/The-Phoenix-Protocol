@@ -220,47 +220,21 @@ MonoBehaviour:
   PlayerBulletSpeed: 800
   missionProperties:
   - name: Mission 1
-    description: Destroy these enemies
+    description: Something about the mission
     completedDescription: You managed to kill 5
-    triggerType: 2
-    completionType: 0
-    triggerValue: 90
-    completionValue: 5
-    onTrigger:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onCompletion:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  - name: Mission 2
-    description: Navigate to the outpost
-    completedDescription: jknsdkjnsd
-    triggerType: 0
-    completionType: 1
-    triggerValue: 10
-    completionValue: -1
-    onTrigger:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onCompletion:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  - name: Timed Mission test
-    description: This should trigger after 30 seconds.
-    completedDescription: DONE
-    triggerType: 0
-    completionType: 0
-    triggerValue: 30
-    completionValue: 1
-    onTrigger:
+    triggerOnAny: 0
+    triggerConditions:
+    - triggerType: 0
+      triggerValue: 10
+    - triggerType: 2
+      triggerValue: 80
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 0
+      completionValue: 10
+    - completionType: 1
+      completionValue: 0
+    onStart:
       m_PersistentCalls:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -277,6 +251,22 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].triggerConditions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerConditions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completionConditions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[2].onTrigger.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -402,7 +392,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[0].description
-      value: Destroy these enemies
+      value: Something about the mission
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[1].description
@@ -493,6 +483,70 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[2].onCompletion.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].onStart.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].onCompletion.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].name
+      value: Timed Mission test
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].description
+      value: This should trigger after 30 seconds.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].completedDescription
+      value: DONE
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].onStart.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].onCompletion.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerOnAny
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerConditions.Array.data[0].triggerValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerConditions.Array.data[1].triggerType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].triggerConditions.Array.data[1].triggerValue
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completeOnAny
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completionConditions.Array.data[0].completionValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completionConditions.Array.data[1].completionType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].completionConditions.Array.data[1].completionValue
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
