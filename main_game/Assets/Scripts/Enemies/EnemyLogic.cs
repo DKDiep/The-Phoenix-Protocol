@@ -33,6 +33,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     internal float shotsPerSec;
     internal float shootPeriod;                  // How long in seconds the enemy should shoot for when it fires
     internal float engageDistance;
+	internal float accuracy;
+	internal float bulletDamage;
+	internal float bulletSpeed;
 	internal EnemyType type;
 
 	private AudioSource mySrc;
@@ -643,33 +646,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
 		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-		// TODO: these should be set when the enemy type is applied
-		float bulletSpeed = 0f, bulletAccuracy = 1f, bulletDamage = 1f;
-		if (type == EnemyType.Gnat)
-		{
-			bulletSpeed    = 600f;
-			bulletAccuracy = 0.3f;
-			bulletDamage   = 1f;
-		}
-		else if (type == EnemyType.Firefly)
-		{
-			bulletSpeed     = 600f;
-			bulletAccuracy 	= 0.15f;
-			bulletDamage    = 2f;
-		}
-         else if(type == EnemyType.Hornet)
-		{
-			bulletSpeed    = 800f;
-			bulletAccuracy = 0.05f;
-			bulletDamage   = 5f;
-		}
-         else if(type == EnemyType.BlackWidow)
-		{
-			bulletSpeed    = 800f;
-			bulletAccuracy = 0.05f;
-			bulletDamage   = 10f;
-		}
-		bulletLogic.SetParameters(bulletAccuracy, bulletDamage);
+		bulletLogic.SetParameters(accuracy, bulletDamage);
 		bulletMove.Speed = bulletSpeed;
 		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
@@ -680,7 +657,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (hackedAttackTraget != null)
 		{
 			destination = currentTarget.transform.position;
-			if (Random.value > bulletAccuracy)
+			if (Random.value > accuracy)
 				bulletMove.SetTarget(currentTarget);
 			obj.layer = LayerMask.NameToLayer("Player");
 		}

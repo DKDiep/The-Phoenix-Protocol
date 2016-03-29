@@ -444,6 +444,7 @@ public class EnemySpawner : MonoBehaviour
 		public int maxHealth, maxShield, collisionDamage, speed;
         public bool isSuicidal;
         public float shootPeriod, shotsPerSec, engageDistance;
+		public float accuracy, bulletDamage, bulletSpeed;
 	}
 
 	// Apply properties to an enemy object, i.e. make it be of certain type
@@ -469,6 +470,9 @@ public class EnemySpawner : MonoBehaviour
         enemy.shootPeriod     = props.shootPeriod;
         enemy.shotsPerSec     = props.shotsPerSec;
         enemy.engageDistance  = props.engageDistance;
+		enemy.accuracy 		  = props.accuracy;
+		enemy.bulletDamage    = props.bulletDamage;
+		enemy.bulletSpeed     = props.bulletSpeed;
 		enemy.type            = props.type;
 	}
 
