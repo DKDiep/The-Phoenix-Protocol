@@ -74,8 +74,13 @@ public class StratMap : MonoBehaviour {
 
     public void outpostVisitNotify(int id)
     {
-        print("inside outpostVisitNotify");
         outpostIconDict[id].GetComponent<Image>().color = Color.grey;
+    }
+
+    public void startMission(int id)
+    {
+        if (outpostIconDict[id] == null) print("outpostIconDict[id] == null");
+        else outpostIconDict[id].GetComponent<Image>().color = Color.magenta;
     }
 
 	// Update is called once per frame

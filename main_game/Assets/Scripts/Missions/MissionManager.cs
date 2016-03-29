@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 using System.Collections;
 
 public class MissionManager : MonoBehaviour 
@@ -103,7 +102,8 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
-        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description);
+        bool outpostMission = missions[missionId].completionType == CompletionType.Outpost ? true : false;
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, missions[missionId].completionValue);
     }
 
     private void CompleteMission(int missionId)
@@ -173,8 +173,6 @@ public class MissionManager : MonoBehaviour
         public TriggerType triggerType;
         public CompletionType completionType;
         public int triggerValue, completionValue;
-        public UnityEvent onTrigger;
-        public UnityEvent onCompletion;
         private bool started = false;
         private bool complete = false;
 
@@ -184,8 +182,6 @@ public class MissionManager : MonoBehaviour
         }
         public void completeMission()
         {
-            if(onCompletion != null)
-                onCompletion.Invoke();
             complete = true;
         }
         public bool hasStarted()
@@ -194,8 +190,6 @@ public class MissionManager : MonoBehaviour
         }
         public void start()
         {
-            if(onTrigger != null)
-                onTrigger.Invoke();
             started = true;
         }
     }

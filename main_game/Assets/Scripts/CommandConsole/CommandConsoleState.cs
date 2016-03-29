@@ -371,8 +371,14 @@ public class CommandConsoleState : MonoBehaviour {
         popupWindow.SetActive(true);
         popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
         popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = descrption;
-
     }
+
+    public void UpdateMissionsOnMap(int id)
+    {
+        if (stratMap == null) print("stratmap == null");
+        else stratMap.startMission(id);
+    }
+
 
     public void ClosePopupWindow()
     {
