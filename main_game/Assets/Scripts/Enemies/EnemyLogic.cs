@@ -779,9 +779,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		else*/
 		currentWaypoint = new GameObject("HackWaypoint");
 
-		Vector3 playerPos = player.transform.position;
-		currentWaypoint.transform.position = new Vector3(playerPos.x + posX, controlObject.transform.transform.position.y,
-			playerPos.z + posZ);
+		Vector3 localMove = new Vector3(posX, 0, posZ);
+		Vector3 worldMove = player.transform.rotation * localMove;
+		currentWaypoint.transform.position = player.transform.position + worldMove;
     }
 
     /// <summary>
