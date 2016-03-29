@@ -310,14 +310,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	void Update ()
 	{
-		// If this enemy has gone mad, its sole purpose is to crash into the player
-		if (isSuicidal)
-		{
-
-			MoveTowardsPlayer ();
-			return;
-		}
-
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
 		distance   = Vector3.Distance(transform.position, player.transform.position);
