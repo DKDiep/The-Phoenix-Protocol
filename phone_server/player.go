@@ -129,6 +129,7 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
             "id": id,
             "x" : enemy.posX,
             "y" : enemy.posY,
+            "isHacked" : enemy.isControlled,
         })
     }
 

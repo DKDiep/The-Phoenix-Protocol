@@ -68,7 +68,8 @@ function startSpectatorScreen() {
     loader.add("stars", "img/stars.png");
     loader.add("ast", "img/rock.png");
     loader.add("enm", "img/enemy.png");
-    loader.add("hacked", "img/enemy_hacked.png");
+    loader.add("controlled_enm", "img/enemy_controlled.png");
+    loader.add("hacked_enm", "img/enemy_hacked.png");
     loader.add("tract_beam", "img/tractor_beam.png")
 
     // load the textures we need and initiate the rendering
@@ -347,6 +348,10 @@ function updateSprites(data) {
             toAdd.push(enm)
         } else {
             spritePosition(sprite, enm.x, enm.y);
+            sprite.isHacked = enm.isHacked
+            if(sprite.isHacked && sprite != controlledEnemySprite) {
+                sprite.texture = loadedResources.hacked_enm.texture
+            }
             // TODO: implement rotation
             // sprite.rotation = 12
             newTmp[enm.id] = sprite;
@@ -368,9 +373,13 @@ function updateSprites(data) {
         // TODO: implement rotation
         // sprite.rotation = 12
         spriteScale(newEnm);
+        newEnm.isHacked = enm.isHacked
+        if(newEnm.isHacked && newEnm != controlledEnemySprite) {
+            newEnm.texture = loadedResources.hacked_enm.texture
+        }
         newEnm.interactive = newEnm.buttonMode = true;
         newEnm.mousedown = newEnm.touchstart = function (eventData) {
-            actionOnEnemy(eventData.target.spaceGameId)
+            actionOnEnemy(eventData.target)
             // Prevents the triggering of the move event
             eventData.stopPropagation()
         };

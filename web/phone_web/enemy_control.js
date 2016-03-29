@@ -2,12 +2,12 @@ var controlledEnemyId = 0;
 var isControllingEnemy = false;
 
 // Action related to an enemy object
-function actionOnEnemy(id) {
-    console.log("enemy action ", id)
+function actionOnEnemy(target) {
+    console.log("enemy action ", target.spaceGameId)
     if(!isControllingEnemy) {
-        sendControlEnemyRequest(id)
-    } else if (id != controlledEnemyId) {
-        sendEnemyAttackRequest(id)
+        sendControlEnemyRequest(target.spaceGameId)
+    } else if (!target.isHacked) {
+        sendEnemyAttackRequest(target.spaceGameId)
     }
 }
 
@@ -33,7 +33,8 @@ function updateControllInfo(data) {
 // Highligth controlled enemy and deals with other state changes
 function displayNewControlledEnemy() {
     controlledEnemySprite = findControlledEnemy()
-    controlledEnemySprite.texture = loadedResources.hacked.texture
+    controlledEnemySprite.isHacked = true
+    controlledEnemySprite.texture = loadedResources.controlled_enm.texture
     // Enabling tractor beam as example of usage
     enableTractorBeam(controlledEnemySprite)
 }
