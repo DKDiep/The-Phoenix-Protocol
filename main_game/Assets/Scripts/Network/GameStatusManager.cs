@@ -33,6 +33,20 @@ public class GameStatusManager : NetworkBehaviour
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
+            // Remove crosshair from this scene. 
+            GameObject crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
+            if(crosshairCanvas != null)
+                crosshairCanvas.SetActive(false);
+
+            GameObject playerShip = GameObject.Find("PlayerShip(Clone)");
+            if(playerShip != null)
+            {
+                for(int i = 0; i < playerShip.transform.childCount; i++)
+                {
+                    if(playerShip.transform.GetChild(i).name.Contains("Turret") || playerShip.transform.GetChild(i).name == "Model")
+                        playerShip.transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
             
             DisableThrusterSound();
             
