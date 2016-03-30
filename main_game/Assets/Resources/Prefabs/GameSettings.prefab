@@ -76,7 +76,7 @@ MonoBehaviour:
     maxHealth: 50
     maxShield: 0
     collisionDamage: 20
-    speed: 8
+    speed: 12
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -88,7 +88,7 @@ MonoBehaviour:
     maxHealth: 125
     maxShield: 0
     collisionDamage: 35
-    speed: 10
+    speed: 14
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 7
@@ -100,7 +100,7 @@ MonoBehaviour:
     maxHealth: 30
     maxShield: 0
     collisionDamage: 10
-    speed: 12
+    speed: 16
     isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
     maxHealth: 30
     maxShield: 0
     collisionDamage: 5
-    speed: 12
+    speed: 16
     isSuicidal: 0
     shootPeriod: 0
     shotsPerSec: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
     maxHealth: 200
     maxShield: 0
     collisionDamage: 60
-    speed: 12
+    speed: 16
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -136,7 +136,7 @@ MonoBehaviour:
     maxHealth: 350
     maxShield: 0
     collisionDamage: 75
-    speed: 18
+    speed: 22
     isSuicidal: 0
     shootPeriod: 4
     shotsPerSec: 6

@@ -72,7 +72,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	// Waypoints are used to move around the player when close enough
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
-	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.3f;   // Turning speed when following waypoints
+	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.5f;   // Turning speed when following waypoints
 	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;    // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;    // Maximum angle with the player when shooting is possible
 	private float lastYRot;
