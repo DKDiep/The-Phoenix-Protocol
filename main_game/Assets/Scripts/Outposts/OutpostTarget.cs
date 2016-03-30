@@ -33,6 +33,15 @@ public class OutpostTarget : MonoBehaviour
         myRenderer = GetComponent<Renderer>();
     }
 
+    public void StartMission()
+    {
+        myRenderer.material.color = Color.yellow;
+    }
+
+    public void EndMission()
+    {
+        myRenderer.material.color = Color.red;
+    }
 
     private IEnumerator UpdateDistance()
     {
