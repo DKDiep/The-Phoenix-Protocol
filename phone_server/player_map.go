@@ -21,6 +21,11 @@ type PlayerMap struct {
     updateC       chan struct{}     // channel for triggering the broadcast of up to date data
 }
 
+// Interface specifying a type that has 3 coordinates
+type GeometricObject interface {
+    GetPosObj() *Point
+}
+
 // A wrapper around data needed for user addition
 type NewPlr struct {
     id  string
@@ -158,35 +163,70 @@ func (players *PlayerMap) updateData() {
     // Transform asteroid coordinates into phone screen space
     for id, asteroid := range asteroidData {
         // Centre grid around player ship
-        asteroid.posX -= playerShipData.posX
-        asteroid.posY -= playerShipData.posY
-        // Rotate grid so ship is pointing north on the screen
-        newX := asteroid.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - asteroid.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
-        newY := asteroid.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + asteroid.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
+        centerAroundShip(playerShipData, asteroid)
+        // Project onto plane intersecting the ship front and right
+        projectOnShipPlane(playerShipData, asteroid)
         // TODO: nasty way of removing far asteroids, needs improving
-        if math.Abs(newY) > 250 || math.Abs(newX) > 250 {
+        if math.Abs(asteroid.pos.x) > 250 || math.Abs(asteroid.pos.y) > 250 {
             delete(asteroidData, id)
         }
-        asteroid.posX = newX
-        asteroid.posY = newY 
     }
 
     // Transform enemy coordinates into phone screen space
     for _, enemy := range enemyData {
         // Centre grid around player ship
-        enemy.posX -= playerShipData.posX
-        enemy.posY -= playerShipData.posY
-        // Rotate grid so ship is pointing north on the screen
-        newX := enemy.posX*math.Cos((playerShipData.rot)*(math.Pi/180)) - enemy.posY*math.Sin((playerShipData.rot)*(math.Pi/180))
-        newY := enemy.posX*math.Sin((playerShipData.rot)*(math.Pi/180)) + enemy.posY*math.Cos((playerShipData.rot)*(math.Pi/180))
-        enemy.posX = newX
-        enemy.posY = newY
+        centerAroundShip(playerShipData, enemy)
+        // Project onto plane intersecting the ship's front and right
+        projectOnShipPlane(playerShipData, enemy)
+        // Set the enemy orientation to the projected one
+        // projectEnemyDirections(playerShipData, enemy)
     }
 
     // Send updated data
     for _, plr := range players.mSpec {
         plr.sendDataUpdate(enemyData, asteroidData)
     }
+}
+
+// Translate so that player ship is point in the center of grid
+func centerAroundShip(origin *PlayerShip, obj GeometricObject) {
+    position := obj.GetPosObj()
+    position.x -= origin.pos.x
+    position.y -= origin.pos.y
+    position.z -= origin.pos.z
+}
+
+// Project onto the plane of the ship
+func projectOnShipPlane(origin *PlayerShip, obj GeometricObject) {
+    position := obj.GetPosObj()
+    newX := position.x*origin.right.x + position.y*origin.right.y + position.z*origin.right.z
+    newY := position.x*origin.forward.x + position.y*origin.forward.y + position.z*origin.forward.z
+    position.x = newX
+    position.y = newY
+    position.z = 0
+}
+
+// Rotate enemy directions so that they are correct in
+// the space where the ship is facing upwards
+// TODO: Doesn't work
+func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
+    // Project
+    newX := enm.forward.x*origin.right.x + enm.forward.y*origin.right.y + enm.forward.z*origin.right.z
+    newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y + enm.forward.z*origin.forward.z
+
+    mag := math.Sqrt(newX*newX + newY*newY)
+    if(mag == 0) {
+        mag = 1
+    }
+    enm.forward.x = newX/mag
+    enm.forward.y = newY/mag
+
+    // newX := enm.forward.x*origin.forward.y - enm.forward.y*origin.forward.x
+    // newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y
+    //
+    // enm.forward.x = newX
+    // enm.forward.y = newY
+    enm.forward.z = 0
 }
 
 // Get an unordered list of Player info from the provided map

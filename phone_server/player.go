@@ -2,6 +2,7 @@ package main
 
 import(
     "strconv"
+    "math"
 )
 
 type PlayerState int
@@ -127,8 +128,10 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     for id, enemy := range enemies {
         enemies_data = append(enemies_data, map[string]interface{}{
             "id": id,
-            "x" : enemy.posX,
-            "y" : enemy.posY,
+            "x" : enemy.pos.x,
+            "y" : enemy.pos.y,
+            // TODO: Rotation is bugged
+            "rot": math.Atan2(enemy.forward.y, enemy.forward.x),
             "isHacked" : enemy.isControlled,
         })
     }
@@ -139,8 +142,8 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     for id, ast := range asteroids {
         asteroids_data = append(asteroids_data, map[string]interface{}{
             "id": id,
-            "x" : ast.posX,
-            "y" : ast.posY,
+            "x" : ast.pos.x,
+            "y" : ast.pos.y,
         })
     }
 

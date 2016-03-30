@@ -6,8 +6,12 @@ import (
 
 // Holds asteroid data
 type Asteroid struct {
-    posX float64
-    posY float64
+    pos Point
+}
+
+// Function of GeometricObject interface
+func (ast *Asteroid) GetPosObj() *Point {
+    return &ast.pos
 }
 
 // The collection of all asteroids

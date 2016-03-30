@@ -352,8 +352,7 @@ function updateSprites(data) {
             if(sprite.isHacked && sprite != controlledEnemySprite) {
                 sprite.texture = loadedResources.hacked_enm.texture
             }
-            // TODO: implement rotation
-            // sprite.rotation = 12
+            sprite.rotation = -enm.rot
             newTmp[enm.id] = sprite;
             delete enemies[enm.id];
         }
@@ -370,8 +369,7 @@ function updateSprites(data) {
         newEnm.anchor.x = 0.5
         newEnm.anchor.y = 0.5
         spritePosition(newEnm, enm.x, enm.y);
-        // TODO: implement rotation
-        // sprite.rotation = 12
+        newEnm.rotation = -enm.rot
         spriteScale(newEnm);
         newEnm.isHacked = enm.isHacked
         if(newEnm.isHacked && newEnm != controlledEnemySprite) {

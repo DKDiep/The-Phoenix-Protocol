@@ -203,9 +203,21 @@ func sendUDPMsgToGameServer(msg string) (success bool) {
 // Updates the ship data with the received values
 func updateShipData(data map[string]interface{}) {
     newShipData := &PlayerShip{
-        posX: data["x"].(float64),
-        posY: data["y"].(float64),
-        rot:  data["rot"].(float64),
+        pos: Point{
+            x: data["x"].(float64),
+            y: data["y"].(float64),
+            z: data["z"].(float64),
+        },
+        forward: Point{
+            x: data["fX"].(float64),
+            y: data["fY"].(float64),
+            z: data["fZ"].(float64),
+        },
+        right: Point{
+            x: data["rX"].(float64),
+            y: data["rY"].(float64),
+            z: data["rZ"].(float64),
+        },
     }
     playerShip.setShipData(newShipData)
 }
@@ -217,8 +229,16 @@ func setEnemies(data []interface{}) {
         enemy := d.(map[string]interface{})
         enemyMap.set(int64(enemy["id"].(float64)),
             &Enemy{
-                posX: enemy["x"].(float64),
-                posY: enemy["y"].(float64),
+                pos: Point{
+                    x: enemy["x"].(float64),
+                    y: enemy["y"].(float64),
+                    z: enemy["z"].(float64),
+                },
+                forward: Point{
+                    x: enemy["fX"].(float64),
+                    y: enemy["fY"].(float64),
+                    z: enemy["fZ"].(float64),
+                },
                 isControlled: false,
                 controllingPlayer: nil,
             })
@@ -240,8 +260,11 @@ func addAsteroids(data []interface{}) {
         asteroid := d.(map[string]interface{})
         asteroidMap.add(int(asteroid["id"].(float64)),
             &Asteroid{
-                posX: asteroid["x"].(float64),
-                posY: asteroid["y"].(float64),
+                pos: Point{
+                    x: asteroid["x"].(float64),
+                    y: asteroid["y"].(float64),
+                    z: asteroid["z"].(float64),
+                },
             })
     }
 }

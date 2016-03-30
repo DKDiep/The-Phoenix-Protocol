@@ -6,10 +6,15 @@ import (
 
 // Holds enemy data
 type Enemy struct {
-    posX float64
-    posY float64
+    pos Point
+    forward Point
     isControlled bool
     controllingPlayer *Player
+}
+
+// Function of GeometricObject interface
+func (enm *Enemy) GetPosObj() *Point {
+    return &enm.pos
 }
 
 // The collection of all enemies
@@ -50,8 +55,8 @@ func (enemies *EnemyMap) accessManager() {
         // setting of enemy values
         case toSet := <-enemies.setC:
             if enm, ok := enemies.m[toSet.id]; ok {
-                enm.posX = toSet.enemy.posX
-                enm.posY = toSet.enemy.posY
+                enm.pos.x = toSet.enemy.pos.x
+                enm.pos.y = toSet.enemy.pos.y
             } else {
                 enemies.m[toSet.id] = toSet.enemy
             }

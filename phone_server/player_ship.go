@@ -4,11 +4,22 @@ import (
     "fmt"
 )
 
+type Point struct {
+    x float64
+    y float64
+    z float64
+}
+
 // Player ship data holding structure
 type PlayerShip struct {
-    posX float64
-    posY float64
-    rot  float64
+    pos Point
+    forward Point
+    right Point
+}
+
+// Function of GeometricObject interface
+func (plrShp *PlayerShip) GetPosObj() *Point {
+    return &plrShp.pos
 }
 
 // Wrapper around the player ship object handling concurrency
