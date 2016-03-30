@@ -159,7 +159,12 @@ public class OutpostManager : MonoBehaviour {
     {
         Image arrowImage = arrowList[id].GetComponent<Image>();
         arrowImage.color = Color.yellow;
-        print("inside setMissionTarget");
+    }
+
+    public void endMission(int id)
+    {
+        Image arrowImage = arrowList[id].GetComponent<Image>();
+        arrowImage.color = Color.red;
     }
 
     private void Indicator(GameObject outpost, int index)

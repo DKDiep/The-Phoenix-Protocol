@@ -137,6 +137,7 @@ public class MissionManager : MonoBehaviour
             }
         }
         playerController.RpcCompleteMission(missions[missionId].completedDescription, outpostMission, outpostId);
+        outpostManager.endMission(outpostId);
     }
 
     /// <summary>
