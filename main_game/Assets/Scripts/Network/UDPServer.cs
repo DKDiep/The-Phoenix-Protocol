@@ -165,9 +165,15 @@ public class UDPServer : MonoBehaviour
         if (playerShip != null)
         {
             string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
-                             "\"x\":"  + playerShip.transform.position.x +
-                             ",\"y\":" + playerShip.transform.position.z +
-                             ",\"rot\":" + playerShip.transform.eulerAngles.y +
+                             "\"x\":"  + playerShip.transform.position.x.ToString("0.000") +
+                             ",\"y\":" + playerShip.transform.position.z.ToString("0.000") +
+                             ",\"z\":" + playerShip.transform.position.y.ToString("0.000") +
+                             ",\"fX\":" + playerShip.transform.forward.x.ToString("0.000") +
+                             ",\"fY\":" + playerShip.transform.forward.z.ToString("0.000") +
+                             ",\"fZ\":" + playerShip.transform.forward.y.ToString("0.000") +
+                             ",\"rX\":" + playerShip.transform.right.x.ToString("0.000") +
+                             ",\"rY\":" + playerShip.transform.right.z.ToString("0.000") +
+                             ",\"rZ\":" + playerShip.transform.right.y.ToString("0.000") +
                              "}}";
             SendMsg(jsonMsg);
         }
@@ -182,8 +188,9 @@ public class UDPServer : MonoBehaviour
             foreach (GameObject ast in newAsteroids)
             {
                 jsonMsg += "{\"id\":" + (uint)ast.GetInstanceID() +
-                            ",\"x\":" + ast.transform.position.x +
-                            ",\"y\":" + ast.transform.position.z +
+                            ",\"x\":" + ast.transform.position.x.ToString("0.000") +
+                            ",\"y\":" + ast.transform.position.z.ToString("0.000") +
+                            ",\"z\":" + ast.transform.position.y.ToString("0.000") +
                             "},";
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
@@ -223,8 +230,12 @@ public class UDPServer : MonoBehaviour
                     InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
 
                 jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
-                            ",\"x\":" + enemy.transform.position.x +
-                            ",\"y\":" + enemy.transform.position.z +
+                            ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
+                            ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
+                            ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
+                            ",\"fX\":" + enemy.transform.forward.x.ToString("0.000") +
+                            ",\"fY\":" + enemy.transform.forward.z.ToString("0.000") +
+                            ",\"fZ\":" + enemy.transform.forward.y.ToString("0.000") +
                             "},";
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
