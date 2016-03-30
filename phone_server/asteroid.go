@@ -20,13 +20,19 @@ type AsteroidMap struct {
     delC   chan int               // channel for requesting the deletion of an asteroid
     addC   chan NewAst            // channel for requesting the addition of an asteroid
     resetC chan struct{}          // channele for clearing out the map
-    copyC  chan map[int]*Asteroid // channel for getting a copy of the map
+    copyC  chan *AstCopyExchange // channel for getting a copy of the map
 }
 
 // Wrapper of asteroid data, sent on a channel
 type NewAst struct {
     id  int
     ast *Asteroid
+}
+
+// Wrapper of send/receive data on copy channel
+type AstCopyExchange struct {
+    plrShipData *PlayerShip
+    copy map[int]*Asteroid
 }
 
 // Manages concurrent access to the asteroid map data structure
@@ -44,13 +50,9 @@ func (asteroids *AsteroidMap) accessManager() {
         case <-asteroids.resetC:
             asteroids.m = make(map[int]*Asteroid)
         // sending a copy of the map
-        case <-asteroids.copyC:
-            newCopy := make(map[int]*Asteroid)
-            for k, v := range asteroids.m {
-                astCopy := *v
-                newCopy[k] = &astCopy
-            }
-            asteroids.copyC <- newCopy
+        case data := <-asteroids.copyC:
+            data.copy = asteroids.getCopyAsync(data.plrShipData)
+            asteroids.copyC <- data
         }
     }
 }
@@ -70,9 +72,24 @@ func (asteroids *AsteroidMap) reset() {
     asteroids.resetC <- struct{}{}
 }
 
-// Request a copy of the asteroid map
-// TODO: get a copy of  the asteroids that are whithin a certain distance
-func (asteroids *AsteroidMap) getCopy() map[int]*Asteroid {
-    asteroids.copyC <- nil
-    return <-asteroids.copyC
+// Request a copy of close asteroids
+func (asteroids *AsteroidMap) getCopy(plrShip *PlayerShip) map[int]*Asteroid {
+    data := &AstCopyExchange{plrShipData: plrShip}
+    asteroids.copyC <- data
+    result := <-asteroids.copyC
+    return result.copy
+}
+
+// Gets a copy of close asteroids asynchronosly
+// NOTE: DO NOT USE
+func (asteroids *AsteroidMap) getCopyAsync(plrShip *PlayerShip) map[int]*Asteroid {
+    newCopy := make(map[int]*Asteroid)
+    for k, v := range asteroids.m {
+        if isCloseToShip(plrShip, v) {
+            astCopy := *v
+            newCopy[k] = &astCopy
+        }
+    }
+
+    return newCopy
 }

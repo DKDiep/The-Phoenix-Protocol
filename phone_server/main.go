@@ -21,6 +21,8 @@ const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
 const NUM_OFFICERS int = 1
 const OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
+const PROJECTION_RANGE float64 = 500
+
 // Structures dealing with the Game Server Connections
 var gameServerUDPConn *net.UDPConn
 var gameServerTCPConn *net.TCPConn
@@ -62,7 +64,7 @@ var enemyMap *EnemyMap = &EnemyMap{
     setC:   make(chan NewEnemy),
     ctrlC:  make(chan ControllingPlayer),
     resetC: make(chan struct{}),
-    copyC:  make(chan map[int64]*Enemy),
+    copyC:  make(chan *EnmCopyExchange),
 }
 
 // Main structure holding all asteroid data
@@ -71,7 +73,7 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
     delC:   make(chan int),
     addC:   make(chan NewAst),
     resetC: make(chan struct{}),
-    copyC:  make(chan map[int]*Asteroid),
+    copyC:  make(chan *AstCopyExchange),
 }
 
 // Starts all necessary subroutines

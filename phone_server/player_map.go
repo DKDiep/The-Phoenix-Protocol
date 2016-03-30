@@ -157,19 +157,15 @@ func (players *PlayerMap) startSpectators() {
 // Sends a state data update to all spectators
 func (players *PlayerMap) updateData() {
     playerShipData := playerShip.getShipData()
-    enemyData := enemyMap.getCopy()
-    asteroidData := asteroidMap.getCopy()
+    enemyData := enemyMap.getCopy(playerShipData)
+    asteroidData := asteroidMap.getCopy(playerShipData)
 
     // Transform asteroid coordinates into phone screen space
-    for id, asteroid := range asteroidData {
+    for _, asteroid := range asteroidData {
         // Centre grid around player ship
         centerAroundShip(playerShipData, asteroid)
         // Project onto plane intersecting the ship front and right
         projectOnShipPlane(playerShipData, asteroid)
-        // TODO: nasty way of removing far asteroids, needs improving
-        if math.Abs(asteroid.pos.x) > 250 || math.Abs(asteroid.pos.y) > 250 {
-            delete(asteroidData, id)
-        }
     }
 
     // Transform enemy coordinates into phone screen space

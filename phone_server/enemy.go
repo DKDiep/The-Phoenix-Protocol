@@ -24,7 +24,7 @@ type EnemyMap struct {
     setC   chan NewEnemy       // used for requesting the updating of an enemy
     ctrlC  chan ControllingPlayer // used for setttin an enemy as controlled
     resetC chan struct{}       // used for clearing out the map
-    copyC  chan map[int64]*Enemy // used for getting a copy of the map
+    copyC  chan *EnmCopyExchange // used for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
@@ -37,6 +37,12 @@ type NewEnemy struct {
 type ControllingPlayer struct {
     id int64
     player *Player
+}
+
+// Wrapper of send/receive data on copy channel
+type EnmCopyExchange struct {
+    plrShipData *PlayerShip
+    copy map[int64]*Enemy
 }
 
 // Manages concurrent access to the enemy map data structure
@@ -74,13 +80,9 @@ func (enemies *EnemyMap) accessManager() {
         case <-enemies.resetC:
             enemies.m = make(map[int64]*Enemy)
         // sending of a copy of the map
-        case <-enemies.copyC:
-            newCopy := make(map[int64]*Enemy)
-            for k, v := range enemies.m {
-                enemyCopy := *v
-                newCopy[k] = &enemyCopy
-            }
-            enemies.copyC <- newCopy
+        case data := <-enemies.copyC:
+            data.copy = enemies.getCopyAsync(data.plrShipData)
+            enemies.copyC <- data
         }
     }
 }
@@ -109,7 +111,23 @@ func (enemies *EnemyMap) reset() {
 }
 
 // Request a copy of the enemy map
-func (enemies *EnemyMap) getCopy() map[int64]*Enemy {
-    enemies.copyC <- nil
-    return <-enemies.copyC
+func (enemies *EnemyMap) getCopy(plrShip *PlayerShip) map[int64]*Enemy {
+    data := &EnmCopyExchange{plrShipData: plrShip}
+    enemies.copyC <- data
+    result := <-enemies.copyC
+    return result.copy
+}
+
+// Gets a copy of close enemies asynchronosly
+// NOTE: DO NOT USE
+func (enemies *EnemyMap) getCopyAsync(plrShip *PlayerShip) map[int64]*Enemy {
+    newCopy := make(map[int64]*Enemy)
+    for k, v := range enemies.m {
+        if isCloseToShip(plrShip, v) {
+            enemyCopy := *v
+            newCopy[k] = &enemyCopy
+        }
+    }
+
+    return newCopy
 }

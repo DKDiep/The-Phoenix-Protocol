@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "math"
 )
 
 type Point struct {
@@ -63,4 +64,18 @@ func (plrShip *PlayerShipController) getShipData() *PlayerShip {
 // Request the reset of the data structure
 func (plrShip *PlayerShipController) reset() {
     plrShip.resetC <- struct{}{}
+}
+
+
+// Function to check if an object is withing the range in which we project
+func isCloseToShip(plrShip *PlayerShip, obj GeometricObject) bool {
+    position := obj.GetPosObj()
+    if math.Abs(position.x-plrShip.pos.x) > PROJECTION_RANGE ||
+       math.Abs(position.y-plrShip.pos.y) > PROJECTION_RANGE ||
+       math.Abs(position.z-plrShip.pos.z) > PROJECTION_RANGE {
+
+        return false
+    } else {
+        return true
+    }
 }
