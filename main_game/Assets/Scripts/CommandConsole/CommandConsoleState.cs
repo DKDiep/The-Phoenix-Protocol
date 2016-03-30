@@ -59,11 +59,6 @@ public class CommandConsoleState : MonoBehaviour {
         LoadShipModel();
 
 		UpdateAllText();
-      
-        // Remove crosshair from this scene. 
-        GameObject crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
-        if(crosshairCanvas != null)
-            crosshairCanvas.SetActive(false);
         
         ClosePopupWindow();
 

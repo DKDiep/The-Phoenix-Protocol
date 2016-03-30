@@ -66,13 +66,11 @@ public class GameStatusManager : NetworkBehaviour
 			SetShipVisible(false);
             DisableThrusterSound();
 
-			// Remove crosshair from this scene. 
-			GameObject crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
-			if(crosshairCanvas != null)
-				crosshairCanvas.SetActive(false);
-
+            GameObject crosshairCanvas = server.GetComponent<ServerManager>().GetCrosshairObject(playerController.GetScreenIndex());
+            if (crosshairCanvas != null)
+                crosshairCanvas.SetActive(false);
             // Set an overlay on the screen
-			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
+            gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
             {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship and the crew were killed.";
@@ -86,7 +84,8 @@ public class GameStatusManager : NetworkBehaviour
             {
                 // Disable the portal on all screens
                 localPortal = GameObject.Find("Portal(Clone)");
-                localPortal.SetActive(false);
+                if (localPortal != null)
+                    localPortal.SetActive(false);
 
                 // If it is the server
                 if (playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
