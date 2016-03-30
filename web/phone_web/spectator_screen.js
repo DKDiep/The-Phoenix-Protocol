@@ -232,7 +232,8 @@ function updateTractorBeam() {
         distance = distanceOfTwoSprites(tractorBeam, tractorBeam.target);
         angle = angleOfLine(tractorBeam, tractorBeam.target);
         tractorBeam.rotation = angle;
-        tractorBeam.width = distance;
+        // REQ_HACK_PROGRESS and hackProgress are global variables defined in hacking_game.js
+        tractorBeam.width = distance * (hackProgress / REQ_HACK_PROGRESS);
         tractorBeam.tilePosition.x -= 0.8;
     }
 }
@@ -391,6 +392,12 @@ function disableTractorBeam() {
     tractorBeam.width = 0;
 }
 
+// Returns true when the tractor beam is enabled
+// Otherwise, returns false
+function isTractorBeamEnabled() {
+    return tractorBeam.target != undefined
+}
+
 function angleOfLine(origin, end) {
     var deltaX = end.position.x - origin.position.x;
     var deltaY = end.position.y - origin.position.y;
@@ -401,6 +408,15 @@ function distanceOfTwoSprites(a, b) {
     var xDiff = a.position.x - b.position.x;
     var yDiff = a.position.y - b.position.y;
     return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+}
+
+function findEnemyWithID(enemyID) {
+    for (id in enemies) {
+        var sprite = enemies[id]
+        if(sprite.spaceGameId == enemyID) {
+            return sprite
+        }
+    }
 }
 
 function findControlledEnemy() {
