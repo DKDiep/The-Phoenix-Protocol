@@ -45,14 +45,25 @@ function decrementHackProgress() {
     }
 }
 
+// Changes the target to the given id
+// and resets the hacking progress
 function swapTarget(id) {
     currentTargetID = id
     resetHackProgress()
 }
 
+// Resets the hacking progress
 function resetHackProgress() {
     hackProgress = 0
     finishedHack = false
     disableTractorBeam()
+}
+
+// Resets the global variables of this script
+function resetHackingGame() {
+    REQ_HACK_PROGRESS = 100
+    hackProgress = 0;
+    currentTargetID = null;
+    finishedHack = false;
 }
 

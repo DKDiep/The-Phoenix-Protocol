@@ -111,6 +111,9 @@ function finaliseSpectatorScreen() {
 
     controlledEnemyId = 0;
     isControllingEnemy = false;
+
+    // Reset values in hacking_game.js
+    resetHackingGame()
 }
 
 // Deals with movement
