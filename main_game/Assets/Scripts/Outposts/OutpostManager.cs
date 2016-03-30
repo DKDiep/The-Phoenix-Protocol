@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class OutpostManager : MonoBehaviour {
 
@@ -152,6 +153,13 @@ public class OutpostManager : MonoBehaviour {
     public void giveGameStateReference(GameState newGameState)
     {
         gameState = newGameState;
+    }
+
+    public void setMissionTarget(int id)
+    {
+        Image arrowImage = arrowList[id].GetComponent<Image>();
+        arrowImage.color = Color.yellow;
+        print("inside setMissionTarget");
     }
 
     private void Indicator(GameObject outpost, int index)
