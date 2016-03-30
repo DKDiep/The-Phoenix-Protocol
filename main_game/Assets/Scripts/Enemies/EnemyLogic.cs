@@ -47,7 +47,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     
 	private bool hacked = false;
 	private GameObject hackedAttackTraget = null;
-	private float hackedYDelta; // The distance between the enemy's and the ship's XZ planes when the enemy was hacked
+	private GameObject hackedWaypoint;
 
 	internal float health;
 	private float shield;
@@ -245,7 +245,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When the temporary avoid waypoint is reached, return to seeking the player
 			if (finishedAvoiding)
 			{
-				state                  = EnemyAIState.SeekPlayer;
+				state                  = hacked ? EnemyAIState.Hacked : EnemyAIState.SeekPlayer;
 				previousAvoidDirection = 0;
 				currentWaypoint 	   = null;
 			}
@@ -272,18 +272,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When attacking another enemy, try to get behind him so we get a better shot
 			if (hacked)
 			{
-				if (currentWaypoint != null)
-				{
-					bool reached = MoveTowardsCurrentWaypoint();
-
-					// When a hacked enemy reaches its destination, it stops moving, unless it's following an enemy
-					if (reached && hackedAttackTraget == null)
-					{
-						currentWaypoint = null;
-						UpdateHackedYDelta();
-					}
-				}
-
+				if (currentWaypoint == null)
+					FollowPlayer();
+				MoveTowardsCurrentWaypoint();
+				
 				return; 
 			}
 
@@ -373,20 +365,19 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
 		lastYRot = controlObject.transform.localEulerAngles.y;
 
-		controlObject.transform.Translate (Vector3.forward * Time.deltaTime * speed);
-
 		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
-		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
+		if (distanceToWaypoint > AI_WAYPOINT_REACHED_DISTANCE)
+			controlObject.transform.Translate (Vector3.forward * Time.deltaTime * speed);
+
+		distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
+		if (distanceToWaypoint <= AI_WAYPOINT_REACHED_DISTANCE && state != EnemyAIState.Hacked)
 		{
 			// If the reached waypoint is an avoid or a hacked move waypoint, it is not needed any more
-			if (state == EnemyAIState.AvoidObstacle || (hacked && hackedAttackTraget == null))
+			if (state == EnemyAIState.AvoidObstacle)
 				Destroy(currentWaypoint);
 
-			// If this enemy is hacked to attack a target, never stop following that target
-			if (hackedAttackTraget != null)
-				currentWaypoint = hackedAttackTraget;
-			else
-				currentWaypoint = GetNextWaypoint();
+			currentWaypoint = GetNextWaypoint();
+
 			return true;
 		}
 
@@ -635,10 +626,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     // Spawn bullet, use predication, and player sound
 	IEnumerator Shoot()
 	{
-		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
-		if (hacked && currentTarget == null)
-			yield break;
-		
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 
         GameObject obj = bulletManager.RequestObject();
@@ -657,6 +644,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		Vector3 destination;
 
+		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
+		if (hacked && currentTarget == null)
+			yield break;
+
 		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
 		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
 		if (hackedAttackTraget != null)
@@ -665,6 +656,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			if (Random.value > accuracy)
 				bulletMove.SetTarget(currentTarget);
 			obj.layer = LayerMask.NameToLayer("Player");
+			// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
 		}
 		else
 			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
@@ -738,14 +730,19 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     public void Despawn()
     {
         NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+
+		if (hacked && currentWaypoint != null)
+			Destroy(currentWaypoint);
+
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
-        //GetComponent<bl_MiniMapItem>().DestroyItem();
+
         if (enemyManager != null)
         {
             enemyManager.DisableClientObject(removeName);
             enemyManager.RemoveObject(removeName);
         }
+
         transform.parent = null;
         enemyLogicManager.RemoveObject(gameObject.name);
     }
@@ -762,15 +759,16 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		if (hacked)
 		{
-			// When an enemy becomes hacked, it stops moving and waits for orders
-			currentWaypoint = null;
-
-			UpdateHackedYDelta();
+			// When an enemy becomes hacked, it starts following the ship
+			FollowPlayer();
+			state = EnemyAIState.Hacked;
 		}
+		else
+			state = EnemyAIState.SeekPlayer;
     }
 
     /// <summary>
-    /// Moves the enemy to the position (x,z)
+    /// Moves the enemy to the position (x,z) in its current Y plane.
     /// </summary>
     /// <param name="posX">The X coordinate to move to</param>
     /// <param name="posZ">The Z coordinate to move to</param>
@@ -781,13 +779,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	    {
 			currentWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 			currentWaypoint.GetComponent<Renderer>().material.color = Color.blue;
-	    }
-		else*/
-		currentWaypoint = new GameObject("HackWaypoint");
-
-		Vector3 localMove = new Vector3(posX, hackedYDelta, posZ);
-		Vector3 worldMove = player.transform.rotation * localMove;
-		currentWaypoint.transform.position = player.transform.position + worldMove;
+	    }*/
+		
+		float currentY 							= currentWaypoint.transform.localPosition.y;
+		currentWaypoint.transform.localPosition = new Vector3(posX, currentY, posZ);
+		hackedWaypoint 							= currentWaypoint;
 
 		// If this enemey was previously issued an attack command, clear it
 		hackedAttackTraget = null;
@@ -807,6 +803,33 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     }
 
 	/// <summary>
+	/// Follows the player ship keeping the same relative position.
+	/// 
+	/// Should be used for hacked enemies awaiting orders.
+	/// </summary>
+	private void FollowPlayer()
+	{
+		if (hackedWaypoint == null)
+		{
+			// Uncomment this to see waypoints as spheres
+			if (Debug.isDebugBuild)
+			{
+				hackedWaypoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+				hackedWaypoint.GetComponent<Renderer>().material.color = Color.blue;
+			}
+			else
+			hackedWaypoint = new GameObject("HackWaypoint");
+			hackedWaypoint.transform.position = controlObject.transform.position;
+			hackedWaypoint.transform.parent   = player.transform;
+		}
+
+		currentWaypoint = hackedWaypoint;
+
+		// Uncomment to see when the hacked enemy starts following again
+		// Debug.Log("Hacked " + controlObject.name + " following: " + currentWaypoint.transform.localPosition);
+	}
+
+	/// <summary>
 	/// Calculates the distance between a point and a plane.
 	/// </summary>
 	/// <returns>The distance.</returns>
@@ -819,21 +842,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Vector3 projection = point + displacement * planeNorm;
 
 		return Vector3.Distance(point, projection);
-	}
-
-	/// <summary>
-	/// Fixes the distance between the enemy and the player's XZ plane
-	/// </summary>
-	private void UpdateHackedYDelta()
-	{
-		hackedYDelta = PointToPlaneDistance(controlObject.transform.position,
-			player.transform.position, player.transform.up);
-
-		// If the enemy is under the ship, make the "distance" negative
-		Vector3 direction = player.transform.position - controlObject.transform.position;
-		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
-		if (enemyRelativeToPlayer.y < 0)
-			hackedYDelta = -hackedYDelta;
 	}
 
 	/// <summary>
@@ -863,7 +871,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	public void OnObjectDestructed(GameObject destructed)
 	{
 		if (destructed == hackedAttackTraget)
-			hackedAttackTraget = currentWaypoint = null;
+		{
+			hackedAttackTraget = null;
+			FollowPlayer();
+		}
 	}
 
 	// Class that shows obstacle detection info to be used for avoiding moves
@@ -913,5 +924,6 @@ public enum EnemyAIState
 	AvoidObstacle,
 	EngagePlayer,
 	Wait,
-	ReturnToGuardLocation
+	ReturnToGuardLocation,
+	Hacked
 }
