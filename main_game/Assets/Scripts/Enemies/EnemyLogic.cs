@@ -205,7 +205,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	/// </summary>
 	IEnumerator MatchPlayerSpeed()
 	{
-		float playerSpeed = gameState.GetShipSpeed();
+		float playerSpeed = gameState.GetShipBaseSpeed();
 		if (speed < playerSpeed + suicidalExtraSpeed)
 			speed = playerSpeed + suicidalExtraSpeed;
 

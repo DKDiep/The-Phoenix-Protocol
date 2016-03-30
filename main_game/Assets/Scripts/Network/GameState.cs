@@ -621,6 +621,16 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
+	/// Gets the ship's speed without boost or NOS, even if they're currently on.
+	/// </summary>
+	/// <returns>The ship base speed.</returns>
+	public float GetShipBaseSpeed()
+	{
+		UpgradableEngine engine = (UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines];
+		return engine.GetCurrentSpeed();
+	}
+
+	/// <summary>
 	/// Activates the ship's boost ability.
 	/// </summary>
 	/// <param name="boostSpeed">The boost speed.</param>
