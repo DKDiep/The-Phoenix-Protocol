@@ -1,9 +1,12 @@
+// --Constants
 // zoom level as percent of display pixels per game unit
-var zoom = 0.002;
+var zoom = 0.002
+var frameRate = 30
 
 // detail of provided textures: that is pixels per game unit of length
 var textureDetail = 3;
 
+// --Variables
 // renderer and scaling related variables
 // Note: canvas renderer seems to perform better than WebGL one
 // var renderer = new PIXI.autoDetectRenderer(10, 10);
@@ -203,13 +206,11 @@ function initPlayerShip(resources) {
 
 // Render function
 function renderUpdate() {
+    var start = new Date().getTime();
     // exit if we dont have to render anymore
     if(!keepRendering) {
         return
     }
-
-    // start the timer for the next animation loop
-    requestAnimationFrame(renderUpdate);
 
     // Update display information about controlled enemy if necessary
     if(enemyControllUpdate != undefined) {
@@ -225,6 +226,10 @@ function renderUpdate() {
 
     // this is the main render call that makes pixi draw your container and its children.
     renderer.render(stage);
+    var end = new Date().getTime();
+    var timeTaken = end-start;
+    var maxTimePerFrame = 1000/frameRate
+    setTimeout(renderUpdate, Math.max(maxTimePerFrame - timeTaken, 1))
 }
 
 // Animate tractor beam
