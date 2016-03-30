@@ -18,8 +18,15 @@ public class ReadyScreen : NetworkBehaviour
     {
         GameObject server = GameObject.Find("GameManager");
         serverManager = server.GetComponent<ServerManager>();
+
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+        /*Debug.Log(playerController.GetScreenIndex());
+        if (crosshairCanvas == null)
+        {
+            crosshairCanvas = serverManager.GetCrosshairObject(playerController.GetScreenIndex());
+        }
+        Debug.Log(crosshairCanvas);*/
 
         if (playerController.netId.Value != serverManager.GetServerId())
         {
@@ -27,9 +34,6 @@ public class ReadyScreen : NetworkBehaviour
         }
         else
         {
-			if (crosshairCanvas == null)
-				crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
-            serverManager = server.GetComponent<ServerManager>();
             goButton.onClick.AddListener(() => OnClickStartButton());
             Reset();
         }
@@ -62,8 +66,12 @@ public class ReadyScreen : NetworkBehaviour
         GameObject.Find("GameManager").GetComponent<GameState>().Status = GameState.GameStatus.Started;
 
         // Show the crosshairs (they might have been hidden before a reset)
-        if (playerController.GetRole() == RoleEnum.Camera && crosshairCanvas != null)
+        if (playerController.GetRole() == RoleEnum.Camera)
+        {
+            // Get the local crosshair
+            crosshairCanvas = serverManager.GetCrosshairObject(playerController.GetScreenIndex());
             crosshairCanvas.SetActive(true);
+        }
        
 		// Disable self until restart
         RpcHide();
