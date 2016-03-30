@@ -150,6 +150,289 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
 	}
 
+	void Update ()
+	{
+		prevPos    = currentPos;
+		currentPos = player.transform.position;
+		distance   = Vector3.Distance(transform.position, player.transform.position);
+
+		if (meshRenderer == null)
+			meshRenderer = controlObject.GetComponent<MeshRenderer>();
+		else
+		{
+			if (distance > 1000)
+				meshRenderer.enabled = false;
+			else
+				meshRenderer.enabled = true;
+		}
+
+		// Check if about to collide with something
+		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
+		// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
+		AvoidInfo obstacleInfo = CheckObstacleAhead();
+		if (!obstacleInfo.IsNone() && (state != EnemyAIState.ReturnToGuardLocation || !obstacleInfo.ObstacleTag.Equals("Outpost")))
+		{
+			// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
+			if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
+				Destroy(currentWaypoint);
+
+			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
+			// Otherwise, temporarily change direction
+			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+			{
+				state                  = EnemyAIState.EngagePlayer;
+				previousAvoidDirection = 0;
+				currentWaypoint        = GetNextWaypoint();
+			}
+			else
+			{
+				state = EnemyAIState.AvoidObstacle;
+
+				// If already avoiding an obstacle, keep the same direction
+				// Otherwise, decided based on the side the obstacle is closest to
+				if (previousAvoidDirection != 0)
+					avoidDirection = previousAvoidDirection;
+				else
+					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
+
+				// Create a temp waypoint to follow in order to avoid the asteroid
+				GameObject avoidWaypoint         = new GameObject ();
+				avoidWaypoint.name               = "AvoidWaypoint";
+				avoidWaypoint.transform.position = controlObject.transform.position;
+				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
+				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
+				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
+				currentWaypoint = avoidWaypoint;
+
+				// Uncomment this to visualise the waypoint
+				// If there is more than one enemy, this probably doesn't help much
+				/*GameObject visibleWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+				visibleWaypoint.transform.position   = currentWaypoint.transform.position;
+				visibleWaypoint.transform.localScale = visibleWaypoint.transform.localScale * 5;*/
+			}
+		}
+
+		// Check if this enemy can shoot
+		if (hacked)
+		{
+			// Hacked enemies that aren't set to attack don't shoot at all
+			if (hackedAttackTraget == null)
+				angleGoodForShooting = false;
+			else
+			{
+				// Check if the angle is good for shooting
+				Vector3 direction 	 = hackedAttackTraget.transform.position - controlObject.transform.position;
+				float angle 		 = Vector3.Angle(controlObject.transform.forward, direction);
+				float targetDistance = Vector3.Distance(controlObject.transform.position, hackedAttackTraget.transform.position);
+				angleGoodForShooting = (targetDistance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE);
+			}
+		}
+		else
+		{
+			// Check if the angle is good for shooting and the enemy is in front of the player
+			Vector3 direction = player.transform.position - controlObject.transform.position;
+			float angle = Vector3.Angle(controlObject.transform.forward, direction);
+			Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
+			angleGoodForShooting = (distance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
+		}
+
+		// Avoid obsctales if needed
+		if (state == EnemyAIState.AvoidObstacle)
+		{
+			bool finishedAvoiding = MoveTowardsCurrentWaypoint();
+
+			// When the temporary avoid waypoint is reached, return to seeking the player
+			if (finishedAvoiding)
+			{
+				state                  = EnemyAIState.SeekPlayer;
+				previousAvoidDirection = 0;
+				currentWaypoint 	   = null;
+			}
+		}
+		else
+		{
+			// Suicidal enemies first get in front of the player, then crash into them
+			if (isSuicidal)
+			{
+				if (!reachedFrontOfPlayer)
+				{
+					if (currentWaypoint == null)
+						currentWaypoint = GetNextWaypoint();
+
+					reachedFrontOfPlayer = MoveTowardsCurrentWaypoint();
+				}
+				else
+					MoveTowardsPlayer();
+
+				return;
+			}
+
+			// Hacked enemies can move to a location or attack another enemy
+			// When attacking another enemy, try to get behind him so we get a better shot
+			if (hacked)
+			{
+				if (currentWaypoint != null)
+				{
+					bool reached = MoveTowardsCurrentWaypoint();
+
+					// When a hacked enemy reaches its destination, it stops moving, unless it's following an enemy
+					if (reached && hackedAttackTraget == null)
+						currentWaypoint = null;
+				}
+
+				return; 
+			}
+
+			// If this enemy is a guard and is too far from its guarding location, turn back towards it
+			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
+				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
+			{
+				state                             = EnemyAIState.ReturnToGuardLocation;
+				GameObject returnWaypoint         = new GameObject ();
+				returnWaypoint.name               = "GuardReturnWaypoint";
+				returnWaypoint.transform.position = guardLocation;
+				currentWaypoint                   = returnWaypoint;
+			}
+			// Engage player when close enough, otherwise catch up to them
+			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance) ||
+				(state == EnemyAIState.Wait && distance <= guardTriggerDistance))
+			{
+				currentWaypoint = GetNextWaypoint();
+				state = EnemyAIState.EngagePlayer;
+			}
+			else if (state == EnemyAIState.EngagePlayer && distance > engageDistance)
+			{
+				state = EnemyAIState.SeekPlayer;
+			}
+
+			if (state == EnemyAIState.EngagePlayer)
+			{
+				MoveTowardsCurrentWaypoint();
+			}
+			else if (state == EnemyAIState.SeekPlayer)
+			{
+				angleGoodForShooting = false;
+				MoveTowardsPlayer();
+			}
+			else if (state == EnemyAIState.ReturnToGuardLocation)
+			{
+				MoveTowardsCurrentWaypoint();
+				if (Vector3.Distance(controlObject.transform.position, guardLocation) < AI_GUARD_PROTECT_DISTANCE)
+				{
+					state = EnemyAIState.Wait;
+					Destroy(currentWaypoint);
+				}
+			}
+			// if (state == EnemyAIState.Wait) do nothing
+		}
+	}
+
+	// When not engaged, try and get closer to the player
+	private void MoveTowardsPlayer()
+	{
+		controlObject.transform.LookAt(player.transform.position);
+		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
+	}
+
+	// Get the next engagement waypoint to follow, which should be different from the previous one
+	private GameObject GetNextWaypoint()
+	{
+		GameObject nextWaypoint;
+		bool getAnother;
+
+		do
+		{
+			getAnother   = false;
+			int r		 = Random.Range (0, aiWaypoints.Count);
+			nextWaypoint = aiWaypoints [r];
+
+			Vector3 waypointRelativeToPlayer = player.transform.InverseTransformPoint(nextWaypoint.transform.position);
+			if (isSuicidal && waypointRelativeToPlayer.z < suicidalMinFrontDist)
+				getAnother = true;
+			else if (currentWaypoint != null && nextWaypoint.Equals(currentWaypoint))
+				getAnother = true;
+		} while (getAnother);
+
+		return nextWaypoint;
+	}
+
+	// When engaged with the player ship, move between waypoints, returning true when the waypoint is reached
+	private bool MoveTowardsCurrentWaypoint()
+	{
+		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
+		Quaternion rotation = Quaternion.LookRotation (relativePos);
+
+		// Turn and bank
+		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
+			Time.deltaTime * AI_WAYPOINT_ROTATION_SPEED);
+		float yRot = Mathf.Clamp (lastYRot - controlObject.transform.localEulerAngles.y, 0, 3);
+		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
+		lastYRot = controlObject.transform.localEulerAngles.y;
+
+		controlObject.transform.Translate (Vector3.forward * Time.deltaTime * speed);
+
+		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
+		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
+		{
+			// If the reached waypoint is an avoid or a hacked move waypoint, it is not needed any more
+			if (state == EnemyAIState.AvoidObstacle || (hacked && hackedAttackTraget == null))
+				Destroy(currentWaypoint);
+
+			// If this enemy is hacked to attack a target, never stop following that target
+			if (hackedAttackTraget != null)
+				currentWaypoint = hackedAttackTraget;
+			else
+				currentWaypoint = GetNextWaypoint();
+			return true;
+		}
+
+		return false;
+	}
+
+	// Check if the enemy is about to collide with an object
+	// Returns the tag of the object, or null if there is no collision about to happen
+	private AvoidInfo CheckObstacleAhead()
+	{
+		Transform objectTransform = controlObject.transform;
+		bool hitLeft, hitRight;
+		RaycastHit hitInfoLeft, hitInfoRight;
+
+		// Cast two rays forward, one on each side of the object, to check for obstaclse
+		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
+			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
+		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
+			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
+
+		// If an obstacle is found, return its tag
+		// Uncomment to show a ray when a collision is detected
+		if (hitLeft)
+		{
+			/*Debug.DrawRay (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.forward, Color.magenta, 3, false);*/
+			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
+		}
+		else if (hitRight)
+		{
+			/*Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.magenta, 3, false);*/
+			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
+		}
+		else
+		{
+			// Uncomment to debug raycasting parameters
+			/*Debug.DrawRay(objectTransform.position - aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);
+			Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
+				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);*/
+			/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
+			-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
+			Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
+				+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
+
+			return AvoidInfo.None();
+		}
+	}
+
     IEnumerator UpdateDelay()
     {
         yield return new WaitForSeconds(3f);
@@ -211,6 +494,17 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		yield return new WaitForSeconds(speedUpdateDelay);
 		StartCoroutine("MatchPlayerSpeed");
+	}
+
+	public IEnumerator EMPEffect()
+	{
+		empEffect = transform.parent.Find("EMPEffect").gameObject;
+		float originalSpeed = speed;
+		speed = 0;
+		empEffect.SetActive(true);
+		yield return new WaitForSeconds(settings.empDuration);
+		empEffect.SetActive(false);
+		speed = originalSpeed;
 	}
 
     void OnEnable()
@@ -310,300 +604,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	{
 		yield return new WaitForSeconds(1f);
 	}
-
-	void Update ()
-	{
-		prevPos    = currentPos;
-		currentPos = player.transform.position;
-		distance   = Vector3.Distance(transform.position, player.transform.position);
-
-		if (meshRenderer == null)
-			meshRenderer = controlObject.GetComponent<MeshRenderer>();
-		else
-		{
-			if (distance > 1000)
-				meshRenderer.enabled = false;
-			else
-				meshRenderer.enabled = true;
-		}
-
-		// Check if about to collide with something
-		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
-		// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
-		AvoidInfo obstacleInfo = CheckObstacleAhead();
-		if (!obstacleInfo.IsNone() && (state != EnemyAIState.ReturnToGuardLocation || !obstacleInfo.ObstacleTag.Equals("Outpost")))
-		{
-			// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
-			if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
-				Destroy(currentWaypoint);
-
-			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
-			// Otherwise, temporarily change direction
-			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
-			{
-				state                  = EnemyAIState.EngagePlayer;
-				previousAvoidDirection = 0;
-				currentWaypoint        = GetNextWaypoint();
-			}
-			else
-			{
-				state = EnemyAIState.AvoidObstacle;
-
-				// If already avoiding an obstacle, keep the same direction
-				// Otherwise, decided based on the side the obstacle is closest to
-				if (previousAvoidDirection != 0)
-					avoidDirection = previousAvoidDirection;
-				else
-					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
-
-				// Create a temp waypoint to follow in order to avoid the asteroid
-				GameObject avoidWaypoint         = new GameObject ();
-				avoidWaypoint.name               = "AvoidWaypoint";
-				avoidWaypoint.transform.position = controlObject.transform.position;
-				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
-				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
-				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
-				currentWaypoint = avoidWaypoint;
-
-				// Uncomment this to visualise the waypoint
-				// If there is more than one enemy, this probably doesn't help much
-				/*GameObject visibleWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-				visibleWaypoint.transform.position   = currentWaypoint.transform.position;
-				visibleWaypoint.transform.localScale = visibleWaypoint.transform.localScale * 5;*/
-			}
-		}
-
-		// Check if this enemy can shoot
-		if (hacked)
-		{
-			// Hacked enemies that aren't set to attack don't shoot at all
-			if (hackedAttackTraget == null)
-				angleGoodForShooting = false;
-			else
-			{
-				// Check if the angle is good for shooting
-				Vector3 direction 	 = hackedAttackTraget.transform.position - controlObject.transform.position;
-				float angle 		 = Vector3.Angle(controlObject.transform.forward, direction);
-				float targetDistance = Vector3.Distance(controlObject.transform.position, hackedAttackTraget.transform.position);
-				angleGoodForShooting = (targetDistance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE);
-			}
-		}
-		else
-		{
-			// Check if the angle is good for shooting and the enemy is in front of the player
-			Vector3 direction = player.transform.position - controlObject.transform.position;
-			float angle = Vector3.Angle(controlObject.transform.forward, direction);
-			Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
-			angleGoodForShooting = (distance < engageDistance) && (angle < AI_SHOOT_MAX_ANGLE) && (enemyRelativeToPlayer.z > 0);
-		}
 		
-		// Avoid obsctales if needed
-		if (state == EnemyAIState.AvoidObstacle)
-		{
-			bool finishedAvoiding = MoveTowardsCurrentWaypoint();
-
-			// When the temporary avoid waypoint is reached, return to seeking the player
-			if (finishedAvoiding)
-			{
-				state                  = EnemyAIState.SeekPlayer;
-				previousAvoidDirection = 0;
-				currentWaypoint 	   = null;
-			}
-		}
-		else
-		{
-			// Suicidal enemies first get in front of the player, then crash into them
-			if (isSuicidal)
-			{
-				if (!reachedFrontOfPlayer)
-				{
-					if (currentWaypoint == null)
-						currentWaypoint = GetNextWaypoint();
-
-					reachedFrontOfPlayer = MoveTowardsCurrentWaypoint();
-				}
-				else
-					MoveTowardsPlayer();
-				
-				return;
-			}
-
-			// Hacked enemies can move to a location or attack another enemy
-			// When attacking another enemy, try to get behind him so we get a better shot
-			if (hacked)
-			{
-				if (currentWaypoint != null)
-				{
-					bool reached = MoveTowardsCurrentWaypoint();
-
-					// When a hacked enemy reaches its destination, it stops moving, unless it's following an enemy
-					if (reached && hackedAttackTraget == null)
-						currentWaypoint = null;
-				}
-
-				return; 
-			}
-
-			// If this enemy is a guard and is too far from its guarding location, turn back towards it
-			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
-				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
-			{
-				state                             = EnemyAIState.ReturnToGuardLocation;
-				GameObject returnWaypoint         = new GameObject ();
-				returnWaypoint.name               = "GuardReturnWaypoint";
-				returnWaypoint.transform.position = guardLocation;
-				currentWaypoint                   = returnWaypoint;
-			}
-			// Engage player when close enough, otherwise catch up to them
-			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance) ||
-				(state == EnemyAIState.Wait && distance <= guardTriggerDistance))
-			{
-				currentWaypoint = GetNextWaypoint();
-				state = EnemyAIState.EngagePlayer;
-			}
-			else if (state == EnemyAIState.EngagePlayer && distance > engageDistance)
-			{
-				state = EnemyAIState.SeekPlayer;
-			}
-
-			if (state == EnemyAIState.EngagePlayer)
-			{
-				MoveTowardsCurrentWaypoint();
-			}
-			else if (state == EnemyAIState.SeekPlayer)
-			{
-				angleGoodForShooting = false;
-				MoveTowardsPlayer();
-			}
-			else if (state == EnemyAIState.ReturnToGuardLocation)
-			{
-				MoveTowardsCurrentWaypoint();
-				if (Vector3.Distance(controlObject.transform.position, guardLocation) < AI_GUARD_PROTECT_DISTANCE)
-				{
-					state = EnemyAIState.Wait;
-					Destroy(currentWaypoint);
-				}
-			}
-			// if (state == EnemyAIState.Wait) do nothing
-		}
-	}
-
-    public IEnumerator EMPEffect()
-    {
-        empEffect = transform.parent.Find("EMPEffect").gameObject;
-        float originalSpeed = speed;
-        speed = 0;
-        empEffect.SetActive(true);
-        yield return new WaitForSeconds(settings.empDuration);
-        empEffect.SetActive(false);
-        speed = originalSpeed;
-    }
-
-	// When not engaged, try and get closer to the player
-	private void MoveTowardsPlayer()
-	{
-		controlObject.transform.LookAt(player.transform.position);
-		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
-	}
-
-	// Get the next engagement waypoint to follow, which should be different from the previous one
-	private GameObject GetNextWaypoint()
-	{
-		GameObject nextWaypoint;
-		bool getAnother;
-
-		do
-		{
-			getAnother   = false;
-			int r		 = Random.Range (0, aiWaypoints.Count);
-			nextWaypoint = aiWaypoints [r];
-
-			Vector3 waypointRelativeToPlayer = player.transform.InverseTransformPoint(nextWaypoint.transform.position);
-			if (isSuicidal && waypointRelativeToPlayer.z < suicidalMinFrontDist)
-				getAnother = true;
-			else if (currentWaypoint != null && nextWaypoint.Equals(currentWaypoint))
-				getAnother = true;
-		} while (getAnother);
-
-		return nextWaypoint;
-	}
-
-	// When engaged with the player ship, move between waypoints, returning true when the waypoint is reached
-	private bool MoveTowardsCurrentWaypoint()
-	{
-		Vector3 relativePos = currentWaypoint.transform.position - controlObject.transform.position;
-		Quaternion rotation = Quaternion.LookRotation (relativePos);
-
-		// Turn and bank
-		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
-			Time.deltaTime * AI_WAYPOINT_ROTATION_SPEED);
-		float yRot = Mathf.Clamp (lastYRot - controlObject.transform.localEulerAngles.y, 0, 3);
-		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
-		lastYRot = controlObject.transform.localEulerAngles.y;
-
-		controlObject.transform.Translate (Vector3.forward * Time.deltaTime * speed);
-
-		float distanceToWaypoint = Vector3.Distance(controlObject.transform.position, currentWaypoint.transform.position);
-		if (distanceToWaypoint < AI_WAYPOINT_REACHED_DISTANCE)
-		{
-			// If the reached waypoint is an avoid or a hacked move waypoint, it is not needed any more
-			if (state == EnemyAIState.AvoidObstacle || (hacked && hackedAttackTraget == null))
-				Destroy(currentWaypoint);
-			
-			// If this enemy is hacked to attack a target, never stop following that target
-			if (hackedAttackTraget != null)
-				currentWaypoint = hackedAttackTraget;
-			else
-				currentWaypoint = GetNextWaypoint();
-			return true;
-		}
-
-		return false;
-	}
-
-	// Check if the enemy is about to collide with an object
-	// Returns the tag of the object, or null if there is no collision about to happen
-	private AvoidInfo CheckObstacleAhead()
-	{
-		Transform objectTransform = controlObject.transform;
-		bool hitLeft, hitRight;
-		RaycastHit hitInfoLeft, hitInfoRight;
-
-		// Cast two rays forward, one on each side of the object, to check for obstaclse
-		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
-		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
-
-		// If an obstacle is found, return its tag
-		// Uncomment to show a ray when a collision is detected
-		if (hitLeft)
-		{
-			/*Debug.DrawRay (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.forward, Color.magenta, 3, false);*/
-			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
-		}
-		else if (hitRight)
-		{
-			/*Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.magenta, 3, false);*/
-			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
-		}
-		else
-		{
-			// Uncomment to debug raycasting parameters
-			/*Debug.DrawRay(objectTransform.position - aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);
-			Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);*/
-			/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-				-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
-			Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-				+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
-
-			return AvoidInfo.None();
-		}
-	}
 
 	// Control shooting based on attributes
 	IEnumerator ShootManager()
