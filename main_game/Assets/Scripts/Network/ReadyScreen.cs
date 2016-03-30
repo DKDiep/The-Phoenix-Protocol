@@ -12,6 +12,7 @@ public class ReadyScreen : NetworkBehaviour
     private ServerManager serverManager;
     private MusicManager musicManager;
     private PlayerController playerController;
+	private GameObject crosshairCanvas;
 
     private bool blackScreen = false;
 
@@ -28,6 +29,8 @@ public class ReadyScreen : NetworkBehaviour
         }
         else
         {
+			if (crosshairCanvas == null)
+				crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
             serverManager = server.GetComponent<ServerManager>();
             goButton.onClick.AddListener(() => OnClickStartButton());
             Reset();
@@ -53,11 +56,17 @@ public class ReadyScreen : NetworkBehaviour
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Reset();
         serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
-        // Setup shoot logic now that dependencies are ready
+        
+		// Setup shoot logic now that dependencies are ready
         GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
-        // Start the game
+       
+		// Start the game
         GameObject.Find("GameManager").GetComponent<GameState>().Status = GameState.GameStatus.Started;
-        // Disable self until restart
+
+		// Show the crosshairs (they might have been hidden before a reset)
+		crosshairCanvas.SetActive(true);
+       
+		// Disable self until restart
         RpcHide();
     }
 
