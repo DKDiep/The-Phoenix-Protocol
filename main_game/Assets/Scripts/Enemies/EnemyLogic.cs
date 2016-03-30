@@ -47,6 +47,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     
 	private bool hacked = false;
 	private GameObject hackedAttackTraget = null;
+	private float hackedYDelta; // The distance between the enemy's and the ship's XZ planes when the enemy was hacked
 
 	internal float health;
 	private float shield;
@@ -277,7 +278,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 					// When a hacked enemy reaches its destination, it stops moving, unless it's following an enemy
 					if (reached && hackedAttackTraget == null)
+					{
 						currentWaypoint = null;
+						UpdateHackedYDelta();
+					}
 				}
 
 				return; 
@@ -756,9 +760,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         hacked 			   = val;
 		hackedAttackTraget = null;
 
-		// When an enemy becomes hacked, it stops moving and waits for orders
 		if (hacked)
+		{
+			// When an enemy becomes hacked, it stops moving and waits for orders
 			currentWaypoint = null;
+
+			UpdateHackedYDelta();
+		}
     }
 
     /// <summary>
@@ -777,7 +785,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		else*/
 		currentWaypoint = new GameObject("HackWaypoint");
 
-		Vector3 localMove = new Vector3(posX, 0, posZ);
+		Vector3 localMove = new Vector3(posX, hackedYDelta, posZ);
 		Vector3 worldMove = player.transform.rotation * localMove;
 		currentWaypoint.transform.position = player.transform.position + worldMove;
 
@@ -797,6 +805,36 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (targetLogic != null)
 			targetLogic.RegisterDestructionListener(this);
     }
+
+	/// <summary>
+	/// Calculates the distance between a point and a plane.
+	/// </summary>
+	/// <returns>The distance.</returns>
+	/// <param name="point">The point's position.</param>
+	/// <param name="planePos">The plane's position.</param>
+	/// <param name="planeNorm">The plane's normal (must be a unit vector).</param>
+	private float PointToPlaneDistance(Vector3 point, Vector3 planePos, Vector3 planeNorm)
+	{
+		float displacement = -Vector3.Dot(planeNorm, (point - planePos));
+		Vector3 projection = point + displacement * planeNorm;
+
+		return Vector3.Distance(point, projection);
+	}
+
+	/// <summary>
+	/// Fixes the distance between the enemy and the player's XZ plane
+	/// </summary>
+	private void UpdateHackedYDelta()
+	{
+		hackedYDelta = PointToPlaneDistance(controlObject.transform.position,
+			player.transform.position, player.transform.up);
+
+		// If the enemy is under the ship, make the "distance" negative
+		Vector3 direction = player.transform.position - controlObject.transform.position;
+		Vector3 enemyRelativeToPlayer = player.transform.InverseTransformPoint(controlObject.transform.position);
+		if (enemyRelativeToPlayer.y < 0)
+			hackedYDelta = -hackedYDelta;
+	}
 
 	/// <summary>
 	/// Registers a listener to be notified when this object is destroyed.
