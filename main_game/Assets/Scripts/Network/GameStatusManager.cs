@@ -13,7 +13,6 @@ public class GameStatusManager : NetworkBehaviour
     private GameObject server;
     private PlayerController playerController;
     private MusicManager musicManager;
-	private ObjectPoolManager enemyLogicManager;
     private GameObject localPortal;
 
 	// Use this for initialization
@@ -24,8 +23,6 @@ public class GameStatusManager : NetworkBehaviour
 
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
-
-		enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 	}
 
     public void Reset()

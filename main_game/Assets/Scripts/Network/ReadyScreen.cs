@@ -14,8 +14,6 @@ public class ReadyScreen : NetworkBehaviour
     private PlayerController playerController;
 	private GameObject crosshairCanvas;
 
-    private bool blackScreen = false;
-
     void Start()
     {
         GameObject server = GameObject.Find("GameManager");
