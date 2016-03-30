@@ -3,10 +3,10 @@ package main
 import (
     "encoding/json"
     "fmt"
-    "time"
     "golang.org/x/net/websocket"
     "math/rand"
     "strconv"
+    "time"
 )
 
 // Holds user related data
@@ -97,13 +97,13 @@ func (usr *User) registerNew(name string) {
     playerId := registerPlayer(name)
     // associate a player with this user and add it to the game
     newPlr := &Player{
-        id:       playerId,
-        userName: name,
-        state:    getNewPlayerState(),
-        score:    0,
+        id:                 playerId,
+        userName:           name,
+        state:              getNewPlayerState(),
+        score:              0,
         isControllingEnemy: false,
-        controlledEnemyId: 0,
-        user:     usr}
+        controlledEnemyId:  0,
+        user:               usr}
     usr.player = newPlr
     playerMap.add(newPlr)
 
@@ -142,13 +142,13 @@ func (usr *User) updateUser(playerId uint64) {
     } else {
         name := getPlayerName(playerId)
         newPlr := &Player{
-            id:       playerId,
-            userName: name,
-            state:    getNewPlayerState(),
-            score:    0,
+            id:                 playerId,
+            userName:           name,
+            state:              getNewPlayerState(),
+            score:              0,
             isControllingEnemy: false,
-            controlledEnemyId: 0,
-            user:     usr}
+            controlledEnemyId:  0,
+            user:               usr}
         usr.player = newPlr
         playerMap.add(newPlr)
     }

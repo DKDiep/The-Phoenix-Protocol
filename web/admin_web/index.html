@@ -45,13 +45,15 @@
                         Setup
                     </div>
                 </div>
-                <div class="setup-status">
-                    New Game Status:
+                <div class="status-section">
+                    <div id="status-text">
+                        New Game Status:
+                    </div>
                     <div class="status-value" style="color:red" id="setup-status-value">
-                        Not Ready
+                        Can't Start
                     </div>
                 </div>
-                <button type="button" class="btn btn-default start-game-button" id="startGameButton" disabled onclick="sendStartGameSignal()">Start Game</button>
+                <button type="button" class="btn btn-default start-game-button" id="nextStateButton" disabled onclick="nextStateButtonAction()">Start Game</button>
             </div>
         </div>
     </div>

@@ -249,11 +249,11 @@ func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
     newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y + enm.forward.z*origin.forward.z
 
     mag := math.Sqrt(newX*newX + newY*newY)
-    if(mag == 0) {
+    if mag == 0 {
         mag = 1
     }
-    enm.forward.x = newX/mag
-    enm.forward.y = newY/mag
+    enm.forward.x = newX / mag
+    enm.forward.y = newY / mag
 
     // newX := enm.forward.x*origin.forward.y - enm.forward.y*origin.forward.x
     // newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y

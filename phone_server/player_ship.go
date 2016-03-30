@@ -13,9 +13,9 @@ type Point struct {
 
 // Player ship data holding structure
 type PlayerShip struct {
-    pos Point
+    pos     Point
     forward Point
-    right Point
+    right   Point
 }
 
 // Function of GeometricObject interface
@@ -66,13 +66,12 @@ func (plrShip *PlayerShipController) reset() {
     plrShip.resetC <- struct{}{}
 }
 
-
 // Function to check if an object is withing the range in which we project
 func isCloseToShip(plrShip *PlayerShip, obj GeometricObject) bool {
     position := obj.GetPosObj()
     if math.Abs(position.x-plrShip.pos.x) > PROJECTION_RANGE ||
-       math.Abs(position.y-plrShip.pos.y) > PROJECTION_RANGE ||
-       math.Abs(position.z-plrShip.pos.z) > PROJECTION_RANGE {
+        math.Abs(position.y-plrShip.pos.y) > PROJECTION_RANGE ||
+        math.Abs(position.z-plrShip.pos.z) > PROJECTION_RANGE {
 
         return false
     } else {

@@ -1,4 +1,5 @@
 var serverSocket;
+var sendAction;
 
 // "enum" for the role types
 roles = {
@@ -37,35 +38,52 @@ function initSocket() {
 // Act based on type of command
 function onMessage(event) {
     var msg = JSON.parse(event.data)
+    console.log(msg)
 
     displayState(msg.State)
-    displayStatus(msg.Ready)
+    displayStatus(msg.State, msg.Ready)
     displayOfficers(msg.Officers)
     displaySpectators(msg.Spectators)
 
-    if (msg.State == "STP") {
-        if (msg.Ready) {
-            enableStartGame()
-        } else {
-            disableStartGame()
-        }
-    } else {
+    if (msg.State == "RUN") {
         // disable all buttons
         $('.btn').each(function() {
             $(this).attr("disabled", true)
         });
+        sendAction = sendEnterSetupSignal
+        $('#nextStateButton').html("Enter Setup")
+    } else {
+        sendAction = sendStartGameSignal
+        $('#nextStateButton').html("Start Game")
     }
 
+    if (msg.Ready) {
+        enableNextStateButton()
+    } else {
+        disableNextStateButton()
+    }
+}
+
+function nextStateButtonAction() {
+    // block button until next update is received
+    $('#nextStateButton').attr("disabled", true)
+    if(sendAction != undefined) {
+        sendAction()
+    }
 }
 
 function sendStartGameSignal() {
-        // block button until next update is received
-        $('#startGameButton').attr("disabled", true)
-        var msg = {
-            type: "GM_STRT"
-        }
+    var msg = {
+        type: "GM_STRT"
+    }
+    serverSocket.send(JSON.stringify(msg));
+}
 
-        serverSocket.send(JSON.stringify(msg));
+function sendEnterSetupSignal() {
+    var msg = {
+        type: "GM_STP"
+    }
+    serverSocket.send(JSON.stringify(msg));
 }
 
 function sendSetPlayerSignal(userId, role) {

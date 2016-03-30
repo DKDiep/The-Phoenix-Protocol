@@ -6,9 +6,9 @@ import (
 
 // Holds enemy data
 type Enemy struct {
-    pos Point
-    forward Point
-    isControlled bool
+    pos               Point
+    forward           Point
+    isControlled      bool
     controllingPlayer *Player
 }
 
@@ -20,11 +20,11 @@ func (enm *Enemy) GetPosObj() *Point {
 // The collection of all enemies
 type EnemyMap struct {
     m      map[int64]*Enemy
-    delC   chan int64            // used for requesting the deletion of an enemy
-    setC   chan NewEnemy       // used for requesting the updating of an enemy
+    delC   chan int64             // used for requesting the deletion of an enemy
+    setC   chan NewEnemy          // used for requesting the updating of an enemy
     ctrlC  chan ControllingPlayer // used for setttin an enemy as controlled
-    resetC chan struct{}       // used for clearing out the map
-    copyC  chan *EnmCopyExchange // used for getting a copy of the map
+    resetC chan struct{}          // used for clearing out the map
+    copyC  chan *EnmCopyExchange  // used for getting a copy of the map
 }
 
 // Wrapper of enemy data, sent on a channel
@@ -35,14 +35,14 @@ type NewEnemy struct {
 
 // Wrapper of id and player used to set controll of enemy
 type ControllingPlayer struct {
-    id int64
+    id     int64
     player *Player
 }
 
 // Wrapper of send/receive data on copy channel
 type EnmCopyExchange struct {
     plrShipData *PlayerShip
-    copy map[int64]*Enemy
+    copy        map[int64]*Enemy
 }
 
 // Manages concurrent access to the enemy map data structure

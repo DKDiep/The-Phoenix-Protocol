@@ -9,7 +9,7 @@ public class TCPServer : MonoBehaviour
 {    
     public enum MsgType
 	{
-        SetupStage
+        GameEnded
     }
 
 	private GameSettings settings;
@@ -25,6 +25,7 @@ public class TCPServer : MonoBehaviour
     private readonly String[] plus = {"+"};
 
     private UDPServer udpServer;
+    private ServerManager serverManager;
     private TcpListener tcpServer = null;
     private Socket client = null;
     private bool connected = false; // no easy way to tell from library
@@ -41,6 +42,7 @@ public class TCPServer : MonoBehaviour
             Debug.Log("Starting TCP server on port: " + listenPort);
             tcpServer = new TcpListener(IPAddress.Any, listenPort);
             udpServer = this.gameObject.GetComponent<UDPServer>();
+            serverManager = this.gameObject.GetComponent<ServerManager>();
 
             // Start listening for client requests
             tcpServer.Start();
@@ -95,6 +97,7 @@ public class TCPServer : MonoBehaviour
                     newData = Encoding.ASCII.GetString(recvBuff, 0, numRead);
                     // It is possible to get multiple messages in a single receive
                     messages = newData.Split(semiColon, StringSplitOptions.RemoveEmptyEntries);
+                    // bla
                     foreach (String msg in messages)
                     {
                         HandleMessage(msg);
@@ -131,9 +134,8 @@ public class TCPServer : MonoBehaviour
     {
         switch (type)
         {
-            case MsgType.SetupStage:
-                return SendMsg("{\"type\":\"GM_STP\"}");
-            // TODO: Implement more message types.
+            case MsgType.GameEnded:
+                return SendMsg("{\"type\":\"GM_END\"}");
             default:
                 return false;
         }
@@ -157,10 +159,11 @@ public class TCPServer : MonoBehaviour
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
                     Debug.Log("Username: " + userName + " id:" + userId);
-                }
+                }              
+                ReadyScreen readyScreen = GameObject.Find("ReadyCanvas(Clone)").GetComponent<ReadyScreen>();
+                readyScreen.InitialiseGame();
                 break;
             case "CTRL":
-                // TODO: set the enemy as controlled and change AI settings
                 int idOfControlled = Int32.Parse(parts[1]);
                 Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
 
@@ -170,6 +173,9 @@ public class TCPServer : MonoBehaviour
                 else
                     Debug.LogError("Tried to take control of invalid enemy");
 
+                break;
+            case "RESET":
+                serverManager.Reset();
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

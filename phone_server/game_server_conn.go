@@ -12,6 +12,7 @@ type GameServerMessageType int
 
 const (
     START_GAME GameServerMessageType = iota
+    RESET_GAME
 )
 
 // Sets up the UDP connection structure
@@ -122,8 +123,9 @@ func decodeGameServerMessage(rawData []byte) {
         addAsteroids(msg["data"].([]interface{}))
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))
-    case "GM_STP":
-        gameState.enterSetupState()
+    case "GM_END":
+        fmt.Println("Game Server: Received Game Over Signal.")
+        gameState.canEnterNextState = true
     // TODO: handle more message types
     default:
         fmt.Println("Received unexpected message from Game Server of type: ", msg["type"])
@@ -135,6 +137,8 @@ func sendSignalToGameServer(msgType GameServerMessageType) bool {
     switch msgType {
     case START_GAME:
         return sendStartGameSignalToGameServer()
+    case RESET_GAME:
+        return sendTCPMsgToGameServer("RESET")
     default:
         return false
     }
@@ -239,7 +243,7 @@ func setEnemies(data []interface{}) {
                     y: enemy["fY"].(float64),
                     z: enemy["fZ"].(float64),
                 },
-                isControlled: false,
+                isControlled:      false,
                 controllingPlayer: nil,
             })
     }
