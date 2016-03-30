@@ -1,8 +1,8 @@
 package main
 
-import(
-    "strconv"
+import (
     "math"
+    "strconv"
 )
 
 type PlayerState int
@@ -18,13 +18,13 @@ const (
 
 // Holds player related data
 type Player struct {
-    id       uint64
-    userName string
-    state    PlayerState
-    score    int
+    id                 uint64
+    userName           string
+    state              PlayerState
+    score              int
     isControllingEnemy bool
-    controlledEnemyId int64
-    user     *User
+    controlledEnemyId  int64
+    user               *User
 }
 
 // Sets the current use associated with this player
@@ -88,7 +88,7 @@ func (plr *Player) sendControlledEnemyInfo() {
         "type": "ENM_CTRL",
         "data": map[string]interface{}{
             "isControlling": plr.isControllingEnemy,
-            "controlledId": plr.controlledEnemyId,
+            "controlledId":  plr.controlledEnemyId,
         },
     }
 
@@ -128,22 +128,21 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
     for id, enemy := range enemies {
         enemies_data = append(enemies_data, map[string]interface{}{
             "id": id,
-            "x" : enemy.pos.x,
-            "y" : enemy.pos.y,
+            "x":  enemy.pos.x,
+            "y":  enemy.pos.y,
             // TODO: Rotation is bugged
-            "rot": math.Atan2(enemy.forward.y, enemy.forward.x),
-            "isHacked" : enemy.isControlled,
+            "rot":      math.Atan2(enemy.forward.y, enemy.forward.x),
+            "isHacked": enemy.isControlled,
         })
     }
-
 
     asteroids_data := make([]map[string]interface{}, 0)
     // Add asteroids to the message
     for id, ast := range asteroids {
         asteroids_data = append(asteroids_data, map[string]interface{}{
             "id": id,
-            "x" : ast.pos.x,
-            "y" : ast.pos.y,
+            "x":  ast.pos.x,
+            "y":  ast.pos.y,
         })
     }
 
@@ -215,7 +214,8 @@ func (plr *Player) getStateString() (out string) {
 
 // Get an intial player state based on the game state
 func getNewPlayerState() PlayerState {
-    if gameState.status == RUNNING {
+    // Means that a game isn't running and it hasnt ended
+    if gameState.status == RUNNING && !gameState.canEnterNextState {
         return SPECTATOR
     } else {
         return STANDBY

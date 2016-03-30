@@ -17,9 +17,9 @@ func (ast *Asteroid) GetPosObj() *Point {
 // The collection of all asteroids
 type AsteroidMap struct {
     m      map[int]*Asteroid
-    delC   chan int               // channel for requesting the deletion of an asteroid
-    addC   chan NewAst            // channel for requesting the addition of an asteroid
-    resetC chan struct{}          // channele for clearing out the map
+    delC   chan int              // channel for requesting the deletion of an asteroid
+    addC   chan NewAst           // channel for requesting the addition of an asteroid
+    resetC chan struct{}         // channele for clearing out the map
     copyC  chan *AstCopyExchange // channel for getting a copy of the map
 }
 
@@ -32,7 +32,7 @@ type NewAst struct {
 // Wrapper of send/receive data on copy channel
 type AstCopyExchange struct {
     plrShipData *PlayerShip
-    copy map[int]*Asteroid
+    copy        map[int]*Asteroid
 }
 
 // Manages concurrent access to the asteroid map data structure

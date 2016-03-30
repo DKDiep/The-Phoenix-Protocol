@@ -8,20 +8,22 @@ import (
     "time"
 )
 
-const ADMIN_WEB_DIR string = "../web/admin_web"
-const ADMIN_PORT string = "52932"
-const ADMIN_UPDATE_INTERVAL time.Duration = 3 * time.Second
-const USER_WEB_DIR string = "../web/phone_web"
-const USER_PORT string = "8080"
-const LOCAL_UDP_PORT string = "46578"
-const GAME_SERVER_ADDRESS string = "192.168.56.1"
-const GAME_SERVER_UDP_PORT string = "2345"
-const GAME_SERVER_TCP_PORT string = "2346"
-const DATA_UPDATE_INTERVAL time.Duration = 33 * time.Millisecond
-const NUM_OFFICERS int = 1
-const OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
+const (
+    ADMIN_WEB_DIR           string        = "../web/admin_web"
+    ADMIN_PORT              string        = "52932"
+    ADMIN_UPDATE_INTERVAL   time.Duration = 3 * time.Second
+    USER_WEB_DIR            string        = "../web/phone_web"
+    USER_PORT               string        = "8080"
+    LOCAL_UDP_PORT          string        = "46578"
+    GAME_SERVER_ADDRESS     string        = "192.168.56.1"
+    GAME_SERVER_UDP_PORT    string        = "2345"
+    GAME_SERVER_TCP_PORT    string        = "2346"
+    DATA_UPDATE_INTERVAL    time.Duration = 33 * time.Millisecond
+    NUM_OFFICERS            int           = 1
+    OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
-const PROJECTION_RANGE float64 = 500
+    PROJECTION_RANGE float64 = 500
+)
 
 // Structures dealing with the Game Server Connections
 var gameServerUDPConn *net.UDPConn
@@ -29,9 +31,9 @@ var gameServerTCPConn *net.TCPConn
 
 // Holds and handles game state related information
 var gameState *GameState = &GameState{
-    status:           INIT,
-    updateStopC:      nil,
-    hasSetupFinished: false,
+    status:            RUNNING,
+    updateStopC:       nil,
+    canEnterNextState: true,
 }
 
 // Holds the player ship data and modification channels
@@ -95,9 +97,6 @@ func main() {
     adminServerMux := http.NewServeMux()
     adminServerMux.Handle("/web_socket", websocket.Handler(adminWebSocketHandler))
     adminServerMux.Handle("/", http.FileServer(http.Dir(ADMIN_WEB_DIR)))
-
-    // TODO: remove when admin console is implemented
-    go gameState.enterSetupState()
 
     go listenWrapper(usersServerMux, USER_PORT)
     listenWrapper(adminServerMux, ADMIN_PORT)

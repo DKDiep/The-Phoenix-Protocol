@@ -10,14 +10,13 @@ type GameStateType int
 const (
     SETUP GameStateType = iota
     RUNNING
-    INIT // init should be used only when this application is ran
 )
 
 type GameState struct {
-    status           GameStateType
-    totalResources   int
-    hasSetupFinished bool
-    updateStopC      chan struct{}
+    status            GameStateType
+    totalResources    int
+    canEnterNextState bool
+    updateStopC       chan struct{}
 }
 
 // Enters the pre-game setup state
@@ -28,14 +27,22 @@ func (gs *GameState) enterSetupState() {
     if gs.status == SETUP {
         return
     }
+
+    // if we can't notify the Game Server do nothing
+    if !sendSignalToGameServer(RESET_GAME) {
+        return
+    }
+
     gs.status = SETUP
+    gs.canEnterNextState = false
+
     // stop the periodic updates of game objects
     if gs.updateStopC != nil {
         gs.updateStopC <- struct{}{}
         gs.updateStopC = nil
     }
     // TODO: send last game stats where appropriate
-    //clears data structures
+    // clears data structures
     gs.totalResources = 0
     playerShip.reset()
     asteroidMap.reset()
@@ -43,7 +50,7 @@ func (gs *GameState) enterSetupState() {
     playerMap.resetPlayers()
     // send invitations
     gs.inviteOfficers()
-    gs.hasSetupFinished = true
+    gs.canEnterNextState = true
 }
 
 // Sends out invitations untill there are enough officers
@@ -97,9 +104,9 @@ func (gs *GameState) startGame() {
         return
     }
 
-    gs.hasSetupFinished = false
-
     gs.status = RUNNING
+    gs.canEnterNextState = false
+
     // start the spectator game for all spectators
     playerMap.startSpectators()
     // start the periodic game object updates

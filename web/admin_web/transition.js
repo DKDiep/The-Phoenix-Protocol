@@ -45,13 +45,28 @@ function displayState(state) {
     }
 }
 
-function displayStatus(isReady) {
-    if (isReady) {
-        $("#setup-status-value").css("color", "green")
-        $("#setup-status-value").html("Ready To Start")
-    } else {
-        $("#setup-status-value").css("color", "red")
-        $("#setup-status-value").html("Not Ready")
+function displayStatus(state, isReady) {
+    switch (state) {
+        case "STP":
+            $("#status-text").html("New Game Status:")
+            if(isReady) {
+                $("#setup-status-value").css("color", "green")
+                $("#setup-status-value").html("Can Start")
+            } else {
+                $("#setup-status-value").css("color", "red")
+                $("#setup-status-value").html("Can't Start")
+            }
+            break;
+        case "RUN":
+            $("#status-text").html("Curent Game Status:")
+            if(isReady) {
+                $("#setup-status-value").css("color", "orange")
+                $("#setup-status-value").html("Finished")
+            } else {
+                $("#setup-status-value").css("color", "green")
+                $("#setup-status-value").html("In Progress")
+            }
+            break;
     }
 }
 
@@ -119,12 +134,12 @@ function getPlayerRow(player, role) {
     return out
 }
 
-function disableStartGame() {
-    $('#startGameButton').attr("disabled", true)
+function disableNextStateButton() {
+    $('#nextStateButton').attr("disabled", true)
 }
 
-function enableStartGame() {
-    $('#startGameButton').attr("disabled", false)
+function enableNextStateButton() {
+    $('#nextStateButton').attr("disabled", false)
 }
 
 function displayConnectionError() {

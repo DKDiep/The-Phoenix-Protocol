@@ -99,6 +99,9 @@ func handleAdminMessage(msg map[string]interface{}) {
     case "GM_STRT":
         fmt.Println("Admin: Received Start Game signal.")
         gameState.startGame()
+    case "GM_STP":
+        fmt.Println("Admin: Received Enter Setup signal.")
+        gameState.enterSetupState()
     case "SET_OFFIC":
         plrId := uint64(msg["data"].(float64))
         plr := playerMap.get(plrId)
@@ -155,7 +158,7 @@ func updateAdmin() {
         msg.State = "STP"
     }
 
-    msg.Ready = gameState.hasSetupFinished
+    msg.Ready = gameState.canEnterNextState
 
     officers, spectators := playerMap.getPlayerLists()
 
