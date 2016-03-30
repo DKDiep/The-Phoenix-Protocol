@@ -118,6 +118,13 @@ function finaliseSpectatorScreen() {
 
 // Deals with movement
 function handleGeneralPress(eventData) {
+    // If we click somewhere that is not an enemy
+    // then we are no longer holding an enemy
+    // so our hack progress will decrement
+    if (!isControllingEnemy) {
+        setHeld(false)
+    }
+
     screenX = eventData.data.originalEvent.pageX
     screenY = eventData.data.originalEvent.pageY
 
@@ -127,6 +134,15 @@ function handleGeneralPress(eventData) {
     gameY = -(screenY - (0.5*renderer.height))/(zoom*maxDim);
 
     moveAction(gameX, gameY)
+}
+
+// Called from multiple places on a mouseup
+// or touchend event
+function handleMouseUp(eventData) {
+    // The enemy is no longer held
+    if (!isControllingEnemy) {
+        setHeld(false)
+    }
 }
 
 // Place player ship in middle and add moving background
@@ -156,6 +172,7 @@ function initLayers() {
     stage = new PIXI.Container();
     stage.interactive = true
     stage.mousedown = stage.touchstart = handleGeneralPress
+    stage.mouseup = stage.touchend = handleMouseUp
 
     asteroidLayer = new PIXI.Container();
     enemyLayer = new PIXI.Container();
@@ -218,6 +235,9 @@ function renderUpdate() {
         enemyControllUpdate()
         enemyControllUpdate = undefined
     }
+
+    // Update the hacking values
+    updateHacking()
 
     // Animate tracktor beam
     updateTractorBeam()
@@ -377,6 +397,13 @@ function updateSprites(data) {
             actionOnEnemy(eventData.target.spaceGameId)
             // Prevents the triggering of the move event
             eventData.stopPropagation()
+        };
+        newEnm.mouseup = newEnm.touchend = handleMouseUp
+        newEnm.mouseout = function (eventData) { //TODO: Equivalent event for phones?
+            // The enemy is no longer held
+            if (!isControllingEnemy) {
+                setHeld(false)
+            }
         };
         newTmp[enm.id] = newEnm;
         enemyLayer.addChild(newEnm);

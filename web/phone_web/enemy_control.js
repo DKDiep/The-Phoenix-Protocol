@@ -5,7 +5,8 @@ var isControllingEnemy = false;
 function actionOnEnemy(id) {
     console.log("enemy action ", id)
     if(!isControllingEnemy) {
-        incrementHackProgress(id)
+        setHackTarget(id)
+        setHeld(true)
     } else if (id != controlledEnemyId) {
         sendEnemyAttackRequest(id)
     }
