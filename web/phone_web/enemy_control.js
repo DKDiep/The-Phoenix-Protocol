@@ -5,9 +5,10 @@ var isControllingEnemy = false;
 function actionOnEnemy(target) {
     console.log("enemy action ", target.spaceGameId)
     if(!isControllingEnemy) {
-        sendControlEnemyRequest(target.spaceGameId)
-    } else if (!target.isHacked) {
-        sendEnemyAttackRequest(target.spaceGameId)
+        setHackTarget(id)
+        setHeld(true)
+    } else if (id != controlledEnemyId) {
+        sendEnemyAttackRequest(id)
     }
 }
 
@@ -16,6 +17,8 @@ function moveAction(x, y) {
     console.log("move action ", x, y)
     if(isControllingEnemy) {
         sendMoveEnemyRequest(x, y)
+    } else {
+        decrementHackProgress()
     }
 }
 
@@ -28,6 +31,11 @@ function updateControllInfo(data) {
     } else {
         enemyControllUpdate = clearDisplayingOfControlledEnemy
     }
+}
+
+function displayEnemyHacking(id) {
+    targetEnemySprite = findEnemyWithID(id)
+    enableTractorBeam(targetEnemySprite)
 }
 
 // Highligth controlled enemy and deals with other state changes

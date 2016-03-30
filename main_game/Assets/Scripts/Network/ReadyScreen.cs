@@ -61,8 +61,9 @@ public class ReadyScreen : NetworkBehaviour
 		// Start the game
         GameObject.Find("GameManager").GetComponent<GameState>().Status = GameState.GameStatus.Started;
 
-		// Show the crosshairs (they might have been hidden before a reset)
-		crosshairCanvas.SetActive(true);
+        // Show the crosshairs (they might have been hidden before a reset)
+        if (playerController.GetRole() == RoleEnum.Camera && crosshairCanvas != null)
+            crosshairCanvas.SetActive(true);
        
 		// Disable self until restart
         RpcHide();
