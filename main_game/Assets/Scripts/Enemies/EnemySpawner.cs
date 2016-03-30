@@ -131,21 +131,20 @@ public class EnemySpawner : MonoBehaviour
     {
         StopAllCoroutines();
 
-        state.CleanupEnemies();
-        List<GameObject> enemyList = state.GetEnemyList();
-        // Get 
+        // Despawn enemies
+		state.CleanupEnemies();
+		List<GameObject> enemyList = state.GetEnemyList();
         for (int i = enemyList.Count - 1; i >= 0; i--)
         {
             // Remove using logic
-            EnemyLogic logic = enemyList[i].GetComponentInChildren<EnemyLogic>();
-            if (logic != null)
-            { 
-               logic.Despawn();
-            }
+            EnemyLogic logic = enemyList[i].GetComponentInChildren<EnemyLogic>(true);
+			if (logic != null)
+				logic.Despawn();
         }
 
         state.SetDifficulty(0);
-        outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+		outpostSpawnRequests.Clear();
+
         StartCoroutine("Cleanup");
         StartCoroutine("TimedDifficulty");
     }
