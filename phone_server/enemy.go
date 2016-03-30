@@ -99,7 +99,7 @@ func (enemies *EnemyMap) reset() {
     enemies.resetC <- struct{}{}
 }
 
-// Request a copy of the enemy map
+// Request a copy of close and controlled enemies
 func (enemies *EnemyMap) getCopy(plrShip *PlayerShip) map[int64]*Enemy {
     data := &EnmCopyExchange{plrShipData: plrShip}
     enemies.copyC <- data
@@ -142,12 +142,12 @@ func (enemies *EnemyMap) setControlledAsync(id int64, plr *Player) bool {
     }
 }
 
-// Gets a copy of close enemies asynchronosly
+// Gets a copy of close and controlled enemies asynchronosly
 // NOTE: DO NOT USE
 func (enemies *EnemyMap) getCopyAsync(plrShip *PlayerShip) map[int64]*Enemy {
     newCopy := make(map[int64]*Enemy)
     for k, v := range enemies.m {
-        if isCloseToShip(plrShip, v) {
+        if isCloseToShip(plrShip, v) || v.isControlled {
             enemyCopy := *v
             newCopy[k] = &enemyCopy
         }
