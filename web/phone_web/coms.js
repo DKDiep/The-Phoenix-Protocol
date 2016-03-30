@@ -1,9 +1,12 @@
 var serverSocket;
+var reconnectTimer;
+var webSocketConnected = false;
 
 // Initialise the web socket connection
 function initSocket(resumeInitialisation) {
     if(typeof serverSocket === 'undefined') {
         serverSocket = new WebSocket("ws://" + window.location.host + "/web_socket");
+        clearInterval(reconnectTimer);
 
         // After connection initialisation
         serverSocket.onopen = function() {
@@ -11,7 +14,7 @@ function initSocket(resumeInitialisation) {
             // in init.js
             resumeInitialisation()
             console.log("Web Socket Connection initialised");
-
+            webSocketConnected = true
         }
 
         // Receiving from server
@@ -19,15 +22,27 @@ function initSocket(resumeInitialisation) {
 
         // Web Socket Error
         serverSocket.onerror = function(e) {
-            conosle.log("Web Socket Error: "+e.data);
+            console.log("Web Socket Error: " + e.data);
         }
 
         // After closing the connection
         serverSocket.onclose = function() {
             serverSocket = undefined;
             console.log("Web Socket Connection Closed");
+            goOffline(resumeInitialisation);
+            webSocketConnected = false;
         }
     }
+}
+
+// Changes to the error screen and tries reconnecting
+function goOffline(resumeInitialisation) {
+    if(webSocketConnected) {
+        changeScreen("connection_error", startConnectionErrorScreen, finaliseConnectionErrorScreen)
+    }
+    reconnectTimer = setInterval(function() {
+        initSocket(resumeInitialisation)
+    }, 3000)
 }
 
 // Act based on type of command
