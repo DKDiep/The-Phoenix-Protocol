@@ -98,9 +98,6 @@ public class EngineerController : NetworkBehaviour
         keyPressTime[InteractionKey.Upgrade] = 0f;
         keyPressTime[InteractionKey.Repair] = 0f;
         keyPressTime[InteractionKey.Popup] = 0f;
-
-        // Remove crosshair from this scene. 
-        GameObject.Find("CrosshairCanvas(Clone)").SetActive(false);
     }
 
 	private void LoadSettings()

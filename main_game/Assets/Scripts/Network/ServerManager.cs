@@ -81,7 +81,7 @@ public class ServerManager : NetworkBehaviour
 		if (ClientScene.localPlayers[0].IsValid)
 			localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-		if (screenId != localController.GetScreenIndex())
+		if (screenId != localController.GetScreenIndex() || localController.GetRole() != RoleEnum.Camera)
 		{
 			screenIdToCrosshair[screenId].SetActive(false);
 		}
