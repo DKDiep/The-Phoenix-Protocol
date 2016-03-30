@@ -283,10 +283,10 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
     
-    public void FoundOutpost(GameObject outpost, int id)
+    public void FoundOutpost(GameObject outpost, int id, int difficulty)
     {
         UpdateNewsFeed("[Outpost] Outpost Discovered!");
-        stratMap.NewOutpost(outpost,id);
+        stratMap.NewOutpost(outpost,id,difficulty);
     }
 
     public void PortalInit(GameObject portal)

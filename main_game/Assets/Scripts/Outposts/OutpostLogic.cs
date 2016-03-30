@@ -35,12 +35,17 @@ public class OutpostLogic : MonoBehaviour {
         numberOfCivilians *= multiplier;
         numberOfResources *= multiplier;
     }
-		
-	/// <summary>
-	/// Handle the player coming into resource collision range.
-	/// This is used for collecting civilians as well. 
-	/// </summary>
-	public void ResourceCollision ()
+
+    public int GetDifficulty()
+    {
+        return difficulty;
+    }
+
+    /// <summary>
+    /// Handle the player coming into resource collision range.
+    /// This is used for collecting civilians as well. 
+    /// </summary>
+    public void ResourceCollision ()
 	{
         if(collision == null)
             collision = transform.parent.GetComponent<OutpostCollision>();

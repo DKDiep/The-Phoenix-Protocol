@@ -79,7 +79,7 @@ public class OutpostManager : MonoBehaviour {
                     {
                         outpostLogic[i].discovered = true;
                         if(outpostList[i] != null)
-                            playerController.RpcOutpostNotification(outpostList[i], outpostLogic[i].id);
+                            playerController.RpcOutpostNotification(outpostList[i], outpostLogic[i].id, outpostLogic[i].GetDifficulty());
                         // Show the outpost target
                         outpostList[i].GetComponentsInChildren<OutpostTarget>()[0].ShowTarget();
                     }

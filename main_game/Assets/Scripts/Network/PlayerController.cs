@@ -117,10 +117,10 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcOutpostNotification(GameObject outpost, int id)
+    public void RpcOutpostNotification(GameObject outpost, int id, int difficulty)
     {
         if (commandConsoleState != null)
-            commandConsoleState.FoundOutpost(outpost, id);
+            commandConsoleState.FoundOutpost(outpost, id, difficulty);
     }
 
     [ClientRpc]

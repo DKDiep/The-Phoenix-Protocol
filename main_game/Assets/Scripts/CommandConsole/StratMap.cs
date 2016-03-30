@@ -35,7 +35,7 @@ public class StratMap : MonoBehaviour {
         outpostIconDict = new Dictionary<int,GameObject>();
     }
 
-    public void NewOutpost(GameObject outpost, int id)
+    public void NewOutpost(GameObject outpost, int id, int difficulty)
     {
         var panel = this;
         if (panel != null)  // make sure you actually found it!
@@ -43,6 +43,7 @@ public class StratMap : MonoBehaviour {
             GameObject outpostIcon = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outpostIcon.transform.SetParent(panel.transform, false);
             RectTransform outpostRectTransform = (RectTransform)outpostIcon.transform;
+            outpostRectTransform.sizeDelta *= (float)(0.5 + difficulty * 0.5);
             Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
             outpostRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
@@ -90,6 +91,7 @@ public class StratMap : MonoBehaviour {
         {
             RectTransform outpostRectTransform = (RectTransform)outpostIconDict[id].transform;
             objectiveIconRectTransform.anchoredPosition = outpostRectTransform.anchoredPosition;
+            objectiveIconRectTransform.sizeDelta = outpostRectTransform.sizeDelta;
             objectiveIcon.SetActive(true);
         }
     }
