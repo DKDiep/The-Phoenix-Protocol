@@ -179,6 +179,6 @@ func sendMsgToAdmin(msg AdminUpdateMessage) {
 
     _, err = adminWebSocket.Write(toSend)
     if err != nil {
-        fmt.Println("Error sendMsg(): Failed to send to client: ", err)
+        fmt.Println("Admin: Error sendMsg(): Failed to send to client: ", err)
     }
 }

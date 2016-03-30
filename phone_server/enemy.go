@@ -52,25 +52,14 @@ func (enemies *EnemyMap) accessManager() {
         select {
         // deletion of an enemy
         case id := <-enemies.delC:
-            if enm, ok := enemies.m[id]; ok {
-                if enm.isControlled {
-                    enm.controllingPlayer.unsetControlledEnemy()
-                }
-                delete(enemies.m, id)
-            }
+            enemies.removeAsync(id)
         // setting of enemy values
         case toSet := <-enemies.setC:
-            if enm, ok := enemies.m[toSet.id]; ok {
-                enm.pos.x = toSet.enemy.pos.x
-                enm.pos.y = toSet.enemy.pos.y
-            } else {
-                enemies.m[toSet.id] = toSet.enemy
-            }
+            enemies.setAsync(toSet.id, toSet.enemy)
         // set an enemy as being controlled
         case ctrlData := <-enemies.ctrlC:
-            if enm, ok := enemies.m[ctrlData.id]; ok && !enm.isControlled {
-                enm.isControlled = true
-                enm.controllingPlayer = ctrlData.player
+            success := enemies.setControlledAsync(ctrlData.id, ctrlData.player)
+            if success {
                 enemies.ctrlC <- ctrlData
             } else {
                 // a way to signal failure
@@ -116,6 +105,41 @@ func (enemies *EnemyMap) getCopy(plrShip *PlayerShip) map[int64]*Enemy {
     enemies.copyC <- data
     result := <-enemies.copyC
     return result.copy
+}
+
+// Request an asynchronous enemy data update
+// NOTE: DO NOT USE
+func (enemies *EnemyMap) setAsync(id int64, toSet *Enemy) {
+    if enm, ok := enemies.m[id]; ok {
+        enm.pos.x = toSet.pos.x
+        enm.pos.y = toSet.pos.y
+    } else {
+        enemies.m[id] = toSet
+    }
+}
+
+// Request an asynchronous enemy deletion
+// NOTE: DO NOT USE
+func (enemies *EnemyMap) removeAsync(id int64) {
+    if enm, ok := enemies.m[id]; ok {
+        if enm.isControlled {
+            enm.controllingPlayer.unsetControlledEnemy()
+        }
+        delete(enemies.m, id)
+    }
+}
+
+// Sets asynchronosly an enemy as being controlled
+// return value indicates success or failure
+// NOTE: DO NOT USE
+func (enemies *EnemyMap) setControlledAsync(id int64, plr *Player) bool {
+    if enm, ok := enemies.m[id]; ok && !enm.isControlled {
+        enm.isControlled = true
+        enm.controllingPlayer = plr
+        return true
+    } else {
+        return false
+    }
 }
 
 // Gets a copy of close enemies asynchronosly

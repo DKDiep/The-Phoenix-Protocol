@@ -68,34 +68,18 @@ func (players *PlayerMap) accessManager() {
             <-players.plrC
         // resets the players
         case <-players.resetC:
-            for k, v := range players.mOfficers {
-                players.mSpec[k] = v
-                v.score = 0
-                delete(players.mOfficers, k)
-            }
-            for _, v := range players.mSpec {
-                v.setState(STANDBY)
-            }
+            players.resetPlayersAsync()
             players.resetC <- struct{}{}
         // starts the spectator game for all spectators
         case <-players.startC:
-            for _, v := range players.mSpec {
-                v.setState(SPECTATOR)
-            }
+            players.startSpectatorsAsync()
         // request a sorted list of all players on standby
         case <-players.sortlC:
-            list := make([]*Player, 0, 10)
-            for _, v := range players.mSpec {
-                if v.state == STANDBY {
-                    list = append(list, v)
-                }
-            }
-            sort.Sort(sort.Reverse(SortedPlayers(list)))
-            players.sortlC <- list
+            players.sortlC <- players.getSortedSpectatorsAsync()
         // gets unordered lists of the players
         case <-players.listC:
-            players.listC <- getPlayerInfoList(players.mOfficers)
-            players.listC <- getPlayerInfoList(players.mSpec)
+            players.listC <- getPlayerInfoListAsync(players.mOfficers)
+            players.listC <- getPlayerInfoListAsync(players.mSpec)
         // request to update all users
         case <-players.updateC:
             players.updateData()
@@ -150,8 +134,62 @@ func (players *PlayerMap) resetPlayers() {
     <-players.resetC // wait for confirmation the the action is finished
 }
 
+// Start the spectator game for all spectators
 func (players *PlayerMap) startSpectators() {
     players.startC <- struct{}{}
+}
+
+// Wrapper used for retrieving a list of players sorted by score
+// NOTE: DO NOT USE
+func (players *PlayerMap) getSortedSpectatorsAsync() []*Player {
+    list := make([]*Player, 0, 10)
+    for _, v := range players.mSpec {
+        if v.state == STANDBY {
+            list = append(list, v)
+        }
+    }
+    sort.Sort(sort.Reverse(SortedPlayers(list)))
+
+    return list
+}
+
+// Wrapper used for resetting the players at the start of a new game
+// NOTE: DO NOT USE
+func (players *PlayerMap) resetPlayersAsync() {
+    for k, v := range players.mOfficers {
+        players.mSpec[k] = v
+        v.score = 0
+        delete(players.mOfficers, k)
+    }
+    for _, v := range players.mSpec {
+        v.setState(STANDBY)
+    }
+}
+
+// Start the spectator game for all spectators
+// NOTE: DO NOT USE
+func (players *PlayerMap) startSpectatorsAsync() {
+    for _, v := range players.mSpec {
+        v.setState(SPECTATOR)
+    }
+}
+
+// Get an unordered list of Player info from the provided map
+// NOTE: DO NOT USE
+func getPlayerInfoListAsync(m map[uint64]*Player) []PlayerInfo {
+    list := make([]PlayerInfo, 0, 10)
+    for _, plr := range m {
+        newInfo := PlayerInfo{IsOnline: false}
+        newInfo.UserName = plr.userName
+        newInfo.UserId = plr.id
+        newInfo.Score = plr.score
+        if plr.user != nil {
+            newInfo.IsOnline = true
+        }
+        list = append(list, newInfo)
+    }
+
+    return list
 }
 
 // Sends a state data update to all spectators
@@ -223,21 +261,4 @@ func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
     // enm.forward.x = newX
     // enm.forward.y = newY
     enm.forward.z = 0
-}
-
-// Get an unordered list of Player info from the provided map
-func getPlayerInfoList(m map[uint64]*Player) []PlayerInfo {
-    list := make([]PlayerInfo, 0, 10)
-    for _, plr := range m {
-        newInfo := PlayerInfo{IsOnline: false}
-        newInfo.UserName = plr.userName
-        newInfo.UserId = plr.id
-        newInfo.Score = plr.score
-        if plr.user != nil {
-            newInfo.IsOnline = true
-        }
-        list = append(list, newInfo)
-    }
-
-    return list
 }
