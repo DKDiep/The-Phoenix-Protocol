@@ -49,6 +49,11 @@ public class ReadyScreen : NetworkBehaviour
 
     public void OnClickStartButton()
     {
+        InitialiseGame();
+    }
+    
+    public void InitialiseGame()
+    {
         // Reset cutscene manager variables and play
         serverManager.cutsceneManager.GetComponent<LoadingText>().Reset();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Reset();

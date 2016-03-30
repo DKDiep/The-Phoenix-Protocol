@@ -12,6 +12,7 @@ public class GameStatusManager : NetworkBehaviour
 
     private GameObject server;
     private PlayerController playerController;
+    private TCPServer tcpServer;
     private MusicManager musicManager;
     private GameObject localPortal;
 
@@ -20,6 +21,7 @@ public class GameStatusManager : NetworkBehaviour
 		server = GameObject.Find("GameManager");
 
 		gameState = server.GetComponent<GameState>();
+        tcpServer = this.gameObject.GetComponent<TCPServer>();
 
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
@@ -109,6 +111,9 @@ public class GameStatusManager : NetworkBehaviour
                     // Disable game timer. 
                     GameObject gameTimer = GameObject.Find("GameTimerText");
                     gameTimer.SetActive(false);
+                    
+                    // Send Game Over signal to the Phone Server
+                    tcpServer.SendSignal(TCPServer.MsgType.GameEnded);
                 }
                 else 
                 {
