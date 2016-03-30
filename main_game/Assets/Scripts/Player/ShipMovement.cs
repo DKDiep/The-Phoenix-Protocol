@@ -35,7 +35,7 @@ public class ShipMovement : MonoBehaviour
     void Start()
     {
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
+		Reset();
 
 		GameObject server = GameObject.Find("GameManager");
 		gameState = server.GetComponent<GameState>();
@@ -46,9 +46,23 @@ public class ShipMovement : MonoBehaviour
     	controlObject = transform.parent.gameObject;
 		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine ("RechargeShields");
+        gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
     }
 
-	private void LoadSettings()
+    public void Reset()
+    {
+        LoadSettings();
+        pitchVelocity = 0f;
+        rollVelocity = 0f;
+        pitchOld = 0f;
+        rollOld = 0f;
+        slowTime = 0f;
+        slowTime2 = 0f;
+        sideRoll = 0f;
+        sideRollOld = 0f;
+}
+
+private void LoadSettings()
 	{
 		turnSpeed = settings.PlayerShipTurnSpeed;
 		slowDown = settings.PlayerShipSlowDown;
@@ -78,11 +92,6 @@ public class ShipMovement : MonoBehaviour
 			StartCoroutine ("RechargeShields");
 		}
 	}
-		
-    public void StartGame()
-    {
-        gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
-    }
 
 	void Update () 
 	{

@@ -24,7 +24,9 @@ public class MissionManager : MonoBehaviour
 
     public void ResetMissions() 
     {
+        StopAllCoroutines();
         startTime = Time.time;
+        StartCoroutine("UpdateMissions");
     }
 
     private void LoadSettings()

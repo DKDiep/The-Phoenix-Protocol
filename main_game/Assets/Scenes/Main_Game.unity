@@ -293,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 175112, guid: 66134db641d7e438ca88afa74b2dc415, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!1001 &547959170
@@ -511,7 +511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 158956, guid: ee651a120f0f54936a87c57230473950, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!1 &707978707
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 108092, guid: b10a77be15ffd466580b7727445ad99e, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!1 &1130805093
@@ -1978,7 +1978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 175078, guid: ab76f5cce85974ccd8c91fd33f318031, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!1 &1872929111
@@ -2134,7 +2134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 194068, guid: 8469e4d809a134109a9fbc42a56261aa, type: 2}
-  size: 100
+  size: 200
   serverOnly: 0
   useInterpolation: 1
 --- !u!1 &1924423020 stripped

@@ -187,6 +187,11 @@ public class GameState : NetworkBehaviour {
         difficulty -= amount;
     }
 
+    public void SetDifficulty(int newDifficulty)
+    {
+        difficulty = newDifficulty;
+    }
+
     /// <summary>
     /// Returns the current difficulty
     /// </summary>
@@ -249,10 +254,15 @@ public class GameState : NetworkBehaviour {
 
 		return upgradableComponents[(int)index];
 	}
-        
-	/*
+
+    /*
 	 *  Getters and setters for Asteroid list
 	 */
+    public List<GameObject> GetAsteroidList()
+    {
+        return asteroidList;
+    }
+
     public void AddToAsteroidList(GameObject asteroidObject)
     {
         asteroidList.Add(asteroidObject);
@@ -267,7 +277,7 @@ public class GameState : NetworkBehaviour {
 		asteroidSpawner.DecrementNumAsteroids();
     }
 
-    private void RemoveAsteroidAt(int i)
+    public void RemoveAsteroidAt(int i)
     {
         bool wasDeleted = newAsteroids.Remove(asteroidList[i]);
         if (!wasDeleted)
@@ -301,10 +311,11 @@ public class GameState : NetworkBehaviour {
         enemyList.Add(enemyObject);
     }
 
-    private void RemoveEnemyAt(int i)
+    public void RemoveEnemyAt(int i)
     {
         removedEnemies.Add(enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
+        EnemySpawner.DecrementNumEnemies();
     }
 
 	public void RemoveEnemy(GameObject enemy)
@@ -607,6 +618,16 @@ public class GameState : NetworkBehaviour {
 	public float GetShipSpeed()
 	{        
 		return shipSpeed;
+	}
+
+	/// <summary>
+	/// Gets the ship's speed without boost or NOS, even if they're currently on.
+	/// </summary>
+	/// <returns>The ship base speed.</returns>
+	public float GetShipBaseSpeed()
+	{
+		UpgradableEngine engine = (UpgradableEngine)upgradableComponents[(int)UpgradableComponentIndex.Engines];
+		return engine.GetCurrentSpeed();
 	}
 
 	/// <summary>

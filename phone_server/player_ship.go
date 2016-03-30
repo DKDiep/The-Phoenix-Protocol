@@ -2,13 +2,25 @@ package main
 
 import (
     "fmt"
+    "math"
 )
+
+type Point struct {
+    x float64
+    y float64
+    z float64
+}
 
 // Player ship data holding structure
 type PlayerShip struct {
-    posX float64
-    posY float64
-    rot  float64
+    pos Point
+    forward Point
+    right Point
+}
+
+// Function of GeometricObject interface
+func (plrShp *PlayerShip) GetPosObj() *Point {
+    return &plrShp.pos
 }
 
 // Wrapper around the player ship object handling concurrency
@@ -52,4 +64,18 @@ func (plrShip *PlayerShipController) getShipData() *PlayerShip {
 // Request the reset of the data structure
 func (plrShip *PlayerShipController) reset() {
     plrShip.resetC <- struct{}{}
+}
+
+
+// Function to check if an object is withing the range in which we project
+func isCloseToShip(plrShip *PlayerShip, obj GeometricObject) bool {
+    position := obj.GetPosObj()
+    if math.Abs(position.x-plrShip.pos.x) > PROJECTION_RANGE ||
+       math.Abs(position.y-plrShip.pos.y) > PROJECTION_RANGE ||
+       math.Abs(position.z-plrShip.pos.z) > PROJECTION_RANGE {
+
+        return false
+    } else {
+        return true
+    }
 }

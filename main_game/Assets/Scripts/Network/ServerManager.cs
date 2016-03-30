@@ -23,8 +23,11 @@ public class ServerManager : NetworkBehaviour
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner, musicManager, missionManager;
     public GameObject cutsceneManager;
+    private GameObject gameTimer;
+    private GameObject portal;
+    private GameObject readyScreen;
 
-	private uint serverId;
+    private uint serverId;
     public int clientIdCount()
     {
         return netIdToRole.Count;
@@ -227,7 +230,7 @@ public class ServerManager : NetworkBehaviour
         ServerManager.NetworkSpawn(playerShield);
 
 		// Spawn portal
-		GameObject portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
+		portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
         portal.transform.position = new Vector3(0,1000,1000);
 		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
@@ -249,22 +252,68 @@ public class ServerManager : NetworkBehaviour
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
+
+        spawner = GameObject.Find("Spawner");
+        gameTimer = GameObject.Find("GameTimerText");
     }
 
-    public void Play()
+    public void SetReadyScreen(GameObject newReadyScreen)
     {
-        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
+        readyScreen = newReadyScreen;
+    }
 
-        //Reset Player's scores
-        gameState.ResetPlayerScores();
-        GameObject gameTimer = GameObject.Find("GameTimerText");
-        gameTimer.SetActive(true);
+    public void Reset()
+    {
+        // Prevent game loop updating
+        gameState.Status = GameState.GameStatus.Setup;
+        Debug.Log("Resetting values");
+
+        // Overlay ready screen
+        readyScreen.GetComponent<ReadyScreen>().Reset();
+            
+        // Restart music - consider reset method for sound system
+        musicManager.GetComponent<MusicManager>().PlayMusic(0);
+
+        // Reactivate possibly deactivated objects
+        if (!gameTimer.activeSelf)
+        {
+            gameTimer.SetActive(true); 
+        }
+        if (!portal.activeSelf)
+        {
+            portal.SetActive(true);
+        }
+
+        // Reset portal trigger - this needs to be before game status change
+        gameState.gameObject.GetComponent<GameStatusManager>().Reset();
+
+        // Reset timer  
         gameTimer.GetComponent<TimerScript>().ResetTimer();
+        
+        // Reset missions
         missionManager.GetComponent<MissionManager>().ResetMissions();
-        //Start the game
-        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().StartGame();
-        gameState.Status = GameState.GameStatus.Started;
-        musicManager.GetComponent<MusicManager>().Play();
+        
+        // Reset Player's scores
+        gameState.ResetPlayerScores();
+        // Reset spawner attributes, each spawner removes objects from logic using state list
+        spawner.GetComponent<EnemySpawner>().Reset();
+        spawner.GetComponent<OutpostSpawner>().Reset();
+        spawner.GetComponent<AsteroidSpawner>().Reset();
+
+        // Reset player ship
+        gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,-2000.0f);
+        gameState.PlayerShip.transform.rotation = Quaternion.identity;
+        gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
+        gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
+
+        // Game state to be updated through ReadyScreen
+    }
+
+    // Temporary to test reset
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(10, 10, 80, 30), "Reset"))
+            Reset();
     }
 
 	public void SetServerId(uint serverId) 

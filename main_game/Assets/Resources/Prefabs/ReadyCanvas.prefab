@@ -64,6 +64,7 @@ GameObject:
   - 114: {fileID: 11421770}
   - 114: {fileID: 11448760}
   - 114: {fileID: 11426342}
+  - 114: {fileID: 11449502}
   m_Layer: 0
   m_Name: ReadyCanvas
   m_TagString: Untagged
@@ -174,6 +175,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11449502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 25
+    i1: 179
+    i2: 208
+    i3: 114
+    i4: 231
+    i5: 46
+    i6: 177
+    i7: 20
+    i8: 43
+    i9: 86
+    i10: 209
+    i11: 176
+    i12: 109
+    i13: 138
+    i14: 71
+    i15: 88
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11452660
 MonoBehaviour:
   m_ObjectHideFlags: 1

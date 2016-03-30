@@ -69,7 +69,6 @@ public class ServerLobby : MonoBehaviour {
             serverManager.SetCommander(commandConsole.GetPlayerController().netId.Value);
         }
 
-
 		serverManager.SetServerId(serverId);
 
         // Populate dictionary matching screen IDs of player controllers to canvas objects
@@ -78,20 +77,23 @@ public class ServerLobby : MonoBehaviour {
             int index = i - centreIndex;
             // Instantiate crosshair to be spawned
             GameObject crosshairObject = Instantiate(Resources.Load("Prefabs/CrosshairCanvas", typeof(GameObject))) as GameObject;
-            // Network spawn a crosshair canvas for each camera
+           
+			// Network spawn a crosshair canvas for each camera
             ServerManager.NetworkSpawn(crosshairObject);
-            // Add after spawning
+            
+			// Add after spawning
             serverManager.RpcAddCrosshairObject(index, crosshairObject);
         }
+			
+		Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject)));
 
-        // Put an insta
-        GameObject GameTimerObject = Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject))) as GameObject;
-
-        // Instantiate ready screen then remove listener and destroy self
-        GameObject ReadyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
+        startButton.onClick.RemoveAllListeners();
         // Start game only spawns, call begin to play
         serverManager.StartGame();
-        startButton.onClick.RemoveAllListeners();
+        // Instantiate ready screen then remove listener and destroy self
+        GameObject readyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(readyScreen);
+        serverManager.SetReadyScreen(readyScreen);
         Destroy(this.gameObject);
     }
 

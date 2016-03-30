@@ -13,8 +13,7 @@ public class GameStatusManager : NetworkBehaviour
     private GameObject server;
     private PlayerController playerController;
     private MusicManager musicManager;
-
-	private ObjectPoolManager enemyLogicManager;
+    private GameObject localPortal;
 
 	// Use this for initialization
 	void Start () {
@@ -24,32 +23,52 @@ public class GameStatusManager : NetworkBehaviour
 
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
-
-		enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 	}
+
+    public void Reset()
+    {
+        RpcReset();
+    }
+
+    [ClientRpc]
+    void RpcReset()
+    {
+        gameOverScreen = false;
+
+        // Remove screen overlays
+        GameObject resultCanvas = GameObject.Find("GameOverCanvas(Clone)");
+        if (resultCanvas != null)
+        {
+            // Force if sync var delayed
+            if (gameState.Status != GameState.GameStatus.Setup)
+                gameState.Status = GameState.GameStatus.Setup;
+            Destroy(resultCanvas);
+        }
+
+        // Re-enable portals disabled previously by game over
+        if (playerController.GetRole() == RoleEnum.Camera)
+        {
+            // Null check required if restart is before portal deactivation
+            if (localPortal != null)
+                localPortal.SetActive(true);
+        }
+
+		SetShipVisible(true);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		if((gameState.Status == GameState.GameStatus.Died ||
 			gameState.Status == GameState.GameStatus.Won) && !gameOverScreen)
 		{
-            // Remove crosshair from this scene. 
-            GameObject crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
-            if(crosshairCanvas != null)
-                crosshairCanvas.SetActive(false);
-
-            GameObject playerShip = GameObject.Find("PlayerShip(Clone)");
-            if(playerShip != null)
-            {
-                for(int i = 0; i < playerShip.transform.childCount; i++)
-                {
-                    if(playerShip.transform.GetChild(i).name.Contains("Turret") || playerShip.transform.GetChild(i).name == "Model")
-                        playerShip.transform.GetChild(i).gameObject.SetActive(false);
-                }
-            }
-            
+			SetShipVisible(false);
             DisableThrusterSound();
-            
+
+			// Remove crosshair from this scene. 
+			GameObject crosshairCanvas = GameObject.Find("CrosshairCanvas(Clone)");
+			if(crosshairCanvas != null)
+				crosshairCanvas.SetActive(false);
+
             // Set an overlay on the screen
 			gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
@@ -64,17 +83,19 @@ public class GameStatusManager : NetworkBehaviour
             if(playerController.GetRole() == RoleEnum.Camera)
             {
                 // Disable the portal on all screens
-                GameObject.Find("Portal(Clone)").SetActive(false);
+                localPortal = GameObject.Find("Portal(Clone)");
+                localPortal.SetActive(false);
 
                 // If it is the server
-                if(playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
+                if (playerController.netId.Value == server.GetComponent<ServerManager>().GetServerId())
                 {
                     // Do not display stats on server.
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
                     Debug.Log("Final Game Score: " + this.gameObject.GetComponent<GameStatsManager>().CalculateAndSendGameScore());
 
 					// Disable the enemies to stop them from shooting
-					enemyLogicManager.DisableAll();
+					foreach (GameObject enemy in gameState.GetEnemyList())
+						enemy.GetComponentInChildren<EnemyLogic>().gameObject.SetActive(false);
                   
                     // Manage end game music
                     if(musicManager == null)
@@ -101,11 +122,9 @@ public class GameStatusManager : NetworkBehaviour
                 gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
             }
            
-
 			gameOverScreen = true;
 		}
 	}
-
 
     private void DisableThrusterSound()
     {
@@ -114,4 +133,20 @@ public class GameStatusManager : NetworkBehaviour
             playerShip.GetComponent<AudioSource>().mute = true;
     }
 
+	/// <summary>
+	/// Shows or hides the ship model.
+	/// </summary>
+	/// <param name="visible">The visibility.</param>
+	private void SetShipVisible(bool visible)
+	{
+		GameObject playerShip = GameObject.Find("PlayerShip(Clone)");
+		if(playerShip != null)
+		{
+			for(int i = 0; i < playerShip.transform.childCount; i++)
+			{
+				if(playerShip.transform.GetChild(i).name.Contains("Turret") || playerShip.transform.GetChild(i).name == "Model")
+					playerShip.transform.GetChild(i).gameObject.SetActive(visible);
+			}
+		}
+	}
 }
