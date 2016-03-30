@@ -105,6 +105,7 @@ public class MissionManager : MonoBehaviour
 
     private void StartMission(int missionId)
     {
+        print("inside start mission");
         missions[missionId].start();
         bool outpostMission = false;
         int outpostId = 0;

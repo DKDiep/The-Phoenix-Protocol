@@ -259,6 +259,7 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcStartMission(string title, string description, bool outpostMission, int missionValue)
     {
+        print("inside RpcStartMission");
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup(title, description);
