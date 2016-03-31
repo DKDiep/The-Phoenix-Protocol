@@ -52,7 +52,9 @@ public class EnemySpawner : MonoBehaviour
     private ObjectPoolManager lightningBugManager;
     private ObjectPoolManager hornetManager;
     private ObjectPoolManager blackWidowManager;
-	private Queue<OutpostSpawnRequest> outpostSpawnRequests = null;
+
+	private Queue<OutpostSpawnRequest> outpostSpawnRequests;
+	private Queue<SingleSpawnRequest> singleSpawnRequests;
 
     void Start()
     {
@@ -76,6 +78,7 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine("Cleanup");
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
+		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
 
         StartCoroutine("TimedDifficulty");
     }
@@ -94,17 +97,21 @@ public class EnemySpawner : MonoBehaviour
                 GetPlayerShipTargets(playerSpaceshipModel);
             }
 
-            // First, spawn regular enemies. Then, spawn enemies around outposts, if needed
+            // First, spawn regular enemies.
+			// Then, spawn enemies around outposts, and single requested enemies, if needed
             if (numEnemies < maxEnemies)
-            {
                 SpawnEnemy();
-            }
             else if (outpostSpawnRequests.Count > 0)
             {
                 OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
                 for (int i = 0; i < req.NumEnemies; i++)
                     SpawnWaitingEnemy(req.Location, req.TriggerDistance);
             }
+			else if (singleSpawnRequests.Count > 0)
+			{
+				SingleSpawnRequest req = singleSpawnRequests.Dequeue();
+				SpawnEnemy(req.Location, req.Type);
+			}
         }
     }
 
@@ -257,28 +264,18 @@ public class EnemySpawner : MonoBehaviour
         }
 
     }
-		
+
 	private void InstantiateEnemy(out GameObject enemyObject, out EnemyLogic enemyLogic)
+	{
+		EnemyType type = GetRandomEnemyTypeForDifficulty();
+		InstantiateEnemy(type, out enemyObject, out enemyLogic);
+	}
+		
+	private void InstantiateEnemy(EnemyType type, out GameObject enemyObject, out EnemyLogic enemyLogic)
 	{
 		// Spawn enemy and server logic
         GameObject enemyLogicObject = logicManager.RequestObject();
         enemyObject = null;
-
-        int random = Random.Range(1,101);
-		EnemyType type = EnemyType.Gnat;
-
-        if(random < gnatLimit)
-			type = EnemyType.Gnat;
-        else if(random < fireflyLimit)
-			type = EnemyType.Firefly;
-        else if(random < termiteLimit)
-			type = EnemyType.Termite;
-        else if(random < lightningBugLimit)
-			type = EnemyType.LightningBug;
-        else if(random < hornetLimit)
-            type = EnemyType.Hornet;
-        else if(random < blackWidowLimit)
-            type = EnemyType.BlackWidow;
 
 		if(type == EnemyType.Gnat)
 			enemyObject = gnatManager.RequestObject();
@@ -326,11 +323,13 @@ public class EnemySpawner : MonoBehaviour
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
 	}
-
-	// Spawn an enemy with the default settings
+		
+	/// <summary>
+	/// Spawns an enemy with the default settings.
+	/// </summary>
 	private void SpawnEnemy()
 	{
-		// Set spawn position based on input attributes
+		// Get a random position around the player
 		spawnLocation.transform.position = player.transform.position;
 		spawnLocation.transform.rotation = Random.rotation;
 		spawnLocation.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
@@ -340,7 +339,25 @@ public class EnemySpawner : MonoBehaviour
 		InstantiateEnemy(out enemy, out logic);
 	}
 
-	// Spawn an enemy waiting at a location
+	/// <summary>
+	/// Spawns an enemy of a specified type at a specified location.
+	/// </summary>
+	/// <param name="location">The spawn location.</param>
+	/// <param name="type">The enemy type.</param>
+	private void SpawnEnemy(Vector3 location, EnemyType type)
+	{
+		spawnLocation.transform.position = location;
+
+		GameObject enemy; 
+		EnemyLogic logic;
+		InstantiateEnemy(type, out enemy, out logic);
+	}
+
+	/// <summary>
+	/// Spawns an enemy guarding a location.
+	/// </summary>
+	/// <param name="location">The location.</param>
+	/// <param name="triggerDistance">The guard's trigger distance.</param>
 	private void SpawnWaitingEnemy(Vector3 location, int triggerDistance)
 	{
 		spawnLocation.transform.position = location + Random.insideUnitSphere * outpostSpawnRadius;
@@ -351,6 +368,31 @@ public class EnemySpawner : MonoBehaviour
 		InstantiateEnemy(out enemy, out logic);
 
 		logic.SetGuarding(location, triggerDistance);
+	}
+
+	/// <summary>
+	/// Gets a random enemy type while maintaining balance for the current difficulty.
+	/// </summary>
+	/// <returns>The chosen enemy type.</returns>
+	private EnemyType GetRandomEnemyTypeForDifficulty()
+	{
+		int random = Random.Range(1,101);
+		EnemyType type = EnemyType.Gnat;
+
+		if(random < gnatLimit)
+			type = EnemyType.Gnat;
+		else if(random < fireflyLimit)
+			type = EnemyType.Firefly;
+		else if(random < termiteLimit)
+			type = EnemyType.Termite;
+		else if(random < lightningBugLimit)
+			type = EnemyType.LightningBug;
+		else if(random < hornetLimit)
+			type = EnemyType.Hornet;
+		else if(random < blackWidowLimit)
+			type = EnemyType.BlackWidow;
+
+		return type;
 	}
 
 	// Generate a list of waypoints around the player to guide the enemy ships
@@ -511,7 +553,10 @@ public class EnemySpawner : MonoBehaviour
 		return null;
 	}
 
-	public class OutpostSpawnRequest
+	/// <summary>
+	/// A request to spawn outpost guards.
+	/// </summary>
+	private class OutpostSpawnRequest
 	{
 		public int NumEnemies { get; private set; }
 		public Vector3 Location { get; private set; }
@@ -530,6 +575,42 @@ public class EnemySpawner : MonoBehaviour
 	{
 		// Only register the request here. It will be spawned on the next frame after all regular enemies are spawned.
 		outpostSpawnRequests.Enqueue(new OutpostSpawnRequest(count, outpostLocation, triggerDistance));
+	}
+
+	/// <summary>
+	/// A request to spawn a single enemy.
+	/// </summary>
+	private class SingleSpawnRequest
+	{
+		public EnemyType Type { get; private set; }
+		public Vector3 Location { get; private set; }
+
+		public SingleSpawnRequest(EnemyType type, Vector3 location)
+		{
+			this.Type 	  = type;
+			this.Location = location;
+		}
+	}
+
+	/// <summary>
+	/// Requests spawning of a single enemy of the chosen type.
+	/// </summary>
+	/// <param name="location">The enemy location.</param>
+	/// <param name="type">The enemy type.</param>
+	public void RequestSingleEnemy(Vector3 location, EnemyType type)
+	{
+		// Only register the request here. It will be spawned on the next frame after all regular enemies and guards are spawned.
+		singleSpawnRequests.Enqueue(new SingleSpawnRequest(type, location));
+	}
+
+	/// <summary>
+	/// Requests spawning of a single enemy of a random type.
+	/// </summary>
+	/// <param name="location">The enemy location.</param>
+	public void RequestSingleEnemy(Vector3 location)
+	{
+		EnemyType type = GetRandomEnemyTypeForDifficulty();
+		RequestSingleEnemy(location, type);
 	}
 }
 
