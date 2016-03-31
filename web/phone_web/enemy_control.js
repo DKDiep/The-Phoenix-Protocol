@@ -5,10 +5,10 @@ var isControllingEnemy = false;
 function actionOnEnemy(target) {
     console.log("enemy action ", target.spaceGameId)
     if(!isControllingEnemy) {
-        setHackTarget(id)
+        setHackTarget(target.spaceGameId)
         setHeld(true)
     } else if (id != controlledEnemyId) {
-        sendEnemyAttackRequest(id)
+        sendEnemyAttackRequest(target.spaceGameId)
     }
 }
 
