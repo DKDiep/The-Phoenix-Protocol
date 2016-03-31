@@ -332,7 +332,7 @@ public class AsteroidSpawner : MonoBehaviour
 
 	IEnumerator AsteroidFieldVisibility()
 	{
-		foreach (AsteroidField field in fields)
+		foreach (AsteroidField field in new List<AsteroidField>(fields))
 		{
 			float distance = Vector3.Distance(field.Position, player.transform.position);
 			if (field.Spawned && distance > maxDistance)
