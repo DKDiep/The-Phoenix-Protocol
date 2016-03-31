@@ -21,7 +21,7 @@ public class AsteroidSpawner : MonoBehaviour
 	private float maxDistance;   // Maximum distance to the player that an asteroid can spawn
 	private int maxSpawnedPerFrame;
 	private static float avgSize;              // The average asteroid size. Please update this manually if you change the sizes to avoid useless computation
-	private static float fieldSpacingFactor;   // Higher values make asteroid fields more sparse. TODO: 2f looks good, but is quite expensive
+	private static float fieldSpacingFactor;   // Higher values make asteroid fields more sparse
 	private float visibilityEdgeSpawnMaxAngle; // The maximum rotation angle on the x and y axes when spawning on the visibility edge
 
     private GameObject player, spawnLocation;
@@ -32,6 +32,10 @@ public class AsteroidSpawner : MonoBehaviour
 
 	private bool initialSpawnCompleted = false;
 	private List<AsteroidField> fields;
+
+	// The probabilities for an asteroid to be in a certain segment of a field
+	private const float FIELD_PROB_CENTRE = 0.6f;
+	private const float FIELD_PROB_MIDDLE = 0.3f;
 
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager logicManager;
@@ -62,12 +66,14 @@ public class AsteroidSpawner : MonoBehaviour
         
 		StartCoroutine("Cleanup");
 		StartCoroutine("AsteroidFieldVisibility");
+
     }
 
     public void Reset()
     {
         state.CleanUpAsteroids();
         List<GameObject> asteroidList = state.GetAsteroidList();
+
         // Must loop backwards as removing
         for (int i = asteroidList.Count - 1; i >= 0; i--)
         {
@@ -102,8 +108,13 @@ public class AsteroidSpawner : MonoBehaviour
     {
         if (state.Status == GameState.GameStatus.Started)
         {
-            if(player == null)
+			if (player == null)
+			{
 				player = state.PlayerShip;
+
+				// Uncomment this to create a demo asteroid field
+				//fields.Add(AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10)));
+			}
 
 			// Spawn up to maxSpawnedPerFrame asteroids in a random position if there are less than specified by maxAsteroids
 			for (int i = 0; !initialSpawnCompleted && i < maxSpawnedPerFrame && numAsteroids < maxAsteroids; i++)
@@ -114,14 +125,10 @@ public class AsteroidSpawner : MonoBehaviour
 				spawnLocation.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
 
 				SpawnAsteroid ();
+
+				if (numAsteroids == maxAsteroids)
+					initialSpawnCompleted = true;
 			}
-
-			if (numAsteroids == maxAsteroids)
-				initialSpawnCompleted = true;
-
-			// Uncomment this to create a demo asteroid field
-			/*if (numAsteroids >= maxAsteroids && testField == null)
-				fields.Add(AsteroidField.Create(player.transform.position - Vector3.right * 1000, new Vector3(10, 3, 10)));*/
         }
     }
 
@@ -166,10 +173,42 @@ public class AsteroidSpawner : MonoBehaviour
 
 		for (int i = 0; i < field.TotalNumAsteroids; i++)
 		{
-			// Get a random position inside the field
-			spawnPosition.x = field.Position.x + Random.Range(-field.Size.x / 2, field.Size.x / 2);
-			spawnPosition.y = field.Position.y + Random.Range(-field.Size.y / 2, field.Size.y / 2);
-			spawnPosition.z = field.Position.z + Random.Range(-field.Size.z / 2, field.Size.z / 2);
+			// A field has 3 areas: centre (full density), middle (1/2 density), and outer (1/6 density)
+			// First decide which area this asteroid is in, then get a random position in that area
+			float r = Random.value;
+			float minOffX, maxOffX, minOffY, maxOffY, minOffZ, maxOffZ;
+			if (r <= FIELD_PROB_CENTRE)
+			{
+				minOffX = -3 * field.Size.x / 6;
+				maxOffX =  3 * field.Size.x / 6;
+				minOffY = -3 * field.Size.y / 6;
+				maxOffY =  3 * field.Size.y / 6;
+				minOffZ = -3 * field.Size.z / 6;
+				maxOffZ =  3 * field.Size.z / 6;
+			}
+			else if (r <= FIELD_PROB_MIDDLE)
+			{
+				minOffX = -2 * field.Size.x / 6;
+				maxOffX =  2 * field.Size.x / 6;
+				minOffY = -2 * field.Size.y / 6;
+				maxOffY =  2 * field.Size.y / 6;
+				minOffZ = -2 * field.Size.z / 6;
+				maxOffZ =  2 * field.Size.z / 6;
+			}
+			else
+			{
+				minOffX = -1 * field.Size.x / 6;
+				maxOffX =  1 * field.Size.x / 6;
+				minOffY = -1 * field.Size.y / 6;
+				maxOffY =  1 * field.Size.y / 6;
+				minOffZ = -1 * field.Size.z / 6;
+				maxOffZ =  1 * field.Size.z / 6;
+			}
+
+			// Set the spawn position
+			spawnPosition.x = field.Position.x + Random.Range(minOffX, maxOffX);
+			spawnPosition.y = field.Position.y + Random.Range(minOffY, maxOffY);
+			spawnPosition.z = field.Position.z + Random.Range(minOffZ, maxOffZ);
 
 			spawnLocation.transform.position = spawnPosition;
 

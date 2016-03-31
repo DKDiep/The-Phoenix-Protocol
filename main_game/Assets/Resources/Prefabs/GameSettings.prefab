@@ -47,7 +47,7 @@ MonoBehaviour:
   AsteroidMaxDistance: 3000
   MaxAsteroidsSpawnedPerFrame: 30
   AsteroidAvgSize: 43.6
-  AsteroidFieldSpacingFactor: 2
+  AsteroidFieldSpacingFactor: 3
   AsteroidVisibilityEdgeSpawnMaxAngle: 25
   shootCooldown: 4
   projectileCount: 8
@@ -193,8 +193,8 @@ MonoBehaviour:
   OutpostGuardTriggerDistance: 600
   OutpostMinAsteroidFieldSize: 1000
   OutpostMaxAsteroidFieldSize: 1500
-  OutpostMinAsteroidFieldDensity: 0.4
-  OutpostMaxAsteroidFieldDensity: 0.6
+  OutpostMinAsteroidFieldDensity: 0.6
+  OutpostMaxAsteroidFieldDensity: 0.8
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 5
