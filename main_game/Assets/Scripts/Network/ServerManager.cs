@@ -171,6 +171,37 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the list of officers as a string in the following format
+    /// officer_name:officer_id,other_officer_name:other_officer_id,
+    /// </summary>
+    public void SendOfficers()
+    {
+        Dictionary<string, uint> officerList = gameObject.GetComponent<TCPServer>().PlayerNameToPlayerID;
+        string data = "";
+
+        // Build the string representing all the officers. Note that when splitting
+        // by "," the last element will be empty and should be ignored
+        foreach (KeyValuePair<string, uint> officerData in officerList)
+        {
+            data += officerData.Key + ":" + officerData.Value.ToString() + ",";
+        }
+
+        // Send the data to the commander
+        foreach (KeyValuePair<uint, RoleEnum> client in netIdToRole)
+        {
+            if (client.Value == RoleEnum.Commander)
+            {
+                // Create the message to send
+                OfficerListMessage msg = new OfficerListMessage();
+                msg.officerData = data;
+
+                // Send the data to the commander
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.OFFICER_LIST, msg);
+            }
+        }
+    }
+
     private void CreateServerSetup()
     {
         //Spawn server lobby

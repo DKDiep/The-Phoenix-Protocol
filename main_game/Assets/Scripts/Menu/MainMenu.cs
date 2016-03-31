@@ -68,6 +68,10 @@ public class MainMenu : NetworkBehaviour
         // Handler for JobFinished messages from the server. These are used by the
         // CommandConsole.
         client.RegisterHandler(MessageID.JOB_FINISHED, messageHandler.OnJobFinished);
+
+        // Handler for the OfficerList message from the server. This tells the command console
+        // the list of officers for the current game
+        client.RegisterHandler(MessageID.OFFICER_LIST, messageHandler.OnServerOfficerList);
     }
 
     public void UpdateAddress()

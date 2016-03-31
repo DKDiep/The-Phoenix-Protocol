@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -30,6 +31,7 @@ public class TCPServer : MonoBehaviour
     private Socket client = null;
     private bool connected = false; // no easy way to tell from library
     private byte[] recvBuff = new byte[1024]; // allocate 1KB receive buffer
+    public Dictionary<string, uint> PlayerNameToPlayerID { get; private set; }
     
 	// Use this for initialization
 	void Start ()
@@ -43,6 +45,7 @@ public class TCPServer : MonoBehaviour
             tcpServer = new TcpListener(IPAddress.Any, listenPort);
             udpServer = this.gameObject.GetComponent<UDPServer>();
             serverManager = this.gameObject.GetComponent<ServerManager>();
+            PlayerNameToPlayerID = new Dictionary<string, uint>();
 
             // Start listening for client requests
             tcpServer.Start();
@@ -153,11 +156,15 @@ public class TCPServer : MonoBehaviour
                 // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal with data:");
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+
+                // Clear the officer dictionary to avoid having officers from last game in there
+                PlayerNameToPlayerID.Clear();
                 foreach (String plr in fields)
                 {
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
+                    PlayerNameToPlayerID[userName] = userId;
                     Debug.Log("Username: " + userName + " id:" + userId);
                 }              
                 ReadyScreen readyScreen = GameObject.Find("ReadyCanvas(Clone)").GetComponent<ReadyScreen>();
