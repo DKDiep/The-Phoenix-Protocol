@@ -34,22 +34,23 @@ public class TCPServer : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
-
-        if (MainMenu.startServer)
-        {
-            Debug.Log("Starting TCP server on port: " + listenPort);
-            tcpServer = new TcpListener(IPAddress.Any, listenPort);
-            udpServer = this.gameObject.GetComponent<UDPServer>();
-            serverManager = this.gameObject.GetComponent<ServerManager>();
-
-            // Start listening for client requests
-            tcpServer.Start();
-            
-            StartCoroutine(ConnectionHandler());
-        }
+        
 	}
+    
+    public void Initialise()
+    {
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+        Debug.Log("Starting TCP server on port: " + listenPort);
+        tcpServer = new TcpListener(IPAddress.Any, listenPort);
+        udpServer = this.gameObject.GetComponent<UDPServer>();
+        serverManager = this.gameObject.GetComponent<ServerManager>();
+
+        // Start listening for client requests
+        tcpServer.Start();
+        
+        StartCoroutine(ConnectionHandler());
+    }
 
 	private void LoadSettings()
 	{

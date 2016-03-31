@@ -30,21 +30,22 @@ public class UDPServer : MonoBehaviour
 
     void Start()
     {
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		
+    }
+    
+    public void Initialise()
+    {
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
+        Debug.Log("Starting UDP server on port: " + listenPort);
 
-        if (MainMenu.startServer)
-        {
-            Debug.Log("Starting UDP server on port: " + listenPort);
+        InstanceIDToEnemy = new Dictionary<int, GameObject>();
+        socket = new UdpClient(listenPort);
+        clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        state = this.gameObject.GetComponent<GameState>();
 
-            InstanceIDToEnemy = new Dictionary<int, GameObject>();
-            socket = new UdpClient(listenPort);
-            clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            state = this.gameObject.GetComponent<GameState>();
-
-            StartCoroutine(ConnectionHandler());
-            StartCoroutine(SendUpdatedOjects());
-        }
+        StartCoroutine(ConnectionHandler());
+        StartCoroutine(SendUpdatedOjects());
     }
 
 	private void LoadSettings()
