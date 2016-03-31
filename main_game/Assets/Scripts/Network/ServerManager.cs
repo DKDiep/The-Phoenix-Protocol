@@ -236,6 +236,7 @@ public class ServerManager : NetworkBehaviour
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();
         playerController.RpcPortalInit(portal);
+        RpcSetPortal(portal);
 
         //Instantiate ship logic on server only
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
@@ -279,10 +280,7 @@ public class ServerManager : NetworkBehaviour
         {
             gameTimer.SetActive(true); 
         }
-        if (!portal.activeSelf)
-        {
-            portal.SetActive(true);
-        }
+        RpcActivatePortal();
 
         // Reset portal trigger - this needs to be before game status change
         gameState.gameObject.GetComponent<GameStatusManager>().Reset();
@@ -308,7 +306,6 @@ public class ServerManager : NetworkBehaviour
 
         // Game state to be updated through ReadyScreen
     }
-
     // Temporary to test reset
     void OnGUI()
     {
@@ -325,7 +322,19 @@ public class ServerManager : NetworkBehaviour
 	{
 		return serverId;
 	}
-		
+
+    [ClientRpc]
+    private void RpcSetPortal(GameObject newPortal)
+    {
+        portal = newPortal;
+    }
+
+    [ClientRpc]
+    private void RpcActivatePortal()
+    {
+        portal.SetActive(true);
+    }
+
     public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
     {
         GameObject crosshairObject = screenIdToCrosshair[screenId];
