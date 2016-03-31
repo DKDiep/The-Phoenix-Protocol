@@ -246,8 +246,11 @@ public class AsteroidSpawner : MonoBehaviour
 			if (col.CompareTag(TAG_DEBRIS))
 			{
 				AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
-				logic.Despawn();
-				despawnedthisFrame++;
+				if (logic != null)
+				{
+					logic.Despawn();
+					despawnedthisFrame++;
+				}
 			}
 			if (despawnedthisFrame >= maxSpawnedPerFrame)
 			{
