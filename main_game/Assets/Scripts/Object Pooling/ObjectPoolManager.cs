@@ -15,6 +15,8 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] private int size; // Number of objects to spawn
     [SerializeField] private bool serverOnly;
     [SerializeField] private bool useInterpolation;
+    [SerializeField] Material hackedMaterial;
+    [SerializeField] Material[] enemyGlows;
 	#pragma warning restore 0649
 
     private Vector3[] newPositions;
@@ -77,6 +79,33 @@ public class ObjectPoolManager : NetworkBehaviour
             pool[i] = spawn;
         }
 	}
+
+    [ClientRpc]
+    public void RpcSetHackedGlow(string name)
+    {
+        int id = int.Parse(name);
+        GameObject lights = pool[id].transform.Find("pattern").gameObject;
+        lights.GetComponent<Renderer>().material = hackedMaterial;
+
+    }
+
+    [ClientRpc]
+    public void RpcResetHackedGlow(string name)
+    {
+        int id = int.Parse(name);
+        GameObject lights = pool[id].transform.Find("pattern").gameObject;
+
+        if(this.gameObject.name.Contains("Gnat"))
+            lights.GetComponent<Renderer>().material = enemyGlows[0];
+        else if(this.gameObject.name.Contains("Firefly"))
+            lights.GetComponent<Renderer>().material = enemyGlows[1];
+        else if(this.gameObject.name.Contains("Termite") || this.gameObject.name.Contains("Hornet"))
+            lights.GetComponent<Renderer>().material = enemyGlows[2];
+        else if(this.gameObject.name.Contains("Lightning"))
+            lights.GetComponent<Renderer>().material = enemyGlows[3];
+        else if(this.gameObject.name.Contains("BlackWidow"))
+            lights.GetComponent<Renderer>().material = enemyGlows[4];
+    }
 
     public GameObject RequestObject()
     {

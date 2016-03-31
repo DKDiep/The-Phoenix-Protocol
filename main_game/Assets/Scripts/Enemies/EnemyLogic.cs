@@ -118,6 +118,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private List<IDestructionListener> destructionListeners;
 
+    [SerializeField] Material hackedMaterial;
+    Material originalGlow;
+
 	void Start ()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -166,6 +169,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			else
 				meshRenderer.enabled = true;
 		}
+
+        if(originalGlow == null && transform.parent != null)
+        {
+            GameObject lights = transform.parent.Find("pattern").gameObject;
+            originalGlow = lights.GetComponent<Renderer>().material;
+        }
+
 
 		// Check if about to collide with something
 		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
@@ -547,6 +557,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         mySrc 	   = GetComponent<AudioSource>();
         mySrc.clip = fireSnd;
 
+
 		player = temp;
 
 		Transform playerCommanderShootAnchor = player.transform.Find("CommanderShootAnchor"); // The CommanderShootAnchor is basically the front point of the ship
@@ -722,6 +733,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                 temp.transform.position = transform.position;
 
                 explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
+                ResetGlowColour();
+                originalGlow = null;
+
                 Despawn();
     		}
         }
@@ -762,9 +776,25 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When an enemy becomes hacked, it starts following the ship
 			FollowPlayer();
 			state = EnemyAIState.Hacked;
+            ChangeGlowColour();
+            if(enemyManager != null)
+                enemyManager.RpcSetHackedGlow(gameObject.name);
 		}
 		else
 			state = EnemyAIState.SeekPlayer;
+    }
+
+    private void ChangeGlowColour()
+    {
+        GameObject lights = transform.parent.Find("pattern").gameObject;
+        lights.GetComponent<Renderer>().material = hackedMaterial;
+    }
+
+    private void ResetGlowColour()
+    {
+        enemyManager.RpcResetHackedGlow(this.name);
+        GameObject lights = transform.parent.Find("pattern").gameObject;
+        lights.GetComponent<Renderer>().material = originalGlow;
     }
 
     /// <summary>
