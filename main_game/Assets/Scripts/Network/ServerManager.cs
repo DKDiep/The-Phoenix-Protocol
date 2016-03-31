@@ -304,6 +304,12 @@ public class ServerManager : NetworkBehaviour
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
 
+        // Reset engineers
+        foreach (GameObject engineer in gameState.GetEngineerList())
+        {
+            engineer.GetComponent<EngineerController>().Reset();
+        }
+
         // Game state to be updated through ReadyScreen
     }
     // Temporary to test reset
