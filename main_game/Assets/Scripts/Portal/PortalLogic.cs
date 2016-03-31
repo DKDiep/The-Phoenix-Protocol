@@ -12,10 +12,13 @@ public class PortalLogic : MonoBehaviour
 
     void OnTriggerEnter (Collider col)
     {
-        if(col.gameObject.tag.Equals ("Player"))
+        if (gameState.Status == GameState.GameStatus.Started)
         {
-            Debug.Log("You have reached the portal. You have won then game!");
-            gameState.Status = GameState.GameStatus.Won;
+            if (col.gameObject.tag.Equals("Player"))
+            {
+                Debug.Log("You have reached the portal. You have won then game!");
+                gameState.Status = GameState.GameStatus.Won;
+            }
         }
     }
 }
