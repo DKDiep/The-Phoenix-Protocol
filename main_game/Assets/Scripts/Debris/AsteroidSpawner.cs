@@ -162,15 +162,16 @@ public class AsteroidSpawner : MonoBehaviour
 	/// Spawns an asteroid field if not already spawned.
 	/// </summary>
 	/// <param name="field">The field description.</param>
-	private void SpawnAsteroidField(AsteroidField field)
+	IEnumerator SpawnAsteroidField(AsteroidField field)
 	{
 		// Don't spawn a field if it's already spawned
 		if (field.Spawned)
-			return;
+			yield break;
 
 		Vector3 spawnPosition = new Vector3();
 		spawnLocation.transform.rotation = Quaternion.identity;
 
+		int spawnedThisFrame = 0;
 		for (int i = 0; i < field.TotalNumAsteroids; i++)
 		{
 			// A field has 3 areas: centre (full density), middle (1/2 density), and outer (1/6 density)
@@ -213,10 +214,15 @@ public class AsteroidSpawner : MonoBehaviour
 			spawnLocation.transform.position = spawnPosition;
 
 			SpawnAsteroid();
+			spawnedThisFrame++;
+			if (spawnedThisFrame >= maxSpawnedPerFrame)
+			{
+				spawnedThisFrame = 0;
+				yield return null; // Wait for next frame before spawning more
+			}
 		}
 
-		field.Spawned = true;
-
+		field.Spawned 		  = true;
 		numAsteroidsInFields += field.TotalNumAsteroids;
 	}
 
@@ -224,22 +230,29 @@ public class AsteroidSpawner : MonoBehaviour
 	/// Despawns an asteroid field if it is spawned.
 	/// </summary>
 	/// <param name="field">The field description.</param>
-	private void DespawnAsteroidField(AsteroidField field)
+	IEnumerator DespawnAsteroidField(AsteroidField field)
 	{
 		// Don't despawn a field that is not spawned
 		if (!field.Spawned)
-			return;
+			yield break;
 
 		// Find the asteroids in the field's area and despawn them
 		// Of course, this might hit asteroids that are not part of the field but are in the same general area,
 		// but that's fine.
 		Collider[] asteroids = Physics.OverlapBox(field.Position, field.Size / 2);
+		int despawnedthisFrame = 0;
 		foreach (Collider col in asteroids)
 		{
 			if (col.CompareTag(TAG_DEBRIS))
 			{
 				AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
 				logic.Despawn();
+				despawnedthisFrame++;
+			}
+			if (despawnedthisFrame >= maxSpawnedPerFrame)
+			{
+				despawnedthisFrame = 0;
+				yield return null; // Wait for next frame before despawning more
 			}
 		}
 
@@ -323,9 +336,9 @@ public class AsteroidSpawner : MonoBehaviour
 		{
 			float distance = Vector3.Distance(field.Position, player.transform.position);
 			if (field.Spawned && distance > maxDistance)
-				DespawnAsteroidField(field);
+				yield return StartCoroutine(DespawnAsteroidField(field));
 			else if (!field.Spawned && distance < maxDistance)
-				SpawnAsteroidField(field);
+				yield return StartCoroutine(SpawnAsteroidField(field));
 		}
 
 		yield return new WaitForSeconds(1f);
