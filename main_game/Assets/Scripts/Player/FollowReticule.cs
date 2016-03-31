@@ -24,7 +24,9 @@ public class FollowReticule : MonoBehaviour
         targetPoint = new GameObject();
         targetPoint.name = "AimTarget" + controlledByPlayerId.ToString();
 
-        crosshair = GameObject.Find("Crosshairs").transform.GetChild(controlledByPlayerId).gameObject;
+		GameObject crosshairs = GameObject.Find("Crosshairs");
+		if (crosshairs != null)
+			crosshair = crosshairs.transform.GetChild(controlledByPlayerId).gameObject;
     }
 
     void FixedUpdate()
