@@ -28,7 +28,8 @@ public class AsteroidCollision : MonoBehaviour
 			GameObject hitObject        = col.gameObject;
 			ShipMovement movementScript = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
 
-			movementScript.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+			if (movementScript != null)
+				movementScript.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
             if(myLogic != null)
 				myLogic.collision(1000f);
 		}
