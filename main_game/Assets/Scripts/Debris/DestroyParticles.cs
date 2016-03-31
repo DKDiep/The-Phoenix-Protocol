@@ -31,7 +31,7 @@ public class DestroyParticles : MonoBehaviour
             else
                 Destroy(this);
 			
-            StartCoroutine("Disable");
+            StartCoroutine(Disable());
         }
         else
         {

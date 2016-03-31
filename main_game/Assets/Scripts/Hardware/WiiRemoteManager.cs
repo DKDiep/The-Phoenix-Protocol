@@ -18,7 +18,7 @@ public class WiiRemoteManager : MonoBehaviour {
 			}
 
 			// `It's rumble time baby`
-			StartCoroutine("DelayRumble", rumbleTime);
+			StartCoroutine(DelayRumble(rumbleTime));
 		}
 	 
 	}

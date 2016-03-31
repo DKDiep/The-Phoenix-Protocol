@@ -26,7 +26,7 @@ public class MissionManager : MonoBehaviour
     {
         StopAllCoroutines();
         startTime = Time.time;
-        StartCoroutine("UpdateMissions");
+        StartCoroutine(UpdateMissions());
     }
 
     private void LoadSettings()
@@ -42,7 +42,7 @@ public class MissionManager : MonoBehaviour
             if(!missionInit)
             {
                 InitialiseMissions();
-                StartCoroutine("UpdateMissions");
+                StartCoroutine(UpdateMissions());
             }
         }
     }
@@ -76,7 +76,7 @@ public class MissionManager : MonoBehaviour
         CheckMissionTriggers();
         CheckMissionsCompleted(); 
         yield return new WaitForSeconds(1f);
-        StartCoroutine("UpdateMissions");
+        StartCoroutine(UpdateMissions());
     }
 
     /// <summary>

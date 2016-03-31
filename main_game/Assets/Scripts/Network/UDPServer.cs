@@ -42,8 +42,8 @@ public class UDPServer : MonoBehaviour
             clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
             state = this.gameObject.GetComponent<GameState>();
 
-            StartCoroutine("ConnectionHandler");
-            StartCoroutine("SendUpdatedOjects");
+            StartCoroutine(ConnectionHandler());
+            StartCoroutine(SendUpdatedOjects());
         }
     }
 

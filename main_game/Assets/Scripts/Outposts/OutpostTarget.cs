@@ -11,7 +11,7 @@ public class OutpostTarget : MonoBehaviour
 	void Start () 
     {
 	    player = GameObject.Find("CameraManager(Clone)");
-        StartCoroutine("UpdateDistance");
+        StartCoroutine(UpdateDistance());
 
 	}
 	
@@ -47,7 +47,7 @@ public class OutpostTarget : MonoBehaviour
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
         yield return new WaitForSeconds(1f);
-        StartCoroutine("UpdateDistance");
+        StartCoroutine(UpdateDistance());
     }
 
     public void ShowTarget()

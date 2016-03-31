@@ -83,8 +83,8 @@ public class GameState : NetworkBehaviour {
         Status = GameStatus.Setup;
 		InitialiseUpgradableComponents();
 
-		StartCoroutine("ResourceInterest");
-        StartCoroutine("UpdateComponents");
+		StartCoroutine(ResourceInterest());
+        StartCoroutine(UpdateComponents());
 	}
         
     private void LoadSettings()
@@ -154,7 +154,7 @@ public class GameState : NetworkBehaviour {
 		droneWorkTime   	  = drone.ImprovementTime;
 
 		yield return new WaitForSeconds(1f);
-		StartCoroutine("UpdateComponents");
+		StartCoroutine(UpdateComponents());
 	}
 
 	/// <summary>
@@ -166,7 +166,7 @@ public class GameState : NetworkBehaviour {
 		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
 
 		yield return new WaitForSeconds(10f);
-		StartCoroutine("ResourceInterest");
+		StartCoroutine(ResourceInterest());
 	}
 
     /// <summary>

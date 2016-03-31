@@ -73,7 +73,7 @@ public class BulletLogic : MonoBehaviour
 		obj.transform.LookAt (destination);
 		obj.transform.Rotate (Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy), Random.Range (-accuracy, accuracy));
 
-		StartCoroutine ("DestroyObject");
+		StartCoroutine(DestroyObject());
 	}
 
 	public void SetID(PlayerShooting playerObj, int id)

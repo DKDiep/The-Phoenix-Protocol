@@ -19,7 +19,7 @@ public class EarthFX : MonoBehaviour {
     {
         if(currentExplosions < maxExplosions)
         {
-            StartCoroutine("SpawnExplosion");
+            StartCoroutine(SpawnExplosion());
             currentExplosions++;
         }
     }

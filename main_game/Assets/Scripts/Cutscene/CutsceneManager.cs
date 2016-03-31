@@ -16,7 +16,7 @@ public class CutsceneManager : MonoBehaviour
     
 	void Play () 
 	{
-		if(playCutscene) StartCoroutine ("Cutscene");
+		if(playCutscene) StartCoroutine(Cutscene());
 	}
 	
 	IEnumerator Cutscene()

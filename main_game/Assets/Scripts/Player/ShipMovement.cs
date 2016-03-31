@@ -45,7 +45,7 @@ public class ShipMovement : MonoBehaviour
 
     	controlObject = transform.parent.gameObject;
 		lastShieldCheck = gameState.GetShipShield();
-		StartCoroutine ("RechargeShields");
+		StartCoroutine(RechargeShields());
         gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
     }
 
@@ -83,13 +83,13 @@ private void LoadSettings()
 			gameState.RechargeShield();
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(0.1f);
-			StartCoroutine ("RechargeShields");
+			StartCoroutine(RechargeShields());
 		}
 		else
 		{
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(shieldDelay);
-			StartCoroutine ("RechargeShields");
+			StartCoroutine(RechargeShields());
 		}
 	}
 

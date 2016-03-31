@@ -24,7 +24,7 @@ public abstract class CommanderAbility : MonoBehaviour {
     {
         yield return new WaitForSeconds(duration);
         DeactivateAbility();
-        StartCoroutine("CoolDown");
+        StartCoroutine(CoolDown());
     }
 
     internal void UseAbility()
@@ -36,7 +36,7 @@ public abstract class CommanderAbility : MonoBehaviour {
             if(soundEffect != null)
                 audioSource.PlayOneShot(soundEffect);
             ready = false;
-            StartCoroutine("DeactivateTimer");
+            StartCoroutine(DeactivateTimer());
             ActivateAbility();
         }
      }

@@ -30,7 +30,7 @@ public class FadeTexture : NetworkBehaviour
 		fading = new Color(1.0f, 1.0f, 1.0f, 1.0f); // Initialise colour
         gameStarted = true;
         RpcFadeClient();
-		StartCoroutine ("Fading");
+		StartCoroutine(Fading());
 	}
 
     public void Reset()

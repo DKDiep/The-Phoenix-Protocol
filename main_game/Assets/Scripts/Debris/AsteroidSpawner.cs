@@ -64,8 +64,8 @@ public class AsteroidSpawner : MonoBehaviour
         logicManager       = GameObject.Find("AsteroidLogicManager").GetComponent<ObjectPoolManager>();
         asteroidManager    = GameObject.Find("AsteroidManager").GetComponent<ObjectPoolManager>();
         
-		StartCoroutine("Cleanup");
-		StartCoroutine("AsteroidFieldVisibility");
+		StartCoroutine(Cleanup());
+		StartCoroutine(AsteroidFieldVisibility());
 
     }
 
@@ -327,7 +327,7 @@ public class AsteroidSpawner : MonoBehaviour
         if (state.Status == GameState.GameStatus.Started)
 			state.CleanUpAsteroids();
 
-        StartCoroutine("Cleanup");
+        StartCoroutine(Cleanup());
     }
 
 	IEnumerator AsteroidFieldVisibility()
@@ -342,7 +342,7 @@ public class AsteroidSpawner : MonoBehaviour
 		}
 
 		yield return new WaitForSeconds(1f);
-		StartCoroutine("AsteroidFieldVisibility");
+		StartCoroutine(AsteroidFieldVisibility());
 	}
 
 	/// <summary>

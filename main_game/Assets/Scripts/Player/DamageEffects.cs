@@ -62,7 +62,7 @@ public class DamageEffects : NetworkBehaviour
     public void DistortionEffect()
     {
         lowHealth.amount = 1.0f;
-        StartCoroutine("ReduceEffect");
+        StartCoroutine(ReduceEffect());
     }
 
     private IEnumerator ReduceEffect()
@@ -70,7 +70,7 @@ public class DamageEffects : NetworkBehaviour
         lowHealth.amount -= 0.01f;
         yield return new WaitForSeconds(0.1f);
         if(lowHealth.amount > 0)
-            StartCoroutine("ReduceEffect"); 
+            StartCoroutine(ReduceEffect()); 
     }
 }
 

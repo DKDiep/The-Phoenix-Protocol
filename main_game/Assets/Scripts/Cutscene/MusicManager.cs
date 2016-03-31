@@ -14,7 +14,7 @@ public class MusicManager : MonoBehaviour
     public void Play()
     {
         GetComponent<AudioSource>().clip = music[0];
-        StartCoroutine("DelayMusic");
+        StartCoroutine(DelayMusic());
     }
 
 	void Update()

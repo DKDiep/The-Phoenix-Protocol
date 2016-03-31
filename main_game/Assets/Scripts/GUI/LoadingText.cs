@@ -14,7 +14,7 @@ public class LoadingText : NetworkBehaviour
 	// Use this for initialization
 	public void Play () 
     {
-        StartCoroutine("Loaded");
+        StartCoroutine(Loaded());
 	}
 
     public void Reset()

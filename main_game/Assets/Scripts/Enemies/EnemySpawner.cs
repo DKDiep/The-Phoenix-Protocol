@@ -75,12 +75,12 @@ public class EnemySpawner : MonoBehaviour
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
 
-        StartCoroutine("Cleanup");
+        StartCoroutine(Cleanup());
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
 		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
 
-        StartCoroutine("TimedDifficulty");
+        StartCoroutine(TimedDifficulty());
     }
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
@@ -152,8 +152,8 @@ public class EnemySpawner : MonoBehaviour
         state.SetDifficulty(0);
 		outpostSpawnRequests.Clear();
 
-        StartCoroutine("Cleanup");
-        StartCoroutine("TimedDifficulty");
+        StartCoroutine(Cleanup());
+        StartCoroutine(TimedDifficulty());
     }
 
     // Increase difficulty by 1 every 30 seconds
@@ -161,7 +161,7 @@ public class EnemySpawner : MonoBehaviour
     {
         IncreaseDifficulty();
         yield return new WaitForSeconds(60f);
-        StartCoroutine("TimedDifficulty");
+        StartCoroutine(TimedDifficulty());
     }
 
     private void IncreaseDifficulty()
@@ -497,7 +497,7 @@ public class EnemySpawner : MonoBehaviour
         if (state.Status == GameState.GameStatus.Started)
 			state.CleanupEnemies();
 
-        StartCoroutine("Cleanup");
+        StartCoroutine(Cleanup());
     }
 
 	// This class holds the various atributes of an enemy. Each enemy type will be be represented by a separate instance

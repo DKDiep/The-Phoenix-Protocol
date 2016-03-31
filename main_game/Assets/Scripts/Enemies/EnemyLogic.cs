@@ -464,8 +464,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         }
 
 		if (isSuicidal)
-			StartCoroutine("MatchPlayerSpeed");
-        StartCoroutine("UpdateTransform");
+			StartCoroutine(MatchPlayerSpeed());
+        StartCoroutine(UpdateTransform());
     }
 
     IEnumerator UpdateTransform()
@@ -473,7 +473,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         //Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
         enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
         yield return new WaitForSeconds(0.1f);
-        StartCoroutine("UpdateTransform");
+        StartCoroutine(UpdateTransform());
     }
 
 	/// <summary>
@@ -488,7 +488,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			speed = playerSpeed + suicidalExtraSpeed;
 
 		yield return new WaitForSeconds(speedUpdateDelay);
-		StartCoroutine("MatchPlayerSpeed");
+		StartCoroutine(MatchPlayerSpeed());
 	}
 
 	public IEnumerator EMPEffect()
@@ -523,7 +523,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         if(blackWidowManager == null)
             blackWidowManager      = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
 
-        StartCoroutine("UpdateDelay");
+        StartCoroutine(UpdateDelay());
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
 
@@ -560,7 +560,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		{
 			shield = maxShield;
 			lastShieldCheck = shield;
-			StartCoroutine ("RechargeShields");
+			StartCoroutine(RechargeShields());
 		}
 
         // Find location to spawn bullets at
@@ -569,8 +569,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			if(child.gameObject.name.Equals("ShootAnchor")) shootAnchor = child.gameObject;
 		}
 
-		StartCoroutine ("ShootManager");
-		StartCoroutine("DrawDelay");
+		StartCoroutine(ShootManager());
+		StartCoroutine(DrawDelay());
 	}
 
 	// Set the waypoints to follow when engaging the player
@@ -612,7 +612,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		{
 			yield return new WaitForSeconds(0.1f);
 			shoot = true;
-			StartCoroutine ("Shoot");
+			StartCoroutine(Shoot());
 		}
 		else
 		{
@@ -620,7 +620,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			shoot = false;
 		}
 
-		StartCoroutine ("ShootManager");
+		StartCoroutine(ShootManager());
 	}
 
     // Spawn bullet, use predication, and player sound
@@ -667,7 +667,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
         if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
         if(distance < 300f) mySrc.PlayOneShot(fireSnd);
-		if(shoot) StartCoroutine ("Shoot");
+		if(shoot) StartCoroutine(Shoot());
 	}
 
 	IEnumerator RechargeShields()
@@ -677,13 +677,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			shield += shieldRechargeRate / 10f;
 			lastShieldCheck = shield;
 			yield return new WaitForSeconds(0.1f);
-			StartCoroutine ("RechargeShields");
+			StartCoroutine(RechargeShields());
 		}
 		else
 		{
 			lastShieldCheck = shield;
 			yield return new WaitForSeconds(shieldDelay);
-			StartCoroutine ("RechargeShields");
+			StartCoroutine(RechargeShields());
 		}
 	}
 

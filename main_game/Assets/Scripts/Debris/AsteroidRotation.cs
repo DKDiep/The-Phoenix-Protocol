@@ -46,7 +46,7 @@ public class AsteroidRotation : MonoBehaviour
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
 
-		/*StartCoroutine("AsteroidLOD");
+		/*StartCoroutine(AsteroidLOD());
 		coroutineRunning = true;*/
 	}
 
@@ -81,7 +81,7 @@ public class AsteroidRotation : MonoBehaviour
 		// We know it will have its speed set, so we can start the coroutines on the next frame
 		if (!coroutineRunning)
 		{
-			StartCoroutine("AsteroidLOD");
+			StartCoroutine(AsteroidLOD());
 			coroutineRunning = true;
 		}
 	}
@@ -123,6 +123,6 @@ public class AsteroidRotation : MonoBehaviour
         }
 
 		yield return new WaitForSeconds(waitTime);
-		StartCoroutine("AsteroidLOD");
+		StartCoroutine(AsteroidLOD());
 	}
 }

@@ -155,7 +155,7 @@ public class PlayerShooting : MonoBehaviour
             muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
 
             canShoot = false;
-            StartCoroutine("Delay");
+            StartCoroutine(Delay());
         }
 	}
 
@@ -187,7 +187,7 @@ public class PlayerShooting : MonoBehaviour
 	{
 		showMarker = true;
 		alpha = 1f;
-		StartCoroutine("HideMarker");
+		StartCoroutine(HideMarker());
 	}
 
     // Stop drawing hitmarker after certain time limit

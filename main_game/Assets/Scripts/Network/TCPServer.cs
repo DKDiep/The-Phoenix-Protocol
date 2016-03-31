@@ -47,7 +47,7 @@ public class TCPServer : MonoBehaviour
             // Start listening for client requests
             tcpServer.Start();
             
-            StartCoroutine("ConnectionHandler");
+            StartCoroutine(ConnectionHandler());
         }
 	}
 
