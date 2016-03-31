@@ -94,9 +94,14 @@ public class GameStatusManager : NetworkBehaviour
                     gameOverCanvas.transform.Find("GameOverStats").gameObject.SetActive(false);
                     Debug.Log("Final Game Score: " + this.gameObject.GetComponent<GameStatsManager>().CalculateAndSendGameScore());
 
-					// Disable the enemies to stop them from shooting
-					foreach (GameObject enemy in gameState.GetEnemyList())
-						enemy.GetComponentInChildren<EnemyLogic>().gameObject.SetActive(false);
+                    // Disable the enemies to stop them from shooting
+                    foreach (GameObject enemy in gameState.GetEnemyList())
+                    {
+                        EnemyLogic enemyLogic = enemy.GetComponentInChildren<EnemyLogic>();
+                        // Some enemy logic is null
+                        if (enemyLogic != null)
+                            enemyLogic.gameObject.SetActive(false);
+                    }
                   
                     // Manage end game music
                     if(musicManager == null)
