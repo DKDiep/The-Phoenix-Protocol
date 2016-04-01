@@ -202,6 +202,26 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Sends the data to the specified officer
+    /// </summary>
+    /// <param name="officerName">Username of officer</param>
+    /// <param name="officerId">User ID of officer</param>
+    /// <param name="data">The data</param>
+    public void SendToOfficer(string officerName, uint officerId, string data)
+    {
+        //TODO: Pack the data as JSON
+    }
+
+    /// <summary>
+    /// Broadcasts the data to all officers
+    /// </summary>
+    /// <param name="data"></param>
+    public void BroadcastToOfficers(string data)
+    {
+        //TODO: Pack the data as JSON
+    }
+
     private void CreateServerSetup()
     {
         //Spawn server lobby
