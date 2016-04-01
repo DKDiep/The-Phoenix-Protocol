@@ -289,8 +289,8 @@ public class CommandConsoleState : MonoBehaviour {
 		// Update the text with values from gamestate.
         civiliansText.text = gameState.GetCivilians().ToString();;
         resourcesText.text = gameState.GetShipResources().ToString();;
-        healthText.text    = gameState.GetShipHealth().ToString();;
-        shieldsText.text   = gameState.GetShipShield().ToString();;
+        healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
+        shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
 	}
 
     private void UpdateCostTextColor()
