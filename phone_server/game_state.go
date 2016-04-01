@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "strconv"
     "time"
 )
 
@@ -10,6 +11,7 @@ type GameStateType int
 const (
     SETUP GameStateType = iota
     RUNNING
+    INVITAION
 )
 
 type GameState struct {
@@ -48,9 +50,19 @@ func (gs *GameState) enterSetupState() {
     asteroidMap.reset()
     enemyMap.reset()
     playerMap.resetPlayers()
-    // send invitations
-    gs.inviteOfficers()
     gs.canEnterNextState = true
+}
+
+func (gs *GameState) enterInvitationState() {
+    // some insurance, might remove later
+    if gs.status == INVITAION {
+        return
+    }
+    gs.status = INVITAION
+    gs.canEnterNextState = false
+
+    // send invitations
+    go gs.inviteOfficers()
 }
 
 // Sends out invitations untill there are enough officers
@@ -59,36 +71,33 @@ func (gs *GameState) enterSetupState() {
 func (gs *GameState) inviteOfficers() {
     fmt.Println("Setup: Starting to send invites.")
     for len(playerMap.mOfficers) < NUM_OFFICERS {
+        numNeededOfficers := NUM_OFFICERS - len(playerMap.mOfficers)
         var list []*Player
         for {
-            list = playerMap.getSortedSpectators()
-            if len(list) < (NUM_OFFICERS - len(playerMap.mOfficers)) {
-                time.Sleep(5 * time.Second)
+            list = playerMap.getSortedOnlineSpectators()
+            if len(list) < numNeededOfficers {
+                time.Sleep(3 * time.Second)
                 fmt.Println("Setup: Not enough players to invite for officers.")
             } else {
                 break
             }
         }
-        i := 0
-        for i < len(list) && ((NUM_OFFICERS - len(playerMap.mOfficers)) > 0) {
-            for j := 0; j < (NUM_OFFICERS - len(playerMap.mOfficers)); j++ {
-                if i < len(list) {
-                    list[i].setState(PROMOTION)
-                    i++
-                }
-            }
-            time.Sleep(OFFER_VALIDITY_DURATION)
-            for _, plr := range list {
-                if plr.state == PROMOTION {
-                    plr.setState(REJECTED)
-                }
-            }
+        // Send invites
+        answersC := make(chan bool, numNeededOfficers)
+        for i := 0; i < len(list) && i < numNeededOfficers; i++ {
+            go list[i].inviteAsOfficer(answersC)
+        }
+        // Wait for answers
+        for i := 0; i < len(list) && i < numNeededOfficers; i++ {
+            <-answersC
         }
     }
     if len(playerMap.mOfficers) > NUM_OFFICERS {
         fmt.Printf("Setup: Too many officers added. There are %d instead of %d.\n", len(playerMap.mOfficers), NUM_OFFICERS)
     }
     fmt.Println("Setup: Finished sending invites.")
+
+    gs.canEnterNextState = true
 }
 
 // Enters the game execution state
@@ -128,4 +137,15 @@ func updateTimer(stop chan struct{}) {
             running = false
         }
     }
+}
+
+// Handles the setting of a player into a spectator or officer
+func (gs *GameState) processAdminSetSignal(id uint64, state PlayerState) {
+    plr := playerMap.get(id)
+    if plr == nil {
+        fmt.Println("Admin: Invalid playerId: " + strconv.FormatUint(id, 10))
+        return
+    }
+
+    playerMap.setPlayerRole(plr, state)
 }

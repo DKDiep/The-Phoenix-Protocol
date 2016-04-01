@@ -3,6 +3,8 @@ package main
 import (
     "math"
     "strconv"
+    "sync"
+    "time"
 )
 
 type PlayerState int
@@ -25,6 +27,7 @@ type Player struct {
     isControllingEnemy bool
     controlledEnemyId  int64
     user               *User
+    inviteAnswerAction func(bool)
 }
 
 // Sets the current use associated with this player
@@ -181,11 +184,35 @@ func (plr *Player) sendAttackCommandToGameServer(enemyId int64) {
     sendUDPMsgToGameServer(msg)
 }
 
+// Send invitation and set up answer function
+// On timeout answer as if the player refected the offer
+func (plr *Player) inviteAsOfficer(answerC chan bool) {
+    // Prepare action that can be triggered only once
+    action := sync.Once{}
+
+    // Function that communicates the answer to the inviting funtion
+    // and sets the player appropriately
+    plr.inviteAnswerAction = func(answer bool) {
+        // Execute only once ever
+        action.Do(func() {
+            answerC <- answer
+            plr.processPromotionAnswer(answer)
+        })
+    }
+
+    // Send invitation
+    plr.setState(PROMOTION)
+
+    // If no answer is received consider it a rejection
+    time.Sleep(OFFER_VALIDITY_DURATION)
+    // Attempt action, it is triggered if no answer was received
+    plr.inviteAnswerAction(false)
+}
+
 // Deals with state transition based on the answer to the promotion offer
-func (plr *Player) processPromotionAnswer(accepted bool) {
-    if accepted && plr.state == PROMOTION {
-        plr.setState(OFFICER)
-        playerMap.setOfficer(plr)
+func (plr *Player) processPromotionAnswer(isAccepted bool) {
+    if(isAccepted) {
+        playerMap.setPlayerRole(plr, OFFICER)
     } else {
         plr.setState(REJECTED)
     }

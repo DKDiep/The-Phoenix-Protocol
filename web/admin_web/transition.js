@@ -31,6 +31,7 @@ function setPlayerAction(btn, userId, role) {
 
 function displayState(state) {
     switch (state) {
+        case "INV":
         case "STP":
             $("#game-state-value").css("color", "orange")
             $("#game-state-value").html("Setup")
@@ -38,6 +39,7 @@ function displayState(state) {
         case "RUN":
             $("#game-state-value").css("color", "green")
             $("#game-state-value").html("Running")
+            break;
             break;
         default:
             console.log("Unexpected Game State.")
@@ -47,14 +49,14 @@ function displayState(state) {
 
 function displayStatus(state, isReady) {
     switch (state) {
-        case "STP":
+        case "INV":
             $("#status-text").html("New Game Status:")
             if(isReady) {
                 $("#setup-status-value").css("color", "green")
-                $("#setup-status-value").html("Can Start")
+                $("#setup-status-value").html("Can Be Started")
             } else {
-                $("#setup-status-value").css("color", "red")
-                $("#setup-status-value").html("Can't Start")
+                $("#setup-status-value").css("color", "orange")
+                $("#setup-status-value").html("Sending Invitations")
             }
             break;
         case "RUN":
@@ -65,6 +67,16 @@ function displayStatus(state, isReady) {
             } else {
                 $("#setup-status-value").css("color", "green")
                 $("#setup-status-value").html("In Progress")
+            }
+            break;
+        case "STP":
+            $("#status-text").html("Officer Invitations Status:")
+            if(isReady) {
+                $("#setup-status-value").css("color", "green")
+                $("#setup-status-value").html("Can Be Sent")
+            } else {
+                $("#setup-status-value").css("color", "red")
+                $("#setup-status-value").html("Can't Be Sent")
             }
             break;
     }

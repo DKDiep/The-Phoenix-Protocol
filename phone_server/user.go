@@ -77,7 +77,7 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
     case "UPDATE_USER":
         usr.updateUser(uint64(msg["data"].(float64)))
     case "PROM":
-        usr.player.processPromotionAnswer(msg["data"].(bool))
+        usr.player.inviteAnswerAction(msg["data"].(bool))
     case "ENM_CTRL":
         usr.player.setControlledEnemy(int64(msg["data"].(float64)))
     case "ENM_MV":
@@ -103,7 +103,9 @@ func (usr *User) registerNew(name string) {
         score:              0,
         isControllingEnemy: false,
         controlledEnemyId:  0,
-        user:               usr}
+        user:               usr,
+        inviteAnswerAction: func(bool){},
+    }
     usr.player = newPlr
     playerMap.add(newPlr)
 
@@ -148,7 +150,9 @@ func (usr *User) updateUser(playerId uint64) {
             score:              0,
             isControllingEnemy: false,
             controlledEnemyId:  0,
-            user:               usr}
+            user:               usr,
+            inviteAnswerAction: func(bool){},
+        }
         usr.player = newPlr
         playerMap.add(newPlr)
     }

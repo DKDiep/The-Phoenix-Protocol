@@ -31,7 +31,7 @@ var gameServerTCPConn *net.TCPConn
 
 // Holds and handles game state related information
 var gameState *GameState = &GameState{
-    status:            RUNNING,
+    status:            SETUP,
     updateStopC:       nil,
     canEnterNextState: true,
 }
@@ -49,8 +49,7 @@ var playerMap *PlayerMap = &PlayerMap{
     mOfficers:     make(map[uint64]*Player),
     mSpec:         make(map[uint64]*Player),
     addC:          make(chan *Player),
-    setOfficerC:   make(chan *Player),
-    setSpectatorC: make(chan *Player),
+    setRoleC:   make(chan SetPlr),
     plrC:          make(chan struct{}),
     resetC:        make(chan struct{}),
     startC:        make(chan struct{}),
