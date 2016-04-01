@@ -100,13 +100,12 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
 
 // Starts all necessary subroutines
 func main() {
-    gameDatabase := ConnectToDatabase()
-    if gameDatabase == nil {
-        fmt.Println("Failed to start Phone Server.")
-        return
+    gameDatabase = ConnectToDatabase()
+    if gameDatabase.isConnected {
+        fmt.Println("Database: Ready to query.")
+    } else {
+        fmt.Println("Database: Failed to reach database.")
     }
-    defer gameDatabase.Close()
-    fmt.Println("Database: Ready to query.")
 
     go stdinHandler()
     go gameServerTCPConnectionHandler()
@@ -129,6 +128,8 @@ func main() {
 
     go listenWrapper(usersServerMux, USERS_PORT)
     listenWrapper(adminServerMux, ADMIN_PORT)
+
+    defer gameDatabase.Close()
 }
 
 // A wrapper used to check for errors even when spawned as a goroutine
