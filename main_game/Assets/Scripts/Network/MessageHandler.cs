@@ -75,4 +75,20 @@ public class MessageHandler : MonoBehaviour {
         else 
             controller.FinishRepair(msg.part);
     }
+
+    /// <summary>
+    /// Client side handler for the OFFICER_LIST message. This message
+    /// carries a string representation of a map from Username->UserId
+    /// for all the officers in the current game
+    /// </summary>
+    /// <param name="netMsg"></param>
+    public void OnServerOfficerList(NetworkMessage netMsg)
+    {
+        // This works because of short circuiting
+        if (controller == null && !SetController())
+            return;
+
+        OfficerListMessage msg = netMsg.ReadMessage<OfficerListMessage>();
+        controller.UpdateOfficerList(msg.officerData);
+    }
 }
