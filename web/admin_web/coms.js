@@ -45,23 +45,38 @@ function onMessage(event) {
     displayOfficers(msg.Officers)
     displaySpectators(msg.Spectators)
 
-    if (msg.State == "RUN") {
-        // disable all buttons
-        $('.btn').each(function() {
-            $(this).attr("disabled", true)
-        });
-        sendAction = sendEnterSetupSignal
-        $('#nextStateButton').html("Enter Setup")
-    } else {
-        sendAction = sendStartGameSignal
-        $('#nextStateButton').html("Start Game")
-    }
 
-    if (msg.Ready) {
-        enableNextStateButton()
-    } else {
-        disableNextStateButton()
+    switch (msg.State) {
+        case "RUN":
+            disableAllButtons()
+            sendAction = sendEnterSetupSignal
+            $('#nextStateButton').html("Enter Setup")
+            if (msg.Ready) {enableNextStateButton()}
+            break;
+        case "STP":
+            sendAction = sendInviteOfficersSingnal
+            $('#nextStateButton').html("Invite Officers")
+            if (msg.Ready) {enableNextStateButton()}
+            break;
+        case "INV":
+            disableAllButtons()
+            sendAction = sendStartGameSignal
+            $('#nextStateButton').html("Start Game")
+            if (msg.Ready) {enableAllButtons()}
+            break;
     }
+}
+
+function enableAllButtons() {
+    $('.btn').each(function() {
+        $(this).attr("disabled", false)
+    });
+}
+
+function disableAllButtons() {
+    $('.btn').each(function() {
+        $(this).attr("disabled", true)
+    });
 }
 
 function nextStateButtonAction() {
@@ -70,6 +85,13 @@ function nextStateButtonAction() {
     if(sendAction != undefined) {
         sendAction()
     }
+}
+
+function sendInviteOfficersSingnal() {
+    var msg = {
+        type: "GM_INV"
+    }
+    serverSocket.send(JSON.stringify(msg));
 }
 
 function sendStartGameSignal() {

@@ -5,7 +5,7 @@ var REQ_HACK_PROGRESS = 100;
 var hackProgress = 0;
 
 // The ID of the enemy currently being hacked
-var currentTargetID = null;
+var currentTargetID = 0;
 
 // Whether the current hack is complete
 var finishedHack = false;
@@ -87,11 +87,10 @@ function setHackTarget(id) {
 
 // Resets the hack target to the default value
 function resetHackTarget() {
-    currentTargetID = null
+    currentTargetID = 0
 }
 
 // Sets the enemyHeld attribute to val
 function setHeld(val) {
     enemyHeld = val
 }
-

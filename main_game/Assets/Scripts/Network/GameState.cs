@@ -70,7 +70,7 @@ public class GameState : NetworkBehaviour {
 
 	private bool godMode = false;
 	private bool nosMode = false;
-	private const int NOS_SPEED = 80;
+	private const int NOS_SPEED = 400;
 
 	void Start()
 	{
@@ -340,6 +340,11 @@ public class GameState : NetworkBehaviour {
     public void AddToEngineerList(GameObject engineerObject)
     {
         engineerList.Add(engineerObject);
+    }
+
+    public List<GameObject> GetEngineerList()
+    {
+        return engineerList;
     }
 
 	/*

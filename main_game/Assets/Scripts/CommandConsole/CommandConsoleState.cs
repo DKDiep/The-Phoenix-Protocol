@@ -36,6 +36,7 @@ public class CommandConsoleState : MonoBehaviour {
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
     private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
+    private Dictionary<string, uint> currentOfficers;
 
     private int componentToUpgrade = 0;
     private double second = 0; 
@@ -51,6 +52,7 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeArea = GameObject.Find("UpgradeInfo");
         stratMap = GameObject.Find("Map").GetComponent<StratMap>();
         stratMap.Portal = portal;
+        currentOfficers = new Dictionary<string, uint>();
         LoadSettings();
        
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
@@ -206,6 +208,31 @@ public class CommandConsoleState : MonoBehaviour {
         consoleUpgrades[(int)type].HideRepairButton();
         UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " has been repaired.");
     }
+
+    /// <summary>
+    /// Updates the map of officerName->officerId which
+    /// holds the officers for the current game
+    /// </summary>
+    /// <param name="officerData"></param>
+    public void UpdateOfficerList(string officerData)
+    {
+        // Clear the previous game's officers
+        currentOfficers.Clear();
+
+        string[] comma = {","};
+        string[] colon = {":"};
+
+        // Splits the officer data to return a list of mappings "officer_name:officer_id"
+        // Ignores the last entry which should be empty
+        string[] officerList = officerData.Split(comma, StringSplitOptions.RemoveEmptyEntries);
+
+        // Add each officer's data to the map
+        foreach (string officer in officerList)
+        {
+            string[] mapping = officer.Split(colon, StringSplitOptions.None);
+            currentOfficers[mapping[0]] = UInt32.Parse(mapping[1]);
+        }
+    }
         
     public void HighlightComponent(int component)
     {
@@ -262,8 +289,8 @@ public class CommandConsoleState : MonoBehaviour {
 		// Update the text with values from gamestate.
         civiliansText.text = gameState.GetCivilians().ToString();;
         resourcesText.text = gameState.GetShipResources().ToString();;
-        healthText.text    = gameState.GetShipHealth().ToString();;
-        shieldsText.text   = gameState.GetShipShield().ToString();;
+        healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
+        shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
 	}
 
     private void UpdateCostTextColor()

@@ -223,6 +223,37 @@ public class PlayerController : NetworkBehaviour
         serverManager.NotifyEngineer(false, part);
     }
 
+    /// <summary>
+    /// Requests the list of officers for the current game
+    /// </summary>
+    [Command]
+    public void CmdRequestOfficerList()
+    {
+        serverManager.SendOfficers();
+    }
+
+    /// <summary>
+    /// Sends the data, packed as a string to the specified officer
+    /// </summary>
+    /// <param name="officerName">The username of the officer to send to</param>
+    /// <param name="officerId">The user ID of the officer to send to</param>
+    /// <param name="data">The data to send</param>
+    [Command]
+    public void CmdSendToOfficer(string officerName, uint officerId, string data)
+    {
+        serverManager.SendToOfficer(officerName, officerId, data);
+    }
+
+    /// <summary>
+    /// Broadcasts data to all officers
+    /// </summary>
+    /// <param name="data">The data to broadcast</param>
+    [Command]
+    public void CmdBroadcastToOfficers(string data)
+    {
+        serverManager.BroadcastToOfficers(data);
+    }
+
 	/// <summary>
 	/// Adds a job to the engineer's job queue
 	/// </summary>
@@ -254,6 +285,15 @@ public class PlayerController : NetworkBehaviour
     public void FinishRepair(ComponentType component)
     {
         commandConsoleState.ConfirmRepair(component);
+    }
+
+    /// <summary>
+    /// Updates the officer data in the command console
+    /// </summary>
+    /// <param name="officerData">The new officer data</param>
+    public void UpdateOfficerList(string officerData)
+    {
+        commandConsoleState.UpdateOfficerList(officerData);
     }
 
     [ClientRpc]

@@ -11,8 +11,7 @@ type PlayerMap struct {
     mOfficers     map[uint64]*Player
     mSpec         map[uint64]*Player
     addC          chan *Player
-    setOfficerC   chan *Player      // moves a player in the officer list
-    setSpectatorC chan *Player      // moves a player in the officer list
+    setRoleC   chan SetPlr      // moves a player in the officer list
     plrC          chan struct{}     // used for player specific actions
     resetC        chan struct{}     // prepares the maps for a new game
     startC        chan struct{}     // triggers state transitions for spectators
@@ -29,6 +28,12 @@ type GeometricObject interface {
 // A wrapper around data needed for user addition
 type NewPlr struct {
     id  string
+    plr *Player
+}
+
+// Wrapped of data sent on the set role channel
+type SetPlr struct {
+    role PlayerState
     plr *Player
 }
 
@@ -56,13 +61,9 @@ func (players *PlayerMap) accessManager() {
         case new := <-players.addC:
             players.mSpec[new.id] = new
         // move a player from the spectator map into the officer map
-        case officer := <-players.setOfficerC:
-            delete(players.mSpec, officer.id)
-            players.mOfficers[officer.id] = officer
+        case data := <-players.setRoleC:
+            players.setPlayerRoleAsync(data.plr, data.role)
         // move a player from the spectator map into the officer map
-        case spectator := <-players.setSpectatorC:
-            delete(players.mOfficers, spectator.id)
-            players.mSpec[spectator.id] = spectator
         // blocks the manager, used for user specific actions
         case <-players.plrC:
             <-players.plrC
@@ -75,7 +76,7 @@ func (players *PlayerMap) accessManager() {
             players.startSpectatorsAsync()
         // request a sorted list of all players on standby
         case <-players.sortlC:
-            players.sortlC <- players.getSortedSpectatorsAsync()
+            players.sortlC <- players.getSortedOnlineSpectatorsAsync()
         // gets unordered lists of the players
         case <-players.listC:
             players.listC <- getPlayerInfoListAsync(players.mOfficers)
@@ -92,14 +93,9 @@ func (players *PlayerMap) add(plr *Player) {
     players.addC <- plr
 }
 
-// Wrapper used for placing a player in the officer map
-func (players *PlayerMap) setOfficer(plr *Player) {
-    players.setOfficerC <- plr
-}
-
-// Wrapper used for placing a player in the spectator map
-func (players *PlayerMap) setSpectator(plr *Player) {
-    players.setSpectatorC <- plr
+// Wrapper used for placing a player in the respective role map
+func (players *PlayerMap) setPlayerRole(player *Player, setRole PlayerState) {
+    players.setRoleC <- SetPlr{plr: player, role: setRole}
 }
 
 // Wrapper used for retrieving a user
@@ -114,7 +110,7 @@ func (players *PlayerMap) get(playerId uint64) *Player {
 }
 
 // Wrapper used for retrieving a list of players sorted by score
-func (players *PlayerMap) getSortedSpectators() []*Player {
+func (players *PlayerMap) getSortedOnlineSpectators() []*Player {
     players.sortlC <- nil
     return <-players.sortlC
 }
@@ -139,12 +135,30 @@ func (players *PlayerMap) startSpectators() {
     players.startC <- struct{}{}
 }
 
+// Sets the player in the respective role map
+// NOTE: DO NOT USE
+func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
+    var removeMap map[uint64]*Player = nil
+    var addMap map[uint64]*Player = nil
+    switch (role) {
+    case OFFICER:
+        removeMap = players.mSpec
+        addMap = players.mOfficers
+    case SPECTATOR:
+        removeMap = players.mOfficers
+        addMap = players.mSpec
+    }
+    delete(removeMap, plr.id)
+    addMap[plr.id] = plr
+    plr.setState(role)
+}
+
 // Wrapper used for retrieving a list of players sorted by score
 // NOTE: DO NOT USE
-func (players *PlayerMap) getSortedSpectatorsAsync() []*Player {
+func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
     list := make([]*Player, 0, 10)
     for _, v := range players.mSpec {
-        if v.state == STANDBY {
+        if v.state == STANDBY && v.user != nil{
             list = append(list, v)
         }
     }

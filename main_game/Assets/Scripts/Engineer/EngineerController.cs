@@ -81,18 +81,39 @@ public class EngineerController : NetworkBehaviour
 	// Use this for initialization
     void Start()
     {
+        Setup();
+    }
+
+    public void Reset()
+    {
+        RpcReset();
+    }
+
+    [ClientRpc]
+    private void RpcReset()
+    {
+        // Re-initialise (which would also dock)
+        if (camera != null && playerController != null)
+        {
+            Setup();
+            Initialize(camera.gameObject, playerController);
+        }
+    }
+
+    public void Setup()
+    {
         //Initialize with default values
         if (isServer)
             gameObject.transform.rotation = Quaternion.identity;
 
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        LoadSettings();
 
-        runSpeed     = walkSpeed * 2;
-        jumpSpeed    = walkSpeed;
+        runSpeed = walkSpeed * 2;
+        jumpSpeed = walkSpeed;
 
-		int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
-		keyPressTime     = new Dictionary<InteractionKey, float>(enumElements);
+        int enumElements = Enum.GetNames(typeof(InteractionKey)).Length;
+        keyPressTime = new Dictionary<InteractionKey, float>(enumElements);
 
         // Initialize with keys
         keyPressTime[InteractionKey.Upgrade] = 0f;
@@ -100,7 +121,7 @@ public class EngineerController : NetworkBehaviour
         keyPressTime[InteractionKey.Popup] = 0f;
     }
 
-	private void LoadSettings()
+    private void LoadSettings()
 	{
         engineerMaxDistance = settings.EngineerMaxDistance;
         emptyProgressBar = settings.EmptyProgressBar;

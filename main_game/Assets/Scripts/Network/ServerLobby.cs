@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class ServerLobby : MonoBehaviour {
     private ServerManager serverManager;
+    private TCPServer tcpServer;
+    private UDPServer udpServer;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject canvasObject;
@@ -41,6 +43,8 @@ public class ServerLobby : MonoBehaviour {
         if (server != null)
         {
             serverManager = server.GetComponent<ServerManager>();
+            tcpServer = server.GetComponent<TCPServer>();
+            udpServer = server.GetComponent<UDPServer>();
             startButton.onClick.AddListener(() => OnClickStartButton());
         }
     }
@@ -90,6 +94,11 @@ public class ServerLobby : MonoBehaviour {
         startButton.onClick.RemoveAllListeners();
         // Start game only spawns, call begin to play
         serverManager.StartGame();
+        
+        // Init the Network Servers
+        udpServer.Initialise();
+        tcpServer.Initialise();
+        
         // Instantiate ready screen then remove listener and destroy self
         GameObject readyScreen = Instantiate(Resources.Load("Prefabs/ReadyCanvas", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(readyScreen);

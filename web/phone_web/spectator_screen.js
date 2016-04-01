@@ -115,9 +115,6 @@ function finaliseSpectatorScreen() {
 
     controlledEnemyId = 0;
     isControllingEnemy = false;
-
-    // Reset values in hacking_game.js
-    resetHackingGame()
 }
 
 // Deals with movement
@@ -430,8 +427,10 @@ function enableTractorBeam(target) {
 }
 
 function disableTractorBeam() {
-    tractorBeam.target = undefined;
-    tractorBeam.width = 0;
+    if(tractorBeam != undefined) {
+        tractorBeam.target = undefined;
+        tractorBeam.width = 0;
+    }
 }
 
 // Returns true when the tractor beam is enabled

@@ -171,6 +171,57 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the list of officers as a string in the following format
+    /// officer_name:officer_id,other_officer_name:other_officer_id,
+    /// </summary>
+    public void SendOfficers()
+    {
+        Dictionary<string, uint> officerList = gameObject.GetComponent<TCPServer>().PlayerNameToPlayerID;
+        string data = "";
+
+        // Build the string representing all the officers. Note that when splitting
+        // by "," the last element will be empty and should be ignored
+        foreach (KeyValuePair<string, uint> officerData in officerList)
+        {
+            data += officerData.Key + ":" + officerData.Value.ToString() + ",";
+        }
+
+        // Send the data to the commander
+        foreach (KeyValuePair<uint, RoleEnum> client in netIdToRole)
+        {
+            if (client.Value == RoleEnum.Commander)
+            {
+                // Create the message to send
+                OfficerListMessage msg = new OfficerListMessage();
+                msg.officerData = data;
+
+                // Send the data to the commander
+                NetworkServer.SendToClient(netIdToConn[client.Key].connectionId, MessageID.OFFICER_LIST, msg);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sends the data to the specified officer
+    /// </summary>
+    /// <param name="officerName">Username of officer</param>
+    /// <param name="officerId">User ID of officer</param>
+    /// <param name="data">The data</param>
+    public void SendToOfficer(string officerName, uint officerId, string data)
+    {
+        //TODO: Pack the data as JSON
+    }
+
+    /// <summary>
+    /// Broadcasts the data to all officers
+    /// </summary>
+    /// <param name="data"></param>
+    public void BroadcastToOfficers(string data)
+    {
+        //TODO: Pack the data as JSON
+    }
+
     private void CreateServerSetup()
     {
         //Spawn server lobby
@@ -303,6 +354,12 @@ public class ServerManager : NetworkBehaviour
         gameState.PlayerShip.transform.rotation = Quaternion.identity;
         gameState.PlayerShip.GetComponentInChildren<PlayerShooting>().Reset();
         gameState.PlayerShip.GetComponentInChildren<ShipMovement>().Reset();
+
+        // Reset engineers
+        foreach (GameObject engineer in gameState.GetEngineerList())
+        {
+            engineer.GetComponent<EngineerController>().Reset();
+        }
 
         // Game state to be updated through ReadyScreen
     }

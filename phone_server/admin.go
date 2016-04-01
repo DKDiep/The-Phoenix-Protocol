@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
-    "strconv"
+    // "strconv"
     "time"
 )
 
@@ -102,29 +102,17 @@ func handleAdminMessage(msg map[string]interface{}) {
     case "GM_STP":
         fmt.Println("Admin: Received Enter Setup signal.")
         gameState.enterSetupState()
+    case "GM_INV":
+        fmt.Println("Admin: Received Send Invitations signal.")
+        gameState.enterInvitationState()
     case "SET_OFFIC":
-        plrId := uint64(msg["data"].(float64))
-        plr := playerMap.get(plrId)
-        if plr == nil {
-            fmt.Println("Admin: Invalid playerId: " + strconv.FormatUint(plrId, 10))
-            return
-        }
-        playerMap.setOfficer(plr)
-        plr.setState(OFFICER)
+        gameState.processAdminSetSignal(uint64(msg["data"].(float64)), OFFICER)
     case "SET_SPEC":
-        plrId := uint64(msg["data"].(float64))
-        plr := playerMap.get(plrId)
-        if plr == nil {
-            fmt.Println("Admin: Invalid playerId: " + strconv.FormatUint(plrId, 10))
-            return
-        }
-        playerMap.setSpectator(plr)
-        // this should be received only during setup
-        // when all spectators are on standby
-        plr.setState(STANDBY)
+        gameState.processAdminSetSignal(uint64(msg["data"].(float64)), SPECTATOR)
     default:
         fmt.Println("Admin: Received unexpected message of type: ", msg["type"])
     }
+    updateAdmin()
 }
 
 // Goroutine for updating admin data
@@ -152,10 +140,13 @@ func updateAdmin() {
     msg := AdminUpdateMessage{}
 
     // game state information
-    if gameState.status == RUNNING {
+    switch (gameState.status) {
+    case RUNNING:
         msg.State = "RUN"
-    } else {
+    case SETUP:
         msg.State = "STP"
+    case INVITAION:
+        msg.State = "INV"
     }
 
     msg.Ready = gameState.canEnterNextState
