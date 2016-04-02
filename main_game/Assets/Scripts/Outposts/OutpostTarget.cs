@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class OutpostTarget : MonoBehaviour 
+public class OutpostTarget : NetworkBehaviour 
 {
-    private GameObject player;
+    private GameObject player, target;
     private float distance;
     private Renderer myRenderer;
 
@@ -23,14 +24,16 @@ public class OutpostTarget : MonoBehaviour
         else
         {
             Vector3 v3 = player.transform.position - transform.position;
-            transform.rotation = Quaternion.LookRotation(-v3);
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, player.transform.eulerAngles.z);
+            target.transform.rotation = Quaternion.LookRotation(-v3);
+            target.transform.eulerAngles = new Vector3(target.transform.eulerAngles.x, target.transform.eulerAngles.y, player.transform.eulerAngles.z);
         }
 	}
 
     private void GetRenderer()
     {
-        myRenderer = GetComponent<Renderer>();
+        if(target == null)
+            target = transform.Find("Target").gameObject;
+        myRenderer = target.GetComponent<Renderer>();
     }
 
     public void StartMission()
@@ -55,9 +58,27 @@ public class OutpostTarget : MonoBehaviour
         if(myRenderer == null)
             GetRenderer();
         myRenderer.enabled = true;
+        RpcShowTarget();
+    }
+
+    [ClientRpc]
+    public void RpcShowTarget()
+    {
+        if(myRenderer == null)
+            GetRenderer();
+        myRenderer.enabled = true;
     }
 
     public void HideTarget()
+    {
+        if(myRenderer == null)
+            GetRenderer();
+        myRenderer.enabled = false;
+        RpcHideTarget();
+    }
+
+    [ClientRpc]
+    public void RpcHideTarget()
     {
         if(myRenderer == null)
             GetRenderer();

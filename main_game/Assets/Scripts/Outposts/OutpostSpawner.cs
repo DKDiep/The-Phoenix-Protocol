@@ -140,13 +140,15 @@ public class OutpostSpawner : MonoBehaviour
 		outpostResources.GetComponent<ResourcesCollision>().SetOutpost(outpostObject);
 		outpostResources.GetComponent<SphereCollider>().radius = collectionDistance;
 
-        // Hide the target by default.
-        outpostObject.GetComponentsInChildren<OutpostTarget>()[0].HideTarget();
+
 
 		Rigidbody rigid = outpostObject.AddComponent<Rigidbody>();
 		rigid.isKinematic = true;
 		gameState.AddToOutpostList(outpostObject);
 		ServerManager.NetworkSpawn(outpostObject);
+
+        // Hide the target by default.
+        outpostObject.GetComponent<OutpostTarget>().HideTarget();
 
         if(hardOutposts < settings.HardOutposts)
         {

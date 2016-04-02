@@ -193,7 +193,6 @@ GameObject:
   - 4: {fileID: 426066}
   - 33: {fileID: 3381396}
   - 23: {fileID: 2336174}
-  - 114: {fileID: 11467666}
   m_Layer: 11
   m_Name: Target
   m_TagString: Untagged
@@ -665,6 +664,7 @@ GameObject:
   - 114: {fileID: 11440756}
   - 65: {fileID: 6500730}
   - 114: {fileID: 11455434}
+  - 114: {fileID: 11411892}
   m_Layer: 4
   m_Name: Outpost1
   m_TagString: Outpost
@@ -3167,6 +3167,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.42, y: 0.47, z: 1.52}
   m_Center: {x: 0.000000059604645, y: 0.29, z: -0.00000008940697}
+--- !u!114 &11411892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec092288bae04520b2566887c737d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11440756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3200,17 +3211,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   helpMat: {fileID: 2100000, guid: b162bc0558fb64c1c9ee723480ee156c, type: 2}
   savedMat: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
---- !u!114 &11467666
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dec092288bae04520b2566887c737d67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11492126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3297,7 +3297,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: helpMat
