@@ -637,6 +637,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     // Spawn bullet, use predication, and player sound
 	IEnumerator Shoot()
 	{
+        if(type == EnemyType.LightningBug || type == EnemyType.Termite)
+            yield break;
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 
         GameObject obj = bulletManager.RequestObject();
@@ -678,7 +680,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
         if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
         if(distance < 300f) mySrc.PlayOneShot(fireSnd);
-		if(shoot) StartCoroutine(Shoot());
+		if(shoot) 
+            StartCoroutine(Shoot());
 	}
 
 	IEnumerator RechargeShields()
