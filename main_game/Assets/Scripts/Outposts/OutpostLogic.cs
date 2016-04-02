@@ -53,14 +53,14 @@ public class OutpostLogic : MonoBehaviour {
 		{
 			CollectResources();
 			resourcesCollected = true;
-            collision.SwitchMaterial();
+            collision.SwitchMaterial(1);
             playerController.RpcNotifyOutpostVisit(numberOfResources, numberOfCivilians, id);
 		}
 		if(!civiliansCollected) 
 		{
 			CollectCivilians();
 			civiliansCollected = true;
-            collision.SwitchMaterial();
+            collision.SwitchMaterial(1);
 		}
 
 	}

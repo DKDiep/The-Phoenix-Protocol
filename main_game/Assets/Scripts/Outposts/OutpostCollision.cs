@@ -13,18 +13,33 @@ public class OutpostCollision : NetworkBehaviour
     [SerializeField] Material savedMat;
 	#pragma warning restore 0649 
 
-    bool client = false;
+    private bool client = false;
+    private bool switchedMaterial = false;
 
 	void Start()
 	{
 		outpostLogic = GetComponentInChildren<OutpostLogic>();
         if(outpostLogic == null)
             client = true;
+        else
+            StartCoroutine(CheckUpdate());
 	}
-		
-    public void SwitchMaterial()
+
+    private IEnumerator CheckUpdate()
     {
-        RpcSwitchMaterial();
+        yield return new WaitForSeconds(1f);
+        if(outpostLogic.discovered && !switchedMaterial)
+        {
+            switchedMaterial = true;
+            SwitchMaterial(0);
+        }
+        else
+            StartCoroutine(CheckUpdate());
+    }
+		
+    public void SwitchMaterial(int id)
+    {
+        RpcSwitchMaterial(id);
         GameObject light = null;
 
         foreach(Transform child in transform)
@@ -39,11 +54,14 @@ public class OutpostCollision : NetworkBehaviour
         if(light == null)
             Debug.LogError("TopCap game object in outpost could not be found");
 
-        light.GetComponent<Renderer>().material = savedMat;
+        if(id == 0)
+            light.GetComponent<Renderer>().material = helpMat;
+        else
+            light.GetComponent<Renderer>().material = savedMat;
     }
 
     [ClientRpc]
-    private void RpcSwitchMaterial()
+    private void RpcSwitchMaterial(int id)
     {
         GameObject light = null;
 
@@ -59,7 +77,10 @@ public class OutpostCollision : NetworkBehaviour
         if(light == null)
             Debug.LogError("TopCap game object in outpost could not be found");
 
-        light.GetComponent<Renderer>().material = savedMat;
+        if(id == 0)
+            light.GetComponent<Renderer>().material = helpMat;
+        else
+            light.GetComponent<Renderer>().material = savedMat;
     }
 
 
