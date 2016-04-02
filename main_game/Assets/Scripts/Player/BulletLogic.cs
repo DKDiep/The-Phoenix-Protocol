@@ -99,6 +99,8 @@ public class BulletLogic : MonoBehaviour
 			hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
                 .collision(damage, transform.eulerAngles.y, hitObject.name.GetComponentType());
 		}
+        else if (hitObjectTag.Equals("GlomMothership"))
+            col.gameObject.GetComponentInChildren<MothershipLogic>().collision(damage, bulletPlayerId);
 		else if (hitObjectTag.Equals("Resources"))
 			return;
 

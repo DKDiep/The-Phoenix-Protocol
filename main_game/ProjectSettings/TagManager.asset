@@ -18,6 +18,7 @@ TagManager:
   - SmartBomb
   - EMP
   - TargetFinder
+  - GlomMothership
   layers:
   - Default
   - TransparentFX

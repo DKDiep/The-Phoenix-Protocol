@@ -116,6 +116,9 @@ public class EnemySpawner : MonoBehaviour
         logic.transform.parent = obj.transform;
         logic.transform.position = Vector3.zero;
         obj.transform.position = settings.GlomMothershipSpawnPosition;
+        ServerManager.NetworkSpawn(obj);
+
+        obj.GetComponent<Collider>().enabled = true;
 
     }
 

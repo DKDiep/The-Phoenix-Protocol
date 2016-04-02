@@ -28,9 +28,10 @@ GameObject:
   - 23: {fileID: 2360952}
   - 54: {fileID: 5432434}
   - 114: {fileID: 11415460}
+  - 114: {fileID: 11414192}
   m_Layer: 10
   m_Name: GlomMothership
-  m_TagString: EnemyShip
+  m_TagString: GlomMothership
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +137,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11414192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 100
+    i1: 101
+    i2: 217
+    i3: 17
+    i4: 55
+    i5: 34
+    i6: 244
+    i7: 48
+    i8: 137
+    i9: 155
+    i10: 12
+    i11: 118
+    i12: 60
+    i13: 17
+    i14: 169
+    i15: 72
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11415460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,7 +214,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: EnemyShip
+      value: GlomMothership
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
