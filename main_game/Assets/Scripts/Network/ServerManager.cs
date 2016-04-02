@@ -151,6 +151,12 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
+    private void Update ()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+            Reset();
+    }
+
     /// <summary>
     /// Sends a job finished message to the command console
     /// </summary>
@@ -379,13 +385,6 @@ public class ServerManager : NetworkBehaviour
         }
     }
 
-
-    // Temporary to test reset
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(10, 10, 80, 30), "Reset"))
-            Reset();
-    }
 
 	public void SetServerId(uint serverId) 
 	{
