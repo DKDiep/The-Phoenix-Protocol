@@ -30,24 +30,15 @@ public class MothershipLogic : MonoBehaviour {
             if(health > damage)
             {
                 health -= damage;
-                Debug.Log(health);
             }
             else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
             {
                 Debug.Log("Glom mothership destroyed");
-                /*if(playerId != -1)
-                {
-                    // Update player score
-                    gameState.AddToPlayerScore(playerId, 10);
-                }
-                // Automatically collect resources from enemy ship
-                gameState.AddShipResources(droppedResources);
-
-                // Destroy Object
-                GameObject temp = explosionManager.RequestObject();
-                temp.transform.position = transform.position;
-
-                explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);*/
+                GameObject explosion = Instantiate(Resources.Load("Prefabs/OutpostExplode", typeof(GameObject))) as GameObject;
+                explosion.transform.position = transform.position;
+                explosion.SetActive(true);
+                ServerManager.NetworkSpawn(explosion);
+                Destroy(transform.parent.gameObject);
             }
     }
 }
