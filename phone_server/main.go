@@ -106,6 +106,7 @@ func main() {
     } else {
         fmt.Println("Database: Failed to reach database.")
     }
+    defer gameDatabase.Close()
 
     go stdinHandler()
     go gameServerTCPConnectionHandler()
@@ -128,8 +129,6 @@ func main() {
 
     go listenWrapper(usersServerMux, USERS_PORT)
     listenWrapper(adminServerMux, ADMIN_PORT)
-
-    defer gameDatabase.Close()
 }
 
 // A wrapper used to check for errors even when spawned as a goroutine
