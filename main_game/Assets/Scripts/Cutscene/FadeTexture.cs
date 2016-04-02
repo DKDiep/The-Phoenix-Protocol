@@ -23,6 +23,7 @@ public class FadeTexture : NetworkBehaviour
 	Color fading;
 	bool canFade = false;
     private bool gameStarted = false;
+    private TimerScript timer;
 
 	// Use this for initialization
 	public void Play () 
@@ -99,8 +100,10 @@ public class FadeTexture : NetworkBehaviour
 		canFade = true;
 		yield return new WaitForSeconds(exitWait);
         RpcFadeOutClient();
+        if(timer == null)
+            timer = GameObject.Find("GameTimerText").GetComponent<TimerScript>();
+        timer.ResetTimer();
 		canFade = false;
-		yield return new WaitForSeconds(5f);
 		//Destroy (this);
 	}
 }

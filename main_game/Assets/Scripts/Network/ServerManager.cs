@@ -23,7 +23,7 @@ public class ServerManager : NetworkBehaviour
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject spawner, musicManager, missionManager;
     public GameObject cutsceneManager;
-    private GameObject gameTimer;
+    public GameObject gameTimer;
     private GameObject portal;
     private GameObject readyScreen;
 
@@ -335,9 +335,6 @@ public class ServerManager : NetworkBehaviour
 
         // Reset portal trigger - this needs to be before game status change
         gameState.gameObject.GetComponent<GameStatusManager>().Reset();
-
-        // Reset timer  
-        gameTimer.GetComponent<TimerScript>().ResetTimer();
         
         // Reset missions
         missionManager.GetComponent<MissionManager>().ResetMissions();
