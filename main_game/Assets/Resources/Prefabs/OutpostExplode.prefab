@@ -226,7 +226,7 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -402,6 +402,7 @@ MonoBehaviour:
   lifetime: 4
   managerName: AsteroidExplosionManager
   destroyObject: 1
+  lightIntensity: 0
 --- !u!198 &19839818
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7766,6 +7767,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Priority
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
