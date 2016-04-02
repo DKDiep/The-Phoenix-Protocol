@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj:
-  - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+  - {fileID: 172426, guid: ef9db61632c5f43498fd34d97d01a6a8, type: 2}
   size: 500
   serverOnly: 0
   useInterpolation: 0
@@ -1956,7 +1956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj:
-  - {fileID: 193600, guid: ae214bb69312e4d4599b28747eab8d07, type: 2}
+  - {fileID: 151132, guid: db4e1bff69fab47aab8fc9afe5abc85e, type: 2}
   size: 500
   serverOnly: 0
   useInterpolation: 0
