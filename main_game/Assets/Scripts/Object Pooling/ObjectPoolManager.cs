@@ -21,7 +21,6 @@ public class ObjectPoolManager : NetworkBehaviour
 
     private Vector3[] newPositions;
     private Quaternion[] newRotations;
-    private float[] times;
     private bool amServer = false;
 
     [Server]
@@ -56,7 +55,6 @@ public class ObjectPoolManager : NetworkBehaviour
 
         newPositions = new Vector3[size];
         newRotations = new Quaternion[size];
-        times = new float[size];
 
         pool = new GameObject[size];
 
@@ -64,7 +62,6 @@ public class ObjectPoolManager : NetworkBehaviour
         {
             newPositions = new Vector3[size];
             newRotations = new Quaternion[size];
-            times = new float[size];
         }
 
 	    for(int i = 0; i < size; ++i)

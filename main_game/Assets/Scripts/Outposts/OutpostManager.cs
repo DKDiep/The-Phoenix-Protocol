@@ -14,7 +14,6 @@ public class OutpostManager : MonoBehaviour {
     private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
     private int arrowsRequired = 0;
     public bool outpostSpawned = false;
-    private bool updateArrows = false;
     Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
     Vector3 screenBounds;
 
@@ -47,10 +46,8 @@ public class OutpostManager : MonoBehaviour {
             SpawnOutpostArrows();
             DiscoverOutposts(); 
             UpdateOutpostArrows(); 
-            updateArrows = true;
         }
         yield return new WaitForSeconds(1f);
-        updateArrows = false;
         StartCoroutine(UpdateOutposts());
     }
 
