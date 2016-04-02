@@ -724,10 +724,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     			{
     				// Update player score
     				gameState.AddToPlayerScore(playerId, 10);
-    			}
-    			// Automatically collect resources from enemy ship
-    			gameState.AddShipResources(droppedResources);
-
+                    // Automatically collect resources from enemy ship
+                    gameState.AddShipResources(droppedResources);
+    			}         
     			// Destroy Object
                 GameObject temp = explosionManager.RequestObject();
                 temp.transform.position = transform.position;
