@@ -21,6 +21,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private AudioClip fireSnd;
 	private bool randomPitch;
     private GameObject empEffect;
+    private bool empEnabled = false;
 
 	/* These fields are set when assigning a type to the enemy. They should not be initilaised manually.
 	 * Please use the internal modifier for all of them to make it clear that they are set somewhere else in code,
@@ -504,11 +505,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	public IEnumerator EMPEffect()
 	{
 		empEffect = transform.parent.Find("EMPEffect").gameObject;
+        empEnabled = true;
 		float originalSpeed = speed;
 		speed = 0;
 		empEffect.SetActive(true);
 		yield return new WaitForSeconds(settings.empDuration);
 		empEffect.SetActive(false);
+        empEnabled = false;
 		speed = originalSpeed;
 	}
 
@@ -641,45 +644,50 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             yield break;
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 
-        GameObject obj = bulletManager.RequestObject();
-        obj.transform.position = shootAnchor.transform.position;
+        if(!empEnabled)
+        {
+            GameObject obj = bulletManager.RequestObject();
+            obj.transform.position = shootAnchor.transform.position;
 
-        GameObject logic = logicManager.RequestObject();
-		logic.transform.parent = obj.transform;
-		logic.transform.localPosition = Vector3.zero;
+            GameObject logic = logicManager.RequestObject();
+    		logic.transform.parent = obj.transform;
+    		logic.transform.localPosition = Vector3.zero;
 
-        BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
-		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
+            BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
+    		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-		bulletLogic.SetParameters(accuracy, bulletDamage);
-		bulletMove.Speed = bulletSpeed;
-		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
+    		bulletLogic.SetParameters(accuracy, bulletDamage);
+    		bulletMove.Speed = bulletSpeed;
+    		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
-		Vector3 destination;
+    		Vector3 destination;
 
-		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
-		if (hacked && currentTarget == null)
-			yield break;
+    		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
+    		if (hacked && currentTarget == null)
+    			yield break;
 
-		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
-		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
-		if (hackedAttackTraget != null)
-		{
-			destination = currentTarget.transform.position;
-			if (Random.value > accuracy)
-				bulletMove.SetTarget(currentTarget);
-			obj.layer = LayerMask.NameToLayer("Player");
-			// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
-		}
-		else
-			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+    		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
+    		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
+    		if (hackedAttackTraget != null)
+    		{
+    			destination = currentTarget.transform.position;
+    			if (Random.value > accuracy)
+    				bulletMove.SetTarget(currentTarget);
+    			obj.layer = LayerMask.NameToLayer("Player");
+    			// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
+    		}
+    		else
+    			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 
-		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);
+    		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);
 
-        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+            bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
-        if(randomPitch) mySrc.pitch = Random.Range(0.7f, 1.3f);
-        if(distance < 300f) mySrc.PlayOneShot(fireSnd);
+            if(randomPitch) 
+                mySrc.pitch = Random.Range(0.7f, 1.3f);
+            if(distance < 300f) 
+                mySrc.PlayOneShot(fireSnd);
+        }
 		if(shoot) 
             StartCoroutine(Shoot());
 	}
@@ -733,6 +741,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     			// Destroy Object
                 GameObject temp = explosionManager.RequestObject();
                 temp.transform.position = transform.position;
+                empEnabled = false;
+                if(empEffect != null)
+                    empEffect.SetActive(false);
 
                 explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
                 ResetGlowColour();
