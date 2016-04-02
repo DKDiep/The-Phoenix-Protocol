@@ -81,6 +81,13 @@ public class GameSettings : MonoBehaviour
     public Material EngineerRepairMat;
     public Material EngineerUpgradeMat;
 
+    [Header("Glom Mothership")]
+    public float GlomMothershipHealth;
+    public float DamageEffects1;
+    public float DamageEffects2;
+    public float DamageEffects3;
+    public float SpawnRate;
+
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;
 
