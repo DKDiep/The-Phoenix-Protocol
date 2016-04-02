@@ -169,6 +169,13 @@ MonoBehaviour:
   EngineerDefaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
   EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
+  GlomMothershipHealth: 1000
+  GlomMothershipSpawnDistance: 1500
+  GlomMothershipSpawnPosition: {x: -100, y: 650, z: 200}
+  GlomMothershipDamageEffects1: 0
+  GlomMothershipDamageEffects2: 0
+  GlomMothershipDamageEffects3: 0
+  GlomMothershipSpawnRate: 0
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
@@ -587,6 +594,26 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[0].completionConditions.Array.data[1].completionValue
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipSpawnDistance
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipSpawnPosition.x
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipSpawnPosition.y
+      value: 650
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipSpawnPosition.z
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

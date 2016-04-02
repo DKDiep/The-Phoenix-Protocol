@@ -28,6 +28,7 @@ public class EnemySpawner : MonoBehaviour
 	private Vector3 aiWaypointShift;
     // The radius of the sphere around an outpost in which to spawn protecting enemies
 	private int outpostSpawnRadius;
+    private bool mothershipSpawned = false;
 
     // Number of currently active enemies
 	private static int numEnemies = 0;
@@ -56,6 +57,8 @@ public class EnemySpawner : MonoBehaviour
 	private Queue<OutpostSpawnRequest> outpostSpawnRequests;
 	private Queue<SingleSpawnRequest> singleSpawnRequests;
 
+    private GameObject portal;
+
     void Start()
     {
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -79,8 +82,43 @@ public class EnemySpawner : MonoBehaviour
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
 		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
+
+        StartCoroutine(CheckPortalDistance());
        
     }
+
+    IEnumerator CheckPortalDistance()
+    {
+        if(portal == null)
+            portal = GameObject.Find("Portal(Clone)");
+        else
+        {
+            float distance = Vector3.Distance(portal.transform.position, state.PlayerShip.transform.position);
+            if(distance < settings.GlomMothershipSpawnDistance)
+            {
+                SpawnGlomMothership();
+                mothershipSpawned = true;
+            }
+
+        }
+
+        yield return new WaitForSeconds(1f);
+        if(!mothershipSpawned)
+            StartCoroutine(CheckPortalDistance());
+
+    }
+
+    void SpawnGlomMothership()
+    {
+        Debug.Log("Glom mothership spawned");
+        GameObject obj = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
+        GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
+        logic.transform.parent = obj.transform;
+        logic.transform.position = Vector3.zero;
+        obj.transform.position = settings.GlomMothershipSpawnPosition;
+
+    }
+
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
     void Update ()
@@ -620,6 +658,5 @@ public enum EnemyType
     Termite,
     LightningBug,
     Hornet,
-    BlackWidow,
-    GlomCruiser
+    BlackWidow
 }

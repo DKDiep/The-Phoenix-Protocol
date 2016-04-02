@@ -83,10 +83,12 @@ public class GameSettings : MonoBehaviour
 
     [Header("Glom Mothership")]
     public float GlomMothershipHealth;
-    public float DamageEffects1;
-    public float DamageEffects2;
-    public float DamageEffects3;
-    public float SpawnRate;
+    public float GlomMothershipSpawnDistance; // Spawn when the player is this distance from the portal
+    public Vector3 GlomMothershipSpawnPosition; // Location to spawn the mothership
+    public float GlomMothershipDamageEffects1; // Level of health of mothership to trigger these damage effects
+    public float GlomMothershipDamageEffects2;
+    public float GlomMothershipDamageEffects3;
+    public float GlomMothershipSpawnRate; // Rate at which to spawn enemies
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;
