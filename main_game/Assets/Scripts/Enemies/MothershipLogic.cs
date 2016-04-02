@@ -4,6 +4,7 @@ using System.Collections;
 public class MothershipLogic : MonoBehaviour {
 
     private float health;
+    private int spawnedEnemies = 0;
     private EnemySpawner spawner;
     GameSettings settings;
     GameState gameState;
@@ -29,9 +30,20 @@ public class MothershipLogic : MonoBehaviour {
 
     IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(settings.GlomMothershipSpawnRate);
-        spawner.SpawnEnemyFromMothership();
-        StartCoroutine(SpawnEnemies());
+        if(spawnedEnemies < 30)
+        {
+            yield return new WaitForSeconds(3f);
+            spawner.SpawnEnemyFromMothership();
+            spawnedEnemies++;
+            StartCoroutine(SpawnEnemies());
+        }
+        else
+        {
+            // Take a little break
+            yield return new WaitForSeconds(15f);
+            spawnedEnemies = 0;
+            StartCoroutine(SpawnEnemies());
+        }
     }
 	
     private void LoadSettings()
