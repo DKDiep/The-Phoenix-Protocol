@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 public class CommandConsoleState : MonoBehaviour {
 
-	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private Canvas canvas;
-	[SerializeField] private Text civiliansText;
-	[SerializeField] private Text healthText;
-	[SerializeField] private Text resourcesText;
+#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Text civiliansText;
+    [SerializeField] private Text healthText;
+    [SerializeField] private Text resourcesText;
     [SerializeField] private Text shieldsText;
 
     [SerializeField] private Text upgradeButtonLabel;
@@ -20,33 +20,33 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] Material defaultMat;
     [SerializeField] Material highlightMat;
 
-	[SerializeField] private GameObject newsFeed;
+    [SerializeField] private GameObject newsFeed;
     [SerializeField] private GameObject popupWindow;
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
-	#pragma warning restore 0649
+#pragma warning restore 0649
 
     private PlayerController playerController;
-	private GameObject ship;
+    private GameObject ship;
     private GameObject upgradeArea;
     private GameObject portal;
     private StratMap stratMap;
-	private GameState gameState;
+    private GameState gameState;
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
     private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
     private Dictionary<string, uint> currentOfficers;
 
     private int componentToUpgrade = 0;
-    private double second = 0; 
+    private double second = 0;
 
     // Indicates which upgrade is in progress.
-    private int[] upgradeProgress = new int[6] {0,0,0,0,0,0};
+    private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
 
     private ConsoleShipControl shipControl;
-   
-    void Start () {
+
+    void Start() {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
@@ -54,14 +54,14 @@ public class CommandConsoleState : MonoBehaviour {
         stratMap.Portal = portal;
         currentOfficers = new Dictionary<string, uint>();
         LoadSettings();
-       
+
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
         Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
 
         LoadShipModel();
 
-		UpdateAllText();
-        
+        UpdateAllText();
+
         ClosePopupWindow();
 
         upgradeArea.SetActive(false);
@@ -69,11 +69,47 @@ public class CommandConsoleState : MonoBehaviour {
         AddUpgradeBoxes();
     }
 
-    private void LoadSettings() 
+    public void Reset()
     {
-        upgradeProperties = settings.upgradeProperties;
+        LoadSettings();
+        upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
+        for (int i = 0; i < consoleUpgrades.Count; i++)
+        {
+            consoleUpgrades[i].Reset();
+            //upgradeProperties[i].currentLevel = 1;
+            consoleUpgrades[i].UpdateCost(GetUpgradeCost(upgradeProperties[i].cost, upgradeProperties[i].currentLevel));
+        }
+        foreach (ComponentType type in Enum.GetValues(typeof(ComponentType)))
+        {
+            if (type == ComponentType.None)
+                continue;
+
+            int component = (int)type;
+            consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
+            upgradeButtonLabel.text = "Upgrade";
+        }
+        UpdateAllText();
+        ClosePopupWindow();
+        upgradeArea.SetActive(false);
+        newsFeed.GetComponent<Text>().text = "";
+        stratMap.Reset();
     }
 
+    private void LoadSettings()
+    {
+        // Copy values manually so original settings won't change
+        upgradeProperties = new ConsoleUpgrade.UpgradeProperties[settings.upgradeProperties.Length];
+        for (int i = 0; i < upgradeProperties.Length; i++)
+        {
+            upgradeProperties[i] = new ConsoleUpgrade.UpgradeProperties();
+            upgradeProperties[i].type = settings.upgradeProperties[i].type;
+            upgradeProperties[i].description = settings.upgradeProperties[i].description;
+            upgradeProperties[i].cost = settings.upgradeProperties[i].cost;
+            upgradeProperties[i].numberOfLevels = settings.upgradeProperties[i].numberOfLevels;
+            upgradeProperties[i].repairable = settings.upgradeProperties[i].repairable;
+            upgradeProperties[i].currentLevel = settings.upgradeProperties[i].currentLevel;
+        }
+    }
     void Update()
     {
         // Cheat code! But seriously, this will ease development so much.

@@ -86,6 +86,15 @@ public class GameState : NetworkBehaviour {
 		StartCoroutine(ResourceInterest());
         StartCoroutine(UpdateComponents());
 	}
+
+    public void Reset()
+    {
+        StopAllCoroutines();
+        LoadSettings();
+        InitialiseUpgradableComponents();
+        StartCoroutine(ResourceInterest());
+        StartCoroutine(UpdateComponents());
+    }
         
     private void LoadSettings()
     {

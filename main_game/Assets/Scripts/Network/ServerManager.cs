@@ -344,8 +344,9 @@ public class ServerManager : NetworkBehaviour
         gameState.ResetPlayerScores();
         // Reset spawner attributes, each spawner removes objects from logic using state list
         spawner.GetComponent<EnemySpawner>().Reset();
-        spawner.GetComponent<OutpostSpawner>().Reset();
         spawner.GetComponent<AsteroidSpawner>().Reset();
+        spawner.GetComponent<OutpostSpawner>().Reset();
+        GameObject.Find("OutpostManager(Clone)").GetComponent<OutpostManager>().Reset();
 
         // Reset player ship
         gameState.PlayerShip.transform.position = new Vector3(0.0f,0.0f,-2000.0f);
@@ -359,8 +360,26 @@ public class ServerManager : NetworkBehaviour
             engineer.GetComponent<EngineerController>().Reset();
         }
 
+        // Reset commander
+        RpcCommanderReset();
+
+        // Reset game state
+        gameState.Reset();
+
         // Game state to be updated through ReadyScreen
     }
+
+    [ClientRpc]
+    private void RpcCommanderReset()
+    {
+        GameObject commander = GameObject.Find("CommanderManager(Clone)");
+        if (commander != null)
+        {
+            commander.GetComponent<CommandConsoleState>().Reset();
+        }
+    }
+
+
     // Temporary to test reset
     void OnGUI()
     {
