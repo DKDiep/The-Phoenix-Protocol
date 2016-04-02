@@ -95,30 +95,12 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
 func (usr *User) registerNew(name string) {
     // register user
     playerId := registerPlayer(name)
-    // associate a player with this user and add it to the game
-    newPlr := &Player{
-        id:                 playerId,
-        userName:           name,
-        state:              getNewPlayerState(),
-        score:              0,
-        isControllingEnemy: false,
-        controlledEnemyId:  0,
-        user:               usr,
-        inviteAnswerAction: func(bool){},
-    }
-    usr.player = newPlr
-    playerMap.add(newPlr)
-
-    stateSting := newPlr.getStateString()
 
     // reply with identification data and current user data
     msg := map[string]interface{}{
         "type": "SAVE_USER",
         "data": map[string]interface{}{
             "id": playerId,
-            "userData": map[string]interface{}{
-                "state": stateSting,
-            },
         },
     }
 

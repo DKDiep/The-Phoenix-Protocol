@@ -10,7 +10,14 @@ function initScreen() {
         initUnregistered()
     }
     else {
-        requestUserUpdate()
+        // Display tutorial if not seen before
+        seenTutorial = Cookies.get("seen_tutorial")
+        if(seenTutorial == undefined || !seenTutorial) {
+            changeScreen("tutorial", startSpectatorTutorialScreen,
+                finaliseSpectatorTutorialScreen)
+        } else {
+            requestUserUpdate()
+        }
     }
 }
 
@@ -22,5 +29,5 @@ function initUnregistered() {
 // Save user identification information as a cookie
 function saveUserAndUpdate(user) {
     Cookies.set("user_id", user.id)
-    updateScreen(user.userData)
+    initScreen()
 }
