@@ -35,6 +35,24 @@ public class StratMap : MonoBehaviour {
         outpostIconDict = new Dictionary<int,GameObject>();
     }
 
+    public void Reset()
+    {
+        outpostIconDict = new Dictionary<int, GameObject>();
+        //Clear the icons
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            // Remove scripts that depend on object first
+            /*Image img = this.transform.GetChild(i).gameObject.GetComponent<Image>();
+            if (img != null)
+                Destroy(img);*/
+            if (this.transform.GetChild(i).name == "OutpostIcon(Clone)")
+            {
+                Debug.Log("rmv");
+                Destroy(this.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
     public void NewOutpost(GameObject outpost, int id, int difficulty)
     {
         var panel = this;

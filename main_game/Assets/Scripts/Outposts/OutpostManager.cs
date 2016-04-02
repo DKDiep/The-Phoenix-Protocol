@@ -19,8 +19,19 @@ public class OutpostManager : MonoBehaviour {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
         playerController = playerControllerObject.GetComponent<PlayerController>();
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
-
     }
+
+    public  void Reset()
+    {
+        for (int i = arrowList.Count - 1; i >= 0; i--)
+        {
+            Destroy(arrowList[i]);
+        }
+        arrowList = new List<GameObject>();
+        Canvas.ForceUpdateCanvases();
+        outpostLogic = new List<OutpostLogic>();
+        arrowsRequired = 0;
+}
 
     void Update () 
     {
