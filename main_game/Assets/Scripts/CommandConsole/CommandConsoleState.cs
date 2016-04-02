@@ -47,11 +47,6 @@ public class CommandConsoleState : MonoBehaviour {
     private ConsoleShipControl shipControl;
    
     void Start () {
-        Reset();
-    }
-
-    public void Reset()
-    {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
@@ -59,19 +54,32 @@ public class CommandConsoleState : MonoBehaviour {
         stratMap.Portal = portal;
         currentOfficers = new Dictionary<string, uint>();
         LoadSettings();
-
+       
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
         Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
 
         LoadShipModel();
 
-        UpdateAllText();
-
+		UpdateAllText();
+        
         ClosePopupWindow();
 
         upgradeArea.SetActive(false);
         newsFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
+    }
+
+    public void Reset()
+    {
+        for (int i = 0; i < consoleUpgrades.Count; i++)
+            consoleUpgrades[i].Reset();
+        //currentOfficers = new Dictionary<string, uint>();
+        LoadSettings();
+        LoadShipModel();
+        UpdateAllText();
+        ClosePopupWindow();
+        upgradeArea.SetActive(false);
+        newsFeed.GetComponent<Text>().text = "";
     }
 
     private void LoadSettings() 

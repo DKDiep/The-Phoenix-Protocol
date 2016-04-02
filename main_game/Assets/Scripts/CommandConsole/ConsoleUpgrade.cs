@@ -29,6 +29,14 @@ public class ConsoleUpgrade : MonoBehaviour
         repairButton.SetActive(false);
     }
 
+    public void Reset()
+    {
+        for (int i = 0; i < properties.numberOfLevels; i++)
+        {
+            levelIndicators[i].GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
+        }
+    }
+
     void Update()
     {
         if(setupDone)
