@@ -21,7 +21,8 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<int, GameObject> screenIdToCrosshair;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
-    private GameObject spawner, musicManager, missionManager;
+    private GameObject musicManager, missionManager;
+    public GameObject spawner;
     public GameObject cutsceneManager;
     public GameObject gameTimer;
     private GameObject portal;

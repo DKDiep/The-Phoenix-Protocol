@@ -79,8 +79,7 @@ public class EnemySpawner : MonoBehaviour
 
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
 		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
-
-        StartCoroutine(TimedDifficulty());
+       
     }
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
@@ -153,11 +152,10 @@ public class EnemySpawner : MonoBehaviour
 		outpostSpawnRequests.Clear();
 
         StartCoroutine(Cleanup());
-        StartCoroutine(TimedDifficulty());
     }
 
     // Increase difficulty by 1 every 30 seconds
-    IEnumerator TimedDifficulty()
+    public IEnumerator TimedDifficulty()
     {
         IncreaseDifficulty();
         yield return new WaitForSeconds(60f);

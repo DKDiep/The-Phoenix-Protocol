@@ -63,6 +63,7 @@ public class ReadyScreen : NetworkBehaviour
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Reset();
         serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
+        StartCoroutine(serverManager.spawner.GetComponent<EnemySpawner>().TimedDifficulty());
 
 		// Setup shoot logic now that dependencies are ready
         GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
