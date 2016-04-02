@@ -27,6 +27,18 @@ public class OutpostManager : MonoBehaviour {
         StartCoroutine(UpdateOutposts());
     }
 
+    public void Reset()
+    {
+        for (int i = arrowList.Count - 1; i >= 0; i--)
+        {
+            Destroy(arrowList[i]);
+        }
+        arrowList = new List<GameObject>();
+        Canvas.ForceUpdateCanvases();
+        outpostLogic = new List<OutpostLogic>();
+        arrowsRequired = 0;
+    }
+
     private IEnumerator UpdateOutposts()
     {
         outpostList = gameState.GetOutpostList();
@@ -46,7 +58,7 @@ public class OutpostManager : MonoBehaviour {
     {
         if(updateArrows)
         {
-            //UpdateOutpostArrows(); 
+            UpdateOutpostArrows(); 
         }
     }
 
