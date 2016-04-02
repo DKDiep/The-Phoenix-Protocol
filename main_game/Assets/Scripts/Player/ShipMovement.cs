@@ -95,6 +95,7 @@ private void LoadSettings()
 
 	void Update () 
 	{
+
         if (gameState.Status != GameState.GameStatus.Started)
             return;
 
@@ -105,6 +106,7 @@ private void LoadSettings()
         // Detect key presses, ensure velocity is less than some maximum, ensure the angle is constrained between some limits to avoid the player flying backwards
 		bool canPitchUp = pitchVelocity < maxTurnSpeed;
 		bool canPitchDown = pitchVelocity > maxTurnSpeed * (-1f);
+
 
         //controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z - sideRoll);
 
@@ -196,6 +198,15 @@ private void LoadSettings()
         //controlObject.transform.eulerAngles = new Vector3(controlObject.transform.rotation.eulerAngles.x, controlObject.transform.rotation.eulerAngles.y, controlObject.transform.rotation.eulerAngles.z + sideRoll);
 	
 	}
+
+    public void Death()
+    {
+        GameObject explosion = Instantiate(Resources.Load("Prefabs/OutpostExplode", typeof(GameObject))) as GameObject;
+        explosion.transform.position = gameState.PlayerShip.transform.position;
+        explosion.transform.Translate(transform.forward * 5f);
+        explosion.SetActive(true);
+        ServerManager.NetworkSpawn(explosion);
+    }
        
     /// <summary>
     /// Calculate direction of hit and decrement shields or health.

@@ -564,7 +564,10 @@ public class GameState : NetworkBehaviour {
 	{
 		shipHealth -= value;
 		if (shipHealth <= 0)
+        {
+            PlayerShip.transform.Find("PlayerShipLogic(Clone)").gameObject.GetComponent<ShipMovement>().Death();
 			Status = GameStatus.Died;
+        }
 	}
 		
 	/// <summary>
