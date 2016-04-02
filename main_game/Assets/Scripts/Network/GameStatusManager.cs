@@ -110,7 +110,7 @@ public class GameStatusManager : NetworkBehaviour
                     if(gameState.Status == GameState.GameStatus.Died) 
                         musicManager.PlayMusic(2);
                     else
-                        musicManager.PlayMusic(2);
+                        musicManager.PlayMusic(3);
 
                     // Disable game timer. 
                     GameObject gameTimer = GameObject.Find("GameTimerText");

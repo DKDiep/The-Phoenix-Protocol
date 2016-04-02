@@ -119,6 +119,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f130163b4140e45a997d9a312447daaa, type: 3}
   - {fileID: 8300000, guid: 57eb9ec4bc99e4dd08fc84733bbdf859, type: 3}
   - {fileID: 8300000, guid: 6bad22e7932d14456b31dd687f6376de, type: 3}
+  - {fileID: 8300000, guid: c10587aba85d5445ea86f3e312e6ec06, type: 3}
 --- !u!114 &11481404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -160,7 +161,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: music.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: BypassReverbZones
@@ -258,6 +259,10 @@ Prefab:
       propertyPath: music.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: 6bad22e7932d14456b31dd687f6376de, type: 3}
+    - target: {fileID: 0}
+      propertyPath: music.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: c10587aba85d5445ea86f3e312e6ec06, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147584}
