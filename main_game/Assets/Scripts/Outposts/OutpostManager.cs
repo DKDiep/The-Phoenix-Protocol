@@ -14,22 +14,39 @@ public class OutpostManager : MonoBehaviour {
     private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
     private int arrowsRequired = 0;
     public bool outpostSpawned = false;
+    private bool updateArrows = false;
+    Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
+    Vector3 screenBounds;
+
     void Start()
     {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
         playerController = playerControllerObject.GetComponent<PlayerController>();
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
-
+        screenBounds = screenCenter * 0.9f;
+        StartCoroutine(UpdateOutposts());
     }
 
-    void Update () 
+    private IEnumerator UpdateOutposts()
     {
         outpostList = gameState.GetOutpostList();
         if(outpostList.Count != 0 && outpostList != null)
         {
             SpawnOutpostArrows();
-            DiscoverOutposts();
+            DiscoverOutposts(); 
             UpdateOutpostArrows(); 
+            updateArrows = true;
+        }
+        yield return new WaitForSeconds(1f);
+        updateArrows = false;
+        StartCoroutine(UpdateOutposts());
+    }
+
+    void Update () 
+    {
+        if(updateArrows)
+        {
+            //UpdateOutpostArrows(); 
         }
     }
 
@@ -67,7 +84,7 @@ public class OutpostManager : MonoBehaviour {
     /// </summary>
     private void DiscoverOutposts()
     {
-        timeSinceLastEvent += Time.deltaTime;
+        timeSinceLastEvent += 1f;
 
         if (timeSinceLastEvent > 10)
         {
@@ -82,7 +99,7 @@ public class OutpostManager : MonoBehaviour {
                         if(outpostList[i] != null)
                             playerController.RpcOutpostNotification(outpostList[i], outpostLogic[i].id, outpostLogic[i].GetDifficulty());
                         // Show the outpost target
-                        outpostList[i].GetComponentsInChildren<OutpostTarget>()[0].ShowTarget();
+                        outpostList[i].GetComponent<OutpostTarget>().ShowTarget();
                     }
                 }
             }
@@ -100,8 +117,8 @@ public class OutpostManager : MonoBehaviour {
             {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
-                arrowsRequired++;
             }
+            arrowsRequired = outpostList.Count;
         }
     }
 
@@ -182,10 +199,8 @@ public class OutpostManager : MonoBehaviour {
         else
         {   
             if (screenPos.z < 0)
-            {
                 screenPos *= -1;
-            }
-            Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
+
             //make (0,0,z) the center of the screen as opposed to bottom left
             screenPos -= screenCenter;
 
@@ -195,13 +210,12 @@ public class OutpostManager : MonoBehaviour {
             float cos = Mathf.Cos(angle);
             float sin = -Mathf.Sin(angle);
 
-            screenPos = screenCenter + new Vector3(sin * 150, cos * 150, 0);
+            screenPos = screenCenter + new Vector3(sin * 150f, cos * 150f, 0);
 
             //y = mx + b format
             float m = cos / sin;
 
-            //this determines how far away from the edge of the sceen the indicators lie
-            Vector3 screenBounds = screenCenter * 0.9f;
+
             //checks if above the center of screen
             if (cos > 0)
             {
@@ -220,8 +234,9 @@ public class OutpostManager : MonoBehaviour {
                 screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
             }
             RectTransform arrowRectTransform = (RectTransform)arrowList[index].transform;
-            arrowList[index].transform.SetParent(canvas.transform);
+
             arrowRectTransform.anchoredPosition = screenPos;
+            arrowList[index].transform.SetParent(canvas.transform);
             arrowList[index].transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
             arrowList[index].SetActive(true);
         }
