@@ -54,14 +54,6 @@ public class OutpostManager : MonoBehaviour {
         StartCoroutine(UpdateOutposts());
     }
 
-    void Update () 
-    {
-        if(updateArrows)
-        {
-            UpdateOutpostArrows(); 
-        }
-    }
-
     /// <summary>
     /// Updates the outpost indicator arrows.
     /// </summary>
