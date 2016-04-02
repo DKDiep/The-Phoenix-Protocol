@@ -361,8 +361,28 @@ public class ServerManager : NetworkBehaviour
             engineer.GetComponent<EngineerController>().Reset();
         }
 
+        // Reset commander
+        RpcCommanderReset();
+
+
+
+        // Reset game state
+        gameState.Reset();
+
         // Game state to be updated through ReadyScreen
     }
+
+    [ClientRpc]
+    private void RpcCommanderReset()
+    {
+        GameObject commander = GameObject.Find("CommanderManager(Clone)");
+        if (commander != null)
+        {
+            commander.GetComponent<CommandConsoleState>().Reset();
+        }
+    }
+
+
     // Temporary to test reset
     void OnGUI()
     {
