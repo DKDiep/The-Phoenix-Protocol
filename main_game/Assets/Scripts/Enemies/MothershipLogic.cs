@@ -4,6 +4,7 @@ using System.Collections;
 public class MothershipLogic : MonoBehaviour {
 
     private float health;
+    private EnemySpawner spawner;
     GameSettings settings;
     GameState gameState;
 
@@ -18,6 +19,20 @@ public class MothershipLogic : MonoBehaviour {
         gameState         = server.GetComponent<GameState>();
 	
 	}
+
+    public void SetSpawner(EnemySpawner temp)
+    {
+        spawner = temp;
+        spawner.mothershipObject = transform.parent.Find("MothershipEnemySpawner").gameObject;
+        StartCoroutine(SpawnEnemies());
+    }
+
+    IEnumerator SpawnEnemies()
+    {
+        yield return new WaitForSeconds(settings.GlomMothershipSpawnRate);
+        spawner.SpawnEnemyFromMothership();
+        StartCoroutine(SpawnEnemies());
+    }
 	
     private void LoadSettings()
     {

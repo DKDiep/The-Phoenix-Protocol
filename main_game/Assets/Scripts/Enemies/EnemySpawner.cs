@@ -29,6 +29,7 @@ public class EnemySpawner : MonoBehaviour
     // The radius of the sphere around an outpost in which to spawn protecting enemies
 	private int outpostSpawnRadius;
     private bool mothershipSpawned = false;
+    public GameObject mothershipObject;
 
     // Number of currently active enemies
 	private static int numEnemies = 0;
@@ -119,6 +120,7 @@ public class EnemySpawner : MonoBehaviour
         ServerManager.NetworkSpawn(obj);
 
         obj.GetComponent<Collider>().enabled = true;
+        logic.GetComponent<MothershipLogic>().SetSpawner(this);
 
     }
 
@@ -377,6 +379,16 @@ public class EnemySpawner : MonoBehaviour
 		EnemyLogic logic;
 		InstantiateEnemy(out enemy, out logic);
 	}
+
+    public void SpawnEnemyFromMothership()
+    {
+        // Get a random position around the player
+        spawnLocation.transform.position = mothershipObject.transform.position;
+
+        GameObject enemy; 
+        EnemyLogic logic;
+        InstantiateEnemy(out enemy, out logic);
+    }
 
 	/// <summary>
 	/// Spawns an enemy of a specified type at a specified location.

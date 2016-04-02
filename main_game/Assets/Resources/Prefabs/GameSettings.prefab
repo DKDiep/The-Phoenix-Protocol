@@ -175,7 +175,7 @@ MonoBehaviour:
   GlomMothershipDamageEffects1: 0
   GlomMothershipDamageEffects2: 0
   GlomMothershipDamageEffects3: 0
-  GlomMothershipSpawnRate: 0
+  GlomMothershipSpawnRate: 3
   MainMenuRotationSpeed: 2
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
@@ -614,6 +614,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: GlomMothershipSpawnPosition.z
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: GlomMothershipSpawnRate
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
