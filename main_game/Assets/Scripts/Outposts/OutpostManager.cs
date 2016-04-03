@@ -117,6 +117,7 @@ public class OutpostManager : MonoBehaviour {
             for (int i = arrowsRequired; i < outpostList.Count; i++)
             {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
+                arrowList[i].GetComponent<Image>().color = Color.red;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
             }
             arrowsRequired = outpostList.Count;
@@ -177,14 +178,14 @@ public class OutpostManager : MonoBehaviour {
     {
         Image arrowImage = arrowList[id].GetComponent<Image>();
         arrowImage.color = Color.yellow;
-        outpostList[id].GetComponentsInChildren<OutpostTarget>()[0].StartMission();
+        outpostList[id].GetComponent<OutpostTarget>().StartMission();
     }
 
     public void endMission(int id)
     {
         Image arrowImage = arrowList[id].GetComponent<Image>();
-        arrowImage.color = Color.red;
-        outpostList[id].GetComponentsInChildren<OutpostTarget>()[0].EndMission();
+        arrowImage.color = Color.green;
+        outpostList[id].GetComponent<OutpostTarget>().EndMission();
     }
 
     private void Indicator(GameObject outpost, int index)
