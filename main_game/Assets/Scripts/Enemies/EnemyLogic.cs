@@ -119,7 +119,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private List<IDestructionListener> destructionListeners;
 
+	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] Material hackedMaterial;
+	#pragma warning restore 0649
+
     Material originalGlow;
 
 	void Start ()
