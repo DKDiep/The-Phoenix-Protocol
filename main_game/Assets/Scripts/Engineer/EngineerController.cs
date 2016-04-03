@@ -342,12 +342,12 @@ public class EngineerController : NetworkBehaviour
         pressedRepair = Input.GetButton("Repair");
 
         // Deal with how long Upgrade and Repair have been pressed
-        if (pressedUpgrade)
+        if (pressedUpgrade && interactiveObject != null)
             keyPressTime[InteractionKey.Upgrade] += Time.deltaTime;
         else
             keyPressTime[InteractionKey.Upgrade] = 0;
 
-        if (pressedRepair)
+        if (pressedRepair && interactiveObject != null)
             keyPressTime[InteractionKey.Repair] += Time.deltaTime;
         else
             keyPressTime[InteractionKey.Repair] = 0;
@@ -400,6 +400,7 @@ public class EngineerController : NetworkBehaviour
         else
         {
             ResetUpgradeText();
+            interactiveObject = null;
         }
 
         // Cast rays for checking collisions
