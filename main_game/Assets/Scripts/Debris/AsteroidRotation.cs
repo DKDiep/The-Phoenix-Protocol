@@ -4,8 +4,9 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class AsteroidRotation : MonoBehaviour
+public class AsteroidRotation : NetworkBehaviour
 {
 	private GameSettings settings;
 
@@ -45,10 +46,8 @@ public class AsteroidRotation : MonoBehaviour
 
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
-
-		/*StartCoroutine(AsteroidLOD());
-		coroutineRunning = true;*/
 	}
+
 
 	private void LoadSettings()
 	{

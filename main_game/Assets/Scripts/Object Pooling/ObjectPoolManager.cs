@@ -156,6 +156,18 @@ public class ObjectPoolManager : NetworkBehaviour
 
     }
 
+    public void SyncAsteroidRotation(string name, Quaternion rotation)
+    {
+        int id = int.Parse(name);
+        RpcSyncRotation(id, rotation);
+    }
+
+    [ClientRpc]
+    public void RpcSyncRotation(int id, Quaternion rotation)
+    {
+        pool[id].transform.rotation = rotation;
+    }
+
     [ClientRpc]
     public void RpcSetAsteroidTexture(int id, int material)
     {

@@ -31,7 +31,16 @@ public class AsteroidLogic : MonoBehaviour, IDestructibleObject
 		LoadSettings();
 
 		destructionListeners = new List<IDestructionListener>();
+        StartCoroutine(SyncRotation());
 	}
+
+    IEnumerator SyncRotation()
+    {
+        yield return new WaitForSeconds(Random.Range(5f,10f));
+        asteroidManager.SyncAsteroidRotation(gameObject.name, transform.parent.rotation);
+        StartCoroutine(SyncRotation());
+    }
+
 
 	private void LoadSettings()
 	{
