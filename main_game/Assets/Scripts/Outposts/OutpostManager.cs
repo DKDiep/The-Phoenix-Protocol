@@ -16,6 +16,9 @@ public class OutpostManager : MonoBehaviour {
     public bool outpostSpawned = false;
     Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
     Vector3 screenBounds;
+    private Color darkRed;
+    private Color darkYellow;
+    private Color darkGreen;
 
     void Start()
     {
@@ -23,6 +26,9 @@ public class OutpostManager : MonoBehaviour {
         playerController = playerControllerObject.GetComponent<PlayerController>();
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
         screenBounds = screenCenter * 0.9f;
+        darkRed = new Color(0.62f,0,0,0.4f);
+        darkYellow = new Color(0.62f,0.57f,0,0.4f);
+        darkGreen = new Color(0,0.62f,0,0.4f);
         StartCoroutine(UpdateOutposts());
     }
 
@@ -47,7 +53,7 @@ public class OutpostManager : MonoBehaviour {
             DiscoverOutposts(); 
             UpdateOutpostArrows(); 
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(UpdateOutposts());
     }
 
@@ -117,7 +123,7 @@ public class OutpostManager : MonoBehaviour {
             for (int i = arrowsRequired; i < outpostList.Count; i++)
             {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
-                arrowList[i].GetComponent<Image>().color = Color.red;
+                arrowList[i].GetComponent<Image>().color = darkRed;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
             }
             arrowsRequired = outpostList.Count;
@@ -177,14 +183,14 @@ public class OutpostManager : MonoBehaviour {
     public void setMissionTarget(int id)
     {
         Image arrowImage = arrowList[id].GetComponent<Image>();
-        arrowImage.color = Color.yellow;
+        arrowImage.color = darkYellow;
         outpostList[id].GetComponent<OutpostTarget>().StartMission();
     }
 
     public void endMission(int id)
     {
         Image arrowImage = arrowList[id].GetComponent<Image>();
-        arrowImage.color = Color.green;
+        arrowImage.color = darkGreen;
         outpostList[id].GetComponent<OutpostTarget>().EndMission();
     }
 
