@@ -24,7 +24,7 @@ public class MothershipLogic : MonoBehaviour {
     public void SetSpawner(EnemySpawner temp)
     {
         spawner = temp;
-        spawner.mothershipObject = transform.parent.Find("MothershipEnemySpawner").gameObject;
+        spawner.mothershipEnemySpawner = transform.parent.Find("MothershipEnemySpawner").gameObject;
         StartCoroutine(SpawnEnemies());
     }
 

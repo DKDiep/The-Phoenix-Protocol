@@ -28,8 +28,10 @@ public class EnemySpawner : MonoBehaviour
 	private Vector3 aiWaypointShift;
     // The radius of the sphere around an outpost in which to spawn protecting enemies
 	private int outpostSpawnRadius;
-    private bool mothershipSpawned = false;
-    public GameObject mothershipObject;
+    
+	private bool mothershipSpawned = false;
+    public GameObject mothershipEnemySpawner;
+	public GameObject mothership;
 
     // Number of currently active enemies
 	private static int numEnemies = 0;
@@ -83,14 +85,13 @@ public class EnemySpawner : MonoBehaviour
 		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
 
         StartCoroutine(CheckPortalDistance());
-       
     }
 
     IEnumerator CheckPortalDistance()
     {
         if(portal == null)
             portal = GameObject.Find("Portal(Clone)");
-        else
+		else if (state.Status == GameState.GameStatus.Started)
         {
             float distance = Vector3.Distance(portal.transform.position, state.PlayerShip.transform.position);
             if(distance < settings.GlomMothershipSpawnDistance)
@@ -110,16 +111,15 @@ public class EnemySpawner : MonoBehaviour
     void SpawnGlomMothership()
     {
         Debug.Log("Glom mothership spawned");
-        GameObject obj = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
+		mothership = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
         GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
-        logic.transform.parent = obj.transform;
-        logic.transform.position = Vector3.zero;
-        obj.transform.position = settings.GlomMothershipSpawnPosition;
-        ServerManager.NetworkSpawn(obj);
+		logic.transform.parent = mothership.transform;
+        logic.transform.localPosition = Vector3.zero;
+		mothership.transform.position = settings.GlomMothershipSpawnPosition;
+		ServerManager.NetworkSpawn(mothership);
 
-        obj.GetComponent<Collider>().enabled = true;
+		mothership.GetComponent<Collider>().enabled = true;
         logic.GetComponent<MothershipLogic>().SetSpawner(this);
-
     }
 
 
@@ -201,6 +201,11 @@ public class EnemySpawner : MonoBehaviour
 					Debug.LogWarning("Could not find manager for " + enemyList[i].name + " so it was not removed.");
 			}
         }
+
+		if (mothership != null)
+			ServerManager.NetworkDestroy(mothership);
+		mothershipSpawned = false;
+		StartCoroutine(CheckPortalDistance());
 
         state.SetDifficulty(0);
 		outpostSpawnRequests.Clear();
@@ -411,7 +416,7 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemyFromMothership()
     {
         // Get a random position around the player
-        spawnLocation.transform.position = mothershipObject.transform.position;
+        spawnLocation.transform.position = mothershipEnemySpawner.transform.position;
 
         GameObject enemy; 
         EnemyLogic logic;

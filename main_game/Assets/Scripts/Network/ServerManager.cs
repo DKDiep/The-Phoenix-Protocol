@@ -33,11 +33,36 @@ public class ServerManager : NetworkBehaviour
     {
         return netIdToRole.Count;
     }
-    // Used to spawn network objects
+    
+
+	/// <summary>
+	/// Spawns an object on all network clients.
+	/// </summary>
+	/// <param name="spawnObject">The object to be spawned.</param>
     public static void NetworkSpawn(GameObject spawnObject)
     {
         NetworkServer.Spawn(spawnObject);
     }
+
+	/// <summary>
+	/// Despawns an object on all network clients.
+	/// 
+	/// This is the inverse method of <c>NetworkSpawn</c>.
+	/// </summary>
+	/// <param name="spawnObject">The object to be despawned.</param>
+	public static void NetworkUnSpawn(GameObject spawnObject)
+	{
+		NetworkServer.UnSpawn(spawnObject);
+	}
+
+	/// <summary>
+	/// Despawns an object on all network clients and the server.
+	/// </summary>
+	/// <param name="spawnObject">The object to be despawned.</param>
+	public static void NetworkDestroy(GameObject spawnObject)
+	{
+		NetworkServer.Destroy(spawnObject);
+	}
 
     void Awake()
     {
