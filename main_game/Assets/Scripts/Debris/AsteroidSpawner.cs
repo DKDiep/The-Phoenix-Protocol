@@ -42,7 +42,7 @@ public class AsteroidSpawner : MonoBehaviour
     private ObjectPoolManager asteroidManager;
 
 	private const string TAG_DEBRIS = "Debris";
-
+    
     void Start ()
     {
 		numAsteroids = numAsteroidsInFields = 0;
@@ -137,11 +137,13 @@ public class AsteroidSpawner : MonoBehaviour
 	private void SpawnAsteroid()
 	{
 		int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
+        int rndMat = Random.Range(0,3); // Choose random material
 
 		// Spawn object and logic
         GameObject asteroidObject = asteroidManager.RequestObject();
         asteroidObject.transform.position = spawnLocation.transform.position;
         asteroidObject.GetComponent<AsteroidRotation>().SetSpeed(Random.Range(6f,30f));
+        asteroidManager.SetAsteroidTexture(asteroidObject.name, rndMat);
 
         GameObject asteroidLogic = logicManager.RequestObject();
         asteroidLogic.transform.position = spawnLocation.transform.position;

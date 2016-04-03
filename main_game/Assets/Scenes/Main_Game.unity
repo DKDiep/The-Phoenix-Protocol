@@ -165,6 +165,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!1001 &222016100
 Prefab:
   m_ObjectHideFlags: 0
@@ -305,6 +306,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!1001 &547959170
 Prefab:
   m_ObjectHideFlags: 0
@@ -312,6 +314,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: asteroidMaterials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 494338, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -356,6 +362,18 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: asteroidMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eb8a547e0f8eb4c8ea509c17c482d0f3, type: 2}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: asteroidMaterials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a3ec60382caa64846911ae22d2d62777, type: 2}
+    - target: {fileID: 11445604, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+      propertyPath: asteroidMaterials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4ce01623568bd496fb8d1af25cf144ae, type: 2}
     m_RemovedComponents:
     - {fileID: 11476936, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
     - {fileID: 11453868, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
@@ -530,6 +548,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!1 &707978707
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,6 +597,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &707978710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,6 +684,10 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials:
+  - {fileID: 2100000, guid: eb8a547e0f8eb4c8ea509c17c482d0f3, type: 2}
+  - {fileID: 2100000, guid: a3ec60382caa64846911ae22d2d62777, type: 2}
+  - {fileID: 2100000, guid: 4ce01623568bd496fb8d1af25cf144ae, type: 2}
 --- !u!114 &842514792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +773,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!114 &877425281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +1004,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!1 &1130805093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1053,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1130805096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,6 +1134,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1235259026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1187,6 +1215,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1355289503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,6 +1328,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!1 &1499734228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1347,6 +1377,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1499734231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1432,6 +1463,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!114 &1504611903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1512,6 +1544,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1559813132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1624,6 +1657,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!1 &1633265208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,6 +1706,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1633265211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1962,6 +1997,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!1 &1859081577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,6 +2083,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!1 &1872929111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,6 +2132,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &1872929114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,6 +2250,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 968150c3d9e91428b818e1d4d6284f81, type: 2}
   - {fileID: 2100000, guid: d754e746133574bfba15b6fb3713016b, type: 2}
   - {fileID: 2100000, guid: da91e33f3c53443f1bda448dfa71a054, type: 2}
+  asteroidMaterials: []
 --- !u!1 &1924423020 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 160872, guid: e4561bd7dc501480ca17512fe9e5d0b9, type: 2}
@@ -2296,6 +2335,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!1 &2101001577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,6 +2384,7 @@ MonoBehaviour:
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
   enemyGlows: []
+  asteroidMaterials: []
 --- !u!114 &2101001580
 MonoBehaviour:
   m_ObjectHideFlags: 0

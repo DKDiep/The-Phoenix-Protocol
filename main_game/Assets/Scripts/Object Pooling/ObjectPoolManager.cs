@@ -22,6 +22,7 @@ public class ObjectPoolManager : NetworkBehaviour
     private Vector3[] newPositions;
     private Quaternion[] newRotations;
     private bool amServer = false;
+    [SerializeField] Material[] asteroidMaterials;
 
     [Server]
     private void CheckServer()
@@ -145,6 +146,20 @@ public class ObjectPoolManager : NetworkBehaviour
     public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
     {
         RpcUpdateTransform(position, rotation, int.Parse(name));
+    }
+
+    public void SetAsteroidTexture(string name, int material)
+    {
+        int id = int.Parse(name);
+        RpcSetAsteroidTexture(id, material);
+        //pool[id].GetComponent<Renderer>().material = asteroidMaterials[material];
+
+    }
+
+    [ClientRpc]
+    public void RpcSetAsteroidTexture(int id, int material)
+    {
+        pool[id].GetComponent<Renderer>().material = asteroidMaterials[material];
     }
 
     [ClientRpc]
