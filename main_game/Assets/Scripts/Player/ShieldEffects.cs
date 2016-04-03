@@ -53,7 +53,7 @@ public class ShieldEffects : NetworkBehaviour
                 // When hit, fade in shield
           if(shieldAlpha > 0 && !burstShield)
           {
-            shieldAlpha -= 4f * Time.deltaTime;
+            shieldAlpha -= 2f * Time.deltaTime;
             Color shieldCol = Color.Lerp(Color.black, startFade, shieldAlpha);
             myMat.material.SetColor("_InnerTint", shieldCol);
             myMat.material.SetColor("_OuterTint", shieldCol);
