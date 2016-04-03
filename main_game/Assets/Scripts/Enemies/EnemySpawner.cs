@@ -79,8 +79,6 @@ public class EnemySpawner : MonoBehaviour
         spawnLocation = new GameObject(); // Create temporary object to spawn enemies at
         spawnLocation.name = "EnemySpawnLocation";
 
-        StartCoroutine(Cleanup());
-
 		outpostSpawnRequests = new Queue<OutpostSpawnRequest>();
 		singleSpawnRequests  = new Queue<SingleSpawnRequest>();
 
@@ -181,7 +179,6 @@ public class EnemySpawner : MonoBehaviour
         StopAllCoroutines();
 
         // Despawn enemies
-		state.CleanupEnemies();
 		List<GameObject> enemyList = state.GetEnemyList();
         for (int i = enemyList.Count - 1; i >= 0; i--)
         {
@@ -207,8 +204,6 @@ public class EnemySpawner : MonoBehaviour
 
         state.SetDifficulty(0);
 		outpostSpawnRequests.Clear();
-
-        StartCoroutine(Cleanup());
     }
 
 	/// <summary>
@@ -572,17 +567,6 @@ public class EnemySpawner : MonoBehaviour
 	{
 		numEnemies--;
 	}
-
-	// Remove destroyed enemies from Game State
-    IEnumerator Cleanup()
-    {
-        yield return new WaitForSeconds(1f);
-
-        if (state.Status == GameState.GameStatus.Started)
-			state.CleanupEnemies();
-
-        StartCoroutine(Cleanup());
-    }
 
 	// This class holds the various atributes of an enemy. Each enemy type will be be represented by a separate instance
     [System.Serializable] 

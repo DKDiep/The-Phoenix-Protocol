@@ -140,6 +140,11 @@ public class GameState : NetworkBehaviour {
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
+
+		if (Status == GameStatus.Started && enemyList != null)
+			foreach (GameObject enemy in enemyList)
+				if (enemy.GetComponentInChildren<EnemyLogic>() == null)
+					Debug.Log("Enemy " + enemy.name + " has no logic.");
     }
 
 	/// <summary>
@@ -333,19 +338,7 @@ public class GameState : NetworkBehaviour {
 		enemyList.Remove(enemy);
 		EnemySpawner.DecrementNumEnemies();
 	}
-
-	/// <summary>
-	/// Removes any null enemies from the emeny list.
-	/// </summary>
-	public void CleanupEnemies()
-	{
-		for (int i = enemyList.Count - 1; i >= 0; i--)
-		{
-			if(enemyList[i] == null)
-				RemoveEnemyAt(i);
-		}
-	}
-
+		
     public void AddToEngineerList(GameObject engineerObject)
     {
         engineerList.Add(engineerObject);
