@@ -13,6 +13,7 @@ public class StratMap : MonoBehaviour {
     private float panelWidth;
     Dictionary<int,GameObject> outpostIconDict;
     public GameObject Portal { get; set; }
+    private Sprite savedOutpostSprite;
 
     private Vector3 offset = new Vector3(0, 200, 0);
 	// Use this for initialization
@@ -33,6 +34,7 @@ public class StratMap : MonoBehaviour {
         if (Portal == null) print("portal undefined at stratmap start (Luke's fault)");
         else PortalInit();
         outpostIconDict = new Dictionary<int,GameObject>();
+        savedOutpostSprite = Resources.Load("Sprites/savedOutpost", typeof(Sprite)) as Sprite;
     }
 
     public void Reset()
@@ -98,7 +100,7 @@ public class StratMap : MonoBehaviour {
 
     public void outpostVisitNotify(int id)
     {
-        //outpostIconDict[id].GetComponent<Image>().color = Color.grey;
+        outpostIconDict[id].GetComponent<Image>().sprite = savedOutpostSprite;
     }
 
     public void startMission(int id)
