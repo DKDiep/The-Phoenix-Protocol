@@ -28,7 +28,8 @@ public class AsteroidRotation : NetworkBehaviour
 	private AsteroidSpawner spawner;
     private bool rotateEnabled = true;
     private bool currentStatus, oldStatus;
-    private float waitTime;
+    private float waitTimeMin;
+    private float waitTimeMax;
 
 	private bool coroutineRunning;
 
@@ -38,7 +39,6 @@ public class AsteroidRotation : NetworkBehaviour
 		player   = GameObject.Find("PlayerShip(Clone)");
         myFilter = GetComponent<MeshFilter>();
 		renderer = GetComponent<Renderer>();
-        waitTime = Random.Range(0.75f, 1.5f);
 
 		GameObject spawnerObj = GameObject.Find("Spawner");
 		if (spawnerObj != null)
@@ -93,18 +93,24 @@ public class AsteroidRotation : NetworkBehaviour
 		    myFilter.mesh = highPoly;
             rotateEnabled = true;
             renderer.enabled = true;
+            waitTimeMin = 1f;
+            waitTimeMax = 2f;
         }
 		else if(distance < 600)
         {
 		    myFilter.mesh = medPoly;
             rotateEnabled = true;
             renderer.enabled = true;
+            waitTimeMin = 3f;
+            waitTimeMax = 6f;
         }
 		else if(distance < maxRenderDistance)
         {
             myFilter.mesh = lowPoly;
             rotateEnabled = false;
             renderer.enabled = true;
+            waitTimeMin = 6f;
+            waitTimeMax = 12f;
         }
         else
         {
@@ -121,7 +127,7 @@ public class AsteroidRotation : NetworkBehaviour
 			}
         }
 
-		yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(Random.Range(waitTimeMin, waitTimeMax));
 		StartCoroutine(AsteroidLOD());
 	}
 }
