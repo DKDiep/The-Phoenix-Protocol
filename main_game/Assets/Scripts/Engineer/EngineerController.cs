@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.ImageEffects;
 
 public class EngineerController : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class EngineerController : NetworkBehaviour
 
 	// Configuration parameters loaded through GameSettings
 	private float walkSpeed;
+    private bool runOnce;
 
 	private float runSpeed;
 	private float jumpSpeed;
@@ -81,6 +83,7 @@ public class EngineerController : NetworkBehaviour
 	// Use this for initialization
     void Start()
     {
+        runOnce = false;
         Setup();
     }
 
@@ -318,6 +321,14 @@ public class EngineerController : NetworkBehaviour
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
+
+        if(!runOnce)
+        {
+            Camera.main.gameObject.GetComponent<VideoGlitches.VideoGlitchVHSPause>().enabled = true;
+            Camera.main.gameObject.GetComponent<VignetteAndChromaticAberration>().enabled = true;
+            runOnce = true;
+        }
+
 
         RotateView();
         if (Input.GetButton("Dock"))
