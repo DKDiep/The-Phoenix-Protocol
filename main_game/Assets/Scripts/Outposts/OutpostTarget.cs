@@ -6,6 +6,7 @@ public class OutpostTarget : NetworkBehaviour
 {
     private GameObject player, target;
     private float distance;
+    private bool discovered;
     private Renderer myRenderer;
 
 	// Use this for initialization
@@ -13,6 +14,7 @@ public class OutpostTarget : NetworkBehaviour
     {
 	    player = GameObject.Find("CameraManager(Clone)");
         myRenderer.material.color = Color.red;
+        discovered = false;
         StartCoroutine(UpdateDistance());
     }
 	
@@ -22,7 +24,7 @@ public class OutpostTarget : NetworkBehaviour
         if(myRenderer == null)
             GetRenderer();
 
-            if(distance < 600)
+            if(distance < 600 || !discovered)
                 myRenderer.enabled = false;
             else
             {
@@ -63,6 +65,7 @@ public class OutpostTarget : NetworkBehaviour
         if(myRenderer == null)
             GetRenderer();
         myRenderer.enabled = true;
+        discovered = true;
         RpcShowTarget();
     }
 
@@ -72,6 +75,7 @@ public class OutpostTarget : NetworkBehaviour
         if(myRenderer == null)
             GetRenderer();
         myRenderer.enabled = true;
+        discovered = true;
     }
 
     public void HideTarget()
@@ -80,6 +84,7 @@ public class OutpostTarget : NetworkBehaviour
             GetRenderer();
         myRenderer.enabled = false;
         RpcHideTarget();
+        discovered = false;
     }
 
     [ClientRpc]
@@ -88,5 +93,6 @@ public class OutpostTarget : NetworkBehaviour
         if(myRenderer == null)
             GetRenderer();
         myRenderer.enabled = false;
+        discovered = false;
     }
 }
