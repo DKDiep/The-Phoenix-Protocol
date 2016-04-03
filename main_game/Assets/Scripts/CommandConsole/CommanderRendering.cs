@@ -7,6 +7,11 @@ using System.Collections;
 
 public class CommanderRendering : MonoBehaviour {
 
+    void Awake()
+    {
+        GameObject.Find("ObjectPooling").SetActive(false);
+    }
+
 	void Start () 
     {
         Camera.main.cullingMask = 1 << LayerMask.NameToLayer("UI");

@@ -36,7 +36,7 @@ public class ObjectPoolManager : NetworkBehaviour
         {
             for(int i = 0; i < size; ++i)
             {
-                if(pool[i] != null)
+                if(pool[i] != null && pool[i].activeInHierarchy)
                 {
                     pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 5f);
                     pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 5f);
@@ -152,9 +152,7 @@ public class ObjectPoolManager : NetworkBehaviour
     {
         int id = int.Parse(name);
         RpcSetAsteroidTexture(id, material);
-        //pool[id].GetComponent<Renderer>().material = asteroidMaterials[material];
-
-    }
+     }
 
     public void SyncAsteroidRotation(string name, Quaternion rotation)
     {
