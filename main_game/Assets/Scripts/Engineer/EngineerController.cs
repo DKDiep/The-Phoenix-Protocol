@@ -490,12 +490,14 @@ public class EngineerController : NetworkBehaviour
         // both are possible
 		if (canRepair && keyPressTime[InteractionKey.Repair] >= workTime)
         {
+            keyPressTime[InteractionKey.Repair] = 0;
             FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
             showPopup = true;
         }
 		else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= workTime)
         {
+            keyPressTime[InteractionKey.Upgrade] = 0;
             FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
             showPopup = true;
