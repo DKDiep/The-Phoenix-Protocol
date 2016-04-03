@@ -1943,10 +1943,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22460344}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.63278204, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8, y: -8}
-  m_SizeDelta: {x: 140.8546, y: -14}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 119.99998, y: 119}
+  m_SizeDelta: {x: 240, y: 238}
   m_Pivot: {x: 0.9999998, y: 1}
 --- !u!224 &22442260
 RectTransform:
