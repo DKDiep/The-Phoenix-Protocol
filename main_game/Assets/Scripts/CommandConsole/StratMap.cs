@@ -19,7 +19,7 @@ public class StratMap : MonoBehaviour {
 	void Start () {
         var panel = this;
         shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
-        playerIcon = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
+        playerIcon = Instantiate(Resources.Load("Prefabs/ShipIcon", typeof(GameObject))) as GameObject;
         playerIcon.transform.SetParent(panel.transform, false);
         playerIcon.transform.SetParent(panel.transform, false);
         playerIconTransform = (RectTransform)playerIcon.transform;
@@ -68,7 +68,6 @@ public class StratMap : MonoBehaviour {
                 outpostIcon.SetActive(true);
             else outpostIcon.SetActive(false);
             Image outpostImage = outpostIcon.GetComponent<Image>();
-            outpostImage.color = Color.yellow;
             outpostIconDict.Add(id, outpostIcon);
         }
     }
