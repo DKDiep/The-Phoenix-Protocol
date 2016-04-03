@@ -43,8 +43,7 @@ public class ObjectPoolManager : NetworkBehaviour
             }
         }
     }
-
-
+		
 	// Use this for initialization
 	public void SpawnObjects () 
     {
@@ -184,6 +183,19 @@ public class ObjectPoolManager : NetworkBehaviour
 			DisableClientObject(name);
 			RemoveObject(name);
 		}
+	}
+
+	/// <summary>
+	/// Returns true if this manager owns the specified object.
+	/// </summary>
+	/// <param name="obj">The object.</param>
+	/// <returns>True if <c>obj</c> is owned by this manager.</returns>
+	public bool Owns(GameObject obj)
+	{
+		int id = int.Parse(obj.name);
+
+		return pool[id] == obj;
+		
 	}
 
 	////////////////////////////////////////////////////////////////////

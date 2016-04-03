@@ -185,10 +185,24 @@ public class EnemySpawner : MonoBehaviour
 		List<GameObject> enemyList = state.GetEnemyList();
         for (int i = enemyList.Count - 1; i >= 0; i--)
         {
-            // Remove using logic
+            // Remove using logic if able
             EnemyLogic logic = enemyList[i].GetComponentInChildren<EnemyLogic>(true);
 			if (logic != null)
 				logic.Despawn();
+			else
+			{
+				// Some enemies have a null logic (we don't know why), so remove just the enemy as a workaround
+				ObjectPoolManager manager = FindManager(enemyList[i]);
+				if (manager != null)
+				{
+					string name = enemyList[i].name;
+					state.RemoveEnemy(enemyList[i]);
+					manager.DisableClientObject(name);
+					manager.RemoveObject(name);
+				}
+				else
+					Debug.LogWarning("Could not find manager for " + enemyList[i].name + " so it was not removed.");
+			}
         }
 
         state.SetDifficulty(0);
@@ -196,6 +210,25 @@ public class EnemySpawner : MonoBehaviour
 
         StartCoroutine(Cleanup());
     }
+
+	/// <summary>
+	/// Trues to find the pool manager that owns the specified enemy.
+	/// </summary>
+	/// <param name="obj">The object.</param>
+	/// <returns>The manager, or <c>null</c> if no enemy manager owns the enemy.</returns>
+	private ObjectPoolManager FindManager(GameObject obj)
+	{
+		ObjectPoolManager[] managers = new ObjectPoolManager[] { logicManager,  gnatManager, fireflyManager,
+			termiteManager, lightningBugManager, hornetManager, blackWidowManager };
+
+		foreach (ObjectPoolManager manager in managers)
+		{
+			if (manager.Owns(obj))
+				return manager;
+		}
+
+		return null;
+	}
 
     // Increase difficulty by 1 every 30 seconds
     public IEnumerator TimedDifficulty()

@@ -764,15 +764,46 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
 
-        if (enemyManager != null)
-        {
-            enemyManager.DisableClientObject(removeName);
-            enemyManager.RemoveObject(removeName);
-        }
+		if (enemyManager != null)
+		{
+			enemyManager.DisableClientObject(removeName);
+			enemyManager.RemoveObject(removeName);
+		}
+		else
+		{
+			enemyManager = FindManager();
+			if (enemyManager)
+			{
+				enemyManager.DisableClientObject(removeName);
+				enemyManager.RemoveObject(removeName);
+			}
+			else
+				Debug.LogWarning("Could not find manager for enemy " + removeName + " type " + type + " so it was not despawned.");
+		}
 
         transform.parent = null;
         enemyLogicManager.RemoveObject(gameObject.name);
     }
+
+	/// <summary>
+	/// Trues to find the pool manager that owns the controlled enemy.
+	/// </summary>
+	/// <returns>The manager, or <c>null</c> if no enemy manager owns this enemy.</returns>
+	private ObjectPoolManager FindManager()
+	{
+		GameObject pooling = GameObject.Find("ObjectPooling");
+		string[] enemyManagerNames = new string[] { "GnatManager", "FireflyManager", "TermiteManager", "LightningBugManager",
+			"HornetManager", "BlackWidowManager" };
+
+		foreach (string name in enemyManagerNames) 
+		{
+			ObjectPoolManager manager = pooling.transform.Find(name).gameObject.GetComponent<ObjectPoolManager>();
+			if (manager.Owns(controlObject))
+				return manager;
+		}
+
+		return null;
+	}
 
     /// <summary>
     /// Sets the hacked attribute of this object
