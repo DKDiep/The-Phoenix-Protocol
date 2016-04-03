@@ -14,20 +14,24 @@ public class OutpostTarget : NetworkBehaviour
 	    player = GameObject.Find("CameraManager(Clone)");
         myRenderer.material.color = Color.red;
         StartCoroutine(UpdateDistance());
-
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () 
     {
-        if(distance < 600)
-            HideTarget();
-        else
-        {
-            Vector3 v3 = player.transform.position - transform.position;
-            target.transform.rotation = Quaternion.LookRotation(-v3);
-            target.transform.eulerAngles = new Vector3(target.transform.eulerAngles.x, target.transform.eulerAngles.y, player.transform.eulerAngles.z);
-        }
+        if(myRenderer == null)
+            GetRenderer();
+
+            if(distance < 600)
+                myRenderer.enabled = false;
+            else
+            {
+                Vector3 v3 = player.transform.position - transform.position;
+                target.transform.rotation = Quaternion.LookRotation(-v3);
+                target.transform.eulerAngles = new Vector3(target.transform.eulerAngles.x, target.transform.eulerAngles.y, player.transform.eulerAngles.z);
+                myRenderer.enabled = true;
+            }
+
 	}
 
     private void GetRenderer()
