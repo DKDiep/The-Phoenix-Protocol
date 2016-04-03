@@ -85,11 +85,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH = 30;
-	private const string AI_OBSTACLE_TAG_DEBRIS    = "Debris";
-	private const string AI_OBSTACLE_TAG_ENEMY     = "EnemyShip";
-	private const int AI_OBSTACLE_AVOID_ROTATION   = 45;
-	private int previousAvoidDirection             = 0;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH  = 30;
+	private const string AI_OBSTACLE_TAG_DEBRIS     = "Debris";
+	private const string AI_OBSTACLE_TAG_ENEMY      = "EnemyShip";
+	private const string AI_OBSTACLE_TAG_MOTHERSHIP = "GlomMothership";
+	private const int AI_OBSTACLE_AVOID_ROTATION    = 45;
+	private int previousAvoidDirection              = 0;
 	private int avoidDirection;
 	private float aiObstacleRayFrontOffset;
 
@@ -124,7 +125,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	#pragma warning restore 0649
 
     Material originalGlow;
-
+	 
 	void Start ()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -215,7 +216,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				avoidWaypoint.name               = "AvoidWaypoint";
 				avoidWaypoint.transform.position = controlObject.transform.position;
 				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
-				avoidWaypoint.transform.Rotate (0, avoidDirection * AI_OBSTACLE_AVOID_ROTATION, 0);
+
+				float yRotation = avoidDirection * AI_OBSTACLE_AVOID_ROTATION;
+				if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_MOTHERSHIP))
+					yRotation *= 2;
+				avoidWaypoint.transform.Rotate (0, yRotation, 0);
 				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
 				currentWaypoint = avoidWaypoint;
 
