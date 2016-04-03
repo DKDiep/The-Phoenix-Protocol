@@ -59,6 +59,12 @@ public class DamageEffects : NetworkBehaviour
 		alpha            = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
 	}
 
+    public void Reset()
+    {
+        lowHealth.amount = 0;
+        alpha = 0f; 
+    }
+
     public void DistortionEffect()
     {
         lowHealth.amount = 1.0f;

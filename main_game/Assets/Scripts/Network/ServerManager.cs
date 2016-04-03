@@ -354,6 +354,8 @@ public class ServerManager : NetworkBehaviour
 
         // Overlay ready screen
         readyScreen.GetComponent<ReadyScreen>().Reset();
+
+        Camera.main.gameObject.GetComponent<DamageEffects>().Reset();
             
         // Restart music - consider reset method for sound system
         musicManager.GetComponent<MusicManager>().PlayMusic(0);
