@@ -140,11 +140,6 @@ public class GameState : NetworkBehaviour {
         // If in god mode, reset the ship to max possible health every frame
         if (godMode)
             shipHealth = engineHealth = turretHealth = shieldGeneratorHealth = float.MaxValue;
-
-		if (Status == GameStatus.Started && enemyList != null)
-			foreach (GameObject enemy in enemyList)
-				if (enemy.GetComponentInChildren<EnemyLogic>() == null)
-					Debug.Log("Enemy " + enemy.name + " has no logic.");
     }
 
 	/// <summary>
