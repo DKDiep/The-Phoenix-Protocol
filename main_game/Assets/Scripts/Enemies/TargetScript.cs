@@ -19,7 +19,6 @@ public class TargetScript : MonoBehaviour
 
     IEnumerator UpdateDistance()
     {
-        yield return new WaitForSeconds(0.1f);
         distance = Vector3.Distance(transform.position, player.transform.position);
         if(distance > 650f || distance < 100f)
             renderer.enabled = false;
@@ -29,6 +28,7 @@ public class TargetScript : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(-v3);
             renderer.enabled = true;
         }
+        yield return new WaitForSeconds(Mathf.Clamp(distance / 750f, 0.1f, 1f));
         StartCoroutine(UpdateDistance());
     }
 }
