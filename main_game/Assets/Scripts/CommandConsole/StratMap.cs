@@ -100,7 +100,7 @@ public class StratMap : MonoBehaviour {
 
     public void outpostVisitNotify(int id)
     {
-        outpostIconDict[id].GetComponent<Image>().sprite = savedOutpostSprite;
+        if (outpostIconDict[id] != null) outpostIconDict[id].GetComponent<Image>().sprite = savedOutpostSprite;
     }
 
     public void startMission(int id)
