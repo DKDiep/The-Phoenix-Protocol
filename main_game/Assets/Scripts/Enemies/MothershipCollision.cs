@@ -30,5 +30,11 @@ public class MothershipCollision : MonoBehaviour
 			if(asteroidLogic != null )
 				asteroidLogic.collision(1000f);
         }
+		else if (col.gameObject.CompareTag("EnemyShip"))
+		{
+			EnemyLogic enemyLogic = col.gameObject.GetComponentInChildren<EnemyLogic>();
+			if (enemyLogic != null)
+				enemyLogic.collision(1000f, -1);
+		}
     }
 }
