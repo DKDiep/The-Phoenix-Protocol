@@ -73,25 +73,6 @@ public class GameState : NetworkBehaviour {
 	private bool nosMode = false;
 	private const int NOS_SPEED = 400;
 
-    /// <summary>
-    /// A struct that holds notification data
-    /// This is used to send notifications to officers
-    /// about upgrades/repairs
-    /// NOTE: Structs do NOT behave like classes
-    /// they are passed by vale NOT by reference
-    /// </summary>
-    struct Notification
-    {
-        public bool isUpgrade;
-        public ComponentType component;
-
-        public Notification(bool isUpgrade, ComponentType component)
-        {
-            this.isUpgrade = isUpgrade;
-            this.component = component;
-        }
-    }
-
 	void Start()
 	{
 		asteroidSpawner = GetComponentInChildren<AsteroidSpawner>(true); // For some reason, the spawner is disabled, so need to pass true here
@@ -424,13 +405,13 @@ public class GameState : NetworkBehaviour {
      */
     public void AddNotification(bool isUpgrade, ComponentType component)
     {
-        Notification newNotification = new Notification(isUpgrade, component);
+        Notification newNotification = Notification.create(isUpgrade, component);
         activeNotifications.Add(newNotification);
     }
 
     public void RemoveNotification(bool isUpgrade, ComponentType component)
     {
-        Notification toRemove = new Notification(isUpgrade, component);
+        Notification toRemove = Notification.create(isUpgrade, component);
         activeNotifications.Remove(toRemove);
     }
 
