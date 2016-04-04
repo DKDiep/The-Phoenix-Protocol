@@ -19,15 +19,14 @@ public class LoadingText : NetworkBehaviour
 
     public void Reset()
     {
+        fadeSound = false;
         RpcReset();
     }
 
     [ClientRpc]
     void RpcReset()
     {
-        StopAllCoroutines();
         fadeSound = false;
-        gameStarted = false;
     }
 
     public void MuteAudio()
@@ -47,6 +46,7 @@ public class LoadingText : NetworkBehaviour
         gameStarted = true;
         yield return new WaitForSeconds(3f);
         fadeSound = true;
+        GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(0);
         //Destroy(this, 3f);
     }
 

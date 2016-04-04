@@ -16,18 +16,20 @@ public class EnvironmentSpawner : MonoBehaviour
 	void Start () 
     {
         state = transform.parent.gameObject.GetComponent<GameState>();
+        GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(space);
 	}
 
 	void Update () 
     {
         if (state.Status == GameState.GameStatus.Started)
         {
-            GameObject space = Instantiate(Resources.Load("Prefabs/SpaceScene 1", typeof(GameObject))) as GameObject;
+
 
             // Add Earth Collision script
             GameObject.Find("Ground").AddComponent<EarthCollision>();
             GameObject.Find("Ground").AddComponent<EarthFX>();
-            ServerManager.NetworkSpawn(space);
+
             Destroy(this);
         }
 	}

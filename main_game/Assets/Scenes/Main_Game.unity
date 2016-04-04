@@ -1453,7 +1453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 124810, guid: 9025b9b978f9c7145a49a33d9be4b990, type: 2}
-  size: 200
+  size: 800
   serverOnly: 1
   useInterpolation: 0
   hackedMaterial: {fileID: 2100000, guid: 4e6fbd6f0d926478f9f3a015fc5196dd, type: 2}

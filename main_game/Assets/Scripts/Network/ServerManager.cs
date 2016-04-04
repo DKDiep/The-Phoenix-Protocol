@@ -64,13 +64,7 @@ public class ServerManager : NetworkBehaviour
 		NetworkServer.Destroy(spawnObject);
 	}
 
-    void Awake()
-    {
-        foreach(Transform child in poolManager.transform)
-        {
-            child.gameObject.GetComponent<ObjectPoolManager>().SpawnObjects();
-        }
-    }
+
 
     void Start()
     {
@@ -339,7 +333,38 @@ public class ServerManager : NetworkBehaviour
 
         spawner = GameObject.Find("Spawner");
         gameTimer = GameObject.Find("GameTimerText");
+        StartCoroutine(SpawnObjects());
     }
+
+    IEnumerator SpawnObjects()
+    {
+        yield return new WaitForSeconds(1f);
+        RpcSpawn();
+    }
+
+    [ClientRpc]
+    public void RpcSpawn()
+    {
+        if(GameObject.Find("CommanderManager(Clone)") == null)
+        {
+            GameObject poolManager = GameObject.Find("ObjectPooling");
+            foreach(Transform child in poolManager.transform)
+            {
+                child.gameObject.GetComponent<ObjectPoolManager>().SpawnObjects();
+            }
+        }
+        else
+        {
+            GameObject poolManager = GameObject.Find("ObjectPooling");
+            foreach(Transform child in poolManager.transform)
+            {
+                child.gameObject.GetComponent<ObjectPoolManager>().isCommander = true;
+            }
+            poolManager.SetActive(false);
+        }
+
+    }
+
 
     public void SetReadyScreen(GameObject newReadyScreen)
     {
