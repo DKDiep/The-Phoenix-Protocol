@@ -18,6 +18,7 @@ public class GameState : NetworkBehaviour {
 	private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
+    private List<Notification> activeNotifications;
 
     private List<GameObject> enemyList;
     private List<int> removedEnemies;
@@ -418,6 +419,26 @@ public class GameState : NetworkBehaviour {
     public void ClearRemovedEnemies()
     {
 		removedEnemies.Clear();
+    }
+
+    /*
+     * Getters and setters for the notification list
+     */
+    public void AddNotification(bool isUpgrade, ComponentType component)
+    {
+        Notification newNotification = Notification.create(isUpgrade, component);
+        activeNotifications.Add(newNotification);
+    }
+
+    public void RemoveNotification(bool isUpgrade, ComponentType component)
+    {
+        Notification toRemove = Notification.create(isUpgrade, component);
+        activeNotifications.Remove(toRemove);
+    }
+
+    public List<Notification> GetActiveNotifications()
+    {
+        return activeNotifications;
     }
 
     private void InitializeVariables()
