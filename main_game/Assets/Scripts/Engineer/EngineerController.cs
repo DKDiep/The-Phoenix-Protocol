@@ -154,17 +154,17 @@ public class EngineerController : NetworkBehaviour
         // a controller is used or the keyboard is used
         if (Input.GetJoystickNames().Length > 0)
         {
-            upgradeString = "Press LT to upgrade";
-            repairString = "Press RT to repair";
-            dockString = "Press B to dock";
-            popupString = "Job finished. Press B to dock, or continue doing jobs";
+            upgradeString = "Hold A to upgrade";
+            repairString = "Hold A to repair";
+            dockString = "";
+            //popupString = "Job finished. Press B to dock, or continue doing jobs";
         }
         else
         {
-            upgradeString = "Press Mouse1 to upgrade";
-            repairString = "Press Mouse2 to repair";
+            upgradeString = "Hold Mouse1 to upgrade";
+            repairString = "Hold Mouse2 to repair";
             dockString = "Press L Shift to dock";
-            popupString = "Job finished. Press L Shift to dock, or continue doing jobs";
+            popupString = "";
         }
 
         // Set the progress bar location
