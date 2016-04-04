@@ -42,13 +42,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176534}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd22a9ab39b6e48998117adee89af57b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minutes: 0
-  seconds: 0
 --- !u!114 &11434046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,6 +188,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Name
       value: GameTimerText
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
