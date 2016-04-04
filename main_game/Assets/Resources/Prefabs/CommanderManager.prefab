@@ -712,7 +712,7 @@ MonoBehaviour:
   upgradeButtonLabel: {fileID: 11492108}
   costLabel: {fileID: 11487994}
   upgradeDescription: {fileID: 11406322}
-  defaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
+  defaultMat: {fileID: 2100000, guid: 68cb0e47cdcab4b1a8c57b22452c9d04, type: 2}
   highlightMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   newsFeed: {fileID: 167460}
   popupWindow: {fileID: 157972}
@@ -2258,7 +2258,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: defaultMat
       value: 
-      objectReference: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
+      objectReference: {fileID: 2100000, guid: 68cb0e47cdcab4b1a8c57b22452c9d04, type: 2}
     - target: {fileID: 0}
       propertyPath: highlightMat
       value: 
