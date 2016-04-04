@@ -150,11 +150,16 @@ public class UDPServer : MonoBehaviour
         {
             if(!clientEndPoint.Address.Equals(IPAddress.Any))
             {
-                SendShipPosition();
-                SendEnemies();
-                SendRemovedEnemies();
-                SendNewAsteroids();
-                SendRemovedAsteroids();
+                try
+                {
+                    SendShipPosition();
+                    SendEnemies();
+                    SendRemovedEnemies();
+                    SendNewAsteroids();
+                    SendRemovedAsteroids();
+                } catch(Exception e) {
+                    Debug.LogError(e);
+                }
             }
             yield return new WaitForSeconds(0.07f);
         }
