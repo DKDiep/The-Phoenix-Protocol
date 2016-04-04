@@ -357,7 +357,7 @@ GameObject:
   - 33: {fileID: 3318700}
   - 23: {fileID: 2360234}
   m_Layer: 5
-  m_Name: Hangar2
+  m_Name: ResourceStorage
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1113,7 +1113,7 @@ GameObject:
   - 33: {fileID: 3378298}
   - 23: {fileID: 2333710}
   m_Layer: 5
-  m_Name: Hangar1
+  m_Name: Drone
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1289,7 +1289,7 @@ GameObject:
   - 33: {fileID: 3384914}
   - 23: {fileID: 2307128}
   m_Layer: 5
-  m_Name: HullTop
+  m_Name: ShieldGenerator
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1526,7 +1526,7 @@ GameObject:
   - 33: {fileID: 3327244}
   - 23: {fileID: 2365638}
   m_Layer: 5
-  m_Name: HullFront
+  m_Name: Front
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

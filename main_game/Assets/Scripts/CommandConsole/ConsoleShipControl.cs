@@ -37,17 +37,21 @@ public class ConsoleShipControl : MonoBehaviour {
     {
         Transform[] children = gameObject.GetComponentsInChildren<Transform>();
         foreach (Transform child in children) {
-            if(child.name.Contains("Bridge") || child.name.Contains("Turret") || child.name.Contains("Engine")) 
+            if(child.name.Contains("Hull") || child.name.Contains("Turret") || child.name.Contains("Engine") || child.name.Contains("Shield") || child.name.Contains("Resource")|| child.name.Contains("Drone") )
                 UnhighlightObject(child.gameObject);
         }
         foreach (Transform child in children) {
-            if(component == 0 && (child.name.Contains("Bridge"))) 
+            if(component == 0 && (child.name.Contains("Shield"))) 
                 HighlightObject(child.gameObject); 
             if(component == 1 && (child.name.Contains("Turret"))) 
                 HighlightObject(child.gameObject);
             if(component == 2 && (child.name.Contains("Engine"))) 
                 HighlightObject(child.gameObject);
-            if(component == 3 && (child.name.Contains("Bridge"))) 
+            if(component == 3 && (child.name.Contains("Hull"))) 
+                HighlightObject(child.gameObject);
+            if(component == 4 && (child.name.Contains("Drone"))) 
+                HighlightObject(child.gameObject);
+            if(component == 5 && (child.name.Contains("Resource"))) 
                 HighlightObject(child.gameObject);
         }
     }

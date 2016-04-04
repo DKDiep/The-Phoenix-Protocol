@@ -24,12 +24,14 @@ public static class ComponentTypeMethods
 			return ComponentType.Turret;
 		else if (s.Contains("Engine"))
 			return ComponentType.Engine;
-		else if (s.Contains("Bridge"))
+		else if (s.Contains("Hull"))
 			return ComponentType.Bridge;
 		else if (s.Contains("Shield"))
 			return ComponentType.ShieldGenerator;
 		else if (s.Contains("Resource"))
 			return ComponentType.ResourceStorage;
+        else if (s.Contains("Drone"))
+            return ComponentType.Drone;
         else
             return ComponentType.None;
 
