@@ -49,6 +49,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private bool hacked = false;
 	private GameObject hackedAttackTraget = null;
 	private GameObject hackedWaypoint;
+	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
 
 	internal float health;
 	private float shield;
@@ -91,6 +92,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private const string AI_OBSTACLE_TAG_MOTHERSHIP = "GlomMothership";
 	private const int AI_OBSTACLE_AVOID_ROTATION    = 45;
 	private int previousAvoidDirection              = 0;
+	private const string AVOID_WAYPOINT_NAME        = "AvoidWaypoint";
 	private int avoidDirection;
 	private float aiObstacleRayFrontOffset;
 
@@ -212,8 +214,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
 
 				// Create a temp waypoint to follow in order to avoid the asteroid
-				GameObject avoidWaypoint         = new GameObject ();
-				avoidWaypoint.name               = "AvoidWaypoint";
+				GameObject avoidWaypoint         = new GameObject (AVOID_WAYPOINT_NAME);
 				avoidWaypoint.transform.position = controlObject.transform.position;
 				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
 
@@ -746,6 +747,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                     // Automatically collect resources from enemy ship
                     gameState.AddShipResources(droppedResources);
     			}         
+
     			// Destroy Object
                 GameObject temp = explosionManager.RequestObject();
                 temp.transform.position = transform.position;
@@ -766,8 +768,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
 
-		if (hacked && currentWaypoint != null)
+		if (currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
+
+		if (hackedWaypoint != null)
+			Destroy(hackedWaypoint);
 
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
@@ -898,9 +903,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			{
 				hackedWaypoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 				hackedWaypoint.GetComponent<Renderer>().material.color = Color.blue;
+				hackedWaypoint.name = HACK_WAYPOINT_NAME;
 			}
 			else
-			hackedWaypoint = new GameObject("HackWaypoint");
+			hackedWaypoint = new GameObject(HACK_WAYPOINT_NAME);
 			hackedWaypoint.transform.position = controlObject.transform.position;
 			hackedWaypoint.transform.parent   = player.transform;
 		}
