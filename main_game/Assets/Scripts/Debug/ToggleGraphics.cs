@@ -43,7 +43,7 @@ public class ToggleGraphics : MonoBehaviour
         else
             swap = true;       
 
-		Debug.Log ("Graphics are now " + enableGraphics);
+        //Debug.Log ("Graphics are now " + enableGraphics);
 	}
 
     public void SetCommandGraphics()

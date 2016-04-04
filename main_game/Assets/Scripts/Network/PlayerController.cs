@@ -103,7 +103,7 @@ public class PlayerController : NetworkBehaviour
         // Change only local camera
         if (isLocalPlayer && netId.Value == receivedId)
         {
-            Debug.Log("setting yRotate: " + yRotate);
+            //Debug.Log("setting yRotate: " + yRotate);
             Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
             playerCamera.transform.localRotation = q;
         }

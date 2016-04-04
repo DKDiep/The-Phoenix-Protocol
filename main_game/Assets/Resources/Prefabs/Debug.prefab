@@ -84,7 +84,7 @@ MonoBehaviour:
     screenData: 1
   hotKey: 9
   keepAlive: 1
-  operationMode: 2
+  operationMode: 0
   forceFrameRate: 0
   forcedFrameRate: -1
   anchorsOffset: {x: 5, y: 5}
@@ -190,6 +190,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: deviceInfoCounter.anchor
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: operationMode
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
