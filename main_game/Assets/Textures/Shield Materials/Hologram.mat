@@ -52,7 +52,7 @@ Material:
       data:
         first:
           name: _FieldPanSpeed
-        second: 2
+        second: 10
       data:
         first:
           name: _InnterOffset
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _OuterTint
-        second: {r: 0.23551038, g: 0.544553, b: 0.72794116, a: 0.028}
+        second: {r: 0.016436001, g: 0.35683063, b: 0.5588235, a: 0.034}
       data:
         first:
           name: _Pos_0
