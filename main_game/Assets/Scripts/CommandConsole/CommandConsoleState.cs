@@ -108,6 +108,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeProperties[i].numberOfLevels = settings.upgradeProperties[i].numberOfLevels;
             upgradeProperties[i].repairable = settings.upgradeProperties[i].repairable;
             upgradeProperties[i].currentLevel = settings.upgradeProperties[i].currentLevel;
+            upgradeProperties[i].name = settings.upgradeProperties[i].name;
         }
     }
     void Update()
