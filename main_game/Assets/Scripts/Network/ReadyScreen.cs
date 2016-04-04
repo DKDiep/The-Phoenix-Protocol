@@ -55,7 +55,8 @@ public class ReadyScreen : NetworkBehaviour
     {
         InitialiseGame();
     }
-    
+
+
     public void InitialiseGame()
     {
         // Reset cutscene manager variables and play

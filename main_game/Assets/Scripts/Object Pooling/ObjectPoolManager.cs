@@ -20,6 +20,8 @@ public class ObjectPoolManager : NetworkBehaviour
 	#pragma warning restore 0649
 
     private Vector3[] newPositions;
+    private bool spawned = false;
+    public bool isCommander = false;
     private Quaternion[] newRotations;
     private bool amServer = false;
     [SerializeField] Material[] asteroidMaterials;
@@ -32,7 +34,7 @@ public class ObjectPoolManager : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if(!amServer && useInterpolation)
+        if(!amServer && useInterpolation && spawned)
         {
             for(int i = 0; i < size; ++i)
             {
@@ -75,33 +77,42 @@ public class ObjectPoolManager : NetworkBehaviour
 				spawn.GetComponent<Collider>().enabled = true;
             pool[i] = spawn;
         }
+        spawned = true;
 	}
 
     [ClientRpc]
     public void RpcSetHackedGlow(string name)
     {
-        int id = int.Parse(name);
-        GameObject lights = pool[id].transform.Find("pattern").gameObject;
-        lights.GetComponent<Renderer>().material = hackedMaterial;
+        if(!isCommander)
+        {
+            int id = int.Parse(name);
+            GameObject lights = pool[id].transform.Find("pattern").gameObject;
+            lights.GetComponent<Renderer>().material = hackedMaterial;
+        }
+
 
     }
 
     [ClientRpc]
     public void RpcResetHackedGlow(string name)
     {
-        int id = int.Parse(name);
-        GameObject lights = pool[id].transform.Find("pattern").gameObject;
+        if(!isCommander)
+        {
+            int id = int.Parse(name);
+            GameObject lights = pool[id].transform.Find("pattern").gameObject;
 
-        if(this.gameObject.name.Contains("Gnat"))
-            lights.GetComponent<Renderer>().material = enemyGlows[0];
-        else if(this.gameObject.name.Contains("Firefly"))
-            lights.GetComponent<Renderer>().material = enemyGlows[1];
-        else if(this.gameObject.name.Contains("Termite") || this.gameObject.name.Contains("Hornet"))
-            lights.GetComponent<Renderer>().material = enemyGlows[2];
-        else if(this.gameObject.name.Contains("Lightning"))
-            lights.GetComponent<Renderer>().material = enemyGlows[3];
-        else if(this.gameObject.name.Contains("BlackWidow"))
-            lights.GetComponent<Renderer>().material = enemyGlows[4];
+            if(this.gameObject.name.Contains("Gnat"))
+                lights.GetComponent<Renderer>().material = enemyGlows[0];
+            else if(this.gameObject.name.Contains("Firefly"))
+                lights.GetComponent<Renderer>().material = enemyGlows[1];
+            else if(this.gameObject.name.Contains("Termite") || this.gameObject.name.Contains("Hornet"))
+                lights.GetComponent<Renderer>().material = enemyGlows[2];
+            else if(this.gameObject.name.Contains("Lightning"))
+                lights.GetComponent<Renderer>().material = enemyGlows[3];
+            else if(this.gameObject.name.Contains("BlackWidow"))
+                lights.GetComponent<Renderer>().material = enemyGlows[4];
+        }
+
     }
 
     public GameObject RequestObject()
@@ -163,38 +174,48 @@ public class ObjectPoolManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncRotation(int id, Quaternion rotation)
     {
-        pool[id].transform.rotation = rotation;
+        if(!isCommander)
+            pool[id].transform.rotation = rotation;
     }
 
     [ClientRpc]
     public void RpcSetAsteroidTexture(int id, int material)
     {
-        pool[id].GetComponent<Renderer>().material = asteroidMaterials[material];
+        if(!isCommander)
+            pool[id].GetComponent<Renderer>().material = asteroidMaterials[material];
     }
 
     [ClientRpc]
     void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
     {
-        newPositions[id] = position;
-        newRotations[id] = rotation;
-        //pool[id].transform.position = position;
-        //pool[id].transform.rotation = rotation;
+        if(!isCommander)
+        {
+            newPositions[id] = position;
+            newRotations[id] = rotation;
+        }
     }
 
     [ClientRpc]
     void RpcEnableObject(int id, Vector3 position, Quaternion rotation, Vector3 scale)
     {
-        pool[id].SetActive(true);
-        pool[id].transform.position = position;
-        pool[id].transform.rotation = rotation;
-        pool[id].transform.localScale = scale;
-    }
+        if(!isCommander)
+        {
+            pool[id].SetActive(true);
+            pool[id].transform.position = position;
+            pool[id].transform.rotation = rotation;
+            pool[id].transform.localScale = scale;
+        }
+     }
 
     [ClientRpc]
     void RpcDisableObject(int id)
     {
-        pool[id].transform.parent = null;
-        pool[id].SetActive(false);
+        if(!isCommander)
+        {
+            pool[id].transform.parent = null;
+            pool[id].SetActive(false);
+        }
+
     }
 
 	/// <summary>
@@ -237,7 +258,8 @@ public class ObjectPoolManager : NetworkBehaviour
 	[ClientRpc]
 	public void RpcSetAsteroidSpeed(int id, float speed)
 	{
-		pool[id].GetComponent<AsteroidRotation>().SetClientSpeed(speed);
+        if(!isCommander)
+		    pool[id].GetComponent<AsteroidRotation>().SetClientSpeed(speed);
 	}
 
 	public void SetBulletSpeed(string name, float speed)
@@ -249,6 +271,7 @@ public class ObjectPoolManager : NetworkBehaviour
 	[ClientRpc]
 	public void RpcSetBulletSpeed(int id, float speed)
 	{
-		pool[id].GetComponent<BulletMove>().Speed = speed;
+        if(!isCommander)
+		    pool[id].GetComponent<BulletMove>().Speed = speed;
 	}
 }
