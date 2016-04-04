@@ -223,10 +223,19 @@ public class UDPServer : MonoBehaviour
         List<GameObject> enemies = state.GetEnemyList();
         if(enemies != null && enemies.Count > 0)
         {
+			bool foundNullEnemy = false;
+
             string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
             foreach (GameObject enemy in enemies)
             {
-                // Add the enemy to the dictionary if it isn't already in there
+				if (enemy == null)
+				{
+					Debug.LogWarning("There is a null enemy in the enemy list.");
+					foundNullEnemy = true;
+					continue;
+				}
+
+				// Add the enemy to the dictionary if it isn't already in there
                 if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
                     InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
 
@@ -242,6 +251,10 @@ public class UDPServer : MonoBehaviour
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
             jsonMsg += "]}";
             SendMsg(jsonMsg);
+
+			// Send the notification at the end of the loop to avoid iterator issues
+			if (foundNullEnemy)
+				state.NotifyNullEnemy();
         }
     }
     

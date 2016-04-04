@@ -87,6 +87,17 @@ public class GameState : NetworkBehaviour {
         StartCoroutine(UpdateComponents());
 	}
 
+	// Uncomment to help debug null enemies
+	/*IEnumerator FindNull()
+	{
+		foreach (GameObject enemy in enemyList)
+			if (enemy == null)
+				Debug.LogWarning("Found a null enemy.");
+
+		yield return new WaitForSeconds(0.1f);
+		StartCoroutine(FindNull());
+	}*/
+
     public void Reset()
     {
         StopAllCoroutines();
@@ -333,6 +344,16 @@ public class GameState : NetworkBehaviour {
 		enemyList.Remove(enemy);
 		EnemySpawner.DecrementNumEnemies();
 	}
+
+	/// <summary>
+	/// Notifies that there is a null enemy in the enemy list.
+	/// </summary>
+	public void NotifyNullEnemy()
+	{
+		for (int i = enemyList.Count - 1; i >= 0; i--)
+			if (enemyList[i] == null)
+				enemyList.RemoveAt(i);
+	}
 		
     public void AddToEngineerList(GameObject engineerObject)
     {
@@ -408,6 +429,8 @@ public class GameState : NetworkBehaviour {
         removedEnemies   = new List<int>();
         engineerList     = new List<GameObject>();
 		outpostList      = new List<GameObject>();
+
+		// StartCoroutine(FindNull()); // Uncomment to help debug null enemies
     }
 
     public void Setup()
