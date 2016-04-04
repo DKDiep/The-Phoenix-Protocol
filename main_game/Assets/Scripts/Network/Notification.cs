@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 /// This is used to send upgrade/repair notifications to the phone server
 /// which are then displayed on officers' phones
 /// </summary>
-public class Notification : MonoBehaviour {
+public class Notification {
     // This table provides an O(1) lookup for Notification objects. It is used to ensure
     // that there is only one Notification object with particular values.
     private static Dictionary<ComponentType, Dictionary<bool, Notification>> objectTable
@@ -36,7 +35,8 @@ public class Notification : MonoBehaviour {
         catch (KeyNotFoundException)
         {
             Notification notification = new Notification(isUpgrade, component);
-            objectTable[component][isUpgrade] = notification;
+            objectTable.Add(component, new Dictionary<bool, Notification>());
+            objectTable[component].Add(isUpgrade, notification);
             return notification;
         }
     }

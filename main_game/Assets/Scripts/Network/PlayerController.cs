@@ -186,7 +186,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdDoUpgrade(ComponentType part)
     {
         gameState.GetUpgradableComponent(part).Upgrade();
-        //gameState.RemoveNotification(true, part);
+        gameState.RemoveNotification(true, part);
         serverManager.SendJobFinished(true, part);
     }
 
@@ -199,7 +199,7 @@ public class PlayerController : NetworkBehaviour
     public void CmdDoRepair(ComponentType part)
     {
 		gameState.RepairPart(part);
-        //gameState.RemoveNotification(false, part);
+        gameState.RemoveNotification(false, part);
         serverManager.SendJobFinished(false, part);
     }
 
@@ -211,7 +211,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
 	public void CmdAddUpgrade(ComponentType part)
     {
-        //gameState.AddNotification(true, part);
+        gameState.AddNotification(true, part);
         serverManager.NotifyEngineer(true, part);
     }
 
@@ -223,7 +223,7 @@ public class PlayerController : NetworkBehaviour
     [Command]
 	public void CmdAddRepair(ComponentType part)
     {
-        //gameState.AddNotification(false, part);
+        gameState.AddNotification(false, part);
         serverManager.NotifyEngineer(false, part);
     }
 

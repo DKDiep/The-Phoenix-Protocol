@@ -443,13 +443,14 @@ public class GameState : NetworkBehaviour {
 
     private void InitializeVariables()
     {
-        asteroidList     = new List<GameObject>();        
-        newAsteroids     = new List<GameObject>();
-        removedAsteroids = new List<uint>();
-        enemyList        = new List<GameObject>();
-        removedEnemies   = new List<int>();
-        engineerList     = new List<GameObject>();
-		outpostList      = new List<GameObject>();
+        asteroidList        = new List<GameObject>();        
+        newAsteroids        = new List<GameObject>();
+        removedAsteroids    = new List<uint>();
+        enemyList           = new List<GameObject>();
+        removedEnemies      = new List<int>();
+        engineerList        = new List<GameObject>();
+		outpostList         = new List<GameObject>();
+        activeNotifications = new List<Notification>();
 
 		// StartCoroutine(FindNull()); // Uncomment to help debug null enemies
     }
