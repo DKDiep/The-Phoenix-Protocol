@@ -30,7 +30,6 @@ public class StratMap : MonoBehaviour {
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
-        else PortalInit();
         outpostIconDict = new Dictionary<int,GameObject>();
         savedOutpostSprite = Resources.Load("Sprites/savedOutpost", typeof(Sprite)) as Sprite;
     }
