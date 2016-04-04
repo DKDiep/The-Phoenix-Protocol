@@ -771,8 +771,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
-		if (hackedWaypoint != null)
-			Destroy(hackedWaypoint);
+		setHacked(false);
 
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
@@ -838,7 +837,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                 enemyManager.RpcSetHackedGlow(gameObject.name);
 		}
 		else
+		{
+			if (hackedWaypoint != null)
+				Destroy(hackedWaypoint);
+			
 			state = EnemyAIState.SeekPlayer;
+		}
     }
 
     private void ChangeGlowColour()
