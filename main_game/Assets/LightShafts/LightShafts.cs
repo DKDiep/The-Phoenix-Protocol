@@ -10,15 +10,30 @@ public partial class LightShafts : MonoBehaviour
 	public void Start()
 	{
 		CheckMinRequirements();
-    
-        m_Cameras = new Camera[1]{Camera.main};
-        player = Camera.main.gameObject;
-		UpdateCameraDepthMode();
+        StartCoroutine(GetCamera());
+
 	}
+
+    IEnumerator GetCamera()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if(Camera.main != null)
+        {
+            m_Cameras = new Camera[1]{Camera.main};
+            player = Camera.main.gameObject;
+            UpdateCameraDepthMode();
+        }
+        else
+        {
+            StartCoroutine(GetCamera()); 
+        }
+
+    }
 
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x + 229,player.transform.position.y - 50,player.transform.position.z + 121);
+        if(player != null)
+            transform.position = new Vector3(player.transform.position.x + 229,player.transform.position.y - 50,player.transform.position.z + 121);
     }
     
 
