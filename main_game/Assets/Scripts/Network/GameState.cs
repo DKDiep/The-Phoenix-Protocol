@@ -18,6 +18,7 @@ public class GameState : NetworkBehaviour {
 	private List<GameObject> asteroidList;
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
+    private List<Notification> activeNotifications;
 
     private List<GameObject> enemyList;
     private List<int> removedEnemies;
@@ -71,6 +72,25 @@ public class GameState : NetworkBehaviour {
 	private bool godMode = false;
 	private bool nosMode = false;
 	private const int NOS_SPEED = 400;
+
+    /// <summary>
+    /// A struct that holds notification data
+    /// This is used to send notifications to officers
+    /// about upgrades/repairs
+    /// NOTE: Structs do NOT behave like classes
+    /// they are passed by vale NOT by reference
+    /// </summary>
+    struct Notification
+    {
+        public bool isUpgrade;
+        public ComponentType component;
+
+        public Notification(bool isUpgrade, ComponentType component)
+        {
+            this.isUpgrade = isUpgrade;
+            this.component = component;
+        }
+    }
 
 	void Start()
 	{
@@ -397,6 +417,26 @@ public class GameState : NetworkBehaviour {
     public void ClearRemovedEnemies()
     {
 		removedEnemies.Clear();
+    }
+
+    /*
+     * Getters and setters for the notification list
+     */
+    public void AddNotification(bool isUpgrade, ComponentType component)
+    {
+        Notification newNotification = new Notification(isUpgrade, component);
+        activeNotifications.Add(newNotification);
+    }
+
+    public void RemoveNotification(bool isUpgrade, ComponentType component)
+    {
+        Notification toRemove = new Notification(isUpgrade, component);
+        activeNotifications.Remove(toRemove);
+    }
+
+    public List<Notification> GetActiveNotifications()
+    {
+        return activeNotifications;
     }
 
     private void InitializeVariables()
