@@ -124,10 +124,8 @@ public class GameSettings : MonoBehaviour
 	public float OutpostMaxAsteroidFieldSize;
 	public float OutpostMinAsteroidFieldDensity;
 	public float OutpostMaxAsteroidFieldDensity;
-    public List<Vector3> OutpostSpawnLocations; //Warning: it is possible to spawn two outposts in the same position with this
-    public List<DifficultyEnum> OutpostDifficulties;   //Difficulties should be in the same list positions as the corresponding outpost in the above list
-                                                       //(So should be same size as above)
-    public float OutpostSpawnLocationsVariance; //This only applies to outposts spawned with a set position
+    public List<Vector3> OutpostSpawnLocations;
+    public float OutpostSpawnLocationsVariance;
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;
 	public float PlayerShipSlowDown;

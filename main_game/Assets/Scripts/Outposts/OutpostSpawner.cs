@@ -17,7 +17,6 @@ public class OutpostSpawner : MonoBehaviour
 	private float minAsteroidFieldSize, maxAsteroidFieldSize;
 	private float minAsteroidFieldDensity, maxAsteroidFieldDensity;
     private List<Vector3> spawnLocations;
-    private List<DifficultyEnum> difficulties;
     private float spawnLocationsVariance;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
@@ -73,7 +72,6 @@ public class OutpostSpawner : MonoBehaviour
 		guardTriggerDistance = settings.OutpostGuardTriggerDistance;
         totalOutposts	     = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
         spawnLocations       = settings.OutpostSpawnLocations;
-        difficulties         = settings.OutpostDifficulties;
         spawnLocationsVariance  = settings.OutpostSpawnLocationsVariance;
 		minAsteroidFieldSize    = settings.OutpostMinAsteroidFieldSize;
 		maxAsteroidFieldSize    = settings.OutpostMaxAsteroidFieldSize;
@@ -91,12 +89,11 @@ public class OutpostSpawner : MonoBehaviour
                 if (numOutposts < spawnLocations.Count)
                 {
                     Vector3 specPosition = spawnLocations[numOutposts];
-                    Vector3 variance = new Vector3(Random.Range(-spawnLocationsVariance, spawnLocationsVariance), 
+                    Vector3 varPosition = new Vector3(Random.Range(-spawnLocationsVariance, spawnLocationsVariance), 
                         Random.Range(-spawnLocationsVariance, spawnLocationsVariance), 
                         Random.Range(-spawnLocationsVariance, spawnLocationsVariance));
-                    spawnLocation.transform.position = specPosition + variance;
+                    spawnLocation.transform.position = varPosition;
                     spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10, 10), Random.Range(90, -90), Random.Range(90, -90));
-                    SpawnOutpost(numOutposts, difficulties[numOutposts]);
                 }
                 else
                 {
@@ -110,9 +107,9 @@ public class OutpostSpawner : MonoBehaviour
                     {
                         spawnLocation.transform.Translate(transform.forward * Random.Range(1000, 3500));
                     } while (!CheckOutpostProximity(spawnLocation.transform.position));
-                    SpawnOutpost(numOutposts, DifficultyEnum.Pool);
                 }
-                numOutposts++;
+				SpawnOutpost (numOutposts);
+				numOutposts++;
             } else {
                 outpostManagerScript.outpostSpawned = true;
             }
@@ -135,7 +132,7 @@ public class OutpostSpawner : MonoBehaviour
 		return true;
 	}
 
-	private void SpawnOutpost(int id, DifficultyEnum difficulty) 
+	private void SpawnOutpost(int id) 
 	{
 		// Set up like this as we may have different outposts models like we do with asteroids. 
 		outpost = outpost1;
@@ -167,13 +164,8 @@ public class OutpostSpawner : MonoBehaviour
 
         // Hide the target by default.
         outpostObject.GetComponent<OutpostTarget>().HideTarget();
-        if(difficulty == DifficultyEnum.Pool)
-        {
-            if (hardOutposts < settings.HardOutposts) difficulty = DifficultyEnum.Hard;
-            else if (mediumOutposts < settings.MediumOutposts) difficulty = DifficultyEnum.Medium;
-            else difficulty = DifficultyEnum.Easy;
-        }
-        if (difficulty == DifficultyEnum.Hard)
+
+        if(hardOutposts < settings.HardOutposts)
         {
             int numGuards = Random.Range(settings.HardMinEnemies, settings.HardMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
@@ -181,7 +173,7 @@ public class OutpostSpawner : MonoBehaviour
             outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.HardMultiplier);
             hardOutposts++;
         }
-        else if(difficulty == DifficultyEnum.Medium)
+        else if(mediumOutposts < settings.MediumOutposts)
         {
             int numGuards = Random.Range(settings.MediumMinEnemies, settings.MediumMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
