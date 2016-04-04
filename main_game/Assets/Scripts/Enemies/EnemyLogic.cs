@@ -196,7 +196,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
 			// Otherwise, temporarily change direction
-			if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+			if (!hacked && obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
 			{
 				state                  = EnemyAIState.EngagePlayer;
 				previousAvoidDirection = 0;
@@ -293,7 +293,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			if (hacked)
 			{
 				if (currentWaypoint == null)
-					FollowPlayer();
+				{
+					if (hackedAttackTraget != null)
+						currentWaypoint = hackedAttackTraget;
+					else
+						FollowPlayer();
+				}
+
 				MoveTowardsCurrentWaypoint();
 				
 				return; 
@@ -768,7 +774,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
 
-		if (currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
+		if (currentWaypoint != null && currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
 		SetHacked(false);
