@@ -163,8 +163,8 @@ MonoBehaviour:
   EngineerMouseLookSmooth: 0
   EngineerMouseLookSmoothTime: 5
   EngineerMaxDistance: 50
-  EmptyProgressBar: {fileID: 2800000, guid: 88c6ec4d3c1bf11458ae95ed0f85e652, type: 3}
-  FilledProgressBar: {fileID: 2800000, guid: 77f8b955c13988041bfed4b046731fe3, type: 3}
+  EmptyProgressBar: {fileID: 2800000, guid: 80f3b8ad4ff04464f8fc1e59dd7ca910, type: 3}
+  FilledProgressBar: {fileID: 2800000, guid: ec0d07bccc24a46f39869c34312a35bc, type: 3}
   EngineerStartingWorkTime: 5
   EngineerDefaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
@@ -203,6 +203,7 @@ MonoBehaviour:
   OutpostMinAsteroidFieldDensity: 0.6
   OutpostMaxAsteroidFieldDensity: 0.8
   OutpostSpawnLocations: []
+  OutpostSpawnLocationsVariance: 0
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 5
@@ -620,6 +621,14 @@ Prefab:
       propertyPath: GlomMothershipSpawnRate
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmptyProgressBar
+      value: 
+      objectReference: {fileID: 2800000, guid: 80f3b8ad4ff04464f8fc1e59dd7ca910, type: 3}
+    - target: {fileID: 0}
+      propertyPath: FilledProgressBar
+      value: 
+      objectReference: {fileID: 2800000, guid: ec0d07bccc24a46f39869c34312a35bc, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 187334}

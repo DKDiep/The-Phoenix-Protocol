@@ -630,14 +630,14 @@ public class EngineerController : NetworkBehaviour
         if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
         {
 			float progress = keyPressTime[InteractionKey.Repair] / workTime;
-            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
-            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 11), emptyProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x+3, progressBarLocation.y+3, 97 * progress, 5), filledProgressBar);
         }
         else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] > 0)
         {
 			float progress = keyPressTime[InteractionKey.Upgrade] / workTime;
-            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 50), emptyProgressBar);
-            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100 * progress, 50), filledProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 11), emptyProgressBar);
+            GUI.DrawTexture(new Rect(progressBarLocation.x+3, progressBarLocation.y+3, 97 * progress, 5), filledProgressBar);
         }
     }
 }
