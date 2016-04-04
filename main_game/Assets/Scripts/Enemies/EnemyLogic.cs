@@ -771,7 +771,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
-		setHacked(false);
+		SetHacked(false);
 
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
@@ -822,7 +822,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     /// to val
     /// </summary>
     /// <param name="val">The boolean value that hacked should take</param>
-    public void setHacked(bool val)
+    public void SetHacked(bool val)
     {
         hacked 			   = val;
 		hackedAttackTraget = null;

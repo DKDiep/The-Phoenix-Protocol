@@ -177,7 +177,7 @@ public class TCPServer : MonoBehaviour
 
                 // Set enemy to controlled by spectator
                 if (udpServer.InstanceIDToEnemy.ContainsKey(idOfControlled))
-                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().setHacked(true);
+                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().SetHacked(true);
                 else
                     Debug.LogError("Tried to take control of invalid enemy");
 
