@@ -174,7 +174,7 @@ public class EngineerController : NetworkBehaviour
         playerShip = GameObject.Find("PlayerShip(Clone)");
 
         // Create the upgrade text object to use
-        engineerCanvas = Instantiate(Resources.Load("Prefabs/UpgradeText")) as GameObject;
+        engineerCanvas = Instantiate(Resources.Load("Prefabs/EngineerCanvas")) as GameObject;
         Text[] tmp = engineerCanvas.GetComponentsInChildren<Text>();
 
         foreach (Text t in tmp)
