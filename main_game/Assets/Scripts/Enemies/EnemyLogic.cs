@@ -738,47 +738,43 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     // Detect collisions with other game objects
 	public void collision(float damage, int playerId)
 	{
-        if(enemyManager != null)
-        {
-    		if (shield > damage)
-    		{
-    			shield -= damage;
-    		}
-    		else if (shield > 0)
-    		{
-    			float remDamage = damage - shield;
-    			shield = 0;
+		if (enemyManager == null)
+			return;
+		
+		if (shield > damage)
+			shield -= damage;
+		else
+		{
+			float remDamage = damage - shield;
+			shield = 0;
 
-    			health -= remDamage;
-    		}
-    		else if(health > damage)
-    		{
-    			health -= damage;
-    		}
-    		else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
-    		{
-    			if(playerId != -1)
-    			{
-    				// Update player score
-    				gameState.AddToPlayerScore(playerId, 10);
-                    // Automatically collect resources from enemy ship
-                    gameState.AddShipResources(droppedResources);
-    			}         
+			health -= remDamage;
+		}
+			
+		if (health <=0 && transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
+		{
+			if(playerId != -1)
+			{
+				// Update player score
+				gameState.AddToPlayerScore(playerId, 10);
 
-    			// Destroy Object
-                GameObject temp = explosionManager.RequestObject();
-                temp.transform.position = transform.position;
-                empEnabled = false;
-                if(empEffect != null)
-                    empEffect.SetActive(false);
+                // Automatically collect resources from enemy ship
+                gameState.AddShipResources(droppedResources);
+			}         
 
-                explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
-                ResetGlowColour();
-                originalGlow = null;
+			// Destroy Object
+            GameObject temp = explosionManager.RequestObject();
+            temp.transform.position = transform.position;
+            empEnabled = false;
+            if(empEffect != null)
+                empEffect.SetActive(false);
 
-                Despawn();
-    		}
-        }
+            explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
+            ResetGlowColour();
+            originalGlow = null;
+
+            Despawn();
+		}
 	}
 
     public void Despawn()
