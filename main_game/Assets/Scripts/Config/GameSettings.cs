@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Class that contains all the game settings. These are all set through the Unity IDE and should only be retrieved from here.
@@ -123,7 +124,8 @@ public class GameSettings : MonoBehaviour
 	public float OutpostMaxAsteroidFieldSize;
 	public float OutpostMinAsteroidFieldDensity;
 	public float OutpostMaxAsteroidFieldDensity;
-
+    public List<Vector3> OutpostSpawnLocations;
+    public float OutpostSpawnLocationsVariance;
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;
 	public float PlayerShipSlowDown;

@@ -3791,6 +3791,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
       propertyPath: m_LocalPosition.x
       value: 897.245
@@ -3822,6 +3826,46 @@ Prefab:
     - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[0].x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[0].z
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[1].y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[1].z
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[2].x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[2].y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[2].z
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[3].x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[3].z
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: OutpostSpawnLocations.Array.data[4].z
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
