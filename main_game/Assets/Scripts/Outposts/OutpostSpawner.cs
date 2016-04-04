@@ -17,6 +17,7 @@ public class OutpostSpawner : MonoBehaviour
 	private float minAsteroidFieldSize, maxAsteroidFieldSize;
 	private float minAsteroidFieldDensity, maxAsteroidFieldDensity;
     private List<Vector3> spawnLocations;
+    private float spawnLocationsVariance;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -71,7 +72,7 @@ public class OutpostSpawner : MonoBehaviour
 		guardTriggerDistance = settings.OutpostGuardTriggerDistance;
         totalOutposts	     = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
         spawnLocations       = settings.OutpostSpawnLocations;
-
+        spawnLocationsVariance  = settings.OutpostSpawnLocationsVariance;
 		minAsteroidFieldSize    = settings.OutpostMinAsteroidFieldSize;
 		maxAsteroidFieldSize    = settings.OutpostMaxAsteroidFieldSize;
 		minAsteroidFieldDensity = settings.OutpostMinAsteroidFieldDensity;
@@ -87,7 +88,11 @@ public class OutpostSpawner : MonoBehaviour
 					player = gameState.PlayerShip;
                 if (numOutposts < spawnLocations.Count)
                 {
-                    spawnLocation.transform.position = spawnLocations[numOutposts];
+                    Vector3 specPosition = spawnLocations[numOutposts];
+                    Vector3 varPosition = new Vector3(Random.Range(-spawnLocationsVariance, spawnLocationsVariance), 
+                        Random.Range(-spawnLocationsVariance, spawnLocationsVariance), 
+                        Random.Range(-spawnLocationsVariance, spawnLocationsVariance));
+                    spawnLocation.transform.position = varPosition;
                     spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10, 10), Random.Range(90, -90), Random.Range(90, -90));
                 }
                 else

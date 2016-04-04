@@ -125,7 +125,7 @@ public class GameSettings : MonoBehaviour
 	public float OutpostMinAsteroidFieldDensity;
 	public float OutpostMaxAsteroidFieldDensity;
     public List<Vector3> OutpostSpawnLocations;
-
+    public float OutpostSpawnLocationsVariance;
 	[Header("Ship Movement")]
 	public float PlayerShipTurnSpeed;
 	public float PlayerShipSlowDown;
