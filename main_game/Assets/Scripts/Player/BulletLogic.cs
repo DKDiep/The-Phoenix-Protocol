@@ -85,10 +85,19 @@ public class BulletLogic : MonoBehaviour
     // Control logic when a collision is detected
 	public void collision(Collider col, int bulletPlayerId)
 	{
-		if(player != null && !col.CompareTag("Resources")) 
+		string hitObjectTag = col.gameObject.tag;
+
+		if (hitObjectTag.Equals("Resources"))
+			return; 
+
+		// Despawn the bulllet
+		Despawn();
+
+		// If it's a player bullet, show a hit marker
+		if(player != null) 
             player.HitMarker();
 
-		string hitObjectTag = col.gameObject.tag;
+		// Apply the collision logic
 		if (hitObjectTag.Equals("Debris"))
 			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
 		else if (hitObjectTag.Equals("EnemyShip"))
@@ -101,20 +110,14 @@ public class BulletLogic : MonoBehaviour
 		}
         else if (hitObjectTag.Equals("GlomMothership"))
             col.gameObject.GetComponentInChildren<MothershipLogic>().collision(damage, bulletPlayerId);
-		else if (hitObjectTag.Equals("Resources"))
-			return;
 
-        if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
+        // If in range of the player, show an impact effect
+		if(Vector3.Distance(transform.position, playerObj.transform.position) < 200)
         {
             GameObject impactTemp = impactManager.RequestObject();
             impactTemp.transform.position = col.transform.position;
             impactManager.EnableClientObject(impactTemp.name, impactTemp.transform.position, impactTemp.transform.rotation, impactTemp.transform.localScale);
         }
-
-		RemoveFollowTarget();
-        bulletManager.DisableClientObject(gameObject.name);
-        bulletManager.RemoveObject(gameObject.name);
-        logicManager.RemoveObject(gameObject.name);
     }
 
     // Automatically destroy bullet after 4 seconds
@@ -122,11 +125,19 @@ public class BulletLogic : MonoBehaviour
     {
         yield return new WaitForSeconds(4f);
 
-		RemoveFollowTarget();
-        bulletManager.DisableClientObject(gameObject.name);
-        bulletManager.RemoveObject(gameObject.name);
-        logicManager.RemoveObject(gameObject.name);
+		Despawn();
     }
+
+	/// <summary>
+	/// Despawns this bullet.
+	/// </summary>
+	private void Despawn()
+	{
+		RemoveFollowTarget();
+		bulletManager.DisableClientObject(obj.name);
+		bulletManager.RemoveObject(obj.name);
+		logicManager.RemoveObject(gameObject.name);
+	}
 
 	/// <summary>
 	/// Removes the target this bullet is following, if any .
@@ -136,6 +147,6 @@ public class BulletLogic : MonoBehaviour
 	/// </summary>
 	private void RemoveFollowTarget()
 	{
-		transform.parent.gameObject.GetComponent<BulletMove>().SetTarget(null);
+		obj.GetComponent<BulletMove>().SetTarget(null);
 	}
 }

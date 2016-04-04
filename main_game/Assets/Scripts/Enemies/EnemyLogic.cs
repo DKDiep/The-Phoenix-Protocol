@@ -51,6 +51,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
 
+	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
+	// Please, treat them as constants
+	private LayerMask LAYER_PLAYER;
+	private LayerMask LAYER_ENEMY;
+
 	internal float health;
 	private float shield;
     private float distance;
@@ -146,6 +151,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
 
 		destructionListeners = new List<IDestructionListener>();
+
+		LAYER_PLAYER = LayerMask.NameToLayer("Player");
+		LAYER_ENEMY  = LayerMask.NameToLayer("Enemy");
 	}
 
 	private void LoadSettings()
@@ -683,16 +691,19 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
     		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
     		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
-    		if (hackedAttackTraget != null)
-    		{
-    			destination = currentTarget.transform.position;
-    			if (Random.value > accuracy)
-    				bulletMove.SetTarget(currentTarget);
-    			obj.layer = LayerMask.NameToLayer("Player");
-    			// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
-    		}
-    		else
-    			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+			if (hackedAttackTraget != null)
+			{
+				destination = currentTarget.transform.position;
+				if (Random.value > accuracy)
+					bulletMove.SetTarget(currentTarget);
+				obj.layer = LAYER_PLAYER;
+				// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
+			}
+			else
+			{
+				destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+				obj.layer   = LAYER_ENEMY;
+			}
 
     		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);
 
