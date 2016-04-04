@@ -15,7 +15,6 @@ public class StratMap : MonoBehaviour {
     public GameObject Portal { get; set; }
     private Sprite savedOutpostSprite;
 
-    private Vector3 offset;
 	// Use this for initialization
 	void Start () {
         var panel = this;
@@ -31,9 +30,6 @@ public class StratMap : MonoBehaviour {
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
-        print("panel width = " + panelWidth + "panelHeight = " + panelHeight);
-        offset = new Vector3(0, panelHeight, 0);
-        if (Portal == null) print("portal undefined at stratmap start (Luke's fault)");
         else PortalInit();
         outpostIconDict = new Dictionary<int,GameObject>();
         savedOutpostSprite = Resources.Load("Sprites/savedOutpost", typeof(Sprite)) as Sprite;
