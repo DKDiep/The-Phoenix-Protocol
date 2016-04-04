@@ -72,6 +72,10 @@ public class EngineerController : NetworkBehaviour
     private Material repairMat;
     private Material upgradeMat;
 
+    private Vector3 previousPosition;
+    private Vector3 currentPosition;
+    private bool updateRotation;
+
     private enum InteractionKey
     {
         Repair,
@@ -84,7 +88,20 @@ public class EngineerController : NetworkBehaviour
     void Start()
     {
         runOnce = false;
+        currentPosition = previousPosition = Vector3.zero;
+        updateRotation = false;
+        StartCoroutine(SetParent());
         Setup();
+    }
+
+    IEnumerator SetParent()
+    {
+        yield return new WaitForSeconds(0.1f);
+        playerShip = GameObject.Find("PlayerShip(Clone)");
+        if(playerShip != null)
+            transform.parent = playerShip.transform;
+        else
+            StartCoroutine(SetParent());
     }
 
     public void Reset()
@@ -194,7 +211,7 @@ public class EngineerController : NetworkBehaviour
         // We need a reference to the engineer start position as this is where
         // we anchor the engineer
         startPosition = playerShip.GetComponentInChildren<NetworkStartPosition>();
-        gameObject.transform.parent = startPosition.transform;
+        gameObject.transform.parent = playerShip.transform;
 
         Dock();
 
@@ -316,11 +333,59 @@ public class EngineerController : NetworkBehaviour
         Highlight(part);
     }
 
+    [Command]
+    public void CmdUpdatePosition(Vector3 pos)
+    {
+        RpcUpdatePosition(pos);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePosition(Vector3 pos)
+    {
+        if(playerController == null || !playerController.isLocalPlayer)
+            transform.localPosition = pos;
+    }
+
+    IEnumerator UpdateRotation()
+    {
+        CmdUpdateRotation(transform.rotation);
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(UpdateRotation());
+    }
+
+    [Command]
+    public void CmdUpdateRotation(Quaternion rotation)
+    {
+        RpcUpdateRotation(rotation);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateRotation(Quaternion rotation)
+    {
+        if(playerController == null || !playerController.isLocalPlayer)
+            transform.rotation = rotation;
+    }
+
+
     private void Update()
     {
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer)
             return;
+
+        if(!updateRotation)
+        {
+            StartCoroutine(UpdateRotation());
+            updateRotation = true;
+        }
+
+        currentPosition = transform.localPosition;
+
+        if(Vector3.Distance(currentPosition, previousPosition) > 0.01f)
+        {
+            CmdUpdatePosition(currentPosition);
+            previousPosition = currentPosition;
+        }
 
         if(!runOnce)
         {
@@ -516,8 +581,8 @@ public class EngineerController : NetworkBehaviour
         isDocked = true;
         dockCanvas.SetActive(isDocked);
         engineerCanvas.SetActive(!isDocked);
-        gameObject.transform.parent = startPosition.transform;
-        gameObject.transform.localPosition = new Vector3(0,0,0);
+        //gameObject.transform.parent = startPosition.transform;
+        gameObject.transform.position = startPosition.transform.position;
         gameObject.transform.rotation = startPosition.transform.rotation;
 
 		// Update the drone stats

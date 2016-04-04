@@ -276,6 +276,7 @@ public class ServerManager : NetworkBehaviour
                 // Create the engineer object
                 GameObject engineer = Instantiate(Resources.Load("Prefabs/Engineer", typeof(GameObject)),
                     engineerStartPos.transform.position, engineerStartPos.transform.rotation) as GameObject;
+                engineer.transform.parent = playerShip.transform;
                 gameState.AddToEngineerList(engineer);
 
                 // Spawn the engineer with local authority
