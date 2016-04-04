@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OutpostSpawner : MonoBehaviour 
 {
@@ -15,6 +16,7 @@ public class OutpostSpawner : MonoBehaviour
 	private int guardTriggerDistance;
 	private float minAsteroidFieldSize, maxAsteroidFieldSize;
 	private float minAsteroidFieldDensity, maxAsteroidFieldDensity;
+    private List<Vector3> spawnLocations;
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private GameObject resources;     // The resources prefab
@@ -68,6 +70,7 @@ public class OutpostSpawner : MonoBehaviour
 		minDistance          = settings.OutpostMinDistance;
 		guardTriggerDistance = settings.OutpostGuardTriggerDistance;
         totalOutposts	     = settings.EasyOutposts + settings.MediumOutposts + settings.HardOutposts;
+        spawnLocations       = settings.OutpostSpawnLocations;
 
 		minAsteroidFieldSize    = settings.OutpostMinAsteroidFieldSize;
 		maxAsteroidFieldSize    = settings.OutpostMaxAsteroidFieldSize;
@@ -82,17 +85,24 @@ public class OutpostSpawner : MonoBehaviour
 			{
 				if(player == null) 
 					player = gameState.PlayerShip;
-			
-				spawnLocation.transform.position = player.transform.position;
+                if (numOutposts < spawnLocations.Count)
+                {
+                    spawnLocation.transform.position = spawnLocations[numOutposts];
+                    spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10, 10), Random.Range(90, -90), Random.Range(90, -90));
+                }
+                else
+                {
+                    spawnLocation.transform.position = player.transform.position;
 
-				// The range (90,-90) is in in front of the ship. 
-				spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10,10), Random.Range(90,-90), Random.Range(90,-90));
+                    // The range (90,-90) is in in front of the ship. 
+                    spawnLocation.transform.eulerAngles = new Vector3(Random.Range(-10, 10), Random.Range(90, -90), Random.Range(90, -90));
 
-				// Loop until we find a position that is not close to another outpost
-				do {
-					spawnLocation.transform.Translate(transform.forward * Random.Range(1000,3500));
-				} while(!CheckOutpostProximity(spawnLocation.transform.position));
-
+                    // Loop until we find a position that is not close to another outpost
+                    do
+                    {
+                        spawnLocation.transform.Translate(transform.forward * Random.Range(1000, 3500));
+                    } while (!CheckOutpostProximity(spawnLocation.transform.position));
+                }
 				SpawnOutpost (numOutposts);
 				numOutposts++;
             } else {
