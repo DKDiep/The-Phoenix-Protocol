@@ -5,7 +5,7 @@ public enum ComponentType
     ShieldGenerator     = 0,
     Turret              = 1,
     Engine              = 2,
-    Bridge              = 3,
+    Hull                = 3,
 	Drone               = 4,
 	ResourceStorage     = 5,
     None                = 6
@@ -25,7 +25,7 @@ public static class ComponentTypeMethods
 		else if (s.Contains("Engine"))
 			return ComponentType.Engine;
 		else if (s.Contains("Hull"))
-			return ComponentType.Bridge;
+			return ComponentType.Hull;
 		else if (s.Contains("Shield"))
 			return ComponentType.ShieldGenerator;
 		else if (s.Contains("Resource"))

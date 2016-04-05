@@ -290,7 +290,7 @@ public class TCPServer : MonoBehaviour
             case ComponentType.Engine:
                 return "ENGINES";
                 break;
-            case ComponentType.Bridge:
+            case ComponentType.Hull:
                 return "HULL";
                 break;                
         }

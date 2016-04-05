@@ -7,7 +7,7 @@ public class UpgradableHull : UpgradableComponent
 {
 	public UpgradableHull() : base()
 	{
-		this.Type = ComponentType.Bridge;
+		this.Type = ComponentType.Hull;
 		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
 	}
 

@@ -259,7 +259,7 @@ public class GameState : NetworkBehaviour {
 		case ComponentType.Engine:
 			index = UpgradableComponentIndex.Engines;
 			break;
-		case ComponentType.Bridge:
+		case ComponentType.Hull:
 			index = UpgradableComponentIndex.Hull;
 			break;
 		case ComponentType.ShieldGenerator:
@@ -677,7 +677,7 @@ public class GameState : NetworkBehaviour {
 			
 		switch(component)
 		{
-		case ComponentType.Bridge:
+		case ComponentType.Hull:
 			ReduceShipHealth(value);
 			break;
 		case ComponentType.Engine:
@@ -702,7 +702,7 @@ public class GameState : NetworkBehaviour {
 
 		switch(part)
 		{
-		case ComponentType.Bridge:
+		case ComponentType.Hull:
 			shipHealth = maxHealth;
 			break;
 		case ComponentType.Engine:
@@ -856,7 +856,7 @@ public class GameState : NetworkBehaviour {
 
 		switch(type)
 		{
-		case ComponentType.Bridge:
+		case ComponentType.Hull:
 			return shipHealth;
 		case ComponentType.Engine:
 			return engineHealth;
