@@ -17,12 +17,15 @@ public class EnemyCollision : MonoBehaviour
 
     	if(col.gameObject.tag.Equals ("Player"))
     	{
-            GameObject hitObject = col.gameObject;
-            if(shipMovement == null)
-			    shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+			if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
+			{
+				GameObject hitObject = col.gameObject;
+				if (shipMovement == null)
+					shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
 
-            if (shipMovement != null)
-                shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+				if (shipMovement != null)
+					shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+			}
             
 			if(myLogic != null)
             {

@@ -28,13 +28,13 @@ TagManager:
   - UI
   - 
   - 
-  - MiniMap
+  - Resources
   - Player
   - Enemy
   - Targets
-  - 
-  - 
-  - 
+  - Player Bullet
+  - Enemy Bullet
+  - Asteroid
   - 
   - 
   - 

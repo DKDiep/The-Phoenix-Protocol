@@ -200,7 +200,8 @@ public class CrosshairMovement : NetworkBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(aimPosition);
 
 		// Find the objects in a sphere in front of the player
-		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS);
+		int layerColMask    = LayerMask.GetMask("Asteroid", "Enemy");
+		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS, layerColMask);
 		Collider closestCol = null;
 		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
 		bool foundAnEnemy   = false;
