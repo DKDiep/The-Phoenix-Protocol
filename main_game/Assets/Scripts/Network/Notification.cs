@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
@@ -35,8 +36,19 @@ public class Notification {
         catch (KeyNotFoundException)
         {
             Notification notification = new Notification(isUpgrade, component);
-            objectTable.Add(component, new Dictionary<bool, Notification>());
-            objectTable[component].Add(isUpgrade, notification);
+
+            // Try adding the dictionary at objectTable[ComponentType]
+            // If the object table already has a key ComponentType
+            // (objectTable[ComponentType] already exists) we move into the catch
+            try
+            {
+                objectTable.Add(component, new Dictionary<bool, Notification>());
+            }
+            catch (ArgumentException)
+            {
+                objectTable[component].Add(isUpgrade, notification);
+            }
+
             return notification;
         }
     }
