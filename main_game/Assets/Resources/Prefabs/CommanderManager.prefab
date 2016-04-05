@@ -75,7 +75,7 @@ GameObject:
   - 222: {fileID: 22200744}
   - 114: {fileID: 11422418}
   m_Layer: 5
-  m_Name: bg
+  m_Name: UpgradeBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ GameObject:
   - 222: {fileID: 22270098}
   - 114: {fileID: 11467398}
   m_Layer: 5
-  m_Name: main
+  m_Name: MissionWindowBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -716,6 +716,11 @@ MonoBehaviour:
   highlightMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   newsFeed: {fileID: 167460}
   popupWindow: {fileID: 157972}
+  newsFeedBG: {fileID: 152994}
+  upgradeInfoBG: {fileID: 117292}
+  mapBG: {fileID: 164030}
+  mapBGBG: {fileID: 103362}
+  missionWindowBG: {fileID: 134816}
   defaultColor: {r: 0.13333334, g: 0.2509804, b: 0.50980395, a: 1}
   highlightColor: {r: 0.17787631, g: 0.33828261, b: 0.6911765, a: 1}
 --- !u!114 &11411522
@@ -1662,6 +1667,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

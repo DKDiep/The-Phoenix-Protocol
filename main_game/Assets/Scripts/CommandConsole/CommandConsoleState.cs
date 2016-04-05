@@ -23,6 +23,12 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private GameObject newsFeed;
     [SerializeField] private GameObject popupWindow;
 
+    [SerializeField] private GameObject newsFeedBG;
+    [SerializeField] private GameObject upgradeInfoBG;
+    [SerializeField] private GameObject mapBG;
+    [SerializeField] private GameObject mapBGBG;
+    [SerializeField] private GameObject missionWindowBG;
+
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
 #pragma warning restore 0649
@@ -35,10 +41,20 @@ public class CommandConsoleState : MonoBehaviour {
     private GameState gameState;
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
+    private List<GameObject> upgradeBoxes;
+    private Image[] pulsateableImages;
+    private bool[] pulsateToggle;
     private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
+
+    private Image newsFeedImage;
+    private Image upgradeInfoImage;
+    private Image mapImage;       //this is the black area on the minimap
+    private Image mapBGImage;     //this is the blue background behind the minimap
+    private Image missionWindowImage;
 
     private int componentToUpgrade = 0;
     private double second = 0;
+    private static Color uiColor = new Color(0.75f, 0.75f, 0.75f, 1);
 
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
@@ -50,6 +66,18 @@ public class CommandConsoleState : MonoBehaviour {
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
         stratMap = GameObject.Find("Map").GetComponent<StratMap>();
+
+        pulsateToggle = new bool[Enum.GetNames(typeof(UIElementEnum)).Length];
+        pulsateableImages = new Image[Enum.GetNames(typeof(UIElementEnum)).Length];
+        pulsateableImages[(int)UIElementEnum.MapBG] = mapBGBG.GetComponent<Image>();
+        pulsateableImages[(int)UIElementEnum.MissionWindow] = missionWindowBG.GetComponent<Image>();
+        pulsateableImages[(int)UIElementEnum.UpgradeInfo] = upgradeInfoBG.GetComponent<Image>();
+        pulsateableImages[(int)UIElementEnum.NewsFeed] = newsFeedBG.GetComponent<Image>();
+        for (int i = 0; i < pulsateToggle.Length; i++)
+        {
+            pulsateToggle[i] = false;
+        }
+
         stratMap.Portal = portal;
         LoadSettings();
 
@@ -111,8 +139,33 @@ public class CommandConsoleState : MonoBehaviour {
     }
     void Update()
     {
+        //pulsate UI elements
+        Color lerpedColor = Color.white;
+        lerpedColor = Color.Lerp(Color.white, Color.grey, Mathf.PingPong(Time.time, 1));
+        for(int i = 0; i < pulsateToggle.Length; i++)
+        {
+            if (pulsateToggle[i])
+            {
+                pulsateableImages[i].color = lerpedColor;
+            }
+            else pulsateableImages[i].color = uiColor;
+        }
+
+        //all this is just so people can see the pulsate feature. It should be removed at some point
+        if (Input.GetKeyDown("z")) pulsateToggle[(int)UIElementEnum.NewsFeed] = !pulsateToggle[(int)UIElementEnum.NewsFeed];
+        if (Input.GetKeyDown("x")) pulsateToggle[(int)UIElementEnum.MapBG] = !pulsateToggle[(int)UIElementEnum.MapBG];
+        if (Input.GetKeyDown("c")) pulsateToggle[(int)UIElementEnum.MissionWindow] = !pulsateToggle[(int)UIElementEnum.MissionWindow];
+        if (Input.GetKeyDown("v")) pulsateToggle[(int)UIElementEnum.UpgradeInfo] = !pulsateToggle[(int)UIElementEnum.UpgradeInfo];
+        if (Input.GetKeyDown("b")) pulsateToggle[(int)UIElementEnum.ShieldsUpgrade] = !pulsateToggle[(int)UIElementEnum.ShieldsUpgrade];
+        if (Input.GetKeyDown("n")) pulsateToggle[(int)UIElementEnum.TurretsUpgrade] = !pulsateToggle[(int)UIElementEnum.TurretsUpgrade];
+        if (Input.GetKeyDown("m")) pulsateToggle[(int)UIElementEnum.EngineUpgrade] = !pulsateToggle[(int)UIElementEnum.EngineUpgrade];
+        if (Input.GetKeyDown(",")) pulsateToggle[(int)UIElementEnum.BridgeUpgrade] = !pulsateToggle[(int)UIElementEnum.BridgeUpgrade];
+        if (Input.GetKeyDown(".")) pulsateToggle[(int)UIElementEnum.DroneUpgrade] = !pulsateToggle[(int)UIElementEnum.DroneUpgrade];
+        if (Input.GetKeyDown("/")) pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade] = !pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade];
+
         // Cheat code! But seriously, this will ease development so much.
         // Upgrades all in progress upgrade requests, basically makes it so you don't need to run the engineer. 
+
         if (Input.GetKeyDown ("c") && Input.GetKeyDown ("u")) 
         {
             EngineerUpgradeAllCheat();
@@ -157,6 +210,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
             upgradeBox.transform.Find("UpgradeRepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
+            pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
         }
     }
         
