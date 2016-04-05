@@ -607,6 +607,11 @@ public class GameState : NetworkBehaviour {
 	private void ReduceShipHealth(float value) 
 	{
 		shipHealth -= value;
+        if(shipHealth < 20)
+            AIVoice.SendCommand(16);
+        else if(shipHealth < 40)
+            AIVoice.SendCommand(15);
+
 		if (shipHealth <= 0)
         {
             PlayerShip.transform.Find("PlayerShipLogic(Clone)").gameObject.GetComponent<ShipMovement>().Death();

@@ -24,6 +24,7 @@ public class BoostAbility : CommanderAbility {
     internal override void ActivateAbility()
     {
         Debug.Log("Boost ability enabled");
+        AIVoice.SendCommand(5);
         float originalSpeed = state.GetShipSpeed();
 		state.ActivateBoost(originalSpeed * settings.boostSpeedMultiplier);
     }

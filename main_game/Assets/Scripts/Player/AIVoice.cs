@@ -5,23 +5,23 @@ public class AIVoice : MonoBehaviour {
 
     /*
        Command List
-       1 - 4: Enemy ship destroyed
-        5: Missiles launched
-        6: Boosting
-        7: Shield Overdrive
-        8: Stun activated
-        9: Ability on cooldown
-        10: Mission accomplished
-        11: Shield fully charged
-        12: Shield failure
-        13: Repair complete
-        14: Upgrade complete
-        15: Structural integrity failing
-        16: Life support systems failing
-        17: System failure imminent
-        18: All systems functional
-        19: Purchased system
-        20 - 22: Enemies incoming
+       0 - 3: Enemy ship destroyed
+        4: Missiles launched
+        5: Boosting
+        6: Shield Overdrive
+        7: Stun activated
+        8: Ability on cooldown
+        9: Mission accomplished
+        10: Shield fully charged
+        11: Shield failure
+        12: Repair complete
+        13: Upgrade complete
+        14: Structural integrity failing
+        15: Life support systems failing
+        16: System failure imminent
+        17: All systems functional
+        18: Purchased system
+        19 - 21: Enemies incoming
     */
 
     public AudioClip[] aiClips;

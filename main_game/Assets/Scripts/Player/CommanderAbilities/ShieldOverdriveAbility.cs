@@ -34,6 +34,7 @@ public class ShieldOverdriveAbility : CommanderAbility {
                 shieldEffects = state.PlayerShip.GetComponentInChildren<ShieldEffects>();
 
         Debug.Log("Shield ability enabled");
+        AIVoice.SendCommand(6);
         shieldEffects.overdriveEnabled = true;
         originalShield = state.GetShipShield();
         abilityActive = true;

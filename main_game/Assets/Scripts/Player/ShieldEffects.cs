@@ -123,6 +123,7 @@ public class ShieldEffects : NetworkBehaviour
             myMat.material.SetColor("_InnerTint", emptyShield);
             myMat.material.SetColor("_OuterTint", emptyShield);
             shieldAlpha = 1f;
+            AIVoice.SendCommand(11);
             RpcClientShieldDown();
         }
 

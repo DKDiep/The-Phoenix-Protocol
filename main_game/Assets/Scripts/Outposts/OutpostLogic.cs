@@ -55,6 +55,7 @@ public class OutpostLogic : MonoBehaviour {
 			CollectResources();
 			resourcesCollected = true;
             collision.SwitchMaterial(1);
+            AIVoice.SendCommand(9);
             playerController.RpcNotifyOutpostVisit(numberOfResources, numberOfCivilians, id);
 		}
 		if(!civiliansCollected) 

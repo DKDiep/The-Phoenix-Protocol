@@ -39,6 +39,10 @@ public abstract class CommanderAbility : MonoBehaviour {
             StartCoroutine(DeactivateTimer());
             ActivateAbility();
         }
+        else
+        {
+            AIVoice.SendCommand(8);
+        }
      }
 	
 }

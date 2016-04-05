@@ -31,6 +31,7 @@ public class ShootingAbility : CommanderAbility {
 
     private IEnumerator FireMissiles(EnemyFinder enemyFinder)
     {
+        AIVoice.SendCommand(4);
         yield return new WaitForSeconds(0.1f);
         if(enemyFinder.searchCompleted)
         {

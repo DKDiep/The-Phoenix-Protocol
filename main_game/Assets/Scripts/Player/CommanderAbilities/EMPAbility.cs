@@ -27,6 +27,7 @@ public class EMPAbility : CommanderAbility {
     internal override void ActivateAbility()
     {
         Debug.Log("EMP used");
+        AIVoice.SendCommand(7);
         GameObject temp = Instantiate(emp,state.PlayerShip.transform.position, Quaternion.identity) as GameObject;
         ServerManager.NetworkSpawn(temp);
     }
