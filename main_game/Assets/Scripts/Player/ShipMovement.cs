@@ -290,14 +290,11 @@ private void LoadSettings()
         if(myDamage == null) 
             myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
 
-
         // Check to see if the hull is hit, otherwise damage component
         if (component == ComponentType.None)
-        {
             gameState.DamageShip(damage);
-        }
         else
-            gameState.ReduceComponentHealth(component, damage);
+            gameState.DamageComponent(component, damage);
            
 
         // Show directional damage effect

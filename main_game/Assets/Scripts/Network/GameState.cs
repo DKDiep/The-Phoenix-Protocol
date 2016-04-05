@@ -579,18 +579,18 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
-	/// Damage the ship's main hull.
+	/// Absorbs as much damage as possible using the current shield.
 	/// </summary>
-	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the hull.</param>
-	/// <param name="damage">The ammount of damage to inflict.</param>
-	/// <returns><c>true</c> if shields are still available</returns>
-	public bool DamageShip(float damage)
+	/// <returns>The amount of damage left that could not be absorbed because the shields have depleated.</returns>
+	/// <param name="damage">The damage value.</param>
+	private float ShieldAbsorb(float damage)
 	{
 		if (shipShield > damage)
 		{
 			SetShipShield(shipShield - damage);
-            myShield.Impact(GetShipShield());
-			return true;
+			myShield.Impact(GetShipShield());
+
+			return 0f;
 		}
 		else
 		{
@@ -598,11 +598,24 @@ public class GameState : NetworkBehaviour {
 			{
 				damage -= shipShield;
 				SetShipShield(0);
-                myShield.ShieldDown();
+				myShield.ShieldDown();
 			}
-			ReduceShipHealth(damage);
-			return false;
+
+			return damage;
 		}
+	}
+
+	/// <summary>
+	/// Damage the ship's main hull.
+	/// </summary>
+	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the hull.</param>
+	/// <param name="damage">The ammount of damage to inflict.</param>
+	public void DamageShip(float damage, bool shielded = true)
+	{
+		if (shielded)
+			damage = ShieldAbsorb(damage);
+		
+		ReduceShipHealth(damage);
 	}
 
 	/// <summary>
@@ -629,8 +642,12 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	/// <param name="component">The component.</param>
 	/// <param name="value">The value by which to decrease health.</param>
-	public void ReduceComponentHealth(ComponentType component, float value)
+	/// /// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the component.</param>
+	public void DamageComponent(ComponentType component, float value, bool shielded = true)
 	{
+		if (shielded)
+			value = ShieldAbsorb(value);
+			
 		switch(component)
 		{
 		case ComponentType.Bridge:
