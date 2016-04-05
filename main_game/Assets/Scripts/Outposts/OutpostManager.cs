@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+//Also manages the portal!
 public class OutpostManager : MonoBehaviour {
 
     private GameState gameState;
     private PlayerController playerController;
     private float timeSinceLastEvent = 0;
     private GameObject canvas;
+    private GameObject portal;
+    private GameObject portalArrow;
     private List<GameObject> arrowList = new List<GameObject>();
     private List<GameObject> outpostList;
     private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
     private int arrowsRequired = 0;
     public bool outpostSpawned = false;
+    public bool portalArrowSpawned = false;
     Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
     Vector3 screenBounds;
     private Color darkRed;
     private Color darkYellow;
     private Color darkGreen;
+    private Color darkPurple;
 
     void Start()
     {
@@ -29,6 +34,7 @@ public class OutpostManager : MonoBehaviour {
         darkRed = new Color(0.62f,0,0,0.4f);
         darkYellow = new Color(0.62f,0.57f,0,0.4f);
         darkGreen = new Color(0,0.62f,0,0.4f);
+        darkPurple = new Color(0.62f, 0, 0.62f);
         StartCoroutine(UpdateOutposts());
     }
 
@@ -38,6 +44,8 @@ public class OutpostManager : MonoBehaviour {
         {
             Destroy(arrowList[i]);
         }
+        Destroy(portalArrow);
+        portalArrowSpawned = false;
         arrowList = new List<GameObject>();
         Canvas.ForceUpdateCanvases();
         outpostLogic = new List<OutpostLogic>();
@@ -78,10 +86,11 @@ public class OutpostManager : MonoBehaviour {
                     if (outpostLogic[index].discovered && !outpostLogic[index].resourcesCollected && 
                         !outpostLogic[index].civiliansCollected && outpostList[index] != null
                     )
-                        Indicator(outpostList[index], index);
+                        Indicator(outpostList[index], index, false);
                     else
                         arrowList[index].SetActive(false);
                 }
+                if (portalArrowSpawned) Indicator(portal, 0, true);
             }
         }
     }
@@ -125,6 +134,13 @@ public class OutpostManager : MonoBehaviour {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
                 arrowList[i].GetComponent<Image>().color = darkRed;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
+            }
+            if (!portalArrowSpawned)
+            {
+                portal = gameState.Portal;
+                portalArrow = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
+                portalArrow.GetComponent<Image>().color = darkPurple;
+                portalArrowSpawned = true;
             }
             arrowsRequired = outpostList.Count;
         }
@@ -194,15 +210,18 @@ public class OutpostManager : MonoBehaviour {
         outpostList[id].GetComponent<OutpostTarget>().EndMission();
     }
 
-    private void Indicator(GameObject outpost, int index)
+    private void Indicator(GameObject targetObject, int index, bool forPortal) //Second parameter doesn't matter if it's portal
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(outpost.transform.position);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetObject.transform.position);
+        GameObject arrow;
+        if(!forPortal) arrow = arrowList[index];
+        else arrow = portalArrow;
         //If the object is on-screen then set its arrow to be inactive 
         if (screenPos.z > 0 &&
             screenPos.x > 0 && screenPos.x < Screen.width &&
             screenPos.y > 0 && screenPos.y < Screen.height)
         {
-            arrowList[index].SetActive(false);
+            arrow.SetActive(false);    
         }
         else
         {   
@@ -241,12 +260,12 @@ public class OutpostManager : MonoBehaviour {
             { //out of bounds to the left
                 screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
             }
-            RectTransform arrowRectTransform = (RectTransform)arrowList[index].transform;
+            RectTransform arrowRectTransform = (RectTransform)arrow.transform;
 
             arrowRectTransform.anchoredPosition = screenPos;
-            arrowList[index].transform.SetParent(canvas.transform);
-            arrowList[index].transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
-            arrowList[index].SetActive(true);
+            arrow.transform.SetParent(canvas.transform);
+            arrow.transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
+            arrow.SetActive(true);
         }
     }
 }
