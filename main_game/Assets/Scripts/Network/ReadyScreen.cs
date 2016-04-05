@@ -35,8 +35,18 @@ public class ReadyScreen : NetworkBehaviour
         else
         {
             goButton.onClick.AddListener(() => OnClickStartButton());
+            goButton.gameObject.SetActive(false);
+            StartCoroutine(DelayButton());
             Reset();
         }
+
+
+    }
+
+    IEnumerator DelayButton()
+    {
+        yield return new WaitForSeconds(2f);
+        goButton.gameObject.SetActive(true);
     }
 
     public void Reset()
