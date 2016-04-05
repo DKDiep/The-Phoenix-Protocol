@@ -72,6 +72,7 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             localController.commandConsoleState = commandConsoleState;
             commandConsoleState.givePlayerControllerReference(localController);
+            gameState.ResetOfficerList();
         }
     }
     

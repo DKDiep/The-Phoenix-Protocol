@@ -831,12 +831,7 @@ public class GameState : NetworkBehaviour {
     /// <param name="officerData"></param>
     public void UpdateOfficerList(string officerData)
     {
-        if (currentOfficers == null)
-            currentOfficers = new Dictionary<uint, Officer>();
-
-        // Clear the list so that we avoid having
-        // officers from the previous game in there
-        currentOfficers.Clear();
+        ResetOfficerList();
         string[] semicolon = { ";" };
         string[] officerObjects = officerData.Split(semicolon, StringSplitOptions.RemoveEmptyEntries);
 
@@ -845,5 +840,15 @@ public class GameState : NetworkBehaviour {
             Officer newOfficer = Officer.DeserializeFromString(officer);
             currentOfficers.Add(newOfficer.PlayerId, newOfficer);
         }
+    }
+
+    public void ResetOfficerList()
+    {
+        if (currentOfficers == null)
+            currentOfficers = new Dictionary<uint, Officer>();
+
+        // Clear the list so that we avoid having
+        // officers from the previous game in there
+        currentOfficers.Clear();
     }
 }

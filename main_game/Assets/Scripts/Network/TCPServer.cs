@@ -167,7 +167,9 @@ public class TCPServer : MonoBehaviour
                     uint userId = UInt32.Parse(subFields[1]);
                     PlayerIdToPlayer.Add(userId, new Officer(userId, userName));
                     Debug.Log("Username: " + userName + " id:" + userId);
-                }              
+                }
+                // Send the map of officers to clients that need it
+                serverManager.SendOfficers();
                 ReadyScreen readyScreen = GameObject.Find("ReadyCanvas(Clone)").GetComponent<ReadyScreen>();
                 readyScreen.InitialiseGame();
                 break;

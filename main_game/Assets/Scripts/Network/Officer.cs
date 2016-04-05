@@ -36,7 +36,7 @@ public class Officer {
 
         serializedObject += this.PlayerId.ToString() + ",";
         serializedObject += this.Name + ",";
-        serializedObject += this.Ammo.ToString() + ",";
+        serializedObject += this.Ammo.ToString();
 
         return serializedObject;
     }
