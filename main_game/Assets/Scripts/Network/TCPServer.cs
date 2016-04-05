@@ -25,6 +25,7 @@ public class TCPServer : MonoBehaviour
     private readonly String[] comma = {","};
     private readonly String[] plus = {"+"};
 
+    private GameState gameState;
     private UDPServer udpServer;
     private ServerManager serverManager;
     private TcpListener tcpServer = null;
@@ -45,6 +46,7 @@ public class TCPServer : MonoBehaviour
 		LoadSettings();
         Debug.Log("Starting TCP server on port: " + listenPort);
         tcpServer = new TcpListener(IPAddress.Any, listenPort);
+        gameState = this.gameObject.GetComponent<GameState>();
         udpServer = this.gameObject.GetComponent<UDPServer>();
         serverManager = this.gameObject.GetComponent<ServerManager>();
         PlayerIdToPlayer = new Dictionary<uint, Officer>();
@@ -53,6 +55,11 @@ public class TCPServer : MonoBehaviour
         tcpServer.Start();
         
         StartCoroutine(ConnectionHandler());
+        StartCoroutine(SendUpdatedObjects());
+        
+        gameState.AddNotification(true, ComponentType.ShieldGenerator);
+        gameState.AddNotification(false, ComponentType.Bridge);
+        gameState.AddNotification(true, ComponentType.Turret);
     }
 
 	private void LoadSettings()
@@ -193,6 +200,61 @@ public class TCPServer : MonoBehaviour
         }
     }
     
+    IEnumerator SendUpdatedObjects()
+    {
+        while (true)
+        {
+            if(connected)
+            {
+                try
+                {
+                    SendNotificationsUpdate();                    
+                } catch(Exception e) {
+                    Debug.LogError(e);
+                }
+            }
+            yield return new WaitForSeconds(0.07f);
+        }
+    }
+    
+    // Send the changes in notifications
+    private void SendNotificationsUpdate()
+    {
+        List<Notification> newNotif = gameState.GetNewNotifications();
+        List<Notification> remNotif = gameState.GetRemovedNotifications();
+        bool hasNew = newNotif != null && newNotif.Count > 0;
+        bool hasRemoved = remNotif != null && remNotif.Count > 0;
+        if (hasNew || hasRemoved)
+        {
+            string jsonMsg = "{\"type\":\"NOTIFY_UPD\",\"data\":[";
+            if (hasNew)
+            {
+                foreach (Notification notif in newNotif)
+                {
+                    jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
+                    jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
+                    jsonMsg += "\"toSet\":true},";
+                }
+            }
+            if (hasRemoved)
+            {
+                foreach (Notification notif in remNotif)
+                {
+                    jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
+                    jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
+                    jsonMsg += "\"toSet\":false},";
+                }
+            }
+            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+            jsonMsg += "]}";
+            bool success = SendMsg(jsonMsg);
+            if (success) {
+                gameState.ClearNewNotifications();
+                gameState.ClearRemovedNotifications();
+            }
+        }
+    }
+    
     // Send a JSON encoded message to the phone server
     // return value indicates the success of the send
     private bool SendMsg(String jsonMsg)
@@ -207,6 +269,7 @@ public class TCPServer : MonoBehaviour
             try
             {
                 client.Send(data);
+                Debug.Log("Sent: " + jsonMsg);
                 return true;
             }
             // Might not be the best way to deal with exceptions here
@@ -217,5 +280,25 @@ public class TCPServer : MonoBehaviour
                 return false;
             }
         }
+    }
+    
+    private String ComponentTypeToString(ComponentType comp)
+    {
+        switch(comp) {
+            case ComponentType.ShieldGenerator:
+                return "SHIELDS";
+                break;
+            case ComponentType.Turret:
+                return "TURRETS";
+                break;
+            case ComponentType.Engine:
+                return "ENGINES";
+                break;
+            case ComponentType.Bridge:
+                return "HULL";
+                break;                
+        }
+        
+        return "";
     }
 }

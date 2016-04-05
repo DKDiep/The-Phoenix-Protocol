@@ -19,6 +19,8 @@ public class GameState : NetworkBehaviour {
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
     private List<Notification> activeNotifications;
+    private List<Notification> newNotifications;
+    private List<Notification> removedNotifications;
     private Dictionary<uint, Officer> currentOfficers;
 
     private List<GameObject> enemyList;
@@ -430,11 +432,14 @@ public class GameState : NetworkBehaviour {
         Notification newNotification = Notification.create(isUpgrade, component);
         AIVoice.SendCommand(18);
         activeNotifications.Add(newNotification);
+        newNotifications.Add(newNotification);
     }
 
     public void RemoveNotification(bool isUpgrade, ComponentType component)
     {
         Notification toRemove = Notification.create(isUpgrade, component);
+        bool wasDeleted = newNotifications.Remove(toRemove);
+        if (!wasDeleted) removedNotifications.Add(toRemove);
         if(!isUpgrade)
             AIVoice.SendCommand(12);
         else
@@ -446,18 +451,40 @@ public class GameState : NetworkBehaviour {
     {
         return activeNotifications;
     }
+    
+    public List<Notification> GetNewNotifications()
+    {
+        return newNotifications;
+    }
+    
+    public List<Notification> GetRemovedNotifications()
+    {
+        return removedNotifications;
+    }
+    
+    public void ClearNewNotifications()
+    {
+        newNotifications.Clear();
+    }
+    
+    public void ClearRemovedNotifications()
+    {
+        removedNotifications.Clear();
+    }
 
     private void InitializeVariables()
     {
-        asteroidList        = new List<GameObject>();        
-        newAsteroids        = new List<GameObject>();
-        removedAsteroids    = new List<uint>();
-        enemyList           = new List<GameObject>();
-        removedEnemies      = new List<int>();
-        engineerList        = new List<GameObject>();
-		outpostList         = new List<GameObject>();
-        activeNotifications = new List<Notification>();
-        currentOfficers     = new Dictionary<uint, Officer>();
+        asteroidList         = new List<GameObject>();        
+        newAsteroids         = new List<GameObject>();
+        removedAsteroids     = new List<uint>();
+        enemyList            = new List<GameObject>();
+        removedEnemies       = new List<int>();
+        engineerList         = new List<GameObject>();
+		outpostList          = new List<GameObject>();
+        activeNotifications  = new List<Notification>();
+        newNotifications     = new List<Notification>();
+        removedNotifications = new List<Notification>();
+        currentOfficers      = new Dictionary<uint, Officer>();
 
 		// StartCoroutine(FindNull()); // Uncomment to help debug null enemies
     }
