@@ -652,10 +652,10 @@ public class GameState : NetworkBehaviour {
 	private void ReduceShipHealth(float value) 
 	{
 		shipHealth -= value;
-        if(shipHealth < 20)
+        if(shipHealth < 25)
             AIVoice.SendCommand(16);
-        else if(shipHealth < 40)
-            AIVoice.SendCommand(15);
+        else if(shipHealth < 45)
+            AIVoice.SendCommand(UnityEngine.Random.Range(14,16));
 
 		if (shipHealth <= 0)
         {
