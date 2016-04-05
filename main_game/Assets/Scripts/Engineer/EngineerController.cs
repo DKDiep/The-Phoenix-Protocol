@@ -34,8 +34,7 @@ public class EngineerController : NetworkBehaviour
 
     private bool canUpgrade;
     private bool canRepair;
-    private bool pressedUpgrade;
-    private bool pressedRepair;
+    private bool pressedAction;
     private bool isDocked = false;
     private bool jump;
     private bool showPopup = false;
@@ -78,8 +77,7 @@ public class EngineerController : NetworkBehaviour
 
     private enum InteractionKey
     {
-        Repair,
-        Upgrade,
+        Action,
         Popup
     }
 
@@ -136,8 +134,7 @@ public class EngineerController : NetworkBehaviour
         keyPressTime = new Dictionary<InteractionKey, float>(enumElements);
 
         // Initialize with keys
-        keyPressTime[InteractionKey.Upgrade] = 0f;
-        keyPressTime[InteractionKey.Repair] = 0f;
+        keyPressTime[InteractionKey.Action] = 0f;
         keyPressTime[InteractionKey.Popup] = 0f;
     }
 
@@ -403,19 +400,13 @@ public class EngineerController : NetworkBehaviour
         }
 
         jump = Input.GetButton("Jump");
-        pressedUpgrade = Input.GetButton("Upgrade");
-        pressedRepair = Input.GetButton("Repair");
+        pressedAction = Input.GetButton("Action");
 
-        // Deal with how long Upgrade and Repair have been pressed
-        if (pressedUpgrade && interactiveObject != null)
-            keyPressTime[InteractionKey.Upgrade] += Time.deltaTime;
+        // Deal with how long the action button has been pressed
+        if (pressedAction && interactiveObject != null)
+            keyPressTime[InteractionKey.Action] += Time.deltaTime;
         else
-            keyPressTime[InteractionKey.Upgrade] = 0;
-
-        if (pressedRepair && interactiveObject != null)
-            keyPressTime[InteractionKey.Repair] += Time.deltaTime;
-        else
-            keyPressTime[InteractionKey.Repair] = 0;
+            keyPressTime[InteractionKey.Action] = 0f;
 
         // Artificial way of having the popup show for 2 seconds
         if (showPopup)
@@ -554,16 +545,16 @@ public class EngineerController : NetworkBehaviour
         // Do upgrades/repairs
         // Force engineer to repair before upgrading if
         // both are possible
-		if (canRepair && keyPressTime[InteractionKey.Repair] >= workTime)
+		if (canRepair && keyPressTime[InteractionKey.Action] >= workTime)
         {
-            keyPressTime[InteractionKey.Repair] = 0;
+            keyPressTime[InteractionKey.Action] = 0;
             FinishJob(false, interactiveObject.Type);
             playerController.CmdDoRepair(interactiveObject.Type);
             showPopup = true;
         }
-		else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] >= workTime)
+		else if (canUpgrade && keyPressTime[InteractionKey.Action] >= workTime)
         {
-            keyPressTime[InteractionKey.Upgrade] = 0;
+            keyPressTime[InteractionKey.Action] = 0;
             FinishJob(true, interactiveObject.Type);
             playerController.CmdDoUpgrade(interactiveObject.Type);
             showPopup = true;
@@ -692,15 +683,15 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void OnGUI()
     {
-        if (canRepair && keyPressTime[InteractionKey.Repair] > 0)
+        if (canRepair && keyPressTime[InteractionKey.Action] > 0)
         {
-			float progress = keyPressTime[InteractionKey.Repair] / workTime;
+			float progress = keyPressTime[InteractionKey.Action] / workTime;
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 11), emptyProgressBar);
             GUI.DrawTexture(new Rect(progressBarLocation.x+3, progressBarLocation.y+3, 97 * progress, 5), filledProgressBar);
         }
-        else if (canUpgrade && keyPressTime[InteractionKey.Upgrade] > 0)
+        else if (canUpgrade && keyPressTime[InteractionKey.Action] > 0)
         {
-			float progress = keyPressTime[InteractionKey.Upgrade] / workTime;
+			float progress = keyPressTime[InteractionKey.Action] / workTime;
             GUI.DrawTexture(new Rect(progressBarLocation.x, progressBarLocation.y, 100, 11), emptyProgressBar);
             GUI.DrawTexture(new Rect(progressBarLocation.x+3, progressBarLocation.y+3, 97 * progress, 5), filledProgressBar);
         }
