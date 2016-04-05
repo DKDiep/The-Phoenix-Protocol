@@ -434,25 +434,23 @@ public class EngineerController : NetworkBehaviour
         int y = Screen.height / 2;
         Ray ray = camera.ScreenPointToRay(new Vector3(x, y, 0));
         RaycastHit hitInfo;
+		int layerMask = LayerMask.GetMask("Player");
         canUpgrade = false;
         canRepair = false;
 
-        if (Physics.Raycast(ray, out hitInfo, 10.0f))
+		if (Physics.Raycast(ray, out hitInfo, 10.0f, layerMask))
         {
-            if (hitInfo.collider.CompareTag("Player"))
-            {
-                // Get the game object the engineer is currently looking at
-                // and get the EngineerInteraction script attached if it has one
-                GameObject objectLookedAt = hitInfo.collider.gameObject;
-                interactiveObject = objectLookedAt.GetComponent<EngineerInteraction>();
+            // Get the game object the engineer is currently looking at
+            // and get the EngineerInteraction script attached if it has one
+            GameObject objectLookedAt = hitInfo.collider.gameObject;
+            interactiveObject = objectLookedAt.GetComponent<EngineerInteraction>();
 
-                // If the object being looked at has an EngineerInteraction
-                // script we use it
-                if (interactiveObject != null)
-                {
-                    canUpgrade = interactiveObject.Upgradeable;
-                    canRepair = interactiveObject.Repairable;
-                }
+            // If the object being looked at has an EngineerInteraction
+            // script we use it
+            if (interactiveObject != null)
+            {
+                canUpgrade = interactiveObject.Upgradeable;
+                canRepair = interactiveObject.Repairable;
             }
 
             if (canRepair)
@@ -469,26 +467,28 @@ public class EngineerController : NetworkBehaviour
         }
 
         // Cast rays for checking collisions
+		layerMask = LayerMask.GetMask("Asteroid", "Water", "Player", "Enemy");
+
         // Forward ray
-        if (Physics.Raycast(transform.position, transform.forward, 9f))
+		if (Physics.Raycast(transform.position, transform.forward, 9f, layerMask))
             collideFront = true;
         else
             collideFront = false;
 
         // Left ray
-        if (Physics.Raycast(transform.position, -transform.right, 9f))
+		if (Physics.Raycast(transform.position, -transform.right, 9f, layerMask))
             collideLeft = true;
         else
             collideLeft = false;
 
         // Back ray
-        if (Physics.Raycast(transform.position, -transform.forward, 9f))
+		if (Physics.Raycast(transform.position, -transform.forward, 9f, layerMask))
             collideBack = true;
         else
             collideBack = false;
 
         // Right ray
-        if (Physics.Raycast(transform.position, transform.right, 9f))
+		if (Physics.Raycast(transform.position, transform.right, 9f, layerMask))
             collideRight = true;
         else
             collideRight = false;

@@ -241,19 +241,18 @@ public class AsteroidSpawner : MonoBehaviour
 		// Find the asteroids in the field's area and despawn them
 		// Of course, this might hit asteroids that are not part of the field but are in the same general area,
 		// but that's fine.
-		Collider[] asteroids = Physics.OverlapBox(field.Position, field.Size / 2);
+		int layerMask = 1 << LayerMask.NameToLayer("Asteroid");
+		Collider[] asteroids = Physics.OverlapBox(field.Position, field.Size / 2, Quaternion.identity, layerMask);
 		int despawnedthisFrame = 0;
 		foreach (Collider col in asteroids)
 		{
-			if (col.CompareTag(TAG_DEBRIS))
+			AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
+			if (logic != null)
 			{
-				AsteroidLogic logic = col.gameObject.GetComponentInChildren<AsteroidLogic>();
-				if (logic != null)
-				{
-					logic.Despawn();
-					despawnedthisFrame++;
-				}
+				logic.Despawn();
+				despawnedthisFrame++;
 			}
+
 			if (despawnedthisFrame >= maxSpawnedPerFrame)
 			{
 				despawnedthisFrame = 0;

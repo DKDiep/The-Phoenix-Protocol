@@ -425,12 +425,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Transform objectTransform = controlObject.transform;
 		bool hitLeft, hitRight;
 		RaycastHit hitInfoLeft, hitInfoRight;
+		int layerMask = LayerMask.GetMask("Asteroid", "Water", "Player");
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
 		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
+			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
 		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
+			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
 
 		// If an obstacle is found, return its tag
 		// Uncomment to show a ray when a collision is detected
