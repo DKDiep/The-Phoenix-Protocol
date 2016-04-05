@@ -32,7 +32,6 @@ public class TCPServer : MonoBehaviour
     private Socket client = null;
     private bool connected = false; // no easy way to tell from library
     private byte[] recvBuff = new byte[1024]; // allocate 1KB receive buffer
-    public Dictionary<uint, Officer> PlayerIdToPlayer { get; private set; }
     
 	// Use this for initialization
 	void Start ()
@@ -49,7 +48,6 @@ public class TCPServer : MonoBehaviour
         gameState = this.gameObject.GetComponent<GameState>();
         udpServer = this.gameObject.GetComponent<UDPServer>();
         serverManager = this.gameObject.GetComponent<ServerManager>();
-        PlayerIdToPlayer = new Dictionary<uint, Officer>();
 
         // Start listening for client requests
         tcpServer.Start();
@@ -157,18 +155,19 @@ public class TCPServer : MonoBehaviour
         switch(parts[0])
         {
             case "START":
+                Dictionary<uint, Officer> officerMap = gameState.GetOfficerMap();
                 // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal with data:");
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
 
                 // Clear the officer dictionary to avoid having officers from last game in there
-                PlayerIdToPlayer.Clear();
+                officerMap.Clear();
                 foreach (String plr in fields)
                 {
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
-                    PlayerIdToPlayer.Add(userId, new Officer(userId, userName));
+                    officerMap.Add(userId, new Officer(userId, userName));
                     Debug.Log("Username: " + userName + " id:" + userId);
                 }
                 // Send the map of officers to clients that need it
@@ -265,7 +264,7 @@ public class TCPServer : MonoBehaviour
             try
             {
                 client.Send(data);
-                Debug.Log("Sent: " + jsonMsg);
+                // Debug.Log("Sent: " + jsonMsg);
                 return true;
             }
             // Might not be the best way to deal with exceptions here
@@ -283,16 +282,12 @@ public class TCPServer : MonoBehaviour
         switch(comp) {
             case ComponentType.ShieldGenerator:
                 return "SHIELDS";
-                break;
             case ComponentType.Turret:
                 return "TURRETS";
-                break;
             case ComponentType.Engine:
                 return "ENGINES";
-                break;
             case ComponentType.Hull:
                 return "HULL";
-                break;                
         }
         
         return "";

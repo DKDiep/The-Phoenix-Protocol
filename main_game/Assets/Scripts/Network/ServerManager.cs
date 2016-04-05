@@ -202,7 +202,7 @@ public class ServerManager : NetworkBehaviour
     /// </summary>
     public void SendOfficers()
     {
-        Dictionary<uint, Officer> officerList = gameObject.GetComponent<TCPServer>().PlayerIdToPlayer;
+        Dictionary<uint, Officer> officerList = gameState.GetOfficerMap();
         string data = "";
 
         // Build the string representing all the officers. Note that when splitting

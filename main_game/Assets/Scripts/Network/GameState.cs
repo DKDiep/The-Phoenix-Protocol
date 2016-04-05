@@ -905,4 +905,9 @@ public class GameState : NetworkBehaviour {
         // officers from the previous game in there
         currentOfficers.Clear();
     }
+
+    public Dictionary<uint, Officer> GetOfficerMap()
+    {
+        return currentOfficers;
+    }
 }
