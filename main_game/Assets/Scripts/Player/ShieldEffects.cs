@@ -50,7 +50,7 @@ public class ShieldEffects : NetworkBehaviour
     {
         if(!overdriveEnabled)
         {
-                // When hit, fade in shield
+          // When hit, fade in shield
           if(shieldAlpha > 0 && !burstShield)
           {
             shieldAlpha -= 2f * Time.deltaTime;
@@ -89,8 +89,12 @@ public class ShieldEffects : NetworkBehaviour
                 shieldAlpha += 8f * Time.deltaTime;
                 Color shieldCol = Color.Lerp(Color.black, overdrive, shieldAlpha);
                 startFade = overdrive;
+                burstShield = false;
+                meshOffset = 0.05f;
+                myMat.material.SetFloat("_Offset", meshOffset);
                 myMat.material.SetColor("_InnerTint", shieldCol);
                 myMat.material.SetColor("_OuterTint", shieldCol);
+
             }
 
 
