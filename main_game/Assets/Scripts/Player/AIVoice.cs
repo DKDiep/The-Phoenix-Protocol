@@ -3,6 +3,11 @@ using System.Collections;
 
 public class AIVoice : MonoBehaviour {
 
+    /*
+       Command List
+       1. 
+    */
+
     [SerializeField] AudioClip[] aiClips;
     private AudioSource mySource;
 
@@ -11,7 +16,7 @@ public class AIVoice : MonoBehaviour {
         mySource = GetComponent<AudioSource>();
     }
 
-	public void PlaySound(int id)
+	public void SendCommand(int id)
     {
         mySource.PlayOneShot(aiClips[id]);
     }
