@@ -175,7 +175,7 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1043,6 +1043,10 @@ Prefab:
       propertyPath: aiClips.Array.data[21]
       value: 
       objectReference: {fileID: 8300000, guid: 5d7d0e94aa03f447cb68ec92ae06cf21, type: 3}
+    - target: {fileID: 0}
+      propertyPath: Priority
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185312}
