@@ -79,6 +79,7 @@ GameObject:
   - 33: {fileID: 3317116}
   - 23: {fileID: 2303288}
   - 65: {fileID: 6516846}
+  - 114: {fileID: 11476022}
   m_Layer: 9
   m_Name: HullBridgePlatform
   m_TagString: Player
@@ -217,6 +218,7 @@ GameObject:
   - 33: {fileID: 3366310}
   - 23: {fileID: 2372924}
   - 65: {fileID: 6568970}
+  - 114: {fileID: 11457744}
   m_Layer: 9
   m_Name: HullFront
   m_TagString: Player
@@ -321,7 +323,6 @@ GameObject:
   - 4: {fileID: 422600}
   - 33: {fileID: 3358822}
   - 23: {fileID: 2367250}
-  - 114: {fileID: 11412672}
   - 65: {fileID: 6570178}
   m_Layer: 9
   m_Name: CaptainBridge
@@ -483,6 +484,7 @@ GameObject:
   - 33: {fileID: 3377502}
   - 23: {fileID: 2303752}
   - 65: {fileID: 6587742}
+  - 114: {fileID: 11431418}
   m_Layer: 9
   m_Name: HullSides
   m_TagString: Player
@@ -521,6 +523,7 @@ GameObject:
   - 33: {fileID: 3305880}
   - 23: {fileID: 2345288}
   - 65: {fileID: 6529728}
+  - 114: {fileID: 11475584}
   m_Layer: 9
   m_Name: HullBottom
   m_TagString: Player
@@ -664,6 +667,7 @@ GameObject:
   - 33: {fileID: 3346770}
   - 23: {fileID: 2338994}
   - 65: {fileID: 6501596}
+  - 114: {fileID: 11428110}
   m_Layer: 9
   m_Name: HullBase
   m_TagString: Player
@@ -3764,17 +3768,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &11412672
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 130746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11420360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3809,12 +3802,34 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11428110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11429162
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11431418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144160}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
@@ -3853,6 +3868,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11457744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11462052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3881,6 +3907,28 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11475584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11476022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103656}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}

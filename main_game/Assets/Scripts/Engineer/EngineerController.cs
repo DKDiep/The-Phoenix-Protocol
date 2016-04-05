@@ -47,7 +47,7 @@ public class EngineerController : NetworkBehaviour
 
     private List<GameObject> engines;
     private List<GameObject> turrets;
-    private List<GameObject> bridge;
+    private List<GameObject> hull;
 	private List<GameObject> shieldGen;
 	private List<GameObject> resourceStorage;
 
@@ -217,7 +217,7 @@ public class EngineerController : NetworkBehaviour
 
         engines 		= new List<GameObject>();
         turrets 		= new List<GameObject>();
-        bridge 			= new List<GameObject>();
+        hull 			= new List<GameObject>();
 		shieldGen 		= new List<GameObject>();
 		resourceStorage = new List<GameObject>();
 		foreach (EngineerInteraction interaction in interactionObjects)
@@ -232,8 +232,8 @@ public class EngineerController : NetworkBehaviour
 			case ComponentType.Engine:
 				engines.Add (interaction.gameObject);
 				break;
-			case ComponentType.Bridge:
-                bridge.Add (interaction.gameObject);
+			case ComponentType.Hull:
+                hull.Add (interaction.gameObject);
 				break;
 			case ComponentType.Turret:
 				turrets.Add (interaction.gameObject);
@@ -285,8 +285,8 @@ public class EngineerController : NetworkBehaviour
 		case ComponentType.Engine:
 			partList = engines;
 			break;
-		case ComponentType.Bridge:
-			partList = bridge;
+		case ComponentType.Hull:
+			partList = hull;
 			break;
 		case ComponentType.ShieldGenerator:
 			partList = shieldGen;

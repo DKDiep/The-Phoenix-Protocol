@@ -34,7 +34,7 @@ public class GameStatsManager : MonoBehaviour
         }
 
         // Scores for each of the upgrades
-        totalScore += gameState.GetUpgradableComponent(ComponentType.Bridge).Level * 100;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.Hull).Level * 100;
         totalScore += gameState.GetUpgradableComponent(ComponentType.Drone).Level * 150;
         totalScore += gameState.GetUpgradableComponent(ComponentType.Engine).Level * 200;
         totalScore += gameState.GetUpgradableComponent(ComponentType.ResourceStorage).Level * 50;
