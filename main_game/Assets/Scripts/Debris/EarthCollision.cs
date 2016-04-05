@@ -14,7 +14,6 @@ public class EarthCollision : MonoBehaviour
     // Cause damage if collided with
     void OnTriggerEnter (Collider col)
     {
-        if(col.gameObject.tag.Equals("Player"))
-            gameState.DamageShip(PLAYER_COLLISION_DAMAGE);
+        gameState.DamageShip(PLAYER_COLLISION_DAMAGE);
     }
 }

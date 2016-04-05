@@ -14,11 +14,8 @@ public class PortalLogic : MonoBehaviour
     {
         if (gameState.Status == GameState.GameStatus.Started)
         {
-            if (col.gameObject.tag.Equals("Player"))
-            {
-                Debug.Log("You have reached the portal. You have won then game!");
-                gameState.Status = GameState.GameStatus.Won;
-            }
+            Debug.Log("You have reached the portal. You have won then game!");
+            gameState.Status = GameState.GameStatus.Won;
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - 135: {fileID: 13556636}
   - 23: {fileID: 2356006}
   - 114: {fileID: 11445918}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EnemyFinder
   m_TagString: TargetFinder
   m_Icon: {fileID: 0}
@@ -103,6 +103,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
