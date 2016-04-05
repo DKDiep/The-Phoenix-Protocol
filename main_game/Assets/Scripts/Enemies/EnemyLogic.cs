@@ -127,6 +127,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private List<IDestructionListener> destructionListeners;
 
+    private AIVoice aiVoice;
+
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] Material hackedMaterial;
 	#pragma warning restore 0649
@@ -760,6 +762,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
                 // Automatically collect resources from enemy ship
                 gameState.AddShipResources(droppedResources);
+
+                AIVoice.SendCommand(Random.Range(0,4));
 			}         
 
 			// Destroy Object
@@ -772,6 +776,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
             ResetGlowColour();
             originalGlow = null;
+
 
             Despawn();
 		}

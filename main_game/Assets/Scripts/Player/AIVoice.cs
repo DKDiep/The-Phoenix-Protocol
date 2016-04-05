@@ -8,16 +8,26 @@ public class AIVoice : MonoBehaviour {
        1. 
     */
 
-    [SerializeField] AudioClip[] aiClips;
+    public AudioClip[] aiClips;
     private AudioSource mySource;
+    public static AIVoice aiObject;
 
-    private void Start()
+	public static void SendCommand(int id)
     {
-        mySource = GetComponent<AudioSource>();
+        if(aiObject == null)
+            aiObject = Camera.main.gameObject.GetComponent<AIVoice>();
+        aiObject.PlaySound(id);
     }
 
-	public void SendCommand(int id)
+    public void PlaySound(int id)
     {
-        mySource.PlayOneShot(aiClips[id]);
+        if(mySource == null)
+            mySource = GetComponent<AudioSource>(); 
+        if(!mySource.isPlaying)
+        {
+            mySource.clip = aiClips[id];
+            mySource.Play();
+        }
+
     }
 }
