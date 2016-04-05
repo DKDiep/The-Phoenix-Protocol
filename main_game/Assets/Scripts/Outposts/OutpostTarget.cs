@@ -14,7 +14,9 @@ public class OutpostTarget : NetworkBehaviour
 	void Start () 
     {
 	    player = GameObject.Find("CameraManager(Clone)");
-        myRenderer.material.color = Color.red;
+        difficultyTextures[0].color = Color.red;
+        difficultyTextures[1].color = Color.red;
+        difficultyTextures[2].color = Color.red;
         discovered = false;
         StartCoroutine(UpdateDistance());
     }
@@ -59,12 +61,16 @@ public class OutpostTarget : NetworkBehaviour
 
     public void StartMission()
     {
-        myRenderer.material.color = Color.yellow;
+        difficultyTextures[0].color = Color.yellow;
+        difficultyTextures[1].color = Color.yellow;
+        difficultyTextures[2].color = Color.yellow;
     }
 
     public void EndMission()
     {
-        myRenderer.material.color = Color.green;
+        difficultyTextures[0].color = Color.green;
+        difficultyTextures[1].color = Color.green;
+        difficultyTextures[2].color = Color.green;
     }
 
     private IEnumerator UpdateDistance()
