@@ -34,6 +34,7 @@ public class OutpostLogic : MonoBehaviour {
         numberOfCivilians = Random.Range(MIN_OUTPOST_CIVILIANS, MAX_OUTPOST_CIVILIANS);
         numberOfCivilians *= multiplier;
         numberOfResources *= multiplier;
+        transform.parent.GetComponentInChildren<OutpostTarget>().SetDifficultyTexture(difficulty);
     }
 
     public int GetDifficulty()

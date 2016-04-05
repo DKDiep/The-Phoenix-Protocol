@@ -8,6 +8,7 @@ public class OutpostTarget : NetworkBehaviour
     private float distance;
     private bool discovered;
     private Renderer myRenderer;
+    [SerializeField] Material[] difficultyTextures;
 
 	// Use this for initialization
 	void Start () 
@@ -16,6 +17,19 @@ public class OutpostTarget : NetworkBehaviour
         myRenderer.material.color = Color.red;
         discovered = false;
         StartCoroutine(UpdateDistance());
+    }
+
+    public void SetDifficultyTexture(int id)
+    {
+        RpcSetDifficultyTexture(id);
+    }
+
+    [ClientRpc]
+    public void RpcSetDifficultyTexture(int id)
+    {
+        if(myRenderer == null)
+            GetRenderer();
+        myRenderer.material = difficultyTextures[id-1];
     }
 	
 	// Update is called once per frame

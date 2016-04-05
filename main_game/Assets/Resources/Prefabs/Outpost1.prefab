@@ -3178,6 +3178,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec092288bae04520b2566887c737d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyTextures:
+  - {fileID: 2100000, guid: 58a72dde019a849a790877043bc9e57e, type: 2}
+  - {fileID: 2100000, guid: 49481c08e389f46cc8adb26f547962c4, type: 2}
+  - {fileID: 2100000, guid: a387846a20bdb47aa8dde20995f07e75, type: 2}
 --- !u!114 &11440756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3264,6 +3268,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: difficultyTextures.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_Name
       value: Outpost1
       objectReference: {fileID: 0}
@@ -3307,6 +3315,18 @@ Prefab:
       propertyPath: savedMat
       value: 
       objectReference: {fileID: 2100000, guid: b754d2a0a06de4381812463a21384318, type: 2}
+    - target: {fileID: 0}
+      propertyPath: difficultyTextures.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 58a72dde019a849a790877043bc9e57e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: difficultyTextures.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 49481c08e389f46cc8adb26f547962c4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: difficultyTextures.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: a387846a20bdb47aa8dde20995f07e75, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 170194}
