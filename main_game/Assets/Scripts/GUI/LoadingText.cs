@@ -11,15 +11,9 @@ public class LoadingText : NetworkBehaviour
 	private bool fadeSound = false;
     private bool gameStarted = false;
 
-	private PlayerShooting shooting;
-
 	// Use this for initialization
 	public void Play () 
     {
-		Debug.Log("Play");
-		if(shooting == null)
-			shooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
-
         StartCoroutine(Loaded());
 	}
 
@@ -50,13 +44,9 @@ public class LoadingText : NetworkBehaviour
     IEnumerator Loaded()
     {
         gameStarted = true;
-		shooting.SetShootingEnabled(false);
-
         yield return new WaitForSeconds(3f);
-        
-		fadeSound = true;
+        fadeSound = true;
         GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(0);
-		shooting.SetShootingEnabled(true);
         //Destroy(this, 3f);
     }
 

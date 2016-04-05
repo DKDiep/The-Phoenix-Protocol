@@ -63,6 +63,7 @@ public class PlayerShooting : MonoBehaviour
 	{
 		fireSoundAudioSource = GetComponent<AudioSource>();
 		fireSoundAudioSource.clip = fireSound;
+		canShoot = true;
 		showMarker = false;
 		alpha = 0;
 		target = new GameObject();
@@ -201,14 +202,5 @@ public class PlayerShooting : MonoBehaviour
 	{
 		yield return new WaitForSeconds(gameState.GetFiringDelay());
 		canShoot = true;
-	}
-
-	/// <summary>
-	/// Enables or disables shooting.
-	/// </summary>
-	/// <param name="enabled">If set to <c>true</c>, shooting is enabled.</param>
-	public void SetShootingEnabled(bool enabled)
-	{
-		canShoot = enabled;
 	}
 }
