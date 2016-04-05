@@ -170,7 +170,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -472,6 +472,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 110d5735c0dff40e48dfa054103f2625, type: 3}
   - {fileID: 8300000, guid: 33f9dad0d1630469a8174b4127f75f5b, type: 3}
   - {fileID: 8300000, guid: e315d8612c73f40659e76f5fd048d7de, type: 3}
+  - {fileID: 8300000, guid: dfe5097c4c17b493eb43765aa3d9e98e, type: 3}
+  - {fileID: 8300000, guid: bf03e8b9e5a684bcfa0d4fca19b685ec, type: 3}
+  - {fileID: 8300000, guid: 4a088172680df4571ab35b9bb0857bba, type: 3}
+  - {fileID: 8300000, guid: 387e0b435dc6b4e5b9cff71954c9dfdd, type: 3}
+  - {fileID: 8300000, guid: 1535458e6cc234ffbacac26b20d5b4a8, type: 3}
+  - {fileID: 8300000, guid: 7dace66aa40d54e8ea05cbf8a95de644, type: 3}
+  - {fileID: 8300000, guid: 5945ad7d32e664507aa14550aaf848ac, type: 3}
+  - {fileID: 8300000, guid: beb607009de1c4ab7a1da3b2fe2c9ad5, type: 3}
+  - {fileID: 8300000, guid: f03d952fba4c84405a5559b4887d39d7, type: 3}
+  - {fileID: 8300000, guid: f930a80f2e9a04140b80a16cff90db96, type: 3}
+  - {fileID: 8300000, guid: 37eb2685c803d41daad5697da4b50043, type: 3}
+  - {fileID: 8300000, guid: 6d40e033f545d4c35a709f6487040a46, type: 3}
+  - {fileID: 8300000, guid: 401055f5f17d541c199f69935b94e645, type: 3}
+  - {fileID: 8300000, guid: 9769584748c5b4c52a738996358b446f, type: 3}
+  - {fileID: 8300000, guid: cf6a2aabf3dc548eabd6eede0b28b8d6, type: 3}
+  - {fileID: 8300000, guid: ea66a95f5489d4a6caa7ac4fb3d57bfc, type: 3}
+  - {fileID: 8300000, guid: fbf8aa72883a9494d8d5534953a2438a, type: 3}
+  - {fileID: 8300000, guid: 5d7d0e94aa03f447cb68ec92ae06cf21, type: 3}
 --- !u!114 &11472320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,7 +597,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: aiClips.Array.size
-      value: 4
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MotionScale
@@ -949,6 +967,82 @@ Prefab:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: dfe5097c4c17b493eb43765aa3d9e98e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: bf03e8b9e5a684bcfa0d4fca19b685ec, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a088172680df4571ab35b9bb0857bba, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 387e0b435dc6b4e5b9cff71954c9dfdd, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1535458e6cc234ffbacac26b20d5b4a8, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7dace66aa40d54e8ea05cbf8a95de644, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[10]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5945ad7d32e664507aa14550aaf848ac, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: beb607009de1c4ab7a1da3b2fe2c9ad5, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: f03d952fba4c84405a5559b4887d39d7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: f930a80f2e9a04140b80a16cff90db96, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[14]
+      value: 
+      objectReference: {fileID: 8300000, guid: 37eb2685c803d41daad5697da4b50043, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[15]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6d40e033f545d4c35a709f6487040a46, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[16]
+      value: 
+      objectReference: {fileID: 8300000, guid: 401055f5f17d541c199f69935b94e645, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[17]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9769584748c5b4c52a738996358b446f, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[19]
+      value: 
+      objectReference: {fileID: 8300000, guid: ea66a95f5489d4a6caa7ac4fb3d57bfc, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[18]
+      value: 
+      objectReference: {fileID: 8300000, guid: cf6a2aabf3dc548eabd6eede0b28b8d6, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[20]
+      value: 
+      objectReference: {fileID: 8300000, guid: fbf8aa72883a9494d8d5534953a2438a, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiClips.Array.data[21]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5d7d0e94aa03f447cb68ec92ae06cf21, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185312}
