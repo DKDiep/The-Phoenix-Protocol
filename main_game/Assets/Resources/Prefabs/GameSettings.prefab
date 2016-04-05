@@ -49,21 +49,21 @@ MonoBehaviour:
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 3
   AsteroidVisibilityEdgeSpawnMaxAngle: 25
-  shootCooldown: 4
+  shootCooldown: 15
   projectileCount: 8
   maxTargetRadius: 600
-  boostDuration: 4
-  boostCooldown: 5
+  boostDuration: 8
+  boostCooldown: 15
   boostSpeedMultiplier: 2
-  shieldOverdriveDuration: 5
-  shieldOverdriveCooldown: 5
-  empCooldown: 5
+  shieldOverdriveDuration: 8
+  shieldOverdriveCooldown: 30
+  empCooldown: 45
   empRadius: 500
   empDuration: 8
-  smartBombCooldown: 5
+  smartBombCooldown: 60
   smartBombRadius: 300
-  EnemyMinSpawnDistance: 750
-  EnemyMaxSpawnDistance: 1200
+  EnemyMinSpawnDistance: 500
+  EnemyMaxSpawnDistance: 900
   AIWaypointsPerEnemy: 10
   AIWaypointGenerationFactor: 8
   AIWaypointRadius: 150
@@ -169,7 +169,7 @@ MonoBehaviour:
   EngineerDefaultMat: {fileID: 2100000, guid: a7a495dfba59d88488caa2af86cdc0e8, type: 2}
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
   EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
-  GlomMothershipHealth: 1000
+  GlomMothershipHealth: 4000
   GlomMothershipSpawnDistance: 1500
   GlomMothershipSpawnPosition: {x: -100, y: 650, z: 200}
   GlomMothershipDamageEffects1: 0
@@ -203,13 +203,14 @@ MonoBehaviour:
   OutpostMinAsteroidFieldDensity: 0.6
   OutpostMaxAsteroidFieldDensity: 0.8
   OutpostSpawnLocations: []
+  OutpostDifficulties: 
   OutpostSpawnLocationsVariance: 0
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
-  PlayerShipShieldDelay: 5
+  PlayerShipShieldDelay: 4
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
-  PlayerShipStartingRechargeRate: 10
+  PlayerShipStartingRechargeRate: 100
   PlayerShipStartingSpeed: 10
   PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100
@@ -599,7 +600,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipHealth
-      value: 1000
+      value: 4000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipSpawnDistance
@@ -629,6 +630,50 @@ Prefab:
       propertyPath: FilledProgressBar
       value: 
       objectReference: {fileID: 2800000, guid: ec0d07bccc24a46f39869c34312a35bc, type: 3}
+    - target: {fileID: 0}
+      propertyPath: EnemyMaxSpawnDistance
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EnemyMinSpawnDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shootCooldown
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: boostDuration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: boostCooldown
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldOverdriveDuration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shieldOverdriveCooldown
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: empCooldown
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: smartBombCooldown
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: PlayerShipShieldDelay
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: PlayerShipStartingRechargeRate
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 187334}
