@@ -81,7 +81,7 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
     case "ENM_CTRL":
         usr.player.setControlledEnemy(int64(msg["data"].(float64)))
     case "ENM_MV":
-        usr.player.sendMoveToGameServer(msg["data"].(map[string]interface{}))
+        usr.player.sendMoveCommandToGameServer(msg["data"].(map[string]interface{}))
     case "ENM_ATT":
         usr.player.sendAttackCommandToGameServer(int64(msg["data"].(float64)))
     default:
@@ -125,22 +125,14 @@ func (usr *User) updateUser(playerId uint64) {
         // otherwise assign a new player to the user
     } else {
         name := getPlayerName(playerId)
-        newPlr := &Player{
-            id:                 playerId,
-            userName:           name,
-            state:              getNewPlayerState(),
-            score:              0,
-            isControllingEnemy: false,
-            controlledEnemyId:  0,
-            user:               usr,
-            inviteAnswerAction: func(bool){},
-        }
+        newPlr := NewPlayer(playerId, name, usr)
         usr.player = newPlr
         playerMap.add(newPlr)
     }
 
     // inform the user of the current player state
     usr.player.sendStateUpdate()
+    usr.player.sendCurrentData()
 }
 
 // placeholder function for retrieving player data based on a playerId

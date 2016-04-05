@@ -117,6 +117,8 @@ func decodeGameServerMessage(rawData []byte) {
         updateShipData(msg["data"].(map[string]interface{}))
     case "ENM_UPD":
         setEnemies(msg["data"].([]interface{}))
+    case "NOTIFY_UPD":
+        updateNotifications(msg["data"].([]interface{}))
     case "RMV_ENM":
         removeEnemies(msg["data"].([]interface{}))
     case "NEW_AST":
@@ -279,4 +281,19 @@ func removeAsteroids(data []interface{}) {
     for _, id := range data {
         asteroidMap.remove(int(id.(float64)))
     }
+}
+
+// Updates the notifications based on received data
+func updateNotifications(data []interface{}) {
+    updateData := make([]map[string]interface{}, 0, 5)
+    for _, d := range data {
+        notification := d.(map[string]interface{})
+        comp := stringToComponentType(notification["type"].(string))
+        isUpgrade := notification["isUpgrade"].(bool)
+        toSet := notification["toSet"].(bool)
+        notificationMap.setNotification(comp, isUpgrade, toSet)
+        updateData = append(updateData, constructNotificationJSON(comp, isUpgrade, toSet))
+    }
+
+    playerMap.sendNotificationUpdateToOfficers(updateData)
 }

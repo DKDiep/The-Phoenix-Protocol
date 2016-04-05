@@ -16,7 +16,6 @@ const (
 
 type GameState struct {
     status            GameStateType
-    totalResources    int
     canEnterNextState bool
     updateStopC       chan struct{}
 }
@@ -45,10 +44,10 @@ func (gs *GameState) enterSetupState() {
     }
     // TODO: send last game stats where appropriate
     // clears data structures
-    gs.totalResources = 0
     playerShip.reset()
     asteroidMap.reset()
     enemyMap.reset()
+    notificationMap.reset()
     playerMap.resetPlayers()
     gs.canEnterNextState = true
 }

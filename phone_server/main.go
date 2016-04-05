@@ -46,16 +46,24 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Holds the player data and modification channels
 var playerMap *PlayerMap = &PlayerMap{
-    mOfficers:     make(map[uint64]*Player),
-    mSpec:         make(map[uint64]*Player),
-    addC:          make(chan *Player),
-    setRoleC:   make(chan SetPlr),
-    plrC:          make(chan struct{}),
-    resetC:        make(chan struct{}),
-    startC:        make(chan struct{}),
-    sortlC:        make(chan []*Player),
-    listC:         make(chan []PlayerInfo),
-    updateC:       make(chan struct{}),
+    mOfficers: make(map[uint64]*Player),
+    mSpec:     make(map[uint64]*Player),
+    addC:      make(chan *Player),
+    setRoleC:  make(chan SetPlr),
+    plrC:      make(chan struct{}),
+    resetC:    make(chan struct{}),
+    startC:    make(chan struct{}),
+    sortlC:    make(chan []*Player),
+    listC:     make(chan []PlayerInfo),
+    updateC:   make(chan struct{}),
+}
+
+// Holds the notifications per component
+var notificationMap *NotificationMap = &NotificationMap{
+    m:      newNotificationMap(),
+    setC:   make(chan struct{}),
+    getC:   make(chan struct{}),
+    resetC: make(chan struct{}),
 }
 
 // Main structure holding all enemy data
@@ -86,6 +94,7 @@ func main() {
     go playerShip.accessManager()
     go asteroidMap.accessManager()
     go enemyMap.accessManager()
+    go notificationMap.accessManager()
 
     // Server for the users
     usersServerMux := http.NewServeMux()

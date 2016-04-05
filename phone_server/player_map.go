@@ -8,16 +8,16 @@ import (
 
 // The collection of all players, manages concurrent acces
 type PlayerMap struct {
-    mOfficers     map[uint64]*Player
-    mSpec         map[uint64]*Player
-    addC          chan *Player
-    setRoleC   chan SetPlr      // moves a player in the officer list
-    plrC          chan struct{}     // used for player specific actions
-    resetC        chan struct{}     // prepares the maps for a new game
-    startC        chan struct{}     // triggers state transitions for spectators
-    sortlC        chan []*Player    // used for receiving a sorted list of spectators
-    listC         chan []PlayerInfo // used to get 2 list of officers and spectators
-    updateC       chan struct{}     // channel for triggering the broadcast of up to date data
+    mOfficers map[uint64]*Player
+    mSpec     map[uint64]*Player
+    addC      chan *Player
+    setRoleC  chan SetPlr       // moves a player in the officer list
+    plrC      chan struct{}     // used for player specific actions
+    resetC    chan struct{}     // prepares the maps for a new game
+    startC    chan struct{}     // triggers state transitions for spectators
+    sortlC    chan []*Player    // used for receiving a sorted list of spectators
+    listC     chan []PlayerInfo // used to get 2 list of officers and spectators
+    updateC   chan struct{}     // channel for triggering the broadcast of up to date data
 }
 
 // Interface specifying a type that has 3 coordinates
@@ -34,7 +34,7 @@ type NewPlr struct {
 // Wrapped of data sent on the set role channel
 type SetPlr struct {
     role PlayerState
-    plr *Player
+    plr  *Player
 }
 
 // Struct and functions used to sort a list of Players
@@ -83,7 +83,7 @@ func (players *PlayerMap) accessManager() {
             players.listC <- getPlayerInfoListAsync(players.mSpec)
         // request to update all users
         case <-players.updateC:
-            players.updateData()
+            players.updateSpectatorData()
         }
     }
 }
@@ -140,7 +140,7 @@ func (players *PlayerMap) startSpectators() {
 func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
     var removeMap map[uint64]*Player = nil
     var addMap map[uint64]*Player = nil
-    switch (role) {
+    switch role {
     case OFFICER:
         removeMap = players.mSpec
         addMap = players.mOfficers
@@ -158,7 +158,7 @@ func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
 func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
     list := make([]*Player, 0, 10)
     for _, v := range players.mSpec {
-        if v.state == STANDBY && v.user != nil{
+        if v.state == STANDBY && v.user != nil {
             list = append(list, v)
         }
     }
@@ -206,8 +206,17 @@ func getPlayerInfoListAsync(m map[uint64]*Player) []PlayerInfo {
     return list
 }
 
+// Sends a single notification to all officers
+func (players *PlayerMap) sendNotificationUpdateToOfficers(updateData []map[string]interface{}) {
+    players.plrC <- struct{}{}
+    for _, plr := range players.mOfficers {
+        plr.sendNotifications(updateData)
+    }
+    players.plrC <- struct{}{}
+}
+
 // Sends a state data update to all spectators
-func (players *PlayerMap) updateData() {
+func (players *PlayerMap) updateSpectatorData() {
     playerShipData := playerShip.getShipData()
     enemyData := enemyMap.getCopy(playerShipData)
     asteroidData := asteroidMap.getCopy(playerShipData)
@@ -232,7 +241,7 @@ func (players *PlayerMap) updateData() {
 
     // Send updated data
     for _, plr := range players.mSpec {
-        plr.sendDataUpdate(enemyData, asteroidData)
+        plr.sendSpectatorDataUpdate(enemyData, asteroidData)
     }
 }
 

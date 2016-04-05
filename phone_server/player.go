@@ -30,6 +30,20 @@ type Player struct {
     inviteAnswerAction func(bool)
 }
 
+// initialises a player
+func NewPlayer(playerId uint64, name string, usr *User) *Player {
+    return &Player{
+        id:                 playerId,
+        userName:           name,
+        state:              getNewPlayerState(),
+        score:              0,
+        isControllingEnemy: false,
+        controlledEnemyId:  0,
+        user:               usr,
+        inviteAnswerAction: func(bool) {},
+    }
+}
+
 // Sets the current use associated with this player
 func (plr *Player) setUser(usr *User) {
     playerMap.plrC <- struct{}{}
@@ -113,19 +127,57 @@ func (plr *Player) sendStateUpdate() {
     }
 
     plr.user.sendMsg(msg)
-    plr.sendControlledEnemyInfo()
+}
+
+// Sends the necessary data for a player to join the game
+func (plr *Player) sendCurrentData() {
+    switch plr.state {
+    case SPECTATOR:
+        plr.sendControlledEnemyInfo()
+    case OFFICER:
+        plr.sendActiveNotifications()
+    }
+}
+
+// Sends all active notifications
+func (plr *Player) sendActiveNotifications() {
+    if plr.user == nil {
+        return
+    }
+
+    toSend := make([]map[string]interface{}, 0)
+
+    for _, comp := range IntercatableComponents {
+        notifStatus := notificationMap.getNotifications(comp)
+        notifJSON := constructNotificationsForComponent(comp, notifStatus)
+        toSend = append(toSend, notifJSON...)
+    }
+
+    plr.sendNotifications(toSend)
+}
+
+// Sends a notifcation message based on data
+func (plr *Player) sendNotifications(data []map[string]interface{}) {
+    if plr.user == nil {
+        return
+    }
+
+    stateData := make(map[string]interface{})
+    stateData["type"] = "NOTIFY"
+    stateData["data"] = data
+
+    plr.sendStateDataUpdate(stateData)
 }
 
 // Sends a user state data update
-func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*Asteroid) {
+func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
+    asteroids map[int]*Asteroid) {
     // players with no active user don't need updating
     if plr.user == nil {
         return
     }
 
     // TODO: add other objects
-    msg := make(map[string]interface{})
-    msg["type"] = "STATE_UPDATE"
     enemies_data := make([]map[string]interface{}, 0)
     // Add enemies to the message
     for id, enemy := range enemies {
@@ -149,16 +201,29 @@ func (plr *Player) sendDataUpdate(enemies map[int64]*Enemy, asteroids map[int]*A
         })
     }
 
-    msg["data"] = map[string]interface{}{
+    data := map[string]interface{}{
         "asts": asteroids_data,
         "enms": enemies_data,
     }
+
+    plr.sendStateDataUpdate(data)
+}
+
+// Sends a state update with the provided data
+func (plr *Player) sendStateDataUpdate(data map[string]interface{}) {
+    if plr.user == nil {
+        return
+    }
+
+    msg := make(map[string]interface{})
+    msg["type"] = "STATE_UPDATE"
+    msg["data"] = data
 
     plr.user.sendMsg(msg)
 }
 
 // Send the relative coordinates to which an enemy should move
-func (plr *Player) sendMoveToGameServer(data map[string]interface{}) {
+func (plr *Player) sendMoveCommandToGameServer(data map[string]interface{}) {
     if !plr.isControllingEnemy {
         return
     }
@@ -211,7 +276,7 @@ func (plr *Player) inviteAsOfficer(answerC chan bool) {
 
 // Deals with state transition based on the answer to the promotion offer
 func (plr *Player) processPromotionAnswer(isAccepted bool) {
-    if(isAccepted) {
+    if isAccepted {
         playerMap.setPlayerRole(plr, OFFICER)
     } else {
         plr.setState(REJECTED)
