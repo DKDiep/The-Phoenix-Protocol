@@ -46,6 +46,7 @@ public class ShootingAbility : CommanderAbility {
                     GameObject logic = logicManager.RequestObject();
                     BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
                     logicComponent.SetParameters(0.1f, 250f);
+                    obj.GetComponent<BulletMove>().SetTarget(enemyFinder.enemyList[i]);
 
 					float speed = 250f;
 					obj.GetComponent<BulletMove>().Speed = speed;
