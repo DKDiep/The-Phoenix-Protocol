@@ -68,7 +68,6 @@ public class ServerManager : NetworkBehaviour
 
     void Start()
     {
-        Cursor.visible = true; //leave as true for development, false for production
         // Server and clients need to know screenId matching crosshairs
         screenIdToCrosshair = new Dictionary<int, GameObject>();
         if (MainMenu.startServer)

@@ -52,6 +52,7 @@ public class ReadyScreen : NetworkBehaviour
     public void Reset()
     {
         GameObject musicObect = GameObject.Find("MusicManager(Clone)");
+        Cursor.visible = true; //leave as true for development, false for production
         if (musicObect != null)
         {
             musicManager = musicObect.GetComponent<MusicManager>();
@@ -63,6 +64,7 @@ public class ReadyScreen : NetworkBehaviour
 
     public void OnClickStartButton()
     {
+        Cursor.visible = false; //leave as true for development, false for production
         InitialiseGame();
     }
 
