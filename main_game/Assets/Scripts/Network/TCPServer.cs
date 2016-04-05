@@ -56,10 +56,6 @@ public class TCPServer : MonoBehaviour
         
         StartCoroutine(ConnectionHandler());
         StartCoroutine(SendUpdatedObjects());
-        
-        gameState.AddNotification(true, ComponentType.ShieldGenerator);
-        gameState.AddNotification(false, ComponentType.Bridge);
-        gameState.AddNotification(true, ComponentType.Turret);
     }
 
 	private void LoadSettings()
