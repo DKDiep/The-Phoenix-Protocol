@@ -61,7 +61,6 @@ public class StratMap : MonoBehaviour {
             GameObject outpostIcon = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outpostIcon.transform.SetParent(panel.transform, false);
             RectTransform outpostRectTransform = (RectTransform)outpostIcon.transform;
-            outpostRectTransform.sizeDelta *= (float)(0.5 + difficulty * 0.5);
             Vector3 screenPos = new Vector3(outpost.transform.position.x/20, outpost.transform.position.z/20,0);
             outpostRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
