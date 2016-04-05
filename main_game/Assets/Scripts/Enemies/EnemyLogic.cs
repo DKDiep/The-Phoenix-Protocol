@@ -763,7 +763,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                 // Automatically collect resources from enemy ship
                 gameState.AddShipResources(droppedResources);
 
-                AIVoice.SendCommand(Random.Range(0,4));
+                if(Random.Range(0,8) == 0)
+                    AIVoice.SendCommand(Random.Range(0,4));
 			}         
 
 			// Destroy Object
