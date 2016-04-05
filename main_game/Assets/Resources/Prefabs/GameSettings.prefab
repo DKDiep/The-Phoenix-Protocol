@@ -80,7 +80,7 @@ MonoBehaviour:
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
-    engageDistance: 150
+    engageDistance: 300
     accuracy: 0.3
     bulletDamage: 1
     bulletSpeed: 600
@@ -92,7 +92,7 @@ MonoBehaviour:
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 7
-    engageDistance: 200
+    engageDistance: 350
     accuracy: 0.15
     bulletDamage: 2
     bulletSpeed: 600
@@ -100,7 +100,7 @@ MonoBehaviour:
     maxHealth: 30
     maxShield: 0
     collisionDamage: 10
-    speed: 16
+    speed: 20
     isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
@@ -111,8 +111,8 @@ MonoBehaviour:
   - type: 3
     maxHealth: 30
     maxShield: 0
-    collisionDamage: 5
-    speed: 16
+    collisionDamage: 10
+    speed: 20
     isSuicidal: 0
     shootPeriod: 0
     shotsPerSec: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
-    engageDistance: 250
+    engageDistance: 350
     accuracy: 0.05
     bulletDamage: 5
     bulletSpeed: 800
@@ -140,7 +140,7 @@ MonoBehaviour:
     isSuicidal: 0
     shootPeriod: 4
     shotsPerSec: 6
-    engageDistance: 300
+    engageDistance: 350
     accuracy: 0.05
     bulletDamage: 10
     bulletSpeed: 800
@@ -673,6 +673,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: PlayerShipStartingRechargeRate
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].engageDistance
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[1].engageDistance
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[2].speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[3].speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[3].collisionDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[4].engageDistance
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[5].engageDistance
+      value: 350
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
