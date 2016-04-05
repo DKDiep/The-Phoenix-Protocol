@@ -176,7 +176,7 @@ public class EngineerController : NetworkBehaviour
         else
         {
             upgradeString = "Hold Mouse1 to upgrade";
-            repairString = "Hold Mouse2 to repair";
+            repairString = "Hold Mouse1 to repair";
             dockString = "Press L Shift to dock";
             popupString = "";
         }
