@@ -53,8 +53,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
 	// Please, treat them as constants
-	private LayerMask LAYER_PLAYER;
-	private LayerMask LAYER_ENEMY;
+	private LayerMask LAYER_PLAYER_BULLET;
+	private LayerMask LAYER_ENEMY_BULLET;
 
 	internal float health;
 	private float shield;
@@ -154,8 +154,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		destructionListeners = new List<IDestructionListener>();
 
-		LAYER_PLAYER = LayerMask.NameToLayer("Player");
-		LAYER_ENEMY  = LayerMask.NameToLayer("Enemy");
+		LAYER_PLAYER_BULLET = LayerMask.NameToLayer("Player Bullet");
+		LAYER_ENEMY_BULLET  = LayerMask.NameToLayer("Enemy Bullet");
 	}
 
 	private void LoadSettings()
@@ -427,12 +427,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Transform objectTransform = controlObject.transform;
 		bool hitLeft, hitRight;
 		RaycastHit hitInfoLeft, hitInfoRight;
+		int layerMask = LayerMask.GetMask("Asteroid", "Water", "Player");
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
 		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH);
+			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
 		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH);
+			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
 
 		// If an obstacle is found, return its tag
 		// Uncomment to show a ray when a collision is detected
@@ -698,13 +699,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				destination = currentTarget.transform.position;
 				if (Random.value > accuracy)
 					bulletMove.SetTarget(currentTarget);
-				obj.layer = LAYER_PLAYER;
+				obj.layer = LAYER_PLAYER_BULLET;
 				// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
 			}
 			else
 			{
 				destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
-				obj.layer   = LAYER_ENEMY;
+				obj.layer   = LAYER_ENEMY_BULLET;
 			}
 
     		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);

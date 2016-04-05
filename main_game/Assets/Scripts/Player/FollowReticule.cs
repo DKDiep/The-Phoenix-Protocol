@@ -49,11 +49,11 @@ public class FollowReticule : MonoBehaviour
 			transform.localEulerAngles = new Vector3(270f, transform.localEulerAngles.y, transform.localEulerAngles.z);
 
             // Draw line between turret position and aim position. Gizmos needs to be enabled in Game View to see the line (click Gizmos in top right)
-			if (debug)
+			/*if (debug)
 			{
 				Debug.DrawRay(transform.position, targetPoint.transform.position - transform.position, Color.green);
 				Debug.DrawLine(transform.position, projectedAimingDirection, Color.red);
-			}
+			}*/
         }
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2348052}
   - 114: {fileID: 11466424}
   - 114: {fileID: 11474054}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: EMPBomb
   m_TagString: EMP
   m_Icon: {fileID: 0}
@@ -90,22 +90,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 14
+    i1: 90
+    i2: 91
+    i3: 82
+    i4: 11
+    i5: 131
+    i6: 212
+    i7: 80
+    i8: 74
+    i9: 98
+    i10: 103
+    i11: 147
+    i12: 129
+    i13: 97
+    i14: 185
+    i15: 114
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!135 &13544710
@@ -126,7 +126,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 148212}

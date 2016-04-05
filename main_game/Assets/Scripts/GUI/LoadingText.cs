@@ -16,7 +16,6 @@ public class LoadingText : NetworkBehaviour
 	// Use this for initialization
 	public void Play () 
     {
-		Debug.Log("Play");
 		if(shooting == null)
 			shooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
 

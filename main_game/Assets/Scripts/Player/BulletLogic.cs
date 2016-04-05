@@ -87,9 +87,6 @@ public class BulletLogic : MonoBehaviour
 	{
 		string hitObjectTag = col.gameObject.tag;
 
-		if (hitObjectTag.Equals("Resources"))
-			return; 
-
 		// Despawn the bulllet
 		Despawn();
 

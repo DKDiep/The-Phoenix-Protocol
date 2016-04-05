@@ -23,7 +23,7 @@ public class AsteroidCollision : MonoBehaviour
     // Cause damage if collided with
 	void OnTriggerEnter (Collider col)
 	{
-		if(col.gameObject.tag.Equals ("Player"))
+		if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
 			GameObject hitObject        = col.gameObject;
 			ShipMovement movementScript = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();

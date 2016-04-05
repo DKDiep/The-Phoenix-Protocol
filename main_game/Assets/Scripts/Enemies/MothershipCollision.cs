@@ -14,7 +14,7 @@ public class MothershipCollision : MonoBehaviour
     {
         myLogic = GetComponentInChildren<MothershipLogic>();
 
-    	if(col.gameObject.tag.Equals ("Player"))
+		if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
     	{
             GameObject hitObject = col.gameObject;
             if(shipMovement == null)
