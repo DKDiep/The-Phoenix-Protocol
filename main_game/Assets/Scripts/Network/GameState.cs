@@ -19,6 +19,7 @@ public class GameState : NetworkBehaviour {
     private List<GameObject> newAsteroids;
     private List<uint> removedAsteroids;
     private List<Notification> activeNotifications;
+    private Dictionary<uint, Officer> currentOfficers;
 
     private List<GameObject> enemyList;
     private List<int> removedEnemies;
@@ -451,6 +452,7 @@ public class GameState : NetworkBehaviour {
         engineerList        = new List<GameObject>();
 		outpostList         = new List<GameObject>();
         activeNotifications = new List<Notification>();
+        currentOfficers     = new Dictionary<uint, Officer>();
 
 		// StartCoroutine(FindNull()); // Uncomment to help debug null enemies
     }
@@ -821,4 +823,32 @@ public class GameState : NetworkBehaviour {
 		// WARNING: changing this will likely cause array indexing problems
 		ShieldGen, Turrets, Engines, Hull, Drone, ResourceStorage
 	}
+
+    /// <summary>
+    /// Updates the officer list based on the contents of
+    /// officerData
+    /// </summary>
+    /// <param name="officerData"></param>
+    public void UpdateOfficerList(string officerData)
+    {
+        ResetOfficerList();
+        string[] semicolon = { ";" };
+        string[] officerObjects = officerData.Split(semicolon, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (string officer in officerObjects)
+        {
+            Officer newOfficer = Officer.DeserializeFromString(officer);
+            currentOfficers.Add(newOfficer.PlayerId, newOfficer);
+        }
+    }
+
+    public void ResetOfficerList()
+    {
+        if (currentOfficers == null)
+            currentOfficers = new Dictionary<uint, Officer>();
+
+        // Clear the list so that we avoid having
+        // officers from the previous game in there
+        currentOfficers.Clear();
+    }
 }

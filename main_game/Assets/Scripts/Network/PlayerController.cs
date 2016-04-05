@@ -72,6 +72,7 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState = commandConsoleGameObject.GetComponent<CommandConsoleState>();
             localController.commandConsoleState = commandConsoleState;
             commandConsoleState.givePlayerControllerReference(localController);
+            gameState.ResetOfficerList();
         }
     }
     
@@ -297,7 +298,8 @@ public class PlayerController : NetworkBehaviour
     /// <param name="officerData">The new officer data</param>
     public void UpdateOfficerList(string officerData)
     {
-        commandConsoleState.UpdateOfficerList(officerData);
+        if (this.role == RoleEnum.Commander)
+            gameState.UpdateOfficerList(officerData);
     }
 
     [ClientRpc]

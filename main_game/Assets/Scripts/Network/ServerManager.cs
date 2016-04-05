@@ -202,14 +202,15 @@ public class ServerManager : NetworkBehaviour
     /// </summary>
     public void SendOfficers()
     {
-        Dictionary<string, uint> officerList = gameObject.GetComponent<TCPServer>().PlayerNameToPlayerID;
+        Dictionary<uint, Officer> officerList = gameObject.GetComponent<TCPServer>().PlayerIdToPlayer;
         string data = "";
 
         // Build the string representing all the officers. Note that when splitting
-        // by "," the last element will be empty and should be ignored
-        foreach (KeyValuePair<string, uint> officerData in officerList)
+        // by ";" the last element will be empty and should be ignored
+        // Mapping is OFFICER;OFFICER2
+        foreach (KeyValuePair<uint, Officer> officerData in officerList)
         {
-            data += officerData.Key + ":" + officerData.Value.ToString() + ",";
+            data += officerData.Value.SerializeToString() + ";";
         }
 
         // Send the data to the commander
