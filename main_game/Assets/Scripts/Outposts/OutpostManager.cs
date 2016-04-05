@@ -34,7 +34,7 @@ public class OutpostManager : MonoBehaviour {
         darkRed = new Color(0.62f,0,0,0.4f);
         darkYellow = new Color(0.62f,0.57f,0,0.4f);
         darkGreen = new Color(0,0.62f,0,0.4f);
-        darkPurple = new Color(0.62f, 0, 0.62f);
+        darkPurple = new Color(0.62f, 0, 0.62f, 0.4f);
         StartCoroutine(UpdateOutposts());
     }
 
