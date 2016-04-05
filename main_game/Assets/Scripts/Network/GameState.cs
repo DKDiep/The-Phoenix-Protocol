@@ -69,8 +69,7 @@ public class GameState : NetworkBehaviour {
 	[SyncVar] private float droneWorkTime;
 
 	// Upgradable components
-	// TODO: once all components are implemented like this, they will replace the current variables
-	private UpgradableComponent[] upgradableComponents;
+	public UpgradableComponent[] upgradableComponents { get; set; }
 
 	private bool godMode = false;
 	private bool nosMode = false;
@@ -867,15 +866,6 @@ public class GameState : NetworkBehaviour {
 		default:
 			return -1;
 		}
-	}
-
-	/// <summary>
-	/// Enum used to index the <c>UpgradableComponent</c>s array.
-	/// </summary>
-	private enum UpgradableComponentIndex
-	{
-		// WARNING: changing this will likely cause array indexing problems
-		ShieldGen, Turrets, Engines, Hull, Drone, ResourceStorage
 	}
 
     /// <summary>

@@ -107,7 +107,6 @@ public class MissionManager : MonoBehaviour
 
     private void StartMission(int missionId)
     {
-        print("inside start mission");
         missions[missionId].start();
         bool outpostMission = false;
         int outpostId = 0;
@@ -117,9 +116,9 @@ public class MissionManager : MonoBehaviour
             {
                 outpostMission = true;
                 outpostId = completeCondition.completionValue;
+                outpostManager.setMissionTarget(outpostId);
             }
         }
-        outpostManager.setMissionTarget(outpostId);
         playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, outpostId);
     }
 
@@ -243,6 +242,11 @@ public class MissionManager : MonoBehaviour
                         }
                     }
                     break;
+                case CompletionType.Upgrade:
+                    if (gameState.upgradableComponents[completeCondition.completionValue].Level == 2)
+                        return true;
+                    else return false;
+                    break;
             }
         }
         if(missions[missionId].completeOnAny)
@@ -311,6 +315,7 @@ public class MissionManager : MonoBehaviour
     {
         public CompletionType completionType;
         public int completionValue;
+        public UpgradableComponentIndex componentIndex;
     }
 }
 
@@ -326,5 +331,6 @@ public enum TriggerType
 public enum CompletionType
 {
     Enemies,                // Complete mission if x enemies are destroyed
-    Outpost                 // Complete mission if outpost is visited
+    Outpost,                 // Complete mission if outpost is visited
+    Upgrade
 }
