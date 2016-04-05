@@ -428,12 +428,17 @@ public class GameState : NetworkBehaviour {
     public void AddNotification(bool isUpgrade, ComponentType component)
     {
         Notification newNotification = Notification.create(isUpgrade, component);
+        AIVoice.SendCommand(18);
         activeNotifications.Add(newNotification);
     }
 
     public void RemoveNotification(bool isUpgrade, ComponentType component)
     {
         Notification toRemove = Notification.create(isUpgrade, component);
+        if(!isUpgrade)
+            AIVoice.SendCommand(12);
+        else
+            AIVoice.SendCommand(13);
         activeNotifications.Remove(toRemove);
     }
 
