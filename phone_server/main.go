@@ -22,6 +22,7 @@ const (
     NUM_OFFICERS            int           = 1
     OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
+    MAX_AMMO         float64 = 100
     PROJECTION_RANGE float64 = 500
 )
 

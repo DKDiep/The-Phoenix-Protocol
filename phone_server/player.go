@@ -24,19 +24,21 @@ type Player struct {
     userName           string
     state              PlayerState
     score              int
+    ammo               float64
     isControllingEnemy bool
     controlledEnemyId  int64
     user               *User
     inviteAnswerAction func(bool)
 }
 
-// initialises a player
+// Initialises a player
 func NewPlayer(playerId uint64, name string, usr *User) *Player {
     return &Player{
         id:                 playerId,
         userName:           name,
         state:              getNewPlayerState(),
         score:              0,
+        ammo:               MAX_AMMO,
         isControllingEnemy: false,
         controlledEnemyId:  0,
         user:               usr,
@@ -94,6 +96,12 @@ func (plr *Player) unsetControlledEnemy() {
     plr.sendControlledEnemyInfo()
 }
 
+// Sets the ammo
+func (plr *Player) setAmmo(amnt float64) {
+    plr.ammo = amnt
+    plr.sendCurrentAmmo()
+}
+
 // Sends the controlled enemy data to the phone client
 func (plr *Player) sendControlledEnemyInfo() {
     // players with no active user don't need updating
@@ -136,7 +144,21 @@ func (plr *Player) sendCurrentData() {
         plr.sendControlledEnemyInfo()
     case OFFICER:
         plr.sendActiveNotifications()
+        plr.sendCurrentAmmo()
     }
+}
+
+// Sends the current value of the ammo
+func (plr *Player) sendCurrentAmmo() {
+    if plr.user == nil {
+        return
+    }
+
+    msg := make(map[string]interface{})
+    msg["type"] = "AMMO"
+    msg["data"] = plr.ammo
+
+    plr.sendStateDataUpdate(msg)
 }
 
 // Sends all active notifications
