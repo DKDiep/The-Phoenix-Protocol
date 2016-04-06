@@ -86,6 +86,7 @@ public class AsteroidSpawner : MonoBehaviour
         }
 
         numAsteroids = numAsteroidsInFields = 0;
+		initialSpawnCompleted = false;
         LoadSettings();
     }
 
@@ -127,7 +128,10 @@ public class AsteroidSpawner : MonoBehaviour
 				SpawnAsteroid ();
 
 				if (numAsteroids == maxAsteroids)
-					initialSpawnCompleted = true;
+				{
+					initialSpawnCompleted  = true;
+					maxSpawnedPerFrame    /= 2;
+				}
 			}
         }
     }
