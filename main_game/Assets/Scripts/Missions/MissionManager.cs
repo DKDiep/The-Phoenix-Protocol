@@ -34,17 +34,8 @@ public class MissionManager : MonoBehaviour
         missions = settings.missionProperties;
     }
 
-    void Update () 
+    void Update ()
     {
-        if (Input.GetKeyDown("z"))
-        {
-            print("Shield level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level);
-            print("Turrets level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Level);
-            print("Engines level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Level);
-            print("Hull level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Level);
-            print("Drone level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Level);
-            print("ResourceStorage level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Level);
-        }
         if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
@@ -107,9 +98,12 @@ public class MissionManager : MonoBehaviour
     {
         for(int id = 0; id < missions.Length; id++)
         {
-            if(CheckCompletion(id) && missions[id].hasStarted() == true && missions[id].isComplete() == false)
+            if (missions[id].hasStarted() == true && missions[id].isComplete() == false)
             {
-                CompleteMission(id);
+                if (CheckCompletion(id))
+                {
+                    CompleteMission(id);
+                }
             }
         }
     }
@@ -129,8 +123,6 @@ public class MissionManager : MonoBehaviour
             }
             if (completeCondition.completionType == CompletionType.Upgrade)
             {
-                print("complete condition: upgrade " +
-                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
                 ids[i] = (int)completeCondition.componentIndex;
             }
             missionCompletions[i] = (int)completeCondition.completionType;
@@ -154,8 +146,6 @@ public class MissionManager : MonoBehaviour
             }
             if (completeCondition.completionType == CompletionType.Upgrade)
             {
-                print("complete condition: upgrade " +
-                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
                 ids[i] = (int)completeCondition.componentIndex;
             }
             missionCompletions[i] = (int)completeCondition.completionType;
