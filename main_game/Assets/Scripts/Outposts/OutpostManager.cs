@@ -24,6 +24,7 @@ public class OutpostManager : MonoBehaviour {
     private Color darkYellow;
     private Color darkGreen;
     private Color darkPurple;
+	private Camera mainCamera;
 
     void Start()
     {
@@ -35,6 +36,7 @@ public class OutpostManager : MonoBehaviour {
         darkYellow = new Color(0.62f,0.57f,0,0.4f);
         darkGreen = new Color(0,0.62f,0,0.4f);
         darkPurple = new Color(0.62f, 0, 0.62f, 0.4f);
+		mainCamera = Camera.main;
         StartCoroutine(UpdateOutposts());
     }
 
@@ -109,7 +111,7 @@ public class OutpostManager : MonoBehaviour {
             {
                 if (outpostLogic[i].discovered == false)
                 {
-                    if (Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position) < 2000)
+                    if (Vector3.Distance(outpostList[i].transform.position, mainCamera.transform.position) < 2000)
                     {
                         outpostLogic[i].discovered = true;
                         if(outpostList[i] != null)
@@ -157,7 +159,7 @@ public class OutpostManager : MonoBehaviour {
 
         for(int i = 0; i < outpostList.Count; i++)
         {
-            distance = (int)Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position);
+            distance = (int)Vector3.Distance(outpostList[i].transform.position, mainCamera.transform.position);
             if(distance < minDistance || minDistance == -1)
             {
                 minDistance = distance; 
@@ -181,7 +183,7 @@ public class OutpostManager : MonoBehaviour {
 
         for(int i = 0; i < outpostList.Count; i++)
         {
-            distance = (int)Vector3.Distance(outpostList[i].transform.position, Camera.main.transform.position);
+            distance = (int)Vector3.Distance(outpostList[i].transform.position, mainCamera.transform.position);
             if(distance < minDistance || minDistance == -1)
             {
                 minDistance = distance; 
@@ -212,7 +214,7 @@ public class OutpostManager : MonoBehaviour {
 
     private void Indicator(GameObject targetObject, int index, bool forPortal) //Second parameter doesn't matter if it's portal
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetObject.transform.position);
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(targetObject.transform.position);
         GameObject arrow;
         if(!forPortal) arrow = arrowList[index];
         else arrow = portalArrow;

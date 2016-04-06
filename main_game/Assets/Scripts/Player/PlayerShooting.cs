@@ -25,6 +25,7 @@ public class PlayerShooting : MonoBehaviour
 	private Vector3 crosshairPosition;
 	private GameObject[] crosshairs;
 	private CrosshairAutoaimAssist[] autoaimScripts;
+	private Camera mainCamera;
 
 	private ObjectPoolManager bulletManager;
 	private ObjectPoolManager logicManager;
@@ -43,6 +44,8 @@ public class PlayerShooting : MonoBehaviour
         Reset();
         
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+
+		mainCamera = Camera.main;
     }
 
     public void Reset()
@@ -120,7 +123,7 @@ public class PlayerShooting : MonoBehaviour
         if (crosshairs != null)
         {
             Vector3 crosshairPosition = crosshairs[playerId].transform.position;
-            target.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+            target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);

@@ -14,6 +14,7 @@ public class FollowReticule : MonoBehaviour
 	// Empty game object to use as the target position
     private GameObject targetPoint;
     private GameObject crosshair;
+	private Camera mainCamera;
 
     // Draws line between turret position and aim position if true
     private bool debug = false;
@@ -27,6 +28,8 @@ public class FollowReticule : MonoBehaviour
 		GameObject crosshairs = GameObject.Find("Crosshairs");
 		if (crosshairs != null)
 			crosshair = crosshairs.transform.GetChild(controlledByPlayerId).gameObject;
+
+		mainCamera = Camera.main;
     }
 
     void FixedUpdate()
@@ -34,8 +37,8 @@ public class FollowReticule : MonoBehaviour
 		if (crosshair != null && crosshair.activeSelf)
         {
 			// Get the point the crosshair is pointing at
-			targetPoint.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x,
-				crosshair.transform.position.y, Camera.main.farClipPlane));
+			targetPoint.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x,
+				crosshair.transform.position.y, mainCamera.farClipPlane));
 
 			// Project the shooting direction on the ship's XZ plane (the turret only rotates around the ship's Y direction)
 			Vector3 turretToCrosshairDirection = targetPoint.transform.position - transform.position;
@@ -59,7 +62,7 @@ public class FollowReticule : MonoBehaviour
 
 	private Vector3 GetWorldPositionOnPlane(Vector3 screenPosition, float z)
 	{
-		Ray ray = Camera.main.ScreenPointToRay(screenPosition);
+		Ray ray = mainCamera.ScreenPointToRay(screenPosition);
 		Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, z));
 		float distance;
 		xy.Raycast(ray, out distance);

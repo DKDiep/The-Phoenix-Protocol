@@ -30,6 +30,7 @@ public class ShipMovement : MonoBehaviour
     private float sideRoll = 0f;
     private float sideRollOld = 0f;
 	private DamageEffects myDamage;
+	private Camera mainCamera;
 
     // Initialise object
     void Start()
@@ -47,6 +48,8 @@ public class ShipMovement : MonoBehaviour
 		lastShieldCheck = gameState.GetShipShield();
 		StartCoroutine(RechargeShields());
         gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
+
+		mainCamera = Camera.main;
     }
 
     public void Reset()
@@ -288,7 +291,7 @@ private void LoadSettings()
 		}
 
         if(myDamage == null) 
-            myDamage = Camera.main.gameObject.GetComponent<DamageEffects>();
+            myDamage = mainCamera.gameObject.GetComponent<DamageEffects>();
 
         // Check to see if the hull is hit, otherwise damage component
         if (component == ComponentType.None)
