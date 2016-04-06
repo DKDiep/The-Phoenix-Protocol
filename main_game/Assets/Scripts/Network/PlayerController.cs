@@ -324,7 +324,7 @@ public class PlayerController : NetworkBehaviour
             for (int i = 0; i < missionCompletion.Length; i++) {
                 if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
                     commandConsoleState.ShowObjectiveOnMap(missionValue[i]);
-                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade)
+                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade || (CompletionType)missionCompletion[i] == CompletionType.Repair)
                     commandConsoleState.ShowUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
             }
         }
@@ -340,7 +340,7 @@ public class PlayerController : NetworkBehaviour
             {
                 if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
                     commandConsoleState.RemoveObjectiveFromMap(missionValue[i]);
-                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade)
+                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade || (CompletionType)missionCompletion[i] == CompletionType.Repair)
                     commandConsoleState.RemoveUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
             }
         }

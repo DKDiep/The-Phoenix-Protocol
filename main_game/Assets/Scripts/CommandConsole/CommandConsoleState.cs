@@ -393,13 +393,13 @@ public class CommandConsoleState : MonoBehaviour {
         else stratMap.startMission(id);
     }
 
-    public void ShowUpgradeObjective(UpgradableComponentIndex componentIndex)
+    public void ShowUpgradeObjective(UpgradableComponentIndex componentIndex)   //also called for repair objectives
     {
         //UpgradableComponentIndex elements correspond to UIElementEnum elements
         pulsateToggle[(int)componentIndex] = true;
     }
 
-    public void RemoveUpgradeObjective(UpgradableComponentIndex componentIndex)
+    public void RemoveUpgradeObjective(UpgradableComponentIndex componentIndex) //also called for repair objectives
     {
         //UpgradableComponentIndex elements correspond to UIElementEnum elements
         pulsateToggle[(int)componentIndex] = false;

@@ -275,7 +275,7 @@ MonoBehaviour:
     triggerOnAny: 0
     triggerConditions:
     - triggerType: 0
-      triggerValue: 10
+      triggerValue: 10000000
     - triggerType: 2
       triggerValue: 80
     completeOnAny: 0
@@ -301,16 +301,35 @@ MonoBehaviour:
     completedDescription: You upgraded your shields. Finally.
     triggerOnAny: 1
     triggerConditions:
-    - triggerType: 3
-      triggerValue: 200
+    - triggerType: 1
+      triggerValue: -10
     completeOnAny: 0
     completionConditions:
-    - completionType: 2
+    - completionType: 3
       completionValue: 2
       componentIndex: 0
-    - completionType: 1
-      completionValue: 0
-      componentIndex: 0
+    onStart:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onCompletion:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  - name: Repair
+    description: Your hull's breached. Repair it.
+    completedDescription: Your hull is better now. Well done.
+    triggerOnAny: 1
+    triggerConditions:
+    - triggerType: 1
+      triggerValue: 80
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 3
+      completionValue: 100
+      componentIndex: 3
     onStart:
       m_PersistentCalls:
         m_Calls: []

@@ -36,7 +36,16 @@ public class MissionManager : MonoBehaviour
 
     void Update ()
     {
-        if (gameState.Status == GameState.GameStatus.Started)
+        if (Input.GetKeyDown("c"))
+        {
+            print("ShieldGen health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Health);
+            print("Turrets health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Health);
+            print("Engines health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Health);
+            print("Hull health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Health);
+            print("Drone health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Health);
+            print("ResourceStorage health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Health);
+        }
+            if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
             if(!missionInit)
@@ -121,7 +130,7 @@ public class MissionManager : MonoBehaviour
                 ids[i] = completeCondition.completionValue;
                 if(ids[i] != -1)outpostManager.setMissionTarget(ids[i]);
             }
-            if (completeCondition.completionType == CompletionType.Upgrade)
+            if (completeCondition.completionType == CompletionType.Upgrade || completeCondition.completionType == CompletionType.Repair)
             {
                 ids[i] = (int)completeCondition.componentIndex;
             }
@@ -144,7 +153,7 @@ public class MissionManager : MonoBehaviour
                 ids[i] = completeCondition.completionValue;
                 if(ids[i] != -1) outpostManager.endMission(ids[i]);
             }
-            if (completeCondition.completionType == CompletionType.Upgrade)
+            if (completeCondition.completionType == CompletionType.Upgrade || completeCondition.completionType == CompletionType.Repair)
             {
                 ids[i] = (int)completeCondition.componentIndex;
             }
@@ -267,6 +276,16 @@ public class MissionManager : MonoBehaviour
                         if (!missions[missionId].completeOnAny) return false;
                     }
                     break;
+                case CompletionType.Repair:
+                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Health == completeCondition.completionValue)
+                    {
+                        if (missions[missionId].completeOnAny) return true;
+                    }
+                    else
+                    {
+                        if (!missions[missionId].completeOnAny) return false;
+                    }
+                    break;
             }
         }
         //If completeOnAny is true then this section is only reached if none of the complete conditions are met.
@@ -353,5 +372,6 @@ public enum CompletionType
 {
     Enemies,                // Complete mission if x enemies are destroyed
     Outpost,                 // Complete mission if outpost is visited
-    Upgrade
+    Upgrade,
+    Repair
 }
