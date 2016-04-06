@@ -125,7 +125,7 @@ public class AsteroidSpawner : MonoBehaviour
 				spawnLocation.transform.rotation = Random.rotation;
 				spawnLocation.transform.Translate(transform.forward * Random.Range(minDistance,maxDistance));
 
-				SpawnAsteroid ();
+				SpawnAsteroid (false);
 
 				if (numAsteroids == maxAsteroids)
 				{
@@ -138,7 +138,7 @@ public class AsteroidSpawner : MonoBehaviour
 
 	// Spawn a single asteroid at the spawn location
 	// aka "How to Kill Paralellism in a Nutshell"
-	private void SpawnAsteroid()
+	private void SpawnAsteroid(bool isField)
 	{
 		int rnd = Random.Range(0,3); // Choose which asteroid prefab to spawn
         int rndMat = Random.Range(0,3); // Choose random material
@@ -146,7 +146,9 @@ public class AsteroidSpawner : MonoBehaviour
 		// Spawn object and logic
         GameObject asteroidObject = asteroidManager.RequestObject();
         asteroidObject.transform.position = spawnLocation.transform.position;
-        asteroidObject.GetComponent<AsteroidRotation>().SetSpeed(Random.Range(6f,30f));
+        AsteroidRotation asteroidRotation = asteroidObject.GetComponent<AsteroidRotation>();
+        asteroidRotation.SetSpeed(Random.Range(6f,30f));
+        asteroidRotation.isField = isField;
         asteroidManager.SetAsteroidTexture(asteroidObject.name, rndMat);
 
         GameObject asteroidLogic = logicManager.RequestObject();
@@ -219,7 +221,7 @@ public class AsteroidSpawner : MonoBehaviour
 
 			spawnLocation.transform.position = spawnPosition;
 
-			SpawnAsteroid();
+			SpawnAsteroid(true);
 			spawnedThisFrame++;
 			if (spawnedThisFrame >= maxSpawnedPerFrame)
 			{
@@ -325,7 +327,7 @@ public class AsteroidSpawner : MonoBehaviour
 		spawnLocation.transform.Rotate(Random.Range(-halfAngle, halfAngle), Random.Range(-90f, 90), 0);
 		spawnLocation.transform.Translate(Vector3.forward * maxDistance);
 
-		SpawnAsteroid();
+		SpawnAsteroid(false);
 	}
 
     // Remove asteroid from GameState if destroyed
@@ -342,10 +344,7 @@ public class AsteroidSpawner : MonoBehaviour
 	{
 		foreach (AsteroidField field in new List<AsteroidField>(fields))
 		{
-			float distance = Vector3.Distance(field.Position, player.transform.position);
-			if (field.Spawned && distance > maxDistance)
-				yield return StartCoroutine(DespawnAsteroidField(field));
-			else if (!field.Spawned && distance < maxDistance)
+            if(!field.Spawned)
 				yield return StartCoroutine(SpawnAsteroidField(field));
 		}
 

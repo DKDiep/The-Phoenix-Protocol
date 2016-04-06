@@ -33,6 +33,8 @@ public class AsteroidRotation : NetworkBehaviour
 
 	private bool coroutineRunning;
 
+    public bool isField;
+
   // Only one packet needs to be sent to the client to control the asteroid's rotation
 	void Start ()
 	{
@@ -112,7 +114,7 @@ public class AsteroidRotation : NetworkBehaviour
             waitTimeMin = 6f;
             waitTimeMax = 12f;
         }
-        else
+        else if(!isField)
         {
 			// When the asteroid goes out of range, destroy it
 			AsteroidLogic logic = this.gameObject.GetComponentInChildren<AsteroidLogic>();
