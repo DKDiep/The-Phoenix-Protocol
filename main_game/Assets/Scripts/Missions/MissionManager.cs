@@ -36,7 +36,16 @@ public class MissionManager : MonoBehaviour
 
     void Update () 
     {
-        if(gameState.Status == GameState.GameStatus.Started)
+        if (Input.GetKeyDown("z"))
+        {
+            print("Shield level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level);
+            print("Turrets level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Level);
+            print("Engines level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Level);
+            print("Hull level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Level);
+            print("Drone level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Level);
+            print("ResourceStorage level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Level);
+        }
+        if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
             if(!missionInit)
@@ -107,37 +116,52 @@ public class MissionManager : MonoBehaviour
 
     private void StartMission(int missionId)
     {
-        print("inside start mission");
         missions[missionId].start();
-        bool outpostMission = false;
-        int outpostId = 0;
+        int i = 0;
+        int[] missionCompletions = new int[missions[missionId].completionConditions.Length];
+        int[] ids = new int[missions[missionId].completionConditions.Length]; //ids can be the id of the outpost, or the id of the upgradable component
         foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
         {
             if (completeCondition.completionType == CompletionType.Outpost)
             {
-                outpostMission = true;
-                outpostId = completeCondition.completionValue;
+                ids[i] = completeCondition.completionValue;
+                outpostManager.setMissionTarget(ids[i]);
             }
-        }
-        outpostManager.setMissionTarget(outpostId);
-        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, outpostId);
+            if (completeCondition.completionType == CompletionType.Upgrade)
+            {
+                print("complete condition: upgrade " +
+                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
+                ids[i] = (int)completeCondition.componentIndex;
+            }
+            missionCompletions[i] = (int)completeCondition.completionType;
+            i++;
+        }   
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, missionCompletions, ids);
     }
 
     private void CompleteMission(int missionId)
     {
         missions[missionId].completeMission();
-        bool outpostMission = false;
-        int outpostId = 0;
+        int i = 0;
+        int[] missionCompletions = new int[missions[missionId].completionConditions.Length];
+        int[] ids = new int[missions[missionId].completionConditions.Length]; //ids can be the id of the outpost, or the id of the upgradable component
         foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
         {
             if (completeCondition.completionType == CompletionType.Outpost)
             {
-                outpostMission = true;
-                outpostId = completeCondition.completionValue;
+                ids[i] = completeCondition.completionValue;
+                outpostManager.endMission(ids[i]);
             }
+            if (completeCondition.completionType == CompletionType.Upgrade)
+            {
+                print("complete condition: upgrade " +
+                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
+                ids[i] = (int)completeCondition.componentIndex;
+            }
+            missionCompletions[i] = (int)completeCondition.completionType;
+            i++;
         }
-        playerController.RpcCompleteMission(missions[missionId].completedDescription, outpostMission, outpostId);
-        outpostManager.endMission(outpostId);
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, ids);
     }
 
     /// <summary>
@@ -243,6 +267,13 @@ public class MissionManager : MonoBehaviour
                         }
                     }
                     break;
+                case CompletionType.Upgrade:
+                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Level == completeCondition.completionValue)
+                    {
+                        return true;
+                    }
+                    else return false;
+                    break;
             }
         }
         if(missions[missionId].completeOnAny)
@@ -311,6 +342,7 @@ public class MissionManager : MonoBehaviour
     {
         public CompletionType completionType;
         public int completionValue;
+        public UpgradableComponentIndex componentIndex;
     }
 }
 
@@ -326,5 +358,6 @@ public enum TriggerType
 public enum CompletionType
 {
     Enemies,                // Complete mission if x enemies are destroyed
-    Outpost                 // Complete mission if outpost is visited
+    Outpost,                 // Complete mission if outpost is visited
+    Upgrade
 }

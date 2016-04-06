@@ -282,8 +282,35 @@ MonoBehaviour:
     completionConditions:
     - completionType: 0
       completionValue: 10
+      componentIndex: 0
     - completionType: 1
       completionValue: 0
+      componentIndex: 0
+    onStart:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onCompletion:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  - name: Upgrade Shields
+    description: Upgrade yo' shields boy. They shootin' at you.
+    completedDescription: You upgraded your shields. Finally.
+    triggerOnAny: 1
+    triggerConditions:
+    - triggerType: 3
+      triggerValue: 200
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 2
+      completionValue: 2
+      componentIndex: 0
+    - completionType: 1
+      completionValue: 0
+      componentIndex: 0
     onStart:
       m_PersistentCalls:
         m_Calls: []

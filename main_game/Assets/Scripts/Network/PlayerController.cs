@@ -303,25 +303,34 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcStartMission(string title, string description, bool outpostMission, int missionValue)
+    public void RpcStartMission(string title, string description, int[] missionCompletion, int[] missionValue)
     {
         print("inside RpcStartMission");
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup(title, description);
-            if(outpostMission)
-            commandConsoleState.StartMissionOnMap(missionValue);
+            for (int i = 0; i < missionCompletion.Length; i++) {
+                if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
+                    commandConsoleState.ShowObjectiveOnMap(missionValue[i]);
+                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade)
+                    commandConsoleState.ShowUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
+            }
         }
     }
 
     [ClientRpc]
-    public void RpcCompleteMission(string description, bool outpostMission, int missionValue)
+    public void RpcCompleteMission(string description, int[] missionCompletion, int[] missionValue)
     {
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup("MISSION COMPLETE", description);
-            if (outpostMission)
-                commandConsoleState.EndMissionOnMap(missionValue);
+            for (int i = 0; i < missionCompletion.Length; i++)
+            {
+                if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
+                    commandConsoleState.RemoveObjectiveFromMap(missionValue[i]);
+                if ((CompletionType)missionCompletion[i] == CompletionType.Upgrade)
+                    commandConsoleState.RemoveUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
+            }
         }
     }
 }

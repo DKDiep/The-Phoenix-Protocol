@@ -387,17 +387,29 @@ public class CommandConsoleState : MonoBehaviour {
         popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = descrption;
     }
 
-    public void StartMissionOnMap(int id)
+    public void ShowObjectiveOnMap(int id)
     {
         if (stratMap == null) print("stratmap == null");
         else stratMap.startMission(id);
     }
 
-    public void EndMissionOnMap(int id)
+    public void ShowUpgradeObjective(UpgradableComponentIndex componentIndex)
+    {
+        //UpgradableComponentIndex elements correspond to UIElementEnum elements
+        pulsateToggle[(int)componentIndex] = true;
+    }
+
+    public void RemoveUpgradeObjective(UpgradableComponentIndex componentIndex)
+    {
+        //UpgradableComponentIndex elements correspond to UIElementEnum elements
+        pulsateToggle[(int)componentIndex] = false;
+    }
+
+
+    public void RemoveObjectiveFromMap(int id)
     {
         stratMap.endMission(id);
     }
-
 
     public void ClosePopupWindow()
     {
