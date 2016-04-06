@@ -937,21 +937,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	}
 
 	/// <summary>
-	/// Calculates the distance between a point and a plane.
-	/// </summary>
-	/// <returns>The distance.</returns>
-	/// <param name="point">The point's position.</param>
-	/// <param name="planePos">The plane's position.</param>
-	/// <param name="planeNorm">The plane's normal (must be a unit vector).</param>
-	private float PointToPlaneDistance(Vector3 point, Vector3 planePos, Vector3 planeNorm)
-	{
-		float displacement = -Vector3.Dot(planeNorm, (point - planePos));
-		Vector3 projection = point + displacement * planeNorm;
-
-		return Vector3.Distance(point, projection);
-	}
-
-	/// <summary>
 	/// Registers a listener to be notified when this object is destroyed.
 	/// </summary>
 	/// <param name="listener">The listener.</param>
