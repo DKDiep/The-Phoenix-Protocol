@@ -230,8 +230,18 @@ public class EnemySpawner : MonoBehaviour
 		return null;
 	}
 
-    // Increase difficulty by 1 every 30 seconds
-    public IEnumerator TimedDifficulty()
+	/// <summary>
+	/// Starts the difficulty timer.
+	/// 
+	/// This should be called from <c>ReadyScreen</c> instead of starting the coroutine directly.
+	/// </summary>
+	public void StartDifficultyTimer()
+	{
+		StartCoroutine(TimedDifficulty());
+	}
+
+    // Increase difficulty by 1 every 60 seconds
+    IEnumerator TimedDifficulty()
     {
         IncreaseDifficulty();
         yield return new WaitForSeconds(60f);
