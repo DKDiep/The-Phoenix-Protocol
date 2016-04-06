@@ -15,6 +15,8 @@ public class OutpostManager : MonoBehaviour {
     private List<GameObject> arrowList = new List<GameObject>();
     private List<GameObject> outpostList;
     private List <OutpostLogic> outpostLogic = new List<OutpostLogic>();
+    private List<int> objectiveIds;
+    private List<int> completedObjectiveIds;
     private int arrowsRequired = 0;
     public bool outpostSpawned = false;
     public bool portalArrowSpawned = false;
@@ -137,6 +139,22 @@ public class OutpostManager : MonoBehaviour {
                 arrowList[i].GetComponent<Image>().color = darkRed;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
             }
+            //this probably won't be needed but I'm keeping it here for now just in case this turns out to be an issue - luke 06/04
+            /*  Outpost targets can be set and (in theory) completed before the arrowlist is spawned. If they are, then the ids 
+                of the arrows that should be marked as objectives/completedobjectives are added to objectiveIds/completedObjectiveIds.
+                The colors of the arrows are changed here accordingly, then the ids are removed from the lists 
+            for (int id = objectiveIds.Count - 1; id >= 0; id--)
+            {
+                if (id < outpostList.Count)
+                    arrowList[id].GetComponent<Image>().color = darkYellow;
+                    arrowList.RemoveAt(id);
+            }
+            for (int id = completedObjectiveIds.Count - 1; id >= 0; id--)
+            {
+                if (id < outpostList.Count)
+                    arrowList[id].GetComponent<Image>().color = darkGreen;
+                arrowList.RemoveAt(id);
+            }*/
             if (!portalArrowSpawned)
             {
                 portal = gameState.Portal;
@@ -200,15 +218,27 @@ public class OutpostManager : MonoBehaviour {
 
     public void setMissionTarget(int id)
     {
-        Image arrowImage = arrowList[id].GetComponent<Image>();
-        arrowImage.color = darkYellow;
+        if (id < arrowList.Count)
+        {
+            print("id = " + id + ", arrowList.Count = " + arrowList.Count);
+            Image arrowImage = arrowList[id].GetComponent<Image>();
+            arrowImage.color = darkYellow;
+        }
+        else objectiveIds.Add(id);      //if the arrow hasn't been instantiated yet, add the id to a list, so the color can be changed when the arrows are spawned
         outpostList[id].GetComponent<OutpostTarget>().StartMission();
     }
 
     public void endMission(int id)
     {
-        Image arrowImage = arrowList[id].GetComponent<Image>();
-        arrowImage.color = darkGreen;
+        if (id < arrowList.Count)
+        {
+            Image arrowImage = arrowList[id].GetComponent<Image>();
+            arrowImage.color = darkGreen;
+        }
+        else
+        {
+            completedObjectiveIds.Add(id);
+        }
         outpostList[id].GetComponent<OutpostTarget>().EndMission();
     }
 

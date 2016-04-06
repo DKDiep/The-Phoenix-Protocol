@@ -119,7 +119,7 @@ public class MissionManager : MonoBehaviour
             if (completeCondition.completionType == CompletionType.Outpost)
             {
                 ids[i] = completeCondition.completionValue;
-                outpostManager.setMissionTarget(ids[i]);
+                if(ids[i] != -1)outpostManager.setMissionTarget(ids[i]);
             }
             if (completeCondition.completionType == CompletionType.Upgrade)
             {
@@ -142,7 +142,7 @@ public class MissionManager : MonoBehaviour
             if (completeCondition.completionType == CompletionType.Outpost)
             {
                 ids[i] = completeCondition.completionValue;
-                outpostManager.endMission(ids[i]);
+                if(ids[i] != -1) outpostManager.endMission(ids[i]);
             }
             if (completeCondition.completionType == CompletionType.Upgrade)
             {
