@@ -30,6 +30,7 @@ public class CrosshairMovement : NetworkBehaviour
 	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
 	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
 	private CrosshairAutoaimAssist[] autoaimScripts;
+	private Camera mainCamera;
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
@@ -66,40 +67,38 @@ public class CrosshairMovement : NetworkBehaviour
 
 			init[i] = true;
         }
+
+		mainCamera = Camera.main;
 			
 		//StartCoroutine(FindRemotes());
 	}
 	
 	// Update is called once per frame
     void Update()
-    {
+	{
 		Transform selectedCrosshair;
 
-        // Toggle usage of mouse when pressing 'c'
-        if (Input.GetKeyDown ("c")) 
-        {
-            usingMouse = !usingMouse;
-            Debug.Log("Using Mouse? " + usingMouse);
-        }
+		// Toggle usage of mouse when pressing 'c'
+		if (Input.GetKeyDown("c"))
+		{
+			usingMouse = !usingMouse;
+			Debug.Log("Using Mouse? " + usingMouse);
+		}
 
-        if(usingMouse)
-        {
-            SwitchPlayers();
-            ChangeScreenManually();
-            SetCrosshairPositionMouse();
-        }
+		if (usingMouse)
+		{
+			SwitchPlayers();
+			ChangeScreenManually();
+			SetCrosshairPositionMouse();
+		}
 
 		// Update position of crosshairs
-		for(int i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++)
+		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
 		}
-    }
-        
-	void FixedUpdate ()
-    {
-
-    }
+	}
 
     /// <summary>
     /// Sets the crosshair position wii remote.
@@ -115,7 +114,7 @@ public class CrosshairMovement : NetworkBehaviour
         GameObject targetObject = null;
         if (!target.IsNone())
         {
-            serverManager.SetCrosshairPosition(playerId, screenId, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+			serverManager.SetCrosshairPosition(playerId, screenId, mainCamera.WorldToScreenPoint(target.GetAimPosition()));
             targetObject = target.Object;
         }
         else
@@ -139,7 +138,7 @@ public class CrosshairMovement : NetworkBehaviour
 		GameObject targetObject = null;
         if (!target.IsNone())
         {
-            serverManager.SetCrosshairPosition(controlling, screenControlling, Camera.main.WorldToScreenPoint(target.GetAimPosition()));
+			serverManager.SetCrosshairPosition(controlling, screenControlling, mainCamera.WorldToScreenPoint(target.GetAimPosition()));
 			targetObject = target.Object;
         }
         else
@@ -160,6 +159,7 @@ public class CrosshairMovement : NetworkBehaviour
             if (Input.GetKeyDown (i.ToString ())) 
             {
                 controlling = i-4;
+				break;
             }
         }
     }
@@ -176,6 +176,7 @@ public class CrosshairMovement : NetworkBehaviour
             {
                 // Subtract 2 here as the screen ids are from -1 to 1
                 screenControlling = i - 2;
+				break;
             }
         }
     }
@@ -197,7 +198,7 @@ public class CrosshairMovement : NetworkBehaviour
 	private Target GetClosestTarget(Vector3 aimPosition)
 	{
 		// Cast a ray from the crosshair
-		Ray ray = Camera.main.ScreenPointToRay(aimPosition);
+		Ray ray = mainCamera.ScreenPointToRay(aimPosition);
 
 		// Find the objects in a sphere in front of the player
 		int layerColMask    = LayerMask.GetMask("Asteroid", "Enemy");
@@ -222,7 +223,7 @@ public class CrosshairMovement : NetworkBehaviour
 				}
 			}
 			// If we haven't found any enemy, try to aim for the closest asteroid
-			else if (!foundAnEnemy && col.CompareTag("Debris"))
+			else if (!foundAnEnemy)
 			{
 				float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
 

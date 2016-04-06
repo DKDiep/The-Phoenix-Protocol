@@ -19,6 +19,7 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private Dictionary<int, GameObject> screenIdToCrosshair;
+	private Dictionary<int, CrosshairMovement> screenIdToCrosshairMovement;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject musicManager, missionManager;
@@ -69,7 +70,8 @@ public class ServerManager : NetworkBehaviour
     void Start()
     {
         // Server and clients need to know screenId matching crosshairs
-        screenIdToCrosshair = new Dictionary<int, GameObject>();
+        screenIdToCrosshair 		= new Dictionary<int, GameObject>();
+		screenIdToCrosshairMovement = new Dictionary<int, CrosshairMovement>();
         if (MainMenu.startServer)
         {
             // Spawn Object Pooling Controller first
@@ -95,6 +97,7 @@ public class ServerManager : NetworkBehaviour
 	public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
 	{
 		screenIdToCrosshair.Add(screenId, crosshairObject);
+		screenIdToCrosshairMovement.Add(screenId, crosshairObject.GetComponent<CrosshairMovement>());
 
 		PlayerController localController = null;
 		if (ClientScene.localPlayers[0].IsValid)
@@ -463,7 +466,8 @@ public class ServerManager : NetworkBehaviour
 
     public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
     {
-        GameObject crosshairObject = screenIdToCrosshair[screenId];
-        crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);
+        /*GameObject crosshairObject = screenIdToCrosshair[screenId];
+        crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);*/
+		screenIdToCrosshairMovement[screenId].SetPosition(crosshairId, position);
     }
 }
