@@ -301,12 +301,15 @@ MonoBehaviour:
     completedDescription: You upgraded your shields. Finally.
     triggerOnAny: 1
     triggerConditions:
-    - triggerType: 2
-      triggerValue: 101
+    - triggerType: 3
+      triggerValue: 200
     completeOnAny: 0
     completionConditions:
     - completionType: 2
       completionValue: 2
+      componentIndex: 0
+    - completionType: 1
+      completionValue: 0
       componentIndex: 0
     onStart:
       m_PersistentCalls:

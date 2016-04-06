@@ -117,37 +117,51 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
-        bool outpostMission = false;
-        int outpostId = 0;
+        int i = 0;
+        int[] missionCompletions = new int[missions[missionId].completionConditions.Length];
+        int[] ids = new int[missions[missionId].completionConditions.Length]; //ids can be the id of the outpost, or the id of the upgradable component
         foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
         {
             if (completeCondition.completionType == CompletionType.Outpost)
             {
-                outpostMission = true;
-                outpostId = completeCondition.completionValue;
-                outpostManager.setMissionTarget(outpostId);
+                ids[i] = completeCondition.completionValue;
+                outpostManager.setMissionTarget(ids[i]);
             }
-            if (completeCondition.completionType == CompletionType.Upgrade) print("complete condition: upgrade " +
+            if (completeCondition.completionType == CompletionType.Upgrade)
+            {
+                print("complete condition: upgrade " +
                 Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
-        }
-        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, outpostId);
+                ids[i] = (int)completeCondition.componentIndex;
+            }
+            missionCompletions[i] = (int)completeCondition.completionType;
+            i++;
+        }   
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, missionCompletions, ids);
     }
 
     private void CompleteMission(int missionId)
     {
         missions[missionId].completeMission();
-        bool outpostMission = false;
-        int outpostId = 0;
+        int i = 0;
+        int[] missionCompletions = new int[missions[missionId].completionConditions.Length];
+        int[] ids = new int[missions[missionId].completionConditions.Length]; //ids can be the id of the outpost, or the id of the upgradable component
         foreach (MissionCompletion completeCondition in missions[missionId].completionConditions)
         {
             if (completeCondition.completionType == CompletionType.Outpost)
             {
-                outpostMission = true;
-                outpostId = completeCondition.completionValue;
+                ids[i] = completeCondition.completionValue;
+                outpostManager.endMission(ids[i]);
             }
+            if (completeCondition.completionType == CompletionType.Upgrade)
+            {
+                print("complete condition: upgrade " +
+                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
+                ids[i] = (int)completeCondition.componentIndex;
+            }
+            missionCompletions[i] = (int)completeCondition.completionType;
+            i++;
         }
-        playerController.RpcCompleteMission(missions[missionId].completedDescription, outpostMission, outpostId);
-        outpostManager.endMission(outpostId);
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, ids);
     }
 
     /// <summary>
@@ -254,13 +268,8 @@ public class MissionManager : MonoBehaviour
                     }
                     break;
                 case CompletionType.Upgrade:
-                    if(gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level != gameState.upgradableComponents[(int)completeCondition.componentIndex].Level)
+                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Level == completeCondition.completionValue)
                     {
-                        print("something's up");
-                    }
-                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Level == 2)
-                    {
-                        print("mission completed");
                         return true;
                     }
                     else return false;
