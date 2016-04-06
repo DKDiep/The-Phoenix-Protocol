@@ -55,6 +55,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	// Please, treat them as constants
 	private LayerMask LAYER_PLAYER_BULLET;
 	private LayerMask LAYER_ENEMY_BULLET;
+	private int LAYER_MASK_OBSTACLES;
 
 	internal float health;
 	private float shield;
@@ -155,8 +156,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		destructionListeners = new List<IDestructionListener>();
 
-		LAYER_PLAYER_BULLET = LayerMask.NameToLayer("Player Bullet");
-		LAYER_ENEMY_BULLET  = LayerMask.NameToLayer("Enemy Bullet");
+		LAYER_PLAYER_BULLET  = LayerMask.NameToLayer("Player Bullet");
+		LAYER_ENEMY_BULLET   = LayerMask.NameToLayer("Enemy Bullet");
+		LAYER_MASK_OBSTACLES = LayerMask.GetMask("Asteroid", "Water", "Player");
 	}
 
 	private void LoadSettings()
@@ -423,19 +425,18 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Transform objectTransform = controlObject.transform;
 		bool hitLeft, hitRight;
 		RaycastHit hitInfoLeft, hitInfoRight;
-		int layerMask = LayerMask.GetMask("Asteroid", "Water", "Player");
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
 		// If an obstacle is found, return its tag
 		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
+			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH, LAYER_MASK_OBSTACLES);
 		if (hitLeft)
-			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
+			return AvoidInfo.Get(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
 
 		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
-			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
+			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH, LAYER_MASK_OBSTACLES);
 		if (hitRight)
-			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
+			return AvoidInfo.Get(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
 
 		return AvoidInfo.None();
 	}
@@ -979,21 +980,31 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		private static AvoidInfo noneInfo = null;
 
-		// Create an object showing no obstacle info
+		private static Dictionary<string, Dictionary<AvoidSide, AvoidInfo>> infoMap =
+			new Dictionary<string, Dictionary<AvoidSide, AvoidInfo>>();
+
+		/// <summary>
+		/// Create an object showing no obstacle info
+		/// </summary>
 		private AvoidInfo()
 		{
 			this.ObstacleTag = null;
 			this.Side        = AvoidSide.None;
 		}
 
-		// Create an object containing info about a collision
-		public AvoidInfo(string obstacleTag, AvoidSide side)
+		/// <summary>
+		/// Create an object containing info about a collision
+		/// </summary>
+		private AvoidInfo(string obstacleTag, AvoidSide side)
 		{
 			this.ObstacleTag = obstacleTag;
 			this.Side        = side;
 		}
 			
-		// Get an object containing no obstacle info
+		/// <summary>
+		/// Get an object containing no obstacle info.
+		/// </summary>
+		/// <returns>An object containing no obstacle info.</returns>
 		public static AvoidInfo None()
 		{
 			if (noneInfo == null)
@@ -1002,10 +1013,44 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			return noneInfo;
 		}
 
-		// Check if this object contains no collision info
+		/// <summary>
+		/// Check if this object contains no collision info.
+		/// </summary>
+		/// <returns><c>true</c> if this object contains no collision info.</returns>
 		public bool IsNone()
 		{
 			return this == noneInfo;
+		}
+
+		/// <summary>
+		/// Gets an object containing the specified collsion info.
+		/// </summary>
+		/// <param name="obstacleTag">The obstacle's tag.</param>
+		/// <param name="side">The side the obstacle is on.</param>
+		public static AvoidInfo Get(string obstacleTag, AvoidSide side)
+		{
+			Dictionary<AvoidSide, AvoidInfo> mapLevel2;
+			if (infoMap.TryGetValue(obstacleTag, out mapLevel2))
+			{
+				AvoidInfo info;
+				if (mapLevel2.TryGetValue(side, out info))
+					return info;
+				else
+				{
+					info = new AvoidInfo(obstacleTag, side);
+					mapLevel2[side] = info;
+					return info;
+				}
+			}
+			else
+			{
+				mapLevel2            = new Dictionary<AvoidSide, AvoidInfo>();
+				infoMap[obstacleTag] = mapLevel2;
+
+				AvoidInfo info = new AvoidInfo(obstacleTag, side);
+				mapLevel2[side] = info;
+				return info;
+			}
 		}
 	}
 }
