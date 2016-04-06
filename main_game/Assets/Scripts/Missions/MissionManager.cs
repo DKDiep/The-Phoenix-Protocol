@@ -270,17 +270,21 @@ public class MissionManager : MonoBehaviour
                 case CompletionType.Upgrade:
                     if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Level == completeCondition.completionValue)
                     {
-                        return true;
+                        if (missions[missionId].completeOnAny) return true;
                     }
-                    else return false;
+                    else
+                    {
+                        if (!missions[missionId].completeOnAny) return false;
+                    }
                     break;
             }
         }
-        if(missions[missionId].completeOnAny)
+        //If completeOnAny is true then this section is only reached if none of the complete conditions are met.
+        //Otherwise this section is only reached if all of the complete conditions are met. Confusingly.
+        if (missions[missionId].completeOnAny)
             return false;
-        else 
+        else
             return true;
-
     }
         
     [System.Serializable] 
