@@ -34,6 +34,10 @@ function updateObjects(data) {
         case "SPECTATOR":
             updateSprites(data);
             break;
+        case "OFFICER":
+            // in officer_screen.js
+            updateOfficer(data);
+            break;
         default:
             console.log("Received object updates in unhandled state: " + currState)
     }
