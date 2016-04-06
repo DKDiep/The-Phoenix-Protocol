@@ -210,7 +210,7 @@ MonoBehaviour:
   PlayerShipShieldDelay: 4
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
-  PlayerShipStartingRechargeRate: 100
+  PlayerShipStartingRechargeRate: 10
   PlayerShipStartingSpeed: 10
   PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100

@@ -32,6 +32,8 @@ public class ShipMovement : MonoBehaviour
 	private DamageEffects myDamage;
 	private Camera mainCamera;
 
+	private Coroutine rechargeShieldsCoroutine;
+
     // Initialise object
     void Start()
     {
@@ -46,7 +48,7 @@ public class ShipMovement : MonoBehaviour
 
     	controlObject = transform.parent.gameObject;
 		lastShieldCheck = gameState.GetShipShield();
-		StartCoroutine(RechargeShields());
+		rechargeShieldsCoroutine = StartCoroutine(RechargeShields());
         gameState.myShield = GameObject.Find("Shield(Clone)").GetComponent<ShieldEffects>();
 
 		mainCamera = Camera.main;
@@ -80,19 +82,19 @@ private void LoadSettings()
 
 	IEnumerator RechargeShields()
 	{
-		if(lastShieldCheck == gameState.GetShipShield() && 
-		   gameState.GetShipShield() < gameState.GetShipMaxShields()) // Ensure shield is below max value and the player hasn't been hit
+		if(lastShieldCheck == gameState.GetShipShield()) // Ensure the player hasn't been hit
 		{
 			gameState.RechargeShield();
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(0.1f);
-			StartCoroutine(RechargeShields());
+			if (gameState.GetShipShield() < gameState.GetShipMaxShields())
+				rechargeShieldsCoroutine = StartCoroutine(RechargeShields());
 		}
 		else
 		{
 			lastShieldCheck = gameState.GetShipShield();
 			yield return new WaitForSeconds(shieldDelay);
-			StartCoroutine(RechargeShields());
+			rechargeShieldsCoroutine = StartCoroutine(RechargeShields());
 		}
 	}
 
@@ -298,7 +300,11 @@ private void LoadSettings()
             gameState.DamageShip(damage);
         else
             gameState.DamageComponent(component, damage);
-           
+
+		// Reset the shield recharge delay
+		StopCoroutine(rechargeShieldsCoroutine);
+		lastShieldCheck = -1;
+		rechargeShieldsCoroutine = StartCoroutine(RechargeShields());
 
         // Show directional damage effect
 		if(left && !(up || down))
