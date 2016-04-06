@@ -122,6 +122,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
 	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
+	private const string GUARD_RETURN_WAYPOINT_NAME = "GuardReturnWaypoint";
 
     private Renderer meshRenderer;
 
@@ -177,29 +178,25 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		currentPos = player.transform.position;
 		distance   = Vector3.Distance(transform.position, player.transform.position);
 
-		if (meshRenderer == null)
-			meshRenderer = controlObject.GetComponent<MeshRenderer>();
-		else
+		// Waiting enemies don't need to perform any logic until the player moves within their range
+		if (state == EnemyAIState.Wait)
 		{
-			if (distance > 1000)
-				meshRenderer.enabled = false;
-			else
-				meshRenderer.enabled = true;
+			if (distance <= guardTriggerDistance)
+			{
+				currentWaypoint = GetNextWaypoint();
+				state = EnemyAIState.EngagePlayer;
+			}
+
+			return;
 		}
-
-        if(originalGlow == null && transform.parent != null)
-        {
-            GameObject lights = transform.parent.Find("pattern").gameObject;
-            originalGlow = lights.GetComponent<Renderer>().material;
-        }
-
 
 		// Check if about to collide with something
 		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
 		// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
 		AvoidInfo obstacleInfo = CheckObstacleAhead();
-		if (!obstacleInfo.IsNone() && (state != EnemyAIState.ReturnToGuardLocation || !obstacleInfo.ObstacleTag.Equals("Outpost")))
+		if (!obstacleInfo.IsNone())
 		{
+			
 			// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
 			if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
 				Destroy(currentWaypoint);
@@ -320,14 +317,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
 			{
 				state                             = EnemyAIState.ReturnToGuardLocation;
-				GameObject returnWaypoint         = new GameObject ();
-				returnWaypoint.name               = "GuardReturnWaypoint";
+				GameObject returnWaypoint         = new GameObject (GUARD_RETURN_WAYPOINT_NAME);
 				returnWaypoint.transform.position = guardLocation;
 				currentWaypoint                   = returnWaypoint;
 			}
 			// Engage player when close enough, otherwise catch up to them
-			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance) ||
-				(state == EnemyAIState.Wait && distance <= guardTriggerDistance))
+			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance))
 			{
 				currentWaypoint = GetNextWaypoint();
 				state = EnemyAIState.EngagePlayer;
@@ -355,7 +350,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 					Destroy(currentWaypoint);
 				}
 			}
-			// if (state == EnemyAIState.Wait) do nothing
 		}
 	}
 
@@ -378,9 +372,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			int r		 = Random.Range (0, aiWaypoints.Count);
 			nextWaypoint = aiWaypoints [r];
 
-			Vector3 waypointRelativeToPlayer = player.transform.InverseTransformPoint(nextWaypoint.transform.position);
-			if (isSuicidal && waypointRelativeToPlayer.z < suicidalMinFrontDist)
-				getAnother = true;
+			if (isSuicidal)
+			{
+				Vector3 waypointRelativeToPlayer = player.transform.InverseTransformPoint(nextWaypoint.transform.position);
+				getAnother = (waypointRelativeToPlayer.z < suicidalMinFrontDist);
+			}
 			else if (currentWaypoint != null && nextWaypoint.Equals(currentWaypoint))
 				getAnother = true;
 		} while (getAnother);
@@ -430,39 +426,18 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		int layerMask = LayerMask.GetMask("Asteroid", "Water", "Player");
 
 		// Cast two rays forward, one on each side of the object, to check for obstaclse
+		// If an obstacle is found, return its tag
 		hitLeft = Physics.Raycast (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
 			out hitInfoLeft, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
+		if (hitLeft)
+			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
+
 		hitRight = Physics.Raycast (objectTransform.position + aiObstacleRayFrontOffset * objectTransform.right, objectTransform.forward,
 			out hitInfoRight, AI_OBSTACLE_RAY_FRONT_LENGTH, layerMask);
-
-		// If an obstacle is found, return its tag
-		// Uncomment to show a ray when a collision is detected
-		if (hitLeft)
-		{
-			/*Debug.DrawRay (objectTransform.position - aiObstacleRayFrontOffset * objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH * objectTransform.forward, Color.magenta, 3, false);*/
-			return new AvoidInfo(hitInfoLeft.collider.gameObject.tag, AvoidInfo.AvoidSide.Left);
-		}
-		else if (hitRight)
-		{
-			/*Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.magenta, 3, false);*/
+		if (hitRight)
 			return new AvoidInfo(hitInfoRight.collider.gameObject.tag, AvoidInfo.AvoidSide.Right);
-		}
-		else
-		{
-			// Uncomment to debug raycasting parameters
-			/*Debug.DrawRay(objectTransform.position - aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);
-			Debug.DrawRay(objectTransform.position + aiObstacleRayFrontOffset*objectTransform.right,
-				AI_OBSTACLE_RAY_FRONT_LENGTH*objectTransform.forward, Color.green, 0, false);*/
-			/*Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-			-AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);
-			Debug.DrawRay (objectTransform.position + AI_OBSTACLE_RAY_BACK_OFFSET*objectTransform.up,
-				+AI_OBSTACLE_RAY_BACK_LENGTH*objectTransform.right, Color.yellow, 0, false);*/
 
-			return AvoidInfo.None();
-		}
+		return AvoidInfo.None();
 	}
 
     IEnumerator UpdateDelay()
@@ -512,6 +487,21 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         yield return new WaitForSeconds(Mathf.Clamp(distance / 750f, 0.1f, 1f));
         StartCoroutine(UpdateTransform());
     }
+
+	/// <summary>
+	/// Enables or disables rendering based on player distance.
+	/// </summary>
+	/// <returns>The render distance.</returns>
+	IEnumerator CheckRenderDistance()
+	{
+		if (meshRenderer == null)
+			meshRenderer = controlObject.GetComponent<MeshRenderer>();
+		else
+			meshRenderer.enabled = (distance <= 1000);
+
+		yield return new WaitForSeconds(Random.Range(1f, 1.5f));
+		StartCoroutine(CheckRenderDistance());
+	}
 
 	/// <summary>
 	/// Keeps the enemy always moving faster than the player.
@@ -566,18 +556,20 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
     }
 
-    void OnDisable()
-    {
-        StopAllCoroutines();
-    }
-
-
     public void SetControlObject(GameObject newControlObject)
     {
         controlObject = newControlObject;
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
 		aiObstacleRayFrontOffset = controlObject.GetComponent<Collider>().bounds.extents.y / 2.0f;
-        meshRenderer = controlObject.GetComponent<MeshRenderer>();
+        
+		meshRenderer = controlObject.GetComponent<MeshRenderer>();
+		StartCoroutine(CheckRenderDistance());
+
+		if (originalGlow == null)
+		{
+			GameObject lights = transform.parent.Find("pattern").gameObject;
+			originalGlow = lights.GetComponent<Renderer>().material;
+		}
     }
 
     // This function is run when the object is spawned
@@ -585,7 +577,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	{
         mySrc 	   = GetComponent<AudioSource>();
         mySrc.clip = fireSnd;
-
 
 		player = temp;
 
@@ -606,7 +597,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         // Find location to spawn bullets at
         foreach(Transform child in this.transform.parent)
 		{
-			if(child.gameObject.name.Equals("ShootAnchor")) shootAnchor = child.gameObject;
+			if(child.gameObject.name.Equals("ShootAnchor"))
+			{
+				shootAnchor = child.gameObject;
+				break;
+			}
 		}
 
 		StartCoroutine(ShootManager());

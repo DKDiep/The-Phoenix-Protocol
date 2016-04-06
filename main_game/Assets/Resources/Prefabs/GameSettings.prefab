@@ -152,7 +152,7 @@ MonoBehaviour:
   EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
     type: 3}
   EnemyFireSoundRandomPitch: 1
-  EnemySuicidalSpeedUpdateInterval: 1
+  EnemySuicidalSpeedUpdateInterval: 5
   EnemySuicidalExtraSpeed: 5
   EngineerWalkSpeed: 0.2
   EngineerMouseLookXSensitivity: 2
