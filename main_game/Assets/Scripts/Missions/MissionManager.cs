@@ -36,7 +36,16 @@ public class MissionManager : MonoBehaviour
 
     void Update () 
     {
-        if(gameState.Status == GameState.GameStatus.Started)
+        if (Input.GetKeyDown("z"))
+        {
+            print("Shield level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level);
+            print("Turrets level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Level);
+            print("Engines level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Level);
+            print("Hull level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Level);
+            print("Drone level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Level);
+            print("ResourceStorage level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Level);
+        }
+        if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
             if(!missionInit)
@@ -118,6 +127,8 @@ public class MissionManager : MonoBehaviour
                 outpostId = completeCondition.completionValue;
                 outpostManager.setMissionTarget(outpostId);
             }
+            if (completeCondition.completionType == CompletionType.Upgrade) print("complete condition: upgrade " +
+                Enum.GetName(typeof(UpgradableComponentIndex), completeCondition.componentIndex) + "to level " + completeCondition.completionValue);
         }
         playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, outpostMission, outpostId);
     }
@@ -243,8 +254,15 @@ public class MissionManager : MonoBehaviour
                     }
                     break;
                 case CompletionType.Upgrade:
-                    if (gameState.upgradableComponents[completeCondition.completionValue].Level == 2)
+                    if(gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level != gameState.upgradableComponents[(int)completeCondition.componentIndex].Level)
+                    {
+                        print("something's up");
+                    }
+                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Level == 2)
+                    {
+                        print("mission completed");
                         return true;
+                    }
                     else return false;
                     break;
             }
