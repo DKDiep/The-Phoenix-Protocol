@@ -204,6 +204,14 @@ public class PlayerController : NetworkBehaviour
         serverManager.SendJobFinished(false, part);
     }
 
+    private bool ShouldHaveNotification(ComponentType part)
+    {
+        return part == ComponentType.ShieldGenerator ||
+               part == ComponentType.Turret ||
+               part == ComponentType.Engine ||
+               part == ComponentType.Hull;
+    }
+
     /// <summary>
     /// Call from the Command Console to add a component
     /// for upgrade
@@ -212,7 +220,9 @@ public class PlayerController : NetworkBehaviour
     [Command]
 	public void CmdAddUpgrade(ComponentType part)
     {
-        gameState.AddNotification(true, part);
+        if (ShouldHaveNotification(part))
+            gameState.AddNotification(true, part);
+
         serverManager.NotifyEngineer(true, part);
     }
 
@@ -224,7 +234,9 @@ public class PlayerController : NetworkBehaviour
     [Command]
 	public void CmdAddRepair(ComponentType part)
     {
-        gameState.AddNotification(false, part);
+        if (ShouldHaveNotification(part))
+            gameState.AddNotification(false, part);
+
         serverManager.NotifyEngineer(false, part);
     }
 
