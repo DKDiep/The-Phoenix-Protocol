@@ -308,7 +308,7 @@ MonoBehaviour:
       triggerValue: 0
     completeOnAny: 0
     completionConditions:
-    - completionType: 3
+    - completionType: 2
       completionValue: 2
       componentIndex: 0
     activates: 

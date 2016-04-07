@@ -32,7 +32,7 @@ public class MissionManager : MonoBehaviour
             missions[i].reset();
         }
         startTime = Time.time;
-        StartCoroutine(UpdateMissions());
+        StartCoroutine(waitThenStartUpdateMissions());
     }
 
     private void LoadSettings()
@@ -106,6 +106,14 @@ public class MissionManager : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
             activeList[missionId] = true;
         }
+    }
+
+    //The wait part is here because without it we get some weird behaviour from the reset period - 
+    // missions were being triggered in the new game because trigger conditions were being met in the previous game
+    public IEnumerator waitThenStartUpdateMissions() 
+    {
+        yield return new WaitForSeconds(5.0f);
+        StartCoroutine(UpdateMissions());
     }
 
 
