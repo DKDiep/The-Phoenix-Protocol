@@ -147,6 +147,7 @@ GameObject:
   - 33: {fileID: 3360382}
   - 23: {fileID: 2339946}
   - 114: {fileID: 11493202}
+  - 65: {fileID: 6569836}
   m_Layer: 9
   m_Name: Turret_005
   m_TagString: Player
@@ -448,6 +449,7 @@ GameObject:
   - 23: {fileID: 2385726}
   - 114: {fileID: 11486776}
   - 114: {fileID: 11422318}
+  - 65: {fileID: 6580312}
   m_Layer: 9
   m_Name: Turret
   m_TagString: Player
@@ -483,8 +485,8 @@ GameObject:
   - 4: {fileID: 473894}
   - 33: {fileID: 3377502}
   - 23: {fileID: 2303752}
-  - 65: {fileID: 6587742}
   - 114: {fileID: 11431418}
+  - 136: {fileID: 13672640}
   m_Layer: 9
   m_Name: HullSides
   m_TagString: Player
@@ -722,6 +724,7 @@ GameObject:
   - 23: {fileID: 2300038}
   - 114: {fileID: 11486026}
   - 114: {fileID: 11462052}
+  - 65: {fileID: 6599706}
   m_Layer: 9
   m_Name: Turret_003
   m_TagString: Player
@@ -933,6 +936,7 @@ GameObject:
   - 33: {fileID: 3336838}
   - 23: {fileID: 2345904}
   - 114: {fileID: 11456232}
+  - 65: {fileID: 6538850}
   m_Layer: 9
   m_Name: Turret_002
   m_TagString: Player
@@ -952,6 +956,7 @@ GameObject:
   - 23: {fileID: 2375772}
   - 114: {fileID: 11486174}
   - 114: {fileID: 11434832}
+  - 65: {fileID: 6581784}
   m_Layer: 9
   m_Name: Turret_001
   m_TagString: Player
@@ -971,6 +976,7 @@ GameObject:
   - 23: {fileID: 2337542}
   - 114: {fileID: 11420360}
   - 114: {fileID: 11476662}
+  - 65: {fileID: 6519756}
   m_Layer: 9
   m_Name: Turret_004
   m_TagString: Player
@@ -3342,6 +3348,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.045324743, y: 0.14078327, z: 0.010701284}
   m_Center: {x: 3.0108035e-16, y: -0.00987202, z: 0.001381445}
+--- !u!65 &6519756
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01454442, y: 0.008031221, z: 0.006405751}
+  m_Center: {x: 0.0012893782, y: -1.09354375e-16, z: 0.0032028737}
 --- !u!65 &6519966
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3414,6 +3432,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.019350028, y: 0.024796868, z: 0.00982951}
   m_Center: {x: -4.6260754e-18, y: 0.00051399006, z: -1.5318097e-10}
+--- !u!65 &6538850
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.014544426, y: 0.008031223, z: 0.0064057535}
+  m_Center: {x: 0.0012893825, y: -9.545312e-10, z: 0.0032028756}
 --- !u!65 &6538938
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3484,8 +3514,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.045324743, y: 0.22191432, z: 0.016394582}
-  m_Center: {x: 1.8103572e-16, y: 0.001479487, z: 0.0038974555}
+  m_Size: {x: 0.045324743, y: 0.22191432, z: 0.00939458}
+  m_Center: {x: 1.8103572e-16, y: 0.001479487, z: 0.003897456}
 --- !u!65 &6551648
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3522,6 +3552,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.08400681, y: 0.11830838, z: 0.049194533}
   m_Center: {x: -1.4366055e-15, y: 0.058654785, z: 0.0028872285}
+--- !u!65 &6569836
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01454442, y: 0.008031221, z: 0.006405751}
+  m_Center: {x: 0.00128938, y: -1.09354375e-16, z: 0.0032028756}
 --- !u!65 &6570178
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3570,6 +3612,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.01457746, y: 0.012322903, z: 0.009188242}
   m_Center: {x: 0.00013563992, y: 0.0000000037252903, z: 0.0000000037252903}
+--- !u!65 &6580312
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143622}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.014544426, y: 0.008031223, z: 0.0064057535}
+  m_Center: {x: 0.0012893825, y: -9.545312e-10, z: 0.0032028756}
 --- !u!65 &6580810
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3594,18 +3648,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.041898277, y: 0.11266804, z: 0.040206715}
   m_Center: {x: -0.000000019557783, y: 0.01494567, z: -0.011176384}
---- !u!65 &6587742
+--- !u!65 &6581784
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144160}
+  m_GameObject: {fileID: 199636}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.09545888, y: 0.34615088, z: 0.0991361}
-  m_Center: {x: 0.027439103, y: -0.08601581, z: -0.04421781}
+  m_Size: {x: 0.014544426, y: 0.008031223, z: 0.0064057535}
+  m_Center: {x: 0.0012893825, y: -9.545312e-10, z: 0.0032028737}
 --- !u!65 &6596800
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3618,6 +3672,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.014577466, y: 0.0123229055, z: 0.009188246}
   m_Center: {x: 0.00013564184, y: 0.000000007450581, z: -0.0000000037252903}
+--- !u!65 &6599706
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173178}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.01454442, y: 0.008031221, z: 0.006405751}
+  m_Center: {x: 0.00128938, y: -1.09354375e-16, z: 0.0032028756}
 --- !u!65 &6599962
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -4024,6 +4090,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &13672640
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.048
+  m_Height: 0.34615088
+  m_Direction: 1
+  m_Center: {x: 0.027439103, y: -0.08601581, z: -0.035}
 --- !u!198 &19804242
 ParticleSystem:
   m_ObjectHideFlags: 1
