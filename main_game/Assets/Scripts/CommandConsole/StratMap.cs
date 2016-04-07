@@ -11,6 +11,7 @@ public class StratMap : MonoBehaviour {
     private RectTransform playerIconTransform;
     private float panelHeight;
     private float panelWidth;
+    private int objective;
     Dictionary<int,GameObject> outpostIconDict;
     public GameObject Portal { get; set; }
     private Sprite savedOutpostSprite;
@@ -52,6 +53,7 @@ public class StratMap : MonoBehaviour {
             }
         }
         objectiveIcon.SetActive(false);
+        objective = -2;
     }
 
     public void NewOutpost(GameObject outpost, int id, int difficulty)
@@ -69,6 +71,7 @@ public class StratMap : MonoBehaviour {
             else outpostIcon.SetActive(false);
             Image outpostImage = outpostIcon.GetComponent<Image>();
             outpostIconDict.Add(id, outpostIcon);
+            if (id == objective) startMission(id); //This should only happen if an objective is set before an outpost is found
         }
     }
 
@@ -103,6 +106,7 @@ public class StratMap : MonoBehaviour {
 
     public void startMission(int id)
     {
+        objective = id; 
         if (!outpostIconDict.ContainsKey(id)) print("outpost id : " + id + "searched for but not in stratmap dictionary");
         else {
             if (outpostIconDict[id] == null) print("outpostIconDict[id] == null");
