@@ -224,7 +224,7 @@ public class OutpostManager : MonoBehaviour {
             Image arrowImage = arrowList[id].GetComponent<Image>();
             arrowImage.color = darkYellow;
         }
-        else objectiveIds.Add(id);      //if the arrow hasn't been instantiated yet, add the id to a list, so the color can be changed when the arrows are spawned
+        //else objectiveIds.Add(id);      //if the arrow hasn't been instantiated yet, add the id to a list, so the color can be changed when the arrows are spawned
         outpostList[id].GetComponent<OutpostTarget>().StartMission();
     }
 

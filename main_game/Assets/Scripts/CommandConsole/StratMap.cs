@@ -51,6 +51,7 @@ public class StratMap : MonoBehaviour {
                 Destroy(this.transform.GetChild(i).gameObject);
             }
         }
+        objectiveIcon.SetActive(false);
     }
 
     public void NewOutpost(GameObject outpost, int id, int difficulty)
@@ -102,13 +103,16 @@ public class StratMap : MonoBehaviour {
 
     public void startMission(int id)
     {
-        if (outpostIconDict[id] == null) print("outpostIconDict[id] == null");
-        else
-        {
-            RectTransform outpostRectTransform = (RectTransform)outpostIconDict[id].transform;
-            objectiveIconRectTransform.anchoredPosition = outpostRectTransform.anchoredPosition;
-            objectiveIconRectTransform.sizeDelta = outpostRectTransform.sizeDelta;
-            objectiveIcon.SetActive(true);
+        if (!outpostIconDict.ContainsKey(id)) print("outpost id : " + id + "searched for but not in stratmap dictionary");
+        else {
+            if (outpostIconDict[id] == null) print("outpostIconDict[id] == null");
+            else
+            {
+                RectTransform outpostRectTransform = (RectTransform)outpostIconDict[id].transform;
+                objectiveIconRectTransform.anchoredPosition = outpostRectTransform.anchoredPosition;
+                objectiveIconRectTransform.sizeDelta = outpostRectTransform.sizeDelta;
+                objectiveIcon.SetActive(true);
+            }
         }
     }
 

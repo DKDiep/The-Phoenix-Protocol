@@ -365,7 +365,7 @@ MonoBehaviour:
     triggerOnAny: 1
     triggerConditions:
     - triggerType: 0
-      triggerValue: 25
+      triggerValue: 12
     completeOnAny: 0
     completionConditions:
     - completionType: 1
