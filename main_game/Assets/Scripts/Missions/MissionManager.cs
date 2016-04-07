@@ -47,7 +47,7 @@ public class MissionManager : MonoBehaviour
 
     void Update ()
     {
-        /*if (Input.GetKeyDown("c"))
+        if (Input.GetKeyDown("z"))
         {
             print("ShieldGen health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ShieldGen)));
             print("Turrets health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Turrets)));
@@ -55,8 +55,19 @@ public class MissionManager : MonoBehaviour
             print("Hull health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Hull)));
             print("Drone health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Drone)));
             print("ResourceStorage health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ResourceStorage)));
-        }*/
-            if (gameState.Status == GameState.GameStatus.Started)
+        }
+        if (Input.GetKeyDown("x"))
+        {
+            print("ShieldGen Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Level);
+            print("Turrets Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Level);
+            print("Engines Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Level);
+            print("Hull Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Level);
+            print("Drone Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Level);
+            print("ResourceStorage Level: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Level);
+
+        }
+
+        if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
             if(!missionInit)
@@ -250,6 +261,7 @@ public class MissionManager : MonoBehaviour
                 case TriggerType.Time:
                     if((Time.time - startTime) > trigger.triggerValue)
                     {
+                        print("Time.time = " + Time.time + ", startTime = " + startTime + ", triggerValue = " + trigger.triggerValue);
                         if(missions[missionId].triggerOnAny) return true;
                     }
                     else

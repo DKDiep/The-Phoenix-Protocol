@@ -396,6 +396,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         if (stratMap == null) print("stratmap == null");
         else stratMap.startMission(id);
+        pulsateToggle[(int)UIElementEnum.MapBG] = true;
     }
 
     public void ShowUpgradeObjective(UpgradableComponentIndex componentIndex)   //also called for repair objectives
@@ -414,6 +415,7 @@ public class CommandConsoleState : MonoBehaviour {
     public void RemoveObjectiveFromMap(int id)
     {
         stratMap.endMission(id);
+        pulsateToggle[(int)UIElementEnum.MapBG] = false;
     }
 
     public void ClosePopupWindow()

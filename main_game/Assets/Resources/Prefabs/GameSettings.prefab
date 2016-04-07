@@ -357,6 +357,42 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+  - active: 1
+    name: 'Welcome Commander '
+    description: You're low on resources. Your first mission is to reach a nearby
+      outpost to replenish your stocks.
+    completedDescription: ' Congratulations, you reached the outpost.'
+    triggerOnAny: 1
+    triggerConditions:
+    - triggerType: 0
+      triggerValue: 25
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 1
+      completionValue: 0
+      componentIndex: 3
+    activates: 01000000
+    onStart:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onCompletion:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
