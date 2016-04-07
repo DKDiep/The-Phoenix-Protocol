@@ -47,7 +47,7 @@ public class MissionManager : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetKeyDown("c"))
+        /*if (Input.GetKeyDown("c"))
         {
             print("ShieldGen health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ShieldGen)));
             print("Turrets health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Turrets)));
@@ -55,7 +55,7 @@ public class MissionManager : MonoBehaviour
             print("Hull health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Hull)));
             print("Drone health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Drone)));
             print("ResourceStorage health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ResourceStorage)));
-        }
+        }*/
             if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
