@@ -114,6 +114,10 @@ public class CommandConsoleState : MonoBehaviour {
             consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
             upgradeButtonLabel.text = "Upgrade";
         }
+        for (int i = 0; i < pulsateToggle.Length; i++)
+        {
+            pulsateToggle[i] = false;
+        }
         UpdateAllText();
         ClosePopupWindow();
         upgradeArea.SetActive(false);
@@ -152,7 +156,7 @@ public class CommandConsoleState : MonoBehaviour {
         }
 
         //all this is just so people can see the pulsate feature. It should be removed at some point
-        if (Input.GetKeyDown("z")) pulsateToggle[(int)UIElementEnum.NewsFeed] = !pulsateToggle[(int)UIElementEnum.NewsFeed];
+        /*if (Input.GetKeyDown("z")) pulsateToggle[(int)UIElementEnum.NewsFeed] = !pulsateToggle[(int)UIElementEnum.NewsFeed];
         if (Input.GetKeyDown("x")) pulsateToggle[(int)UIElementEnum.MapBG] = !pulsateToggle[(int)UIElementEnum.MapBG];
         if (Input.GetKeyDown("c")) pulsateToggle[(int)UIElementEnum.MissionWindow] = !pulsateToggle[(int)UIElementEnum.MissionWindow];
         if (Input.GetKeyDown("v")) pulsateToggle[(int)UIElementEnum.UpgradeInfo] = !pulsateToggle[(int)UIElementEnum.UpgradeInfo];
@@ -162,6 +166,7 @@ public class CommandConsoleState : MonoBehaviour {
         if (Input.GetKeyDown(",")) pulsateToggle[(int)UIElementEnum.BridgeUpgrade] = !pulsateToggle[(int)UIElementEnum.BridgeUpgrade];
         if (Input.GetKeyDown(".")) pulsateToggle[(int)UIElementEnum.DroneUpgrade] = !pulsateToggle[(int)UIElementEnum.DroneUpgrade];
         if (Input.GetKeyDown("/")) pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade] = !pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade];
+        */
 
         // Cheat code! But seriously, this will ease development so much.
         // Upgrades all in progress upgrade requests, basically makes it so you don't need to run the engineer. 

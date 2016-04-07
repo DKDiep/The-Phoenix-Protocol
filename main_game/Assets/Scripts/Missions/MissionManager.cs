@@ -26,8 +26,13 @@ public class MissionManager : MonoBehaviour
     public void ResetMissions() 
     {
         StopAllCoroutines();
+        for (int i = 0; i < missions.Length; i++)
+        {
+            activeList[i] = missions[i].active;
+            missions[i].reset();
+        }
         startTime = Time.time;
-        StartCoroutine(UpdateMissions());
+        StartCoroutine(waitThenStartUpdateMissions());
     }
 
     private void LoadSettings()
@@ -42,7 +47,7 @@ public class MissionManager : MonoBehaviour
 
     void Update ()
     {
-        if (Input.GetKeyDown("c"))
+        /*if (Input.GetKeyDown("c"))
         {
             print("ShieldGen health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ShieldGen)));
             print("Turrets health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Turrets)));
@@ -50,7 +55,7 @@ public class MissionManager : MonoBehaviour
             print("Hull health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Hull)));
             print("Drone health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Drone)));
             print("ResourceStorage health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ResourceStorage)));
-        }
+        }*/
             if (gameState.Status == GameState.GameStatus.Started)
         {
             // Initialise any variables for missions
@@ -101,6 +106,14 @@ public class MissionManager : MonoBehaviour
             yield return new WaitForSeconds(3.0f);
             activeList[missionId] = true;
         }
+    }
+
+    //The wait part is here because without it we get some weird behaviour from the reset period - 
+    // missions were being triggered in the new game because trigger conditions were being met in the previous game
+    public IEnumerator waitThenStartUpdateMissions() 
+    {
+        yield return new WaitForSeconds(5.0f);
+        StartCoroutine(UpdateMissions());
     }
 
 
@@ -357,6 +370,11 @@ public class MissionManager : MonoBehaviour
         public bool hasStarted()
         {
             return started;
+        }
+        public void reset()
+        {
+            started = false;
+            complete = false;
         }
         public void start()
         {
