@@ -9,6 +9,7 @@ public class MissionManager : MonoBehaviour
     private GameState gameState;
     private GameSettings settings;
     private Mission[] missions;
+    private bool[] activeList;              //These could be in missions, but this avoids the problem of having to edit gamesettings when you want to change them.
     private PlayerController playerController;
     private OutpostManager outpostManager;
     private float startTime;
@@ -32,6 +33,11 @@ public class MissionManager : MonoBehaviour
     private void LoadSettings()
     {
         missions = settings.missionProperties;
+        activeList = new bool[missions.Length];
+        for (int i = 0; i < missions.Length; i++)
+        {
+            activeList[i] = missions[i].active;
+        }
     }
 
     void Update ()
@@ -88,6 +94,16 @@ public class MissionManager : MonoBehaviour
         StartCoroutine(UpdateMissions());
     }
 
+    public IEnumerator waitThenSetActive(int[] missionIds)
+    {
+        foreach (int missionId in missionIds)
+        {
+            yield return new WaitForSeconds(3.0f);
+            activeList[missionId] = true;
+        }
+    }
+
+
     /// <summary>
     /// Checks if any of the missions have triggered. 
     /// </summary>
@@ -96,10 +112,11 @@ public class MissionManager : MonoBehaviour
         // Loop through mission ids
         for(int id = 0; id < missions.Length; id++)
         {
-            if(CheckTrigger(id) && missions[id].hasStarted() == false)
-            {
-                StartMission(id);
-            }
+            if (missions[id].hasStarted() == false && activeList[id])
+                if (CheckTrigger(id))
+                    {
+                        StartMission(id);
+                    }
         }
     }
 
@@ -161,6 +178,7 @@ public class MissionManager : MonoBehaviour
             i++;
         }
         playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, ids);
+        StartCoroutine(waitThenSetActive(missions[missionId].activates));
     }
 
     /// <summary>
@@ -299,6 +317,7 @@ public class MissionManager : MonoBehaviour
     [System.Serializable] 
     public class Mission
     {
+        public bool active;
         public string name, description, completedDescription;
 
         // If true then any trigger condiiton will trigger this mission;
@@ -311,12 +330,17 @@ public class MissionManager : MonoBehaviour
         public bool completeOnAny;
         public MissionCompletion[] completionConditions;
 
+        //list of missions which are set active by this one;
+        public int[] activates;
+
         // Functions can be added to be triggered 'onStart' or 'onComplete'
         public UnityEvent onStart;
         public UnityEvent onCompletion;
 
         private bool started = false;
         private bool complete = false;
+
+        //index of a mission 
 
         public bool isComplete()
         {
@@ -341,6 +365,11 @@ public class MissionManager : MonoBehaviour
                 onStart.Invoke();
             started = true;
         }
+    }
+
+    public void setActive(int missionId, bool status)
+    {
+        activeList[missionId] = status;
     }
 
     [System.Serializable]
