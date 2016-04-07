@@ -15,6 +15,7 @@ public abstract class UpgradableComponent
 	/// The component's health value.
 	/// </summary>
 	/// <value>The health value.</value>
+    /// This isn't used! We're using the syncvars in gamestate instead.
 	public int Health { get; protected set; }
 
 	/// <summary>

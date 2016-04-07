@@ -38,12 +38,12 @@ public class MissionManager : MonoBehaviour
     {
         if (Input.GetKeyDown("c"))
         {
-            print("ShieldGen health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ShieldGen].Health);
-            print("Turrets health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Turrets].Health);
-            print("Engines health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Engines].Health);
-            print("Hull health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Hull].Health);
-            print("Drone health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.Drone].Health);
-            print("ResourceStorage health: " + gameState.upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage].Health);
+            print("ShieldGen health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ShieldGen)));
+            print("Turrets health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Turrets)));
+            print("Engines health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Engines)));
+            print("Hull health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Hull)));
+            print("Drone health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.Drone)));
+            print("ResourceStorage health: " + gameState.GetComponentHealth((ComponentType)(int)(UpgradableComponentIndex.ResourceStorage)));
         }
             if (gameState.Status == GameState.GameStatus.Started)
         {
@@ -277,7 +277,7 @@ public class MissionManager : MonoBehaviour
                     }
                     break;
                 case CompletionType.Repair:
-                    if (gameState.upgradableComponents[(int)completeCondition.componentIndex].Health == completeCondition.completionValue)
+                    if (gameState.GetComponentHealth((ComponentType)(int)(completeCondition.componentIndex)) == completeCondition.completionValue)
                     {
                         if (missions[missionId].completeOnAny) return true;
                     }
