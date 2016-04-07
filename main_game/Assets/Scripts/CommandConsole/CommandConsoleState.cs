@@ -114,6 +114,10 @@ public class CommandConsoleState : MonoBehaviour {
             consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
             upgradeButtonLabel.text = "Upgrade";
         }
+        for (int i = 0; i < pulsateToggle.Length; i++)
+        {
+            pulsateToggle[i] = false;
+        }
         UpdateAllText();
         ClosePopupWindow();
         upgradeArea.SetActive(false);

@@ -26,6 +26,11 @@ public class MissionManager : MonoBehaviour
     public void ResetMissions() 
     {
         StopAllCoroutines();
+        for (int i = 0; i < missions.Length; i++)
+        {
+            activeList[i] = missions[i].active;
+            missions[i].reset();
+        }
         startTime = Time.time;
         StartCoroutine(UpdateMissions());
     }
@@ -357,6 +362,11 @@ public class MissionManager : MonoBehaviour
         public bool hasStarted()
         {
             return started;
+        }
+        public void reset()
+        {
+            started = false;
+            complete = false;
         }
         public void start()
         {
