@@ -359,10 +359,9 @@ public class EngineerController : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdateRotation(Quaternion rotation)
     {
-        if(playerController == null || !playerController.isLocalPlayer)
+        if (playerController == null || !playerController.isLocalPlayer)
             transform.rotation = rotation;
     }
-
 
     private void Update()
     {
@@ -445,9 +444,9 @@ public class EngineerController : NetworkBehaviour
             }
 
             if (canRepair)
-                upgradeText.text = repairString;
+                upgradeText.text = repairString + " " + interactiveObject.Type.GetComponentString();
             else if (canUpgrade)
-                upgradeText.text = upgradeString;
+                upgradeText.text = upgradeString + " " + interactiveObject.Type.GetComponentString();
             else
                 ResetUpgradeText();
         }

@@ -37,4 +37,25 @@ public static class ComponentTypeMethods
 
         // TODO: make sure the shield generator and resrouce storage actually have hat name
     }
+
+    public static string GetComponentString(this ComponentType type)
+    {
+        switch (type)
+        {
+            case ComponentType.Turret:
+                return "Turrets";
+            case ComponentType.Engine:
+                return "Engines";
+            case ComponentType.Hull:
+                return "Hull";
+            case ComponentType.ShieldGenerator:
+                return "Shield Generator";
+            case ComponentType.ResourceStorage:
+                return "Resource Storage";
+            case ComponentType.Drone:
+                return "Engineer Drone";
+            default:
+                return "";
+        }
+    }
 }
