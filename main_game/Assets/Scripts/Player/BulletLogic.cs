@@ -98,7 +98,11 @@ public class BulletLogic : MonoBehaviour
 		if (hitObjectTag.Equals("Debris"))
 			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);
 		else if (hitObjectTag.Equals("EnemyShip"))
-			col.gameObject.GetComponentInChildren<EnemyLogic>().collision(damage, bulletPlayerId);
+		{
+			EnemyLogic logic = col.gameObject.GetComponentInChildren<EnemyLogic>();
+			if (logic != null)
+				logic.collision(damage, bulletPlayerId);
+		}
 		else if (hitObjectTag.Equals("Player"))
 		{
 			GameObject hitObject = col.gameObject;

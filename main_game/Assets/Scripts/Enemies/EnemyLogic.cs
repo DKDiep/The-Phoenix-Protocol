@@ -443,7 +443,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
     IEnumerator UpdateDelay()
     {
-        yield return new WaitForSeconds(3f);
+		// Wait a moment to ensure the type is set
+        yield return new WaitForSeconds(1f);
 
         if(type == EnemyType.Gnat )
         {
@@ -800,7 +801,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		else
 		{
 			enemyManager = FindManager();
-			if (enemyManager)
+			if (enemyManager != null)
 			{
 				enemyManager.DisableClientObject(removeName);
 				enemyManager.RemoveObject(removeName);
@@ -808,6 +809,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			else
 				Debug.LogWarning("Could not find manager for enemy " + removeName + " type " + type + " so it was not despawned.");
 		}
+
+		enemyManager = null;
 
         transform.parent = null;
         enemyLogicManager.RemoveObject(gameObject.name);
