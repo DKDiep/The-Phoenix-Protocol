@@ -220,7 +220,6 @@ public class OutpostManager : MonoBehaviour {
     {
         if (id < arrowList.Count)
         {
-            print("id = " + id + ", arrowList.Count = " + arrowList.Count);
             Image arrowImage = arrowList[id].GetComponent<Image>();
             arrowImage.color = darkYellow;
         }

@@ -262,7 +262,6 @@ public class MissionManager : MonoBehaviour
                 case TriggerType.Time:
                     if((Time.time - startTime) > trigger.triggerValue)
                     {
-                        print("Time.time = " + Time.time + ", startTime = " + startTime + ", triggerValue = " + trigger.triggerValue);
                         if(missions[missionId].triggerOnAny) return true;
                     }
                     else
