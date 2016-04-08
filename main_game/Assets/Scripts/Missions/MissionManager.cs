@@ -124,6 +124,7 @@ public class MissionManager : MonoBehaviour
     public IEnumerator waitThenStartUpdateMissions() 
     {
         yield return new WaitForSeconds(5.0f);
+        InitialiseMissions();
         StartCoroutine(UpdateMissions());
     }
 
