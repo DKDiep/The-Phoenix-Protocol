@@ -27,14 +27,16 @@ public class BulletLogic : MonoBehaviour
 	private int playerId;
 	private float distance;
 	private AudioSource mySrc;
+    private bool playerShooting;
 
 	private ObjectPoolManager bulletManager;
 	private ObjectPoolManager logicManager;
 	private ObjectPoolManager impactManager;
+    private ShipMovement shipMovement;
 
     void Update()
     {
-        if(enableSound)
+        if(enableSound && !playerShooting)
         {
             distance = Vector3.Distance(transform.position, destination);
             if(distance < 150)
@@ -60,6 +62,7 @@ public class BulletLogic : MonoBehaviour
         destination   = dest;
         playerObj     = playerObj2;
 		obj           = transform.parent.gameObject;
+        playerShooting = isPlayer;
       
 		if(isPlayer) 
 			obj.GetComponent<BulletCollision>().playerId = playerId;
@@ -91,7 +94,7 @@ public class BulletLogic : MonoBehaviour
 		Despawn();
 
 		// If it's a player bullet, show a hit marker
-		if(player != null) 
+		if(playerShooting) 
             player.HitMarker();
 
 		// Apply the collision logic
@@ -105,9 +108,9 @@ public class BulletLogic : MonoBehaviour
 		}
 		else if (hitObjectTag.Equals("Player"))
 		{
-			GameObject hitObject = col.gameObject;
-			hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>()
-                .collision(damage, transform.eulerAngles.y, hitObject.name.GetComponentType());
+            if(shipMovement == null)
+                shipMovement = playerObj.GetComponentInChildren<ShipMovement>();
+			shipMovement.collision(damage, transform.eulerAngles.y, col.gameObject.name.GetComponentType());
 		}
         else if (hitObjectTag.Equals("GlomMothership"))
             col.gameObject.GetComponentInChildren<MothershipLogic>().collision(damage, bulletPlayerId);
@@ -134,6 +137,7 @@ public class BulletLogic : MonoBehaviour
 	/// </summary>
 	private void Despawn()
 	{
+        //player = null;
 		RemoveFollowTarget();
 		bulletManager.DisableClientObject(obj.name);
 		bulletManager.RemoveObject(obj.name);
