@@ -158,6 +158,7 @@ public class GameSettings : MonoBehaviour
 	public bool PlayerFireSoundRandomPitch;
 	public float PlayerBulletAccuracy;
 	public float PlayerBulletSpeed;
+	public float WiimoteInterpolationFactor;
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;

@@ -7,7 +7,12 @@ using System;
 
 public class CrosshairMovement : NetworkBehaviour
 {
-    private int controlling = 0;
+	private GameSettings settings;
+
+	// Configuration parameters loaded through GameSettings
+	private float wiimoteInterpolationFactor;
+
+	private int controlling = 0;
 	private int numberOfCrossHairs;
 	private bool[] init;
 	private Vector3 initPos;
@@ -42,6 +47,9 @@ public class CrosshairMovement : NetworkBehaviour
 		gameManager = GameObject.Find("GameManager");
 		serverManager = gameManager.GetComponent<ServerManager>();
 
+		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+		LoadSettings();
+
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
@@ -71,6 +79,11 @@ public class CrosshairMovement : NetworkBehaviour
 		mainCamera = Camera.main;
 			
 		//StartCoroutine(FindRemotes());
+	}
+
+	private void LoadSettings()
+	{
+		wiimoteInterpolationFactor = settings.WiimoteInterpolationFactor;
 	}
 	
 	// Update is called once per frame
@@ -119,7 +132,8 @@ public class CrosshairMovement : NetworkBehaviour
         }
         else
         {
-            serverManager.SetCrosshairPosition(playerId, screenId, position);
+			Vector2 oldPosittion = GetPosition(controlling);
+			serverManager.SetCrosshairPosition(playerId, screenId, Vector2.Lerp(oldPosittion, position, Time.deltaTime * wiimoteInterpolationFactor));
         }
         autoaimScripts[playerId].Target = targetObject;
     }
