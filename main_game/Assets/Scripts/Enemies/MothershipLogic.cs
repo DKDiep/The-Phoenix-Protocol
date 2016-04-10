@@ -6,8 +6,8 @@ public class MothershipLogic : MonoBehaviour {
     private float health;
     private int spawnedEnemies = 0;
     private EnemySpawner spawner;
-    GameSettings settings;
-    GameState gameState;
+    private GameSettings settings;
+    private GameState gameState;
 
 
 	// Use this for initialization
@@ -18,7 +18,6 @@ public class MothershipLogic : MonoBehaviour {
 
         GameObject server = settings.GameManager;
         gameState         = server.GetComponent<GameState>();
-	
 	}
 
     public void SetSpawner(EnemySpawner temp)
@@ -30,11 +29,17 @@ public class MothershipLogic : MonoBehaviour {
 
     IEnumerator SpawnEnemies()
     {
+		// Do not spawn enemies after the player has died
+		if (gameState == null)
+			yield return new WaitForSeconds(3f);
+		else if (gameState.Status != GameState.GameStatus.Started)
+			yield break;
+		
         if(spawnedEnemies < 30)
         {
-            yield return new WaitForSeconds(3f);
             spawner.SpawnEnemyFromMothership();
             spawnedEnemies++;
+			yield return new WaitForSeconds(3f);
             StartCoroutine(SpawnEnemies());
         }
         else
