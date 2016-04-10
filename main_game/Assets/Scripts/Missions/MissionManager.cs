@@ -13,6 +13,7 @@ public class MissionManager : MonoBehaviour
     private PlayerController playerController;
     private OutpostManager outpostManager;
     private float startTime;
+	private bool timerStarted;
     private bool missionInit = false;
 
     void Start () 
@@ -31,7 +32,6 @@ public class MissionManager : MonoBehaviour
             activeList[i] = missions[i].active;
             missions[i].reset();
         }
-        startTime = Time.time;
         StartCoroutine(waitThenStartUpdateMissions());
     }
 
@@ -101,6 +101,15 @@ public class MissionManager : MonoBehaviour
             }
         }
     }
+
+	/// <summary>
+	/// Sets the mission start time to the current time.
+	/// </summary>
+	public void StartTimer()
+	{
+		startTime    = Time.time;
+		timerStarted = true;
+	}
 
     private IEnumerator UpdateMissions()
     {
@@ -260,7 +269,7 @@ public class MissionManager : MonoBehaviour
                     }
                     break;
                 case TriggerType.Time:
-                    if((Time.time - startTime) > trigger.triggerValue)
+					if(timerStarted && (Time.time - startTime) > trigger.triggerValue)
                     {
                         if(missions[missionId].triggerOnAny) return true;
                     }

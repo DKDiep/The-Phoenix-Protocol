@@ -12,12 +12,16 @@ public class LoadingText : NetworkBehaviour
     private bool gameStarted = false;
 
 	private PlayerShooting shooting;
+	private MissionManager missionManager;
 
 	// Use this for initialization
 	public void Play () 
     {
 		if(shooting == null)
 			shooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
+
+		if (missionManager == null)
+			missionManager = GameObject.Find("MissionManager(Clone)").GetComponent<MissionManager>();
 
         StartCoroutine(Loaded());
 	}
@@ -56,6 +60,7 @@ public class LoadingText : NetworkBehaviour
 		fadeSound = true;
         GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(0);
 		shooting.SetShootingEnabled(true);
+		missionManager.StartTimer();
         //Destroy(this, 3f);
     }
 
