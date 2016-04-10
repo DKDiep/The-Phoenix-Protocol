@@ -27,12 +27,14 @@ public class MissionManager : MonoBehaviour
     public void ResetMissions() 
     {
         StopAllCoroutines();
+
         for (int i = 0; i < missions.Length; i++)
         {
             activeList[i] = missions[i].active;
             missions[i].reset();
         }
-        StartCoroutine(waitThenStartUpdateMissions());
+
+        StartCoroutine(WaitThenStartUpdateMissions());
     }
 
     private void LoadSettings()
@@ -119,7 +121,7 @@ public class MissionManager : MonoBehaviour
         StartCoroutine(UpdateMissions());
     }
 
-    public IEnumerator waitThenSetActive(int[] missionIds)
+    IEnumerator WaitThenSetActive(int[] missionIds)
     {
         foreach (int missionId in missionIds)
         {
@@ -128,9 +130,9 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    //The wait part is here because without it we get some weird behaviour from the reset period - 
+    // The wait part is here because without it we get some weird behaviour from the reset period - 
     // missions were being triggered in the new game because trigger conditions were being met in the previous game
-    public IEnumerator waitThenStartUpdateMissions() 
+    IEnumerator WaitThenStartUpdateMissions() 
     {
         yield return new WaitForSeconds(5.0f);
         InitialiseMissions();
@@ -212,7 +214,7 @@ public class MissionManager : MonoBehaviour
             i++;
         }
         playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, ids);
-        StartCoroutine(waitThenSetActive(missions[missionId].activates));
+        StartCoroutine(WaitThenSetActive(missions[missionId].activates));
     }
 
     /// <summary>
