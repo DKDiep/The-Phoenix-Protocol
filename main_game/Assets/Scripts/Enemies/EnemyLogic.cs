@@ -70,6 +70,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private GameObject shootAnchor;
 	private Vector3 prevPos, currentPos;
 	private GameObject controlObject;
+	private Collider controlObjectCollider;
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
 	private int droppedResources;
@@ -86,6 +87,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;    // Maximum angle with the player when shooting is possible
 	private float lastYRot;
 	private bool reachedFrontOfPlayer = false;
+	private bool collisionsEnabled = true;
 
 	private List<GameObject> playerShipTargets;
 	private GameObject currentTarget;
@@ -192,53 +194,56 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			return;
 		}
 
-		// Check if about to collide with something
-		// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
-		// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
-		AvoidInfo obstacleInfo = CheckObstacleAhead();
-		if (!obstacleInfo.IsNone())
+		if (collisionsEnabled)
 		{
+			// Check if about to collide with something
+			// Ignore the outpost if returning towards its location, because the guard distance might be smaller than the avoid distance.
+			// We will not hit the outpost as long as the guard distance accounts for the the outpost's size
+			AvoidInfo obstacleInfo = CheckObstacleAhead();
+			if (!obstacleInfo.IsNone())
+			{
 			
-			// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
-			if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
-				Destroy(currentWaypoint);
+				// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
+				if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
+					Destroy(currentWaypoint);
 
-			// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
-			// Otherwise, temporarily change direction
-			if (!hacked && obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
-			{
-				state                  = EnemyAIState.EngagePlayer;
-				previousAvoidDirection = 0;
-				currentWaypoint        = GetNextWaypoint();
-			}
-			else
-			{
-				state = EnemyAIState.AvoidObstacle;
-
-				// If already avoiding an obstacle, keep the same direction
-				// Otherwise, decided based on the side the obstacle is closest to
-				if (previousAvoidDirection != 0)
-					avoidDirection = previousAvoidDirection;
+				// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
+				// Otherwise, temporarily change direction
+				if (!hacked && obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_ENEMY))
+				{
+					state = EnemyAIState.EngagePlayer;
+					previousAvoidDirection = 0;
+					currentWaypoint = GetNextWaypoint();
+				}
 				else
-					avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
+				{		
+					state = EnemyAIState.AvoidObstacle;
 
-				// Create a temp waypoint to follow in order to avoid the asteroid
-				GameObject avoidWaypoint         = new GameObject (AVOID_WAYPOINT_NAME);
-				avoidWaypoint.transform.position = controlObject.transform.position;
-				avoidWaypoint.transform.rotation = controlObject.transform.rotation;
+					// If already avoiding an obstacle, keep the same direction
+					// Otherwise, decided based on the side the obstacle is closest to
+					if (previousAvoidDirection != 0)
+						avoidDirection = previousAvoidDirection;
+					else
+						avoidDirection = obstacleInfo.Side == AvoidInfo.AvoidSide.Left ? -1 : 1;
 
-				float yRotation = avoidDirection * AI_OBSTACLE_AVOID_ROTATION;
-				if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_MOTHERSHIP))
-					yRotation *= 2;
-				avoidWaypoint.transform.Rotate (0, yRotation, 0);
-				avoidWaypoint.transform.Translate (Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
-				currentWaypoint = avoidWaypoint;
+					// Create a temp waypoint to follow in order to avoid the asteroid
+					GameObject avoidWaypoint = new GameObject(AVOID_WAYPOINT_NAME);
+					avoidWaypoint.transform.position = controlObject.transform.position;
+					avoidWaypoint.transform.rotation = controlObject.transform.rotation;
 
-				// Uncomment this to visualise the waypoint
-				// If there is more than one enemy, this probably doesn't help much
-				/*GameObject visibleWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+					float yRotation = avoidDirection * AI_OBSTACLE_AVOID_ROTATION;
+					if (obstacleInfo.ObstacleTag.Equals(AI_OBSTACLE_TAG_MOTHERSHIP))
+						yRotation *= 2;
+					avoidWaypoint.transform.Rotate(0, yRotation, 0);
+					avoidWaypoint.transform.Translate(Vector3.forward * AI_OBSTACLE_RAY_FRONT_LENGTH);
+					currentWaypoint = avoidWaypoint;
+
+					// Uncomment this to visualise the waypoint
+					// If there is more than one enemy, this probably doesn't help much
+					/*GameObject visibleWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 				visibleWaypoint.transform.position   = currentWaypoint.transform.position;
 				visibleWaypoint.transform.localScale = visibleWaypoint.transform.localScale * 5;*/
+				}
 			}
 		}
 
@@ -304,7 +309,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				if (currentWaypoint == null)
 				{
 					if (hackedAttackTraget != null)
+					{
+						// Debug.Log("Following target " + hackedAttackTraget.name);
 						currentWaypoint = hackedAttackTraget;
+					}
 					else
 						FollowPlayer();
 				}
@@ -328,10 +336,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			{
 				currentWaypoint = GetNextWaypoint();
 				state = EnemyAIState.EngagePlayer;
+				collisionsEnabled = controlObjectCollider.enabled = true;
 			}
 			else if (state == EnemyAIState.EngagePlayer && distance > engageDistance)
 			{
 				state = EnemyAIState.SeekPlayer;
+				collisionsEnabled = controlObjectCollider.enabled = false;
 			}
 
 			if (state == EnemyAIState.EngagePlayer)
@@ -562,7 +572,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         controlObject = newControlObject;
         transform.parent.gameObject.GetComponent<EnemyCollision>().collisionDamage = collisionDamage;
-		aiObstacleRayFrontOffset = controlObject.GetComponent<Collider>().bounds.extents.y / 2.0f;
+
+		controlObjectCollider = controlObject.GetComponent<Collider>();
+		aiObstacleRayFrontOffset = controlObjectCollider.bounds.extents.y / 2.0f;
         
 		meshRenderer = controlObject.GetComponent<MeshRenderer>();
 		StartCoroutine(CheckRenderDistance());
@@ -585,8 +597,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		Transform playerCommanderShootAnchor = player.transform.Find("CommanderShootAnchor"); // The CommanderShootAnchor is basically the front point of the ship
 		suicidalMinFrontDist 				 = playerCommanderShootAnchor.transform.localPosition.z;
 
+		// Enemies have collisions disabled until they come close to the player
 		state = EnemyAIState.SeekPlayer;
-        controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
+		collisionsEnabled = controlObjectCollider.enabled = false;
+
+		controlObject.transform.eulerAngles = new Vector3(controlObject.transform.eulerAngles.x, controlObject.transform.eulerAngles.y, randomZ);
         randomZ = Random.Range(0f,359f);
 
         if(maxShield > 0)
@@ -851,9 +866,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When an enemy becomes hacked, it starts following the ship
 			FollowPlayer();
 			state = EnemyAIState.Hacked;
-            ChangeGlowColour();
-            if(enemyManager != null)
-                enemyManager.RpcSetHackedGlow(gameObject.name);
+			ChangeGlowColour();
+			if (enemyManager != null)
+				enemyManager.RpcSetHackedGlow(gameObject.name);
+			//Debug.Log("Hacked: " + controlObject.name + " with logic " + this.gameObject.name);
 		}
 		else
 		{
@@ -907,6 +923,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
 		hackedAttackTraget = currentWaypoint = currentTarget = target;
 
+		//Debug.Log("Attacking " + hackedAttackTraget.gameObject.name);
+
 		EnemyLogic targetLogic = hackedAttackTraget.GetComponentInChildren<EnemyLogic>();
 		if (targetLogic != null)
 			targetLogic.RegisterDestructionListener(this);
@@ -937,7 +955,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		currentWaypoint = hackedWaypoint;
 
 		// Uncomment to see when the hacked enemy starts following again
-		// Debug.Log("Hacked " + controlObject.name + " following: " + currentWaypoint.transform.localPosition);
+		//Debug.Log("Hacked " + controlObject.name + " following: " + currentWaypoint.transform.localPosition);
 	}
 
 	/// <summary>
@@ -969,6 +987,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (destructed == hackedAttackTraget)
 		{
 			hackedAttackTraget = null;
+			//Debug.Log("Target destroyed.");
 			FollowPlayer();
 		}
 	}
