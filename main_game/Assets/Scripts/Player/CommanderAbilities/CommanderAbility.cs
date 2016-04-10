@@ -29,6 +29,10 @@ public abstract class CommanderAbility : MonoBehaviour {
 
     internal void UseAbility()
     {
+		// Do not fire an ability unless the game is still in progress
+		if (state.Status != GameState.GameStatus.Started)
+			return;
+
         if(ready)
         {
             if(audioSource == null)
