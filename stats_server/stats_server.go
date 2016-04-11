@@ -15,9 +15,9 @@ import (
 
 const (
 	DB_HOST = "tcp(localhost:3306)"
-	DB_NAME = "game_stats"
-	DB_USER = /*"root"*/ "root"
-	DB_PASS = /*""*/ "reverse"
+	DB_NAME = "game"
+	DB_USER = "root"
+	DB_PASS = "password"
 )
 
 type Scores struct {
@@ -30,12 +30,12 @@ func main() {
 	dsn := DB_USER + ":" + DB_PASS + "@" + DB_HOST + "/" + DB_NAME + "?charset=utf8"
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatal(err) // Just for example purpose. You should use proper error handling instead of panic
+		log.Fatal(err)
 	}
 	defer db.Close()
-	stmt, err := db.Prepare("INSERT game SET team_name=?,scores=?")
+	stmt, err := db.Prepare("INSERT game SET team_name=?, scores=?")
 	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
+		panic(err.Error()) 
 	}
 	defer stmt.Close()
 	JSONString := ""
