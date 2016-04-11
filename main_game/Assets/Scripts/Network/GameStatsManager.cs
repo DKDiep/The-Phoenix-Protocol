@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameStatsManager : MonoBehaviour
 {
@@ -58,12 +59,16 @@ public class GameStatsManager : MonoBehaviour
             if (gameState.Status == GameState.GameStatus.Started)
             {
                 string jsonMsg = "{\"playerscores\":[";
-
-                for (int i = 0; i < 4; i++)
+                Dictionary<uint, Officer> officerMap = gameState.GetOfficerMap();
+                int i = 0;
+                foreach(KeyValuePair<uint, Officer> officer in officerMap)
                 {
-                    jsonMsg += gameState.GetPlayerScore(i) + ",";
+                    jsonMsg += "{\"name\": \"" + officer.Value.Name + "\", \"score\":" + gameState.GetPlayerScore(i) + "},";
+                    i++;
                 }
-                jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                // Remove last comma from json 
+                if(i != 0) jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                
                 jsonMsg += "],";
                 jsonMsg += "\"totalShipResources\": " + gameState.GetTotalShipResources() + ",";
                 jsonMsg += "\"shipResources\": " + gameState.GetShipResources() + ",";

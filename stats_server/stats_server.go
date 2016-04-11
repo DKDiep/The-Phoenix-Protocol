@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	//"golang.org/x/net/html"
 	"database/sql"
 	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
@@ -35,7 +34,7 @@ func main() {
 	defer db.Close()
 	stmt, err := db.Prepare("INSERT game SET team_name=?, scores=?")
 	if err != nil {
-		panic(err.Error()) 
+		panic(err.Error())
 	}
 	defer stmt.Close()
 	JSONString := ""
@@ -78,7 +77,7 @@ func main() {
 		err := json.Unmarshal(trimmedByteArray, &scores)
 		res, err := stmt.Exec(scores.TeamName, scores.Score)
 		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
+			panic(err.Error())
 			fmt.Println(res)
 		}
 	})

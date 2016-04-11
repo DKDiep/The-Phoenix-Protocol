@@ -1,6 +1,6 @@
 $(document).ready(function(){
   function refreshData(){
-        $.getJSON("json", function(result){
+    $.getJSON("json", function(result){
       var json_obj = $.parseJSON(result);
 
       console.log(json_obj.shipResources);
@@ -10,7 +10,7 @@ $(document).ready(function(){
       } else {
         $('#playerStats').html("");
           $.each(json_obj.playerscores, function(index, score) {
-              $('#playerStats').append('<div class="player"><div class="player_icon glyphicon glyphicon-user"></div><div class="player_name">Sporcle</div><div class="player_score">'+score+'</div></div>');
+              $('#playerStats').append('<div class="player"><div class="player_icon glyphicon glyphicon-user"></div><div class="player_name">'+score.name+'</div><div class="player_score">'+score.score+'</div></div>');
           });
           $("#shipHealth").html(json_obj.shipHealth);
           $("#shipResources").html(json_obj.shipResources);
