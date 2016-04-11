@@ -188,7 +188,8 @@ public class EngineerController : NetworkBehaviour
         playerShip = GameObject.Find("PlayerShip(Clone)");
 
         // Create the upgrade text object to use
-        engineerCanvas = Instantiate(Resources.Load("Prefabs/EngineerCanvas")) as GameObject;
+        if (engineerCanvas == null)
+            engineerCanvas = Instantiate(Resources.Load("Prefabs/EngineerCanvas")) as GameObject;
         Text[] tmp = engineerCanvas.GetComponentsInChildren<Text>();
 
         foreach (Text t in tmp)
@@ -203,7 +204,8 @@ public class EngineerController : NetworkBehaviour
         dockText.text = dockString;
 
         // Create the docked canvas, and start the engineer in the docked state
-        dockCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
+        if (dockCanvas == null)
+            dockCanvas = Instantiate(Resources.Load("Prefabs/DockingCanvas")) as GameObject;
 
         // We need a reference to the engineer start position as this is where
         // we anchor the engineer
