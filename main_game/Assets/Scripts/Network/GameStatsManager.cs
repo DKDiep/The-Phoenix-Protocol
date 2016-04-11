@@ -70,7 +70,7 @@ public class GameStatsManager : MonoBehaviour
                 jsonMsg += "\"shipHealth\": " + gameState.GetShipHealth();
                 jsonMsg += "}";
 
-                string url = "http://localhost:8080/game_data";
+                string url = "http://localhost:8081/game_data";
                 WWWForm form = new WWWForm();
                 form.AddField("JSON:", jsonMsg);
                 WWW www = new WWW(url, form);
@@ -84,7 +84,7 @@ public class GameStatsManager : MonoBehaviour
 
     IEnumerator SendFinalRequest(string jsonMsg)
     {
-        string url = "http://localhost:8080/save_game_data";
+        string url = "http://localhost:8081/save_game_data";
         WWWForm form = new WWWForm();
         form.AddField("JSON:", jsonMsg);
         WWW www = new WWW(url, form);
