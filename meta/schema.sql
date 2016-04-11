@@ -25,12 +25,9 @@ DROP TABLE IF EXISTS `game`;
 CREATE TABLE `game` (
   `game_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `team_name` varchar(30) NOT NULL,
-  `ships_killed` int(11) DEFAULT NULL,
-  `shields_upgrade_level` int(2) DEFAULT NULL,
-  `engines_upgrade_level` int(2) DEFAULT NULL,
-  `weapons_upgrade_level` int(2) DEFAULT NULL,
+  `scores` int(10) DEFAULT NULL,
   PRIMARY KEY (`game_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,4 +73,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-21 19:01:10
+-- Dump completed on 2016-04-11 17:04:10
