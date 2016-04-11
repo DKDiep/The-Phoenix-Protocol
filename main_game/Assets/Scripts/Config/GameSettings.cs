@@ -162,4 +162,15 @@ public class GameSettings : MonoBehaviour
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;
+
+    [Header("Game Scoring Settings")]
+    public int civilianWeighting;
+    public int resourcesWeighting;
+    public int playerScoreWeighting;
+    public int hullWeighting;
+    public int droneWeighting;
+    public int engineWeighting;
+    public int storageWeighting;
+    public int shieldsWeighting;
+    public int turretWeighting;
 }

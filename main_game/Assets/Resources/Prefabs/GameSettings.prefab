@@ -394,6 +394,15 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+  civilianWeighting: 100
+  resourcesWeighting: 50
+  playerScoreWeighting: 100
+  hullWeighting: 50
+  droneWeighting: 30
+  engineWeighting: 60
+  storageWeighting: 30
+  shieldsWeighting: 70
+  turretWeighting: 80
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

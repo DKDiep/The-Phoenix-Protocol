@@ -4,11 +4,12 @@ using System.Collections;
 public class GameStatsManager : MonoBehaviour
 {
     private GameState gameState;
-
+    private GameSettings settings;
     // Use this for initialization
     void Start()
     {
         gameState = this.gameObject.GetComponent<GameState>();
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         if (MainMenu.startServer)
         {
             StartCoroutine(SendRequest());
@@ -22,24 +23,25 @@ public class GameStatsManager : MonoBehaviour
         // totalScore += value / weighting;
 
         // Total civilians saved
-        totalScore += gameState.GetCivilians() / 100;
+        totalScore += gameState.GetCivilians() / settings.civilianWeighting;
 
         // Total resources collected
-        totalScore += gameState.GetTotalShipResources() / 1000;
+        totalScore += gameState.GetTotalShipResources() / settings.resourcesWeighting;
 
         // Total score for each player
         for(int playerId = 0; playerId < 4; playerId++)
         {
-            totalScore += gameState.GetPlayerScore(playerId) / 1000;
+            totalScore += gameState.GetPlayerScore(playerId) / settings.playerScoreWeighting;
         }
 
         // Scores for each of the upgrades
-        totalScore += gameState.GetUpgradableComponent(ComponentType.Hull).Level * 100;
-        totalScore += gameState.GetUpgradableComponent(ComponentType.Drone).Level * 150;
-        totalScore += gameState.GetUpgradableComponent(ComponentType.Engine).Level * 200;
-        totalScore += gameState.GetUpgradableComponent(ComponentType.ResourceStorage).Level * 50;
-        totalScore += gameState.GetUpgradableComponent(ComponentType.ShieldGenerator).Level * 200;
-        totalScore += gameState.GetUpgradableComponent(ComponentType.Turret).Level * 100;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.Hull).Level * settings.hullWeighting;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.Drone).Level * settings.droneWeighting;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.Engine).Level * settings.engineWeighting;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.ResourceStorage).Level * settings.storageWeighting;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.ShieldGenerator).Level * settings.shieldsWeighting;
+        totalScore += gameState.GetUpgradableComponent(ComponentType.Turret).Level * settings.turretWeighting;
+
         //this should be changed to take player input;
         string teamName = "\"cockpit spacenauts\"";
         string jsonMsg = "{\"team_name\":" + teamName + ",";
