@@ -437,7 +437,7 @@ public class CommandConsoleState : MonoBehaviour {
             if(upgradeProgress[(int)type] == 1)
             {
                 Debug.Log("Cheating engineer upgrade for " + type.ToString());
-                ConfirmUpgrade(type);
+                playerController.CmdDoUpgrade(type);
             }
         }
     }
