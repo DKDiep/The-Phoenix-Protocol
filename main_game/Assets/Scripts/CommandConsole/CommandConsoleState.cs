@@ -28,6 +28,10 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private GameObject mapBG;
     [SerializeField] private GameObject mapBGBG;
     [SerializeField] private GameObject missionWindowBG;
+    [SerializeField] private GameObject healthBarPanel;
+    [SerializeField] private GameObject shieldBarPanel;
+
+
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
@@ -42,6 +46,8 @@ public class CommandConsoleState : MonoBehaviour {
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
     private List<GameObject> upgradeBoxes;
+    private List<GameObject> healthSegments = new List<GameObject>();
+    private List<GameObject> shieldSegments = new List<GameObject>();
     private Image[] pulsateableImages;
     private bool[] pulsateToggle;
     private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
@@ -93,6 +99,7 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeArea.SetActive(false);
         newsFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
+        RegisterHealthandShieldBarSegments();
     }
 
     public void Reset()
@@ -180,10 +187,11 @@ public class CommandConsoleState : MonoBehaviour {
     void FixedUpdate ()
     { 
         second += Time.deltaTime;
-        if(second >= 1)
+        if(second >= 0.5)
         {
             UpdateAllText();
             UpdateCostTextColor();
+            UpdateHealthShieldBars();
             second = 0;
         }
     }
@@ -218,7 +226,18 @@ public class CommandConsoleState : MonoBehaviour {
             pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
         }
     }
-        
+
+    private void RegisterHealthandShieldBarSegments()
+    {
+        healthSegments.Add(GameObject.Find("HealthSeg"));
+        shieldSegments.Add(GameObject.Find("ShieldSeg"));
+        for (int i = 1; i < 20; i++)
+        {
+            healthSegments.Add(GameObject.Find("HealthSeg (" + i + ")"));
+            shieldSegments.Add(GameObject.Find("ShieldSeg (" + i + ")"));
+        }
+    }
+
     public void givePlayerControllerReference(PlayerController controller)
     {
         playerController = controller;
@@ -231,7 +250,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <returns><c>true</c>, if upgrade cost was checked, <c>false</c> otherwise.</returns>
     /// <param name="baseCost">Base cost of component to be upgraded</param>
     /// <param name="level">Level of the component</param>
-    private bool CheckUpgradeCost(int baseCost, int level) 
+    private bool CheckUpgradeCost(int baseCost,  int level) 
     {
         return (gameState.GetShipResources() >= GetUpgradeCost(baseCost, level));
     }
@@ -358,9 +377,40 @@ public class CommandConsoleState : MonoBehaviour {
 		// Update the text with values from gamestate.
         civiliansText.text = gameState.GetCivilians().ToString();;
         resourcesText.text = gameState.GetShipResources().ToString();;
-        healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
-        shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
-	}
+        //y
+        //healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
+        //shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
+    }
+
+    private void UpdateHealthShieldBars()
+    {
+        int health = ((int)Math.Round(gameState.GetShipHealth(), 0));
+        int shield = ((int)Math.Round(gameState.GetShipShield(), 0));
+        int healthBarsToShow = health / 5;
+        int shieldBarsToShow = shield / 5;
+        if (health > 0)
+        {
+            for (int i = 0; i < healthBarsToShow; i++)
+            {
+                healthSegments[i].SetActive(true);
+            }
+            for (int i = healthBarsToShow; i < 20; i++)
+            {
+                healthSegments[i].SetActive(false);
+            }
+        }
+        if (shield > 0)
+        {
+            for (int i = 0; i < shieldBarsToShow; i++)
+            {
+                shieldSegments[i].SetActive(true);
+            }
+            for (int i = shieldBarsToShow; i < 20; i++)
+            {
+                shieldSegments[i].SetActive(false);
+            }
+        }
+    }
 
     private void UpdateCostTextColor()
     {
