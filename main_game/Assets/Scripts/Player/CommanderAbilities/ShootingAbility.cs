@@ -23,10 +23,8 @@ public class ShootingAbility : CommanderAbility {
 	// Update is called once per frame
 	private void Update () 
     {
-	    if(Input.GetKeyDown(KeyCode.Alpha5))
-        {
+		if((Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton0)) || Input.GetKeyDown(KeyCode.Alpha5))
             UseAbility();
-        }
 	}
 
     private IEnumerator FireMissiles(EnemyFinder enemyFinder)
