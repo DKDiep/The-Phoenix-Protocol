@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class UDPServer : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class UDPServer : MonoBehaviour
 
     private GameState state;
     private PlayerShooting playerShooting;
+    private ServerManager serverManager;
     public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
 
     private UdpClient socket;
@@ -38,6 +40,9 @@ public class UDPServer : MonoBehaviour
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
         Debug.Log("Starting UDP server on port: " + listenPort);
+
+        GameObject server = GameObject.Find("GameManager");
+        serverManager = server.GetComponent<ServerManager>();
 
         InstanceIDToEnemy = new Dictionary<int, GameObject>();
         socket = new UdpClient(listenPort);
@@ -125,11 +130,10 @@ public class UDPServer : MonoBehaviour
                 {
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     uint controllerId = UInt32.Parse(subFields[0]);
-                    uint screenId = UInt32.Parse(subFields[1]);
+                    int screenId = Int32.Parse(subFields[1]);
                     float x = float.Parse(subFields[2]) * Screen.width;
                     float y = float.Parse(subFields[3]) * Screen.height;
-                    //Debug.Log("Controller: " + controllerId + " screenId: " + screenId + " x: " + x + " y: " + y);
-                    GameObject.Find("CrosshairCanvas(Clone)").GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, 0, new Vector2(x, y));
+                    serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));
                 }
                 break;
             case "BP": // Wii remot button shoot press
