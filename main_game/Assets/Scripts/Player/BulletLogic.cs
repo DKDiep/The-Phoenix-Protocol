@@ -94,8 +94,8 @@ public class BulletLogic : MonoBehaviour
 		Despawn();
 
 		// If it's a player bullet, show a hit marker
-		if(playerShooting) 
-            player.HitMarker();
+		if (playerShooting && playerId > 0)
+			player.HitMarker();
 
 		// Apply the collision logic
 		if (hitObjectTag.Equals("Debris"))

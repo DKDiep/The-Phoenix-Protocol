@@ -53,6 +53,7 @@ public class ShootingAbility : CommanderAbility {
                     logic.transform.parent = obj.transform;
 
                     logicComponent.SetDestination(enemyFinder.enemyList[i].transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+					logicComponent.SetID(null, -1);
 
                     bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
                 }
