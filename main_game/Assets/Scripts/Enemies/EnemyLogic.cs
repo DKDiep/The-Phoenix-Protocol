@@ -41,7 +41,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private AudioSource mySrc;
 	private GameState gameState;
-	private GameObject player;
+	private GameObject player; // This is parent object, so the transfor position will be a bit above the model
+	private GameObject playerShip; // This is the actual model of the ship
 
 	private bool shoot = false, angleGoodForShooting = false;
 	private bool rechargeShield;
@@ -193,6 +194,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 			return;
 		}
+
+		// Suicidal and hacked enemies don't go through the regular states, so handle the collider chages here
+		if (hacked || isSuicidal)
+			controlObjectCollider.enabled = collisionsEnabled = (distance < engageDistance);
 
 		if (collisionsEnabled)
 		{
@@ -368,7 +373,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	// When not engaged, try and get closer to the player
 	private void MoveTowardsPlayer()
 	{
-		controlObject.transform.LookAt(player.transform.position);
+		controlObject.transform.LookAt(playerShip.transform.position);
 		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
 	}
 
@@ -593,6 +598,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         mySrc.clip = fireSnd;
 
 		player = temp;
+		playerShip = player.transform.FindChild("Model").gameObject;
 
 		Transform playerCommanderShootAnchor = player.transform.Find("CommanderShootAnchor"); // The CommanderShootAnchor is basically the front point of the ship
 		suicidalMinFrontDist 				 = playerCommanderShootAnchor.transform.localPosition.z;
