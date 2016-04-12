@@ -9,6 +9,8 @@ public class MouseLook : MonoBehaviour
 	// Configuration parameters loaded through GameSettings
     private float xSensitivity;
     private float ySensitivity;
+    private float xControllerSensitivity;
+    private float yControllerSensitivity;
     private bool clampVerticalRotation;
     private float minimumX;
     private float maximumX;
@@ -25,18 +27,26 @@ public class MouseLook : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		xSensitivity		  = settings.EngineerMouseLookXSensitivity;
-		ySensitivity		  = settings.EngineerMouseLookYSensitivity;
-		clampVerticalRotation = settings.EngineerMouseLookClampVerticalRotation;
-		minimumX              = settings.EngineerMouseLookMinimumX;
-		maximumX 			  = settings.EngineerMouseLookMaximumX;
-		smooth 				  = settings.EngineerMouseLookSmooth;
-		smoothTime 			  = settings.EngineerMouseLookSmoothTime;
+		xSensitivity		   = settings.EngineerMouseLookXSensitivity;
+		ySensitivity		   = settings.EngineerMouseLookYSensitivity;
+        xControllerSensitivity = settings.EngineerControllerLookXSensitivity;
+        yControllerSensitivity = settings.EngineerControllerLookYSensitivity;
+		clampVerticalRotation  = settings.EngineerMouseLookClampVerticalRotation;
+		minimumX               = settings.EngineerMouseLookMinimumX;
+		maximumX 			   = settings.EngineerMouseLookMaximumX;
+		smooth 				   = settings.EngineerMouseLookSmooth;
+		smoothTime 			   = settings.EngineerMouseLookSmoothTime;
 	}
 
-    public void Init(Transform character, Transform camera)
+    public void Init(Transform character, Transform camera, bool usingController)
     {
         characterTargetRot = character.localRotation;
+
+        if (usingController)
+        {
+            xSensitivity = xControllerSensitivity;
+            ySensitivity = yControllerSensitivity;
+        }
     }
 		
     public void LookRotation(Transform character, Transform camera)

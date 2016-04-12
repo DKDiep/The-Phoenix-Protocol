@@ -69,6 +69,8 @@ public class GameSettings : MonoBehaviour
 	public float EngineerWalkSpeed;
 	public float EngineerMouseLookXSensitivity;
 	public float EngineerMouseLookYSensitivity;
+    public float EngineerControllerLookXSensitivity;
+    public float EngineerControllerLookYSensitivity;
 	public bool EngineerMouseLookClampVerticalRotation;
 	public float EngineerMouseLookMinimumX;
 	public float EngineerMouseLookMaximumX;
