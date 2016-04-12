@@ -181,7 +181,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	{
 		prevPos    = currentPos;
 		currentPos = player.transform.position;
-		distance   = Vector3.Distance(transform.position, player.transform.position);
+		distance   = Vector3.Distance(controlObject.transform.position, player.transform.position);
 
 		// Waiting enemies don't need to perform any logic until the player moves within their range
 		if (state == EnemyAIState.Wait)
