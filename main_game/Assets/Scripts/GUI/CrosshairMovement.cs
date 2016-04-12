@@ -100,7 +100,7 @@ public class CrosshairMovement : NetworkBehaviour
 
 		if (usingMouse)
 		{
-			SwitchPlayers();
+			// SwitchPlayers(); // Uncomment to be able to switch turrets using the keys
 			ChangeScreenManually();
 			SetCrosshairPositionMouse();
 		}
@@ -165,8 +165,10 @@ public class CrosshairMovement : NetworkBehaviour
     /// <summary>
     /// Switch between players using keys 4-7, for debugging different player shooting.
     /// </summary>
-    void SwitchPlayers() 
+    private void SwitchPlayers() 
     {
+		// TODO: these keys conflict with the commander abilities
+
         // Loop through 4 players
         for (int i = 4; i <= 7; i++) 
         {
