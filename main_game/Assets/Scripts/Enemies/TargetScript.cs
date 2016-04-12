@@ -20,7 +20,7 @@ public class TargetScript : MonoBehaviour
     IEnumerator UpdateDistance()
     {
         distance = Vector3.Distance(transform.position, player.transform.position);
-        if(distance > 650f || distance < 50f)
+        if(distance > 650f || distance < 125f)
             renderer.enabled = false;
         else
         {
