@@ -46,6 +46,7 @@ public class ServerLobby : MonoBehaviour {
             tcpServer = server.GetComponent<TCPServer>();
             udpServer = server.GetComponent<UDPServer>();
             startButton.onClick.AddListener(() => OnClickStartButton());
+            canvasObject.transform.Find("IPAddress").GetComponent<Text>().text = Network.player.ipAddress;
         }
     }
 
