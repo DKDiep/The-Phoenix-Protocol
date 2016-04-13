@@ -110,7 +110,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     private ObjectPoolManager fireflyBulletManager;
     private ObjectPoolManager hornetBulletManager;
     private ObjectPoolManager blackWidowBulletManager;
-    private ObjectPoolManager logicManager;
+	private ObjectPoolManager bulletLogicManager;
     private ObjectPoolManager impactManager;
     private ObjectPoolManager explosionManager;
     private ObjectPoolManager enemyLogicManager;
@@ -152,7 +152,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
         hornetBulletManager = GameObject.Find("HornetBulletManager").GetComponent<ObjectPoolManager>();
         blackWidowBulletManager = GameObject.Find("BlackWidowBulletManager").GetComponent<ObjectPoolManager>();
-        logicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
+        bulletLogicManager      = GameObject.Find("EnemyBulletLogicManager").GetComponent<ObjectPoolManager>();
         impactManager     = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
         explosionManager  = GameObject.Find("EnemyExplosionManager").GetComponent<ObjectPoolManager>();
         enemyLogicManager = GameObject.Find("EnemyLogicManager").GetComponent<ObjectPoolManager>();
@@ -693,7 +693,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             GameObject obj = bulletManager.RequestObject();
             obj.transform.position = shootAnchor.transform.position;
 
-            GameObject logic = logicManager.RequestObject();
+            GameObject logic = bulletLogicManager.RequestObject();
     		logic.transform.parent = obj.transform;
     		logic.transform.localPosition = Vector3.zero;
 
@@ -726,7 +726,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				obj.layer   = LAYER_ENEMY_BULLET;
 			}
 
-    		bulletLogic.SetDestination(destination, false, player, bulletManager, logicManager, impactManager);
+    		bulletLogic.SetDestination(destination, false, player, bulletManager, bulletLogicManager, impactManager);
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
