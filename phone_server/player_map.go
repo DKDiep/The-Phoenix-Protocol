@@ -223,6 +223,7 @@ func (players *PlayerMap) updateSpectatorData() {
 
     // Transform asteroid coordinates into phone screen space
     for _, asteroid := range asteroidData {
+        asteroid.heightBasedAlpha = calculateAsteroidAlpha(playerShipData, asteroid)
         // Centre grid around player ship
         centerAroundShip(playerShipData, asteroid)
         // Project onto plane intersecting the ship front and right
@@ -277,11 +278,11 @@ func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
     }
     enm.forward.x = newX / mag
     enm.forward.y = newY / mag
-
-    // newX := enm.forward.x*origin.forward.y - enm.forward.y*origin.forward.x
-    // newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y
-    //
-    // enm.forward.x = newX
-    // enm.forward.y = newY
     enm.forward.z = 0
+}
+
+// Calculate the asteroid alpha in range 0 - 1 based on max allowed
+// height difference
+func calculateAsteroidAlpha(plrShip *PlayerShip, ast GeometricObject) float64 {
+    return (1 - (distanceAlongDirection(plrShip, ast, plrShip.up)/ASTEROID_DRAW_RANGE_Z))
 }

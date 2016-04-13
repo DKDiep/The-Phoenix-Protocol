@@ -23,7 +23,12 @@ const (
     OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
     MAX_AMMO         float64 = 100
-    PROJECTION_RANGE float64 = 500
+    ASTEROID_DRAW_RANGE_X     float64 = 500
+    ASTEROID_DRAW_RANGE_Y     float64 = 500
+    ASTEROID_DRAW_RANGE_Z     float64 = 100
+    ENEMY_DRAW_RANGE_X     float64 = 500
+    ENEMY_DRAW_RANGE_Y     float64 = 500
+    ENEMY_DRAW_RANGE_Z     float64 = 300
 )
 
 // Structures dealing with the Game Server Connections

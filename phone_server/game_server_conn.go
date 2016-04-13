@@ -226,6 +226,11 @@ func updateShipData(data map[string]interface{}) {
             y: data["rY"].(float64),
             z: data["rZ"].(float64),
         },
+        up: Point{
+            x: data["uX"].(float64),
+            y: data["uY"].(float64),
+            z: data["uZ"].(float64),
+        },
     }
     playerShip.setShipData(newShipData)
 }

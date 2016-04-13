@@ -147,7 +147,7 @@ func (enemies *EnemyMap) setControlledAsync(id int64, plr *Player) bool {
 func (enemies *EnemyMap) getCopyAsync(plrShip *PlayerShip) map[int64]*Enemy {
     newCopy := make(map[int64]*Enemy)
     for k, v := range enemies.m {
-        if isCloseToShip(plrShip, v) || v.isControlled {
+        if enemyIsCloseToDraw(plrShip, v) || v.isControlled {
             enemyCopy := *v
             newCopy[k] = &enemyCopy
         }

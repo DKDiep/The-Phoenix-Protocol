@@ -12,7 +12,6 @@ function updateScreen(userData) {
             break;
         case "OFFICER":
             changeScreen("officer", startOfficerScreen, finaliseOfficerScreen)
-            lastReceivedAmmoUpdate = userData.ammo
             break;
         case "COMMANDER":
             changeScreen("commander", startCommanderScreen, finaliseCommanderScreen)

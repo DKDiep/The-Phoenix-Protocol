@@ -16,6 +16,7 @@ type PlayerShip struct {
     pos     Point
     forward Point
     right   Point
+    up      Point
 }
 
 // Function of GeometricObject interface
@@ -66,15 +67,40 @@ func (plrShip *PlayerShipController) reset() {
     plrShip.resetC <- struct{}{}
 }
 
-// Function to check if an object is withing the range in which we project
-func isCloseToShip(plrShip *PlayerShip, obj GeometricObject) bool {
-    position := obj.GetPosObj()
-    if math.Abs(position.x-plrShip.pos.x) > PROJECTION_RANGE ||
-        math.Abs(position.y-plrShip.pos.y) > PROJECTION_RANGE ||
-        math.Abs(position.z-plrShip.pos.z) > PROJECTION_RANGE {
+// Function to check if an enemy is within the range in which we draw
+func enemyIsCloseToDraw(plrShip *PlayerShip, obj GeometricObject) bool {
+    if distanceAlongDirection(plrShip, obj, plrShip.forward) > ENEMY_DRAW_RANGE_X ||
+        distanceAlongDirection(plrShip, obj, plrShip.right) > ENEMY_DRAW_RANGE_Y ||
+        distanceAlongDirection(plrShip, obj, plrShip.up) > ENEMY_DRAW_RANGE_Z {
 
         return false
     } else {
         return true
     }
+}
+
+// Function to check if an object is within the range in which we draw
+func asteroidIsCloseToDraw(plrShip *PlayerShip, obj GeometricObject) bool {
+    if distanceAlongDirection(plrShip, obj, plrShip.forward) > ASTEROID_DRAW_RANGE_X ||
+        distanceAlongDirection(plrShip, obj, plrShip.right) > ASTEROID_DRAW_RANGE_Y ||
+        distanceAlongDirection(plrShip, obj, plrShip.up) > ASTEROID_DRAW_RANGE_Z {
+
+        return false
+    } else {
+        return true
+    }
+}
+
+// Get the difference of two vectors along a direction
+// Direction must be a unit vector
+func distanceAlongDirection(objA GeometricObject, objB GeometricObject,
+    direction Point) float64 {
+
+    posA := objA.GetPosObj()
+    posB := objB.GetPosObj()
+
+    lenA := posA.x*direction.x + posA.y*direction.y + posA.z*direction.z
+    lenB := posB.x*direction.x + posB.y*direction.y + posB.z*direction.z
+
+    return math.Abs(lenA - lenB)
 }

@@ -1,10 +1,10 @@
 // --Constants
 // zoom level as percent of display pixels per game unit
-var zoom = 0.002
+var zoom = 0.003
 var frameRate = 30
 
 // detail of provided textures: that is pixels per game unit of length
-var textureDetail = 3;
+var textureDetail = 528/49;
 
 // --Variables
 // renderer and scaling related variables
@@ -28,6 +28,7 @@ var loader;
 
 // Holds the textures after the loading is done
 var loadedResources;
+var textures;
 
 // Background Image
 var bg;
@@ -69,15 +70,18 @@ function startSpectatorScreen() {
     loader = new PIXI.loaders.Loader();
     loader.add("ship", "img/ship.png");
     loader.add("stars", "img/stars.png");
-    loader.add("ast", "img/rock.png");
-    loader.add("enm", "img/enemy.png");
-    loader.add("controlled_enm", "img/enemy_controlled.png");
-    loader.add("hacked_enm", "img/enemy_hacked.png");
-    loader.add("tract_beam", "img/tractor_beam.png")
+    loader.add("ast1", "img/asteroid11.png");
+    loader.add("ast2", "img/asteroid22.png");
+    loader.add("ast3", "img/asteroid33.png");
+    loader.add("enm", "img/firefly.png");
+    loader.add("hacked", "img/hacked_overlay.png");
+    loader.add("controlled", "img/controlled_overlay.png");
+    loader.add("tract_beam", "img/tractor_beam.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
         loadedResources = resources;
+        initTextureObject(resources);
         // init rendering
         init();
     });
@@ -99,6 +103,7 @@ function finaliseSpectatorScreen() {
     loader = undefined;
 
     loadedResources = undefined;
+    textures = undefined;
 
     bg = undefined;
 
@@ -126,8 +131,17 @@ function handleGeneralPress(eventData) {
         setHeld(false)
     }
 
-    screenX = eventData.data.originalEvent.pageX
-    screenY = eventData.data.originalEvent.pageY
+    var screenX;
+    var screenY;
+
+    if (eventData.data.originalEvent.touches != undefined) {
+        screenX = eventData.data.originalEvent.touches[0].pageX
+        screenY = eventData.data.originalEvent.touches[0].pageY
+    } else {
+
+        screenX = eventData.data.originalEvent.pageX
+        screenY = eventData.data.originalEvent.pageY
+    }
 
     // Invert coordinates to game space
     gameX = (screenX - (0.5*renderer.width))/(zoom*maxDim);
@@ -165,6 +179,16 @@ function init() {
     keepRendering = true
     resize();
     renderUpdate();
+}
+
+// Inits the object that holds the arrays of different types of textures
+function initTextureObject(resources) {
+    textures = {}
+    // Asteroid variants
+    textures.asteroids = new Array();
+    textures.asteroids.push(resources.ast1.texture)
+    textures.asteroids.push(resources.ast2.texture)
+    textures.asteroids.push(resources.ast3.texture)
 }
 
 // Initialises the grouping layers
@@ -328,97 +352,13 @@ function spritePosition(sprite, x, y) {
 
 // Update the objects based on received data
 function updateSprites(data) {
+    if (!keepRendering) {
+        return
+    }
     // Update asteroids
-    var newTmp = new Array();
-    var toAdd = new Array();
-    // Flag to add and change existing
-    for (id in data.asts) {
-        var ast = data.asts[id]
-        var sprite = asteroids[ast.id]
-        if(sprite == undefined) {
-            toAdd.push(ast)
-        } else {
-            spritePosition(sprite, ast.x, ast.y);
-            // TODO: implement rotation
-            // sprite.rotation = 12
-            newTmp[ast.id] = sprite;
-            delete asteroids[ast.id];
-        }
-    }
-    // Remove those that didn't get an update
-    for (id in asteroids) {
-        asteroidLayer.removeChild(asteroids[id]);
-    }
-    // Add new ones
-    for (id in toAdd) {
-        var ast = toAdd[id];
-        var newAst = new PIXI.Sprite(loadedResources.ast.texture);
-        newAst.anchor.x = 0.5;
-        newAst.anchor.y = 0.5;
-        spritePosition(newAst, ast.x, ast.y);
-        spriteScale(newAst);
-        newTmp[ast.id] = newAst;
-        asteroidLayer.addChild(newAst);
-    }
-    // Finalise by setting the asteroid list
-    asteroids = newTmp
-    //-----------------------------------------------------------------------//
+    updateAsteroids(data.asts)
     // Update enemies
-    var newTmp = new Array();
-    var toAdd = new Array();
-    // Flag to add and change existing
-    for (id in data.enms) {
-        var enm = data.enms[id]
-        var sprite = enemies[enm.id]
-        if(sprite == undefined) {
-            toAdd.push(enm)
-        } else {
-            spritePosition(sprite, enm.x, enm.y);
-            sprite.isHacked = enm.isHacked
-            if(sprite.isHacked && sprite != controlledEnemySprite) {
-                sprite.texture = loadedResources.hacked_enm.texture
-            }
-            sprite.rotation = -enm.rot
-            newTmp[enm.id] = sprite;
-            delete enemies[enm.id];
-        }
-    }
-    // Remove those that didn't get an update
-    for (id in enemies) {
-        enemyLayer.removeChild(enemies[id]);
-    }
-    // Add new ones
-    for (id in toAdd) {
-        var enm = toAdd[id]
-        newEnm = new PIXI.Sprite(loadedResources.enm.texture);
-        newEnm.spaceGameId = enm.id
-        newEnm.anchor.x = 0.5
-        newEnm.anchor.y = 0.5
-        spritePosition(newEnm, enm.x, enm.y);
-        newEnm.rotation = -enm.rot
-        spriteScale(newEnm);
-        newEnm.isHacked = enm.isHacked
-        if(newEnm.isHacked && newEnm != controlledEnemySprite) {
-            newEnm.texture = loadedResources.hacked_enm.texture
-        }
-        newEnm.interactive = newEnm.buttonMode = true;
-        newEnm.mousedown = newEnm.touchstart = function (eventData) {
-            actionOnEnemy(eventData.target)
-            // Prevents the triggering of the move event
-            eventData.stopPropagation()
-        };
-        newEnm.mouseup = newEnm.touchend = handleMouseUp
-        newEnm.mouseout = function (eventData) { //TODO: Equivalent event for phones?
-            // The enemy is no longer held
-            if (!isControllingEnemy) {
-                setHeld(false)
-            }
-        };
-        newTmp[enm.id] = newEnm;
-        enemyLayer.addChild(newEnm);
-    }
-    // Finalise by setting the asteroid list
-    enemies = newTmp
+    updateEnemies(data.enms)
 }
 
 // Set the target of the tractor beam
@@ -467,4 +407,131 @@ function findControlledEnemy() {
             return sprite
         }
     }
+}
+
+// Update asteroid visuals based on received data
+function updateAsteroids(astData) {
+    var newTmp = new Array();
+    var toAdd = new Array();
+    // Flag to add and change existing
+    for (id in astData) {
+        var ast = astData[id]
+        var sprite = asteroids[ast.id]
+        if(sprite == undefined) {
+            toAdd.push(ast)
+        } else {
+            updateAsteroid(sprite, ast)
+            newTmp[ast.id] = sprite;
+            delete asteroids[ast.id];
+        }
+    }
+    // Remove those that didn't get an update
+    for (id in asteroids) {
+        asteroidLayer.removeChild(asteroids[id]);
+    }
+    // Add new ones
+    for (id in toAdd) {
+        var ast = toAdd[id];
+        var newAst = newAsteroid(ast)
+        newTmp[ast.id] = newAst;
+        asteroidLayer.addChild(newAst);
+    }
+    // Finalise by setting the asteroid list
+    asteroids = newTmp
+}
+
+// Create new astroid sprite
+function newAsteroid(astData) {
+    var texture = textures.asteroids[Math.floor(Math.abs(astData.id)/18) % textures.asteroids.length];
+    var newAst = new PIXI.Sprite(texture);
+    newAst.alpha = astData.alpha
+    newAst.anchor.x = 0.5;
+    newAst.anchor.y = 0.5;
+    spritePosition(newAst, astData.x, astData.y);
+    spriteScale(newAst);
+
+    return newAst
+}
+
+// Update asteroid sprite
+function updateAsteroid(asteroid, astData) {
+    spritePosition(asteroid, astData.x, astData.y);
+    asteroid.alpha = astData.alpha
+}
+
+// Updates the enemy sprites based on received data
+function updateEnemies(enemyData) {
+    var newTmp = new Array();
+    var toAdd = new Array();
+    // Flag to add and change existing
+    for (id in enemyData) {
+        var enm = enemyData[id]
+        var sprite = enemies[enm.id]
+        if(sprite == undefined) {
+            toAdd.push(enm)
+        } else {
+            updateEnemy(sprite, enm)
+            newTmp[enm.id] = sprite;
+            delete enemies[enm.id];
+        }
+    }
+    // Remove those that didn't get an update
+    for (id in enemies) {
+        enemyLayer.removeChild(enemies[id]);
+    }
+    // Add new ones
+    for (id in toAdd) {
+        var enm = toAdd[id]
+        newEnm = newEnemy(enm)
+        newTmp[enm.id] = newEnm;
+        enemyLayer.addChild(newEnm);
+    }
+    // Finalise by setting the asteroid list
+    enemies = newTmp
+}
+
+// Creates an enemy sprite based on received data
+function newEnemy(enmData) {
+    newEnm = new PIXI.Sprite(loadedResources.enm.texture);
+    newEnm.spaceGameId = enmData.id
+    newEnm.anchor.x = 0.5
+    newEnm.anchor.y = 0.5
+    spritePosition(newEnm, enmData.x, enmData.y);
+    // newEnm.rotation = -enmData.rot
+    spriteScale(newEnm);
+    newEnm.isHacked = enmData.isHacked
+    if(newEnm.isHacked && newEnm != controlledEnemySprite) {
+        var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
+        overlay.anchor.x = 0.5
+        overlay.anchor.y = 0.5
+        newEnm.addChild(overlay)
+    }
+    newEnm.interactive = newEnm.buttonMode = true;
+    newEnm.mousedown = newEnm.touchstart = function (eventData) {
+        actionOnEnemy(eventData.target)
+        // Prevents the triggering of the move event
+        eventData.stopPropagation()
+    };
+    newEnm.mouseup = newEnm.touchend = handleMouseUp
+    newEnm.mouseout = function (eventData) { //TODO: Equivalent event for phones?
+        // The enemy is no longer held
+        if (!isControllingEnemy) {
+            setHeld(false)
+        }
+    };
+
+    return newEnm
+}
+
+// Updates an enemy sprite based on data
+function updateEnemy(enemy, enmData) {
+    spritePosition(enemy, enmData.x, enmData.y);
+    enemy.isHacked = enmData.isHacked
+    if(enemy.isHacked && enemy != controlledEnemySprite) {
+        var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
+        overlay.anchor.x = 0.5
+        overlay.anchor.y = 0.5
+        enemy.addChild(overlay)
+    }
+    // enemy.rotation = -enmData.rot
 }

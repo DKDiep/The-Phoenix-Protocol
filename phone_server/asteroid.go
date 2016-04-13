@@ -7,6 +7,7 @@ import (
 // Holds asteroid data
 type Asteroid struct {
     pos Point
+    heightBasedAlpha float64
 }
 
 // Function of GeometricObject interface
@@ -85,7 +86,7 @@ func (asteroids *AsteroidMap) getCopy(plrShip *PlayerShip) map[int]*Asteroid {
 func (asteroids *AsteroidMap) getCopyAsync(plrShip *PlayerShip) map[int]*Asteroid {
     newCopy := make(map[int]*Asteroid)
     for k, v := range asteroids.m {
-        if isCloseToShip(plrShip, v) {
+        if asteroidIsCloseToDraw(plrShip, v) {
             astCopy := *v
             newCopy[k] = &astCopy
         }

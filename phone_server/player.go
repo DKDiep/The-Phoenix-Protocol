@@ -220,6 +220,7 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
             "id": id,
             "x":  ast.pos.x,
             "y":  ast.pos.y,
+            "alpha": ast.heightBasedAlpha,
         })
     }
 

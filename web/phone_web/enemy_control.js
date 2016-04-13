@@ -7,7 +7,7 @@ function actionOnEnemy(target) {
     if(!isControllingEnemy) {
         setHackTarget(target.spaceGameId)
         setHeld(true)
-    } else if (id != controlledEnemyId) {
+    } else if (target.spaceGameId != controlledEnemyId) {
         sendEnemyAttackRequest(target.spaceGameId)
     }
 }
@@ -42,7 +42,10 @@ function displayEnemyHacking(id) {
 function displayNewControlledEnemy() {
     controlledEnemySprite = findControlledEnemy()
     controlledEnemySprite.isHacked = true
-    controlledEnemySprite.texture = loadedResources.controlled_enm.texture
+    var overlay = new PIXI.Sprite(loadedResources.controlled.texture);
+    overlay.anchor.x = 0.5
+    overlay.anchor.y = 0.5
+    controlledEnemySprite.addChild(overlay)
     // Enabling tractor beam as example of usage
     enableTractorBeam(controlledEnemySprite)
 }
