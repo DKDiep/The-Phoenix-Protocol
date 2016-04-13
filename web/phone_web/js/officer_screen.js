@@ -63,7 +63,7 @@ function handleNotifications(data) {
         if (data[i].toSet) {
             notificationMap[notification] = createMessageFromNotification(notification)
         } else {
-            delete myObject[notification]
+            delete notificationMap[notification]
         }
     }
 
