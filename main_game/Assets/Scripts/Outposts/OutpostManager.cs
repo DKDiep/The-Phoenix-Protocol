@@ -65,7 +65,7 @@ public class OutpostManager : MonoBehaviour {
             DiscoverOutposts(); 
             UpdateOutpostArrows(); 
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.01f);
         StartCoroutine(UpdateOutposts());
     }
 
