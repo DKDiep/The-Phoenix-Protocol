@@ -105,7 +105,7 @@ func main() {
             log.Fatal(err)
         }
         spectatorGameJson, _ := json.Marshal(players)
-        fmt.Fprintf(w, "%s", string(spectatorGameJson))
+        fmt.Fprintf(w, "%s", "{\"spectators\": " + string(spectatorGameJson) + "}")
     })
 
 
