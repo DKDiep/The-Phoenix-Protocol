@@ -39,7 +39,11 @@ public class OutpostManager : MonoBehaviour {
         darkGreen = new Color(0,0.62f,0,0.4f);
         darkPurple = new Color(0.62f, 0, 0.62f, 0.4f);
 		mainCamera = Camera.main;
-        StartCoroutine(UpdateOutposts());
+    }
+
+    void Update()
+    {
+        UpdateOutposts();
     }
 
     public void Reset()
@@ -56,7 +60,7 @@ public class OutpostManager : MonoBehaviour {
         arrowsRequired = 0;
     }
 
-    private IEnumerator UpdateOutposts()
+    private void UpdateOutposts()
     {
         outpostList = gameState.GetOutpostList();
         if(outpostList.Count != 0 && outpostList != null)
@@ -65,8 +69,6 @@ public class OutpostManager : MonoBehaviour {
             DiscoverOutposts(); 
             UpdateOutpostArrows(); 
         }
-        yield return new WaitForSeconds(0.01f);
-        StartCoroutine(UpdateOutposts());
     }
 
     /// <summary>
