@@ -9,10 +9,18 @@ body {
     height: 100%;
 }
 
+#officerScreen {
+    width: 90%;
+    margin-right:5%;
+    margin-left:5%;
+}
+
 #ammoBarFrame {
-    width: 98%;
+    width: 100%;
+    margin-top:10px;
     display: inline-block;
     border: 1vmin solid #004700;
+    margin-bottom:20px;
 }
 
 #ammoBar {
@@ -101,4 +109,28 @@ body {
 #canvas {
   background-color: #030303;
   height:100%;
+}
+
+.officer_score {
+    float:left;
+    font-size: 40px;
+}
+.engineer_alert {
+    float:right;
+}
+.engineer_button {
+    border: 2px solid rgba(30, 50, 70, 1);;
+    background-color: rgba(30, 50, 70, 0.5);
+    width: 200px;
+    height: 50px;
+    padding: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+.engineer_alert > .repair {
+    margin-bottom:10px;
+}
+
+.engineer_alert > .upgrade {
+
 }
