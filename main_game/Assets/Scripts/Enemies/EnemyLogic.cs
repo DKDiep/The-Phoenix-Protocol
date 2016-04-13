@@ -946,13 +946,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (hackedWaypoint == null)
 		{
 			// Uncomment this to see waypoints as spheres
-			if (Debug.isDebugBuild)
+			/*if (Debug.isDebugBuild)
 			{
 				hackedWaypoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 				hackedWaypoint.GetComponent<Renderer>().material.color = Color.blue;
 				hackedWaypoint.name = HACK_WAYPOINT_NAME;
 			}
-			else
+			else*/
 			hackedWaypoint = new GameObject(HACK_WAYPOINT_NAME);
 			hackedWaypoint.transform.position = controlObject.transform.position;
 			hackedWaypoint.transform.parent   = player.transform;
