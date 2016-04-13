@@ -1,1 +1,1 @@
-mysqldump -u root -p game > schema.sql
+mysqldump -u root -p --no-data game > schema.sql
