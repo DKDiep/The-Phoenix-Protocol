@@ -83,7 +83,12 @@ public class UDPServer : MonoBehaviour
                 receive_byte_array = socket.Receive(ref sender);
                 
                 string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
-                HandleMessage(received_data);
+                try
+                { 
+                    HandleMessage(received_data);
+                } catch(Exception e) {
+                    Debug.LogError(e);
+                }
                 receivedMessages++;
             }
             yield return new WaitForSeconds(0.05f);
@@ -185,6 +190,9 @@ public class UDPServer : MonoBehaviour
                              ",\"rX\":" + playerShip.transform.right.x.ToString("0.000") +
                              ",\"rY\":" + playerShip.transform.right.z.ToString("0.000") +
                              ",\"rZ\":" + playerShip.transform.right.y.ToString("0.000") +
+                             ",\"uX\":" + playerShip.transform.up.x.ToString("0.000") +
+                             ",\"uY\":" + playerShip.transform.up.z.ToString("0.000") +
+                             ",\"uZ\":" + playerShip.transform.up.y.ToString("0.000") +
                              "}}";
             SendMsg(jsonMsg);
         }
