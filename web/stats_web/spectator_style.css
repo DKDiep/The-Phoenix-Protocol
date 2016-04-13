@@ -1,0 +1,21 @@
+.spectators {
+    margin-top:50px;
+    margin-left:100px;
+}
+
+.spectotor_box {
+    width: 40%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-bottom:20px;
+    padding:10px;
+}
+
+.spectotor_box > .name {
+    font-size: 20px;
+    float: left;
+}
+.spectotor_box > .score {
+    font-size: 20px;
+    float: right;
+}
