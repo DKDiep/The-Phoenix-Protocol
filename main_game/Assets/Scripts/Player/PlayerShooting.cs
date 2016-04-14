@@ -111,8 +111,24 @@ public class PlayerShooting : MonoBehaviour
         if (gameState.Status != GameState.GameStatus.Started)
             return;
 
+		// TODO: For debugging: see if the player has been switched using the keyboard
         SwitchPlayers();
 
+		TryShoot(currentPlayerId);
+
+        // Control alpha of hitmarker
+		if(alpha > 0)
+		{
+			alpha -= 5f * Time.deltaTime;
+		}
+	}
+
+	/// <summary>
+	/// Shoots a bullet if enough ammo is available.
+	/// </summary>
+	/// <param name="playerId">The shooter's ID.</param>
+	public void TryShoot(int playerId)
+	{
 		bool shootButtonPressed = Input.GetMouseButton(0);
 		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
 		{
@@ -122,8 +138,8 @@ public class PlayerShooting : MonoBehaviour
 				StopCoroutine(ammoRechargeCoroutine);
 				ammoRecharging = false;
 			}
-			
-			ShootBullet(currentPlayerId);
+
+			ShootBullet(playerId);
 			ammo -= shootAmmoCost;
 		}
 		else if (!shootButtonPressed && !ammoRecharging)
@@ -132,16 +148,13 @@ public class PlayerShooting : MonoBehaviour
 			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
 			ammoRecharging = true;
 		}
-
-        // Control alpha of hitmarker
-		if(alpha > 0)
-		{
-			alpha -= 5f * Time.deltaTime;
-		}
 	}
 
-	// Shoot a bullet for a specific player
-	public void ShootBullet(int playerId) 
+	/// <summary>
+	/// Shoots a bullet for a specific player.
+	/// </summary>
+	/// <param name="playerId">The player ID.</param>
+	private void ShootBullet(int playerId) 
 	{
         if (crosshairs != null)
         {
