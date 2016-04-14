@@ -3,8 +3,9 @@ var AMMO_RECHARGE_RATE = 500;
 var ammoRechargeTimer;
 var currentAmmunition = 0;
 var lastReceivedAmmoUpdate = 0;
-var notificationMap = {}
-var currentNotifications = []
+var score = 0
+var repairJobCount = 0
+var upgradeJobCount = 0
 
 // Initialisation function for the screen
 function startOfficerScreen() {
@@ -17,8 +18,9 @@ function finaliseOfficerScreen() {
     // Do necessary cleanup and state reset
     currentAmmunition = 0;
     lastReceivedAmmoUpdate = 0;
-    notificationMap = {}
-    currentNotifications = []
+    score = 0
+    repairJobCount = 0
+    upgradeJobCount = 0
 }
 
 //Sets the ammunition to the specified ammount and restarts the recharge
@@ -48,6 +50,8 @@ function updateOfficer(data) {
             lastReceivedAmmoUpdate = data.data
             updateAmmo()
             break;
+        case "SCORE":
+            score = data.data
         default:
             console.log("Officer received unknown update message: " + data.type)
     }
@@ -56,53 +60,30 @@ function updateOfficer(data) {
 // Handles a list of job notifications received
 // from the main game
 function handleNotifications(data) {
-    for (i = 0; i < data.length; i++) {
-        var notification = {type:data[i].type,isUpgrade:data[i].isUpgrade}
-
-        // We want to add the notification
-        if (data[i].toSet) {
-            notificationMap[notification] = createMessageFromNotification(notification)
+    for (var i = 0; i < data.length; i++) {
+        notification = data[i]
+        if (notification.isUpgrade) {
+            handleUpgradeNotification(notification)
         } else {
-            delete notificationMap[notification]
+            handleRepairNotification(notification)
         }
     }
-
-    updateCurrentNotifications()
 }
 
-function updateCurrentNotifications() {
-    var newNotifications = []
-
-    // Loop through the notifications
-    for (var notification in notificationMap) {
-        if (notificationMap.hasOwnProperty(notification)) {
-            newNotifications.push(notificationMap[notification])
-        }
-    }
-
-    currentNotifications = newNotifications
-}
-
-// Creates a message string from a notification object
-function createMessageFromNotification(notification) {
-    var message = ""
-
-    if (notification.isUpgrade) {
-        message = "The commander has requested "
-
-        // Deal with "a" and "an" correctly
-        if (/[AEIOU]/.test(notification.type.charAt(0))) {
-            message += "an "
-        } else {
-            message += "a "
-        }
-
-        message += notification.type + " upgrade"
+function handleUpgradeNotification(notification) {
+    if (notification.toSet) {
+        upgradeJobCount++
     } else {
-        message = "The commander needs the " + notification.type + " repaired"
+        upgradeJobCount--
     }
+}
 
-    return message
+function handleRepairNotification(notification) {
+    if (notification.toSet) {
+        repairJobCount++
+    } else {
+        repairJobCount--
+    }
 }
 
 //Fills the next empty ammo segment
