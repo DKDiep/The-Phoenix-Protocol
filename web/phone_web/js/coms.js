@@ -6,7 +6,7 @@ var webSocketConnected = false;
 function initSocket(resumeInitialisation) {
     if(typeof serverSocket === 'undefined') {
         serverSocket = new WebSocket("ws://" + window.location.host + "/web_socket");
-        clearInterval(reconnectTimer);
+        // clearInterval(reconnectTimer);
 
         // After connection initialisation
         serverSocket.onopen = function() {
@@ -40,9 +40,9 @@ function goOffline(resumeInitialisation) {
     if(webSocketConnected) {
         changeScreen("connection_error", startConnectionErrorScreen, finaliseConnectionErrorScreen)
     }
-    reconnectTimer = setInterval(function() {
-        initSocket(resumeInitialisation)
-    }, 3000)
+    // reconnectTimer = setInterval(function() {
+    //     initSocket(resumeInitialisation)
+    // }, 3000)
 }
 
 // Act based on type of command
