@@ -9,14 +9,14 @@ public class OutpostTarget : NetworkBehaviour
     private bool discovered;
     private Renderer myRenderer;
     [SerializeField] Material[] difficultyTextures;
+    Material myMaterial;
 
 	// Use this for initialization
 	void Start () 
     {
 	    player = GameObject.Find("CameraManager(Clone)");
-        difficultyTextures[0].color = Color.red;
-        difficultyTextures[1].color = Color.red;
-        difficultyTextures[2].color = Color.red;
+        myMaterial = new Material(Shader.Find("Unlit/AlphaSelfIllum"));
+        myMaterial.color = Color.red;
         discovered = false;
         StartCoroutine(UpdateDistance());
     }
@@ -31,7 +31,8 @@ public class OutpostTarget : NetworkBehaviour
     {
         if(myRenderer == null)
             GetRenderer();
-        myRenderer.material = difficultyTextures[id-1];
+
+        myMaterial.mainTexture = difficultyTextures[id-1].mainTexture;
     }
 	
 	// Update is called once per frame
@@ -61,16 +62,12 @@ public class OutpostTarget : NetworkBehaviour
 
     public void StartMission()
     {
-        difficultyTextures[0].color = Color.yellow;
-        difficultyTextures[1].color = Color.yellow;
-        difficultyTextures[2].color = Color.yellow;
+        myMaterial.color = Color.yellow;
     }
 
     public void EndMission()
     {
-        difficultyTextures[0].color = Color.green;
-        difficultyTextures[1].color = Color.green;
-        difficultyTextures[2].color = Color.green;
+        myMaterial.color = Color.green;
     }
 
     private IEnumerator UpdateDistance()
@@ -85,6 +82,7 @@ public class OutpostTarget : NetworkBehaviour
         if(myRenderer == null)
             GetRenderer();
         myRenderer.enabled = true;
+        myRenderer.material = myMaterial;
         discovered = true;
         RpcShowTarget();
     }
