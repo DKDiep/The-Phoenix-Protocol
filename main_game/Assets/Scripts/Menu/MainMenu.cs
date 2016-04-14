@@ -16,10 +16,12 @@ public class MainMenu : NetworkBehaviour
 	private float rotationSpeed;
 
 	public static bool startServer;
-    
-	private NetworkManager manager;
+    public static RoleEnum role;
+
+    private NetworkManager manager;
     private MessageHandler messageHandler;
     private Vector3 randomRotation;
+    private PlayerController playerController;
 
     void Start()
     {
@@ -47,13 +49,16 @@ public class MainMenu : NetworkBehaviour
         UpdateAddress();
         startServer = true;
         SetHandler(manager.StartHost());
-    }
+        role = RoleEnum.Camera;
+}
 
     public void JoinCamera()
     {
         UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
+        playerController.CreateCamera();
+        role = RoleEnum.Camera;
     }
 
     public void JoinEngineer()
@@ -61,6 +66,7 @@ public class MainMenu : NetworkBehaviour
         UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
+        role = RoleEnum.Engineer;
     }
 
     public void JoinCommander()
@@ -68,6 +74,7 @@ public class MainMenu : NetworkBehaviour
         UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
+        role = RoleEnum.Commander;
     }
 
     private void SetHandler(NetworkClient client)
@@ -87,6 +94,12 @@ public class MainMenu : NetworkBehaviour
         // the list of officers for the current game
         client.RegisterHandler(MessageID.OFFICER_LIST, messageHandler.OnServerOfficerList);
     }
+
+    /*private void SetHandler(NetworkServer server)
+    {
+        // Register handler for the Owner message from the server to the client
+        server.RegisterHandler(MessageID.ROLE, messageHandler.OnServerRole);
+    }*/
 
     public void UpdateAddress()
     {

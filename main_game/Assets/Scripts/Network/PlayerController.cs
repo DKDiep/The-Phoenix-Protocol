@@ -153,13 +153,14 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             CreateCamera();
-            CmdJoin();
+            CmdJoin(MainMenu.role);
         }
     }
 
     [Command]
-    void CmdJoin()
+    public void CmdJoin(RoleEnum newRole)
     {
+        role = newRole;
         // Get lobby script
         GameObject lobbyObject = GameObject.Find("ServerLobby(Clone)");
         ServerLobby serverLobby;
@@ -169,7 +170,7 @@ public class PlayerController : NetworkBehaviour
             if (serverLobby != null)
             {
                 // Notify manager and lobby of joining
-                serverLobby.PlayerJoin(gameObject);
+                serverLobby.PlayerJoin(gameObject, role);
             }
         }
         else
