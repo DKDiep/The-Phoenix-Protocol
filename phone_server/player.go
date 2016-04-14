@@ -145,6 +145,7 @@ func (plr *Player) sendCurrentData() {
     case OFFICER:
         plr.sendActiveNotifications()
         plr.sendCurrentAmmo()
+        plr.sendCurrentScore()
     }
 }
 
@@ -157,6 +158,18 @@ func (plr *Player) sendCurrentAmmo() {
     msg := make(map[string]interface{})
     msg["type"] = "AMMO"
     msg["data"] = plr.ammo
+
+    plr.sendStateDataUpdate(msg)
+}
+
+func (plr *Player) sendCurrentScore() {
+    if plr.user == nil {
+        return
+    }
+
+    msg := make(map[string]interface{})
+    msg["type"] = "SCORE"
+    msg["data"] = plr.score
 
     plr.sendStateDataUpdate(msg)
 }

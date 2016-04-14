@@ -70,6 +70,7 @@ function updateOfficer(data) {
             break;
         case "SCORE":
             score = data.data
+            break;
         default:
             console.log("Officer received unknown update message: " + data.type)
     }
