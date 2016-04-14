@@ -7,10 +7,28 @@ var score = 0
 var repairJobCount = 0
 var upgradeJobCount = 0
 
+
+function updateOfficerScreen() {
+    if(repairJobCount != 0) {
+        $("#repairAlert").show();
+    } else {
+        $("#repairAlert").hide();
+    }
+    if(upgradeJobCount != 0) {
+        $("#upgradeAlert").show();
+    } else {
+        $("#upgradeAlert").hide();
+    }
+    $("#officerScore").html(score);
+}
 // Initialisation function for the screen
 function startOfficerScreen() {
     // Do necessary initialisation
     updateAmmo()
+    updateOfficerScreen();
+    setInterval(updateOfficerScreen, 500);
+    $("repairAlert").hide();
+    $("upgradAlert").hide();
 }
 
 // Finalisation function for the screen
@@ -76,6 +94,7 @@ function handleUpgradeNotification(notification) {
     } else {
         upgradeJobCount--
     }
+
 }
 
 function handleRepairNotification(notification) {
