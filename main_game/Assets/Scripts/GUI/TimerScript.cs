@@ -15,6 +15,9 @@ public class TimerScript : MonoBehaviour
     private float startTime;
     private float timeDiff;
 
+    // If the timer is enabled (disabled by default at the moment)
+    private bool enabled = false;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -29,9 +32,23 @@ public class TimerScript : MonoBehaviour
 
     void Update()
     {
-        timeDiff = Time.time - startTime;
-        seconds = timeDiff % 60f;
-        minutes = (int)Mathf.Floor(timeDiff / 60f);
-        counterText.text = minutes.ToString("00") + ":" + seconds.ToString("00.00");
+        // Toggle if the T button is pressed.
+        if (Input.GetKeyDown(KeyCode.T)) 
+        {
+            enabled = !enabled;
+        }
+
+        // Only display the timer if it is enabled
+        if(enabled)
+        {
+            timeDiff = Time.time - startTime;
+            seconds = timeDiff % 60f;
+            minutes = (int)Mathf.Floor(timeDiff / 60f);
+            counterText.text = minutes.ToString("00") + ":" + seconds.ToString("00.00");
+        } 
+        else 
+        {
+            counterText.text = "";
+        }
     }
 }
