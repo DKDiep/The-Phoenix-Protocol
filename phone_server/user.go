@@ -4,9 +4,6 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
-    "math/rand"
-    "strconv"
-    "time"
 )
 
 // Holds user related data
@@ -94,7 +91,7 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
 // Registers a new user and sends back user state data
 func (usr *User) registerNew(name string) {
     // register user
-    playerId := registerPlayer(name)
+    playerId := gameDatabase.registerPlayer(name)
 
     // reply with identification data and current user data
     msg := map[string]interface{}{
@@ -107,13 +104,6 @@ func (usr *User) registerNew(name string) {
     usr.sendMsg(msg)
 }
 
-// Placeholder function for registering a user in a database
-func registerPlayer(userName string) (id uint64) {
-    // TODO: remove this dummy registering process
-    rand.Seed(time.Now().UnixNano())
-    return uint64(rand.Uint32())
-}
-
 // Retrieves the user data and sends it to the client
 func (usr *User) updateUser(playerId uint64) {
     // check if the user has already joined the game
@@ -124,8 +114,8 @@ func (usr *User) updateUser(playerId uint64) {
         plr.setUser(usr)
         // otherwise assign a new player to the user
     } else {
-        name := getPlayerName(playerId)
-        newPlr := NewPlayer(playerId, name, usr)
+        name, score := gameDatabase.getPlayerData(playerId)
+        newPlr := NewPlayer(playerId, name, score, usr)
         usr.player = newPlr
         playerMap.add(newPlr)
     }
@@ -133,12 +123,6 @@ func (usr *User) updateUser(playerId uint64) {
     // inform the user of the current player state
     usr.player.sendStateUpdate()
     usr.player.sendCurrentData()
-}
-
-// placeholder function for retrieving player data based on a playerId
-func getPlayerName(playerId uint64) (name string) {
-    // TODO: remove dummy data retrieval
-    return strconv.FormatUint(playerId, 16)
 }
 
 // Deals with sending the message and error checking

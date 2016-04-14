@@ -21,7 +21,7 @@ type AdminUpdateMessage struct {
 type PlayerInfo struct {
     UserName string
     UserId   uint64
-    Score    int
+    Score    uint64
     IsOnline bool
 }
 

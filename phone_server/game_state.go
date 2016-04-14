@@ -115,27 +115,13 @@ func (gs *GameState) startGame() {
     gs.status = RUNNING
     gs.canEnterNextState = false
 
+    // Log which officers are in the game in the DB
+    playerMap.logOfficers()
     // start the spectator game for all spectators
     playerMap.startSpectators()
     // start the periodic game object updates
     gs.updateStopC = make(chan struct{})
-    go updateTimer(gs.updateStopC)
-}
-
-// Triggers the sending of state data to mobile clients periodically
-func updateTimer(stop chan struct{}) {
-    ticker := time.NewTicker(DATA_UPDATE_INTERVAL)
-    running := true
-    for running {
-        select {
-        // trigger an update sequence
-        case <-ticker.C:
-            playerMap.updateC <- struct{}{}
-        // stop this goroutine
-        case <-stop:
-            running = false
-        }
-    }
+    go doPeriodicUpdates(gs.updateStopC)
 }
 
 // Handles the setting of a player into a spectator or officer
@@ -147,4 +133,41 @@ func (gs *GameState) processAdminSetSignal(id uint64, state PlayerState) {
     }
 
     playerMap.setPlayerRole(plr, state)
+}
+
+// Runs all necessary periodic updates until stopped
+func doPeriodicUpdates(stop chan struct{}) {
+    stateDataUpdC := make(chan struct{})
+    dbLogScoresC := make(chan struct{})
+
+    // Start periodic updates
+    go periodicUpdate(playerMap.updatePlayerStates, DATA_UPDATE_INTERVAL,
+        stateDataUpdC)
+    go periodicUpdate(playerMap.logScores, DATABASE_LOG_SCORES_PERIOD,
+        dbLogScoresC)
+
+    // Wait for stop signal
+    <-stop
+
+    // stop all periodic updates
+    stateDataUpdC <- struct{}{}
+    dbLogScoresC <- struct{}{}
+}
+
+// Call an update function periodically until something is sent
+// on the stop chan
+func periodicUpdate(updateFunc func(), period time.Duration,
+    stop chan struct{}) {
+    ticker := time.NewTicker(period)
+    running := true
+    for running {
+        select {
+        // trigger an update sequence
+        case <-ticker.C:
+            updateFunc()
+        // stop this goroutine
+        case <-stop:
+            running = false
+        }
+    }
 }
