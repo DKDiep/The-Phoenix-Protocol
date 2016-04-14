@@ -49,7 +49,21 @@ public class MainMenu : NetworkBehaviour
         SetHandler(manager.StartHost());
     }
 
-    public void JoinGame()
+    public void JoinCamera()
+    {
+        UpdateAddress();
+        startServer = false;
+        SetHandler(manager.StartClient());
+    }
+
+    public void JoinEngineer()
+    {
+        UpdateAddress();
+        startServer = false;
+        SetHandler(manager.StartClient());
+    }
+
+    public void JoinCommander()
     {
         UpdateAddress();
         startServer = false;
