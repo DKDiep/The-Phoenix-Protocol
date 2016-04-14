@@ -232,16 +232,32 @@ public class GameState : NetworkBehaviour {
 		upgradableComponents = new UpgradableComponent[numComponents];
 
 		upgradableComponents[(int)UpgradableComponentIndex.Engines] 		=
-			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed);
-		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= new UpgradableHull();
+			new UpgradableEngine(settings.PlayerShipStartingSpeed, settings.PlayerShipStartingMaxTurnSpeed,
+                settings.upgradeProperties[(int)ComponentType.Engine].engineMaxSpeedUpgradeRate,
+                settings.upgradeProperties[(int)ComponentType.Engine].engineMaxTurningSpeedUpgradeRate);
+        
+		upgradableComponents[(int)UpgradableComponentIndex.Hull] 			= 
+            new UpgradableHull(settings.upgradeProperties[(int)ComponentType.Hull].hullMaxHealthUpgradeRate);
+
 		upgradableComponents[(int)UpgradableComponentIndex.Turrets] 		=
-			new UpgradableTurret(settings.PlayerShipStartingFiringDelay, settings.PlayerShipStartingBulletDamage);
+			new UpgradableTurret(settings.PlayerShipStartingFiringDelay, settings.PlayerShipStartingBulletDamage,
+                settings.upgradeProperties[(int)ComponentType.Turret].turretsMaxDamageUpgradeRate,
+                settings.upgradeProperties[(int)ComponentType.Turret].turretsMinFireDelayUpgradeRate);
+        
 		upgradableComponents[(int)UpgradableComponentIndex.ShieldGen]	    =
-			new UpgradableShieldGenerator(settings.PlayerShipStartingShields, settings.PlayerShipStartingRechargeRate);
+			new UpgradableShieldGenerator(settings.PlayerShipStartingShields, settings.PlayerShipStartingRechargeRate,
+                settings.upgradeProperties[(int)ComponentType.ShieldGenerator].shieldsMaxShieldUpgradeRate,
+                settings.upgradeProperties[(int)ComponentType.ShieldGenerator].shieldsMaxRechargeRateUpgradeRate);
+        
 		upgradableComponents[(int)UpgradableComponentIndex.Drone]		    =
-			new UpgradableDrone(settings.EngineerWalkSpeed, settings.EngineerStartingWorkTime);
+			new UpgradableDrone(settings.EngineerWalkSpeed, settings.EngineerStartingWorkTime,
+                settings.upgradeProperties[(int)ComponentType.Drone].droneMovementSpeedUpgradeRate,
+                settings.upgradeProperties[(int)ComponentType.Drone].droneImprovementTimeUpgradeRate);
+        
 		upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage] =
-			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest);
+			new UpgradableResourceStorage(settings.PlayerShipInitialResourceBonus,settings.PlayerShipInitialResourceInterest,
+                settings.upgradeProperties[(int)ComponentType.ResourceStorage].storageInterestRateUpgradeBonus,
+                settings.upgradeProperties[(int)ComponentType.ResourceStorage].storageCollectionBonusUpgradeRate);
 	}
 
 	/// <summary>
