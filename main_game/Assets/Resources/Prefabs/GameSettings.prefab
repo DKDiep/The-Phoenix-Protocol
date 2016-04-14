@@ -313,7 +313,7 @@ MonoBehaviour:
     shieldsMaxRechargeRateUpgradeRate: 0
     turretsMaxDamageUpgradeRate: 0
     turretsMinFireDelayUpgradeRate: 0
-  - name: RESOURCES
+  - name: RECYCLER
     type: 5
     description: '...'
     cost: 200
