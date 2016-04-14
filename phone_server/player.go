@@ -23,7 +23,7 @@ type Player struct {
     id                 uint64
     userName           string
     state              PlayerState
-    score              int
+    score              uint64
     ammo               float64
     isControllingEnemy bool
     controlledEnemyId  int64
@@ -32,12 +32,12 @@ type Player struct {
 }
 
 // Initialises a player
-func NewPlayer(playerId uint64, name string, usr *User) *Player {
+func NewPlayer(playerId uint64, name string, scr uint64, usr *User) *Player {
     return &Player{
         id:                 playerId,
         userName:           name,
         state:              getNewPlayerState(),
-        score:              0,
+        score:              scr,
         ammo:               MAX_AMMO,
         isControllingEnemy: false,
         controlledEnemyId:  0,

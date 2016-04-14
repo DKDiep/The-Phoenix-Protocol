@@ -58,15 +58,72 @@ func (gameDB *GameDatabase) registerPlayer(userName string) (id uint64) {
 }
 
 // Gets a player's name based on his id
-func (gameDB *GameDatabase) getPlayerName(playerId uint64) (userName string) {
-    err := gameDB.QueryRow("SELECT username FROM players WHERE player_id=?;",
-        playerId).Scan(&userName)
+func (gameDB *GameDatabase) getPlayerData(playerId uint64) (userName string, score uint64) {
+    err := gameDB.QueryRow("SELECT username, score FROM players WHERE player_id=?;",
+        playerId).Scan(&userName, &score)
 
     if err != nil {
         fmt.Println("Database: Error retreiving player information:",
             err.Error())
         userName = strconv.FormatUint(playerId, 16)
+        score = 1337
     }
 
     return
+}
+
+// Logs the players scores, not threadsafe, the maps should not be
+// changed while this is executing
+func (gameDB *GameDatabase) logPlayerScores(spectators map[uint64]*Player,
+    officers map[uint64]*Player) {
+    // Prepare statement
+    stmt, err := gameDB.Prepare(
+        "UPDATE players SET score=? WHERE player_id=?;")
+    defer stmt.Close()
+
+    if err != nil {
+        fmt.Println("Database: Error preparing score logging statement:",
+            err.Error())
+        return
+    }
+
+    // Send updates for all players
+    for id, plr := range spectators {
+        stmt.Exec(plr.score, id)
+    }
+    for id, plr := range officers {
+        stmt.Exec(plr.score, id)
+    }
+}
+
+// Set officers in the database
+func (gameDB *GameDatabase) setOfficers(officers map[uint64]*Player) {
+    // Prepare statement
+    stmt, err := gameDB.Prepare(
+        "UPDATE players SET in_main_game=true, score=0 WHERE player_id=?;")
+    defer stmt.Close()
+
+    if err != nil {
+        fmt.Println("Database: Error preparing set officer statement:",
+            err.Error())
+        return
+    }
+
+    // Set players as officers in database
+    for id, _ := range officers {
+        stmt.Exec(id)
+    }
+}
+
+// Unset officers in the database
+func (gameDB *GameDatabase) resetOfficers() {
+    // Prepare statement
+    _, err := gameDB.Exec(
+        "UPDATE players SET in_main_game=false, score=0 WHERE in_main_game=true;")
+
+    if err != nil {
+        fmt.Println("Database: Error unsetting officers:",
+            err.Error())
+        return
+    }
 }

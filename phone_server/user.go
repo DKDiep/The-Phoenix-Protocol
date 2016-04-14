@@ -114,8 +114,8 @@ func (usr *User) updateUser(playerId uint64) {
         plr.setUser(usr)
         // otherwise assign a new player to the user
     } else {
-        name := gameDatabase.getPlayerName(playerId)
-        newPlr := NewPlayer(playerId, name, usr)
+        name, score := gameDatabase.getPlayerData(playerId)
+        newPlr := NewPlayer(playerId, name, score, usr)
         usr.player = newPlr
         playerMap.add(newPlr)
     }

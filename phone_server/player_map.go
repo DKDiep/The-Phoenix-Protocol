@@ -18,6 +18,8 @@ type PlayerMap struct {
     sortlC    chan []*Player    // used for receiving a sorted list of spectators
     listC     chan []PlayerInfo // used to get 2 list of officers and spectators
     updateC   chan struct{}     // channel for triggering the broadcast of up to date data
+    logScoresC chan struct{}    // chan for logging scores
+    logOfficersC chan struct{}    // chan for setting officers in the database
 }
 
 // Interface specifying a type that has 3 coordinates
@@ -63,7 +65,6 @@ func (players *PlayerMap) accessManager() {
         // move a player from the spectator map into the officer map
         case data := <-players.setRoleC:
             players.setPlayerRoleAsync(data.plr, data.role)
-        // move a player from the spectator map into the officer map
         // blocks the manager, used for user specific actions
         case <-players.plrC:
             <-players.plrC
@@ -84,6 +85,11 @@ func (players *PlayerMap) accessManager() {
         // request to update all users
         case <-players.updateC:
             players.updateSpectatorData()
+        // log player scores to the database
+        case <-players.logScoresC:
+            players.logScoresAsync()
+        case <-players.logOfficersC:
+            players.logOfficersAsync()
         }
     }
 }
@@ -135,6 +141,21 @@ func (players *PlayerMap) startSpectators() {
     players.startC <- struct{}{}
 }
 
+// Send any necessary up to date data about the Game State to the players
+func (players *PlayerMap) updatePlayerStates() {
+    players.updateC <- struct{}{}
+}
+
+// Logs the player scores in the database
+func (players *PlayerMap) logScores() {
+    players.logScoresC <- struct{}{}
+}
+
+// Logs the player scores in the database
+func (players *PlayerMap) logOfficers() {
+    players.logOfficersC <- struct{}{}
+}
+
 // Sets the player in the respective role map
 // NOTE: DO NOT USE
 func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
@@ -170,6 +191,7 @@ func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
 // Wrapper used for resetting the players at the start of a new game
 // NOTE: DO NOT USE
 func (players *PlayerMap) resetPlayersAsync() {
+    gameDatabase.resetOfficers()
     for k, v := range players.mOfficers {
         players.mSpec[k] = v
         v.score = 0
@@ -186,6 +208,22 @@ func (players *PlayerMap) startSpectatorsAsync() {
     for _, v := range players.mSpec {
         v.setState(SPECTATOR)
     }
+}
+
+// Log the player scores in the database asynchronously
+// NOTE: DO NOT USE
+func (players *PlayerMap) logScoresAsync() {
+    gameDatabase.logPlayerScores(players.mSpec, players.mOfficers)
+}
+
+// Log which players are officers
+// NOTE: DO NOT USE
+func (players *PlayerMap) logOfficersAsync() {
+    // Set player score locally to match database reset
+    for _, plr := range players.mOfficers {
+        plr.score = 0
+    }
+    gameDatabase.setOfficers(players.mOfficers)
 }
 
 // Get an unordered list of Player info from the provided map

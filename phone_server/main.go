@@ -12,7 +12,9 @@ const (
     DATABASE_HOST           string        = "tcp(localhost:3306)"
     DATABASE_NAME           string        = "game"
     DATABASE_USER           string        = "root"
-    DATABASE_PASS           string        = "stoil"
+    DATABASE_PASS           string        = "password"
+    DATABASE_LOG_SCORES_PERIOD time.Duration = 200 * time.Millisecond
+
     ADMIN_WEB_DIR           string        = "../web/admin_web"
     ADMIN_PORT              string        = "52932"
     ADMIN_UPDATE_INTERVAL   time.Duration = 3 * time.Second
@@ -69,6 +71,8 @@ var playerMap *PlayerMap = &PlayerMap{
     sortlC:    make(chan []*Player),
     listC:     make(chan []PlayerInfo),
     updateC:   make(chan struct{}),
+    logScoresC: make(chan struct{}),
+    logOfficersC: make(chan struct{}),
 }
 
 // Holds the notifications per component
@@ -107,6 +111,9 @@ func main() {
         fmt.Println("Database: Failed to reach database.")
     }
     defer gameDatabase.Close()
+
+    // Reset officers in case server crashed and they werent cleared
+    gameDatabase.resetOfficers()
 
     go stdinHandler()
     go gameServerTCPConnectionHandler()
