@@ -155,8 +155,10 @@ MonoBehaviour:
   EnemySuicidalSpeedUpdateInterval: 5
   EnemySuicidalExtraSpeed: 5
   EngineerWalkSpeed: 0.2
-  EngineerMouseLookXSensitivity: 2
-  EngineerMouseLookYSensitivity: 2
+  EngineerMouseLookXSensitivity: 0.4
+  EngineerMouseLookYSensitivity: 0.4
+  EngineerControllerLookXSensitivity: 5
+  EngineerControllerLookYSensitivity: 5
   EngineerMouseLookClampVerticalRotation: 1
   EngineerMouseLookMinimumX: -90
   EngineerMouseLookMaximumX: 90

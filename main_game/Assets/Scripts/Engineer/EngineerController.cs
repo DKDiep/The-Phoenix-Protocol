@@ -161,13 +161,13 @@ public class EngineerController : NetworkBehaviour
         // Initialize the camera and the MouseLook script
         camera = cam.GetComponent<Camera>();
         mouseLook = gameObject.GetComponent<MouseLook>();
-        mouseLook.Init(transform, camera.transform);
         playerController = controller;
 
         // Set the upgrade and repair strings depending on wheter
         // a controller is used or the keyboard is used
         if (Input.GetJoystickNames().Length > 0)
         {
+            mouseLook.Init(transform, camera.transform, true);
             upgradeString = "Hold A to upgrade";
             repairString = "Hold A to repair";
             dockString = "";
@@ -175,6 +175,7 @@ public class EngineerController : NetworkBehaviour
         }
         else
         {
+            mouseLook.Init(transform, camera.transform, false);
             upgradeString = "Hold Mouse1 to upgrade";
             repairString = "Hold Mouse1 to repair";
             dockString = "Press L Shift to dock";
