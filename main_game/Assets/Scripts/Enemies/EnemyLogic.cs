@@ -494,6 +494,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		if (isSuicidal)
 			StartCoroutine(MatchPlayerSpeed());
+		else
+			StartCoroutine(ShootManager());
+
         StartCoroutine(UpdateTransform());
     }
 
@@ -627,7 +630,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			}
 		}
 
-		StartCoroutine(ShootManager());
 		StartCoroutine(DrawDelay());
 	}
 
