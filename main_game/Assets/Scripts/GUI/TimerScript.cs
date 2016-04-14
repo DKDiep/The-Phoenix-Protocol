@@ -16,7 +16,7 @@ public class TimerScript : MonoBehaviour
     private float timeDiff;
 
     // If the timer is enabled (disabled by default at the moment)
-    private bool enabled = false;
+    private bool timerEnabled = false;
 
 	// Use this for initialization
 	void Start () 
@@ -35,11 +35,11 @@ public class TimerScript : MonoBehaviour
         // Toggle if the T button is pressed.
         if (Input.GetKeyDown(KeyCode.T)) 
         {
-            enabled = !enabled;
+            timerEnabled = !timerEnabled;
         }
 
         // Only display the timer if it is enabled
-        if(enabled)
+        if(timerEnabled)
         {
             timeDiff = Time.time - startTime;
             seconds = timeDiff % 60f;
