@@ -915,9 +915,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			currentWaypoint.GetComponent<Renderer>().material.color = Color.blue;
 	    }*/
 		
-		float currentY 							= currentWaypoint.transform.localPosition.y;
+		float currentY 							= hackedWaypoint.transform.localPosition.y;
 		currentWaypoint.transform.localPosition = new Vector3(posX, currentY, posZ);
-		hackedWaypoint 							= currentWaypoint;
+		currentWaypoint 						= hackedWaypoint;
 
 		// If this enemey was previously issued an attack command, clear it
 		hackedAttackTraget = null;
