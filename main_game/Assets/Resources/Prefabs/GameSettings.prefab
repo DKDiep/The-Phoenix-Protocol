@@ -225,7 +225,8 @@ MonoBehaviour:
   upgradeProperties:
   - name: SHIELDS
     type: 0
-    description: '...'
+    description: Shields cover the ship in a force field absorbing enemy fire and
+      protecting the ships hull.
     cost: 100
     numberOfLevels: 3
     repairable: 1
@@ -243,7 +244,7 @@ MonoBehaviour:
     turretsMinFireDelayUpgradeRate: 1.5
   - name: TURRETS
     type: 1
-    description: '...'
+    description: 'The turrets help officers defend the ship against attacking enemies. '
     cost: 200
     numberOfLevels: 5
     repairable: 1
@@ -261,7 +262,7 @@ MonoBehaviour:
     turretsMinFireDelayUpgradeRate: 1.5
   - name: ENGINES
     type: 2
-    description: '...'
+    description: Engines allow the ship to move faster.
     cost: 150
     numberOfLevels: 3
     repairable: 1
@@ -279,7 +280,8 @@ MonoBehaviour:
     turretsMinFireDelayUpgradeRate: 0
   - name: HULL
     type: 3
-    description: '...'
+    description: The hull defends the crew from enemy fire if the shields have been
+      depleted.
     cost: 150
     numberOfLevels: 3
     repairable: 1
@@ -297,7 +299,7 @@ MonoBehaviour:
     turretsMinFireDelayUpgradeRate: 0
   - name: DRONE
     type: 4
-    description: '...'
+    description: The drone upgrades the ships components.
     cost: 100
     numberOfLevels: 2
     repairable: 0
@@ -315,7 +317,8 @@ MonoBehaviour:
     turretsMinFireDelayUpgradeRate: 0
   - name: RECYCLER
     type: 5
-    description: '...'
+    description: The Recycler enables the ship to collect resources from outposts
+      and enemies.
     cost: 200
     numberOfLevels: 3
     repairable: 0
