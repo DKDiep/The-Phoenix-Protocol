@@ -120,7 +120,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SetupMothership(GameObject spawnEffect)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         mothership = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
         GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
         logic.transform.parent = mothership.transform;
