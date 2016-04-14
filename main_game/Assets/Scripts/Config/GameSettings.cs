@@ -161,6 +161,10 @@ public class GameSettings : MonoBehaviour
 	public float PlayerBulletAccuracy;
 	public float PlayerBulletSpeed;
 	public float WiimoteInterpolationFactor;
+	public int PlayerMaxAmmo;
+	public int PlayerShootingAmmoCost;       // The ammount of ammo needed to fire a bullet
+	public int PlayerAmmoRechargeValue;      // The ammount of ammo recharged per interval
+	public float PlayerAmmoRechargeInterval; // The interval at which ammo recharges.
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;
