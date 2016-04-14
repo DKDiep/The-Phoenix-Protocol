@@ -111,15 +111,29 @@ public class EnemySpawner : MonoBehaviour
     void SpawnGlomMothership()
     {
         Debug.Log("Glom mothership spawned");
-		mothership = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
-        GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
-		logic.transform.parent = mothership.transform;
-        logic.transform.localPosition = Vector3.zero;
-		mothership.transform.position = settings.GlomMothershipSpawnPosition;
-		ServerManager.NetworkSpawn(mothership);
+        GameObject spawnEffect = Instantiate(Resources.Load("Prefabs/MothershipSpawnEffect", typeof(GameObject))) as GameObject;
+        spawnEffect.transform.position = settings.GlomMothershipSpawnPosition;	
+        ServerManager.NetworkSpawn(spawnEffect);
+        StartCoroutine(SetupMothership(spawnEffect));
 
-		mothership.GetComponent<Collider>().enabled = true;
+    }
+
+    IEnumerator SetupMothership(GameObject spawnEffect)
+    {
+        yield return new WaitForSeconds(2f);
+        mothership = Instantiate(Resources.Load("Prefabs/GlomMothership", typeof(GameObject))) as GameObject;
+        GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
+        logic.transform.parent = mothership.transform;
+        logic.transform.localPosition = Vector3.zero;
+        mothership.transform.position = settings.GlomMothershipSpawnPosition;
+        ServerManager.NetworkSpawn(mothership);
+
+        mothership.GetComponent<Collider>().enabled = true;
         logic.GetComponent<MothershipLogic>().SetSpawner(this);
+        yield return new WaitForSeconds(1f);
+        spawnEffect.GetComponent<DisableSpawnEffect>().DisableParticles();
+
+
     }
 
 
