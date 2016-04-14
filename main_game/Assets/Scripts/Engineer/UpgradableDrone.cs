@@ -17,17 +17,22 @@ public class UpgradableDrone : UpgradableComponent
 	/// <value>The work time.</value>
 	public float ImprovementTime { get; private set; }
 
+    private float ImprovementTimeUpgradeRate;
+    private float MovementSpeedUpgradeRate;
+
 	/// <summary>
 	/// Initializes a new <see cref="UpgradableDrone"/>.
 	/// </summary>
 	/// <param name="initialMovementSpeed">The initial movement speed.</param>
 	/// <param name="initialWorkTime">The initial work time.</param>
-	public UpgradableDrone(float initialMovementSpeed, float initialWorkTime) : base()
+    public UpgradableDrone(float initialMovementSpeed, float initialWorkTime, float MovementSpeedUpgradeRate, float ImprovementTimeUpgradeRate) : base()
 	{
 		this.Type 			 = ComponentType.Turret;
 		this.MaxHealth 		 = this.Health = 100; // TODO: read this from GameSettings
 		this.MovementSpeed   = initialMovementSpeed;
 		this.ImprovementTime = initialWorkTime;
+        this.MovementSpeedUpgradeRate = MovementSpeedUpgradeRate;
+        this.ImprovementTimeUpgradeRate = ImprovementTimeUpgradeRate;
 	}
 
 	// TODO: balance values
@@ -50,9 +55,9 @@ public class UpgradableDrone : UpgradableComponent
 		base.Upgrade();
 
 		if (Level % 2 == 0)
-			MovementSpeed *= 1.5f;
+            MovementSpeed *= MovementSpeedUpgradeRate;
 		else
-			ImprovementTime /= 2f;
+            ImprovementTime /= ImprovementTimeUpgradeRate;
 	}
 }
 

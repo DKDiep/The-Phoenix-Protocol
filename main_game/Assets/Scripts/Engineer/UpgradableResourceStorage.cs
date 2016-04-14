@@ -17,17 +17,25 @@ public class UpgradableResourceStorage : UpgradableComponent
 	/// <value>The interest rate.</value>
 	public float InterestRate { get; private set; }
 
+
+    private float CollectionBonusUpgradeRate;
+    private float InterestRateUpgradeBonus;
+
+   
 	/// <summary>
 	/// Initializes a new <see cref="UpgradableResourceStorage"/>.
 	/// </summary>
 	/// <param name="initialCollectionBonus">The initial resource collection bonus percentage.</param>
 	/// <param name="initialInterestRate">The initial interest rate.</param>
-	public UpgradableResourceStorage(float initialCollectionBonus, float initialInterestRate) : base()
+    public UpgradableResourceStorage(float initialCollectionBonus, float initialInterestRate, float InterestRateUpgradeBonus, float CollectionBonusUpgradeRate) : base()
 	{
 		this.Type 			 = ComponentType.ResourceStorage;
 		this.MaxHealth 		 = this.Health = 100; // Currently, this can't be damaged
 		this.CollectionBonus = initialCollectionBonus;
 		this.InterestRate    = initialInterestRate;
+
+        this.CollectionBonusUpgradeRate = CollectionBonusUpgradeRate;
+        this.InterestRateUpgradeBonus   = InterestRateUpgradeBonus;
 	}
 
 	// TODO: balance values
@@ -51,9 +59,9 @@ public class UpgradableResourceStorage : UpgradableComponent
 
 		// TODO: maybe move these to GameSettings?
 		if (Level % 2 == 0)
-			CollectionBonus += 0.15f;
+            CollectionBonus += CollectionBonusUpgradeRate;
 		else
-			InterestRate += 0.05f;
+            InterestRate += InterestRateUpgradeBonus;
 	}
 }
 

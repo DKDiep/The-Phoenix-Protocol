@@ -149,9 +149,8 @@ public class GameSettings : MonoBehaviour
 	public float PlayerShipStartingFiringDelay;
 	public int PlayerShipStartingBulletDamage;
 
-
     [Header("Ship Upgrade Properties")]
-    public ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
+    public UpgradeProperties[] upgradeProperties;
 
 
 	[Header("Player Shooting")]

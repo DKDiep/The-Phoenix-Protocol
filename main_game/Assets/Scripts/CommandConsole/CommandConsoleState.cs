@@ -50,7 +50,7 @@ public class CommandConsoleState : MonoBehaviour {
     private List<GameObject> shieldSegments = new List<GameObject>();
     private Image[] pulsateableImages;
     private bool[] pulsateToggle;
-    private ConsoleUpgrade.UpgradeProperties[] upgradeProperties;
+    private UpgradeProperties[] upgradeProperties;
 
     private Image newsFeedImage;
     private Image upgradeInfoImage;
@@ -135,10 +135,10 @@ public class CommandConsoleState : MonoBehaviour {
     private void LoadSettings()
     {
         // Copy values manually so original settings won't change
-        upgradeProperties = new ConsoleUpgrade.UpgradeProperties[settings.upgradeProperties.Length];
+        upgradeProperties = new UpgradeProperties[settings.upgradeProperties.Length];
         for (int i = 0; i < upgradeProperties.Length; i++)
         {
-            upgradeProperties[i] = new ConsoleUpgrade.UpgradeProperties();
+            upgradeProperties[i] = new UpgradeProperties();
             upgradeProperties[i].type = settings.upgradeProperties[i].type;
             upgradeProperties[i].description = settings.upgradeProperties[i].description;
             upgradeProperties[i].cost = settings.upgradeProperties[i].cost;
