@@ -1,6 +1,7 @@
 package main
 
 import (
+    "flag"
     "fmt"
     "golang.org/x/net/websocket"
     "net"
@@ -21,7 +22,6 @@ const (
     USERS_WEB_DIR           string        = "../web/phone_web"
     USERS_PORT              string        = "8080"
     LOCAL_UDP_PORT          string        = "46578"
-    GAME_SERVER_ADDRESS     string        = "192.168.56.1"
     GAME_SERVER_UDP_PORT    string        = "2345"
     GAME_SERVER_TCP_PORT    string        = "2346"
     DATA_UPDATE_INTERVAL    time.Duration = 33 * time.Millisecond
@@ -36,6 +36,9 @@ const (
     ENEMY_DRAW_RANGE_Y     float64 = 500
     ENEMY_DRAW_RANGE_Z     float64 = 300
 )
+
+// Flag variables
+var gameServerAddress = flag.String("ip", "localhost", "set the IP address of the Game Server")
 
 // Structure dealing with the database operations
 var gameDatabase *GameDatabase
@@ -104,6 +107,7 @@ var asteroidMap *AsteroidMap = &AsteroidMap{
 
 // Starts all necessary subroutines
 func main() {
+    flag.Parse()
     gameDatabase = ConnectToDatabase()
     if gameDatabase.isConnected {
         fmt.Println("Database: Ready to query.")
