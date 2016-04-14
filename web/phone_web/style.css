@@ -119,8 +119,9 @@ body {
     float:right;
 }
 .engineer_button {
-    border: 2px solid rgba(30, 50, 70, 1);;
-    background-color: rgba(30, 50, 70, 0.5);
+    background-image: url("/img/phone_alert_bg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     width: 200px;
     height: 50px;
     padding: 15px;
