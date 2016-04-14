@@ -19,27 +19,12 @@ public class MouseLook : MonoBehaviour
 
 	private Quaternion characterTargetRot;
 
-	void Start()
-	{
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-		LoadSettings();
-	}
-
-	private void LoadSettings()
-	{
-		xSensitivity		   = settings.EngineerMouseLookXSensitivity;
-		ySensitivity		   = settings.EngineerMouseLookYSensitivity;
-        xControllerSensitivity = settings.EngineerControllerLookXSensitivity;
-        yControllerSensitivity = settings.EngineerControllerLookYSensitivity;
-		clampVerticalRotation  = settings.EngineerMouseLookClampVerticalRotation;
-		minimumX               = settings.EngineerMouseLookMinimumX;
-		maximumX 			   = settings.EngineerMouseLookMaximumX;
-		smooth 				   = settings.EngineerMouseLookSmooth;
-		smoothTime 			   = settings.EngineerMouseLookSmoothTime;
-	}
-
     public void Init(Transform character, Transform camera, bool usingController)
     {
+        if (settings == null)
+            settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        LoadSettings();
+
         characterTargetRot = character.localRotation;
 
         if (usingController)
@@ -47,6 +32,19 @@ public class MouseLook : MonoBehaviour
             xSensitivity = xControllerSensitivity;
             ySensitivity = yControllerSensitivity;
         }
+    }
+
+    private void LoadSettings()
+    {
+        xSensitivity = settings.EngineerMouseLookXSensitivity;
+        ySensitivity = settings.EngineerMouseLookYSensitivity;
+        xControllerSensitivity = settings.EngineerControllerLookXSensitivity;
+        yControllerSensitivity = settings.EngineerControllerLookYSensitivity;
+        clampVerticalRotation = settings.EngineerMouseLookClampVerticalRotation;
+        minimumX = settings.EngineerMouseLookMinimumX;
+        maximumX = settings.EngineerMouseLookMaximumX;
+        smooth = settings.EngineerMouseLookSmooth;
+        smoothTime = settings.EngineerMouseLookSmoothTime;
     }
 		
     public void LookRotation(Transform character, Transform camera)
