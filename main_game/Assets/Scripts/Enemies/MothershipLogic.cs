@@ -4,21 +4,41 @@ using System.Collections;
 public class MothershipLogic : MonoBehaviour {
 
     private float health;
+    private float maxHealth;
     private int spawnedEnemies = 0;
     private EnemySpawner spawner;
     private GameSettings settings;
     private GameState gameState;
-
+    private bool destroyEffects = false;
+    [SerializeField] GameObject[] particleSpawnLocations;
+    private int numExplosions = 0;
+    private int maxExplosions = 50;
+    private ObjectPoolManager effectsManager;
 
 	// Use this for initialization
 	void Start () {
 
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        effectsManager = GameObject.Find("MothershipDamageManager").GetComponent<ObjectPoolManager>();
         LoadSettings();
 
         GameObject server = settings.GameManager;
         gameState         = server.GetComponent<GameState>();
+
+        StartCoroutine(SpawnExplosions());
 	}
+
+    IEnumerator SpawnExplosions()
+    {
+        if(destroyEffects && numExplosions < maxExplosions)
+        {
+            GameObject obj = effectsManager.RequestObject();
+            obj.transform.position = particleSpawnLocations[Random.Range(0,particleSpawnLocations.Length)].transform.position;
+            numExplosions++;
+        }
+        yield return new WaitForSeconds(Random.Range(0.1f,1f));
+        StartCoroutine(SpawnExplosions());
+    }
 
     public void SetSpawner(EnemySpawner temp)
     {
@@ -54,6 +74,7 @@ public class MothershipLogic : MonoBehaviour {
     private void LoadSettings()
     {
         health = settings.GlomMothershipHealth;
+        maxHealth = health;
     }
 
     // Detect collisions with other game objects
@@ -71,6 +92,12 @@ public class MothershipLogic : MonoBehaviour {
                 explosion.SetActive(true);
                 ServerManager.NetworkSpawn(explosion);
                 Destroy(transform.parent.gameObject);
+            }
+
+            if(health < maxHealth * 0.4f && !destroyEffects)
+            {
+                Debug.Log("Damage effects enabled");
+                destroyEffects = true;
             }
     }
 }
