@@ -16,6 +16,8 @@ public class PlayerShooting : MonoBehaviour
 	private bool randomPitch;
 	private float accuracy;
 	private float speed;
+	private int ammo, maxAmmo, shootAmmoCost, ammoRechargeValue;
+	private float ammoRechargeDelay;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject[] bulletAnchor;
@@ -34,6 +36,9 @@ public class PlayerShooting : MonoBehaviour
 
     private GameState gameState;
     private ServerManager serverManager;
+
+	private bool ammoRecharging;
+	private Coroutine ammoRechargeCoroutine;
 
     // Which player are we controlling via the mouse. (For debugging different players)
     private int currentPlayerId = 0;
@@ -55,11 +60,15 @@ public class PlayerShooting : MonoBehaviour
 
 	private void LoadSettings()
 	{
-		hitmarker   = settings.PlayerHitmarker;
-		fireSound   = settings.PlayerFireSound;
-		randomPitch = settings.PlayerFireSoundRandomPitch;
-		accuracy    = settings.PlayerBulletAccuracy;
-		speed 		= settings.PlayerBulletSpeed;
+		hitmarker   	  = settings.PlayerHitmarker;
+		fireSound   	  = settings.PlayerFireSound;
+		randomPitch 	  = settings.PlayerFireSoundRandomPitch;
+		accuracy    	  = settings.PlayerBulletAccuracy;
+		speed 			  = settings.PlayerBulletSpeed;
+		ammo = maxAmmo	  = settings.PlayerMaxAmmo;
+		shootAmmoCost     = settings.PlayerShootingAmmoCost;
+		ammoRechargeValue = settings.PlayerAmmoRechargeValue;
+		ammoRechargeDelay = settings.PlayerAmmoRechargeInterval;
 	}
     
 	public void Setup () 
@@ -104,10 +113,24 @@ public class PlayerShooting : MonoBehaviour
 
         SwitchPlayers();
 
-
-		if(Input.GetMouseButton (0) && canShoot)
+		bool shootButtonPressed = Input.GetMouseButton(0);
+		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
 		{
-			ShootBullet (currentPlayerId);
+			// Stop ammo recharging when the player fires
+			if (ammoRechargeCoroutine != null)
+			{
+				StopCoroutine(ammoRechargeCoroutine);
+				ammoRecharging = false;
+			}
+			
+			ShootBullet(currentPlayerId);
+			ammo -= shootAmmoCost;
+		}
+		else if (!shootButtonPressed && !ammoRecharging)
+		{
+			// Wait for the player to release the fire button before startin to recharge ammo
+			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
+			ammoRecharging = true;
 		}
 
         // Control alpha of hitmarker
@@ -212,6 +235,25 @@ public class PlayerShooting : MonoBehaviour
 	/// <param name="enabled">If set to <c>true</c>, shooting is enabled.</param>
 	public void SetShootingEnabled(bool enabled)
 	{
-		canShoot = enabled;
+		canShoot = ammoRecharging = enabled;
+
+		if (enabled)
+			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
+		else if (ammoRechargeCoroutine != null)
+			StopCoroutine(ammoRechargeCoroutine);
+	}
+
+	/// <summary>
+	/// Recharges the ammo.
+	/// </summary>
+	IEnumerator RechargeAmmo()
+	{
+		yield return new WaitForSeconds(ammoRechargeDelay);
+
+		ammo += ammoRechargeValue;
+		if (ammo > maxAmmo)
+			ammo = maxAmmo;
+
+		ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
 	}
 }
