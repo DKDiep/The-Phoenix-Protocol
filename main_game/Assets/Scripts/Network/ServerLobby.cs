@@ -108,15 +108,49 @@ public class ServerLobby : MonoBehaviour {
     }
 
     // This method is only called on server via command
-    public void PlayerJoin(GameObject playerObject)
+    public void PlayerJoin(GameObject playerObject, RoleEnum role)
     {
-        // Get player and set default role
+        // Get player and set chosen role
         PlayerController playerController = playerObject.GetComponent<PlayerController>();
-		playerController.RpcSetRole(RoleEnum.Camera);
+		playerController.RpcSetRole(role);
 
         // Create token for new player
         GameObject playerToken = Instantiate(Resources.Load("Prefabs/PlayerToken", typeof(GameObject))) as GameObject;
-        playerToken.transform.SetParent(cameraPanel.transform, false);
+
+        // Set parent based on role
+        if (role == RoleEnum.Camera)
+        {
+            playerToken.transform.SetParent(cameraPanel.transform, false);
+
+            if (right == -1)
+            {
+                right = 0;
+                serverId = playerObject.GetComponent<PlayerController>().netId.Value;
+            }
+            else
+            {
+                if (right == -left)
+                {
+                    right = right + 1;
+                    playerToken.transform.SetAsLastSibling();
+                }
+                else
+                {
+                    left = left - 1;
+                    playerToken.transform.SetAsFirstSibling();
+                }
+            }
+        }
+        else if (role == RoleEnum.Engineer)
+        {
+            playerToken.transform.SetParent(engineerPanel.transform, false);
+            playerToken.transform.SetAsLastSibling();
+        }
+        else
+        {
+            playerToken.transform.SetParent(commandPanel.transform, false);
+        }
+
         playerToken.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         // Reference player controller to change variables with token
@@ -133,25 +167,6 @@ public class ServerLobby : MonoBehaviour {
         entryDrag.eventID = EventTriggerType.Drag;
         entryDrag.callback.AddListener((eventData) => { playerToken.GetComponent<PlayerTokenController>().OnDrag(); });
         trigger.triggers.Add(entryDrag);
-
-        if (right == -1)
-        {
-            right = 0;
-            serverId = playerObject.GetComponent<PlayerController>().netId.Value;
-        }
-        else
-        {
-            if (right == -left)
-            {
-                right = right + 1;
-                playerToken.transform.SetAsLastSibling();
-            }
-            else
-            {
-                left = left - 1;
-                playerToken.transform.SetAsFirstSibling();
-            }
-        }
 
         UpdateCameras();
     }
