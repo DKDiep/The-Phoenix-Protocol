@@ -106,17 +106,6 @@ public class ConsoleUpgrade : MonoBehaviour
         repairButton.SetActive(false);
     }
 
-    [System.Serializable]
-    public class UpgradeProperties
-    {
-        public string name;
-        public ComponentType type;
-        public string description;
-        public int cost;
-        public int numberOfLevels;
-        public bool repairable;
-        public int currentLevel;
-    }
 }
 
 
