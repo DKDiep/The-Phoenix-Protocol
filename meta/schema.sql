@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `game`;
 CREATE TABLE `game` (
   `game_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `team_name` varchar(30) NOT NULL,
-  `scores` int(10) DEFAULT NULL,
+  `scores` int(10) NOT  NULL,
   PRIMARY KEY (`game_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `players`;
 CREATE TABLE `players` (
   `player_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `score` int(11) unsigned DEFAULT NULL,
+  `score` int(11) unsigned NOT NULL,
   `registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `in_main_game` tinyint(1) NOT NULL DEFAULT '0',
