@@ -28,6 +28,7 @@ public class AIVoice : MonoBehaviour {
     private AudioSource mySource;
     private int lastCommand = -1;
     public static AIVoice aiObject;
+    private bool minDelay = false;
 
 	public static void SendCommand(int id)
     {
@@ -40,11 +41,12 @@ public class AIVoice : MonoBehaviour {
     {
         if(mySource == null)
             mySource = GetComponent<AudioSource>(); 
-        if(!mySource.isPlaying && id != lastCommand)
+        if(!mySource.isPlaying && id != lastCommand && !minDelay)
         {
             mySource.clip = aiClips[id];
             mySource.Play();
             lastCommand = id;
+            minDelay = true;
             StartCoroutine(ResetDelay(lastCommand));
         }
 
@@ -53,7 +55,9 @@ public class AIVoice : MonoBehaviour {
     // If the AI hasn't said anything for a while seconds, allow them to say the same thing again
     IEnumerator ResetDelay(int lastId)
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(3f);
+        minDelay = false;
+        yield return new WaitForSeconds(3f);
         if(lastId == lastCommand)
             lastCommand = -1;
     }
