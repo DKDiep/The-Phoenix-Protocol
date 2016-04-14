@@ -29,6 +29,7 @@ public class AIVoice : MonoBehaviour {
     private int lastCommand = -1;
     public static AIVoice aiObject;
     private bool minDelay = false;
+    private GameState state;
 
 	public static void SendCommand(int id)
     {
@@ -41,6 +42,14 @@ public class AIVoice : MonoBehaviour {
     {
         if(mySource == null)
             mySource = GetComponent<AudioSource>(); 
+
+        if(state == null)
+        {
+            state = GameObject.Find("GameManager").GetComponent<GameState>();
+        }
+        if (state.Status != GameState.GameStatus.Started)
+            return;
+
         if(!mySource.isPlaying && id != lastCommand && !minDelay)
         {
             mySource.clip = aiClips[id];
