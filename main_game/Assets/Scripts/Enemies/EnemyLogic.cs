@@ -737,6 +737,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             if(distance < 300f) 
                 mySrc.PlayOneShot(fireSnd);
         }
+
 		if(shoot) 
             StartCoroutine(Shoot());
 	}
@@ -799,7 +800,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             ResetGlowColour();
             originalGlow = null;
 
-
             Despawn();
 		}
 	}
@@ -812,6 +812,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			Destroy(currentWaypoint);
 
 		SetHacked(false);
+		angleGoodForShooting = shoot = false;
 
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
