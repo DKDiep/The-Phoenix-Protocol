@@ -896,7 +896,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
     private void ResetGlowColour()
     {
-        enemyManager.RpcResetHackedGlow(this.name);
+		enemyManager.RpcResetHackedGlow(transform.parent.gameObject.name);
         GameObject lights = transform.parent.Find("pattern").gameObject;
         lights.GetComponent<Renderer>().material = originalGlow;
     }
