@@ -145,7 +145,7 @@ public class UDPServer : MonoBehaviour
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
-                playerShooting.ShootBullet(idOfPlayer);
+				playerShooting.TryShoot(idOfPlayer);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);
