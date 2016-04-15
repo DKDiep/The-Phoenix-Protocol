@@ -213,7 +213,7 @@ MonoBehaviour:
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
   PlayerShipStartingRechargeRate: 10
-  PlayerShipStartingSpeed: 10
+  PlayerShipStartingSpeed: 20
   PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100
   PlayerShipStartingCivilians: 10000
