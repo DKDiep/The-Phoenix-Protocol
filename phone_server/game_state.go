@@ -118,7 +118,7 @@ func (gs *GameState) startGame() {
     // Log which officers are in the game in the DB
     playerMap.logOfficers()
     // start the spectator game for all spectators
-    playerMap.startSpectators()
+    playerMap.startPlayers()
     // start the periodic game object updates
     gs.updateStopC = make(chan struct{})
     go doPeriodicUpdates(gs.updateStopC)

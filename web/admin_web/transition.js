@@ -1,5 +1,6 @@
 $( document ).ready(function() {
     initSocket()
+    addToLegend("commander-legend")
     addToLegend("officer-legend")
     addToLegend("spectator-legend")
 });
@@ -82,6 +83,14 @@ function displayStatus(state, isReady) {
     }
 }
 
+function displayCommander(commander) {
+    newContents = ""
+    if(commander.UserId != -1) {
+        newContents = getPlayerRow(commander, roles.COMMANDER)
+    }
+    $("#commander-elements").html(newContents)
+}
+
 function displayOfficers(list) {
     newContents = ""
     list.sort(usernameCompare)
@@ -130,10 +139,16 @@ function getPlayerRow(player, role) {
 
     // action button
     switch (role) {
+        case roles.COMMANDER:
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.OFFICER + ")\">Set Officer</button>"
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.SPECTATOR + ")\">Set Spectator</button>"
+            break;
         case roles.OFFICER:
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.COMMANDER + ")\">Set Commander</button>"
             out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.SPECTATOR + ")\">Set Spectator</button>"
             break;
         case roles.SPECTATOR:
+            out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.COMMANDER + ")\">Set Commander</button>"
             out += "<button type=\"button\" class=\"btn btn-default table-cell user-action user-action-entry\" onclick=\"setPlayerAction(this," + player.UserId + ", " + roles.OFFICER + ")\">Set Officer</button>"
             break;
         default:

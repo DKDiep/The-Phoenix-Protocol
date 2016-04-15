@@ -15,12 +15,13 @@ type AdminUpdateMessage struct {
     Ready      bool
     Officers   []PlayerInfo
     Spectators []PlayerInfo
+    Commander  PlayerInfo
 }
 
 // Wrapper of player data that is to be send to the admin
 type PlayerInfo struct {
     UserName string
-    UserId   uint64
+    UserId   int64
     Score    uint64
     IsOnline bool
 }
@@ -109,6 +110,8 @@ func handleAdminMessage(msg map[string]interface{}) {
         gameState.processAdminSetSignal(uint64(msg["data"].(float64)), OFFICER)
     case "SET_SPEC":
         gameState.processAdminSetSignal(uint64(msg["data"].(float64)), SPECTATOR)
+    case "SET_COMND":
+        gameState.processAdminSetSignal(uint64(msg["data"].(float64)), COMMANDER)
     default:
         fmt.Println("Admin: Received unexpected message of type: ", msg["type"])
     }
@@ -140,7 +143,7 @@ func updateAdmin() {
     msg := AdminUpdateMessage{}
 
     // game state information
-    switch (gameState.status) {
+    switch gameState.status {
     case RUNNING:
         msg.State = "RUN"
     case SETUP:
@@ -151,10 +154,11 @@ func updateAdmin() {
 
     msg.Ready = gameState.canEnterNextState
 
-    officers, spectators := playerMap.getPlayerLists()
+    officers, spectators, commander := playerMap.getPlayerLists()
 
     msg.Officers = officers
     msg.Spectators = spectators
+    msg.Commander = commander
 
     sendMsgToAdmin(msg)
 }

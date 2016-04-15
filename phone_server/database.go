@@ -3,10 +3,10 @@ package main
 import (
     "database/sql"
     "fmt"
-    "math/rand"
-    "time"
-    "strconv"
     _ "github.com/go-sql-driver/mysql"
+    "math/rand"
+    "strconv"
+    "time"
 )
 
 // Struct extending the Database class

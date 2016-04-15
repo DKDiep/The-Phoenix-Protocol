@@ -152,13 +152,13 @@ func sendSignalToGameServer(msgType GameServerMessageType) bool {
 
 // Send a start game signal with all accepted officers
 func sendStartGameSignalToGameServer() bool {
-    officers, _ := playerMap.getPlayerLists()
+    officers, _, _ := playerMap.getPlayerLists()
 
     msg := "START:"
 
     for _, officer := range officers {
         msg += officer.UserName + "+"
-        msg += strconv.FormatUint(officer.UserId, 10) + ","
+        msg += strconv.FormatInt(officer.UserId, 10) + ","
     }
     msg = msg[:len(msg)-1]
 

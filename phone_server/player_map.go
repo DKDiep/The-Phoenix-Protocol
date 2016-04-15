@@ -8,18 +8,19 @@ import (
 
 // The collection of all players, manages concurrent acces
 type PlayerMap struct {
-    mOfficers map[uint64]*Player
-    mSpec     map[uint64]*Player
-    addC      chan *Player
-    setRoleC  chan SetPlr       // moves a player in the officer list
-    plrC      chan struct{}     // used for player specific actions
-    resetC    chan struct{}     // prepares the maps for a new game
-    startC    chan struct{}     // triggers state transitions for spectators
-    sortlC    chan []*Player    // used for receiving a sorted list of spectators
-    listC     chan []PlayerInfo // used to get 2 list of officers and spectators
-    updateC   chan struct{}     // channel for triggering the broadcast of up to date data
-    logScoresC chan struct{}    // chan for logging scores
-    logOfficersC chan struct{}    // chan for setting officers in the database
+    commander    *Player
+    mOfficers    map[uint64]*Player
+    mSpec        map[uint64]*Player
+    addC         chan *Player
+    setRoleC     chan SetPlr    // moves a player in the officer list
+    plrC         chan struct{}  // used for player specific actions
+    resetC       chan struct{}  // prepares the maps for a new game
+    startC       chan struct{}  // triggers state transitions for spectators
+    sortlC       chan []*Player // used for receiving a sorted list of spectators
+    listC        chan struct{}  // used to get 2 list of officers and spectators
+    updateC      chan struct{}  // channel for triggering the broadcast of up to date data
+    logScoresC   chan struct{}  // chan for logging scores
+    logOfficersC chan struct{}  // chan for setting officers in the database
 }
 
 // Interface specifying a type that has 3 coordinates
@@ -74,14 +75,13 @@ func (players *PlayerMap) accessManager() {
             players.resetC <- struct{}{}
         // starts the spectator game for all spectators
         case <-players.startC:
-            players.startSpectatorsAsync()
+            players.startPlayersAsync()
         // request a sorted list of all players on standby
         case <-players.sortlC:
             players.sortlC <- players.getSortedOnlineSpectatorsAsync()
         // gets unordered lists of the players
         case <-players.listC:
-            players.listC <- getPlayerInfoListAsync(players.mOfficers)
-            players.listC <- getPlayerInfoListAsync(players.mSpec)
+            <-players.listC
         // request to update all users
         case <-players.updateC:
             players.updateSpectatorData()
@@ -107,9 +107,15 @@ func (players *PlayerMap) setPlayerRole(player *Player, setRole PlayerState) {
 // Wrapper used for retrieving a user
 func (players *PlayerMap) get(playerId uint64) *Player {
     players.plrC <- struct{}{}
-    plr := players.mSpec[playerId]
+    var plr *Player = nil
+    if players.commander != nil && players.commander.id == playerId {
+        plr = players.commander
+    }
     if plr == nil {
         plr = players.mOfficers[playerId]
+    }
+    if plr == nil {
+        plr = players.mSpec[playerId]
     }
     players.plrC <- struct{}{}
     return plr
@@ -122,12 +128,15 @@ func (players *PlayerMap) getSortedOnlineSpectators() []*Player {
 }
 
 // Wrapper used for retrieving a list of officers and a list of spectators
-func (players *PlayerMap) getPlayerLists() ([]PlayerInfo, []PlayerInfo) {
-    players.listC <- nil
-    officers := <-players.listC
-    spectators := <-players.listC
+func (players *PlayerMap) getPlayerLists() ([]PlayerInfo, []PlayerInfo,
+    PlayerInfo) {
+    players.listC <- struct{}{}
+    officers := getPlayerInfoListAsync(players.mOfficers)
+    spectators := getPlayerInfoListAsync(players.mSpec)
+    commander := constructPlayerInfo(players.commander)
+    players.listC <- struct{}{}
 
-    return officers, spectators
+    return officers, spectators, commander
 }
 
 // Wrapper used for resetting the players at the start of a new game
@@ -137,7 +146,7 @@ func (players *PlayerMap) resetPlayers() {
 }
 
 // Start the spectator game for all spectators
-func (players *PlayerMap) startSpectators() {
+func (players *PlayerMap) startPlayers() {
     players.startC <- struct{}{}
 }
 
@@ -159,18 +168,31 @@ func (players *PlayerMap) logOfficers() {
 // Sets the player in the respective role map
 // NOTE: DO NOT USE
 func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
-    var removeMap map[uint64]*Player = nil
-    var addMap map[uint64]*Player = nil
+    // Failsafe
+    if plr == nil {
+        return
+    }
     switch role {
     case OFFICER:
-        removeMap = players.mSpec
-        addMap = players.mOfficers
+        delete(players.mSpec, plr.id)
+        if players.commander == plr {
+            players.commander = nil
+        }
+        players.mOfficers[plr.id] = plr
     case SPECTATOR:
-        removeMap = players.mOfficers
-        addMap = players.mSpec
+        delete(players.mOfficers, plr.id)
+        if players.commander == plr {
+            players.commander = nil
+        }
+        players.mSpec[plr.id] = plr
+    case COMMANDER:
+        if players.commander != nil {
+            players.setPlayerRoleAsync(players.commander, SPECTATOR)
+        }
+        players.commander = plr
+        delete(players.mOfficers, plr.id)
+        delete(players.mSpec, plr.id)
     }
-    delete(removeMap, plr.id)
-    addMap[plr.id] = plr
     plr.setState(role)
 }
 
@@ -179,7 +201,7 @@ func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
 func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
     list := make([]*Player, 0, 10)
     for _, v := range players.mSpec {
-        if v.state == STANDBY && v.user != nil {
+        if v.state == SPECTATOR && v.user != nil {
             list = append(list, v)
         }
     }
@@ -192,19 +214,30 @@ func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
 // NOTE: DO NOT USE
 func (players *PlayerMap) resetPlayersAsync() {
     gameDatabase.resetOfficers()
+    // Reset officers
     for k, v := range players.mOfficers {
         players.mSpec[k] = v
         v.score = 0
         delete(players.mOfficers, k)
     }
+    // Reset commander
+    players.mSpec[players.commander.id] = players.commander
+    players.commander = nil
+    // Reset all spectator states, puts them on standby as well
     for _, v := range players.mSpec {
-        v.setState(STANDBY)
+        v.setState(SPECTATOR)
     }
 }
 
 // Start the spectator game for all spectators
 // NOTE: DO NOT USE
-func (players *PlayerMap) startSpectatorsAsync() {
+func (players *PlayerMap) startPlayersAsync() {
+    // if players.commander != nil {
+    //     players.commander.setState(COMMANDER)
+    // }
+    // for _, v := range players.mOfficers {
+    //     v.setState(OFFICER)
+    // }
     for _, v := range players.mSpec {
         v.setState(SPECTATOR)
     }
@@ -231,17 +264,28 @@ func (players *PlayerMap) logOfficersAsync() {
 func getPlayerInfoListAsync(m map[uint64]*Player) []PlayerInfo {
     list := make([]PlayerInfo, 0, 10)
     for _, plr := range m {
-        newInfo := PlayerInfo{IsOnline: false}
-        newInfo.UserName = plr.userName
-        newInfo.UserId = plr.id
-        newInfo.Score = plr.score
-        if plr.user != nil {
-            newInfo.IsOnline = true
-        }
+        newInfo := constructPlayerInfo(plr)
         list = append(list, newInfo)
     }
 
     return list
+}
+
+// COnstructs a PlayerInfo instance from a player
+func constructPlayerInfo(plr *Player) PlayerInfo {
+    newInfo := PlayerInfo{IsOnline: false, UserId: -1}
+    if plr == nil {
+        return newInfo
+    }
+
+    newInfo.UserName = plr.userName
+    newInfo.UserId = int64(plr.id)
+    newInfo.Score = plr.score
+    if plr.user != nil {
+        newInfo.IsOnline = true
+    }
+
+    return newInfo
 }
 
 // Sends a single notification to all officers
@@ -322,5 +366,5 @@ func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
 // Calculate the asteroid alpha in range 0 - 1 based on max allowed
 // height difference
 func calculateAsteroidAlpha(plrShip *PlayerShip, ast GeometricObject) float64 {
-    return (1 - (distanceAlongDirection(plrShip, ast, plrShip.up)/ASTEROID_DRAW_RANGE_Z))
+    return (1 - (distanceAlongDirection(plrShip, ast, plrShip.up) / ASTEROID_DRAW_RANGE_Z))
 }

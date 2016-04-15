@@ -10,10 +10,10 @@ import (
 )
 
 const (
-    DATABASE_HOST           string        = "tcp(localhost:3306)"
-    DATABASE_NAME           string        = "game"
-    DATABASE_USER           string        = "root"
-    DATABASE_PASS           string        = "password"
+    DATABASE_HOST              string        = "tcp(localhost:3306)"
+    DATABASE_NAME              string        = "game"
+    DATABASE_USER              string        = "root"
+    DATABASE_PASS              string        = "password"
     DATABASE_LOG_SCORES_PERIOD time.Duration = 200 * time.Millisecond
 
     ADMIN_WEB_DIR           string        = "../web/admin_web"
@@ -28,13 +28,13 @@ const (
     NUM_OFFICERS            int           = 1
     OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
-    MAX_AMMO         float64 = 100
-    ASTEROID_DRAW_RANGE_X     float64 = 500
-    ASTEROID_DRAW_RANGE_Y     float64 = 500
-    ASTEROID_DRAW_RANGE_Z     float64 = 100
-    ENEMY_DRAW_RANGE_X     float64 = 500
-    ENEMY_DRAW_RANGE_Y     float64 = 500
-    ENEMY_DRAW_RANGE_Z     float64 = 300
+    MAX_AMMO              float64 = 100
+    ASTEROID_DRAW_RANGE_X float64 = 500
+    ASTEROID_DRAW_RANGE_Y float64 = 500
+    ASTEROID_DRAW_RANGE_Z float64 = 100
+    ENEMY_DRAW_RANGE_X    float64 = 500
+    ENEMY_DRAW_RANGE_Y    float64 = 500
+    ENEMY_DRAW_RANGE_Z    float64 = 300
 )
 
 // Flag variables
@@ -64,17 +64,18 @@ var playerShip *PlayerShipController = &PlayerShipController{
 
 // Holds the player data and modification channels
 var playerMap *PlayerMap = &PlayerMap{
-    mOfficers: make(map[uint64]*Player),
-    mSpec:     make(map[uint64]*Player),
-    addC:      make(chan *Player),
-    setRoleC:  make(chan SetPlr),
-    plrC:      make(chan struct{}),
-    resetC:    make(chan struct{}),
-    startC:    make(chan struct{}),
-    sortlC:    make(chan []*Player),
-    listC:     make(chan []PlayerInfo),
-    updateC:   make(chan struct{}),
-    logScoresC: make(chan struct{}),
+    commander:    nil,
+    mOfficers:    make(map[uint64]*Player),
+    mSpec:        make(map[uint64]*Player),
+    addC:         make(chan *Player),
+    setRoleC:     make(chan SetPlr),
+    plrC:         make(chan struct{}),
+    resetC:       make(chan struct{}),
+    startC:       make(chan struct{}),
+    sortlC:       make(chan []*Player),
+    listC:        make(chan struct{}),
+    updateC:      make(chan struct{}),
+    logScoresC:   make(chan struct{}),
     logOfficersC: make(chan struct{}),
 }
 

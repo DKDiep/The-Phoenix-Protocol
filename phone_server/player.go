@@ -14,7 +14,6 @@ const (
     OFFICER
     COMMANDER
     PROMOTION
-    STANDBY
     REJECTED
 )
 
@@ -36,7 +35,7 @@ func NewPlayer(playerId uint64, name string, scr uint64, usr *User) *Player {
     return &Player{
         id:                 playerId,
         userName:           name,
-        state:              getNewPlayerState(),
+        state:              SPECTATOR,
         score:              scr,
         ammo:               MAX_AMMO,
         isControllingEnemy: false,
@@ -236,9 +235,9 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
     // Add asteroids to the message
     for id, ast := range asteroids {
         asteroids_data = append(asteroids_data, map[string]interface{}{
-            "id": id,
-            "x":  ast.pos.x,
-            "y":  ast.pos.y,
+            "id":    id,
+            "x":     ast.pos.x,
+            "y":     ast.pos.y,
             "alpha": ast.heightBasedAlpha,
         })
     }
@@ -329,29 +328,21 @@ func (plr *Player) processPromotionAnswer(isAccepted bool) {
 // web page transitions
 func (plr *Player) getStateString() (out string) {
     switch plr.state {
+    case REJECTED:
+        fallthrough
     case SPECTATOR:
-        out = "SPECTATOR"
+        if gameState.status == RUNNING {
+            out = "SPECTATOR"
+        } else {
+            out = "STANDBY"
+        }
     case OFFICER:
         out = "OFFICER"
     case COMMANDER:
         out = "COMMANDER"
     case PROMOTION:
         out = "PROMOTION"
-    case REJECTED:
-        fallthrough
-    case STANDBY:
-        out = "STANDBY"
     }
 
     return
-}
-
-// Get an intial player state based on the game state
-func getNewPlayerState() PlayerState {
-    // Means that a game isn't running and it hasnt ended
-    if gameState.status == RUNNING && !gameState.canEnterNextState {
-        return SPECTATOR
-    } else {
-        return STANDBY
-    }
 }

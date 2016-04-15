@@ -4,7 +4,8 @@ var sendAction;
 // "enum" for the role types
 roles = {
     OFFICER: 0,
-    SPECTATOR: 1
+    SPECTATOR: 1,
+    COMMANDER: 2
 }
 
 // Initialise the web socket connection
@@ -42,6 +43,7 @@ function onMessage(event) {
 
     displayState(msg.State)
     displayStatus(msg.State, msg.Ready)
+    displayCommander(msg.Commander)
     displayOfficers(msg.Officers)
     displaySpectators(msg.Spectators)
 
@@ -116,6 +118,9 @@ function sendSetPlayerSignal(userId, role) {
             break;
         case roles.SPECTATOR:
             typeStr = "SET_SPEC"
+            break;
+        case roles.COMMANDER:
+            typeStr = "SET_COMND"
             break;
         default:
             console.log("Unknown role to request to be set.")

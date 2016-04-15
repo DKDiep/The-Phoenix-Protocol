@@ -6,7 +6,7 @@ import (
 
 // Holds asteroid data
 type Asteroid struct {
-    pos Point
+    pos              Point
     heightBasedAlpha float64
 }
 
