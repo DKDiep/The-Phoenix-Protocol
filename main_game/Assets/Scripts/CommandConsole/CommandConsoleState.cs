@@ -68,6 +68,7 @@ public class CommandConsoleState : MonoBehaviour {
     private ConsoleShipControl shipControl;
 
     void Start() {
+        AddHealthAndShields();
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         upgradeArea = GameObject.Find("UpgradeInfo");
@@ -99,7 +100,6 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeArea.SetActive(false);
         newsFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
-        RegisterHealthandShieldBarSegments();
     }
 
     public void Reset()
@@ -227,14 +227,26 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
-    private void RegisterHealthandShieldBarSegments()
+    private void AddHealthAndShields()
     {
-        healthSegments.Add(GameObject.Find("HealthSeg"));
-        shieldSegments.Add(GameObject.Find("ShieldSeg"));
-        for (int i = 1; i < 20; i++)
+        Transform canvas = gameObject.transform.Find("Canvas");
+        RectTransform shieldBarPanelTransform = (RectTransform)shieldBarPanel.transform;
+        RectTransform healthBarPanelTransform = (RectTransform)healthBarPanel.transform;
+        for (int i = 0; i < 25; i++)
         {
-            healthSegments.Add(GameObject.Find("HealthSeg (" + i + ")"));
-            shieldSegments.Add(GameObject.Find("ShieldSeg (" + i + ")"));
+            GameObject shieldSeg = Instantiate(Resources.Load("Prefabs/ShieldSeg", typeof(GameObject))) as GameObject;
+            shieldSeg.transform.localScale = new Vector3(1, 1, 1);
+            shieldSeg.transform.SetParent(shieldBarPanelTransform, false);
+            shieldSeg.transform.localPosition = new Vector3(56 - shieldBarPanelTransform.sizeDelta.x/2 + i * 20, 0, 0);
+            shieldSegments.Add(shieldSeg);
+        }
+        for (int i = 0; i < 25; i++)
+        {
+            GameObject healthSeg = Instantiate(Resources.Load("Prefabs/HealthSeg", typeof(GameObject))) as GameObject;
+            healthSeg.transform.localScale = new Vector3(1, 1, 1);
+            healthSeg.transform.SetParent(healthBarPanelTransform, false);
+            healthSeg.transform.localPosition = new Vector3(56 - healthBarPanelTransform.sizeDelta.x/2 + i * 20, 0, 0);
+            healthSegments.Add(healthSeg);
         }
     }
 
@@ -386,29 +398,35 @@ public class CommandConsoleState : MonoBehaviour {
     {
         int health = ((int)Math.Round(gameState.GetShipHealth(), 0));
         int shield = ((int)Math.Round(gameState.GetShipShield(), 0));
-        int healthBarsToShow = health / 5;
-        int shieldBarsToShow = shield / 5;
-        if (health > 0)
+        int healthBarsToShow = health / 10;
+        int shieldBarsToShow = shield / 10;
+        if (healthBarsToShow > 25)
         {
-            for (int i = 0; i < healthBarsToShow; i++)
-            {
-                healthSegments[i].SetActive(true);
-            }
-            for (int i = healthBarsToShow; i < 20; i++)
-            {
-                healthSegments[i].SetActive(false);
-            }
+            healthBarsToShow = 25;
+            print("health value too high. It should be capped at 250");
         }
-        if (shield > 0)
+        if (healthBarsToShow < 0) healthBarsToShow = 0;
+        if (shieldBarsToShow > 25)
         {
-            for (int i = 0; i < shieldBarsToShow; i++)
-            {
-                shieldSegments[i].SetActive(true);
-            }
-            for (int i = shieldBarsToShow; i < 20; i++)
-            {
-                shieldSegments[i].SetActive(false);
-            }
+            shieldBarsToShow = 25;
+            print("shield value too high. It should be capped at 250");
+        }
+        if (shieldBarsToShow < 0) shieldBarsToShow = 0;
+        for (int i = 0; i < healthBarsToShow; i++)
+        {
+            healthSegments[i].SetActive(true);
+        }
+        for (int i = healthBarsToShow; i < 25; i++)
+        {
+            healthSegments[i].SetActive(false);
+        }
+        for (int i = 0; i < shieldBarsToShow; i++)
+        {
+            shieldSegments[i].SetActive(true);
+        }
+        for (int i = shieldBarsToShow; i < 25; i++)
+        {
+            shieldSegments[i].SetActive(false);
         }
     }
 
