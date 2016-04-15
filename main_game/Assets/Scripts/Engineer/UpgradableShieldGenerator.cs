@@ -36,8 +36,6 @@ public class UpgradableShieldGenerator : UpgradableComponent
 
         this.MaxShieldUpgradeRate       = MaxShieldUpgradeRate;
         this.MaxRechargeRateUpgradeRate = MaxRechargeRateUpgradeRate;
-        Debug.Log(MaxShieldUpgradeRate);
-        Debug.Log(MaxRechargeRateUpgradeRate);
 	}
 
 	// TODO: balance values
