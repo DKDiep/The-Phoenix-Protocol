@@ -163,6 +163,7 @@ public class UDPServer : MonoBehaviour
                 {
                     SendShipPosition();
                     SendOfficerAmmo();
+                    SendOfficerScore();
                     SendEnemies();
                     SendRemovedEnemies();
                     SendNewAsteroids();
@@ -207,6 +208,24 @@ public class UDPServer : MonoBehaviour
             foreach(KeyValuePair<uint, Officer> entry in officers) {
                 jsonMsg += "{\"id\":" + entry.Key + ",";
                 jsonMsg += "\"ammo\":" + entry.Value.Ammo + "},";
+            }
+            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+            jsonMsg += "]}";
+            SendMsg(jsonMsg);
+        }
+    }
+
+    private void SendOfficerScore()
+    {
+        Dictionary<uint, Officer> officers = state.GetOfficerMap();
+        if (officers != null && officers.Count > 0)
+        {
+            int i = 0;
+            string jsonMsg = "{\"type\":\"SCORE_UPD\",\"data\":[";
+            foreach(KeyValuePair<uint, Officer> entry in officers) {
+                jsonMsg += "{\"id\":" + entry.Key + ",";
+                jsonMsg += "\"score\":" + state.GetPlayerScore(i) + "},";
+                i++;
             }
             jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
             jsonMsg += "]}";

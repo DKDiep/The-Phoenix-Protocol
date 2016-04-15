@@ -102,6 +102,12 @@ func (plr *Player) setAmmo(amnt float64) {
     plr.sendCurrentAmmo()
 }
 
+// Sets the score
+func (plr *Player) setScore(score uint64) {
+    plr.score = score
+    plr.sendCurrentScore()
+}
+
 // Sends the controlled enemy data to the phone client
 func (plr *Player) sendControlledEnemyInfo() {
     // players with no active user don't need updating

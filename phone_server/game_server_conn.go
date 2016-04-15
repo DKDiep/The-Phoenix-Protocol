@@ -121,6 +121,8 @@ func decodeGameServerMessage(rawData []byte) {
         updateNotifications(msg["data"].([]interface{}))
     case "AMMO_UPD":
         updatePlayerAmmo(msg["data"].([]interface{}))
+    case "SCORE_UPD":
+        updatePlayerScore(msg["data"].([]interface{}))
     case "RMV_ENM":
         removeEnemies(msg["data"].([]interface{}))
     case "NEW_AST":
@@ -314,6 +316,19 @@ func updatePlayerAmmo(data []interface{}) {
             plr.setAmmo(plrAmmo["ammo"].(float64))
         } else {
             fmt.Println("Error: Player is nil when trying to update ammo.")
+        }
+    }
+}
+
+// Set score for players
+func updatePlayerScore(data []interface{}) {
+    for _, d := range data {
+        plrScore := d.(map[string]interface{})
+        plr := playerMap.get(uint64(plrScore["id"].(float64)))
+        if plr != nil {
+            plr.setScore(uint64(plrScore["score"].(float64)))
+        } else {
+            fmt.Println("Error: Player is nil when trying to update score.")
         }
     }
 }
