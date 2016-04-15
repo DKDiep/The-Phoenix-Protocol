@@ -465,6 +465,18 @@ public class CommandConsoleState : MonoBehaviour {
         if (stratMap == null) print("stratmap == null");
         else stratMap.startMission(id);
         pulsateToggle[(int)UIElementEnum.MapBG] = true;
+        pulsateToggle[(int)UIElementEnum.NewsFeed] = true;
+        List<UIElementEnum> UIElementEnums = new List<UIElementEnum> { UIElementEnum.MapBG, UIElementEnum.NewsFeed };
+        StartCoroutine(WaitThenStopPulsate(UIElementEnums,10.0f));
+    }
+
+    IEnumerator WaitThenStopPulsate(List<UIElementEnum> elements, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        foreach (UIElementEnum element in elements)
+        {
+            pulsateToggle[(int)element] = false;
+        }
     }
 
     public void ShowUpgradeObjective(UpgradableComponentIndex componentIndex)   //also called for repair objectives
