@@ -166,7 +166,7 @@ public class OutpostSpawner : MonoBehaviour
 		ServerManager.NetworkSpawn(outpostObject);
 
         // Hide the target by default.
-        outpostObject.GetComponent<OutpostTarget>().HideTarget();
+        outpostObject.GetComponent<OutpostTarget>().EndMission();
         if(difficulty == DifficultyEnum.Pool)
         {
             if (hardOutposts < settings.HardOutposts) difficulty = DifficultyEnum.Hard;

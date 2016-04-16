@@ -199,7 +199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &131516
 GameObject:
   m_ObjectHideFlags: 1
@@ -3178,10 +3178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec092288bae04520b2566887c737d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficultyTextures:
-  - {fileID: 2100000, guid: 58a72dde019a849a790877043bc9e57e, type: 2}
-  - {fileID: 2100000, guid: 49481c08e389f46cc8adb26f547962c4, type: 2}
-  - {fileID: 2100000, guid: a387846a20bdb47aa8dde20995f07e75, type: 2}
+  targetHard: {fileID: 2800000, guid: 2859c9f5d71e74d19b659594601cce96, type: 3}
+  targetMedium: {fileID: 2800000, guid: 6ea7305c3b7d04e4d9d29cf42786d193, type: 3}
+  targetEasy: {fileID: 2800000, guid: 985db246f06264e0e82c2973f9f022ba, type: 3}
 --- !u!114 &11440756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3327,6 +3326,26 @@ Prefab:
       propertyPath: difficultyTextures.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: a387846a20bdb47aa8dde20995f07e75, type: 2}
+    - target: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2800000, guid: 2859c9f5d71e74d19b659594601cce96, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: targetHard
+      value: 
+      objectReference: {fileID: 2800000, guid: 2859c9f5d71e74d19b659594601cce96, type: 3}
+    - target: {fileID: 0}
+      propertyPath: targetMedium
+      value: 
+      objectReference: {fileID: 2800000, guid: 6ea7305c3b7d04e4d9d29cf42786d193, type: 3}
+    - target: {fileID: 0}
+      propertyPath: targetEasy
+      value: 
+      objectReference: {fileID: 2800000, guid: 985db246f06264e0e82c2973f9f022ba, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 170194}

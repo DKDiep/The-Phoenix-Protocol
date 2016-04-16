@@ -1,118 +1,116 @@
-﻿using UnityEngine;
+﻿﻿/*
+    2015-2016 Team Pyrolite
+    Project "Sky Base"
+    Authors: Marc Steene
+    Description: Draw target over enemies
+*/
+
+using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
 public class OutpostTarget : NetworkBehaviour 
 {
-    private GameObject player, target;
-    private float distance;
-    private bool discovered;
-    private Renderer myRenderer;
-    [SerializeField] Material[] difficultyTextures;
-    Material myMaterial;
 
-	// Use this for initialization
-	void Start () 
+    [SerializeField] Texture2D targetHard; // Target texture
+    [SerializeField] Texture2D targetMedium; // Target texture
+    [SerializeField] Texture2D targetEasy; // Target texture
+    Texture2D target;
+    int difficulty;
+    float distance;
+    bool renderTarget;
+    Renderer myRenderer;
+    GameObject player;
+    bool showTarget = true;
+    private Camera mainCam;
+    private Color currentColour;
+
+    void Start () 
     {
-	    player = GameObject.Find("CameraManager(Clone)");
-        myMaterial = new Material(Shader.Find("Unlit/AlphaSelfIllum"));
-        myMaterial.color = Color.red;
-        discovered = false;
-        StartCoroutine(UpdateDistance());
+        myRenderer = GetComponent<Renderer>();
+        currentColour = Color.red;
+
     }
 
-    public void SetDifficultyTexture(int id)
-    {
-        RpcSetDifficultyTexture(id);
-    }
+   void Update()
+   {
+        if(player == null)
+            player = Camera.main.gameObject;
+        distance = Vector3.Distance(transform.position, player.transform.position); 
+   }
 
-    [ClientRpc]
-    public void RpcSetDifficultyTexture(int id)
-    {
-        if(myRenderer == null)
-            GetRenderer();
-        if (difficultyTextures[id - 1]!= null && myMaterial != null)
-        {
-            myMaterial.mainTexture = difficultyTextures[id - 1].mainTexture;
-        }
-    }
-	
-	// Update is called once per frame
-	void Update () 
-    {
-        if(myRenderer == null)
-            GetRenderer();
+   public void StartMission()
+   {
+        RpcStartMission();
+   }
 
-            if(distance < 600 || !discovered)
-                myRenderer.enabled = false;
-            else
-            {
-                Vector3 v3 = player.transform.position - transform.position;
-                target.transform.rotation = Quaternion.LookRotation(-v3);
-                target.transform.eulerAngles = new Vector3(target.transform.eulerAngles.x, target.transform.eulerAngles.y, player.transform.eulerAngles.z);
-                myRenderer.enabled = true;
-            }
+   [ClientRpc]
+   public void RpcStartMission()
+   {
+        currentColour = Color.yellow;
+        showTarget = true;
+   }
 
-	}
-
-    private void GetRenderer()
-    {
-        if(target == null)
-            target = transform.Find("Target").gameObject;
-        myRenderer = target.GetComponent<Renderer>();
-    }
-
-    public void StartMission()
-    {
-        myMaterial.color = Color.yellow;
-    }
-
-    public void EndMission()
-    {
-        myMaterial.color = Color.green;
-    }
-
-    private IEnumerator UpdateDistance()
-    {
-        distance = Vector3.Distance(player.transform.position, transform.position);
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(UpdateDistance());
-    }
-
-    public void ShowTarget()
-    {
-        if(myRenderer == null)
-            GetRenderer();
-        myRenderer.enabled = true;
-        myRenderer.material = myMaterial;
-        discovered = true;
+   public void ShowTarget()
+   {
         RpcShowTarget();
-    }
+   }
 
-    [ClientRpc]
-    public void RpcShowTarget()
-    {
-        if(myRenderer == null)
-            GetRenderer();
-        myRenderer.enabled = true;
-        discovered = true;
-    }
+   public void EndMission()
+   {
+        RpcEndMission();
+   }
 
-    public void HideTarget()
-    {
-        if(myRenderer == null)
-            GetRenderer();
-        myRenderer.enabled = false;
-        RpcHideTarget();
-        discovered = false;
-    }
+   [ClientRpc]
+   public void RpcEndMission()
+   {
+        showTarget = false; 
+   }
 
-    [ClientRpc]
-    public void RpcHideTarget()
+   [ClientRpc]
+   public void RpcShowTarget()
+   {
+        showTarget = true;
+   }
+
+   public void SetDifficultyTexture(int t_difficulty)
+   {
+        RpcSetDifficultyTexture(t_difficulty);
+   }
+
+   [ClientRpc]
+   public void RpcSetDifficultyTexture(int t_difficulty)
+   {
+        difficulty = t_difficulty;
+        if(difficulty == 0)
+            target = targetHard;
+        else if(difficulty == 1)
+            target = targetMedium;
+        else
+            target = targetEasy;
+   }
+
+    // Draw target over enemy
+    void OnGUI()
     {
-        if(myRenderer == null)
-            GetRenderer();
-        myRenderer.enabled = false;
-        discovered = false;
+        if(distance > 400)
+        {    
+            if(mainCam == null)
+                mainCam = Camera.main;
+            Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
+
+                Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+                if(GeometryUtility.TestPlanesAABB(planes, myRenderer.bounds))
+                    renderTarget = true;
+                else renderTarget = false;
+
+                if(renderTarget && showTarget && target != null)
+                {
+                    GUI.color = currentColour;
+                    float size = Mathf.Clamp(440f / (distance / 440f),0,440f); // Set size of target based on distance
+
+                    GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
+                }
+        } 
     }
 }
