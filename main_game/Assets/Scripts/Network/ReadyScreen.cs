@@ -21,12 +21,6 @@ public class ReadyScreen : NetworkBehaviour
 
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
-        /*Debug.Log(playerController.GetScreenIndex());
-        if (crosshairCanvas == null)
-        {
-            crosshairCanvas = serverManager.GetCrosshairObject(playerController.GetScreenIndex());
-        }
-        Debug.Log(crosshairCanvas);*/
 
         if (playerController.netId.Value != serverManager.GetServerId())
         {
@@ -41,6 +35,17 @@ public class ReadyScreen : NetworkBehaviour
         }
 
 
+    }
+
+    void Update()
+    {
+        if(goButton.gameObject.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                OnClickStartButton();
+            }
+        }
     }
 
     IEnumerator DelayButton()
@@ -67,8 +72,7 @@ public class ReadyScreen : NetworkBehaviour
 		Cursor.visible = Debug.isDebugBuild; //leave as true for development, false for production
         InitialiseGame();
     }
-
-
+        
     public void InitialiseGame()
     {
         // Reset cutscene manager variables and play
