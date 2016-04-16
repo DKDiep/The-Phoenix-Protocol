@@ -37,6 +37,10 @@ public class GameStatusManager : NetworkBehaviour
     {
         gameOverScreen = false;
 
+        GameObject crosshairCanvas = server.GetComponent<ServerManager>().GetCrosshairObject(playerController.GetScreenIndex());
+        if (crosshairCanvas != null)
+            crosshairCanvas.SetActive(true);
+        
         // Remove screen overlays
         GameObject resultCanvas = GameObject.Find("GameOverCanvas(Clone)");
         if (resultCanvas != null)
@@ -69,6 +73,7 @@ public class GameStatusManager : NetworkBehaviour
             GameObject crosshairCanvas = server.GetComponent<ServerManager>().GetCrosshairObject(playerController.GetScreenIndex());
             if (crosshairCanvas != null)
                 crosshairCanvas.SetActive(false);
+            
             // Set an overlay on the screen
             gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
