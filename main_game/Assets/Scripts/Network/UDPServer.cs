@@ -141,11 +141,11 @@ public class UDPServer : MonoBehaviour
                     serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));
                 }
                 break;
-            case "BP": // Wii remot button shoot press
+            case "BP": // Wii remote button shoot press 
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
-				playerShooting.TryShoot(idOfPlayer);
+				playerShooting.TryShoot(idOfPlayer, true);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

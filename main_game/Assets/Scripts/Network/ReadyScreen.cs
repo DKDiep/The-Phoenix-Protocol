@@ -41,7 +41,7 @@ public class ReadyScreen : NetworkBehaviour
     {
         if(goButton.gameObject.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 OnClickStartButton();
             }

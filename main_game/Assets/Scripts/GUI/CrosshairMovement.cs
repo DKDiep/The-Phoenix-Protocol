@@ -32,7 +32,7 @@ public class CrosshairMovement : NetworkBehaviour
 	// Autoaiming looks for objects inside a sphere in front of the player
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
-	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
+	private const int AUTOAIM_DISTANCE_THRESHOLD  = 20;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
 	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
 	private CrosshairAutoaimAssist[] autoaimScripts;
 	private Camera mainCamera;
@@ -58,7 +58,7 @@ public class CrosshairMovement : NetworkBehaviour
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 1;
 
-		crosshairPosition = new Vector3[numberOfCrossHairs];
+		crosshairPosition = new Vector3[4];
 
 		init 		   = new bool[4];
 		crosshairs 	   = new GameObject[4];
@@ -122,6 +122,16 @@ public class CrosshairMovement : NetworkBehaviour
     /// <param name="position">Position.</param>
     public void SetCrosshairPositionWiiRemote(int playerId, int screenId, Vector2 position)
     {
+        // If a playerId is used that requires a crosshair, enable the crosshair
+        if(playerId > numberOfCrossHairs-1)
+        {
+            numberOfCrossHairs = playerId+1;
+            for(int i = 0; i < 4; ++i)
+            {
+                // Show new crosshairs
+                if(i >= numberOfCrossHairs) crosshairs[i].SetActive(true);
+            }
+        }
         // If there's an autoaim target in range, use that instead of the wii remote position
         Target target = GetClosestTarget(position);
         GameObject targetObject = null;
@@ -133,7 +143,8 @@ public class CrosshairMovement : NetworkBehaviour
         else
         {
 			Vector2 oldPosittion = GetPosition(controlling);
-			serverManager.SetCrosshairPosition(playerId, screenId, Vector2.Lerp(oldPosittion, position, Time.deltaTime * wiimoteInterpolationFactor));
+            serverManager.SetCrosshairPosition(playerId, screenId, position);
+
         }
         autoaimScripts[playerId].Target = targetObject;
     }
