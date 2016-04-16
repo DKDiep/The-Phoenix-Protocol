@@ -261,6 +261,8 @@ public class ServerManager : NetworkBehaviour
         // Spawn Cutscene Manager
         cutsceneManager = Instantiate(Resources.Load("Prefabs/CutsceneManager", typeof(GameObject))) as GameObject;
         ServerManager.NetworkSpawn(cutsceneManager);
+        GameObject obj = Instantiate(Resources.Load("Prefabs/DamageEffectsManager", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(obj);
 
         // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;

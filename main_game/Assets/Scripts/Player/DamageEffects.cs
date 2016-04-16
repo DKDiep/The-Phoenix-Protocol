@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 public class DamageEffects : NetworkBehaviour
 {
 	private VideoGlitches.VideoGlitchSpectrumOffset lowHealth;
+    private DamageEffectsManager damageEffectsManager;
 	private float health, alpha;
 	private int direction;
 
@@ -54,30 +55,32 @@ public class DamageEffects : NetworkBehaviour
 	public void Damage(int dir, float damage, float hp)
 	{
         health           = hp;
-        lowHealth.amount = Mathf.Clamp(0.35f - ((float)health/100f),0f,0.35f);
+        float amount = Mathf.Clamp(0.35f - ((float)health/100f),0f,0.35f);
+        lowHealth.amount = amount;
 		direction        = dir;
 		alpha            = Mathf.Clamp(0.5f + (damage/20f),0f,1f);
+        if(damageEffectsManager == null)
+            damageEffectsManager = GameObject.Find("DamageEffectsManager(Clone)").GetComponent<DamageEffectsManager>();
+        damageEffectsManager.RpcDamage(amount);
 	}
+   
 
     public void Reset()
     {
+        if(damageEffectsManager == null)
+            damageEffectsManager = GameObject.Find("DamageEffectsManager(Clone)").GetComponent<DamageEffectsManager>();
+        damageEffectsManager.RpcReset();
         lowHealth.amount = 0;
         alpha = 0f; 
     }
 
     public void DistortionEffect()
     {
-        lowHealth.amount = 1.0f;
-        StartCoroutine(ReduceEffect());
+        if(damageEffectsManager == null)
+            damageEffectsManager = GameObject.Find("DamageEffectsManager(Clone)").GetComponent<DamageEffectsManager>();
+        damageEffectsManager.RpcDistortion();
     }
 
-    private IEnumerator ReduceEffect()
-    {
-        lowHealth.amount -= 0.01f;
-        yield return new WaitForSeconds(0.1f);
-        if(lowHealth.amount > 0)
-            StartCoroutine(ReduceEffect()); 
-    }
 }
 
 
