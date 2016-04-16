@@ -57,7 +57,6 @@ public class MainMenu : NetworkBehaviour
         UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
-        playerController.CreateCamera();
         role = RoleEnum.Camera;
     }
 
