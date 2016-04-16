@@ -345,25 +345,22 @@ MonoBehaviour:
   PlayerAmmoRechargeValue: 10
   PlayerAmmoRechargeInterval: 1
   missionProperties:
-  - active: 0
-    name: Mission 1
-    description: Something about the mission
-    completedDescription: You managed to kill 5
-    triggerOnAny: 0
+  - active: 1
+    name: Welcome Commander
+    description: "We are low on resources. Navigate to an outpost to \ncollect some
+      resources."
+    completedDescription: ' Congratulations, you reached the outpost and collected
+      resources.'
+    triggerOnAny: 1
     triggerConditions:
     - triggerType: 0
-      triggerValue: 10000000
-    - triggerType: 2
-      triggerValue: 80
+      triggerValue: 5
     completeOnAny: 0
     completionConditions:
-    - completionType: 0
-      completionValue: 10
-      componentIndex: 0
     - completionType: 1
       completionValue: 0
       componentIndex: 0
-    activates: 
+    activates: 01000000
     onStart:
       m_PersistentCalls:
         m_Calls: []
@@ -374,18 +371,17 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-  - active: 0
-    name: Upgrade Shields
-    description: Upgrade yo' shields boy. They shootin' at you.
-    completedDescription: You upgraded your shields. Finally.
-    triggerOnAny: 1
-    triggerConditions:
-    - triggerType: 0
-      triggerValue: 0
+  - active: 1
+    name: Enemy Fire
+    description: "Looks like collecting those resources \nattracted the attention
+      of some alian fighters. Instruct \nyour crew to get ready for battle!"
+    completedDescription: Enemies killed!
+    triggerOnAny: 0
+    triggerConditions: []
     completeOnAny: 0
     completionConditions:
-    - completionType: 2
-      completionValue: 2
+    - completionType: 0
+      completionValue: 10
       componentIndex: 0
     activates: 
     onStart:
@@ -399,9 +395,10 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
   - active: 1
-    name: Repair
-    description: Your hull's breached. Repair it.
-    completedDescription: Your hull is better now. Well done.
+    name: Taking Damage!
+    description: "Your shields have been breached and your hull \nis taking damage,
+      Get your engineers to repair \nthe Hull."
+    completedDescription: Hull Repair Complete, Good work!
     triggerOnAny: 1
     triggerConditions:
     - triggerType: 1
@@ -411,43 +408,7 @@ MonoBehaviour:
     - completionType: 3
       completionValue: 100
       componentIndex: 3
-    activates: 01000000
-    onStart:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onCompletion:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  - active: 1
-    name: 'Welcome Commander '
-    description: You're low on resources. Your first mission is to reach a nearby
-      outpost to replenish your stocks.
-    completedDescription: ' Congratulations, you reached the outpost.'
-    triggerOnAny: 1
-    triggerConditions:
-    - triggerType: 0
-      triggerValue: 12
-    completeOnAny: 0
-    completionConditions:
-    - completionType: 1
-      completionValue: 0
-      componentIndex: 3
-    activates: 01000000
+    activates: 
     onStart:
       m_PersistentCalls:
         m_Calls: []
