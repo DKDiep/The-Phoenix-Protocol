@@ -14,6 +14,7 @@ public class EngineerController : NetworkBehaviour
 	private float walkSpeed;
     private bool runOnce;
 
+    private float maxInactivityTime;
 	private float runSpeed;
 	private float jumpSpeed;
 	private bool isWalking;
@@ -42,6 +43,8 @@ public class EngineerController : NetworkBehaviour
     private bool collideLeft;
     private bool collideBack;
     private bool collideRight;
+    private bool isPressingButon;
+    private bool isMoving;
 
 	private GameState gameState = null;
 
@@ -78,7 +81,8 @@ public class EngineerController : NetworkBehaviour
     private enum InteractionKey
     {
         Action,
-        Popup
+        Popup,
+        Inactive
     }
 
 
@@ -136,6 +140,7 @@ public class EngineerController : NetworkBehaviour
         // Initialize with keys
         keyPressTime[InteractionKey.Action] = 0f;
         keyPressTime[InteractionKey.Popup] = 0f;
+        keyPressTime[InteractionKey.Inactive] = 0f;
     }
 
     private void LoadSettings()
@@ -146,6 +151,7 @@ public class EngineerController : NetworkBehaviour
         defaultMat = settings.EngineerDefaultMat;
         repairMat = settings.EngineerRepairMat;
         upgradeMat = settings.EngineerUpgradeMat;
+        maxInactivityTime = settings.EngineerMaxInactiveTime;
 	}
 
     /// <summary>
@@ -406,9 +412,15 @@ public class EngineerController : NetworkBehaviour
 
         // Deal with how long the action button has been pressed
         if (pressedAction && interactiveObject != null)
+        {
             keyPressTime[InteractionKey.Action] += Time.deltaTime;
+            isPressingButon = true;
+        }
         else
+        {
             keyPressTime[InteractionKey.Action] = 0f;
+            isPressingButon = false;
+        }
 
         // Artificial way of having the popup show for 2 seconds
         if (showPopup)
@@ -495,10 +507,12 @@ public class EngineerController : NetworkBehaviour
 
         float speed;
         GetInput(out speed);
+        isMoving = false;
 
         // Move the player if they have moved
         if (input.x != 0 || input.y != 0 || jump == true)
         {
+            isMoving = true;
             // If the engineer is docked we undock first
             UnDock();
 
@@ -537,6 +551,17 @@ public class EngineerController : NetworkBehaviour
             Vector3 newPosition = transform.position + actualMove;
             if (Vector3.Distance(newPosition, playerShip.transform.position) < engineerMaxDistance)
                 transform.position = newPosition;
+        }
+
+        if (isMoving || isPressingButon)
+            keyPressTime[InteractionKey.Inactive] = 0;
+        else
+            keyPressTime[InteractionKey.Inactive] += Time.deltaTime;
+
+        if (keyPressTime[InteractionKey.Inactive] >= maxInactivityTime)
+        {
+            Dock();
+            return;
         }
 
         // If the popup has been show for the required amount of time then
