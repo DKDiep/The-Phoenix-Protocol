@@ -164,7 +164,7 @@ public class CommandConsoleState : MonoBehaviour {
             {
                 pulsateableImages[i].color = lerpedColor;
             }
-            else pulsateableImages[i].color = Color.white;
+            else pulsateableImages[i].color = uiColor;
         }
 
         //all this is just so people can see the pulsate feature. It should be removed at some point
