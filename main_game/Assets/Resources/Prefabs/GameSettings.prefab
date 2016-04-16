@@ -204,9 +204,10 @@ MonoBehaviour:
   OutpostMaxAsteroidFieldSize: 1500
   OutpostMinAsteroidFieldDensity: 0.6
   OutpostMaxAsteroidFieldDensity: 0.8
-  OutpostSpawnLocations: []
-  OutpostDifficulties: 
-  OutpostSpawnLocationsVariance: 0
+  OutpostSpawnLocations:
+  - {x: 500, y: 100, z: -1300}
+  OutpostDifficulties: 00000000
+  OutpostSpawnLocationsVariance: 10
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
   PlayerShipShieldDelay: 4
