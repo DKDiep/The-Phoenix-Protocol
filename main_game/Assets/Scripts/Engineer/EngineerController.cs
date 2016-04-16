@@ -23,6 +23,7 @@ public class EngineerController : NetworkBehaviour
     private Text dockText;
     private Text popupText;
     private Text dockWarningText;
+    private Text collisionWarningText;
     private PlayerController playerController;
     private new Camera camera;
     private MouseLook mouseLook;
@@ -34,6 +35,7 @@ public class EngineerController : NetworkBehaviour
     private string dockString;
     private string popupString;
     private string dockWarningString;
+    private string collisionWarningString;
 
     private bool canUpgrade;
     private bool canRepair;
@@ -190,6 +192,7 @@ public class EngineerController : NetworkBehaviour
             popupString = "Job finished. " +  dockString + ", or continue doing jobs";
         }
         dockWarningString = "YOU ARE ABOUT TO BE DOCKED DUE TO INACTIVITY!";
+        collisionWarningString = "COLLISION IMMINENT! MOVEMENT DISABLED IN THE DIRECTION OF DANGER";
 
         // Set the progress bar location
         progressBarLocation = new Vector2((Screen.width / 2) - 50, (Screen.height / 2) + 130);
@@ -212,9 +215,12 @@ public class EngineerController : NetworkBehaviour
                 popupText = t;
             else if (t.name.Equals("Dock Warning Text"))
                 dockWarningText = t;
+            else if (t.name.Equals("Collision Warning Text"))
+                collisionWarningText = t;
         }
         dockText.text = dockString;
         dockWarningText.text = "";
+        collisionWarningText.text = "";
 
         // Create the docked canvas, and start the engineer in the docked state
         if (dockCanvas == null)
@@ -540,6 +546,11 @@ public class EngineerController : NetworkBehaviour
                 rightMul = 0;
             else
                 rightMul = 1;
+
+            if (forwardMul == 0 || rightMul == 0)
+                collisionWarningText.text = collisionWarningString;
+            else
+                collisionWarningText.text = "";
 
             Vector3 desiredMove = transform.forward * forwardMul * input.y + transform.right * rightMul * input.x;
 
