@@ -143,7 +143,8 @@ public class CrosshairMovement : NetworkBehaviour
         else
         {
 			Vector2 oldPosittion = GetPosition(controlling);
-			serverManager.SetCrosshairPosition(playerId, screenId, Vector2.Lerp(oldPosittion, position, Time.deltaTime * wiimoteInterpolationFactor));
+            serverManager.SetCrosshairPosition(playerId, screenId, position);
+
         }
         autoaimScripts[playerId].Target = targetObject;
     }
