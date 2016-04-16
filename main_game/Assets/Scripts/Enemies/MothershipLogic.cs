@@ -26,7 +26,15 @@ public class MothershipLogic : MonoBehaviour {
         gameState         = server.GetComponent<GameState>();
 
         StartCoroutine(SpawnExplosions());
+        StartCoroutine(ReduceExplosions());
 	}
+
+    IEnumerator ReduceExplosions()
+    {
+        yield return new WaitForSeconds(3f);
+        numExplosions--;
+        StartCoroutine(ReduceExplosions());
+    }
 
     IEnumerator SpawnExplosions()
     {
@@ -36,7 +44,7 @@ public class MothershipLogic : MonoBehaviour {
             obj.transform.position = particleSpawnLocations[Random.Range(0,particleSpawnLocations.Length)].transform.position;
             numExplosions++;
         }
-        yield return new WaitForSeconds(Random.Range(0.1f,1f));
+        yield return new WaitForSeconds(Random.Range(0.1f,0.4f));
         StartCoroutine(SpawnExplosions());
     }
 
