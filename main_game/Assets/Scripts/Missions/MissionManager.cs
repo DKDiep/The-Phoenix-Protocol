@@ -354,7 +354,12 @@ public class MissionManager : MonoBehaviour
     public class Mission
     {
         public bool active;
-        public string name, description, completedDescription;
+        public string name;
+
+        [Multiline]
+        public string description;
+        [Multiline]
+        public string completedDescription;
 
         // If true then any trigger condiiton will trigger this mission;
         // If false then ALL trigger conditions will have to be true to trigger the mission;
