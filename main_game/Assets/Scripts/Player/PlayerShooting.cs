@@ -114,7 +114,7 @@ public class PlayerShooting : MonoBehaviour
 		// TODO: For debugging: see if the player has been switched using the keyboard
         SwitchPlayers();
 
-		TryShoot(currentPlayerId);
+		TryShoot(currentPlayerId, false);
 
         // Control alpha of hitmarker
 		if(alpha > 0)
@@ -127,9 +127,14 @@ public class PlayerShooting : MonoBehaviour
 	/// Shoots a bullet if enough ammo is available.
 	/// </summary>
 	/// <param name="playerId">The shooter's ID.</param>
-	public void TryShoot(int playerId)
+	public void TryShoot(int playerId, bool remote)
 	{
-		bool shootButtonPressed = Input.GetMouseButton(0);
+		bool shootButtonPressed = false;
+        if(remote)
+            shootButtonPressed = true;
+        else 
+            shootButtonPressed = Input.GetMouseButton(0);
+
 		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
 		{
 			// Stop ammo recharging when the player fires
