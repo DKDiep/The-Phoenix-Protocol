@@ -16,6 +16,7 @@ public class MouseLook : MonoBehaviour
     private float maximumX;
     private bool smooth;
     private float smoothTime;
+    private float yawSpeed;
 
 	private Quaternion characterTargetRot;
 
@@ -45,14 +46,15 @@ public class MouseLook : MonoBehaviour
         maximumX = settings.EngineerMouseLookMaximumX;
         smooth = settings.EngineerMouseLookSmooth;
         smoothTime = settings.EngineerMouseLookSmoothTime;
+        yawSpeed = settings.EngineerYawSpeed;
     }
 		
     public void LookRotation(Transform character, Transform camera)
     {
         float yRot = Input.GetAxis("Mouse X") * xSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * ySensitivity;
-        float yawLeft = Input.GetButton("YawLeft") ? 4 : 0;
-        float yawRight = Input.GetButton("YawRight") ? -4 : 0;
+        float yawLeft = Input.GetButton("YawLeft") ? yawSpeed : 0;
+        float yawRight = Input.GetButton("YawRight") ? -yawSpeed : 0;
         float zRot = yawLeft + yawRight;
 
         characterTargetRot *= Quaternion.Euler (-xRot, yRot, zRot);
