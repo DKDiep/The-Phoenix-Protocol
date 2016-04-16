@@ -51,8 +51,11 @@ public class MouseLook : MonoBehaviour
     {
         float yRot = Input.GetAxis("Mouse X") * xSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * ySensitivity;
+        float yawLeft = Input.GetButton("YawLeft") ? 4 : 0;
+        float yawRight = Input.GetButton("YawRight") ? -4 : 0;
+        float zRot = yawLeft + yawRight;
 
-        characterTargetRot *= Quaternion.Euler (-xRot, yRot, 0f);
+        characterTargetRot *= Quaternion.Euler (-xRot, yRot, zRot);
 
         if(smooth)
             character.localRotation = Quaternion.Slerp (character.localRotation, characterTargetRot,
