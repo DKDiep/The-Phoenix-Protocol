@@ -22,6 +22,7 @@ public class EngineerController : NetworkBehaviour
     private Text upgradeText;
     private Text dockText;
     private Text popupText;
+    private Text dockWarningText;
     private PlayerController playerController;
     private new Camera camera;
     private MouseLook mouseLook;
@@ -32,6 +33,7 @@ public class EngineerController : NetworkBehaviour
     private string repairString;
     private string dockString;
     private string popupString;
+    private string dockWarningString;
 
     private bool canUpgrade;
     private bool canRepair;
@@ -176,8 +178,8 @@ public class EngineerController : NetworkBehaviour
             mouseLook.Init(transform, camera.transform, true);
             upgradeString = "Hold A to upgrade";
             repairString = "Hold A to repair";
-            dockString = "";
-            //popupString = "Job finished. Press B to dock, or continue doing jobs";
+            dockString = "Press B to dock";
+            popupString = "Job finished. " + dockString + ", or continue doing jobs";
         }
         else
         {
@@ -185,8 +187,9 @@ public class EngineerController : NetworkBehaviour
             upgradeString = "Hold Mouse1 to upgrade";
             repairString = "Hold Mouse1 to repair";
             dockString = "Press L Shift to dock";
-            popupString = "";
+            popupString = "Job finished. " +  dockString + ", or continue doing jobs";
         }
+        dockWarningString = "YOU ARE ABOUT TO BE DOCKED DUE TO INACTIVITY!";
 
         // Set the progress bar location
         progressBarLocation = new Vector2((Screen.width / 2) - 50, (Screen.height / 2) + 130);
@@ -207,8 +210,11 @@ public class EngineerController : NetworkBehaviour
                 dockText = t;
             else if (t.name.Equals("Popup Text"))
                 popupText = t;
+            else if (t.name.Equals("Dock Warning Text"))
+                dockWarningText = t;
         }
         dockText.text = dockString;
+        dockWarningText.text = "";
 
         // Create the docked canvas, and start the engineer in the docked state
         if (dockCanvas == null)
@@ -553,15 +559,25 @@ public class EngineerController : NetworkBehaviour
                 transform.position = newPosition;
         }
 
-        if (isMoving || isPressingButon)
-            keyPressTime[InteractionKey.Inactive] = 0;
-        else
-            keyPressTime[InteractionKey.Inactive] += Time.deltaTime;
-
-        if (keyPressTime[InteractionKey.Inactive] >= maxInactivityTime)
+        if (!isDocked)
         {
-            Dock();
-            return;
+            if (isMoving || isPressingButon)
+            {
+                keyPressTime[InteractionKey.Inactive] = 0;
+                dockWarningText.text = "";
+            }
+            else
+                keyPressTime[InteractionKey.Inactive] += Time.deltaTime;
+
+            // Display a warning 5 seconds before docking
+            if (keyPressTime[InteractionKey.Inactive] >= (maxInactivityTime - 5f))
+                dockWarningText.text = dockWarningString;
+
+            if (keyPressTime[InteractionKey.Inactive] >= maxInactivityTime)
+            {
+                Dock();
+                return;
+            }
         }
 
         // If the popup has been show for the required amount of time then
