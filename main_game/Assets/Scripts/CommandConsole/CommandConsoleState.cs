@@ -236,7 +236,6 @@ public class CommandConsoleState : MonoBehaviour {
 
     private void AddHealthAndShields()
     {
-        Transform canvas = gameObject.transform.Find("Canvas");
         RectTransform shieldBarPanelTransform = (RectTransform)shieldBarPanel.transform;
         RectTransform healthBarPanelTransform = (RectTransform)healthBarPanel.transform;
         for (int i = 0; i < 25; i++)
