@@ -31,8 +31,10 @@ public class OutpostTarget : NetworkBehaviour
     {
         if(myRenderer == null)
             GetRenderer();
-
-        myMaterial.mainTexture = difficultyTextures[id-1].mainTexture;
+        if (difficultyTextures[id - 1]!= null && myMaterial != null)
+        {
+            myMaterial.mainTexture = difficultyTextures[id - 1].mainTexture;
+        }
     }
 	
 	// Update is called once per frame
