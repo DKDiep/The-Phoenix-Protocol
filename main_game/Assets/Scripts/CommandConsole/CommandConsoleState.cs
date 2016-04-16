@@ -14,6 +14,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Text shieldsText;
 
     [SerializeField] private Text upgradeButtonLabel;
+    [SerializeField] private Text repairButtonLabel;
     [SerializeField] private Text costLabel;
     [SerializeField] private Text upgradeDescription;
 
@@ -64,7 +65,8 @@ public class CommandConsoleState : MonoBehaviour {
 
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
-
+    private int[] repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
+    public int[] repairable = new int[6] { 0, 0, 0, 0, 0, 0 };
     private ConsoleShipControl shipControl;
 
     void Start() {
@@ -106,6 +108,8 @@ public class CommandConsoleState : MonoBehaviour {
     {
         LoadSettings();
         upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
+        repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
+
         for (int i = 0; i < consoleUpgrades.Count; i++)
         {
             consoleUpgrades[i].Reset();
@@ -120,6 +124,7 @@ public class CommandConsoleState : MonoBehaviour {
             int component = (int)type;
             consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
             upgradeButtonLabel.text = "Upgrade";
+            repairButtonLabel.text = "Repair";
         }
         for (int i = 0; i < pulsateToggle.Length; i++)
         {
@@ -190,7 +195,7 @@ public class CommandConsoleState : MonoBehaviour {
         if(second >= 0.5)
         {
             UpdateAllText();
-            UpdateCostTextColor();
+            //UpdateCostTextColor();
             UpdateHealthShieldBars();
             second = 0;
         }
@@ -221,7 +226,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
-            upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
+            //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
             pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
         }
@@ -331,6 +336,8 @@ public class CommandConsoleState : MonoBehaviour {
     public void ConfirmRepair(ComponentType type)
     {
         consoleUpgrades[(int)type].HideRepairButton();
+        repairButtonLabel.text = "Repair";
+        repairProgress[(int)type] = 0;
         UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " has been repaired.");
     }
 
@@ -348,19 +355,27 @@ public class CommandConsoleState : MonoBehaviour {
         HighlightComponent(component);
         // Upgrade description and cost labels
         upgradeDescription.text = upgradeProperties[component].description;
-        costLabel.text = GetUpgradeCost(upgradeProperties[component].cost, upgradeProperties[component].currentLevel).ToString();
+        //costLabel.text = GetUpgradeCost(upgradeProperties[component].cost, upgradeProperties[component].currentLevel).ToString();
         // Upgrade the cost text to display in red if the player does not have enough resources.
-        UpdateCostTextColor();
+        //UpdateCostTextColor();
 
         if(upgradeProgress[component] == 1) 
             upgradeButtonLabel.text = "Waiting";
         else
             upgradeButtonLabel.text = "Upgrade";
+        if (repairProgress[component] == 1)
+            repairButtonLabel.text = "Waiting";
+        else
+            repairButtonLabel.text = "Repair";
     }
 
     public void OnClickRepair(int component)
     {
+        if (repairProgress[componentToUpgrade] == 1 || gameState.GetComponentHealth((ComponentType)component) > 80 || component > 3) //components 4 and 5 can't be repaired
+            return;
         playerController.CmdAddRepair((ComponentType)component);
+        repairProgress[componentToUpgrade] = 1;
+        repairButtonLabel.text = "Waiting";
     }
 
     //Called whenever an upgrade is purchased
@@ -380,11 +395,16 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeProgress[componentToUpgrade] = 1;
         upgradeButtonLabel.text = "Waiting";
     }
-        
-	/// <summary>
-	/// Update all text values on screen.
-	/// </summary>
-	private void UpdateAllText()
+
+    public void RepairShip()
+    {
+        OnClickRepair(componentToUpgrade);
+    }
+
+    /// <summary>
+    /// Update all text values on screen.
+    /// </summary>
+    private void UpdateAllText()
 	{
 		// Update the text with values from gamestate.
         civiliansText.text = gameState.GetCivilians().ToString();;
