@@ -17,15 +17,22 @@ public class ConsoleUpgrade : MonoBehaviour
     private Transform levelIndicator;
 
     private bool setupDone = false;
-    private GameObject repairButton;
+    private GameObject repairButton ;
+    private Image repairButtonImage;
+    private List<Color> YellowToRed = new List<Color>();
 
     private List<GameObject> levelIndicators = new List<GameObject>();
     void Start ()
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+        for(int i = 0; i < 10; i++)
+        {
+            YellowToRed.Add(new Color(1, (float)(((i * 25.6))/256), 0, 128));
+        }
 
         // Hide the repair button from the start
-        repairButton = gameObject.transform.Find("UpgradeRepairButton").gameObject;
+        repairButton = gameObject.transform.Find("RepairButton").gameObject;
+        repairButtonImage = repairButton.GetComponent<Image>();
         repairButton.SetActive(false);
     }
 
@@ -42,16 +49,23 @@ public class ConsoleUpgrade : MonoBehaviour
 
     void Update()
     {
+        int index;
         if(setupDone)
         {
             // If this component is repairable.
             if(properties.repairable)
             {
-                if(gameState.GetComponentHealth(properties.type) < 80) 
+                float componentHealth = gameState.GetComponentHealth(properties.type);
+                if (componentHealth < 80)
+                {
+                    index = Mathf.RoundToInt(componentHealth / 10);
+                    if (index < 0) index = 0;
+                    if (index > 9) index = 9;
+                    repairButtonImage.color = YellowToRed[index];
                     repairButton.SetActive(true);
+                }
                 else
                     repairButton.SetActive(false);
-
             }
         }
     }

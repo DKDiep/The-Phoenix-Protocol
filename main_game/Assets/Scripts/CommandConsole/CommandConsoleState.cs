@@ -221,7 +221,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
-            upgradeBox.transform.Find("UpgradeRepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
+            upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
             pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
         }
