@@ -15,6 +15,7 @@ public class ServerManager : NetworkBehaviour
 	#pragma warning restore 0649
 
     private GameState gameState;
+    private GameSettings settings;
     private NetworkManager networkManager;
     private Dictionary<uint, RoleEnum> netIdToRole;
     private Dictionary<uint, NetworkConnection> netIdToConn;
@@ -34,7 +35,6 @@ public class ServerManager : NetworkBehaviour
     {
         return netIdToRole.Count;
     }
-    
 
 	/// <summary>
 	/// Spawns an object on all network clients.
@@ -64,9 +64,7 @@ public class ServerManager : NetworkBehaviour
 	{
 		NetworkServer.Destroy(spawnObject);
 	}
-
-
-
+       
     void Start()
     {
         // Server and clients need to know screenId matching crosshairs
@@ -85,6 +83,7 @@ public class ServerManager : NetworkBehaviour
 
             // Assign clients
             gameState = gameObject.GetComponent<GameState>();
+            settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 
             // Set up the game state
             gameState.Setup();
@@ -92,7 +91,7 @@ public class ServerManager : NetworkBehaviour
             CreateServerSetup();
         }
     }
-    
+
     [ClientRpc]
 	public void RpcAddCrosshairObject(int screenId, GameObject crosshairObject)
 	{
@@ -312,7 +311,7 @@ public class ServerManager : NetworkBehaviour
 
 		// Spawn portal
 		portal = Instantiate(Resources.Load("Prefabs/Portal", typeof(GameObject))) as GameObject;
-        portal.transform.position = new Vector3(0,1000,1000);
+        portal.transform.position = settings.PortalPosition;
 		gameState.Portal = portal;
 		ServerManager.NetworkSpawn(portal);
         portal.AddComponent<PortalLogic>();

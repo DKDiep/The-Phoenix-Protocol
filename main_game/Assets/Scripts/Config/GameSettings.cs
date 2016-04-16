@@ -84,6 +84,9 @@ public class GameSettings : MonoBehaviour
     public Material EngineerRepairMat;
     public Material EngineerUpgradeMat;
 
+    [Header("Portal")]
+    public Vector3 PortalPosition;
+
     [Header("Glom Mothership")]
     public float GlomMothershipHealth;
     public float GlomMothershipSpawnDistance; // Spawn when the player is this distance from the portal
