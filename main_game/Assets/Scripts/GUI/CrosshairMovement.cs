@@ -58,7 +58,7 @@ public class CrosshairMovement : NetworkBehaviour
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
 		if(numberOfCrossHairs == 0) numberOfCrossHairs = 1;
 
-		crosshairPosition = new Vector3[numberOfCrossHairs];
+		crosshairPosition = new Vector3[4];
 
 		init 		   = new bool[4];
 		crosshairs 	   = new GameObject[4];
@@ -122,6 +122,16 @@ public class CrosshairMovement : NetworkBehaviour
     /// <param name="position">Position.</param>
     public void SetCrosshairPositionWiiRemote(int playerId, int screenId, Vector2 position)
     {
+        // If a playerId is used that requires a crosshair, enable the crosshair
+        if(playerId > numberOfCrossHairs-1)
+        {
+            numberOfCrossHairs = playerId+1;
+            for(int i = 0; i < 4; ++i)
+            {
+                // Show new crosshairs
+                if(i >= numberOfCrossHairs) crosshairs[i].SetActive(true);
+            }
+        }
         // If there's an autoaim target in range, use that instead of the wii remote position
         Target target = GetClosestTarget(position);
         GameObject targetObject = null;
