@@ -32,7 +32,7 @@ public class CrosshairMovement : NetworkBehaviour
 	// Autoaiming looks for objects inside a sphere in front of the player
 	private const int AUTOAIM_OFFSET              = 570; // The offset between the player and the sphere's centre
 	private const int AUTOAIM_RADIUS              = 500; // The sphere's radius
-	private const int AUTOAIM_DISTANCE_THRESHOLD  = 50;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
+	private const int AUTOAIM_DISTANCE_THRESHOLD  = 20;  // The maximum distance between an autoaim target and the aiming direction, i.e. the snap distance
 	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
 	private CrosshairAutoaimAssist[] autoaimScripts;
 	private Camera mainCamera;
