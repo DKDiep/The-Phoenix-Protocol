@@ -344,8 +344,8 @@ MonoBehaviour:
   WiimoteInterpolationFactor: 5
   PlayerMaxAmmo: 100
   PlayerShootingAmmoCost: 5
-  PlayerAmmoRechargeValue: 10
-  PlayerAmmoRechargeInterval: 1
+  PlayerAmmoRechargeValue: 20
+  PlayerAmmoRechargeInterval: 0.1
   missionProperties:
   - active: 1
     name: Welcome Commander
