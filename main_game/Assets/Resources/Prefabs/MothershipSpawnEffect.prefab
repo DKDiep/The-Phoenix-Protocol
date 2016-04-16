@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 497100}
   - 198: {fileID: 19813208}
   - 199: {fileID: 19937492}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Fog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 432488}
   - 198: {fileID: 19823336}
   - 199: {fileID: 19921208}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 198: {fileID: 19800134}
   - 199: {fileID: 19920300}
   - 114: {fileID: 11400154}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Distortion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - 4: {fileID: 474790}
   - 198: {fileID: 19889120}
   - 199: {fileID: 19935564}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Internal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - 114: {fileID: 11403310}
   - 54: {fileID: 5477094}
   - 114: {fileID: 11419408}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: MothershipSpawnEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6051,7 +6051,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185256}
