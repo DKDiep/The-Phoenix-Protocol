@@ -55,9 +55,6 @@ public class ObjectPoolManager : NetworkBehaviour
         if(!amServer && serverOnly)
             Destroy(this);
 
-        newPositions = new Vector3[size];
-        newRotations = new Quaternion[size];
-
         pool = new GameObject[size];
 
         if(useInterpolation && !amServer)
@@ -188,7 +185,7 @@ public class ObjectPoolManager : NetworkBehaviour
     [ClientRpc]
     void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
     {
-        if(!isCommander)
+        if(!isCommander && !amServer)
         {
             newPositions[id] = position;
             newRotations[id] = rotation;
