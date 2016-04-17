@@ -324,10 +324,14 @@ public class ServerManager : NetworkBehaviour
         GameObject playerShipLogic = Instantiate(Resources.Load("Prefabs/PlayerShipLogic", typeof(GameObject))) as GameObject;
         playerShipLogic.transform.parent = playerShip.transform;
             
-        //Instantiate ship shoot logic on server only
-        GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
-        playerShootLogic.transform.parent = playerShip.transform;
-        //playerShootLogic.GetComponent<PlayerShooting>().Setup();
+        //Instantiate ship shoot logic (one for each player) on server only
+        for(int i = 0; i < 4; i++)
+        {
+            GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
+            playerShootLogic.transform.parent = playerShip.transform;  
+            playerShootLogic.GetComponent<PlayerShooting>().playerId = i;
+            playerShootLogic.name = "PlayerShooting" + i;
+        }
 
         GameObject commander = Instantiate(Resources.Load("Prefabs/CommanderAbilities", typeof(GameObject))) as GameObject;
         commander.transform.parent = playerShip.transform;

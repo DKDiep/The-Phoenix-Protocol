@@ -83,7 +83,8 @@ public class ReadyScreen : NetworkBehaviour
 		serverManager.spawner.GetComponent<EnemySpawner>().StartDifficultyTimer();
 
 		// Setup shoot logic now that dependencies are ready
-        GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>().Setup();
+        for(int i = 0; i < 4; i++)
+            GameObject.Find("PlayerShooting"+i).GetComponent<PlayerShooting>().Setup();
        
 		// Start the game
         GameObject.Find("GameManager").GetComponent<GameState>().Status = GameState.GameStatus.Started;

@@ -22,7 +22,7 @@ public class UDPServer : MonoBehaviour
     private int maxReceivedMessagesPerInterval;
 
     private GameState state;
-    private PlayerShooting playerShooting;
+    private PlayerShooting[] playerShooting;
     private ServerManager serverManager;
     public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
 
@@ -144,8 +144,9 @@ public class UDPServer : MonoBehaviour
             case "BP": // Wii remote button shoot press 
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
-                playerShooting = GameObject.Find("PlayerShootLogic(Clone)").GetComponent<PlayerShooting>();
-				playerShooting.TryShoot(idOfPlayer, true);
+                if(playerShooting[idOfPlayer] == null)
+                    playerShooting[idOfPlayer] = GameObject.Find("PlayerShooting"+idOfPlayer).GetComponent<PlayerShooting>();
+				playerShooting[idOfPlayer].TryShoot(idOfPlayer, true);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);

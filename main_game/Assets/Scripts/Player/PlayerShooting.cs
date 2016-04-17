@@ -20,13 +20,13 @@ public class PlayerShooting : MonoBehaviour
 	private float ammoRechargeDelay;
 
 	private AudioSource fireSoundAudioSource;
-	private GameObject[] bulletAnchor;
+	private GameObject bulletAnchor;
 	private GameObject target;
 	private bool canShoot, showMarker;
 	private float alpha;
 	private Vector3 crosshairPosition;
-	private GameObject[] crosshairs;
-	private CrosshairAutoaimAssist[] autoaimScripts;
+	private GameObject crosshair;
+	private CrosshairAutoaimAssist autoaimScript;
 	private Camera mainCamera;
 
 	private ObjectPoolManager bulletManager;
@@ -42,6 +42,7 @@ public class PlayerShooting : MonoBehaviour
 
     // Which player are we controlling via the mouse. (For debugging different players)
     private int currentPlayerId = 0;
+    public int playerId;
 
 	void Start()
 	{
@@ -83,22 +84,16 @@ public class PlayerShooting : MonoBehaviour
         // Get screen with index 0
         GameObject crosshairContainer = GameObject.Find("GameManager").GetComponent<ServerManager>().GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
+        // Find crosshair
+		crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
 
-        crosshairs 	   = new GameObject[4];
-		autoaimScripts = new CrosshairAutoaimAssist[4];
+        if(autoaimScript == null )
+            autoaimScript = crosshair.AddComponent<CrosshairAutoaimAssist>();
 
-        // Find crosshairs
-		for (int i = 0; i < 4; ++i)
-		{
-			crosshairs[i]     = crosshairContainer.transform.GetChild(i).gameObject;
-			autoaimScripts[i] = crosshairs[i].GetComponent<CrosshairAutoaimAssist>();
-		}
-
-        bulletAnchor = new GameObject[4];
+        bulletAnchor = new GameObject();
 
         // Find crosshair images
-        for(int i = 1; i <= 4; ++i)
-            bulletAnchor[i-1] = GameObject.Find("BulletAnchor" + i.ToString());
+        bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
 
         bulletManager      = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
@@ -114,7 +109,8 @@ public class PlayerShooting : MonoBehaviour
 		// TODO: For debugging: see if the player has been switched using the keyboard
         SwitchPlayers();
 
-		TryShoot(currentPlayerId, false);
+        if(playerId == currentPlayerId)
+		    TryShoot(currentPlayerId, false);
 
         // Control alpha of hitmarker
 		if(alpha > 0)
@@ -161,16 +157,16 @@ public class PlayerShooting : MonoBehaviour
 	/// <param name="playerId">The player ID.</param>
 	private void ShootBullet(int playerId) 
 	{
-        if (crosshairs != null)
+        if (crosshair != null)
         {
-            Vector3 crosshairPosition = crosshairs[playerId].transform.position;
+            Vector3 crosshairPosition = crosshair.transform.position;
             target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
 
             GameObject obj = bulletManager.RequestObject();
-            obj.transform.position = bulletAnchor[playerId].transform.position;
+            obj.transform.position = bulletAnchor.transform.position;
 
 			BulletMove moveComponent = obj.GetComponent<BulletMove>();
 			moveComponent.Speed = speed;
@@ -187,15 +183,15 @@ public class PlayerShooting : MonoBehaviour
             logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
 
 			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
-			if (autoaimScripts[playerId].Target != null && UnityEngine.Random.value < accuracy)
-				moveComponent.SetTarget(autoaimScripts[playerId].Target);
+			if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
+				moveComponent.SetTarget(autoaimScript.Target);
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
             GameObject muzzle = muzzleFlashManager.RequestObject();
-            muzzle.transform.position = bulletAnchor[playerId].transform.position;
-            muzzle.transform.rotation = bulletAnchor[playerId].transform.rotation;
-            muzzle.transform.parent = bulletAnchor[playerId].transform.parent;
+            muzzle.transform.position = bulletAnchor.transform.position;
+            muzzle.transform.rotation = bulletAnchor.transform.rotation;
+            muzzle.transform.parent = bulletAnchor.transform.parent;
 
             canShoot = false;
             StartCoroutine(Delay());
@@ -217,10 +213,10 @@ public class PlayerShooting : MonoBehaviour
 
 	void OnGUI()
 	{
-        if (crosshairs != null)
+        if (crosshair != null)
         {
             GUI.color = new Color(1, 1, 1, alpha);
-            crosshairPosition = crosshairs[currentPlayerId].transform.position;
+            crosshairPosition = crosshair.transform.position;
             if (showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
         }
 	}
