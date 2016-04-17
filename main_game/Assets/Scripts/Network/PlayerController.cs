@@ -89,14 +89,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetCamera(GameObject camera)
     {
         playerCamera = camera;
-        /*GameObject cam = null;
-        do
-        {
-            cam = GameObject.Find("CameraManager(Clone)");
-            if (cam != null)
-                cam.SetActive(false);
-        } while (cam != null);
-        playerCamera.SetActive(True);*/
 
         if (!isLocalPlayer)
         {
@@ -184,11 +176,26 @@ public class PlayerController : NetworkBehaviour
         }
         else
         {
-            if (playerCamera != null)
+            // Disable all cameras
+            GameObject cam = null;
+            do
             {
-                playerCamera.SetActive(false);
-            }
+                cam = GameObject.Find("CameraManager(Clone)");
+                if (cam != null)
+                    cam.SetActive(false);
+            } while (cam != null);
+
+            // Get local player
+            if (ClientScene.localPlayers[0].IsValid)
+                localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+            // Reactivate if available
+            GameObject localCam = localController.GetCamera();
+            // local camera is not set yet for latest joining player
+            if (localCam != null)
+                localCam.SetActive(true);
         }
+        Debug.Log("player start");
     }
 
     [Command]
