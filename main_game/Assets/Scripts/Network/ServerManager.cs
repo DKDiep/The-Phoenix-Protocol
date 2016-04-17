@@ -21,6 +21,7 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private Dictionary<int, GameObject> screenIdToCrosshair;
 	private Dictionary<int, CrosshairMovement> screenIdToCrosshairMovement;
+    private Dictionary<int, GameObject> screenIdToCamera;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject musicManager, missionManager;
@@ -112,7 +113,27 @@ public class ServerManager : NetworkBehaviour
     {
         return screenIdToCrosshair[screenId];
     }
-		
+
+    [ClientRpc]
+    public void RpcAddCameraObject(int screenId, GameObject cameraObject)
+    {
+        screenIdToCamera.Add(screenId, cameraObject);
+
+        PlayerController localController = null;
+        if (ClientScene.localPlayers[0].IsValid)
+            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
+
+        if (screenId != localController.GetScreenIndex() || localController.GetRole() != RoleEnum.Camera)
+        {
+            screenIdToCamera[screenId].SetActive(false);
+        }
+    }
+
+    public GameObject GetCameraObject(int screenId)
+    {
+        return screenIdToCamera[screenId];
+    }
+
     // Called automatically by Unity when a player joins
     private void OnClientAddPlayer(NetworkMessage netMsg)
     {
