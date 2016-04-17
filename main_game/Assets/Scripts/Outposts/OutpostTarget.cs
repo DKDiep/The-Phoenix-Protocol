@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
     2015-2016 Team Pyrolite
     Project "Sky Base"
     Authors: Marc Steene
@@ -29,6 +29,8 @@ public class OutpostTarget : NetworkBehaviour
     {
         myRenderer = GetComponent<Renderer>();
         currentColour = Color.red;
+        mainCam = GameObject.Find("CameraManager(Clone)").GetComponent<Camera>();
+        StartCoroutine(UpdateFrustum());
 
     }
 
@@ -90,27 +92,35 @@ public class OutpostTarget : NetworkBehaviour
             target = targetEasy;
    }
 
+   IEnumerator UpdateFrustum()
+   {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCam);
+        if(GeometryUtility.TestPlanesAABB(planes, myRenderer.bounds))
+            renderTarget = true;
+        else renderTarget = false;
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(UpdateFrustum());
+   }
+
     // Draw target over enemy
     void OnGUI()
     {
-        if(distance > 400)
-        {    
-            if(mainCam == null)
-                mainCam = Camera.main;
-            Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
+        if(mainCam != null)
+        {
+            if(distance > 400)
+            {    
 
-                Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-                if(GeometryUtility.TestPlanesAABB(planes, myRenderer.bounds))
-                    renderTarget = true;
-                else renderTarget = false;
 
                 if(renderTarget && showTarget && target != null)
                 {
+                    Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
                     GUI.color = currentColour;
                     float size = Mathf.Clamp(440f / (distance / 440f),0,440f); // Set size of target based on distance
 
                     GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
                 }
-        } 
+            }
+        }
+ 
     }
 }
