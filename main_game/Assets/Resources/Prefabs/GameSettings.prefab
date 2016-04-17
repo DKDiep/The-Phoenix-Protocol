@@ -351,8 +351,7 @@ MonoBehaviour:
   missionProperties:
   - active: 1
     name: Welcome Commander
-    description: "We are low on resources. Navigate to an outpost to \ncollect some
-      resources."
+    description: We are low on resources. Navigate to an outpost to collect some resources.
     completedDescription: ' Congratulations, you reached the outpost and collected
       resources.'
     triggerOnAny: 1
@@ -377,8 +376,8 @@ MonoBehaviour:
         PublicKeyToken=null
   - active: 1
     name: Enemy Fire
-    description: "Looks like collecting those resources \nattracted the attention
-      of some alian fighters. Instruct \nyour crew to get ready for battle!"
+    description: Looks like collecting those resources attracted the attention of
+      some alian fighters. Instruct your crew to get ready for battle!
     completedDescription: Enemies killed!
     triggerOnAny: 0
     triggerConditions: []
@@ -400,8 +399,8 @@ MonoBehaviour:
         PublicKeyToken=null
   - active: 1
     name: Taking Damage!
-    description: "Your shields have been breached and your hull \nis taking damage,
-      Get your engineers to repair \nthe Hull."
+    description: Your shields have been breached and your hull is taking damage, Get
+      your engineers to repair the Hull.
     completedDescription: Hull Repair Complete, Good work!
     triggerOnAny: 1
     triggerConditions:
