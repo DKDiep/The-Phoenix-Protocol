@@ -73,32 +73,12 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState.givePlayerControllerReference(localController);
             gameState.ResetOfficerList();
         }
-
-        // Disable all cameras
-        GameObject cam = null;
-        do
-        {
-            cam = GameObject.Find("CameraManager(Clone)");
-            if (cam != null)
-                cam.SetActive(false);
-        } while (cam != null);
-
-        // Activate own camera
-        localController.GetCamera().SetActive(true);
-
-        //Populate dictionary
-        serverManager.RpcAddCameraObject(localController.GetScreenIndex(), localController.GetCamera());
     }
     
 	public int GetScreenIndex() 
 	{
 		return index;
 	}
-
-    /*public void CreateCamera()
-    {
-        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
-    }*/
 
     public GameObject GetCamera()
     {
@@ -109,6 +89,19 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetCamera(GameObject camera)
     {
         playerCamera = camera;
+        /*GameObject cam = null;
+        do
+        {
+            cam = GameObject.Find("CameraManager(Clone)");
+            if (cam != null)
+                cam.SetActive(false);
+        } while (cam != null);
+        playerCamera.SetActive(True);*/
+
+        if (!isLocalPlayer)
+        {
+            playerCamera.SetActive(false);
+        }
     }
 
     [Command]
@@ -188,6 +181,13 @@ public class PlayerController : NetworkBehaviour
         {
             CmdCreateCamera();
             CmdJoin(MainMenu.role);
+        }
+        else
+        {
+            if (playerCamera != null)
+            {
+                playerCamera.SetActive(false);
+            }
         }
     }
 

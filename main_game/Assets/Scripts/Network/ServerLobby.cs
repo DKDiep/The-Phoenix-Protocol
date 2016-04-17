@@ -88,9 +88,12 @@ public class ServerLobby : MonoBehaviour {
             
 			// Add after spawning
             serverManager.RpcAddCrosshairObject(index, crosshairObject);
+
+            //Populate dictionary
+            serverManager.RpcAddCameraObject(index, cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController().GetCamera());
         }
-			
-		Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject)));
+
+        Instantiate(Resources.Load("Prefabs/GameTimerCanvas", typeof(GameObject)));
 
         startButton.onClick.RemoveAllListeners();
         // Start game only spawns, call begin to play
