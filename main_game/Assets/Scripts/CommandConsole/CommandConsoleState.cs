@@ -93,6 +93,7 @@ public class CommandConsoleState : MonoBehaviour {
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
         Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
         Camera.main.transform.position = new Vector3(0, 0, -2000);
+        Camera.main.transform.rotation = Quaternion.Euler(0, 0, 0);
 
         LoadShipModel();
 
@@ -193,7 +194,7 @@ public class CommandConsoleState : MonoBehaviour {
     void FixedUpdate ()
     { 
         second += Time.deltaTime;
-        if(second >= 0.5)
+        if(second >= 0.2)
         {
             UpdateAllText();
             //UpdateCostTextColor();
@@ -418,7 +419,7 @@ public class CommandConsoleState : MonoBehaviour {
     private void UpdateHealthShieldBars()
     {
         int health = ((int)Math.Round(gameState.GetShipHealth(), 0));
-        int shield = ((int)Math.Round(gameState.GetShipShield(), 0));
+        int shield = health > 0 ?((int)Math.Round(gameState.GetShipShield(), 0)) : 0;
         int healthBarsToShow = health / 10;
         int shieldBarsToShow = shield / 10;
         if (healthBarsToShow > 25)
