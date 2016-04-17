@@ -20,9 +20,13 @@ public class ObjectPoolManager : NetworkBehaviour
 	#pragma warning restore 0649
 
     private Vector3[] newPositions;
+    private Vector3[] oldPositions;
+    private float[] lerpTimes;
+    private int[] nextUpdate;
     private bool spawned = false;
     public bool isCommander = false;
     private Quaternion[] newRotations;
+    private Quaternion[] oldRotations;
     private bool amServer = false;
     [SerializeField] Material[] asteroidMaterials;
 
@@ -40,8 +44,11 @@ public class ObjectPoolManager : NetworkBehaviour
             {
                 if(pool[i] != null && pool[i].activeInHierarchy)
                 {
-                    pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 5f);
-                    pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 5f);
+                    if(lerpTimes[i] < 1)
+                        lerpTimes[i] += 1f / (float)nextUpdate[i];
+                    //Debug.Log("Lerp times: " + lerpTimes[i] + " Next update: " + nextUpdate[i] + " i: " + i + " New position: " + newPositions[i] + " new rotations: " + newRotations[i]);
+                    pool[i].transform.position = Vector3.Lerp(oldPositions[i], newPositions[i], lerpTimes[i]);
+                    pool[i].transform.rotation = Quaternion.Lerp(oldRotations[i], newRotations[i], lerpTimes[i]);
                 }
             }
         }
@@ -55,15 +62,25 @@ public class ObjectPoolManager : NetworkBehaviour
         if(!amServer && serverOnly)
             Destroy(this);
 
-        newPositions = new Vector3[size];
-        newRotations = new Quaternion[size];
-
         pool = new GameObject[size];
 
         if(useInterpolation && !amServer)
         {
             newPositions = new Vector3[size];
             newRotations = new Quaternion[size];
+            oldPositions = new Vector3[size];
+            oldRotations = new Quaternion[size];
+            lerpTimes = new float[size];
+            nextUpdate = new int[size];
+            for(int i = 0; i < size; i++)
+            {
+                oldPositions[i] = new Vector3(10,10,10);
+                newPositions[i] = new Vector3(100,100,100);
+                oldRotations[i] = new Quaternion(0.5f,0.5f,0.5f,0.5f);
+                newRotations[i] = new Quaternion(0.5f,0.5f,0.5f,0.5f);
+                lerpTimes[i] = 0;
+                nextUpdate[i] = 60;
+            }
         }
 
 	    for(int i = 0; i < size; ++i)
@@ -154,9 +171,11 @@ public class ObjectPoolManager : NetworkBehaviour
             RpcDisableObject(id);
     }
 
-    public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
+    public void UpdateTransform(Vector3 position, Quaternion rotation, string name, float waitTime)
     {
-        RpcUpdateTransform(position, rotation, int.Parse(name));
+        // Fixed update runs every 0.02s
+        int numFrames = (int)(waitTime / 0.02f);
+        RpcUpdateTransform(position, rotation, int.Parse(name), numFrames);
     }
 
     public void SetAsteroidTexture(string name, int material)
@@ -174,7 +193,7 @@ public class ObjectPoolManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncRotation(int id, Quaternion rotation)
     {
-        if(!isCommander)
+        if(!isCommander && !amServer)
             pool[id].transform.rotation = rotation;
     }
 
@@ -186,19 +205,23 @@ public class ObjectPoolManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
+    void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id, int nFrames)
     {
-        if(!isCommander)
+        if(!isCommander && !amServer)
         {
+            oldPositions[id] = newPositions[id];
+            oldRotations[id] = newRotations[id];
             newPositions[id] = position;
             newRotations[id] = rotation;
+            lerpTimes[id] = 0;
+            nextUpdate[id] = nFrames;
         }
     }
 
     [ClientRpc]
     void RpcEnableObject(int id, Vector3 position, Quaternion rotation, Vector3 scale)
     {
-        if(!isCommander)
+        if(!isCommander && !amServer)
         {
             pool[id].SetActive(true);
             pool[id].transform.position = position;

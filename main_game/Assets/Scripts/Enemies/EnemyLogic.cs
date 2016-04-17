@@ -52,6 +52,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
 
+    private float waitTime = 1f;
+
 	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
 	// Please, treat them as constants
 	private LayerMask LAYER_PLAYER_BULLET;
@@ -503,8 +505,22 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     IEnumerator UpdateTransform()
     {
         //Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
-        enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
-        yield return new WaitForSeconds(Mathf.Clamp(distance / 750f, 0.1f, 1f));
+        if(distance < 200)
+            waitTime = 0.035f;
+        else if (distance < 400)
+            waitTime = 0.1f;
+        else if (distance < 600)
+            waitTime = 0.2f;
+        else if(distance < 800)
+            waitTime = 0.4f;
+        else if(distance < 1000)
+            waitTime = 0.8f;
+        else
+            waitTime = 1.6f;
+        
+        yield return new WaitForSeconds(waitTime);
+        if(controlObject != null)
+            enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name, waitTime);
         StartCoroutine(UpdateTransform());
     }
 
