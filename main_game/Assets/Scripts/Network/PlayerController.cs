@@ -41,7 +41,7 @@ public class PlayerController : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-        //playerCamera = GameObject.Find("CameraManager(Clone)");
+        playerCamera = GameObject.Find("CameraManager(Clone)");
 		if (localController.role == RoleEnum.Camera)
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
