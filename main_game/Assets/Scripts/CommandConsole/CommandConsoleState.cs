@@ -66,7 +66,6 @@ public class CommandConsoleState : MonoBehaviour {
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
     private int[] repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
-    public int[] repairable = new int[6] { 0, 0, 0, 0, 0, 0 };
     private ConsoleShipControl shipControl;
 
     void Start() {
