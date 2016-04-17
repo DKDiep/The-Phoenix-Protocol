@@ -92,6 +92,7 @@ public class CommandConsoleState : MonoBehaviour {
 
         Camera.main.GetComponent<ToggleGraphics>().UpdateGraphics();
         Camera.main.GetComponent<ToggleGraphics>().SetCommandGraphics();
+        Camera.main.transform.position = new Vector3(0, 0, -2000);
 
         LoadShipModel();
 
