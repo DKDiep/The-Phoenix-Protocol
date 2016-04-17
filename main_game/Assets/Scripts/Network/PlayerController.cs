@@ -12,7 +12,6 @@ public class PlayerController : NetworkBehaviour
     private GameObject controlledObject;
 	private RoleEnum role = RoleEnum.Camera;
     private GameObject playerCamera;
-    private GameObject multiCamera;
     private EngineerController engController;
     private PlayerController localController = null;
     private int index = 0;
@@ -42,11 +41,11 @@ public class PlayerController : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-        playerCamera = GameObject.Find("CameraManager(Clone)");
+        //playerCamera = GameObject.Find("CameraManager(Clone)");
 		if (localController.role == RoleEnum.Camera)
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
-            playerCamera.transform.parent = shipTransform;
+            localController.GetCamera().transform.parent = shipTransform;
         }
 		else if (localController.role == RoleEnum.Engineer)
         {
@@ -74,15 +73,50 @@ public class PlayerController : NetworkBehaviour
             commandConsoleState.givePlayerControllerReference(localController);
             gameState.ResetOfficerList();
         }
+
+        // Disable all cameras
+        GameObject cam = null;
+        do
+        {
+            cam = GameObject.Find("CameraManager(Clone)");
+            if (cam != null)
+                cam.SetActive(false);
+        } while (cam != null);
+
+        // Activate own camera
+        localController.GetCamera().SetActive(true);
+
+        //Populate dictionary
+        serverManager.RpcAddCameraObject(localController.GetScreenIndex(), localController.GetCamera());
     }
     
 	public int GetScreenIndex() 
 	{
 		return index;
 	}
-    public void CreateCamera()
+
+    /*public void CreateCamera()
     {
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+    }*/
+
+    public GameObject GetCamera()
+    {
+        return playerCamera;
+    }
+
+    [ClientRpc]
+    public void RpcSetCamera(GameObject camera)
+    {
+        playerCamera = camera;
+    }
+
+    [Command]
+    public void CmdCreateCamera()
+    {
+        playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        ServerManager.NetworkSpawn(playerCamera);
+        RpcSetCamera(playerCamera);
     }
 
     [ClientRpc]
@@ -152,7 +186,7 @@ public class PlayerController : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            CreateCamera();
+            CmdCreateCamera();
             CmdJoin(MainMenu.role);
         }
     }

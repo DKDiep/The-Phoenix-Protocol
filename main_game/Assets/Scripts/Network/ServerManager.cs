@@ -71,6 +71,7 @@ public class ServerManager : NetworkBehaviour
         // Server and clients need to know screenId matching crosshairs
         screenIdToCrosshair 		= new Dictionary<int, GameObject>();
 		screenIdToCrosshairMovement = new Dictionary<int, CrosshairMovement>();
+        screenIdToCamera            = new Dictionary<int, GameObject>();
         if (MainMenu.startServer)
         {
             // Spawn Object Pooling Controller first
@@ -118,15 +119,6 @@ public class ServerManager : NetworkBehaviour
     public void RpcAddCameraObject(int screenId, GameObject cameraObject)
     {
         screenIdToCamera.Add(screenId, cameraObject);
-
-        PlayerController localController = null;
-        if (ClientScene.localPlayers[0].IsValid)
-            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
-
-        if (screenId != localController.GetScreenIndex() || localController.GetRole() != RoleEnum.Camera)
-        {
-            screenIdToCamera[screenId].SetActive(false);
-        }
     }
 
     public GameObject GetCameraObject(int screenId)
