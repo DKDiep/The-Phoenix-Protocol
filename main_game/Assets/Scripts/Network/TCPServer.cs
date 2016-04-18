@@ -105,7 +105,11 @@ public class TCPServer : MonoBehaviour
                     // bla
                     foreach (String msg in messages)
                     {
-                        HandleMessage(msg);
+                        try {
+                            HandleMessage(msg);
+                        } catch(Exception e) {
+                        Debug.LogError(e);
+                        }
                         receivedMessages++;
                     }
                 }
@@ -203,12 +207,7 @@ public class TCPServer : MonoBehaviour
         {
             if(connected)
             {
-                try
-                {
-                    SendNotificationsUpdate();                    
-                } catch(Exception e) {
-                    Debug.LogError(e);
-                }
+                SendNotificationsUpdate();
             }
             yield return new WaitForSeconds(0.07f);
         }
@@ -223,31 +222,35 @@ public class TCPServer : MonoBehaviour
         bool hasRemoved = remNotif != null && remNotif.Count > 0;
         if (hasNew || hasRemoved)
         {
-            string jsonMsg = "{\"type\":\"NOTIFY_UPD\",\"data\":[";
-            if (hasNew)
-            {
-                foreach (Notification notif in newNotif)
+            try {
+                string jsonMsg = "{\"type\":\"NOTIFY_UPD\",\"data\":[";
+                if (hasNew)
                 {
-                    jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
-                    jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
-                    jsonMsg += "\"toSet\":true},";
+                    foreach (Notification notif in newNotif)
+                    {
+                        jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
+                        jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
+                        jsonMsg += "\"toSet\":true},";
+                    }
                 }
-            }
-            if (hasRemoved)
-            {
-                foreach (Notification notif in remNotif)
+                if (hasRemoved)
                 {
-                    jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
-                    jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
-                    jsonMsg += "\"toSet\":false},";
+                    foreach (Notification notif in remNotif)
+                    {
+                        jsonMsg += "{\"type\":\"" + ComponentTypeToString(notif.Component) + "\",";
+                        jsonMsg += "\"isUpgrade\":" + notif.IsUpgrade.ToString().ToLower() + ",";
+                        jsonMsg += "\"toSet\":false},";
+                    }
                 }
-            }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            bool success = SendMsg(jsonMsg);
-            if (success) {
-                gameState.ClearNewNotifications();
-                gameState.ClearRemovedNotifications();
+                jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                jsonMsg += "]}";
+                bool success = SendMsg(jsonMsg);
+                if (success) {
+                    gameState.ClearNewNotifications();
+                    gameState.ClearRemovedNotifications();
+                }
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
         }
     }

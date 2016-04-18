@@ -160,18 +160,13 @@ public class UDPServer : MonoBehaviour
         {
             if(!clientEndPoint.Address.Equals(IPAddress.Any))
             {
-                try
-                {
-                    SendShipPosition();
-                    SendOfficerAmmo();
-                    SendOfficerScore();
-                    SendEnemies();
-                    SendRemovedEnemies();
-                    SendNewAsteroids();
-                    SendRemovedAsteroids();
-                } catch(Exception e) {
-                    Debug.LogError(e);
-                }
+                SendShipPosition();
+                SendOfficerAmmo();
+                SendOfficerScore();
+                SendEnemies();
+                SendRemovedEnemies();
+                SendNewAsteroids();
+                SendRemovedAsteroids();
             }
             yield return new WaitForSeconds(0.03f);
         }
@@ -182,21 +177,25 @@ public class UDPServer : MonoBehaviour
         GameObject playerShip = state.PlayerShip;
         if (playerShip != null)
         {
-            string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
-                             "\"x\":"  + playerShip.transform.position.x.ToString("0.000") +
-                             ",\"y\":" + playerShip.transform.position.z.ToString("0.000") +
-                             ",\"z\":" + playerShip.transform.position.y.ToString("0.000") +
-                             ",\"fX\":" + playerShip.transform.forward.x.ToString("0.000") +
-                             ",\"fY\":" + playerShip.transform.forward.z.ToString("0.000") +
-                             ",\"fZ\":" + playerShip.transform.forward.y.ToString("0.000") +
-                             ",\"rX\":" + playerShip.transform.right.x.ToString("0.000") +
-                             ",\"rY\":" + playerShip.transform.right.z.ToString("0.000") +
-                             ",\"rZ\":" + playerShip.transform.right.y.ToString("0.000") +
-                             ",\"uX\":" + playerShip.transform.up.x.ToString("0.000") +
-                             ",\"uY\":" + playerShip.transform.up.z.ToString("0.000") +
-                             ",\"uZ\":" + playerShip.transform.up.y.ToString("0.000") +
-                             "}}";
-            SendMsg(jsonMsg);
+            try {
+                string jsonMsg = "{\"type\":\"SHP_UPD\",\"data\":{" +
+                                 "\"x\":"  + playerShip.transform.position.x.ToString("0.000") +
+                                 ",\"y\":" + playerShip.transform.position.z.ToString("0.000") +
+                                 ",\"z\":" + playerShip.transform.position.y.ToString("0.000") +
+                                 ",\"fX\":" + playerShip.transform.forward.x.ToString("0.000") +
+                                 ",\"fY\":" + playerShip.transform.forward.z.ToString("0.000") +
+                                 ",\"fZ\":" + playerShip.transform.forward.y.ToString("0.000") +
+                                 ",\"rX\":" + playerShip.transform.right.x.ToString("0.000") +
+                                 ",\"rY\":" + playerShip.transform.right.z.ToString("0.000") +
+                                 ",\"rZ\":" + playerShip.transform.right.y.ToString("0.000") +
+                                 ",\"uX\":" + playerShip.transform.up.x.ToString("0.000") +
+                                 ",\"uY\":" + playerShip.transform.up.z.ToString("0.000") +
+                                 ",\"uZ\":" + playerShip.transform.up.y.ToString("0.000") +
+                                 "}}";
+                SendMsg(jsonMsg);
+            } catch(Exception e) {
+                Debug.LogError(e);
+            }
         }
     }
     
@@ -205,14 +204,18 @@ public class UDPServer : MonoBehaviour
         Dictionary<uint, Officer> officers = state.GetOfficerMap();
         if (officers != null && officers.Count > 0)
         {
-            string jsonMsg = "{\"type\":\"AMMO_UPD\",\"data\":[";
-            foreach(KeyValuePair<uint, Officer> entry in officers) {
-                jsonMsg += "{\"id\":" + entry.Key + ",";
-                jsonMsg += "\"ammo\":" + entry.Value.Ammo + "},";
+            try {
+                string jsonMsg = "{\"type\":\"AMMO_UPD\",\"data\":[";
+                foreach(KeyValuePair<uint, Officer> entry in officers) {
+                    jsonMsg += "{\"id\":" + entry.Key + ",";
+                    jsonMsg += "\"ammo\":" + entry.Value.Ammo + "},";
+                }
+                jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                jsonMsg += "]}";
+                SendMsg(jsonMsg);
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
         }
     }
 
@@ -221,16 +224,20 @@ public class UDPServer : MonoBehaviour
         Dictionary<uint, Officer> officers = state.GetOfficerMap();
         if (officers != null && officers.Count > 0)
         {
+            try {
             int i = 0;
-            string jsonMsg = "{\"type\":\"SCORE_UPD\",\"data\":[";
-            foreach(KeyValuePair<uint, Officer> entry in officers) {
-                jsonMsg += "{\"id\":" + entry.Key + ",";
-                jsonMsg += "\"score\":" + state.GetPlayerScore(i) + "},";
-                i++;
+                string jsonMsg = "{\"type\":\"SCORE_UPD\",\"data\":[";
+                foreach(KeyValuePair<uint, Officer> entry in officers) {
+                    jsonMsg += "{\"id\":" + entry.Key + ",";
+                    jsonMsg += "\"score\":" + state.GetPlayerScore(i) + "},";
+                    i++;
+                }
+                jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                jsonMsg += "]}";
+                SendMsg(jsonMsg);
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
         }
     }
 
@@ -239,19 +246,29 @@ public class UDPServer : MonoBehaviour
         List<GameObject> newAsteroids = state.GetNewAsteroids();
         if(newAsteroids != null && newAsteroids.Count > 0)
         {
-            string jsonMsg = "{\"type\":\"NEW_AST\",\"data\":[";
-            foreach (GameObject ast in newAsteroids)
-            {
-                jsonMsg += "{\"id\":" + (uint)ast.GetInstanceID() +
-                            ",\"x\":" + ast.transform.position.x.ToString("0.000") +
-                            ",\"y\":" + ast.transform.position.z.ToString("0.000") +
-                            ",\"z\":" + ast.transform.position.y.ToString("0.000") +
-                            "},";
+            try {
+                int i = 0;
+                while(i < newAsteroids.Count){
+                    string jsonMsg = "{\"type\":\"NEW_AST\",\"data\":[";
+                    int j = 0;
+                    while(i < newAsteroids.Count && j < 10) {
+                        GameObject ast = newAsteroids[i];
+                        jsonMsg += "{\"id\":" + (uint)ast.GetInstanceID() +
+                                ",\"x\":" + ast.transform.position.x.ToString("0.000") +
+                                ",\"y\":" + ast.transform.position.z.ToString("0.000") +
+                                ",\"z\":" + ast.transform.position.y.ToString("0.000") +
+                                "},";
+                                i++;
+                                j++;
+                    }
+                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                    jsonMsg += "]}";
+                    SendMsg(jsonMsg);
+                }
+                state.ClearNewAsteroids();
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
-            state.ClearNewAsteroids();
         }
     }
 
@@ -260,15 +277,25 @@ public class UDPServer : MonoBehaviour
         List<uint> removedAsteroids = state.GetRemovedAsteroids();
         if (removedAsteroids != null && removedAsteroids.Count > 0)
         {
-            string jsonMsg = "{\"type\":\"RMV_AST\",\"data\":[";
-            foreach (uint id in removedAsteroids)
-            {
-                jsonMsg += id + ",";
+            try {
+                int i = 0;
+                while(i < removedAsteroids.Count){
+                    string jsonMsg = "{\"type\":\"RMV_AST\",\"data\":[";
+                    int j = 0;
+                    while(i < removedAsteroids.Count && j < 20) {
+                        uint id = removedAsteroids[i];
+                        jsonMsg += id + ",";
+                                i++;
+                                j++;
+                    }
+                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                    jsonMsg += "]}";
+                    SendMsg(jsonMsg);
+                }
+                state.ClearRemovedAsteroids();
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
-            state.ClearRemovedAsteroids();
         }
     }
     
@@ -277,38 +304,46 @@ public class UDPServer : MonoBehaviour
         List<GameObject> enemies = state.GetEnemyList();
         if(enemies != null && enemies.Count > 0)
         {
-			bool foundNullEnemy = false;
+            try {
+                bool foundNullEnemy = false;
 
-            string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
-            foreach (GameObject enemy in enemies)
-            {
-				if (enemy == null)
-				{
-					Debug.LogWarning("There is a null enemy in the enemy list.");
-					foundNullEnemy = true;
-					continue;
-				}
+                int i = 0;
+                while(i < enemies.Count){
+                    string jsonMsg = "{\"type\":\"ENM_UPD\",\"data\":[";
+                    int j = 0;
+                    while(i < enemies.Count && j < 10) {
+                        GameObject enemy = enemies[i];
+                        if (enemy == null)
+                        {
+                            Debug.LogWarning("There is a null enemy in the enemy list.");
+                            foundNullEnemy = true;
+                            continue;
+                        }
 
-				// Add the enemy to the dictionary if it isn't already in there
-                if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
-                    InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
+                        // Add the enemy to the dictionary if it isn't already in there
+                        if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
+                            InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
 
-                jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
-                            ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
-                            ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
-                            ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
-                            ",\"rX\":" + enemy.transform.right.x.ToString("0.000") +
-                            ",\"rY\":" + enemy.transform.right.z.ToString("0.000") +
-                            ",\"rZ\":" + enemy.transform.right.y.ToString("0.000") +
-                            "},";
+                        jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
+                                    ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
+                                    ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
+                                    ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
+                                    ",\"rX\":" + enemy.transform.right.x.ToString("0.000") +
+                                    ",\"rY\":" + enemy.transform.right.z.ToString("0.000") +
+                                    ",\"rZ\":" + enemy.transform.right.y.ToString("0.000") +
+                                    "},";
+                        i++;
+                        j++;
+                    }
+                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                    jsonMsg += "]}";
+                    SendMsg(jsonMsg);
+                }
+                if (foundNullEnemy)
+                    state.NotifyNullEnemy();
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
-
-			// Send the notification at the end of the loop to avoid iterator issues
-			if (foundNullEnemy)
-				state.NotifyNullEnemy();
         }
     }
     
@@ -317,19 +352,29 @@ public class UDPServer : MonoBehaviour
         List<int> removedEnemies = state.GetRemovedEnemies();
         if (removedEnemies != null && removedEnemies.Count > 0)
         {
-            string jsonMsg = "{\"type\":\"RMV_ENM\",\"data\":[";
-            foreach (int id in removedEnemies)
-            {
-                // Remove the instance ID from the dictionary if it is in there
-                if (InstanceIDToEnemy.ContainsKey(id))
-                    InstanceIDToEnemy.Remove(id);
+            try {
+                int i = 0;
+                while(i < removedEnemies.Count){
+                    string jsonMsg = "{\"type\":\"RMV_ENM\",\"data\":[";
+                    int j = 0;
+                    while(i < removedEnemies.Count && j < 20) {
+                        int id = removedEnemies[i];
+                        // Remove the instance ID from the dictionary if it is in there
+                        if (InstanceIDToEnemy.ContainsKey(id))
+                            InstanceIDToEnemy.Remove(id);
 
-                jsonMsg += id + ",";
+                        jsonMsg += id + ",";
+                        i++;
+                        j++;
+                    }
+                    jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
+                    jsonMsg += "]}";
+                    SendMsg(jsonMsg);
+                }
+                state.ClearRemovedEnemies();
+            } catch(Exception e) {
+                Debug.LogError(e);
             }
-            jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-            jsonMsg += "]}";
-            SendMsg(jsonMsg);
-            state.ClearRemovedEnemies();
         }
     }
 
