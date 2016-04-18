@@ -19,7 +19,10 @@ public class MothershipLogic : MonoBehaviour {
 	void Start () {
 
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
-        effectsManager = GameObject.Find("MothershipDamageManager").GetComponent<ObjectPoolManager>();
+        if( GameObject.Find("MothershipDamageManager") != null)
+            effectsManager = GameObject.Find("MothershipDamageManager").GetComponent<ObjectPoolManager>();
+        else
+            Destroy(this);
         LoadSettings();
 
         GameObject server = settings.GameManager;
