@@ -79,10 +79,12 @@ public class GameStatusManager : NetworkBehaviour
 			if(gameState.Status == GameState.GameStatus.Died) 
             {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship and the crew were killed.";
+                gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "GAME OVER";
             }
 			else
             {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
+                gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "YOU SURVIVED";
             }
 
             if(playerController.GetRole() == RoleEnum.Camera)
