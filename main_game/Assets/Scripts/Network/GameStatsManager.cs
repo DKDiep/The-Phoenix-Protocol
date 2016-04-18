@@ -72,7 +72,7 @@ public class GameStatsManager : MonoBehaviour
                 jsonMsg += "],";
                 jsonMsg += "\"totalShipResources\": " + gameState.GetTotalShipResources() + ",";
                 jsonMsg += "\"shipResources\": " + gameState.GetShipResources() + ",";
-                jsonMsg += "\"shipHealth\": " + gameState.GetShipHealth();
+                jsonMsg += "\"shipHealth\": " + (int)gameState.GetShipHealth();
                 jsonMsg += "}";
 
                 string url = "http://localhost:8081/game_data";
