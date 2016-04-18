@@ -504,7 +504,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         //Debug.Log("My type is " + type + " and manager " + enemyManager.gameObject.name);
         enemyManager.UpdateTransform(controlObject.transform.position, controlObject.transform.rotation, controlObject.name);
-        yield return new WaitForSeconds(Mathf.Clamp(distance / 750f, 0.1f, 1f));
+        yield return new WaitForSeconds(Mathf.Clamp((distance / 750f) - 0.2f, 0.05f, 1.75f));
         StartCoroutine(UpdateTransform());
     }
 

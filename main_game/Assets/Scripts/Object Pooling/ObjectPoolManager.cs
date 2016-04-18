@@ -40,8 +40,8 @@ public class ObjectPoolManager : NetworkBehaviour
             {
                 if(pool[i] != null && pool[i].activeInHierarchy)
                 {
-                    pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.deltaTime * 5f);
-                    pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.deltaTime * 5f);
+                    pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.fixedDeltaTime * 10f);
+                    pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.fixedDeltaTime * 10f);
                 }
             }
         }
