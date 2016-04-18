@@ -21,7 +21,7 @@ public class PlayerShooting : MonoBehaviour
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject bulletAnchor;
-	private GameObject target;
+	private Vector3 targetPos;
 	private bool canShoot, showMarker;
 	private float alpha;
 	private Vector3 crosshairPosition;
@@ -80,7 +80,6 @@ public class PlayerShooting : MonoBehaviour
 		fireSoundAudioSource.clip = fireSound;
 		showMarker = false;
 		alpha = 0;
-		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
 
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
@@ -161,10 +160,11 @@ public class PlayerShooting : MonoBehaviour
         if (crosshair != null)
         {
             Vector3 crosshairPosition = crosshair.transform.position;
-            // Get correct crosshair object's ScreenToWorld results
+            
+			// Get correct crosshair object's ScreenToWorld results
             GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
-            Vector3[] targets = serverManager.GetTargetPositions(crosshairObject).targets;
-            target.transform.position = targets[0];
+            Vector3[] targets 		   = serverManager.GetTargetPositions(crosshairObject).targets;
+            targetPos				   = targets[0];
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
@@ -184,7 +184,7 @@ public class PlayerShooting : MonoBehaviour
 			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage());
             logicComponent.SetID(this, playerId);
-            logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+            logicComponent.SetDestination(targetPos, true, this.gameObject, bulletManager, logicManager, impactManager);
 
 			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
 			if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
