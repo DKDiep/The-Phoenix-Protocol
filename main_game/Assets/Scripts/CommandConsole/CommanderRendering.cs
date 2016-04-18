@@ -9,9 +9,11 @@ public class CommanderRendering : MonoBehaviour {
 
 	void Start () 
     {
+
         Camera.main.cullingMask = 1 << LayerMask.NameToLayer("UI");
         GameObject.Find("TargetCamera").SetActive(false);
         GameObject.Find("SpaceScene 1(Clone)").SetActive(false);
         RenderSettings.ambientIntensity = 1f;
+        Camera.main.gameObject.name = "CommanderCamera";
     }
 }

@@ -29,8 +29,18 @@ public class OutpostTarget : NetworkBehaviour
     {
         myRenderer = GetComponent<Renderer>();
         currentColour = Color.red;
-        mainCam = GameObject.Find("CameraManager(Clone)").GetComponent<Camera>();
-        StartCoroutine(UpdateFrustum());
+        if(GameObject.Find("CameraManager(Clone)") != null)
+        {
+            mainCam = GameObject.Find("CameraManager(Clone)").GetComponent<Camera>();
+            StartCoroutine(UpdateFrustum());
+        }
+
+        else
+        {
+            mainCam = GameObject.Find("CommanderCamera").GetComponent<Camera>();
+        }
+
+
 
     }
 
@@ -109,8 +119,6 @@ public class OutpostTarget : NetworkBehaviour
         {
             if(distance > 400)
             {    
-
-
                 if(renderTarget && showTarget && target != null)
                 {
                     Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
