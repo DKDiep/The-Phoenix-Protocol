@@ -40,6 +40,8 @@ public class PlayerShooting : MonoBehaviour
 	private bool ammoRecharging;
 	private Coroutine ammoRechargeCoroutine;
 
+    private int screenId;
+
     // Which player are we controlling via the mouse. (For debugging different players)
     private int currentPlayerId = 0;
     public int playerId;
@@ -159,18 +161,10 @@ public class PlayerShooting : MonoBehaviour
         if (crosshair != null)
         {
             Vector3 crosshairPosition = crosshair.transform.position;
-            //target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
-            /*int screenId = 1;
-            GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
-            Vector3[] targets = serverManager.GetTargetPositions(crosshairObject).targets;
-            target.transform.position = targets[0];*/
-
-            int screenId = 1;
+            // Get correct crosshair object's ScreenToWorld results
             GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
             Vector3[] targets = serverManager.GetTargetPositions(crosshairObject).targets;
             target.transform.position = targets[0];
-
-            Debug.Log(targets[0]);
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
@@ -207,6 +201,11 @@ public class PlayerShooting : MonoBehaviour
             StartCoroutine(Delay());
         }
 	}
+
+    public void SetScreenId(int newScreenId)
+    {
+        screenId = newScreenId;
+    }
 
 	// Switch between players using keys 4-7, for debugging different player shooting.
 	void SwitchPlayers() 
