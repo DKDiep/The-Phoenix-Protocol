@@ -86,9 +86,7 @@ public class PlayerShooting : MonoBehaviour
 
         // Find crosshair
 		crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
-
-        if(autoaimScript == null )
-            autoaimScript = crosshair.AddComponent<CrosshairAutoaimAssist>();
+        autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
 
         bulletAnchor = new GameObject();
 
