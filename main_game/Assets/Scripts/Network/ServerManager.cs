@@ -123,10 +123,11 @@ public class ServerManager : NetworkBehaviour
         return screenIdToCrosshair[screenId];
     }
 
-    [Command]
-    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets)
     {
         crosshairToTargetPositions[crosshairObject].targets = targets;
+        if (crosshairObject != screenIdToCrosshair[0])
+            Debug.Log(targets[0]);
     }
 
     public TargetPositions GetTargetPositions(GameObject crosshairObject)
