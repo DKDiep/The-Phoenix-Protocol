@@ -139,10 +139,10 @@ func decodeGameServerMessage(rawData []byte) {
 }
 
 // Sends a message to the Gmae Server of the specified type
-func sendSignalToGameServer(msgType GameServerMessageType) bool {
+func sendSignalToGameServer(msgType GameServerMessageType, teamName string) bool {
     switch msgType {
     case START_GAME:
-        return sendStartGameSignalToGameServer()
+        return sendStartGameSignalToGameServer(teamName)
     case RESET_GAME:
         return sendTCPMsgToGameServer("RESET")
     default:
@@ -151,10 +151,11 @@ func sendSignalToGameServer(msgType GameServerMessageType) bool {
 }
 
 // Send a start game signal with all accepted officers
-func sendStartGameSignalToGameServer() bool {
+func sendStartGameSignalToGameServer(teamName string) bool {
     officers, _, _ := playerMap.getPlayerLists()
 
     msg := "START:"
+    msg += teamName + ","
 
     for _, officer := range officers {
         msg += officer.UserName + "+"
