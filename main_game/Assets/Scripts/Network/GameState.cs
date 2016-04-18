@@ -44,6 +44,8 @@ public class GameState : NetworkBehaviour {
 
 	private float shipMaxShields;
     private float shipShieldRechargeRate;
+
+    private string teamName;
  
 	// The total ship resources that has been collected over the whole game.
 	// This is used for the final score.
@@ -500,6 +502,7 @@ public class GameState : NetworkBehaviour {
         newNotifications     = new List<Notification>();
         removedNotifications = new List<Notification>();
         currentOfficers      = new Dictionary<uint, Officer>();
+        teamName = "<NO TEAM NAME>";  // This is set so errors with team names are obvious
 
 		// StartCoroutine(FindNull()); // Uncomment to help debug null enemies
     }
@@ -915,5 +918,15 @@ public class GameState : NetworkBehaviour {
     public Dictionary<uint, Officer> GetOfficerMap()
     {
         return currentOfficers;
+    }
+
+    public void SetTeamName(string name)
+    {
+        teamName = name;
+    }
+
+    public string GetTeamName()
+    {
+        return teamName;
     }
 }
