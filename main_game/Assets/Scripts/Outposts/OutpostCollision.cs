@@ -15,6 +15,7 @@ public class OutpostCollision : NetworkBehaviour
 
     private bool client = false;
     private bool switchedMaterial = false;
+    private bool isDestroyed = false;
 
 	void Start()
 	{
@@ -87,7 +88,7 @@ public class OutpostCollision : NetworkBehaviour
 	// Cause damage if collided with
 	void OnTriggerEnter (Collider col)
 	{
-        if(!client)
+        if(!client && !isDestroyed)
         {
             if(col.gameObject.tag.Equals ("Player"))
             {
@@ -102,6 +103,7 @@ public class OutpostCollision : NetworkBehaviour
                 explosion.SetActive(true);
                 ServerManager.NetworkSpawn(explosion);
 
+                isDestroyed = true;
                 Destroy(this.gameObject);
             }
             else if(col.gameObject.tag.Equals ("EnemyShip"))
