@@ -236,15 +236,21 @@ public class ServerLobby : MonoBehaviour {
         Camera cam = playerCamera.GetComponent<Camera>();
 
         // Calculate frustum height at far clipping plane using field of view
+        //float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
         float frustumHeight = 2.0f * cam.farClipPlane * Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+        var distance = frustumHeight * 0.5f / Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        float fov = 2.0f * Mathf.Atan(frustumHeight * 0.5f / distance) * Mathf.Rad2Deg;
+        Debug.Log("camera fov" + fov + ", distance "+distance+", far clip "+cam.farClipPlane);
 
         // Calculate frustum width using height and camera aspect
         float frustumWidth = frustumHeight * cam.aspect;
 
         // Calculate left and right vectors of frustum
-        Vector3 of = (playerCamera.transform.localRotation * Vector3.forward * cam.farClipPlane) - playerCamera.transform.localPosition;
-        Vector3 ofr = of + (playerCamera.transform.localRotation * Vector3.right * frustumWidth / 2.0f);
-        Vector3 ofl = of + (playerCamera.transform.localRotation * Vector3.left * frustumWidth / 2.0f);
+        Vector3 of = (Vector3.forward * cam.farClipPlane);
+        Vector3 ofr = of + (Vector3.right * frustumWidth / 2.0f);
+        Vector3 ofl = of + (Vector3.left * frustumWidth / 2.0f);
         Quaternion q = Quaternion.FromToRotation(ofl, ofr);
         float y = q.eulerAngles.y;
         float rotateAngle;
@@ -265,7 +271,7 @@ public class ServerLobby : MonoBehaviour {
             int index = i - centreIndex;
             PlayerController playerController = cameraPanel.transform.GetChild(i).gameObject.GetComponent<PlayerTokenController>().GetPlayerController();
             playerController.RpcSetCameraIndex(index);
-            rotateAngle = y * (index);
+            rotateAngle = y * (float)index;
             playerController.RpcRotateCamera(rotateAngle, playerController.netId.Value);
         }
 
