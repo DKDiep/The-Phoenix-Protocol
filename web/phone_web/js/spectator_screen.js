@@ -497,7 +497,7 @@ function newEnemy(enmData) {
     newEnm.anchor.x = 0.5
     newEnm.anchor.y = 0.5
     spritePosition(newEnm, enmData.x, enmData.y);
-    // newEnm.rotation = -enmData.rot
+    newEnm.rotation = -enmData.rot
     spriteScale(newEnm);
     newEnm.isHacked = enmData.isHacked
     if(newEnm.isHacked && newEnm != controlledEnemySprite) {
@@ -526,6 +526,7 @@ function newEnemy(enmData) {
 // Updates an enemy sprite based on data
 function updateEnemy(enemy, enmData) {
     spritePosition(enemy, enmData.x, enmData.y);
+    enemy.rotation = -enmData.rot
     enemy.isHacked = enmData.isHacked
     if(enemy.isHacked && enemy != controlledEnemySprite) {
         var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
@@ -533,5 +534,4 @@ function updateEnemy(enemy, enmData) {
         overlay.anchor.y = 0.5
         enemy.addChild(overlay)
     }
-    // enemy.rotation = -enmData.rot
 }

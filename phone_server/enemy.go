@@ -7,7 +7,7 @@ import (
 // Holds enemy data
 type Enemy struct {
     pos               Point
-    forward           Point
+    right             Point
     isControlled      bool
     controllingPlayer *Player
 }
@@ -111,8 +111,8 @@ func (enemies *EnemyMap) getCopy(plrShip *PlayerShip) map[int64]*Enemy {
 // NOTE: DO NOT USE
 func (enemies *EnemyMap) setAsync(id int64, toSet *Enemy) {
     if enm, ok := enemies.m[id]; ok {
-        enm.pos.x = toSet.pos.x
-        enm.pos.y = toSet.pos.y
+        enm.pos = toSet.pos
+        enm.right = toSet.right
     } else {
         enemies.m[id] = toSet
     }

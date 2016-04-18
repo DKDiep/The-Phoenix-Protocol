@@ -303,15 +303,6 @@ func (players *PlayerMap) updateSpectatorData() {
     enemyData := enemyMap.getCopy(playerShipData)
     asteroidData := asteroidMap.getCopy(playerShipData)
 
-    // Transform asteroid coordinates into phone screen space
-    for _, asteroid := range asteroidData {
-        asteroid.heightBasedAlpha = calculateAsteroidAlpha(playerShipData, asteroid)
-        // Centre grid around player ship
-        centerAroundShip(playerShipData, asteroid)
-        // Project onto plane intersecting the ship front and right
-        projectOnShipPlane(playerShipData, asteroid)
-    }
-
     // Transform enemy coordinates into phone screen space
     for _, enemy := range enemyData {
         // Centre grid around player ship
@@ -319,7 +310,16 @@ func (players *PlayerMap) updateSpectatorData() {
         // Project onto plane intersecting the ship's front and right
         projectOnShipPlane(playerShipData, enemy)
         // Set the enemy orientation to the projected one
-        // projectEnemyDirections(playerShipData, enemy)
+        projectEnemyDirections(playerShipData, enemy)
+    }
+
+    // Transform asteroid coordinates into phone screen space
+    for _, asteroid := range asteroidData {
+        asteroid.heightBasedAlpha = calculateAsteroidAlpha(playerShipData, asteroid)
+        // Centre grid around player ship
+        centerAroundShip(playerShipData, asteroid)
+        // Project onto plane intersecting the ship front and right
+        projectOnShipPlane(playerShipData, asteroid)
     }
 
     // Send updated data
@@ -351,16 +351,16 @@ func projectOnShipPlane(origin *PlayerShip, obj GeometricObject) {
 // TODO: Doesn't work
 func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
     // Project
-    newX := enm.forward.x*origin.right.x + enm.forward.y*origin.right.y + enm.forward.z*origin.right.z
-    newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y + enm.forward.z*origin.forward.z
+    newX := enm.right.x*origin.right.x + enm.right.y*origin.right.y + enm.right.z*origin.right.z
+    newY := enm.right.x*origin.forward.x + enm.right.y*origin.forward.y + enm.right.z*origin.forward.z
 
     mag := math.Sqrt(newX*newX + newY*newY)
     if mag == 0 {
         mag = 1
     }
-    enm.forward.x = newX / mag
-    enm.forward.y = newY / mag
-    enm.forward.z = 0
+    enm.right.x = newX / mag
+    enm.right.y = newY / mag
+    enm.right.z = 0
 }
 
 // Calculate the asteroid alpha in range 0 - 1 based on max allowed

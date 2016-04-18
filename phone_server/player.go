@@ -225,8 +225,7 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
             "id": id,
             "x":  enemy.pos.x,
             "y":  enemy.pos.y,
-            // TODO: Rotation is bugged
-            "rot":      math.Atan2(enemy.forward.y, enemy.forward.x),
+            "rot":      math.Atan2(enemy.right.y, enemy.right.x),
             "isHacked": enemy.isControlled,
         })
     }
