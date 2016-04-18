@@ -112,7 +112,7 @@ public class CrosshairMovement : NetworkBehaviour
         Vector3[] targets = new Vector3[4];
 
 		// Update position of crosshairs
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i    < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
@@ -129,7 +129,7 @@ public class CrosshairMovement : NetworkBehaviour
             {
                 Vector2 oldPosittion = GetPosition(controlling); 
             }
-            //autoaimScripts[playerId].Target = targetObject;
+            autoaimScripts[i].Target = targetObject;
 
             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
