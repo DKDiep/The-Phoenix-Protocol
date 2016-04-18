@@ -49,7 +49,7 @@ public class UpgradableShieldGenerator : UpgradableComponent
 		if (Health == 0)
 			return 0;
 		
-		int damage = MaxHealth - Health;
+		float damage = MaxHealth - Health;
 		return (MaxHealth - (damage / 2)) / MaxHealth;
 	}
 

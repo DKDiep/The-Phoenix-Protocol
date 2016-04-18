@@ -16,13 +16,13 @@ public abstract class UpgradableComponent
 	/// </summary>
 	/// <value>The health value.</value>
     /// This isn't used! We're using the syncvars in gamestate instead.
-	public int Health { get; protected set; }
+	public float Health { get; protected set; }
 
 	/// <summary>
 	/// The component's maximum health value.
 	/// </summary>
 	/// <value>The max health value.</value>
-	public int MaxHealth { get; protected set; }
+	public float MaxHealth { get; protected set; }
 
 	/// <summary>
 	/// The component's type.
@@ -53,7 +53,7 @@ public abstract class UpgradableComponent
 	/// Decreases the component's heatlh.
 	/// </summary>
 	/// <param name="damage">The damage value to inflict.</param>
-	public virtual void Damage(int damage)
+	public virtual void Damage(float damage)
 	{
 		Health -= damage;
 		if (Health < 0)

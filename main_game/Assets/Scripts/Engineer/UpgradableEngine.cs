@@ -44,7 +44,7 @@ public class UpgradableEngine : UpgradableComponent
 	/// <returns>The efficiency as a value between 0 and 1.</returns>
 	public override float GetEfficiency()
 	{
-		int damage = MaxHealth - Health;
+		float damage = MaxHealth - Health;
 		return (MaxHealth - (damage / 2)) / MaxHealth;
 	}
 

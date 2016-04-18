@@ -684,27 +684,46 @@ public class GameState : NetworkBehaviour {
 	/// </summary>
 	/// <param name="component">The component.</param>
 	/// <param name="value">The value by which to decrease health.</param>
-	/// /// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the component.</param>
+	/// <param name="shielded">If set to <c>true</c>, damage is substracted from the shields before going to the component.</param>
 	public void DamageComponent(ComponentType component, float value, bool shielded = true)
 	{
 		if (shielded)
 			value = ShieldAbsorb(value);
+
+		// Debug.Log("Damage " + value + " to " + component.ToString());
 			
+		UpgradableComponent upgradableComponent = null;
 		switch(component)
 		{
 		case ComponentType.Hull:
 			ReduceShipHealth(value);
+			upgradableComponent = upgradableComponents[(int)UpgradableComponentIndex.Hull];
+			// Debug.Log("Hull health " + shipHealth);
 			break;
 		case ComponentType.Engine:
-			engineHealth -= value;
+			engineHealth        -= value;
+			upgradableComponent  = upgradableComponents[(int)UpgradableComponentIndex.Engines];
+			// Debug.Log("Engine health " + engineHealth);
 			break;
 		case ComponentType.Turret:
-			turretHealth -= value;
+			turretHealth        -= value;
+			upgradableComponent  = upgradableComponents[(int)UpgradableComponentIndex.Turrets];
+			// Debug.Log("Turret health " + turretHealth);
 			break;
 		case ComponentType.ShieldGenerator:
 			shieldGeneratorHealth -= value;
+			upgradableComponent    = upgradableComponents[(int)UpgradableComponentIndex.ShieldGen];
+			// Debug.Log("Generator health " + shieldGeneratorHealth);
 			break;
 		}
+
+		if (upgradableComponent != null)
+		{
+			upgradableComponent.Damage(value);
+			// Debug.Log("Component health: " + upgradableComponent.Health);
+		}
+		else
+			Debug.LogWarning("Tried to damage non-existent component of type: " + component);
 	}
 
 	/// <summary>
@@ -713,7 +732,7 @@ public class GameState : NetworkBehaviour {
 	/// <param name="part">The part to repair.</param>
 	public void RepairPart(ComponentType part)
 	{
-		int maxHealth = GetUpgradableComponent(part).MaxHealth;
+		float maxHealth = GetUpgradableComponent(part).MaxHealth;
 
 		switch(part)
 		{
