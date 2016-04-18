@@ -224,7 +224,7 @@ public class CommandConsoleState : MonoBehaviour {
             GameObject upgradeBox = Instantiate(Resources.Load("Prefabs/UpgradeBox", typeof(GameObject))) as GameObject;
             upgradeBox.transform.SetParent(canvas);
             upgradeBox.transform.localScale = new Vector3(1,1,1);
-            upgradeBox.transform.localPosition = new Vector3(-483, 200 - (component*80), 0);
+            upgradeBox.transform.localPosition = new Vector3(-513, 180 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
             //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});

@@ -697,7 +697,6 @@ MonoBehaviour:
   shieldBarPanel: {fileID: 116612}
   defaultColor: {r: 0.13333334, g: 0.2509804, b: 0.50980395, a: 1}
   highlightColor: {r: 0.17787631, g: 0.33828261, b: 0.6911765, a: 1}
-  repairable: 000000000000000000000000000000000000000000000000
 --- !u!114 &11411522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1714,9 +1713,9 @@ RectTransform:
   - {fileID: 22422436}
   m_Father: {fileID: 22450872}
   m_RootOrder: 6
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -477, y: 314.3767}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 220, y: -80}
   m_SizeDelta: {x: 392, y: -60.753418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22413318
@@ -1909,7 +1908,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 40, y: -120}
+  m_AnchoredPosition: {x: 40, y: -130}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22441686
@@ -2075,7 +2074,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -120}
+  m_AnchoredPosition: {x: 300, y: -130}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22486018
@@ -2147,9 +2146,9 @@ RectTransform:
   - {fileID: 22493068}
   m_Father: {fileID: 22450872}
   m_RootOrder: 5
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -477, y: 359.3767}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 220, y: -30}
   m_SizeDelta: {x: 392, y: 29.246582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22488968
