@@ -35,6 +35,7 @@ var bg;
 
 // Tractor beam sprite
 var tractorBeam;
+var targetRay;
 
 // Used to interrupt the rendering
 var keepRendering = false;
@@ -46,6 +47,7 @@ var enemyControllUpdate;
 // Game variables
 var playerShip;
 var controlledEnemySprite;
+var attackedEnemySprite;
 var enemies = new Array();
 var asteroids = new Array();
 
@@ -77,6 +79,7 @@ function startSpectatorScreen() {
     loader.add("hacked", "img/hacked_overlay.png");
     loader.add("controlled", "img/controlled_overlay.png");
     loader.add("tract_beam", "img/tractor_beam.png");
+    loader.add("target_ray", "img/target_ray.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -108,6 +111,7 @@ function finaliseSpectatorScreen() {
     bg = undefined;
 
     tractorBeam = undefined;
+    targetRay = undefined;
 
     keepRendering = false;
 
@@ -115,6 +119,7 @@ function finaliseSpectatorScreen() {
 
     playerShip = undefined;
     controlledEnemySprite = undefined;
+    attackedEnemySprite = undefined;
     enemies = new Array();
     asteroids = new Array();
 
@@ -169,6 +174,7 @@ function init() {
     initTractorBeam(loadedResources);
     // Add player ship
     initPlayerShip(loadedResources);
+    initTargetRay(loadedResources);
     stage.addChild(enemyLayer);
     stage.addChild(asteroidLayer);
     // TODO: Only placeholders for now
@@ -231,6 +237,21 @@ function initTractorBeam(resources) {
     stage.addChild(tractorBeam);
 }
 
+function initTargetRay(resources) {
+    targetRay = new PIXI.extras.TilingSprite(resources.target_ray.texture, 1, 1);
+    targetRay.anchor.y = 0.5;
+
+    targetRay.position.x = 0.5*renderer.width;
+    targetRay.position.y = 0.5*renderer.height;
+
+    targetRay.tilePosition.x = 0;
+    targetRay.tilePosition.y = 0;
+
+    disableTargetRay();
+
+    stage.addChild(targetRay);
+}
+
 function initPlayerShip(resources) {
     playerShip = new PIXI.Sprite(loadedResources.ship.texture);
 
@@ -256,17 +277,17 @@ function renderUpdate() {
     // Update display information about controlled enemy if necessary
     if(enemyControllUpdate != undefined) {
         enemyControllUpdate()
-        enemyControllUpdate = undefined
     }
 
     // Update the hacking values
-    updateHacking()
+    updateHacking();
 
     // Animate tracktor beam
-    updateTractorBeam()
+    updateTractorBeam();
+    updateTargetRay();
 
     // move background
-    updateBackground()
+    updateBackground();
 
     // this is the main render call that makes pixi draw your container and its children.
     renderer.render(stage);
@@ -285,6 +306,16 @@ function updateTractorBeam() {
         // REQ_HACK_PROGRESS and hackProgress are global variables defined in hacking_game.js
         tractorBeam.width = distance * (hackProgress / REQ_HACK_PROGRESS);
         tractorBeam.tilePosition.x -= 0.8;
+    }
+}
+
+function updateTargetRay() {
+    if(targetRay.target != undefined) {
+        distance = distanceOfTwoSprites(targetRay, targetRay.target);
+        angle = angleOfLine(targetRay, targetRay.target);
+        targetRay.rotation = angle;
+        targetRay.width = distance;
+        targetRay.tilePosition.x += 2;
     }
 }
 
@@ -311,8 +342,11 @@ function resize() {
     // Reposition and rescale tractor beam
     spriteReposition(tractorBeam);
     // Thinkness of beam in game length units
-    var beamThickness = 7;
+    var beamThickness = 5;
     tractorBeam.height = beamThickness*zoom*maxDim;
+
+    var rayThickness = 3;
+    targetRay.height = rayThickness*zoom*maxDim;
 
     // Reposition and rescale game objects
     spriteReposition(playerShip);
@@ -366,10 +400,23 @@ function enableTractorBeam(target) {
     tractorBeam.target = target;
 }
 
+function enableTargetRay(origin, target) {
+    targetRay.position = origin.position;
+    targetRay.target = target;
+}
+
 function disableTractorBeam() {
     if(tractorBeam != undefined) {
         tractorBeam.target = undefined;
         tractorBeam.width = 0;
+    }
+}
+
+function disableTargetRay() {
+    if(targetRay != undefined) {
+        targetRay.position = new PIXI.Point(0,0);
+        targetRay.target = undefined;
+        targetRay.width = 0;
     }
 }
 
@@ -477,7 +524,9 @@ function updateEnemies(enemyData) {
     }
     // Remove those that didn't get an update
     for (id in enemies) {
-        enemyLayer.removeChild(enemies[id]);
+        var enemy = enemies[id];
+        enemyLayer.removeChild(enemy);
+        if(enemy == targetRay.target) { disableTargetRay()}
     }
     // Add new ones
     for (id in toAdd) {

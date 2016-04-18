@@ -53,6 +53,9 @@ function decrementHackProgress() {
 // Updates the hacking values depending
 // on whether an enemy is held or not
 function updateHacking() {
+    if(finishedHack) {
+        return
+    }
     if (enemyHeld) {
         incrementHackProgress()
     } else {

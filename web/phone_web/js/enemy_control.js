@@ -9,6 +9,7 @@ function actionOnEnemy(target) {
         setHeld(true)
     } else if (target.spaceGameId != controlledEnemyId) {
         sendEnemyAttackRequest(target.spaceGameId)
+        enableTargetRay(controlledEnemySprite, target)
     }
 }
 
@@ -41,6 +42,7 @@ function displayEnemyHacking(id) {
 // Highligth controlled enemy and deals with other state changes
 function displayNewControlledEnemy() {
     controlledEnemySprite = findControlledEnemy()
+    if(controlledEnemySprite == undefined) { return }
     controlledEnemySprite.isHacked = true
     var overlay = new PIXI.Sprite(loadedResources.controlled.texture);
     overlay.anchor.x = 0.5
@@ -48,6 +50,10 @@ function displayNewControlledEnemy() {
     controlledEnemySprite.addChild(overlay)
     // Enabling tractor beam as example of usage
     enableTractorBeam(controlledEnemySprite)
+    // Hack to make the hacking game finished
+    finishedHack = true;
+    hackProgress = REQ_HACK_PROGRESS;
+    enemyControllUpdate = undefined
 }
 
 // Clear controll enemy visualisations and data
@@ -55,4 +61,6 @@ function clearDisplayingOfControlledEnemy() {
     controlledEnemySprite = undefined
     // Disabling tractor beam as example of usage
     disableTractorBeam()
+    disableTargetRay()
+    enemyControllUpdate = undefined
 }
