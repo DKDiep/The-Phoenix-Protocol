@@ -105,13 +105,18 @@ public class CrosshairMovement : NetworkBehaviour
 			SetCrosshairPositionMouse();
 		}
 
+        Vector3[] targets = new Vector3[4];
+
 		// Update position of crosshairs
 		for (int i = 0; i < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
-		}
-	}
+            targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
+        }
+
+        serverManager.CmdUpdateTargets(gameObject, targets);
+    }
 
     /// <summary>
     /// Sets the crosshair position wii remote.

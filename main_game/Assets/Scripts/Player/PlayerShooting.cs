@@ -80,9 +80,10 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 0;
 		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
-        //GameObject crosshairContainer = GameObject.Find("Crosshairs");
+
+        serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
         // Get screen with index 0
-        GameObject crosshairContainer = GameObject.Find("GameManager").GetComponent<ServerManager>().GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
+        GameObject crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
         // Find crosshair
 		crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
@@ -158,7 +159,18 @@ public class PlayerShooting : MonoBehaviour
         if (crosshair != null)
         {
             Vector3 crosshairPosition = crosshair.transform.position;
-            target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+            //target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+            /*int screenId = 1;
+            GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
+            Vector3[] targets = serverManager.GetTargetPositions(crosshairObject).targets;
+            target.transform.position = targets[0];*/
+
+            int screenId = 1;
+            GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
+            Vector3[] targets = serverManager.GetTargetPositions(crosshairObject).targets;
+            target.transform.position = targets[0];
+
+            Debug.Log(targets[0]);
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
