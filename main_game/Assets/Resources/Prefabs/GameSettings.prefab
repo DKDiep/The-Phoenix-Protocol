@@ -374,7 +374,7 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-  - active: 1
+  - active: 0
     name: Enemy Fire
     description: Looks like collecting those resources attracted the attention of
       some alian fighters. Instruct your crew to get ready for battle!
