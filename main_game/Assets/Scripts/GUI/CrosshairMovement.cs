@@ -109,7 +109,14 @@ public class CrosshairMovement : NetworkBehaviour
 		for (int i = 0; i < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
-			selectedCrosshair.position = GetPosition(i);
+
+			if (!usingMouse)
+			{
+				Vector2 currentPosition = selectedCrosshair.position;
+				selectedCrosshair.position = Vector2.Lerp(currentPosition, GetPosition(i), Time.deltaTime * wiimoteInterpolationFactor);
+			}
+			else
+				selectedCrosshair.position = GetPosition(i);
 		}
 	}
 
@@ -142,9 +149,7 @@ public class CrosshairMovement : NetworkBehaviour
         }
         else
         {
-			Vector2 oldPosittion = GetPosition(controlling);
             serverManager.SetCrosshairPosition(playerId, screenId, position);
-
         }
         autoaimScripts[playerId].Target = targetObject;
     }
