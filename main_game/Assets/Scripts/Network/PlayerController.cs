@@ -187,8 +187,22 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdDoUpgrade(ComponentType part)
     {
+		UpgradableHull hull 				= gameState.GetUpgradableComponent(ComponentType.Hull) as UpgradableHull; 
+		UpgradableShieldGenerator shieldGen = gameState.GetUpgradableComponent(ComponentType.ShieldGenerator) as UpgradableShieldGenerator;
+
+		float oldMaxHealth = hull.MaxHealth, oldMaxShield = shieldGen.MaxShield;
+			
         gameState.GetUpgradableComponent(part).Upgrade();
-        gameState.RemoveNotification(true, part);
+
+		float newMaxHealth = hull.MaxHealth, newMaxShield = shieldGen.MaxShield;
+
+		// If upgrading the hull or the shields, give the player the extra health/shield immediately
+		if (part == ComponentType.Hull)
+			gameState.AddShipHealth(newMaxHealth - oldMaxHealth);
+		else if (part == ComponentType.ShieldGenerator)
+			gameState.AddShipShield(newMaxShield - oldMaxShield);
+
+		gameState.RemoveNotification(true, part);
         serverManager.SendJobFinished(true, part);
     }
 

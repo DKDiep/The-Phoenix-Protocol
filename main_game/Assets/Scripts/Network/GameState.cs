@@ -621,6 +621,15 @@ public class GameState : NetworkBehaviour {
 	}
 
 	/// <summary>
+	/// Increases the ship health.
+	/// </summary>
+	/// <param name="shield">The value by which to increase the health.</param>
+	public void AddShipHealth(float health)
+	{
+		shipHealth += health;
+	}
+
+	/// <summary>
 	/// Absorbs as much damage as possible using the current shield.
 	/// </summary>
 	/// <returns>The amount of damage left that could not be absorbed because the shields have depleated.</returns>
@@ -824,6 +833,15 @@ public class GameState : NetworkBehaviour {
 	public void SetShipShield(float shield)
 	{
 		shipShield = shield;
+	}
+
+	/// <summary>
+	/// Increases the ship shield.
+	/// </summary>
+	/// <param name="shield">The value by which to increase the shield.</param>
+	public void AddShipShield(float shield)
+	{
+		shipShield += shield;
 	}
 
 	/// <summary>
