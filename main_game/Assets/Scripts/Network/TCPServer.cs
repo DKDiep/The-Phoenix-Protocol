@@ -166,13 +166,15 @@ public class TCPServer : MonoBehaviour
 
                 // Clear the officer dictionary to avoid having officers from last game in there
                 officerMap.Clear();
+                uint remoteId = 0;
                 foreach (String plr in fields)
                 {
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
-                    officerMap.Add(userId, new Officer(userId, userName));
+                    officerMap.Add(remoteId, new Officer(userId, userName, remoteId));
                     Debug.Log("Username: " + userName + " id:" + userId);
+                    remoteId++;
                 }
                 // Send the map of officers to clients that need it
                 serverManager.SendOfficers();

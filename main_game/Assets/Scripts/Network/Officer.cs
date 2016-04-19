@@ -5,6 +5,7 @@ public class Officer {
     public uint PlayerId { get; private set; }
     public float Ammo { get; set; }
     public string Name { get; set; }
+    public uint RemoteId { get; set; }
 
     // We don't want to be able to create officers
     // without a PlayerId
@@ -19,9 +20,10 @@ public class Officer {
 
     // Chained constructor. Calls the above constructor before
     // setting the name attribute
-    public Officer(uint playerId, string name) : this(playerId)
+    public Officer(uint playerId, string name, uint remoteId) : this(playerId)
     {
         this.Name = name;
+        this.RemoteId = remoteId;
     }
 
     /// <summary>
@@ -36,7 +38,8 @@ public class Officer {
 
         serializedObject += this.PlayerId.ToString() + ",";
         serializedObject += this.Name + ",";
-        serializedObject += this.Ammo.ToString();
+        serializedObject += this.Ammo.ToString() + ",";
+        serializedObject += this.RemoteId.ToString();
 
         return serializedObject;
     }
@@ -78,7 +81,17 @@ public class Officer {
             throw e;
         }
 
-        Officer deserialized = new Officer(id, name);
+        uint remoteId;
+        try
+        {
+            remoteId = uint.Parse(fields[3]);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+
+        Officer deserialized = new Officer(id, name, remoteId);
         deserialized.Ammo = ammo;
         return deserialized;
     }

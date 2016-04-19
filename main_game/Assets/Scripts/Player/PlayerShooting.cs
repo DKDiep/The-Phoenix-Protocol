@@ -140,6 +140,7 @@ public class PlayerShooting : MonoBehaviour
 
 			ShootBullet(playerId);
 			ammo -= shootAmmoCost;
+            gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
 		}
 		else if (!shootButtonPressed && !ammoRecharging)
 		{
@@ -265,7 +266,10 @@ public class PlayerShooting : MonoBehaviour
 		ammo += ammoRechargeValue;
 		if (ammo > maxAmmo)
 			ammo = maxAmmo;
-
+        
+        if(gameState.GetOfficerMap().ContainsKey((uint)playerId))
+            gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
+        
 		ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
 	}
 }

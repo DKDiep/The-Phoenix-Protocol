@@ -207,7 +207,7 @@ public class UDPServer : MonoBehaviour
             try {
                 string jsonMsg = "{\"type\":\"AMMO_UPD\",\"data\":[";
                 foreach(KeyValuePair<uint, Officer> entry in officers) {
-                    jsonMsg += "{\"id\":" + entry.Key + ",";
+                    jsonMsg += "{\"id\":" + entry.Value.PlayerId + ",";
                     jsonMsg += "\"ammo\":" + entry.Value.Ammo + "},";
                 }
                 jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
@@ -228,7 +228,7 @@ public class UDPServer : MonoBehaviour
             int i = 0;
                 string jsonMsg = "{\"type\":\"SCORE_UPD\",\"data\":[";
                 foreach(KeyValuePair<uint, Officer> entry in officers) {
-                    jsonMsg += "{\"id\":" + entry.Key + ",";
+                    jsonMsg += "{\"id\":" + entry.Value.PlayerId + ",";
                     jsonMsg += "\"score\":" + state.GetPlayerScore(i) + "},";
                     i++;
                 }

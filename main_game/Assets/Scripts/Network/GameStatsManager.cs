@@ -50,7 +50,7 @@ public class GameStatsManager : MonoBehaviour
         jsonMsg += "}";
         StartCoroutine(SendFinalRequest(jsonMsg));
         return (int)totalScore;
-}
+    }
 
     IEnumerator SendRequest()
     {
@@ -63,7 +63,7 @@ public class GameStatsManager : MonoBehaviour
                 int i = 0;
                 foreach(KeyValuePair<uint, Officer> officer in officerMap)
                 {
-                    jsonMsg += "{\"name\": \"" + officer.Value.Name + "\", \"score\":" + gameState.GetPlayerScore(i) + "},";
+                    jsonMsg += "{\"name\": \"" + officer.Value.Name + "\", \"score\":" + gameState.GetPlayerScore((int)officer.Key) + "},";
                     i++;
                 }
                 // Remove last comma from json 
