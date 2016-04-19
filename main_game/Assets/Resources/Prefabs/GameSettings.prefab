@@ -76,7 +76,7 @@ MonoBehaviour:
     maxHealth: 50
     maxShield: 0
     collisionDamage: 20
-    speed: 12
+    speed: 36
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -88,7 +88,7 @@ MonoBehaviour:
     maxHealth: 125
     maxShield: 0
     collisionDamage: 35
-    speed: 14
+    speed: 40
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 7
@@ -100,7 +100,7 @@ MonoBehaviour:
     maxHealth: 30
     maxShield: 0
     collisionDamage: 10
-    speed: 20
+    speed: 50
     isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
     maxHealth: 30
     maxShield: 0
     collisionDamage: 10
-    speed: 20
+    speed: 50
     isSuicidal: 0
     shootPeriod: 0
     shotsPerSec: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
     maxHealth: 200
     maxShield: 0
     collisionDamage: 60
-    speed: 16
+    speed: 40
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -136,7 +136,7 @@ MonoBehaviour:
     maxHealth: 350
     maxShield: 0
     collisionDamage: 75
-    speed: 22
+    speed: 30
     isSuicidal: 0
     shootPeriod: 4
     shotsPerSec: 6
@@ -866,11 +866,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[2].speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[3].speed
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[3].collisionDamage
@@ -899,6 +899,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: PlayerShipStartingSpeed
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].speed
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[1].speed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[4].speed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[5].speed
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
