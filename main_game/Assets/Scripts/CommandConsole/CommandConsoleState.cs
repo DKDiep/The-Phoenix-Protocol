@@ -62,7 +62,8 @@ public class CommandConsoleState : MonoBehaviour {
     private int componentToUpgrade = 0;
     private double second = 0;
     private static Color uiColor = new Color(0.75f, 0.75f, 0.75f, 1);
-
+    private static Color transpWhite = new Color(1, 1, 1, 86f / 255f);
+    private static Color transpBlack = new Color(0, 0, 0, 86f / 255f);
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
     private int[] repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
@@ -166,6 +167,16 @@ public class CommandConsoleState : MonoBehaviour {
                 pulsateableImages[i].color = lerpedColor;
             }
             else pulsateableImages[i].color = uiColor;
+        }
+        lerpedColor = transpBlack;
+        lerpedColor = Color.Lerp(transpBlack, transpWhite, Mathf.PingPong(Time.time, 1));
+        for (int i = 0; i < upgradeProgress.Length; i++)
+        {
+            if (upgradeProgress[i] == 1)
+            {
+                consoleUpgrades[i].setPendingColor(lerpedColor);
+            }
+            else consoleUpgrades[i].setPendingColor(transpBlack);
         }
 
         //all this is just so people can see the pulsate feature. It should be removed at some point
@@ -297,9 +308,6 @@ public class CommandConsoleState : MonoBehaviour {
             // Update the ships resources
             gameState.UseShipResources(GetUpgradeCost(baseCost, level));
 
-            // Show level indictor for new level.
-            consoleUpgrades[componentId].UpdateLevelIndicator(level);
-
             // Send request to engineer to upgrade
             playerController.CmdAddUpgrade((ComponentType)componentId);
 
@@ -325,6 +333,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         upgradeProgress[(int)type] = 0;
         upgradeButtonLabel.text = "Upgrade";
+        consoleUpgrades[(int)type].UpdateLevelIndicator(upgradeProperties[(int)type].currentLevel);
         upgradeProperties[(int)type].currentLevel++;
         UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
     }
