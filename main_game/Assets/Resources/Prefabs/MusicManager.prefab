@@ -116,10 +116,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - {fileID: 8300000, guid: f130163b4140e45a997d9a312447daaa, type: 3}
-  - {fileID: 8300000, guid: 57eb9ec4bc99e4dd08fc84733bbdf859, type: 3}
-  - {fileID: 8300000, guid: 6bad22e7932d14456b31dd687f6376de, type: 3}
-  - {fileID: 8300000, guid: c10587aba85d5445ea86f3e312e6ec06, type: 3}
+  - {fileID: 8300000, guid: d50177c3e11d64b22b97c04b47725511, type: 3}
+  - {fileID: 8300000, guid: 14e6fca3ac241419bb4c9d2379b8c309, type: 3}
+  - {fileID: 8300000, guid: d1f5046cedc8a40fd874bd930465ca34, type: 3}
+  - {fileID: 8300000, guid: f19b856267d134979a105150efe0043b, type: 3}
+  - {fileID: 8300000, guid: 0727b859d15e74595b7b8a29109d9e15, type: 3}
 --- !u!114 &11481404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +162,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: music.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: BypassReverbZones
@@ -250,23 +251,27 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: music.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: f130163b4140e45a997d9a312447daaa, type: 3}
+      objectReference: {fileID: 8300000, guid: d50177c3e11d64b22b97c04b47725511, type: 3}
     - target: {fileID: 0}
       propertyPath: music.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: 57eb9ec4bc99e4dd08fc84733bbdf859, type: 3}
+      objectReference: {fileID: 8300000, guid: 14e6fca3ac241419bb4c9d2379b8c309, type: 3}
     - target: {fileID: 0}
       propertyPath: music.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: 6bad22e7932d14456b31dd687f6376de, type: 3}
+      objectReference: {fileID: 8300000, guid: d1f5046cedc8a40fd874bd930465ca34, type: 3}
     - target: {fileID: 0}
       propertyPath: music.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: c10587aba85d5445ea86f3e312e6ec06, type: 3}
+      objectReference: {fileID: 8300000, guid: f19b856267d134979a105150efe0043b, type: 3}
     - target: {fileID: 0}
       propertyPath: Priority
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: music.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0727b859d15e74595b7b8a29109d9e15, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147584}

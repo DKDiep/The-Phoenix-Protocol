@@ -61,7 +61,7 @@ public class ReadyScreen : NetworkBehaviour
         if (musicObect != null)
         {
             musicManager = musicObect.GetComponent<MusicManager>();
-            musicManager.PlayMusic(1);
+            musicManager.PlayMusic(0);
         }
         if (playerController.netId.Value == serverManager.GetServerId())
             RpcShow();  

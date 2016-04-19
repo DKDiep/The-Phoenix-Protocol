@@ -11,6 +11,12 @@ public class MusicManager : MonoBehaviour
 	[SerializeField] AudioClip[] music;
 	#pragma warning restore 0649
 
+    // 0 - MENU THEME
+    // 1 - MAIN THEME
+    // 2 - DANGEROUS THEME
+    // 3 - LOSE THEME
+    // 4 - WIN THEME
+
     public void Play()
     {
         GetComponent<AudioSource>().clip = music[0];

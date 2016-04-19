@@ -66,7 +66,7 @@ public class LoadingText : NetworkBehaviour
         yield return new WaitForSeconds(3f);
         
 		fadeSound = true;
-        GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(0);
+        GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(1);
         for(int i = 0; i < 4; i++)
 		    shooting[i].SetShootingEnabled(true);
 		missionManager.StartTimer();

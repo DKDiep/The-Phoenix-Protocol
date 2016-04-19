@@ -115,9 +115,9 @@ public class GameStatusManager : NetworkBehaviour
                         musicManager = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
 
                     if(gameState.Status == GameState.GameStatus.Died) 
-                        musicManager.PlayMusic(2);
-                    else
                         musicManager.PlayMusic(3);
+                    else
+                        musicManager.PlayMusic(4);
 
                     // Disable game timer. 
                     GameObject gameTimer = GameObject.Find("GameTimerText");

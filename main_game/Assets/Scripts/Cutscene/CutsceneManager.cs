@@ -22,6 +22,6 @@ public class CutsceneManager : MonoBehaviour
 	IEnumerator Cutscene()
 	{
 		yield return new WaitForSeconds(9f);
-		music.PlayMusic (0);
+		music.PlayMusic (1);
 	}
 }

@@ -413,7 +413,7 @@ public class ServerManager : NetworkBehaviour
         Camera.main.gameObject.GetComponent<DamageEffects>().Reset();
             
         // Restart music - consider reset method for sound system
-        musicManager.GetComponent<MusicManager>().PlayMusic(1);
+        musicManager.GetComponent<MusicManager>().PlayMusic(0);
 
         // Reactivate possibly deactivated objects
         if (!gameTimer.activeSelf)
