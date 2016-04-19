@@ -30,7 +30,7 @@ func (gs *GameState) enterSetupState() {
     }
 
     // if we can't notify the Game Server do nothing
-    if !sendSignalToGameServer(RESET_GAME, "") {
+    if !sendSignalToGameServer(RESET_GAME) {
         return
     }
 
@@ -81,7 +81,6 @@ func (gs *GameState) inviteOfficers() {
                 break
             }
         }
-
         // Send invites
         answersC := make(chan bool, numNeededOfficers)
         for i := 0; i < len(list) && i < numNeededOfficers; i++ {
@@ -103,13 +102,13 @@ func (gs *GameState) inviteOfficers() {
 // Enters the game execution state
 // Puts all spectators in the spectator game
 // and starts the periodic updates of game data
-func (gs *GameState) startGame(teamName string) {
+func (gs *GameState) startGame() {
     if gs.status == RUNNING {
         return
     }
 
     // if we can't notify the Game Server do nothing
-    if !sendSignalToGameServer(START_GAME, teamName) {
+    if !sendSignalToGameServer(START_GAME) {
         return
     }
 

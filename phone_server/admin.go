@@ -99,7 +99,7 @@ func handleAdminMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "GM_STRT":
         fmt.Println("Admin: Received Start Game signal.")
-        gameState.startGame(msg["data"].(string))
+        gameState.startGame()
     case "GM_STP":
         fmt.Println("Admin: Received Enter Setup signal.")
         gameState.enterSetupState()
