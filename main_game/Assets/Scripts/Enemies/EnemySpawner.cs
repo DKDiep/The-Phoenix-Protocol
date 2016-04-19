@@ -28,6 +28,8 @@ public class EnemySpawner : MonoBehaviour
 	private Vector3 aiWaypointShift;
     // The radius of the sphere around an outpost in which to spawn protecting enemies
 	private int outpostSpawnRadius;
+
+    private MusicManager music;
     
 	private bool mothershipSpawned = false;
     public GameObject mothershipEnemySpawner;
@@ -111,6 +113,10 @@ public class EnemySpawner : MonoBehaviour
     void SpawnGlomMothership()
     {
         Debug.Log("Glom mothership spawned");
+        if(music == null)
+            music = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
+
+        music.PlayMusic(2);
         GameObject spawnEffect = Instantiate(Resources.Load("Prefabs/MothershipSpawnEffect", typeof(GameObject))) as GameObject;
         spawnEffect.transform.position = settings.GlomMothershipSpawnPosition;	
         ServerManager.NetworkSpawn(spawnEffect);

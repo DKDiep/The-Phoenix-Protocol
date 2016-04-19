@@ -98,6 +98,8 @@ public class MothershipLogic : MonoBehaviour {
             else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
             {
                 Debug.Log("Glom mothership destroyed");
+                GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(1);
+
                 GameObject explosion = Instantiate(Resources.Load("Prefabs/OutpostExplode", typeof(GameObject))) as GameObject;
                 explosion.transform.position = transform.position;
                 explosion.SetActive(true);
