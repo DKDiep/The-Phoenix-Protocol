@@ -38,7 +38,7 @@ public class GameStatusManager : NetworkBehaviour
         gameOverScreen = false;
 
         GameObject crosshairCanvas = server.GetComponent<ServerManager>().GetCrosshairObject(playerController.GetScreenIndex());
-        if (crosshairCanvas != null && GameObject.Find("CommanderCamera") != null)
+        if (crosshairCanvas != null && GameObject.Find("CommanderCamera") == null)
             crosshairCanvas.SetActive(true);
         
         // Remove screen overlays
