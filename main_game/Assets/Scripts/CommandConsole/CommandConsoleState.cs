@@ -47,8 +47,10 @@ public class CommandConsoleState : MonoBehaviour {
     private GameSettings settings;
     private List<ConsoleUpgrade> consoleUpgrades = new List<ConsoleUpgrade>();
     private List<GameObject> upgradeBoxes;
-    private List<GameObject> healthSegments = new List<GameObject>();
-    private List<GameObject> shieldSegments = new List<GameObject>();
+    private List<GameObject> healthSegments =   new List<GameObject>();
+    private List<GameObject> shieldSegments =   new List<GameObject>();
+    private List<Text> upgradeCostTexts =       new List<Text>();
+    private List<Image> upgradeCostImages =     new List<Image>();
     private Image[] pulsateableImages;
     private bool[] pulsateToggle;
     private UpgradeProperties[] upgradeProperties;
@@ -197,6 +199,7 @@ public class CommandConsoleState : MonoBehaviour {
         {
             UpdateAllText();
             //UpdateCostTextColor();
+            UpdateCostColors();
             UpdateHealthShieldBars();
             second = 0;
         }
@@ -227,6 +230,8 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.localPosition = new Vector3(-513, 180 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
+            upgradeCostImages.Add(upgradeBox.transform.Find("ResourcesImage").GetComponent<Image>());
+            upgradeCostTexts.Add(upgradeBox.transform.Find("UpgradeCostText").GetComponent<Text>());
             //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
             pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
@@ -357,7 +362,6 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeDescription.text = upgradeProperties[component].description;
         //costLabel.text = GetUpgradeCost(upgradeProperties[component].cost, upgradeProperties[component].currentLevel).ToString();
         // Upgrade the cost text to display in red if the player does not have enough resources.
-        //UpdateCostTextColor();
 
         if(upgradeProgress[component] == 1) 
             upgradeButtonLabel.text = "Waiting";
@@ -412,6 +416,23 @@ public class CommandConsoleState : MonoBehaviour {
         //y
         //healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
         //shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
+    }
+
+    private void UpdateCostColors()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (int.Parse(upgradeCostTexts[i].text) > gameState.GetShipResources())
+            {
+                upgradeCostTexts[i].color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 1);
+                //upgradeCostImages[i].color = new Color(255f / 255f, 0f / 255f, 0f / 255f, 1);
+            }
+            else
+            {
+                upgradeCostTexts[i].color = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
+                //upgradeCostImages[i].color = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
+            }
+        }
     }
 
     private void UpdateHealthShieldBars()
