@@ -1,4 +1,4 @@
-var MAX_AMMO = 20;
+var MAX_AMMO = 100;
 var AMMO_RECHARGE_RATE = 500;
 var ammoRechargeTimer;
 var currentAmmunition = 0;
@@ -47,10 +47,10 @@ function updateAmmo() {
     // To avoid concurrency issues
     ammo = lastReceivedAmmoUpdate
     clearInterval(ammoRechargeTimer)
-    for (i = 0; i < ammo; i++) {
+    for (i = 0; i < ammo/5; i++) {
         $("#ammoSegment"+i).addClass("filled")
     }
-    for (i = ammo; i < MAX_AMMO ; i++) {
+    for (i = ammo/5; i < MAX_AMMO/5 ; i++) {
         $("#ammoSegment"+i).removeClass("filled")
     }
     currentAmmunition = ammo

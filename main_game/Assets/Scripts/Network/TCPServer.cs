@@ -163,18 +163,18 @@ public class TCPServer : MonoBehaviour
                 // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal with data:");
                 fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
-                gameState.SetTeamName(fields[0]);
 
                 // Clear the officer dictionary to avoid having officers from last game in there
                 officerMap.Clear();
-                for (int i = 1; i < fields.Length; i++)
+                uint remoteId = 0;
+                foreach (String plr in fields)
                 {
-                    String plr = fields[1];
                     subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
-                    officerMap.Add(userId, new Officer(userId, userName));
+                    officerMap.Add(remoteId, new Officer(userId, userName, remoteId));
                     Debug.Log("Username: " + userName + " id:" + userId);
+                    remoteId++;
                 }
                 // Send the map of officers to clients that need it
                 serverManager.SendOfficers();

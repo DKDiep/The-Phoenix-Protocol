@@ -97,23 +97,9 @@ function sendInviteOfficersSingnal() {
 }
 
 function sendStartGameSignal() {
-    team_name = $('#team-name').val()
-
-    // Display error and return from here if no
-    // team name was entered
-    if (team_name == "") {
-        $('#error-message').css("color", "red")
-        $('#error-message').html("Please enter a valid team name!")
-        return
-    } else {
-        $('#error-message').html("")
-    }
-
     var msg = {
-        type: "GM_STRT",
-        data: team_name
+        type: "GM_STRT"
     }
-
     serverSocket.send(JSON.stringify(msg));
 }
 
