@@ -49,15 +49,15 @@ MonoBehaviour:
   AsteroidAvgSize: 43.6
   AsteroidFieldSpacingFactor: 3
   AsteroidVisibilityEdgeSpawnMaxAngle: 25
-  shootCooldown: 15
+  shootCooldown: 60
   projectileCount: 8
   maxTargetRadius: 600
   boostDuration: 8
-  boostCooldown: 15
+  boostCooldown: 60
   boostSpeedMultiplier: 2
   shieldOverdriveDuration: 8
-  shieldOverdriveCooldown: 30
-  empCooldown: 45
+  shieldOverdriveCooldown: 60
+  empCooldown: 60
   empRadius: 500
   empDuration: 8
   smartBombCooldown: 60
@@ -822,7 +822,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shootCooldown
-      value: 15
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostDuration
@@ -830,7 +830,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostCooldown
-      value: 15
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldOverdriveDuration
@@ -838,11 +838,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldOverdriveCooldown
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: empCooldown
-      value: 45
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: smartBombCooldown
