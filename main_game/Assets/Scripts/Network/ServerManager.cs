@@ -474,5 +474,13 @@ public class ServerManager : NetworkBehaviour
         /*GameObject crosshairObject = screenIdToCrosshair[screenId];
         crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);*/
 		screenIdToCrosshairMovement[screenId].SetPosition(crosshairId, position);
+
+		for (int i = -1; i <= 1; i++)
+		{
+			CrosshairMovement crosshairScript;
+			if(screenIdToCrosshairMovement.TryGetValue(i, out crosshairScript))
+				crosshairScript.SetCrosshairEnabled(crosshairId, (i == screenId));
+				//crosshairScript.SetPosition(crosshairId, Vector2.zero);
+		}
     }
 }

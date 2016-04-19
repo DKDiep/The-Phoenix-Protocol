@@ -39,6 +39,7 @@ public class CrosshairMovement : NetworkBehaviour
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
+	private SyncListBool enabled = new SyncListBool();
 
     // Use this for initialization
     void Start ()
@@ -53,6 +54,9 @@ public class CrosshairMovement : NetworkBehaviour
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
+
+		for (int i = 0; i < 4; i++)
+			enabled.Add(false);
                     
 		// If there are no wii remotes connected, set the default to 2
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
@@ -117,6 +121,8 @@ public class CrosshairMovement : NetworkBehaviour
 			}
 			else
 				selectedCrosshair.position = GetPosition(i);
+
+			crosshairs[i].SetActive(enabled[i]);
 		}
 	}
 
@@ -212,6 +218,16 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
     }
+
+	/// <summary>
+	/// Sets whether a chosen crosshair is enabled.
+	/// </summary>
+	/// <param name="crosshairID">The crosshair ID.</param>
+	/// <param name="enabled">If set to <c>true</c>, enabled.</param>
+	public void SetCrosshairEnabled(int crosshairID, bool enabled)
+	{
+		this.enabled[crosshairID] = enabled;
+	}
 
     public void SetPosition(int crosshairId, Vector2 newPosition)
     {
