@@ -287,6 +287,7 @@ public class ServerManager : NetworkBehaviour
         // Spawn networked ship
         GameObject playerShip = Instantiate(Resources.Load("Prefabs/PlayerShip", typeof(GameObject))) as GameObject;
         gameState.PlayerShip = playerShip;
+        playerShip.transform.position = settings.PlayerStartingPosition;
         ServerManager.NetworkSpawn(playerShip);
 
         // Get the engineer start position

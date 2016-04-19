@@ -141,6 +141,7 @@ public class GameSettings : MonoBehaviour
 	public float PlayerShipShieldDelay; // Delay in seconds to wait before recharging shield
 
     [Header("Ship Properties")]
+    public Vector3 PlayerStartingPosition;
     public float PlayerShipStartingHealth;
     public float PlayerShipStartingShields;
     public float PlayerShipStartingRechargeRate;
