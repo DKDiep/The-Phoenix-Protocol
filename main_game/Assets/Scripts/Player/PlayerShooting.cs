@@ -142,7 +142,7 @@ public class PlayerShooting : MonoBehaviour
 
 			ShootBullet(playerId);
 			ammo -= shootAmmoCost;
-            gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
+            if (gameState.GetOfficerMap().ContainsKey((uint)playerId))  gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
 		}
 		else if (!shootButtonPressed && !ammoRecharging)
 		{
