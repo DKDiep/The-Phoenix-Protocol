@@ -139,6 +139,9 @@ public class UDPServer : MonoBehaviour
                     float x = float.Parse(subFields[2]) * Screen.width;
                     float y = float.Parse(subFields[3]) * Screen.height;
                     serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));
+                    if (playerShooting[controllerId] == null)
+                        playerShooting[controllerId] = GameObject.Find("PlayerShooting" + controllerId).GetComponent<PlayerShooting>();
+                    playerShooting[controllerId].SetScreenId(screenId);
                 }
                 break;
             case "BP": // Wii remote button shoot press 

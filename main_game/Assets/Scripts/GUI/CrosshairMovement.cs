@@ -36,6 +36,7 @@ public class CrosshairMovement : NetworkBehaviour
 	private const int AUTOAIM_ADVANCE_OFFSET      = 2;  // The distance at which to aim in front of the target to account for bullet speed
 	private CrosshairAutoaimAssist[] autoaimScripts;
 	private Camera mainCamera;
+    private PlayerController localController;
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
@@ -46,8 +47,10 @@ public class CrosshairMovement : NetworkBehaviour
 
 		gameManager = GameObject.Find("GameManager");
 		serverManager = gameManager.GetComponent<ServerManager>();
+        if (ClientScene.localPlayers[0].IsValid)
+            localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
+        settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
 		LoadSettings();
 
         //Populate sync list with 8 floats
@@ -85,7 +88,8 @@ public class CrosshairMovement : NetworkBehaviour
 	{
 		wiimoteInterpolationFactor = settings.WiimoteInterpolationFactor;
 	}
-	
+
+    
 	// Update is called once per frame
     void Update()
 	{
@@ -105,20 +109,33 @@ public class CrosshairMovement : NetworkBehaviour
 			SetCrosshairPositionMouse();
 		}
 
+        Vector3[] targets = new Vector3[4];
+
 		// Update position of crosshairs
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i    < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
+			selectedCrosshair.position = GetPosition(i);
 
-			if (!usingMouse)
-			{
-				Vector2 currentPosition = selectedCrosshair.position;
-				selectedCrosshair.position = Vector2.Lerp(currentPosition, GetPosition(i), Time.deltaTime * wiimoteInterpolationFactor);
-			}
-			else
-				selectedCrosshair.position = GetPosition(i);
-		}
-	}
+            Target target = GetClosestTarget(selectedCrosshair.position);
+            GameObject targetObject = null;
+            if (!target.IsNone())
+            {
+                //targets[i] = target.GetAimPosition();
+                selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
+                targetObject = target.Object;
+            }
+            else
+            {
+                Vector2 oldPosittion = GetPosition(controlling); 
+            }
+            autoaimScripts[i].Target = targetObject;
+
+            targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
+        }
+        
+        localController.CmdUpdateTargets(gameObject, targets);
+    }
 
     /// <summary>
     /// Sets the crosshair position wii remote.
@@ -140,7 +157,7 @@ public class CrosshairMovement : NetworkBehaviour
             }
         }
         // If there's an autoaim target in range, use that instead of the wii remote position
-        Target target = GetClosestTarget(position);
+        /*Target target = GetClosestTarget(position);
         GameObject targetObject = null;
         if (!target.IsNone())
         {
@@ -151,7 +168,9 @@ public class CrosshairMovement : NetworkBehaviour
         {
             serverManager.SetCrosshairPosition(playerId, screenId, position);
         }
-        autoaimScripts[playerId].Target = targetObject;
+        autoaimScripts[playerId].Target = targetObject;*/
+        Vector2 oldPosittion = GetPosition(controlling);
+        serverManager.SetCrosshairPosition(playerId, screenId, position);
     }
 
     /// <summary>
@@ -164,7 +183,7 @@ public class CrosshairMovement : NetworkBehaviour
         Vector2 currentPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
         // If there's an autoaim target in range, use that instead of the cursor position
-        Target target = GetClosestTarget(currentPosition);
+        /*Target target = GetClosestTarget(currentPosition);
 		GameObject targetObject = null;
         if (!target.IsNone())
         {
@@ -175,7 +194,8 @@ public class CrosshairMovement : NetworkBehaviour
         {
             serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
         }
-		autoaimScripts[controlling].Target = targetObject;
+		autoaimScripts[controlling].Target = targetObject;*/
+        serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
     }
         
     /// <summary>

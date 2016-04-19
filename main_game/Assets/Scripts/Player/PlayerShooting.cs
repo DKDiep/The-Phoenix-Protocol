@@ -21,7 +21,7 @@ public class PlayerShooting : MonoBehaviour
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject bulletAnchor;
-	private GameObject target;
+	private Vector3 targetPos;
 	private bool canShoot, showMarker;
 	private float alpha;
 	private Vector3 crosshairPosition;
@@ -39,6 +39,8 @@ public class PlayerShooting : MonoBehaviour
 
 	private bool ammoRecharging;
 	private Coroutine ammoRechargeCoroutine;
+
+    private int screenId;
 
     // Which player are we controlling via the mouse. (For debugging different players)
     private int currentPlayerId = 0;
@@ -78,11 +80,11 @@ public class PlayerShooting : MonoBehaviour
 		fireSoundAudioSource.clip = fireSound;
 		showMarker = false;
 		alpha = 0;
-		target = new GameObject();
 		transform.localPosition = new Vector3(0,0,0);
-        //GameObject crosshairContainer = GameObject.Find("Crosshairs");
+
+        serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
         // Get screen with index 0
-        GameObject crosshairContainer = GameObject.Find("GameManager").GetComponent<ServerManager>().GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
+        GameObject crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
         // Find crosshair
 		crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
@@ -158,7 +160,11 @@ public class PlayerShooting : MonoBehaviour
         if (crosshair != null)
         {
             Vector3 crosshairPosition = crosshair.transform.position;
-            target.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshairPosition.x, crosshairPosition.y, 1000));
+            
+			// Get correct crosshair object's ScreenToWorld results
+            GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
+            Vector3[] targets 		   = serverManager.GetTargetPositions(crosshairObject).targets;
+            targetPos				   = targets[0];
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
@@ -178,7 +184,7 @@ public class PlayerShooting : MonoBehaviour
 			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage());
             logicComponent.SetID(this, playerId);
-            logicComponent.SetDestination(target.transform.position, true, this.gameObject, bulletManager, logicManager, impactManager);
+            logicComponent.SetDestination(targetPos, true, this.gameObject, bulletManager, logicManager, impactManager);
 
 			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
 			if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
@@ -195,6 +201,11 @@ public class PlayerShooting : MonoBehaviour
             StartCoroutine(Delay());
         }
 	}
+
+    public void SetScreenId(int newScreenId)
+    {
+        screenId = newScreenId;
+    }
 
 	// Switch between players using keys 4-7, for debugging different player shooting.
 	void SwitchPlayers() 

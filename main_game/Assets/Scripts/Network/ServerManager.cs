@@ -8,6 +8,11 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 
+public class TargetPositions
+{
+    public Vector3[] targets = new Vector3[4];
+};
+
 public class ServerManager : NetworkBehaviour
 {
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
@@ -21,6 +26,7 @@ public class ServerManager : NetworkBehaviour
     private Dictionary<uint, NetworkConnection> netIdToConn;
     private Dictionary<int, GameObject> screenIdToCrosshair;
 	private Dictionary<int, CrosshairMovement> screenIdToCrosshairMovement;
+    private Dictionary<GameObject, TargetPositions> crosshairToTargetPositions;
     private PlayerController playerController;
     private NetworkMessageDelegate originalAddPlayerHandler;
     private GameObject musicManager, missionManager;
@@ -70,6 +76,7 @@ public class ServerManager : NetworkBehaviour
         // Server and clients need to know screenId matching crosshairs
         screenIdToCrosshair 		= new Dictionary<int, GameObject>();
 		screenIdToCrosshairMovement = new Dictionary<int, CrosshairMovement>();
+        crosshairToTargetPositions  = new Dictionary<GameObject, TargetPositions>();
         if (MainMenu.startServer)
         {
             // Spawn Object Pooling Controller first
@@ -97,7 +104,6 @@ public class ServerManager : NetworkBehaviour
 	{
 		screenIdToCrosshair.Add(screenId, crosshairObject);
 		screenIdToCrosshairMovement.Add(screenId, crosshairObject.GetComponent<CrosshairMovement>());
-
 		PlayerController localController = null;
 		if (ClientScene.localPlayers[0].IsValid)
 			localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
@@ -106,11 +112,25 @@ public class ServerManager : NetworkBehaviour
 		{
 			screenIdToCrosshair[screenId].SetActive(false);
 		}
-	}
+
+        // Populate target dictionary
+        TargetPositions targetPositions = new TargetPositions();
+        crosshairToTargetPositions.Add(crosshairObject, targetPositions);
+    }
 
     public GameObject GetCrosshairObject(int screenId)
     {
         return screenIdToCrosshair[screenId];
+    }
+
+    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    {
+        crosshairToTargetPositions[crosshairObject].targets = targets;
+    }
+
+    public TargetPositions GetTargetPositions(GameObject crosshairObject)
+    {
+        return crosshairToTargetPositions[crosshairObject];
     }
 		
     // Called automatically by Unity when a player joins

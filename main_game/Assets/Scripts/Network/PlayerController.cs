@@ -80,6 +80,13 @@ public class PlayerController : NetworkBehaviour
 	{
 		return index;
 	}
+
+    [Command]
+    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    {
+        serverManager.UpdateTargets(crosshairObject, targets);
+    }
+
     public void CreateCamera()
     {
         playerCamera = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
