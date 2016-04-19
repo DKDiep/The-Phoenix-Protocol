@@ -221,8 +221,10 @@ func (players *PlayerMap) resetPlayersAsync() {
         delete(players.mOfficers, k)
     }
     // Reset commander
-    players.mSpec[players.commander.id] = players.commander
-    players.commander = nil
+    if players.commander != nil {
+        players.mSpec[players.commander.id] = players.commander
+        players.commander = nil
+    }
     // Reset all spectator states, puts them on standby as well
     for _, v := range players.mSpec {
         v.setState(SPECTATOR)
