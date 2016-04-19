@@ -79,13 +79,13 @@ func (gameDB *GameDatabase) logPlayerScores(spectators map[uint64]*Player,
     // Prepare statement
     stmt, err := gameDB.Prepare(
         "UPDATE players SET score=? WHERE player_id=?;")
+    defer stmt.Close()
 
     if err != nil {
         fmt.Println("Database: Error preparing score logging statement:",
             err.Error())
         return
     }
-    defer stmt.Close()
 
     // Send updates for all players
     for id, plr := range spectators {
@@ -101,13 +101,13 @@ func (gameDB *GameDatabase) setOfficers(officers map[uint64]*Player) {
     // Prepare statement
     stmt, err := gameDB.Prepare(
         "UPDATE players SET in_main_game=true, score=0 WHERE player_id=?;")
+    defer stmt.Close()
 
     if err != nil {
         fmt.Println("Database: Error preparing set officer statement:",
             err.Error())
         return
     }
-    defer stmt.Close()
 
     // Set players as officers in database
     for id, _ := range officers {

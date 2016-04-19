@@ -110,7 +110,7 @@ function sendStartGameSignal() {
     }
 
     var msg = {
-        type: "GM_STRT",
+        type: "GM_STRT"
         data: team_name
     }
 
