@@ -126,8 +126,8 @@ public class CommandConsoleState : MonoBehaviour {
 
             int component = (int)type;
             consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
-            upgradeButtonLabel.text = "Upgrade";
-            repairButtonLabel.text = "Repair";
+            consoleUpgrades[component].setUpgradePending(false);
+            consoleUpgrades[component].setRepairPending(false);
         }
         for (int i = 0; i < pulsateToggle.Length; i++)
         {
@@ -230,7 +230,7 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{RepairShip();});
             //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
-            pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
+            pulsateableImages[component] = upgradeBox.transform.Find("UpgradePicture").GetComponent<Image>();
         }
     }
 
@@ -322,7 +322,7 @@ public class CommandConsoleState : MonoBehaviour {
     public void ConfirmUpgrade(ComponentType type)
     {
         upgradeProgress[(int)type] = 0;
-        upgradeButtonLabel.text = "Upgrade";
+        consoleUpgrades[(int)type].setUpgradePending(false);
         consoleUpgrades[(int)type].UpdateLevelIndicator(upgradeProperties[(int)type].currentLevel);
         upgradeProperties[(int)type].currentLevel++;
         UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
@@ -335,7 +335,7 @@ public class CommandConsoleState : MonoBehaviour {
     public void ConfirmRepair(ComponentType type)
     {
         consoleUpgrades[(int)type].HideRepairButton();
-        repairButtonLabel.text = "Repair";
+        consoleUpgrades[(int)type].setRepairPending(false);
         repairProgress[(int)type] = 0;
         UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " has been repaired.");
     }
@@ -359,14 +359,16 @@ public class CommandConsoleState : MonoBehaviour {
         // Upgrade the cost text to display in red if the player does not have enough resources.
         //UpdateCostTextColor();
 
-        if(upgradeProgress[component] == 1) 
-            upgradeButtonLabel.text = "Waiting";
-        else
-            upgradeButtonLabel.text = "Upgrade";
-        if (repairProgress[component] == 1)
-            repairButtonLabel.text = "Waiting";
-        else
-            repairButtonLabel.text = "Repair";
+        bool upgradePending;
+        bool repairPending;
+        
+        if (upgradeProgress[component] == 1) upgradePending = true;
+        else upgradePending = false;
+        if (repairProgress[component] == 1) repairPending = true;
+        else repairPending = false;
+
+        consoleUpgrades[component].setUpgradePending(upgradePending);
+        consoleUpgrades[component].setRepairPending(repairPending);
 
         for (int i = 0; i < consoleUpgrades.Count; i++)
         {
@@ -389,7 +391,7 @@ public class CommandConsoleState : MonoBehaviour {
             return;
         playerController.CmdAddRepair((ComponentType)component);
         repairProgress[componentToUpgrade] = 1;
-        repairButtonLabel.text = "Waiting";
+        consoleUpgrades[component].setRepairPending(true);
     }
 
     //Called whenever an upgrade is purchased
@@ -407,7 +409,7 @@ public class CommandConsoleState : MonoBehaviour {
         consoleUpgrades[componentToUpgrade].UpdateCost(GetUpgradeCost(upgradeProperties[componentToUpgrade].cost, upgradeProperties[componentToUpgrade].currentLevel + 1));
 
         upgradeProgress[componentToUpgrade] = 1;
-        upgradeButtonLabel.text = "Waiting";
+        consoleUpgrades[componentToUpgrade].setUpgradePending(true);
     }
 
     public void RepairShip()

@@ -12,7 +12,11 @@ public class ConsoleUpgrade : MonoBehaviour
     private Text upgradeCostTxt;
 
     private GameObject sideUpgradeButton;
+    private Text sideUpgradeButtonText;
+    private Image sideUpgradeButtonImage;
     private GameObject sideRepairButton;
+    private Text sideRepairButtonText;
+    private Image sideRepairButtonImage;
 
     // Information about the upgrade
     public UpgradeProperties properties;
@@ -28,6 +32,9 @@ public class ConsoleUpgrade : MonoBehaviour
     private bool levelsInitialised = false;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
+    static private Color whiteA200 = new Color(1, 1, 1, 200f / 255f);
+    static private Color whiteA50 = new Color(1, 1, 1, 50f / 255f);
+
     void Start ()
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
@@ -42,8 +49,12 @@ public class ConsoleUpgrade : MonoBehaviour
         repairButton.SetActive(false);
 
         sideUpgradeButton = gameObject.transform.Find("SideUpgradeArea").GetChild(0).gameObject;
+        sideUpgradeButtonText = sideUpgradeButton.GetComponentInChildren<Text>();
+        sideUpgradeButtonImage = sideUpgradeButton.GetComponent<Image>();
         sideUpgradeButton.SetActive(false);
         sideRepairButton = gameObject.transform.Find("SideUpgradeArea").GetChild(1).gameObject;
+        sideRepairButtonText = sideRepairButton.GetComponentInChildren<Text>();
+        sideRepairButtonImage = sideRepairButton.GetComponent<Image>();
         sideRepairButton.SetActive(false);
 
     }
@@ -56,7 +67,8 @@ public class ConsoleUpgrade : MonoBehaviour
         }
         // Hide repair button
         repairButton.SetActive(false);
-        // Reset stats
+        setRepairPending(false);
+        setUpgradePending(false);
     }
 
     void Update()
@@ -158,6 +170,37 @@ public class ConsoleUpgrade : MonoBehaviour
         sideUpgradeButton.SetActive(active);
     }
 
+    public void setRepairPending(bool pending)
+    {
+        if (pending)
+        {
+            sideRepairButtonText.text = "Waiting";
+            sideRepairButtonImage.color = whiteA50;
+            sideRepairButtonText.color = whiteA50;
+        }
+        else
+        {
+            sideRepairButtonText.text = "Repair";
+            sideRepairButtonImage.color = whiteA200;
+            sideRepairButtonText.color = whiteA200;
+        }
+    }
+
+    public void setUpgradePending(bool pending)
+    {
+        if (pending)
+        {
+            sideUpgradeButtonText.text = "Waiting";
+            sideUpgradeButtonImage.color = whiteA50;
+            sideUpgradeButtonText.color = whiteA50;
+        }
+        else
+        {
+            sideUpgradeButtonText.text = "Upgrade";
+            sideUpgradeButtonImage.color = whiteA200;
+            sideUpgradeButtonText.color = whiteA200;
+        }
+    }
 }
 
 
