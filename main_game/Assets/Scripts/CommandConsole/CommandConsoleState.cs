@@ -501,6 +501,15 @@ public class CommandConsoleState : MonoBehaviour {
     public void AddObjectives(string[] objectives)
     {
         currentObjectives.AddRange(objectives.ToList());
+        UpdateObjectives(); 
+    }
+
+    public void RemoveObjectives(string[] completedObjectives)
+    {
+        foreach (string completedObjective in completedObjectives)
+        {
+            currentObjectives.Remove(completedObjective);
+        }
         UpdateObjectives();
     }
 
@@ -575,7 +584,8 @@ public class CommandConsoleState : MonoBehaviour {
 
     private void UpdateObjectives()
     {
-        foreach(string objective in currentObjectives)
+        newsFeed.GetComponent<Text>().text = "";
+        foreach (string objective in currentObjectives)
         {
             newsFeed.GetComponent<Text>().text = objective + "\n" + newsFeed.GetComponent<Text>().text;
         }

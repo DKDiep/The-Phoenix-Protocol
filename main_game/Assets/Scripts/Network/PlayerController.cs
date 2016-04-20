@@ -357,10 +357,14 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcCompleteMission(string description, int[] missionCompletion, int[] missionValue)
+    public void RpcCompleteMission(string description, int[] missionCompletion, string[]objectives, int[] missionValue)
     {
         if (commandConsoleState != null)
         {
+            if (objectives == null || objectives.Length == 0)
+                print("No objectives listed. Every mission should have an objective list.");
+            else
+                commandConsoleState.RemoveObjectives(objectives);
             commandConsoleState.ShowMissionPopup("MISSION COMPLETE", description);
             for (int i = 0; i < missionCompletion.Length; i++)
             {

@@ -213,7 +213,7 @@ public class MissionManager : MonoBehaviour
             missionCompletions[i] = (int)completeCondition.completionType;
             i++;
         }
-        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, ids);
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, missions[missionId].objectiveList, ids);
         StartCoroutine(WaitThenSetActive(missions[missionId].activates));
     }
 
