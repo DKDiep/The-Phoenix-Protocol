@@ -21,7 +21,6 @@ public class ConsoleUpgrade : MonoBehaviour
     private Image repairButtonImage;
     private List<Color> YellowToRed = new List<Color>();
     private bool pending = false;
-    private int currentLevel = 0;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     void Start ()
@@ -121,13 +120,12 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setPendingColor(Color color) //Used by command console to set pulsating color
     {
-        if(currentLevel < levelIndicators.Count)levelIndicators[currentLevel].GetComponent<Image>().color = color;
+        if(properties.currentLevel < levelIndicators.Count)levelIndicators[properties.currentLevel-1].GetComponent<Image>().color = color;
     }
 
     public void UpdateLevelIndicator(int level)
     {
         levelIndicators[level-1].GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
-        currentLevel++;
     }
 
     public void HideRepairButton()
