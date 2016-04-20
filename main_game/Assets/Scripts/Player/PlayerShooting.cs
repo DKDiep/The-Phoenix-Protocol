@@ -99,6 +99,8 @@ public class PlayerShooting : MonoBehaviour
         logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
         muzzleFlashManager = GameObject.Find("PlayerMuzzleFlashManager").GetComponent<ObjectPoolManager>();
         impactManager      = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
+
+        StartCoroutine(RechargeWiiRemoteAmmo());
 	}
 
 	void Update () 
@@ -108,9 +110,6 @@ public class PlayerShooting : MonoBehaviour
 
 		// TODO: For debugging: see if the player has been switched using the keyboard
         SwitchPlayers();
-
-        if(playerId == currentPlayerId)
-		    TryShoot(currentPlayerId, false);
 
         // Control alpha of hitmarker
 		if(alpha > 0)
@@ -238,6 +237,20 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 1f;
 		StartCoroutine(HideMarker());
 	}
+
+
+    
+    IEnumerator RechargeWiiRemoteAmmo()
+    {
+        while(true)
+        {
+            // Wait 0.2 seconds, this should be calculated and set to the right thing. This was just a quick fix on the demo day.
+            yield return new WaitForSeconds(0.2f);
+            if(playerId == currentPlayerId)
+                TryShoot(currentPlayerId, false);
+        }
+       
+    }
 
     // Stop drawing hitmarker after certain time limit
 	IEnumerator HideMarker()
