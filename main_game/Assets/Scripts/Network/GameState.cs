@@ -104,6 +104,7 @@ public class GameState : NetworkBehaviour {
     public void Reset()
     {
         StopAllCoroutines();
+        totalKills = 0;
         LoadSettings();
         InitialiseUpgradableComponents();
         StartCoroutine(ResourceInterest());
