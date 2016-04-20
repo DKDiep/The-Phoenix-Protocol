@@ -291,7 +291,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="level">Level of the component</param>
     private bool UpgradeComponent(int componentId, int cost)
     {
-        if(cost < gameState.GetShipResources())
+        if(cost <= gameState.GetShipResources())
         {
             // Update the ships resources
             gameState.UseShipResources(cost);
