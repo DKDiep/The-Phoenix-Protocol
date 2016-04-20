@@ -225,7 +225,9 @@ public class CommandConsoleState : MonoBehaviour {
             upgradeBox.transform.localScale = new Vector3(1,1,1);
             upgradeBox.transform.localPosition = new Vector3(-513, 180 - (component*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
-            upgradeBox.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
+            upgradeBox.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
+            upgradeBox.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{UpgradeShip();});
+            upgradeBox.transform.GetChild(0).GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{RepairShip();});
             //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
             pulsateableImages[component] = upgradeBox.GetComponentInChildren<Image>();
@@ -348,6 +350,7 @@ public class CommandConsoleState : MonoBehaviour {
         // Set the upgrade area active.
         upgradeArea.SetActive(true);
         componentToUpgrade = component;
+
         // Highlight the selected component on the ship model.
         HighlightComponent(component);
         // Upgrade description and cost labels
@@ -364,6 +367,20 @@ public class CommandConsoleState : MonoBehaviour {
             repairButtonLabel.text = "Waiting";
         else
             repairButtonLabel.text = "Repair";
+
+        for (int i = 0; i < consoleUpgrades.Count; i++)
+        {
+            if(i == component)
+            {
+                consoleUpgrades[i].SetRepairButtonActive(true);
+                consoleUpgrades[i].SetUpgradeButtonActive(true);
+            }
+            else
+            {
+                consoleUpgrades[i].SetRepairButtonActive(false);
+                consoleUpgrades[i].SetUpgradeButtonActive(false);
+            }
+        }
     }
 
     public void OnClickRepair(int component)

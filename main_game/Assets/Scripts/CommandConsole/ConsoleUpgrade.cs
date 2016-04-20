@@ -11,6 +11,9 @@ public class ConsoleUpgrade : MonoBehaviour
     private Text upgradeNameTxt;
     private Text upgradeCostTxt;
 
+    private GameObject sideUpgradeButton;
+    private GameObject sideRepairButton;
+
     // Information about the upgrade
     public UpgradeProperties properties;
 
@@ -18,6 +21,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     private bool setupDone = false;
     private GameObject repairButton ;
+
     private Image repairButtonImage;
     private List<Color> YellowToRed = new List<Color>();
     private bool pending = false;
@@ -36,6 +40,12 @@ public class ConsoleUpgrade : MonoBehaviour
         repairButton = gameObject.transform.Find("RepairButton").gameObject;
         repairButtonImage = repairButton.GetComponent<Image>();
         repairButton.SetActive(false);
+
+        sideUpgradeButton = gameObject.transform.Find("SideUpgradeArea").GetChild(0).gameObject;
+        sideUpgradeButton.SetActive(false);
+        sideRepairButton = gameObject.transform.Find("SideUpgradeArea").GetChild(1).gameObject;
+        sideRepairButton.SetActive(false);
+
     }
 
     public void Reset()
@@ -136,6 +146,16 @@ public class ConsoleUpgrade : MonoBehaviour
     public void HideRepairButton()
     {
         repairButton.SetActive(false);
+    }
+
+    // For the side repair button, need to rename the other confusing gameObject name
+    public void SetRepairButtonActive(bool active)
+    {
+        sideRepairButton.SetActive(active);
+    }
+    public void SetUpgradeButtonActive(bool active)
+    {
+        sideUpgradeButton.SetActive(active);
     }
 
 }
