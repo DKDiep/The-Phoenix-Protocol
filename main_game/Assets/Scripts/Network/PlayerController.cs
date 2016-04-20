@@ -337,12 +337,16 @@ public class PlayerController : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcStartMission(string title, string description, int[] missionCompletion, int[] missionValue)
+    public void RpcStartMission(string title, string description, int[] missionCompletion, string[] objectives, int[] missionValue)
     {
-        print("inside RpcStartMission");
+        print("Starting Mission: " + title);
         if (commandConsoleState != null)
         {
             commandConsoleState.ShowMissionPopup(title, description);
+            if (objectives == null || objectives.Length == 0)
+                print("No objectives listed. Every mission should have an objective list.");
+            else
+                commandConsoleState.AddObjectives(objectives);
             for (int i = 0; i < missionCompletion.Length; i++) {
                 if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
                     commandConsoleState.ShowObjectiveOnMap(missionValue[i]);

@@ -190,7 +190,7 @@ public class MissionManager : MonoBehaviour
             missionCompletions[i] = (int)completeCondition.completionType;
             i++;
         }   
-        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, missionCompletions, ids);
+        playerController.RpcStartMission(missions[missionId].name, missions[missionId].description, missionCompletions, missions[missionId].objectiveList, ids);
     }
 
     private void CompleteMission(int missionId)
@@ -360,6 +360,8 @@ public class MissionManager : MonoBehaviour
         public string description;
         [Multiline]
         public string completedDescription;
+
+        public String[] objectiveList;
 
         // If true then any trigger condiiton will trigger this mission;
         // If false then ALL trigger conditions will have to be true to trigger the mission;

@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 
 public class CommandConsoleState : MonoBehaviour {
 
@@ -52,6 +54,7 @@ public class CommandConsoleState : MonoBehaviour {
     private List<GameObject> healthSegments = new List<GameObject>();
     private List<GameObject> shieldSegments = new List<GameObject>();
 
+    private List<string> currentObjectives = new List<string>();
     private Image[] pulsateableImages;
     private bool[] pulsateToggle;
     private UpgradeProperties[] upgradeProperties;
@@ -85,6 +88,7 @@ public class CommandConsoleState : MonoBehaviour {
         pulsateableImages[(int)UIElementEnum.MissionWindow] = missionWindowBG.GetComponent<Image>();
         pulsateableImages[(int)UIElementEnum.UpgradeInfo] = upgradeInfoBG.GetComponent<Image>();
         pulsateableImages[(int)UIElementEnum.NewsFeed] = newsFeedBG.GetComponent<Image>();
+
         for (int i = 0; i < pulsateToggle.Length; i++)
         {
             pulsateToggle[i] = false;
@@ -494,6 +498,12 @@ public class CommandConsoleState : MonoBehaviour {
         this.portal = portal;
     }
 
+    public void AddObjectives(string[] objectives)
+    {
+        currentObjectives.AddRange(objectives.ToList());
+        UpdateObjectives();
+    }
+
     public void ShowMissionPopup(string title, string descrption)
     {
         popupWindow.SetActive(true);
@@ -563,8 +573,17 @@ public class CommandConsoleState : MonoBehaviour {
         }
     }
 
+    private void UpdateObjectives()
+    {
+        foreach(string objective in currentObjectives)
+        {
+            newsFeed.GetComponent<Text>().text = objective + "\n" + newsFeed.GetComponent<Text>().text;
+        }
+    }
+
     private void UpdateNewsFeed(string message)
     {
-        newsFeed.GetComponent<Text>().text = message + "\n" + newsFeed.GetComponent<Text>().text;
+        //I don't want to remove the NewsFeed functionality completely, in case we want it back. So I'm just making this do nothing for now.
+        //newsFeed.GetComponent<Text>().text = message + "\n" + newsFeed.GetComponent<Text>().text;
     }
 }

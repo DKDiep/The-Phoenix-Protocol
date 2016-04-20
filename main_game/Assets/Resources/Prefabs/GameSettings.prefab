@@ -355,6 +355,8 @@ MonoBehaviour:
     description: We are low on resources. Navigate to an outpost to collect some resources.
     completedDescription: ' Congratulations, you reached the outpost and collected
       resources.'
+    objectiveList:
+    - Fly to the outpost objective (marked in yellow)
     triggerOnAny: 1
     triggerConditions:
     - triggerType: 0
@@ -380,6 +382,7 @@ MonoBehaviour:
     description: Looks like collecting those resources attracted the attention of
       some alian fighters. Instruct your crew to get ready for battle!
     completedDescription: Enemies killed!
+    objectiveList: []
     triggerOnAny: 0
     triggerConditions: []
     completeOnAny: 0
@@ -403,6 +406,7 @@ MonoBehaviour:
     description: Your shields have been breached and your hull is taking damage, Get
       your engineers to repair the Hull.
     completedDescription: Hull Repair Complete, Good work!
+    objectiveList: []
     triggerOnAny: 1
     triggerConditions:
     - triggerType: 1
@@ -438,6 +442,7 @@ MonoBehaviour:
     name: Upgrade Shields
     description: "Upgrade your shields to protect your hull from damage.\t"
     completedDescription: Upgrade Complete.
+    objectiveList: []
     triggerOnAny: 0
     triggerConditions: []
     completeOnAny: 0
