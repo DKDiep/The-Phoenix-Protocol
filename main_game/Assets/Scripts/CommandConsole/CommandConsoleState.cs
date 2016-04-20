@@ -180,19 +180,6 @@ public class CommandConsoleState : MonoBehaviour {
             else consoleUpgrades[i].setPendingColor(transpBlack);
         }
 
-        //all this is just so people can see the pulsate feature. It should be removed at some point
-        /*if (Input.GetKeyDown("z")) pulsateToggle[(int)UIElementEnum.NewsFeed] = !pulsateToggle[(int)UIElementEnum.NewsFeed];
-        if (Input.GetKeyDown("x")) pulsateToggle[(int)UIElementEnum.MapBG] = !pulsateToggle[(int)UIElementEnum.MapBG];
-        if (Input.GetKeyDown("c")) pulsateToggle[(int)UIElementEnum.MissionWindow] = !pulsateToggle[(int)UIElementEnum.MissionWindow];
-        if (Input.GetKeyDown("v")) pulsateToggle[(int)UIElementEnum.UpgradeInfo] = !pulsateToggle[(int)UIElementEnum.UpgradeInfo];
-        if (Input.GetKeyDown("b")) pulsateToggle[(int)UIElementEnum.ShieldsUpgrade] = !pulsateToggle[(int)UIElementEnum.ShieldsUpgrade];
-        if (Input.GetKeyDown("n")) pulsateToggle[(int)UIElementEnum.TurretsUpgrade] = !pulsateToggle[(int)UIElementEnum.TurretsUpgrade];
-        if (Input.GetKeyDown("m")) pulsateToggle[(int)UIElementEnum.EngineUpgrade] = !pulsateToggle[(int)UIElementEnum.EngineUpgrade];
-        if (Input.GetKeyDown(",")) pulsateToggle[(int)UIElementEnum.BridgeUpgrade] = !pulsateToggle[(int)UIElementEnum.BridgeUpgrade];
-        if (Input.GetKeyDown(".")) pulsateToggle[(int)UIElementEnum.DroneUpgrade] = !pulsateToggle[(int)UIElementEnum.DroneUpgrade];
-        if (Input.GetKeyDown("/")) pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade] = !pulsateToggle[(int)UIElementEnum.ResourceStorageUpgrade];
-        */
-
         // Cheat code! But seriously, this will ease development so much.
         // Upgrades all in progress upgrade requests, basically makes it so you don't need to run the engineer. 
 
@@ -208,7 +195,7 @@ public class CommandConsoleState : MonoBehaviour {
         if(second >= 0.2)
         {
             UpdateAllText();
-            //UpdateCostTextColor();
+            UpdateCostColors();
             UpdateHealthShieldBars();
             second = 0;
         }
@@ -420,9 +407,6 @@ public class CommandConsoleState : MonoBehaviour {
 		// Update the text with values from gamestate.
         civiliansText.text = gameState.GetCivilians().ToString();;
         resourcesText.text = gameState.GetShipResources().ToString();;
-        //y
-        //healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
-        //shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
     }
 
     private void UpdateCostColors()
@@ -436,7 +420,6 @@ public class CommandConsoleState : MonoBehaviour {
             else
             {
                 consoleUpgrades[i].showAffordable(true);
-                //upgradeCostImages[i].color = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
             }
         }
     }
@@ -474,18 +457,6 @@ public class CommandConsoleState : MonoBehaviour {
         for (int i = shieldBarsToShow; i < 25; i++)
         {
             shieldSegments[i].SetActive(false);
-        }
-    }
-
-    private void UpdateCostTextColor()
-    {
-        if(int.Parse(costLabel.text) > gameState.GetShipResources())
-        {
-            costLabel.color = new Color(95f/255f, 24f/255f, 24f/255f, 1);
-        }
-        else
-        {
-            costLabel.color = new Color(176f/255f, 176f/255f, 176f/255f, 1);
         }
     }
     
