@@ -21,6 +21,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Image repairButtonImage;
     private List<Color> YellowToRed = new List<Color>();
     private bool pending = false;
+    private bool levelsInitialised = false;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     void Start ()
@@ -74,7 +75,11 @@ public class ConsoleUpgrade : MonoBehaviour
     public void SetUpgradeInfo(UpgradeProperties properties)
     {
         this.properties = properties;
-        InitialiseLevels();
+        if (!levelsInitialised)
+        {
+            InitialiseLevels();
+            levelsInitialised = true;
+        }
         UpdateTextFields();
         setupDone = true;
     }
