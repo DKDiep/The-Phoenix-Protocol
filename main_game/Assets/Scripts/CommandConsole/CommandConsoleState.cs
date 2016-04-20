@@ -289,13 +289,12 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="type">Type of component</param>
     /// <param name="baseCost">Base cost of the component</param>
     /// <param name="level">Level of the component</param>
-    private bool UpgradeComponent(int componentId, int baseCost, int level)
+    private bool UpgradeComponent(int componentId, int cost)
     {
-        print("level = " + level);
-        if(CheckUpgradeCost(baseCost, level))
+        if(cost < gameState.GetShipResources())
         {
             // Update the ships resources
-            gameState.UseShipResources(GetUpgradeCost(baseCost, level));
+            gameState.UseShipResources(cost);
 
             // Send request to engineer to upgrade
             playerController.CmdAddUpgrade((ComponentType)componentId);
@@ -384,7 +383,7 @@ public class CommandConsoleState : MonoBehaviour {
             return;
 
         // Try to upgrade the component
-        if(!UpgradeComponent(componentToUpgrade, upgradeProperties[componentToUpgrade].cost, upgradeProperties[componentToUpgrade].currentLevel))
+        if(!UpgradeComponent(componentToUpgrade, upgradeProperties[componentToUpgrade].cost))
             return;
 
         // Update the cost of the component
