@@ -49,6 +49,7 @@ public class CommandConsoleState : MonoBehaviour {
     private List<GameObject> upgradeBoxes;
     private List<GameObject> healthSegments = new List<GameObject>();
     private List<GameObject> shieldSegments = new List<GameObject>();
+
     private Image[] pulsateableImages;
     private bool[] pulsateToggle;
     private UpgradeProperties[] upgradeProperties;
@@ -303,6 +304,7 @@ public class CommandConsoleState : MonoBehaviour {
     /// <param name="level">Level of the component</param>
     private bool UpgradeComponent(int componentId, int baseCost, int level)
     {
+        print("level = " + level);
         if(CheckUpgradeCost(baseCost, level))
         {
             // Update the ships resources
@@ -421,6 +423,22 @@ public class CommandConsoleState : MonoBehaviour {
         //y
         //healthText.text    = ((int)Math.Round(gameState.GetShipHealth(), 0)).ToString();;
         //shieldsText.text   = ((int)Math.Round(gameState.GetShipShield(), 0)).ToString();;
+    }
+
+    private void UpdateCostColors()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (consoleUpgrades[i].properties.cost > gameState.GetShipResources())
+            {
+                consoleUpgrades[i].showAffordable(false);
+            }
+            else
+            {
+                consoleUpgrades[i].showAffordable(true);
+                //upgradeCostImages[i].color = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
+            }
+        }
     }
 
     private void UpdateHealthShieldBars()

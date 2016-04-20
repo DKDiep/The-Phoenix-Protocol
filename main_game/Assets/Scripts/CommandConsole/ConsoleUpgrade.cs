@@ -12,7 +12,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Text upgradeCostTxt;
 
     // Information about the upgrade
-    private UpgradeProperties properties;
+    public UpgradeProperties properties;
 
     private Transform levelIndicator;
 
@@ -23,6 +23,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private bool pending = false;
     private int currentLevel = 0;
     private List<GameObject> levelIndicators = new List<GameObject>();
+    static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     void Start ()
     {
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
@@ -94,6 +95,13 @@ public class ConsoleUpgrade : MonoBehaviour
         upgradeCostTxt.text = properties.cost.ToString();
     }
 
+    public void showAffordable(bool affordable)
+    {
+        if (affordable)
+            upgradeCostTxt.color = offWhite;
+        else upgradeCostTxt.color = Color.red;
+    }
+
     private void InitialiseLevels()
     {
         GameObject level;
@@ -113,7 +121,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setPendingColor(Color color) //Used by command console to set pulsating color
     {
-        levelIndicators[currentLevel].GetComponent<Image>().color = color;
+        if(currentLevel < levelIndicators.Count)levelIndicators[currentLevel].GetComponent<Image>().color = color;
     }
 
     public void UpdateLevelIndicator(int level)
