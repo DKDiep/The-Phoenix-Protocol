@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private Color highlightColor;
 #pragma warning restore 0649
 
+    private GameObject eventSystem;
     private PlayerController playerController;
     private GameObject ship;
     private GameObject upgradeArea;
@@ -128,6 +130,8 @@ public class CommandConsoleState : MonoBehaviour {
             consoleUpgrades[component].SetUpgradeInfo(upgradeProperties[component]);
             consoleUpgrades[component].setUpgradePending(false);
             consoleUpgrades[component].setRepairPending(false);
+            consoleUpgrades[component].SetRepairButtonActive(false);
+            consoleUpgrades[component].SetUpgradeButtonActive(false);
         }
         for (int i = 0; i < pulsateToggle.Length; i++)
         {
@@ -138,6 +142,7 @@ public class CommandConsoleState : MonoBehaviour {
         upgradeArea.SetActive(false);
         newsFeed.GetComponent<Text>().text = "";
         stratMap.Reset();
+        EventSystem.current.SetSelectedGameObject(null);    //deselect all the buttons
     }
 
     private void LoadSettings()
