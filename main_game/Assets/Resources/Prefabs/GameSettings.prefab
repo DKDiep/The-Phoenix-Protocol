@@ -152,6 +152,7 @@ MonoBehaviour:
   EnemyFireSoundPrefab: {fileID: 8300000, guid: 061d97cf49017e149a04d8fed6e60f00,
     type: 3}
   EnemyFireSoundRandomPitch: 1
+  EnemyTurningSpeed: 1.9
   EnemySuicidalSpeedUpdateInterval: 5
   EnemySuicidalExtraSpeed: 5
   HackedEnemyBulletDamage: 15
