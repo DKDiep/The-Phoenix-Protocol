@@ -357,7 +357,7 @@ GameObject:
   - 33: {fileID: 3318700}
   - 23: {fileID: 2360234}
   m_Layer: 5
-  m_Name: ResourceStorage
+  m_Name: OldResStore
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1526,7 +1526,7 @@ GameObject:
   - 33: {fileID: 3327244}
   - 23: {fileID: 2365638}
   m_Layer: 5
-  m_Name: Front
+  m_Name: ResourceStorage
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2513,7 +2513,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 164316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -90.984375, y: 25.571838, z: -2003.6354}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 408756}

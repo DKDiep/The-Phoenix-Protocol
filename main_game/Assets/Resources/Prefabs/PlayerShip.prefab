@@ -221,7 +221,7 @@ GameObject:
   - 65: {fileID: 6568970}
   - 114: {fileID: 11457744}
   m_Layer: 9
-  m_Name: HullFront
+  m_Name: ResourceStorage
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,10 +377,9 @@ GameObject:
   - 4: {fileID: 484086}
   - 33: {fileID: 3357198}
   - 23: {fileID: 2358610}
-  - 114: {fileID: 11471626}
   - 65: {fileID: 6538938}
   m_Layer: 9
-  m_Name: ResourceStorage
+  m_Name: OldResStore
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,7 +1124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -90.984375, y: 27.0823, z: -2000}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 424492}
@@ -3951,17 +3950,6 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11471626
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140730}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42c35bb0bf01f434aabdf6e980b7fb94, type: 3}
