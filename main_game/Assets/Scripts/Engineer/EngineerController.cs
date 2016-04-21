@@ -399,7 +399,7 @@ public class EngineerController : NetworkBehaviour
     private void Update()
     {
         // Make sure this only runs on the client
-        if (playerController == null || !playerController.isLocalPlayer)
+        if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
 
         if(!updateRotation)
@@ -527,7 +527,7 @@ public class EngineerController : NetworkBehaviour
     private void FixedUpdate()
     {
         // Make sure this only runs on the client
-        if (playerController == null || !playerController.isLocalPlayer)
+        if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
 
         float speed;
