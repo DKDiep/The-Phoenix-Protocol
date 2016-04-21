@@ -28,7 +28,7 @@ public class OutpostTarget : NetworkBehaviour
     void Start () 
     {
         myRenderer = GetComponent<Renderer>();
-        currentColour = Color.red;
+        currentColour = new Color(1f,0.5f,0f);
         if(GameObject.Find("CameraManager(Clone)") != null)
         {
             mainCam = GameObject.Find("CameraManager(Clone)").GetComponent<Camera>();
