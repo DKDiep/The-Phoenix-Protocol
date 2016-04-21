@@ -52,6 +52,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
 	private float hackedBulletDamage;
+	private float hackedFollowMaxY;
 
 	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
 	// Please, treat them as constants
@@ -177,6 +178,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		speedUpdateDelay		   	   = settings.EnemySuicidalSpeedUpdateInterval;
 		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
 		hackedBulletDamage 			   = settings.HackedEnemyBulletDamage;
+		hackedFollowMaxY 			   = settings.HackedEnemyMaxY;
 	}
 
 	void Update ()
@@ -962,6 +964,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			hackedWaypoint = new GameObject(HACK_WAYPOINT_NAME);
 			hackedWaypoint.transform.position = controlObject.transform.position;
 			hackedWaypoint.transform.parent   = player.transform;
+
+			// Make the enemy follow the player close to their Y position
+			Vector3 localPosition = hackedWaypoint.transform.localPosition;
+			localPosition.y = Random.Range(0, hackedFollowMaxY);
+			hackedWaypoint.transform.localPosition = localPosition;
 		}
 
 		currentWaypoint = hackedWaypoint;

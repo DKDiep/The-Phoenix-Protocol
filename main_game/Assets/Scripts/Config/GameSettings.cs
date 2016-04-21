@@ -65,6 +65,7 @@ public class GameSettings : MonoBehaviour
 	public float EnemySuicidalSpeedUpdateInterval; // The interval (seconds) at which suicidal enemies update their speed to match the player
 	public float EnemySuicidalExtraSpeed; // The amount by which a suicidal enemy always goes faster than the player ship
 	public float HackedEnemyBulletDamage;
+	public float HackedEnemyMaxY; // The max relative Y at which a hacked enemy will follow the player
 
 	[Header("Engineer Controller")]
 	public float EngineerWalkSpeed;

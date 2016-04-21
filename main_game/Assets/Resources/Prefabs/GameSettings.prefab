@@ -155,6 +155,7 @@ MonoBehaviour:
   EnemySuicidalSpeedUpdateInterval: 5
   EnemySuicidalExtraSpeed: 5
   HackedEnemyBulletDamage: 15
+  HackedEnemyMaxY: 12
   EngineerWalkSpeed: 0.2
   EngineerMouseLookXSensitivity: 0.4
   EngineerMouseLookYSensitivity: 0.4
