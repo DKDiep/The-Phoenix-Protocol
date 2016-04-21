@@ -492,8 +492,7 @@ public class ServerManager : NetworkBehaviour
 
     public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
     {
-        /*GameObject crosshairObject = screenIdToCrosshair[screenId];
-        crosshairObject.GetComponent<CrosshairMovement>().SetPosition(crosshairId, position);*/
-		screenIdToCrosshairMovement[screenId].SetPosition(crosshairId, position);
+		foreach (KeyValuePair<int, CrosshairMovement> entry in screenIdToCrosshairMovement)
+			entry.Value.SetPosition(crosshairId, screenId == entry.Key, position);
     }
 }
