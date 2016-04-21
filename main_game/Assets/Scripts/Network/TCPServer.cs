@@ -205,7 +205,7 @@ public class TCPServer : MonoBehaviour
     {
         while (true)
         {
-            if(connected)
+            if(connected  && gameState.Status == GameState.GameStatus.Started)
             {
                 SendNotificationsUpdate();
             }

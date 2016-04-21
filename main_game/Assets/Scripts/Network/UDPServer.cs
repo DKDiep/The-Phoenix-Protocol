@@ -161,7 +161,7 @@ public class UDPServer : MonoBehaviour
     {
         while (true)
         {
-            if(!clientEndPoint.Address.Equals(IPAddress.Any))
+            if(!clientEndPoint.Address.Equals(IPAddress.Any) && state.Status == GameState.GameStatus.Started)
             {
                 SendShipPosition();
                 SendOfficerAmmo();
