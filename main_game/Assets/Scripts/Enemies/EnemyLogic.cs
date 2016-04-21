@@ -85,9 +85,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	// Waypoints are used to move around the player when close enough
 	private List<GameObject> aiWaypoints;
 	private GameObject currentWaypoint               = null;
-	private const float AI_WAYPOINT_ROTATION_SPEED   = 1.5f;   // Turning speed when following waypoints
 	private const float AI_WAYPOINT_REACHED_DISTANCE = 20f;    // Distance when a waypoint is considered reached
 	private const float AI_SHOOT_MAX_ANGLE           = 50f;    // Maximum angle with the player when shooting is possible
+	private float aiWaypointRotationSpeed;   // Turning speed when following waypoints
 	private float lastYRot;
 	private bool reachedFrontOfPlayer = false;
 	private bool collisionsEnabled = true;
@@ -175,6 +175,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		shieldRechargeRate			   = settings.EnemyShieldRechargeRate;
 		fireSnd						   = settings.EnemyFireSoundPrefab;
 		randomPitch					   = settings.EnemyFireSoundRandomPitch;
+		aiWaypointRotationSpeed 	   = settings.EnemyTurningSpeed;
 		speedUpdateDelay		   	   = settings.EnemySuicidalSpeedUpdateInterval;
 		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
 		hackedBulletDamage 			   = settings.HackedEnemyBulletDamage;
@@ -413,7 +414,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		// Turn and bank
 		controlObject.transform.rotation = Quaternion.Lerp (controlObject.transform.rotation, rotation,
-			Time.deltaTime * AI_WAYPOINT_ROTATION_SPEED);
+			Time.deltaTime * aiWaypointRotationSpeed);
 		float yRot = Mathf.Clamp (lastYRot - controlObject.transform.localEulerAngles.y, 0, 3);
 		controlObject.transform.Rotate (0, 0, yRot, Space.Self);
 		lastYRot = controlObject.transform.localEulerAngles.y;
