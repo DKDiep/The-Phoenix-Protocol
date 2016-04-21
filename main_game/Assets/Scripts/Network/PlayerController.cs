@@ -87,9 +87,14 @@ public class PlayerController : NetworkBehaviour
 	}
 
     [Command]
-    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets, Vector3[] rayComponents)
     {
-        serverManager.UpdateTargets(crosshairObject, targets);
+        Ray[] rays = new Ray[4];
+        for (int i = 0; i < 4; i++)
+        {
+            rays[i] = new Ray(rayComponents[i * 2], rayComponents[i * 2 + 1]);
+        }
+        serverManager.UpdateTargets(crosshairObject, targets, rays, index);
     }
 
     public void CreateCamera()
@@ -101,7 +106,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetRole(RoleEnum newRole)
     {
         role = newRole;
-        Debug.Log("Role set: "+ role);
     }
 
 
@@ -116,7 +120,6 @@ public class PlayerController : NetworkBehaviour
         // Change only local camera
         if (isLocalPlayer && netId.Value == receivedId)
         {
-            //Debug.Log("setting yRotate: " + yRotate);
             Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
             playerCamera.transform.localRotation = q;
         }
@@ -126,7 +129,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetCameraIndex(int newIndex)
     {
         index = newIndex;
-        Debug.Log("netId " + netId + " now has index " + index);
     }
 
     [ClientRpc]

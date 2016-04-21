@@ -173,8 +173,6 @@ public class ServerLobby : MonoBehaviour {
 
     public void SortToken(GameObject playerToken)
     {
-        Debug.Log(playerToken.transform.position);
-
         // Assign role based on proximity to panel
         Vector3 position = playerToken.transform.position;
         float distanceCamera = Vector3.Distance(position, cameraPanel.transform.position);
@@ -182,8 +180,6 @@ public class ServerLobby : MonoBehaviour {
         float distanceCommand = Vector3.Distance(position, commandPanel.transform.position);
         if (distanceCamera < distanceEngineer && distanceCamera < distanceCommand)
         {
-            Debug.Log("camera");
-
             // Parent to closest panel
             playerToken.transform.SetParent(cameraPanel.transform, false);
 
@@ -208,13 +204,11 @@ public class ServerLobby : MonoBehaviour {
         {
             if (distanceEngineer < distanceCommand)
             {
-                Debug.Log("engineer");
                 playerToken.transform.SetParent(engineerPanel.transform, false);
 				playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole(RoleEnum.Engineer);
             }
             else if (commandPanel.transform.childCount == 0) // Only assign if there is no commander
             {
-                Debug.Log("commander");
                 playerToken.transform.SetParent(commandPanel.transform, false);
 				playerToken.GetComponent<PlayerTokenController>().GetPlayerController().RpcSetRole(RoleEnum.Commander);
             }
@@ -242,7 +236,6 @@ public class ServerLobby : MonoBehaviour {
 
         var distance = frustumHeight * 0.5f / Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
         float fov = 2.0f * Mathf.Atan(frustumHeight * 0.5f / distance) * Mathf.Rad2Deg;
-        Debug.Log("camera fov" + fov + ", distance "+distance+", far clip "+cam.farClipPlane);
 
         // Calculate frustum width using height and camera aspect
         float frustumWidth = frustumHeight * cam.aspect;

@@ -59,12 +59,6 @@ public class UDPServer : MonoBehaviour
 		clientPort 					   = settings.UDPClientPort;
 		maxReceivedMessagesPerInterval = settings.UDPMaxReceivedMessagesPerInterval;
 	}
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     // Sets the address to which the udp server sends data
     public void SetClientAddress(IPAddress addr) {
