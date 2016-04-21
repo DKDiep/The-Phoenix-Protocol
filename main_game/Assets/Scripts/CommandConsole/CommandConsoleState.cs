@@ -75,7 +75,8 @@ public class CommandConsoleState : MonoBehaviour {
     private int[] repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
     private ConsoleShipControl shipControl;
 
-    void Start() {
+    void Start() 
+    {
         AddHealthAndShields();
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -112,6 +113,8 @@ public class CommandConsoleState : MonoBehaviour {
         newsFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
     }
+
+
 
     public void Reset()
     {
@@ -315,6 +318,26 @@ public class CommandConsoleState : MonoBehaviour {
             return true;
         }
         return false;
+    }
+
+    public void UseOverdrive()
+    {
+        playerController.CmdUseOverdrive();
+    }
+
+    public void UseBoost()
+    {
+        playerController.CmdUseBoost();
+    }
+
+    public void UseEMP()
+    {
+        playerController.CmdUseEMP();
+    }
+
+    public void UseSmartBomb()
+    {
+        playerController.CmdUseSmartBomb();
     }
 
     public void OutpostVisitNotify(int resources, int civilians, int id)

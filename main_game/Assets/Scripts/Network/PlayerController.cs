@@ -26,6 +26,11 @@ public class PlayerController : NetworkBehaviour
     private NetworkClient client;
     private ShipMovement shipMovement;
 
+    private ShieldOverdriveAbility shieldOverdrive;
+    private BoostAbility boost;
+    private EMPAbility emp;
+    private SmartBombAbility smartBomb;
+
     public GameObject GetControlledObject()
     {
         return controlledObject;
@@ -157,6 +162,7 @@ public class PlayerController : NetworkBehaviour
         gameState = gameManager.GetComponent<GameState>();
         serverManager = gameManager.GetComponent<ServerManager>();
 
+
         if (isLocalPlayer)
         {
             CreateCamera();
@@ -246,6 +252,38 @@ public class PlayerController : NetworkBehaviour
             gameState.AddNotification(true, part);
 
         serverManager.NotifyEngineer(true, part);
+    }
+
+    [Command]
+    public void CmdUseOverdrive()
+    {
+        if(shieldOverdrive == null)
+            shieldOverdrive = GameObject.Find("CommanderAbilities(Clone)").GetComponent<ShieldOverdriveAbility>();
+        shieldOverdrive.UseAbility();
+    }
+
+    [Command]
+    public void CmdUseBoost()
+    {
+        if(boost == null)
+            boost = GameObject.Find("CommanderAbilities(Clone)").GetComponent<BoostAbility>();
+        boost.UseAbility();
+    }
+
+    [Command]
+    public void CmdUseEMP()
+    {
+        if(emp == null)
+            emp = GameObject.Find("CommanderAbilities(Clone)").GetComponent<EMPAbility>();
+        emp.UseAbility();
+    }
+
+    [Command]
+    public void CmdUseSmartBomb()
+    {
+        if(smartBomb == null)
+            smartBomb = GameObject.Find("CommanderAbilities(Clone)").GetComponent<SmartBombAbility>();
+        smartBomb.UseAbility();
     }
 
     /// <summary>

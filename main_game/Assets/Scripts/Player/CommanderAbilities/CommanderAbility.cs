@@ -27,11 +27,11 @@ public abstract class CommanderAbility : MonoBehaviour {
         StartCoroutine(CoolDown());
     }
 
-    internal void UseAbility()
+    public void UseAbility()
     {
-		// Do not fire an ability unless the game is still in progress
-		if (state.Status != GameState.GameStatus.Started)
-			return;
+        // Do not fire an ability unless the game is still in progress
+        if (state.Status != GameState.GameStatus.Started)
+            return;
 
         if(ready)
         {
@@ -47,6 +47,6 @@ public abstract class CommanderAbility : MonoBehaviour {
         {
             AIVoice.SendCommand(8);
         }
-     }
+    }
 	
 }
