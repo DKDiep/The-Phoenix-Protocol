@@ -99,6 +99,28 @@ func (players *PlayerMap) add(plr *Player) {
     players.addC <- plr
 }
 
+// Set the user handle for the specified player
+func (players *PlayerMap) setUserForPlayer(usr *User, playerId uint64) {
+    players.plrC <- struct{}{}
+    plr := playerMap.getAsync(playerId)
+    // check if the user has already joined the game
+    // if so associate this user with the player
+    if plr != nil {
+        usr.player = plr
+        if plr.user != nil {
+            plr.user.ws.Close()
+        }
+        plr.user = usr
+        // otherwise assign a new player to the user
+    } else {
+        name, score := gameDatabase.getPlayerData(playerId)
+        newPlr := NewPlayer(playerId, name, score, usr)
+        usr.player = newPlr
+        players.mSpec[playerId] = newPlr
+    }
+    players.plrC <- struct{}{}
+}
+
 // Wrapper used for placing a player in the respective role map
 func (players *PlayerMap) setPlayerRole(player *Player, setRole PlayerState) {
     players.setRoleC <- SetPlr{plr: player, role: setRole}
@@ -107,16 +129,7 @@ func (players *PlayerMap) setPlayerRole(player *Player, setRole PlayerState) {
 // Wrapper used for retrieving a user
 func (players *PlayerMap) get(playerId uint64) *Player {
     players.plrC <- struct{}{}
-    var plr *Player = nil
-    if players.commander != nil && players.commander.id == playerId {
-        plr = players.commander
-    }
-    if plr == nil {
-        plr = players.mOfficers[playerId]
-    }
-    if plr == nil {
-        plr = players.mSpec[playerId]
-    }
+    plr := players.getAsync(playerId)
     players.plrC <- struct{}{}
     return plr
 }
@@ -196,6 +209,22 @@ func (players *PlayerMap) setPlayerRoleAsync(plr *Player, role PlayerState) {
     plr.setState(role)
 }
 
+// Get the player based on their id asynchronously
+// NOTE: DO NOT USE
+func (players *PlayerMap) getAsync(playerId uint64) *Player {
+    var plr *Player = nil
+    if players.commander != nil && players.commander.id == playerId {
+        plr = players.commander
+    }
+    if plr == nil {
+        plr = players.mOfficers[playerId]
+    }
+    if plr == nil {
+        plr = players.mSpec[playerId]
+    }
+    return plr
+}
+
 // Wrapper used for retrieving a list of players sorted by score
 // NOTE: DO NOT USE
 func (players *PlayerMap) getSortedOnlineSpectatorsAsync() []*Player {
@@ -226,8 +255,12 @@ func (players *PlayerMap) resetPlayersAsync() {
         players.commander = nil
     }
     // Reset all spectator states, puts them on standby as well
-    for _, v := range players.mSpec {
-        v.setState(SPECTATOR)
+    for id, v := range players.mSpec {
+        if v.user == nil {
+            delete(players.mSpec, id)
+        } else {
+            v.setState(SPECTATOR)
+        }
     }
 }
 

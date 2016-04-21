@@ -45,13 +45,6 @@ func NewPlayer(playerId uint64, name string, scr uint64, usr *User) *Player {
     }
 }
 
-// Sets the current use associated with this player
-func (plr *Player) setUser(usr *User) {
-    playerMap.plrC <- struct{}{}
-    plr.user = usr
-    playerMap.plrC <- struct{}{}
-}
-
 // Deassociate the current user if it equal the provided parameter
 func (plr *Player) unsetUserIfEquals(usr *User) {
     playerMap.plrC <- struct{}{}

@@ -38,7 +38,9 @@ func (usr *User) handleUser() {
             if err.Error() == "EOF" {
                 fmt.Println("Connection Closed, EOF received.")
             } else {
-                fmt.Printf("Error: %s\n", err)
+                // "use of closed network connection" will be printed here
+                // if the user opens two tabs
+                fmt.Printf("User: Error reading data: %s\n", err)
             }
             return
         }
@@ -106,19 +108,8 @@ func (usr *User) registerNew(name string) {
 
 // Retrieves the user data and sends it to the client
 func (usr *User) updateUser(playerId uint64) {
-    // check if the user has already joined the game
-    plr := playerMap.get(playerId)
-    // if so associate this user with the player
-    if plr != nil {
-        usr.player = plr
-        plr.setUser(usr)
-        // otherwise assign a new player to the user
-    } else {
-        name, score := gameDatabase.getPlayerData(playerId)
-        newPlr := NewPlayer(playerId, name, score, usr)
-        usr.player = newPlr
-        playerMap.add(newPlr)
-    }
+    // Set the user for this player and the player for the user
+    playerMap.setUserForPlayer(usr, playerId)
 
     // inform the user of the current player state
     usr.player.sendStateUpdate()
