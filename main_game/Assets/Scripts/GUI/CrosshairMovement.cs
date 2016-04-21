@@ -120,25 +120,15 @@ public class CrosshairMovement : NetworkBehaviour
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
 
-            /*Target target = GetClosestTarget(targets[i]);
-            GameObject targetObject = null;
-             if (!target.IsNone())
-             {
-                 targets[i] = target.GetAimPosition();
-                 selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
-                 targetObject = target.Object;
-             }
-             autoaimScripts[i].Target = targetObject;*/
-
-            //Target target = GetClosestTarget(selectedCrosshair.position);
             Ray ray = GetAimRay(selectedCrosshair.position);
             rays[i * 2] = ray.origin;
             rays[i * 2 + 1] = ray.direction;
-           /* if (!target.IsNone())
+            Target target = GetClosestTarget(ray);
+            if (!target.IsNone())
             {
                 targets[i] = target.GetAimPosition();
                 selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
-            }*/
+            }
             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
         

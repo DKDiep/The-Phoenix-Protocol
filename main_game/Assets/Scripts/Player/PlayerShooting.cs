@@ -167,8 +167,6 @@ public class PlayerShooting : MonoBehaviour
             GameObject[] targetObjects = serverManager.GetTargetPositions(crosshairObject).targetObjects;
             targetPos				   = targets[0];
             autoaimScript.Target       = targetObjects[0];
-            if (screenId != 0 && targetObjects[0] != null)
-                Debug.Log("aim: "+targetObjects[0]);
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);

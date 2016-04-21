@@ -136,8 +136,6 @@ public class ServerManager : NetworkBehaviour
             {
                 targets[i] = targetInstances[i].GetAimPosition();
                 targetObjects[i] = targetInstances[i].Object;
-                /*if (screenId != 0)
-                    Debug.Log("tar: " + targetObjects[i]);*/
             }
             else
             {

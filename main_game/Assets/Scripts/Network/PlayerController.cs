@@ -101,7 +101,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetRole(RoleEnum newRole)
     {
         role = newRole;
-        Debug.Log("Role set: "+ role);
     }
 
 
@@ -116,7 +115,6 @@ public class PlayerController : NetworkBehaviour
         // Change only local camera
         if (isLocalPlayer && netId.Value == receivedId)
         {
-            //Debug.Log("setting yRotate: " + yRotate);
             Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
             playerCamera.transform.localRotation = q;
         }
@@ -126,7 +124,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcSetCameraIndex(int newIndex)
     {
         index = newIndex;
-        Debug.Log("netId " + netId + " now has index " + index);
     }
 
     [ClientRpc]
