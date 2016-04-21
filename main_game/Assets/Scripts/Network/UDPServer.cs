@@ -63,7 +63,22 @@ public class UDPServer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (state != null && state.Status == GameState.GameStatus.Started)
+        {
+            uint controllerId = 0;
+            int screenId = 0;
+            float x = 0.2f * Screen.width;
+            float y = 0.5f * Screen.height;
+            serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));
+            if (playerShooting[controllerId] == null)
+                playerShooting[controllerId] = GameObject.Find("PlayerShooting" + controllerId).GetComponent<PlayerShooting>();
+            playerShooting[controllerId].SetScreenId(screenId);
+
+            int idOfPlayer = (int)controllerId;
+            if (playerShooting[idOfPlayer] == null)
+                playerShooting[idOfPlayer] = GameObject.Find("PlayerShooting" + idOfPlayer).GetComponent<PlayerShooting>();
+            playerShooting[idOfPlayer].TryShoot(idOfPlayer, true);
+        }
     }
     
     // Sets the address to which the udp server sends data

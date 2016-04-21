@@ -11,6 +11,7 @@ using UnityEngine.Networking.NetworkSystem;
 public class TargetPositions
 {
     public Vector3[] targets = new Vector3[4];
+    public GameObject[] targetObjects = new GameObject[4];
 };
 
 public class ServerManager : NetworkBehaviour
@@ -123,9 +124,29 @@ public class ServerManager : NetworkBehaviour
         return screenIdToCrosshair[screenId];
     }
 
-    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets, int screenId)
     {
+        // Auto aim
+        GameObject[] targetObjects = new GameObject[4];
+        CrosshairMovement.Target[] targetInstances = new CrosshairMovement.Target[4];
+        for (int i = 0; i < 4; i++)
+        {
+            targetInstances[i] = screenIdToCrosshairMovement[screenId].GetClosestTarget(new Vector3(targets[i].x, targets[i].y, 0.0f)); // Could be deactivated?
+            if (!targetInstances[i].IsNone())
+            {
+                targets[i] = targetInstances[i].GetAimPosition();
+                //SetCrosshairPosition(i, screenId, );
+                targetObjects[i] = targetInstances[i].Object;
+                /*if (screenId != 0)
+                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");*/
+            }
+            else
+            {
+                Vector2 oldPosittion = screenIdToCrosshairMovement[screenId].GetPosition(screenIdToCrosshairMovement[screenId].GetControlling());
+            }
+        }
         crosshairToTargetPositions[crosshairObject].targets = targets;
+        crosshairToTargetPositions[crosshairObject].targetObjects = targetObjects;
     }
 
     public TargetPositions GetTargetPositions(GameObject crosshairObject)

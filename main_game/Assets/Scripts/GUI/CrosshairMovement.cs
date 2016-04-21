@@ -117,21 +117,16 @@ public class CrosshairMovement : NetworkBehaviour
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
 
-            Target target = GetClosestTarget(selectedCrosshair.position);
-            GameObject targetObject = null;
-            if (!target.IsNone())
-            {
-                //targets[i] = target.GetAimPosition();
-                selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
-                targetObject = target.Object;
-            }
-            else
-            {
-                Vector2 oldPosittion = GetPosition(controlling); 
-            }
-            autoaimScripts[i].Target = targetObject;
-
-            targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
+             Target target = GetClosestTarget(selectedCrosshair.position);
+             GameObject targetObject = null;
+             if (!target.IsNone())
+             {
+                 targets[i] = target.GetAimPosition();
+                 selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
+                 targetObject = target.Object;
+             }
+             autoaimScripts[i].Target = targetObject;
+             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
         
         localController.CmdUpdateTargets(gameObject, targets);
@@ -169,7 +164,6 @@ public class CrosshairMovement : NetworkBehaviour
             serverManager.SetCrosshairPosition(playerId, screenId, position);
         }
         autoaimScripts[playerId].Target = targetObject;*/
-        Vector2 oldPosittion = GetPosition(controlling);
         serverManager.SetCrosshairPosition(playerId, screenId, position);
     }
 
@@ -240,14 +234,14 @@ public class CrosshairMovement : NetworkBehaviour
         position[i + 1] = newPosition.y;
     }
 
-	private Vector2 GetPosition(int crosshairId)
+	public Vector2 GetPosition(int crosshairId)
 	{
 		int i = crosshairId * 2;
 		return new Vector2(position[i], position[i + 1]);
 	}
         
 	// Get the target closest to where the player is aiming (within bounds)
-	private Target GetClosestTarget(Vector3 aimPosition)
+	public Target GetClosestTarget(Vector3 aimPosition)
 	{
 		// Cast a ray from the crosshair
 		Ray ray = mainCamera.ScreenPointToRay(aimPosition);
@@ -269,7 +263,7 @@ public class CrosshairMovement : NetworkBehaviour
 				minDistance  = aimDirectionDistance;
 			}
 		}
-			
+		
 		// If a target is found, return it 
 		if (closestCol != null)
 		{
@@ -280,6 +274,11 @@ public class CrosshairMovement : NetworkBehaviour
 		// targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
 		return Target.None;
 	}
+
+    public int GetControlling()
+    {
+        return controlling;
+    }
 
 	// Uncomment below for visual debug cues
 	// private Vector3 targetGizmoLoc;
@@ -296,7 +295,7 @@ public class CrosshairMovement : NetworkBehaviour
 			Gizmos.DrawSphere(targetGizmoLoc, 20);*/
 	}
 
-	private class Target
+	public class Target
 	{
 		public GameObject Object { get; private set; }
 		public Vector3 Position { get; private set; }
