@@ -340,11 +340,13 @@ public class EngineerController : NetworkBehaviour
 	public void AddJob(bool isUpgrade, ComponentType part)
     {
 		List<GameObject> partList = GetPartListByType(part);
+        if (partList != null)
+        {
+            this.ProcessJob(isUpgrade, true, partList);
 
-		this.ProcessJob(isUpgrade, true, partList);
-
-        // Highlight the appropriate components
-        Highlight(part);
+            // Highlight the appropriate components
+            Highlight(part);
+        }
     }
 
     /// <summary>
@@ -356,11 +358,13 @@ public class EngineerController : NetworkBehaviour
     private void FinishJob(bool isUpgrade, ComponentType part)
     {
 		List<GameObject> partList = GetPartListByType(part);
+        if (partList != null)
+        {
+            this.ProcessJob(isUpgrade, false, partList);
 
-		this.ProcessJob(isUpgrade, false, partList);
-
-        // Un-highlight the appropriate components
-        Highlight(part);
+            // Un-highlight the appropriate components
+            Highlight(part);
+        }
     }
 
     [Command]
