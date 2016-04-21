@@ -296,7 +296,7 @@ private void LoadSettings()
             myDamage = mainCamera.gameObject.GetComponent<DamageEffects>();
 
         // Check to see if the hull is hit, otherwise damage component
-        if (component == ComponentType.None)
+		if (component == ComponentType.None || component == ComponentType.ResourceStorage)
             gameState.DamageShip(damage);
         else
             gameState.DamageComponent(component, damage);
