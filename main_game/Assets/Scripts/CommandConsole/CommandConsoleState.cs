@@ -53,6 +53,7 @@ public class CommandConsoleState : MonoBehaviour {
     private List<GameObject> upgradeBoxes;
     private List<GameObject> healthSegments = new List<GameObject>();
     private List<GameObject> shieldSegments = new List<GameObject>();
+    private List<GameObject> tutorialArrowList = new List<GameObject>();
 
     private List<MissionText> missionTexts = new List<MissionText>();
     private List<string> currentObjectives = new List<string>();
@@ -78,6 +79,7 @@ public class CommandConsoleState : MonoBehaviour {
     // Indicates which upgrade is in progress.
     private int[] upgradeProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
     private int[] repairProgress = new int[6] { 0, 0, 0, 0, 0, 0 };
+    private Vector2 mapPosition = new Vector2(555, 256);
     private ConsoleShipControl shipControl;
 
     void Start() 
@@ -176,6 +178,10 @@ public class CommandConsoleState : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(null);    //deselect all the buttons
         // Reset all highlighting
         shipControl.HighlightComponent(-1);
+        foreach(GameObject arrow in tutorialArrowList)
+        {
+            GameObject.Destroy(arrow);
+        }
     }
 
     private void LoadSettings()
@@ -232,6 +238,9 @@ public class CommandConsoleState : MonoBehaviour {
         {
             EngineerUpgradeAllCheat();
         }
+        if(Input.GetKeyDown("a")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.objectiveIconRectTransform.anchoredPosition + new Vector2(-16,-16));
+        if(Input.GetKeyDown("b")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.portalRectTransform.anchoredPosition + new Vector2(-16, -16));
+        if (Input.GetKeyDown("c")) DrawArrow(new Vector2(0, 0), stratMap.portalRectTransform.position);
     }
 
     void FixedUpdate ()
@@ -694,12 +703,14 @@ public class CommandConsoleState : MonoBehaviour {
     {
         RectTransform arrowRectTransform;
         GameObject arrow = Instantiate(Resources.Load("Prefabs/TutorialArrow", typeof(GameObject))) as GameObject;
+        tutorialArrowList.Add(arrow);
         arrow.transform.SetParent(canvas.transform);
         float angle = Mathf.Atan2(canvasPosition.y - arrowStart.y, canvasPosition.x - arrowStart.x) * 180 / Mathf.PI;
         //arrow.transform.localScale = new Vector3((canvasPosition - arrowStart).magnitude/500, 1, 1);
         arrowRectTransform = (RectTransform)arrow.transform;
         arrowRectTransform.offsetMin = new Vector2(0, 0);
         arrowRectTransform.offsetMax = new Vector2((canvasPosition - arrowStart).magnitude, 5);
+        arrowRectTransform.localScale = new Vector3(1,1,1);
         arrow.transform.localPosition = canvasPosition - ((canvasPosition - arrowStart)  / 2);
         arrow.transform.Rotate(0, 0, angle);
     }

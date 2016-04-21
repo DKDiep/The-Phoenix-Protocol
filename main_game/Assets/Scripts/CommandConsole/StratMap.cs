@@ -6,7 +6,8 @@ public class StratMap : MonoBehaviour {
 
     private GameObject playerIcon;
     private GameObject objectiveIcon;
-    private RectTransform objectiveIconRectTransform;
+    public RectTransform objectiveIconRectTransform;
+    public RectTransform portalRectTransform;
     private Transform shipTransform;
     private RectTransform playerIconTransform;
     private float panelHeight;
@@ -88,7 +89,7 @@ public class StratMap : MonoBehaviour {
         {
             GameObject portalSymbol = Instantiate(Resources.Load("Prefabs/PortalIcon", typeof(GameObject))) as GameObject;
             portalSymbol.transform.SetParent(panel.transform, false);
-            RectTransform portalRectTransform = (RectTransform)portalSymbol.transform;
+            portalRectTransform = (RectTransform)portalSymbol.transform;
             Vector3 screenPos = rotation * (new Vector3(Portal.transform.position.x / scaleFactor, Portal.transform.position.z / scaleFactor, 0) + mapDisplacement / scaleFactor);
             portalRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
