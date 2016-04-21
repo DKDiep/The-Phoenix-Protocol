@@ -49,13 +49,16 @@ public class MouseLook : MonoBehaviour
         yawSpeed = settings.EngineerYawSpeed;
     }
 		
-    public void LookRotation(Transform character, Transform camera)
+    public bool LookRotation(Transform character, Transform camera)
     {
         float yRot = Input.GetAxis("Mouse X") * xSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * ySensitivity;
         float yawLeft = Input.GetButton("YawLeft") ? yawSpeed : 0;
         float yawRight = Input.GetButton("YawRight") ? -yawSpeed : 0;
         float zRot = yawLeft + yawRight;
+
+        // Check if the engineer has rotated
+        bool rotated = yRot != 0 || xRot != 0 || zRot != 0;
 
         characterTargetRot *= Quaternion.Euler (-xRot, yRot, zRot);
 
@@ -64,5 +67,7 @@ public class MouseLook : MonoBehaviour
                 smoothTime * Time.deltaTime);
         else
             character.localRotation = characterTargetRot;
+
+        return rotated;
     }
 }

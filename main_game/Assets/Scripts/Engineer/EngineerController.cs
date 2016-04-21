@@ -50,6 +50,7 @@ public class EngineerController : NetworkBehaviour
     private bool collideRight;
     private bool isPressingButon;
     private bool isMoving;
+    private bool isRotating;
     private bool droneShouldUpgrade;
 
 	private GameState gameState = null;
@@ -482,7 +483,7 @@ public class EngineerController : NetworkBehaviour
         // Get the current drone stats
         GetDroneStats();
 
-        RotateView();
+        isRotating = RotateView();
         if (Input.GetButton("Dock"))
         {
             Dock();
@@ -647,7 +648,7 @@ public class EngineerController : NetworkBehaviour
 
         if (!isDocked)
         {
-            if (isMoving || isPressingButon)
+            if (isMoving || isPressingButon || isRotating)
             {
                 keyPressTime[InteractionKey.Inactive] = 0;
                 dockWarningText.text = "";
@@ -757,9 +758,9 @@ public class EngineerController : NetworkBehaviour
     /// <summary>
     /// Used to rotate the engineer camera based on mouse movement
     /// </summary>
-    private void RotateView()
+    private bool RotateView()
     {
-        mouseLook.LookRotation(transform, camera.transform);
+        return mouseLook.LookRotation(transform, camera.transform);
     }
 
     private void ResetUpgradeText()
