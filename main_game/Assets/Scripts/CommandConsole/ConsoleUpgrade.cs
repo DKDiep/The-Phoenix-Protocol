@@ -182,7 +182,7 @@ public class ConsoleUpgrade : MonoBehaviour
         if (properties.currentLevel == properties.numberOfLevels)
         {
             maxLevel = true;
-            setUpgradePending(true);
+            setUpgradePending(false);
         }
     }
 

@@ -334,7 +334,7 @@ public class CommandConsoleState : MonoBehaviour {
         consoleUpgrades[(int)type].setUpgradePending(false);
         consoleUpgrades[(int)type].UpdateLevelIndicator(upgradeProperties[(int)type].currentLevel);
         upgradeProperties[(int)type].currentLevel++;
-        UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
+        print("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
     }
 
     /// <summary>
@@ -595,5 +595,19 @@ public class CommandConsoleState : MonoBehaviour {
     {
         //I don't want to remove the NewsFeed functionality completely, in case we want it back. So I'm just making this do nothing for now.
         //newsFeed.GetComponent<Text>().text = message + "\n" + newsFeed.GetComponent<Text>().text;
+    }
+
+    private void DrawArrow(Vector2 arrowStart, Vector2 canvasPosition)
+    {
+        RectTransform arrowRectTransform;
+        GameObject arrow = Instantiate(Resources.Load("Prefabs/TutorialArrow", typeof(GameObject))) as GameObject;
+        arrow.transform.SetParent(canvas.transform);
+        float angle = Mathf.Atan2(canvasPosition.y - arrowStart.y, canvasPosition.x - arrowStart.x) * 180 / Mathf.PI;
+        //arrow.transform.localScale = new Vector3((canvasPosition - arrowStart).magnitude/500, 1, 1);
+        arrowRectTransform = (RectTransform)arrow.transform;
+        arrowRectTransform.offsetMin = new Vector2(0, 0);
+        arrowRectTransform.offsetMax = new Vector2((canvasPosition - arrowStart).magnitude, 5);
+        arrow.transform.localPosition = canvasPosition - ((canvasPosition - arrowStart)  / 2);
+        arrow.transform.Rotate(0, 0, angle);
     }
 }
