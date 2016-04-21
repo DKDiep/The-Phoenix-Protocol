@@ -30,6 +30,9 @@ public class ConsoleUpgrade : MonoBehaviour
     private List<Color> YellowToRed = new List<Color>();
     private bool pending = false;
     private bool levelsInitialised = false;
+    private bool maxLevel = false;
+    private bool damaged = false;
+    private bool fullHealth = true;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     static private Color whiteA200 = new Color(1, 1, 1, 200f / 255f);
@@ -87,9 +90,13 @@ public class ConsoleUpgrade : MonoBehaviour
                     if (index > 9) index = 9;
                     repairButtonImage.color = YellowToRed[index];
                     repairButton.SetActive(true);
+                    fullHealth = false;
                 }
                 else
+                {
                     repairButton.SetActive(false);
+                    fullHealth = true;
+                }
             }
         }
     }
@@ -153,6 +160,11 @@ public class ConsoleUpgrade : MonoBehaviour
     public void UpdateLevelIndicator(int level)
     {
         levelIndicators[level-1].GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
+        if (properties.currentLevel == properties.numberOfLevels)
+        {
+            maxLevel = true;
+            setUpgradePending(true);
+        }
     }
 
     public void HideRepairButton()
@@ -172,6 +184,13 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setRepairPending(bool pending)
     {
+        if (fullHealth)
+        {
+            sideRepairButtonText.text = "Undamaged";
+            sideRepairButtonImage.color = whiteA50;
+            sideRepairButtonText.color = whiteA50;
+            return;
+        }
         if (pending)
         {
             sideRepairButtonText.text = "Waiting";
@@ -188,6 +207,13 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setUpgradePending(bool pending)
     {
+        if (maxLevel)
+        {
+            sideUpgradeButtonText.text = "Max Level";
+            sideUpgradeButtonImage.color = whiteA50;
+            sideUpgradeButtonText.color = whiteA50;
+            return;
+        }
         if (pending)
         {
             sideUpgradeButtonText.text = "Waiting";
