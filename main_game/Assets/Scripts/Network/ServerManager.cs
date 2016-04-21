@@ -492,7 +492,7 @@ public class ServerManager : NetworkBehaviour
 
     public void SetCrosshairPosition(int crosshairId, int screenId, Vector2 position)
     {
-		foreach (KeyValuePair<int, CrosshairMovement> entry in screenIdToCrosshairMovement)
-			entry.Value.SetPosition(crosshairId, screenId == entry.Key, position);
+		foreach (int screen in screenIdToCrosshairMovement.Keys)
+			screenIdToCrosshairMovement[screen].SetPosition(crosshairId, screenId == screen, position);
     }
 }
