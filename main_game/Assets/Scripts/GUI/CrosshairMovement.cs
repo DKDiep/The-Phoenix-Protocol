@@ -245,11 +245,14 @@ public class CrosshairMovement : NetworkBehaviour
 
 	public void SetPosition(int crosshairId, bool visible, Vector2 newPosition)
     {
-        int i = crosshairId * 2;
-        position[i] = newPosition.x;
-        position[i + 1] = newPosition.y;
-
 		visibleCrosshairs[crosshairId] = visible;
+
+		if (visible)
+		{
+			int i = crosshairId * 2;
+			position[i] = newPosition.x;
+			position[i + 1] = newPosition.y;
+		}
     }
 
 	private Vector2 GetPosition(int crosshairId)
