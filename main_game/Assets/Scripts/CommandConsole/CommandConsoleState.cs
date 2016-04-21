@@ -153,6 +153,7 @@ public class CommandConsoleState : MonoBehaviour {
         {
             GameObject.Destroy(arrow);
         }
+        currentObjectives = new List<string>();
     }
 
     private void LoadSettings()
@@ -202,8 +203,8 @@ public class CommandConsoleState : MonoBehaviour {
         {
             EngineerUpgradeAllCheat();
         }
-        if(Input.GetKeyDown("a")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.objectiveIconRectTransform.anchoredPosition + new Vector2(-16,-16));
-        if(Input.GetKeyDown("b")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.portalRectTransform.anchoredPosition + new Vector2(-16, -16));
+        if(Input.GetKeyDown("a")) DrawArrow(new Vector2(322.5f, 180), mapPosition + stratMap.objectiveIconRectTransform.anchoredPosition + new Vector2(-16,-16));
+        if(Input.GetKeyDown("b")) DrawArrow(new Vector2(322.5f, 180), mapPosition + stratMap.portalRectTransform.anchoredPosition + new Vector2(-16, -16));
         if (Input.GetKeyDown("c")) DrawArrow(new Vector2(0, 0), stratMap.portalRectTransform.position);
     }
 
