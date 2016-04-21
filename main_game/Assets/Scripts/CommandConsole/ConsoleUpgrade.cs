@@ -28,11 +28,12 @@ public class ConsoleUpgrade : MonoBehaviour
 
     private Image repairButtonImage;
     private List<Color> YellowToRed = new List<Color>();
-    private bool pending = false;
+    private bool upgradePending = false;
     private bool levelsInitialised = false;
     private bool maxLevel = false;
     private bool damaged = false;
     private bool fullHealth = true;
+    private bool affordable = false;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     static private Color whiteA200 = new Color(1, 1, 1, 200f / 255f);
@@ -59,7 +60,6 @@ public class ConsoleUpgrade : MonoBehaviour
         sideRepairButtonText = sideRepairButton.GetComponentInChildren<Text>();
         sideRepairButtonImage = sideRepairButton.GetComponent<Image>();
         sideRepairButton.SetActive(false);
-
     }
 
     public void Reset()
@@ -131,8 +131,27 @@ public class ConsoleUpgrade : MonoBehaviour
     public void showAffordable(bool affordable)
     {
         if (affordable)
+        {
             upgradeCostTxt.color = offWhite;
-        else upgradeCostTxt.color = Color.red;
+            if (!upgradePending)
+            {
+                sideUpgradeButtonImage.color = whiteA200;
+                sideUpgradeButtonText.color = whiteA200;
+            }
+            else
+            {
+                sideUpgradeButtonImage.color = whiteA50;
+                sideUpgradeButtonText.color = whiteA50;
+            }
+            this.affordable = affordable;
+        }
+        else
+        {
+            upgradeCostTxt.color = Color.red;
+            sideUpgradeButtonImage.color = whiteA50;
+            sideUpgradeButtonText.color = whiteA50;
+            this.affordable = affordable;
+        }
     }
 
     private void InitialiseLevels()
@@ -207,6 +226,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setUpgradePending(bool pending)
     {
+        upgradePending = pending;
         if (maxLevel)
         {
             sideUpgradeButtonText.text = "Max Level";
@@ -223,8 +243,7 @@ public class ConsoleUpgrade : MonoBehaviour
         else
         {
             sideUpgradeButtonText.text = "Upgrade";
-            sideUpgradeButtonImage.color = whiteA200;
-            sideUpgradeButtonText.color = whiteA200;
+            showAffordable(affordable);
         }
     }
 }
