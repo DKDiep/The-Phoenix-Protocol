@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
-  MaxAsteroids: 900
+  MaxAsteroids: 1300
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
   AsteroidMaxDistance: 3000
