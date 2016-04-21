@@ -21,7 +21,16 @@ public class EnemyCollision : MonoBehaviour
 			{
 				GameObject hitObject = col.gameObject;
 				if (shipMovement == null)
-					shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+				{
+					try
+					{
+						shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+					}
+					catch(System.NullReferenceException e)
+					{
+						Debug.LogError("Collision exception on " + hitObject.name);
+					}
+				}
 
 				if (shipMovement != null)
 					shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
