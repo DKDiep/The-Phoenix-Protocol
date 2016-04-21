@@ -1,8 +1,27 @@
 // Initialises the web page by first establishing a connection and then
 // arranging the web page
+
+
 $( document ).ready(function() {
-    initSocket(initScreen)
+    initSocket(initScreen);
 });
+
+$(document).click(function(e) {
+    launchIntoFullscreen(document.documentElement);
+});
+
+function launchIntoFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+}
+
 
 // Starts initialisation of the web page
 function initScreen() {
