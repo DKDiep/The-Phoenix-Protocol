@@ -46,17 +46,28 @@ func newNotificationMap() map[ComponentType]*Notification {
 func (notifications *NotificationMap) accessManager() {
     fmt.Println("Starting Notification Map accessManager.")
     for {
-        select {
-        // set a notification
-        case <-notifications.setC:
-            <-notifications.setC
-        // get a notification
-        case <-notifications.getC:
-            <-notifications.getC
-        // reset the map
-        case <-notifications.resetC:
-            notifications.m = newNotificationMap()
+        notifications.handleAccess()
+    }
+}
+
+// Handle a single access request
+func (notifications *NotificationMap) handleAccess() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Notification Map: Runtime panic:", r)
         }
+    }()
+
+    select {
+    // set a notification
+    case <-notifications.setC:
+        <-notifications.setC
+    // get a notification
+    case <-notifications.getC:
+        <-notifications.getC
+    // reset the map
+    case <-notifications.resetC:
+        notifications.m = newNotificationMap()
     }
 }
 

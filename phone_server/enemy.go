@@ -49,30 +49,41 @@ type EnmCopyExchange struct {
 func (enemies *EnemyMap) accessManager() {
     fmt.Println("Starting Enemy Map accessManager.")
     for {
-        select {
-        // deletion of an enemy
-        case id := <-enemies.delC:
-            enemies.removeAsync(id)
-        // setting of enemy values
-        case toSet := <-enemies.setC:
-            enemies.setAsync(toSet.id, toSet.enemy)
-        // set an enemy as being controlled
-        case ctrlData := <-enemies.ctrlC:
-            success := enemies.setControlledAsync(ctrlData.id, ctrlData.player)
-            if success {
-                enemies.ctrlC <- ctrlData
-            } else {
-                // a way to signal failure
-                enemies.ctrlC <- ControllingPlayer{player: nil}
-            }
-        // clears the map
-        case <-enemies.resetC:
-            enemies.m = make(map[int64]*Enemy)
-        // sending of a copy of the map
-        case data := <-enemies.copyC:
-            data.copy = enemies.getCopyAsync(data.plrShipData)
-            enemies.copyC <- data
+        enemies.handleAccess()
+    }
+}
+
+// Handle a single access request
+func (enemies *EnemyMap) handleAccess() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Enemy Map: Runtime panic:", r)
         }
+    }()
+
+    select {
+    // deletion of an enemy
+    case id := <-enemies.delC:
+        enemies.removeAsync(id)
+    // setting of enemy values
+    case toSet := <-enemies.setC:
+        enemies.setAsync(toSet.id, toSet.enemy)
+    // set an enemy as being controlled
+    case ctrlData := <-enemies.ctrlC:
+        success := enemies.setControlledAsync(ctrlData.id, ctrlData.player)
+        if success {
+            enemies.ctrlC <- ctrlData
+        } else {
+            // a way to signal failure
+            enemies.ctrlC <- ControllingPlayer{player: nil}
+        }
+    // clears the map
+    case <-enemies.resetC:
+        enemies.m = make(map[int64]*Enemy)
+    // sending of a copy of the map
+    case data := <-enemies.copyC:
+        data.copy = enemies.getCopyAsync(data.plrShipData)
+        enemies.copyC <- data
     }
 }
 

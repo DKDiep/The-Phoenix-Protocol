@@ -106,6 +106,12 @@ func gameServerTCPConnectionHandler() {
 
 // Deals with the message payload based on its type
 func decodeGameServerMessage(rawData []byte) {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Game Server Connection: Runtime panic:", r)
+        }
+    }()
+
     var msg map[string]interface{}
     if err := json.Unmarshal(rawData, &msg); err != nil {
         fmt.Println(err)

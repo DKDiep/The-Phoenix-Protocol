@@ -40,21 +40,32 @@ type AstCopyExchange struct {
 func (asteroids *AsteroidMap) accessManager() {
     fmt.Println("Starting Asteroid Map accessManager.")
     for {
-        select {
-        // deletion of asteroid
-        case id := <-asteroids.delC:
-            delete(asteroids.m, id)
-        // addition of asteroid
-        case new := <-asteroids.addC:
-            asteroids.m[new.id] = new.ast
-        // clears the map
-        case <-asteroids.resetC:
-            asteroids.m = make(map[int]*Asteroid)
-        // sending a copy of the map
-        case data := <-asteroids.copyC:
-            data.copy = asteroids.getCopyAsync(data.plrShipData)
-            asteroids.copyC <- data
+        asteroids.handleAccess()
+    }
+}
+
+// Handle a single access request
+func (asteroids *AsteroidMap) handleAccess() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Asteroid Map: Runtime panic:", r)
         }
+    }()
+
+    select {
+    // deletion of asteroid
+    case id := <-asteroids.delC:
+        delete(asteroids.m, id)
+    // addition of asteroid
+    case new := <-asteroids.addC:
+        asteroids.m[new.id] = new.ast
+    // clears the map
+    case <-asteroids.resetC:
+        asteroids.m = make(map[int]*Asteroid)
+    // sending a copy of the map
+    case data := <-asteroids.copyC:
+        data.copy = asteroids.getCopyAsync(data.plrShipData)
+        asteroids.copyC <- data
     }
 }
 

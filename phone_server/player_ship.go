@@ -36,18 +36,29 @@ type PlayerShipController struct {
 func (plrShip *PlayerShipController) accessManager() {
     fmt.Println("Starting Player Ship accessManager.")
     for {
-        select {
-        // setting of the ship data
-        case new := <-plrShip.setC:
-            plrShip.data = new
-        // sending a copy of the ship data
-        case <-plrShip.getC:
-            toSend := *plrShip.data
-            plrShip.getC <- &toSend
-        // clears out the ship data
-        case <-plrShip.resetC:
-            plrShip.data = &PlayerShip{}
+        plrShip.handleAccess()
+    }
+}
+
+// Handle a single access request
+func (plrShip *PlayerShipController) handleAccess() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Player Ship: Runtime panic:", r)
         }
+    }()
+
+    select {
+    // setting of the ship data
+    case new := <-plrShip.setC:
+        plrShip.data = new
+    // sending a copy of the ship data
+    case <-plrShip.getC:
+        toSend := *plrShip.data
+        plrShip.getC <- &toSend
+    // clears out the ship data
+    case <-plrShip.resetC:
+        plrShip.data = &PlayerShip{}
     }
 }
 

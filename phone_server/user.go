@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
+    "strconv"
 )
 
 // Holds user related data
@@ -29,6 +30,19 @@ func userWebSocketHandler(webs *websocket.Conn) {
 // Listens for messages from the phone and handles them appropriately
 // Returns when the connection is closed
 func (usr *User) handleUser() {
+    // Recover from fuckups
+    defer func() {
+        if r := recover(); r != nil {
+            printStr := "User: Runtime panic"
+            if usr != nil && usr.player != nil {
+                printStr += " for Player {id: " +
+                    strconv.FormatUint(usr.player.id, 16) + ", name: " +
+                    usr.player.userName + "}"
+            }
+            fmt.Println(printStr + ":", r)
+        }
+    }()
+
     receivedtext := make([]byte, 1024)
     for {
         n, err := usr.ws.Read(receivedtext)

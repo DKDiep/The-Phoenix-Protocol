@@ -59,38 +59,49 @@ func (a SortedPlayers) Less(i, j int) bool {
 func (players *PlayerMap) accessManager() {
     fmt.Println("Starting Player Map accessManager.")
     for {
-        select {
-        // addition of player
-        case new := <-players.addC:
-            players.mSpec[new.id] = new
-        // move a player from the spectator map into the officer map
-        case data := <-players.setRoleC:
-            players.setPlayerRoleAsync(data.plr, data.role)
-        // blocks the manager, used for user specific actions
-        case <-players.plrC:
-            <-players.plrC
-        // resets the players
-        case <-players.resetC:
-            players.resetPlayersAsync()
-            players.resetC <- struct{}{}
-        // starts the spectator game for all spectators
-        case <-players.startC:
-            players.startPlayersAsync()
-        // request a sorted list of all players on standby
-        case <-players.sortlC:
-            players.sortlC <- players.getSortedOnlineSpectatorsAsync()
-        // gets unordered lists of the players
-        case <-players.listC:
-            <-players.listC
-        // request to update all users
-        case <-players.updateC:
-            players.updateSpectatorData()
-        // log player scores to the database
-        case <-players.logScoresC:
-            players.logScoresAsync()
-        case <-players.logOfficersC:
-            players.logOfficersAsync()
+        players.handleAccess()
+    }
+}
+
+// Handle a single access request
+func (players *PlayerMap) handleAccess() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Player Map: Runtime panic:", r)
         }
+    }()
+
+    select {
+    // addition of player
+    case new := <-players.addC:
+        players.mSpec[new.id] = new
+    // move a player from the spectator map into the officer map
+    case data := <-players.setRoleC:
+        players.setPlayerRoleAsync(data.plr, data.role)
+    // blocks the manager, used for user specific actions
+    case <-players.plrC:
+        <-players.plrC
+    // resets the players
+    case <-players.resetC:
+        players.resetPlayersAsync()
+        players.resetC <- struct{}{}
+    // starts the spectator game for all spectators
+    case <-players.startC:
+        players.startPlayersAsync()
+    // request a sorted list of all players on standby
+    case <-players.sortlC:
+        players.sortlC <- players.getSortedOnlineSpectatorsAsync()
+    // gets unordered lists of the players
+    case <-players.listC:
+        <-players.listC
+    // request to update all users
+    case <-players.updateC:
+        players.updateSpectatorData()
+    // log player scores to the database
+    case <-players.logScoresC:
+        players.logScoresAsync()
+    case <-players.logOfficersC:
+        players.logOfficersAsync()
     }
 }
 

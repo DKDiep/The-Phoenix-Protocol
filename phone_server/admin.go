@@ -66,6 +66,13 @@ func adminWebSocketHandler(webs *websocket.Conn) {
 // Listens for messages from the admin panel
 // Returns when the connection is closed
 func handleReceivedData(ws *websocket.Conn) {
+    // Recover from fuckups
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Admin: Runtime panic:", r)
+        }
+    }()
+
     receivedtext := make([]byte, 1024)
     for {
         n, err := ws.Read(receivedtext)
