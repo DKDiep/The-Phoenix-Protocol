@@ -51,6 +51,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private GameObject hackedAttackTraget = null;
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
+	private float hackedBulletDamage;
 
 	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
 	// Please, treat them as constants
@@ -175,6 +176,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		randomPitch					   = settings.EnemyFireSoundRandomPitch;
 		speedUpdateDelay		   	   = settings.EnemySuicidalSpeedUpdateInterval;
 		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
+		hackedBulletDamage 			   = settings.HackedEnemyBulletDamage;
 	}
 
 	void Update ()
@@ -702,7 +704,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
     		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-    		bulletLogic.SetParameters(accuracy, bulletDamage);
     		bulletMove.Speed = bulletSpeed;
     		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
@@ -716,14 +717,16 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
 			if (hackedAttackTraget != null)
 			{
-				destination = currentTarget.transform.position;
 				if (Random.value > accuracy)
 					bulletMove.SetTarget(currentTarget);
-				obj.layer = LAYER_PLAYER_BULLET;
-				// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
+				bulletLogic.SetParameters(accuracy, hackedBulletDamage);
+
+				destination = currentTarget.transform.position;
+				obj.layer   = LAYER_PLAYER_BULLET;
 			}
 			else
 			{
+				bulletLogic.SetParameters(accuracy, bulletDamage);
 				destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
 				obj.layer   = LAYER_ENEMY_BULLET;
 			}
