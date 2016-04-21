@@ -24,7 +24,7 @@ public class CrosshairMovement : NetworkBehaviour
 	//private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
-    private bool usingMouse = true;
+    private bool usingMouse = false;
 
 	private GameObject gameManager;
 	private ServerManager serverManager;
@@ -40,6 +40,7 @@ public class CrosshairMovement : NetworkBehaviour
 
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
+	private SyncListBool visibleCrosshairs = new SyncListBool();
 
     // Use this for initialization
     void Start ()
@@ -56,6 +57,9 @@ public class CrosshairMovement : NetworkBehaviour
         //Populate sync list with 8 floats
         for (int i = 0; i < 8; i++)
             position.Add(0.0f);
+
+		for (int i = 0; i < 4; i++)
+			visibleCrosshairs.Add(false);
                     
 		// If there are no wii remotes connected, set the default to 2
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
@@ -116,6 +120,9 @@ public class CrosshairMovement : NetworkBehaviour
 		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
+
+			// Disable the crosshair on this screen if it's on another screen
+			crosshairs[i].SetActive(visibleCrosshairs[i]);
 
             Target target = GetClosestTarget(selectedCrosshair.position);
             GameObject targetObject = null;
@@ -195,7 +202,10 @@ public class CrosshairMovement : NetworkBehaviour
             serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
         }
 		autoaimScripts[controlling].Target = targetObject;*/
-        serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
+
+		/*position[2*controlling] = currentPosition.x;
+		position[2*controlling + 1] = currentPosition.y;*/
+		serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
     }
         
     /// <summary>
@@ -233,11 +243,16 @@ public class CrosshairMovement : NetworkBehaviour
         }
     }
 
-    public void SetPosition(int crosshairId, Vector2 newPosition)
+	public void SetPosition(int crosshairId, bool visible, Vector2 newPosition)
     {
-        int i = crosshairId * 2;
-        position[i] = newPosition.x;
-        position[i + 1] = newPosition.y;
+		visibleCrosshairs[crosshairId] = visible;
+
+		if (visible)
+		{
+			int i = crosshairId * 2;
+			position[i] = newPosition.x;
+			position[i + 1] = newPosition.y;
+		}
     }
 
 	private Vector2 GetPosition(int crosshairId)
