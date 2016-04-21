@@ -97,7 +97,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	// Parameters for raycasting obstacle detection
 	// Two rays are shot forwards, on the left and right side of the ship to detect incoming obstacles
-	private const int AI_OBSTACLE_RAY_FRONT_LENGTH  = 30;
+	private const int AI_OBSTACLE_RAY_FRONT_LENGTH  = 45;
 	private const string AI_OBSTACLE_TAG_DEBRIS     = "Debris";
 	private const string AI_OBSTACLE_TAG_ENEMY      = "EnemyShip";
 	private const string AI_OBSTACLE_TAG_MOTHERSHIP = "GlomMothership";
