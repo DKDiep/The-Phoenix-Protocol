@@ -26,6 +26,7 @@ public class PlayerShooting : MonoBehaviour
 	private float alpha;
 	private Vector3 crosshairPosition;
 	private GameObject crosshair;
+    private GameObject crosshairContainer;
 	private CrosshairAutoaimAssist autoaimScript;
 	private Camera mainCamera;
 
@@ -39,6 +40,7 @@ public class PlayerShooting : MonoBehaviour
 
 	private bool ammoRecharging;
 	private Coroutine ammoRechargeCoroutine;
+    private bool shootButtonPressed;
 
     private int screenId;
 
@@ -59,6 +61,7 @@ public class PlayerShooting : MonoBehaviour
     public void Reset()
     {
         LoadSettings();
+        shootButtonPressed = false;
     }
 
 	private void LoadSettings()
@@ -84,23 +87,17 @@ public class PlayerShooting : MonoBehaviour
 
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
         // Get screen with index 0
-        GameObject crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
+        crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
         // Find crosshair
-		crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
-        autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
 
         bulletAnchor = new GameObject();
-
-        // Find crosshair images
-        bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
+      
 
         bulletManager      = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
         muzzleFlashManager = GameObject.Find("PlayerMuzzleFlashManager").GetComponent<ObjectPoolManager>();
         impactManager      = GameObject.Find("BulletImpactManager").GetComponent<ObjectPoolManager>();
-
-        StartCoroutine(RechargeWiiRemoteAmmo());
 	}
 
 	void Update () 
@@ -108,8 +105,8 @@ public class PlayerShooting : MonoBehaviour
         if (gameState.Status != GameState.GameStatus.Started)
             return;
 
-		// TODO: For debugging: see if the player has been switched using the keyboard
-        SwitchPlayers();
+       
+        TryShoot(currentPlayerId, true);
 
         // Control alpha of hitmarker
 		if(alpha > 0)
@@ -118,18 +115,20 @@ public class PlayerShooting : MonoBehaviour
 		}
 	}
 
+
+    public void ShootOnce(int playerId)
+    {
+        currentPlayerId = playerId;
+        shootButtonPressed = true;
+    }
+
 	/// <summary>
 	/// Shoots a bullet if enough ammo is available.
 	/// </summary>
 	/// <param name="playerId">The shooter's ID.</param>
 	public void TryShoot(int playerId, bool remote)
 	{
-		bool shootButtonPressed = false;
-        if(remote)
-            shootButtonPressed = true;
-        else 
-            shootButtonPressed = Input.GetMouseButton(0);
-
+       
 		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
 		{
 			// Stop ammo recharging when the player fires
@@ -142,7 +141,8 @@ public class PlayerShooting : MonoBehaviour
 			ShootBullet(playerId);
 			ammo -= shootAmmoCost;
             if (gameState.GetOfficerMap().ContainsKey((uint)playerId))  gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
-		}
+            shootButtonPressed = false;
+        }
 		else if (!shootButtonPressed && !ammoRecharging)
 		{
 			// Wait for the player to release the fire button before startin to recharge ammo
@@ -157,16 +157,23 @@ public class PlayerShooting : MonoBehaviour
 	/// <param name="playerId">The player ID.</param>
 	private void ShootBullet(int playerId) 
 	{
-        if (crosshair != null)
+        
+        if (crosshair == null)
         {
+            crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
+            autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
+            // Find crosshair images
+            bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
+        } else {
+            
             Vector3 crosshairPosition = crosshair.transform.position;
             
 			// Get correct crosshair object's ScreenToWorld results
             GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
             Vector3[] targets 		   = serverManager.GetTargetPositions(crosshairObject).targets;
             GameObject[] targetObjects = serverManager.GetTargetPositions(crosshairObject).targetObjects;
-            targetPos				   = targets[0];
-            autoaimScript.Target       = targetObjects[0];
+            targetPos				   = targets[playerId];
+            autoaimScript.Target       = targetObjects[playerId];
 
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
@@ -181,7 +188,6 @@ public class PlayerShooting : MonoBehaviour
             GameObject logic = logicManager.RequestObject();
 			logic.transform.parent = obj.transform;
 
-            // TODO: this is now broken because the logic is only spawned on the server, so the bullets don't move on the clients
 			// Suggest add a BulletMove method for the speed and remove it from the logic
 			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
 			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage());
@@ -208,19 +214,7 @@ public class PlayerShooting : MonoBehaviour
     {
         screenId = newScreenId;
     }
-
-	// Switch between players using keys 4-7, for debugging different player shooting.
-	void SwitchPlayers() 
-	{
-		// Loop through 4 players
-		for (int i = 4; i <= 7; i++) 
-		{
-			if (Input.GetKeyDown (i.ToString ())) 
-			{
-				currentPlayerId = i-4;
-			}
-		}
-	}
+        
 
 	void OnGUI()
 	{
@@ -239,20 +233,6 @@ public class PlayerShooting : MonoBehaviour
 		alpha = 1f;
 		StartCoroutine(HideMarker());
 	}
-
-
-    
-    IEnumerator RechargeWiiRemoteAmmo()
-    {
-        while(true)
-        {
-            // Wait 0.2 seconds, this should be calculated and set to the right thing. This was just a quick fix on the demo day.
-            yield return new WaitForSeconds(0.2f);
-            if(playerId == currentPlayerId)
-                TryShoot(currentPlayerId, false);
-        }
-       
-    }
 
     // Stop drawing hitmarker after certain time limit
 	IEnumerator HideMarker()

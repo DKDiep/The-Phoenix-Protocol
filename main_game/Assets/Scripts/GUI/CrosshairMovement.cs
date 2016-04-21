@@ -152,16 +152,7 @@ public class CrosshairMovement : NetworkBehaviour
     /// <param name="position">Position.</param>
     public void SetCrosshairPositionWiiRemote(int playerId, int screenId, Vector2 position)
     {
-        // If a playerId is used that requires a crosshair, enable the crosshair
-        if(playerId > numberOfCrossHairs-1)
-        {
-            numberOfCrossHairs = playerId+1;
-            for(int i = 0; i < 4; ++i)
-            {
-                // Show new crosshairs
-                if(i >= numberOfCrossHairs) crosshairs[i].SetActive(true);
-            }
-        }
+        Vector2 oldPosittion = GetPosition(controlling);
         serverManager.SetCrosshairPosition(playerId, screenId, position);
     }
 

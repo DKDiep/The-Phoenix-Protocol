@@ -143,7 +143,7 @@ public class UDPServer : MonoBehaviour
                 int idOfPlayer = Int32.Parse(fields[0]);
                 if(playerShooting[idOfPlayer] == null)
                     playerShooting[idOfPlayer] = GameObject.Find("PlayerShooting"+idOfPlayer).GetComponent<PlayerShooting>();
-				playerShooting[idOfPlayer].TryShoot(idOfPlayer, true);
+				playerShooting[idOfPlayer].ShootOnce(idOfPlayer);
                 break;
             default:
                 Debug.Log("Received an unexpected message: " + msg);
