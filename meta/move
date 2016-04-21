@@ -1,0 +1,1 @@
+echo "CH:$1+$2+$3+$4" | nc -4u -w1 localhost 2345
