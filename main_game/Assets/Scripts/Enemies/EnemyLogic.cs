@@ -41,6 +41,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private AudioSource mySrc;
 	private GameState gameState;
+    private TCPServer tcpServer;
 	private GameObject player; // This is parent object, so the transfor position will be a bit above the model
 	private GameObject playerShip; // This is the actual model of the ship
 
@@ -48,6 +49,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private bool rechargeShield;
     
 	private bool hacked = false;
+    private uint controllingPlayerId = 0;
+    private uint accumulatedPlayerScore = 0;
 	private GameObject hackedAttackTraget = null;
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
@@ -147,6 +150,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		GameObject server = settings.GameManager;
 		gameState         = server.GetComponent<GameState>();
+        tcpServer         = server.GetComponent<TCPServer>();
 
         gnatBulletManager     = GameObject.Find("GnatBulletManager").GetComponent<ObjectPoolManager>();
         fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
@@ -631,6 +635,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		}
 
 		StartCoroutine(DrawDelay());
+        StartCoroutine(SendAccumulatedScore());
 	}
 
 	// Set the waypoints to follow when engaging the player
@@ -654,6 +659,20 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		guardTriggerDistance = distance;
 	}
 
+    // Send a periodic update of the accumulated score
+    IEnumerator SendAccumulatedScore()
+    {
+        while(true) {
+            if(hacked && accumulatedPlayerScore > 0) {
+                bool success = tcpServer.SendSpectatorScoreIncrement(controllingPlayerId, accumulatedPlayerScore);
+                if(success) {
+                    accumulatedPlayerScore = 0;
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    
     // Avoids null reference during initial spawning
 	IEnumerator DrawDelay()
 	{
@@ -718,7 +737,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			{
 				destination = currentTarget.transform.position;
 				if (Random.value > accuracy)
+                {
+                    accumulatedPlayerScore += 5; // It will hit. Right, guys?
 					bulletMove.SetTarget(currentTarget);
+                }
 				obj.layer = LAYER_PLAYER_BULLET;
 				// bulletLogic.SetParameters(accuracy, 20f); // Uncomment this to help debug hacked enemies
 			}
@@ -811,7 +833,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (currentWaypoint != null && currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
-		SetHacked(false);
+		SetHacked(false, 0);
+        accumulatedPlayerScore = 0;
 		angleGoodForShooting = shoot = false;
 
         string removeName = transform.parent.gameObject.name;
@@ -865,10 +888,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     /// to val
     /// </summary>
     /// <param name="val">The boolean value that hacked should take</param>
-    public void SetHacked(bool val)
+    public void SetHacked(bool val, uint playerId)
     {
-        hacked 			   = val;
-		hackedAttackTraget = null;
+        hacked 			    = val;
+		hackedAttackTraget  = null;
+        controllingPlayerId = playerId;
 
 		if (hacked)
 		{
