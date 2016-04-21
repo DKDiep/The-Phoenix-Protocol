@@ -124,21 +124,20 @@ public class ServerManager : NetworkBehaviour
         return screenIdToCrosshair[screenId];
     }
 
-    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets, int screenId)
+    public void UpdateTargets(GameObject crosshairObject, Vector3[] targets, Ray[] rays, int screenId)
     {
         // Auto aim
         GameObject[] targetObjects = new GameObject[4];
         CrosshairMovement.Target[] targetInstances = new CrosshairMovement.Target[4];
         for (int i = 0; i < 4; i++)
         {
-            targetInstances[i] = screenIdToCrosshairMovement[screenId].GetClosestTarget(new Vector3(targets[i].x, targets[i].y, 0.0f)); // Could be deactivated?
+            targetInstances[i] = screenIdToCrosshairMovement[screenId].GetClosestTarget(rays[i]); // Could be deactivated?
             if (!targetInstances[i].IsNone())
             {
                 targets[i] = targetInstances[i].GetAimPosition();
-                //SetCrosshairPosition(i, screenId, );
                 targetObjects[i] = targetInstances[i].Object;
                 /*if (screenId != 0)
-                    Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");*/
+                    Debug.Log("tar: " + targetObjects[i]);*/
             }
             else
             {

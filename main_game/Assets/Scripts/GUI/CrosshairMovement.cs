@@ -38,13 +38,15 @@ public class CrosshairMovement : NetworkBehaviour
 	private Camera mainCamera;
     private PlayerController localController;
 
+    private GameObject playerShip;
+
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
 
     // Use this for initialization
     void Start ()
     {
-
+        playerShip = GameObject.Find("PlayerShip(Clone)");
 		gameManager = GameObject.Find("GameManager");
 		serverManager = gameManager.GetComponent<ServerManager>();
         if (ClientScene.localPlayers[0].IsValid)
@@ -110,26 +112,37 @@ public class CrosshairMovement : NetworkBehaviour
 		}
 
         Vector3[] targets = new Vector3[4];
+        Vector3[] rays = new Vector3[8];
 
-		// Update position of crosshairs
-		for (int i = 0; i    < 4; i++)
+        // Update position of crosshairs
+        for (int i = 0; i    < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
 
-             Target target = GetClosestTarget(selectedCrosshair.position);
-             GameObject targetObject = null;
+            /*Target target = GetClosestTarget(targets[i]);
+            GameObject targetObject = null;
              if (!target.IsNone())
              {
                  targets[i] = target.GetAimPosition();
                  selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
                  targetObject = target.Object;
              }
-             autoaimScripts[i].Target = targetObject;
-             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
+             autoaimScripts[i].Target = targetObject;*/
+
+            //Target target = GetClosestTarget(selectedCrosshair.position);
+            Ray ray = GetAimRay(selectedCrosshair.position);
+            rays[i * 2] = ray.origin;
+            rays[i * 2 + 1] = ray.direction;
+           /* if (!target.IsNone())
+            {
+                targets[i] = target.GetAimPosition();
+                selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
+            }*/
+            targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
         
-        localController.CmdUpdateTargets(gameObject, targets);
+        localController.CmdUpdateTargets(gameObject, targets, rays);
     }
 
     /// <summary>
@@ -151,19 +164,6 @@ public class CrosshairMovement : NetworkBehaviour
                 if(i >= numberOfCrossHairs) crosshairs[i].SetActive(true);
             }
         }
-        // If there's an autoaim target in range, use that instead of the wii remote position
-        /*Target target = GetClosestTarget(position);
-        GameObject targetObject = null;
-        if (!target.IsNone())
-        {
-			serverManager.SetCrosshairPosition(playerId, screenId, mainCamera.WorldToScreenPoint(target.GetAimPosition()));
-            targetObject = target.Object;
-        }
-        else
-        {
-            serverManager.SetCrosshairPosition(playerId, screenId, position);
-        }
-        autoaimScripts[playerId].Target = targetObject;*/
         serverManager.SetCrosshairPosition(playerId, screenId, position);
     }
 
@@ -175,20 +175,6 @@ public class CrosshairMovement : NetworkBehaviour
     {
         // Update its position to the current mouse position
         Vector2 currentPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-
-        // If there's an autoaim target in range, use that instead of the cursor position
-        /*Target target = GetClosestTarget(currentPosition);
-		GameObject targetObject = null;
-        if (!target.IsNone())
-        {
-			serverManager.SetCrosshairPosition(controlling, screenControlling, mainCamera.WorldToScreenPoint(target.GetAimPosition()));
-			targetObject = target.Object;
-        }
-        else
-        {
-            serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
-        }
-		autoaimScripts[controlling].Target = targetObject;*/
         serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
     }
         
@@ -239,15 +225,52 @@ public class CrosshairMovement : NetworkBehaviour
 		int i = crosshairId * 2;
 		return new Vector2(position[i], position[i + 1]);
 	}
+
+    public Ray GetAimRay(Vector3 aimPosition)
+    {
+        return mainCamera.ScreenPointToRay(aimPosition);
+    }
+
+    public Target GetClosestTarget(Ray ray)
+    {
+        // Find the objects in a sphere in front of the player
+        int layerColMask = LayerMask.GetMask("Enemy");
+        Collider[] cols = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS, layerColMask);
+        Collider closestCol = null;
+        float minDistance = AUTOAIM_DISTANCE_THRESHOLD;
+        foreach (Collider col in cols)
+        {
+            // Find the enemy closest to the aiming direction and within the distance threshold from the aiming direction
+            float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
+
+            // If we previously found an asteroid but there is also an enemy in range, prioritise the enemy
+            if (aimDirectionDistance < minDistance)
+            {
+                closestCol = col;
+                minDistance = aimDirectionDistance;
+            }
+        }
+
+        // If a target is found, return it 
+        if (closestCol != null)
+        {
+            // targetGizmoLoc = closestCol.transform.position; // Uncomment this to use with target gizmos
+            return new Target(closestCol.gameObject, minDistance);
+        }
+
+        // targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
+        return Target.None;
+    }
         
 	// Get the target closest to where the player is aiming (within bounds)
-	public Target GetClosestTarget(Vector3 aimPosition)
+	/*public Target GetClosestTarget(Vector3 aimPosition)
 	{
-		// Cast a ray from the crosshair
-		Ray ray = mainCamera.ScreenPointToRay(aimPosition);
+        // Cast a ray from the crosshair
+        //Ray ray = mainCamera.ScreenPointToRay(aimPosition);
+        Ray ray = new Ray(playerShip.transform.position, aimPosition);
 
-		// Find the objects in a sphere in front of the player
-		int layerColMask    = LayerMask.GetMask("Enemy");
+        // Find the objects in a sphere in front of the player
+        int layerColMask    = LayerMask.GetMask("Enemy");
 		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS, layerColMask);
 		Collider closestCol = null;
 		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
@@ -273,7 +296,7 @@ public class CrosshairMovement : NetworkBehaviour
 
 		// targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
 		return Target.None;
-	}
+	}*/
 
     public int GetControlling()
     {

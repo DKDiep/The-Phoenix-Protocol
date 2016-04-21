@@ -66,7 +66,7 @@ public class UDPServer : MonoBehaviour
         if (state != null && state.Status == GameState.GameStatus.Started)
         {
             uint controllerId = 0;
-            int screenId = 0;
+            int screenId = 1;
             float x = 0.2f * Screen.width;
             float y = 0.5f * Screen.height;
             serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));

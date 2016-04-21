@@ -82,9 +82,14 @@ public class PlayerController : NetworkBehaviour
 	}
 
     [Command]
-    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets)
+    public void CmdUpdateTargets(GameObject crosshairObject, Vector3[] targets, Vector3[] rayComponents)
     {
-        serverManager.UpdateTargets(crosshairObject, targets, index);
+        Ray[] rays = new Ray[4];
+        for (int i = 0; i < 4; i++)
+        {
+            rays[i] = new Ray(rayComponents[i * 2], rayComponents[i * 2 + 1]);
+        }
+        serverManager.UpdateTargets(crosshairObject, targets, rays, index);
     }
 
     public void CreateCamera()
