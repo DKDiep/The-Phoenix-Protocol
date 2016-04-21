@@ -1,6 +1,6 @@
 ﻿/*
     Control enemy ship attributes and AI
-		
+
     Relevant Documentation:
 	  * Enemy AI:    https://bitbucket.org/pyrolite/game/wiki/Enemy%20AI
       * Enemy Types: https://bitbucket.org/pyrolite/game/wiki/Enemy%20Types
@@ -41,13 +41,16 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private AudioSource mySrc;
 	private GameState gameState;
+    private TCPServer tcpServer;
 	private GameObject player; // This is parent object, so the transfor position will be a bit above the model
 	private GameObject playerShip; // This is the actual model of the ship
 
 	private bool shoot = false, angleGoodForShooting = false;
 	private bool rechargeShield;
-    
+
 	private bool hacked = false;
+    private uint controllingPlayerId = 0;
+    private uint accumulatedPlayerScore = 0;
 	private GameObject hackedAttackTraget = null;
 	private GameObject hackedWaypoint;
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
@@ -141,7 +144,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	#pragma warning restore 0649
 
     Material originalGlow;
-	 
+
 	void Start ()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -149,6 +152,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		GameObject server = settings.GameManager;
 		gameState         = server.GetComponent<GameState>();
+        tcpServer         = server.GetComponent<TCPServer>();
 
         gnatBulletManager     = GameObject.Find("GnatBulletManager").GetComponent<ObjectPoolManager>();
         fireflyBulletManager     = GameObject.Find("FireflyBulletManager").GetComponent<ObjectPoolManager>();
@@ -212,7 +216,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			AvoidInfo obstacleInfo = CheckObstacleAhead();
 			if (!obstacleInfo.IsNone())
 			{
-			
+
 				// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
 				if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
 					Destroy(currentWaypoint);
@@ -226,7 +230,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 					currentWaypoint = GetNextWaypoint();
 				}
 				else
-				{		
+				{
 					state = EnemyAIState.AvoidObstacle;
 
 					// If already avoiding an obstacle, keep the same direction
@@ -328,8 +332,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				}
 
 				MoveTowardsCurrentWaypoint();
-				
-				return; 
+
+				return;
 			}
 
 			// If this enemy is a guard and is too far from its guarding location, turn back towards it
@@ -530,7 +534,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	/// <summary>
 	/// Keeps the enemy always moving faster than the player.
-	/// 
+	///
 	/// This should only be used on suicidal enemies.
 	/// </summary>
 	IEnumerator MatchPlayerSpeed()
@@ -578,7 +582,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             blackWidowManager      = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
 
         StartCoroutine(UpdateDelay());
-        droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE)); 
+        droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
     }
 
     public void SetControlObject(GameObject newControlObject)
@@ -588,7 +592,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		controlObjectCollider = controlObject.GetComponent<Collider>();
 		aiObstacleRayFrontOffset = controlObjectCollider.bounds.extents.y / 2.0f;
-        
+
 		meshRenderer = controlObject.GetComponent<MeshRenderer>();
 		StartCoroutine(CheckRenderDistance());
 
@@ -636,6 +640,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		}
 
 		StartCoroutine(DrawDelay());
+        StartCoroutine(SendAccumulatedScore());
 	}
 
 	// Set the waypoints to follow when engaging the player
@@ -659,12 +664,26 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		guardTriggerDistance = distance;
 	}
 
+    // Send a periodic update of the accumulated score
+    IEnumerator SendAccumulatedScore()
+    {
+        while(true) {
+            if(hacked && accumulatedPlayerScore > 0) {
+                bool success = tcpServer.SendSpectatorScoreIncrement(controllingPlayerId, accumulatedPlayerScore);
+                if(success) {
+                    accumulatedPlayerScore = 0;
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     // Avoids null reference during initial spawning
 	IEnumerator DrawDelay()
 	{
 		yield return new WaitForSeconds(1f);
 	}
-		
+
 
 	// Control shooting based on attributes
 	IEnumerator ShootManager()
@@ -672,7 +691,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		// Suicidal enemies don't shoot
 		if (isSuicidal)
 			yield break; // this means "return" in coroutine speak
-		
+
 		if(!shoot && angleGoodForShooting)
 		{
 			yield return new WaitForSeconds(0.1f);
@@ -721,11 +740,16 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			if (hackedAttackTraget != null)
 			{
 				if (Random.value > accuracy)
+                {
+                    accumulatedPlayerScore += 5; // It will hit. Right, guys?
 					bulletMove.SetTarget(currentTarget);
+                }
+                
 				bulletLogic.SetParameters(accuracy, hackedBulletDamage);
 
 				destination = currentTarget.transform.position;
 				obj.layer   = LAYER_PLAYER_BULLET;
+
 			}
 			else
 			{
@@ -738,13 +762,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
             bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
 
-            if(randomPitch) 
+            if(randomPitch)
                 mySrc.pitch = Random.Range(0.7f, 1.3f);
-            if(distance < 300f) 
+            if(distance < 300f)
                 mySrc.PlayOneShot(fireSnd);
         }
 
-		if(shoot) 
+		if(shoot)
             StartCoroutine(Shoot());
 	}
 
@@ -770,7 +794,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	{
 		if (enemyManager == null)
 			return;
-		
+
 		if (shield > damage)
 			shield -= damage;
 		else
@@ -780,7 +804,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 			health -= remDamage;
 		}
-			
+
 		if (health <=0 && transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
 		{
 			if(playerId != -1)
@@ -793,7 +817,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
                 if(Random.Range(0,8) == 0)
                     AIVoice.SendCommand(Random.Range(0,4));
-			}         
+			}
 
 			// Destroy Object
             GameObject temp = explosionManager.RequestObject();
@@ -817,7 +841,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (currentWaypoint != null && currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
-		SetHacked(false);
+		SetHacked(false, 0);
+        accumulatedPlayerScore = 0;
 		angleGoodForShooting = shoot = false;
 
         string removeName = transform.parent.gameObject.name;
@@ -856,7 +881,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		string[] enemyManagerNames = new string[] { "GnatManager", "FireflyManager", "TermiteManager", "LightningBugManager",
 			"HornetManager", "BlackWidowManager" };
 
-		foreach (string name in enemyManagerNames) 
+		foreach (string name in enemyManagerNames)
 		{
 			ObjectPoolManager manager = pooling.transform.Find(name).gameObject.GetComponent<ObjectPoolManager>();
 			if (manager.Owns(controlObject))
@@ -871,10 +896,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     /// to val
     /// </summary>
     /// <param name="val">The boolean value that hacked should take</param>
-    public void SetHacked(bool val)
+    public void SetHacked(bool val, uint playerId)
     {
-        hacked 			   = val;
-		hackedAttackTraget = null;
+        hacked 			    = val;
+		hackedAttackTraget  = null;
+        controllingPlayerId = playerId;
 
 		if (hacked)
 		{
@@ -890,7 +916,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		{
 			if (hackedWaypoint != null)
 				Destroy(hackedWaypoint);
-			
+
 			state = EnemyAIState.SeekPlayer;
 		}
     }
@@ -921,7 +947,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			currentWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 			currentWaypoint.GetComponent<Renderer>().material.color = Color.blue;
 	    }*/
-		
+
 		float currentY 							= hackedWaypoint.transform.localPosition.y;
 		currentWaypoint.transform.localPosition = new Vector3(posX, currentY, posZ);
 		currentWaypoint 						= hackedWaypoint;
@@ -947,7 +973,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	/// <summary>
 	/// Follows the player ship keeping the same relative position.
-	/// 
+	///
 	/// Should be used for hacked enemies awaiting orders.
 	/// </summary>
 	private void FollowPlayer()
@@ -1042,7 +1068,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			this.ObstacleTag = obstacleTag;
 			this.Side        = side;
 		}
-			
+
 		/// <summary>
 		/// Get an object containing no obstacle info.
 		/// </summary>

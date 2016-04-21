@@ -7,7 +7,7 @@ function actionOnEnemy(target) {
     if(!isControllingEnemy) {
         setHackTarget(target.spaceGameId)
         setHeld(true)
-    } else if (target.spaceGameId != controlledEnemyId) {
+    } else if (target.spaceGameId != controlledEnemyId && !target.isHacked) {
         sendEnemyAttackRequest(target.spaceGameId)
         enableTargetRay(controlledEnemySprite, target)
     }
@@ -44,10 +44,13 @@ function displayNewControlledEnemy() {
     controlledEnemySprite = findControlledEnemy()
     if(controlledEnemySprite == undefined) { return }
     controlledEnemySprite.isHacked = true
-    var overlay = new PIXI.Sprite(loadedResources.controlled.texture);
-    overlay.anchor.x = 0.5
-    overlay.anchor.y = 0.5
-    controlledEnemySprite.addChild(overlay)
+    if(!controlledEnemySprite.hasOverlay) {
+        controlledEnemySprite.hasOverlay = true;
+        var overlay = new PIXI.Sprite(loadedResources.controlled.texture);
+        overlay.anchor.x = 0.5
+        overlay.anchor.y = 0.5
+        controlledEnemySprite.addChild(overlay)
+    }
     // Enabling tractor beam as example of usage
     enableTractorBeam(controlledEnemySprite)
     // Hack to make the hacking game finished

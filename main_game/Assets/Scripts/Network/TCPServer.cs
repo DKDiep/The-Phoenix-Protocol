@@ -182,15 +182,17 @@ public class TCPServer : MonoBehaviour
                 readyScreen.InitialiseGame();
                 break;
             case "CTRL":
-                int idOfControlled = Int32.Parse(parts[1]);
+                fields = parts[1].Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                Debug.Log(fields);
+                int idOfControlled = Int32.Parse(fields[0]);
+                uint idOfControllingPlayer = UInt32.Parse(fields[1]);
                 Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
 
                 // Set enemy to controlled by spectator
                 if (udpServer.InstanceIDToEnemy.ContainsKey(idOfControlled))
-                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().SetHacked(true);
+                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().SetHacked(true, idOfControllingPlayer);
                 else
                     Debug.LogError("Tried to take control of invalid enemy");
-
                 break;
             case "RESET":
                 serverManager.Reset();
@@ -252,6 +254,20 @@ public class TCPServer : MonoBehaviour
             } catch(Exception e) {
                 Debug.LogError(e);
             }
+        }
+    }
+    
+    // Send a score update for a player as a value to be added
+    public bool SendSpectatorScoreIncrement(uint playerId, uint scoreIncrement) {
+        try {
+            string jsonMsg = "{\"type\":\"SCR_INC\",\"data\":{" +
+                             "\"id\":" + playerId +
+                             ",\"scr\":" + scoreIncrement +
+                             "}}";
+            return SendMsg(jsonMsg);
+        } catch(Exception e) {
+            Debug.LogError(e);
+            return false;
         }
     }
     

@@ -66,15 +66,14 @@ func (plr *Player) setControlledEnemy(enemyId int64) {
         return
     }
 
-    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatInt(enemyId, 10)) {
+    if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatInt(enemyId, 10) + "+" +
+        strconv.FormatUint(plr.id, 10)) {
         return
     }
 
     if !enemyMap.setControlled(enemyId, plr) {
         return
     }
-
-    // TODO: notify Game Server
 
     plr.isControllingEnemy = true
     plr.controlledEnemyId = enemyId
@@ -234,10 +233,14 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
         })
     }
 
-    data := map[string]interface{}{
+    spriteData := map[string]interface{}{
         "asts": asteroids_data,
         "enms": enemies_data,
     }
+
+    data := make(map[string]interface{})
+    data["type"] = "OBJ"
+    data["data"] = spriteData
 
     plr.sendStateDataUpdate(data)
 }
