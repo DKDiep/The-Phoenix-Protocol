@@ -1,9 +1,11 @@
 // Initialises the web page by first establishing a connection and then
 // arranging the web page
 
-
-$( document ).ready(function() {
+$(document).ready(function() {
     initSocket(initScreen);
+    window.onbeforeunload = function(event) {
+        event.returnValue = "Leaving Crew App.";
+    };
 });
 
 $(document).click(function(e) {
