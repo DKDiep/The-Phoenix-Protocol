@@ -49,6 +49,7 @@ public class EngineerController : NetworkBehaviour
     private bool collideRight;
     private bool isPressingButon;
     private bool isMoving;
+    private bool droneShouldUpgrade;
 
 	private GameState gameState = null;
 
@@ -339,12 +340,22 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part">The part of the ship this job applies to</param>
 	public void AddJob(bool isUpgrade, ComponentType part)
     {
+        // Handle jobs that should happen instantly
+        // (and therefore do not require the engineer to do anything)
+        if (IsInstantJob(part))
+        {
+            HandleInstantJob(isUpgrade, part);
+            return;
+        }
+
 		List<GameObject> partList = GetPartListByType(part);
+        if (partList != null)
+        {
+            this.ProcessJob(isUpgrade, true, partList);
 
-		this.ProcessJob(isUpgrade, true, partList);
-
-        // Highlight the appropriate components
-        Highlight(part);
+            // Highlight the appropriate components
+            Highlight(part);
+        }
     }
 
     /// <summary>
@@ -355,12 +366,44 @@ public class EngineerController : NetworkBehaviour
     /// <param name="part"></param>
     private void FinishJob(bool isUpgrade, ComponentType part)
     {
+        // Tell the server that we finished the job
+        if (isUpgrade)
+            playerController.CmdDoUpgrade(part);
+        else
+            playerController.CmdDoRepair(part);
+
 		List<GameObject> partList = GetPartListByType(part);
+        if (partList != null)
+        {
+            this.ProcessJob(isUpgrade, false, partList);
 
-		this.ProcessJob(isUpgrade, false, partList);
+            // Un-highlight the appropriate components
+            Highlight(part);
+        }
+    }
 
-        // Un-highlight the appropriate components
-        Highlight(part);
+    private bool IsInstantJob(ComponentType part)
+    {
+        switch (part)
+        {
+            case ComponentType.Drone:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void HandleInstantJob(bool isUpgrade, ComponentType part)
+    {
+        switch (part)
+        {
+            case ComponentType.Drone:
+                if (isUpgrade)
+                    droneShouldUpgrade = true;
+                break;
+            default:
+                break;
+        }
     }
 
     [Command]
@@ -398,6 +441,10 @@ public class EngineerController : NetworkBehaviour
 
     private void Update()
     {
+        // Make sure game state is not null
+        if (gameState == null)
+            SetGameState();
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
@@ -423,6 +470,15 @@ public class EngineerController : NetworkBehaviour
             runOnce = true;
         }
 
+        // Upgrade the drone if it should be upgraded
+        if (droneShouldUpgrade && isDocked)
+        {
+            droneShouldUpgrade = false;
+            FinishJob(true, ComponentType.Drone);
+        }
+
+        // Get the current drone stats
+        GetDroneStats();
 
         RotateView();
         if (Input.GetButton("Dock"))
@@ -526,6 +582,10 @@ public class EngineerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        // Make sure game state is not null
+        if (gameState == null)
+            SetGameState();
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
@@ -616,16 +676,28 @@ public class EngineerController : NetworkBehaviour
         {
             keyPressTime[InteractionKey.Action] = 0;
             FinishJob(false, interactiveObject.Type);
-            playerController.CmdDoRepair(interactiveObject.Type);
             showPopup = true;
         }
 		else if (canUpgrade && keyPressTime[InteractionKey.Action] >= workTime)
         {
             keyPressTime[InteractionKey.Action] = 0;
             FinishJob(true, interactiveObject.Type);
-            playerController.CmdDoUpgrade(interactiveObject.Type);
             showPopup = true;
         }
+    }
+
+    private void GetDroneStats()
+    {
+        // Update the drone stats
+        if (gameState == null) // This is needed because the engineer can't always get the game state from the start
+            SetGameState();
+        if (gameState != null)
+            gameState.GetDroneStats(out walkSpeed, out workTime);
+    }
+
+    private void SetGameState()
+    {
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
     }
 
     /// <summary>
@@ -642,12 +714,6 @@ public class EngineerController : NetworkBehaviour
         //gameObject.transform.parent = startPosition.transform;
         gameObject.transform.position = startPosition.transform.position;
         gameObject.transform.rotation = startPosition.transform.rotation;
-
-		// Update the drone stats
-		if (gameState == null) // This is needed because the engineer can't always get the game state from the start
-			gameState = GameObject.Find("GameManager").GetComponent<GameState>();
-		if (gameState != null)
-			gameState.GetDroneStats(out walkSpeed, out workTime);
     }
 
     /// <summary>
