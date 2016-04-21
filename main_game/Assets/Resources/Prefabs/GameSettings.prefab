@@ -170,6 +170,7 @@ MonoBehaviour:
   EngineerMaxDistance: 50
   EngineerMaxInactiveTime: 30
   EngineerYawSpeed: 4
+  EngineerCollisionDistance: 5
   EmptyProgressBar: {fileID: 2800000, guid: 80f3b8ad4ff04464f8fc1e59dd7ca910, type: 3}
   FilledProgressBar: {fileID: 2800000, guid: ec0d07bccc24a46f39869c34312a35bc, type: 3}
   EngineerStartingWorkTime: 5

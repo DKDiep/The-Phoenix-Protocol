@@ -18,6 +18,7 @@ public class EngineerController : NetworkBehaviour
 	private float runSpeed;
 	private float jumpSpeed;
 	private bool isWalking;
+    private float collisionDistance;
 
     private Text upgradeText;
     private Text dockText;
@@ -169,6 +170,7 @@ public class EngineerController : NetworkBehaviour
         repairMat = settings.EngineerRepairMat;
         upgradeMat = settings.EngineerUpgradeMat;
         maxInactivityTime = settings.EngineerMaxInactiveTime;
+        collisionDistance = settings.EngineerCollisionDistance;
 	}
 
     /// <summary>
@@ -555,25 +557,25 @@ public class EngineerController : NetworkBehaviour
 		layerMask = LayerMask.GetMask("Asteroid", "Water", "Player", "Enemy");
 
         // Forward ray
-		if (Physics.Raycast(transform.position, transform.forward, 9f, layerMask))
+		if (Physics.Raycast(transform.position, transform.forward, collisionDistance, layerMask))
             collideFront = true;
         else
             collideFront = false;
 
         // Left ray
-		if (Physics.Raycast(transform.position, -transform.right, 9f, layerMask))
+		if (Physics.Raycast(transform.position, -transform.right, collisionDistance, layerMask))
             collideLeft = true;
         else
             collideLeft = false;
 
         // Back ray
-		if (Physics.Raycast(transform.position, -transform.forward, 9f, layerMask))
+		if (Physics.Raycast(transform.position, -transform.forward, collisionDistance, layerMask))
             collideBack = true;
         else
             collideBack = false;
 
         // Right ray
-		if (Physics.Raycast(transform.position, transform.right, 9f, layerMask))
+		if (Physics.Raycast(transform.position, transform.right, collisionDistance, layerMask))
             collideRight = true;
         else
             collideRight = false;
