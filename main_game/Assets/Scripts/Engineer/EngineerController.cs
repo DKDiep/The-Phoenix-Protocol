@@ -61,6 +61,7 @@ public class EngineerController : NetworkBehaviour
     private GameObject playerShip;
     private GameObject dockCanvas;
     private GameObject engineerCanvas;
+    private GameObject shipArrow;
 
     private Texture emptyProgressBar;
     private Texture filledProgressBar;
@@ -77,6 +78,9 @@ public class EngineerController : NetworkBehaviour
 	private Material defaultMat;
     private Material repairMat;
     private Material upgradeMat;
+
+    private static Vector3 screenCenter = new Vector3(Screen.width, Screen.height, 0) / 2;
+    private static Vector3 screenBounds = screenCenter *0.9f;
 
     private Vector3 previousPosition;
     private Vector3 currentPosition;
@@ -145,6 +149,14 @@ public class EngineerController : NetworkBehaviour
         keyPressTime[InteractionKey.Action] = 0f;
         keyPressTime[InteractionKey.Popup] = 0f;
         keyPressTime[InteractionKey.Inactive] = 0f;
+
+        if (shipArrow == null && playerController != null && playerController.isLocalPlayer)
+        {
+            shipArrow = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
+            shipArrow.GetComponent<Image>().color = new Color(0, 142f / 255f, 234f / 255f, 0.4f);
+            shipArrow.transform.SetParent(engineerCanvas.transform);
+            shipArrow.transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     private void LoadSettings()
@@ -509,6 +521,7 @@ public class EngineerController : NetworkBehaviour
             collideRight = true;
         else
             collideRight = false;
+        Indicator(playerShip);
     }
 
     private void FixedUpdate()
@@ -728,6 +741,67 @@ public class EngineerController : NetworkBehaviour
 
                 renderer.materials = mats;
             }
+        }
+    }
+
+    private void Indicator(GameObject targetObject) //This is largely duplicated from MissionManager. This should probably be rectified at some point.
+    {
+        if ((currentPosition).magnitude < 35)
+        {
+            shipArrow.SetActive(false);
+            return;
+        }
+        Vector3 screenPos = camera.WorldToScreenPoint(targetObject.transform.position);
+        GameObject arrow = shipArrow;
+        //If the object is on-screen then set its arrow to be inactive 
+        if (screenPos.z > 0 &&
+            screenPos.x > 0 && screenPos.x < Screen.width &&
+            screenPos.y > 0 && screenPos.y < Screen.height)
+        {
+            arrow.SetActive(false);
+        }
+        else
+        {
+            if (screenPos.z < 0)
+                screenPos *= -1;
+
+            //make (0,0,z) the center of the screen as opposed to bottom left
+            screenPos -= screenCenter;
+
+            //find angle from center of screen to object position
+            float angle = Mathf.Atan2(screenPos.y, screenPos.x);
+            angle -= 90 * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(angle);
+            float sin = -Mathf.Sin(angle);
+
+            screenPos = screenCenter + new Vector3(sin * 150f, cos * 150f, 0);
+
+            //y = mx + b format
+            float m = cos / sin;
+
+
+            //checks if above the center of screen
+            if (cos > 0)
+            {
+                screenPos = new Vector3(screenBounds.y / m, screenBounds.y, 0);
+            }
+            else
+            {
+                screenPos = new Vector3(-screenBounds.y / m, -screenBounds.y, 0);
+            }
+            if (screenPos.x > screenBounds.x)
+            {//out of bounds to the right
+                screenPos = new Vector3(screenBounds.x, screenBounds.x * m, 0);
+            }
+            else if (screenPos.x < -screenBounds.x)
+            { //out of bounds to the left
+                screenPos = new Vector3(-screenBounds.x, -screenBounds.x * m, 0);
+            }
+            RectTransform arrowRectTransform = (RectTransform)arrow.transform;
+
+            arrowRectTransform.anchoredPosition = screenPos;
+            arrow.transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
+            arrow.SetActive(true);
         }
     }
 
