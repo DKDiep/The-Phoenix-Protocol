@@ -24,7 +24,7 @@ public class CrosshairMovement : NetworkBehaviour
 	//private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
-    private bool usingMouse = true;
+    private bool usingMouse = false;
 
 	private GameObject gameManager;
 	private ServerManager serverManager;
@@ -203,8 +203,9 @@ public class CrosshairMovement : NetworkBehaviour
         }
 		autoaimScripts[controlling].Target = targetObject;*/
 
-		position[2*controlling] = currentPosition.x;
-		position[2*controlling + 1] = currentPosition.y;
+		/*position[2*controlling] = currentPosition.x;
+		position[2*controlling + 1] = currentPosition.y;*/
+		serverManager.SetCrosshairPosition(controlling, screenControlling, currentPosition);
     }
         
     /// <summary>
