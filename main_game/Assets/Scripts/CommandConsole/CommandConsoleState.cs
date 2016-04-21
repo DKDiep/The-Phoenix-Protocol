@@ -399,7 +399,7 @@ public class CommandConsoleState : MonoBehaviour {
         consoleUpgrades[(int)type].setUpgradePending(false);
         consoleUpgrades[(int)type].UpdateLevelIndicator(upgradeProperties[(int)type].currentLevel);
         upgradeProperties[(int)type].currentLevel++;
-        UpdateNewsFeed("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
+        print("[Engineer] " + upgradeProperties[(int)type].name + " upgrade is complete.");
     }
 
     /// <summary>
@@ -688,5 +688,19 @@ public class CommandConsoleState : MonoBehaviour {
         public string title;
         public string description;
         public List<string> objectives;
+    }
+
+    private void DrawArrow(Vector2 arrowStart, Vector2 canvasPosition)
+    {
+        RectTransform arrowRectTransform;
+        GameObject arrow = Instantiate(Resources.Load("Prefabs/TutorialArrow", typeof(GameObject))) as GameObject;
+        arrow.transform.SetParent(canvas.transform);
+        float angle = Mathf.Atan2(canvasPosition.y - arrowStart.y, canvasPosition.x - arrowStart.x) * 180 / Mathf.PI;
+        //arrow.transform.localScale = new Vector3((canvasPosition - arrowStart).magnitude/500, 1, 1);
+        arrowRectTransform = (RectTransform)arrow.transform;
+        arrowRectTransform.offsetMin = new Vector2(0, 0);
+        arrowRectTransform.offsetMax = new Vector2((canvasPosition - arrowStart).magnitude, 5);
+        arrow.transform.localPosition = canvasPosition - ((canvasPosition - arrowStart)  / 2);
+        arrow.transform.Rotate(0, 0, angle);
     }
 }
