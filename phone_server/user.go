@@ -36,7 +36,7 @@ func (usr *User) handleUser() {
             printStr := "User: Runtime panic"
             if usr != nil && usr.player != nil {
                 printStr += " for Player {id: " +
-                    strconv.FormatUint(usr.player.id, 16) + ", name: " +
+                    strconv.FormatUint(usr.player.id, 10) + ", name: " +
                     usr.player.userName + "}"
             }
             fmt.Println(printStr + ":", r)

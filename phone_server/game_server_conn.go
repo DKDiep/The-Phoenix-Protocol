@@ -129,6 +129,8 @@ func decodeGameServerMessage(rawData []byte) {
         updatePlayerAmmo(msg["data"].([]interface{}))
     case "SCORE_UPD":
         updatePlayerScore(msg["data"].([]interface{}))
+    case "SCR_INC":
+        incrementPlayerScore(msg["data"].(map[string]interface{}))
     case "RMV_ENM":
         removeEnemies(msg["data"].([]interface{}))
     case "NEW_AST":
@@ -336,5 +338,15 @@ func updatePlayerScore(data []interface{}) {
         } else {
             fmt.Println("Error: Player is nil when trying to update score.")
         }
+    }
+}
+
+// Increment a players score
+func incrementPlayerScore(data map[string]interface{}) {
+    plr := playerMap.get(uint64(data["id"].(float64)))
+    if plr != nil {
+        plr.setScore(plr.score + uint64(data["scr"].(float64)))
+    } else {
+        fmt.Println("Error: Player is nil when trying to update score.")
     }
 }

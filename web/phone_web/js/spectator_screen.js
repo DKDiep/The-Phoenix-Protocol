@@ -127,6 +127,18 @@ function finaliseSpectatorScreen() {
     isControllingEnemy = false;
 }
 
+// Handle specific updates
+function updateSpectator(msg) {
+    switch(msg.type) {
+        case "SCORE":
+            console.log("score, " + msg.data);
+            break;
+        case "OBJ":
+            updateSprites(msg.data);
+            break;
+    }
+}
+
 // Deals with movement
 function handleGeneralPress(eventData) {
     // If we click somewhere that is not an enemy
@@ -326,6 +338,9 @@ function updateBackground() {
 
 // Resizing function
 function resize() {
+    if(!keepRendering) {
+        return
+    }
     newHeight = $(window).height();
     newWidth = $(window).width();
 
@@ -515,7 +530,7 @@ function updateEnemies(enemyData) {
         var enm = enemyData[id]
         var sprite = enemies[enm.id]
         if(sprite == undefined) {
-            toAdd.push(enm)
+        toAdd.push(enm)
         } else {
             updateEnemy(sprite, enm)
             newTmp[enm.id] = sprite;
@@ -549,7 +564,7 @@ function newEnemy(enmData) {
     newEnm.rotation = -enmData.rot
     spriteScale(newEnm);
     newEnm.isHacked = enmData.isHacked
-    if(newEnm.isHacked && newEnm != controlledEnemySprite) {
+    if(newEnm.isHacked && newEnm.spaceGameId != controlledEnemyId) {
         var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
         overlay.anchor.x = 0.5
         overlay.anchor.y = 0.5
@@ -577,10 +592,13 @@ function updateEnemy(enemy, enmData) {
     spritePosition(enemy, enmData.x, enmData.y);
     enemy.rotation = -enmData.rot
     enemy.isHacked = enmData.isHacked
-    if(enemy.isHacked && enemy != controlledEnemySprite) {
-        var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
-        overlay.anchor.x = 0.5
-        overlay.anchor.y = 0.5
-        enemy.addChild(overlay)
+    if(enemy.isHacked && enemy.spaceGameId != controlledEnemyId) {
+        if(!enemy.hasOverlay) {
+            enemy.hasOverlay = true
+            var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
+            overlay.anchor.x = 0.5
+            overlay.anchor.y = 0.5
+            enemy.addChild(overlay)
+        }
     }
 }

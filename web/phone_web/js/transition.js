@@ -31,7 +31,7 @@ function updateScreen(userData) {
 function updateObjects(data) {
     switch (currState) {
         case "SPECTATOR":
-            updateSprites(data);
+            updateSpectator(data);
             break;
         case "OFFICER":
             // in officer_screen.js
