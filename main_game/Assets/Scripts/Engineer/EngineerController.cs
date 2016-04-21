@@ -441,6 +441,10 @@ public class EngineerController : NetworkBehaviour
 
     private void Update()
     {
+        // Make sure game state is not null
+        if (gameState == null)
+            SetGameState();
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
@@ -578,6 +582,10 @@ public class EngineerController : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        // Make sure game state is not null
+        if (gameState == null)
+            SetGameState();
+
         // Make sure this only runs on the client
         if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
             return;
@@ -682,9 +690,14 @@ public class EngineerController : NetworkBehaviour
     {
         // Update the drone stats
         if (gameState == null) // This is needed because the engineer can't always get the game state from the start
-            gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+            SetGameState();
         if (gameState != null)
             gameState.GetDroneStats(out walkSpeed, out workTime);
+    }
+
+    private void SetGameState()
+    {
+        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
     }
 
     /// <summary>
