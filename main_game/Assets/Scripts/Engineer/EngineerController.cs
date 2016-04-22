@@ -19,6 +19,7 @@ public class EngineerController : NetworkBehaviour
 	private float jumpSpeed;
 	private bool isWalking;
     private float collisionDistance;
+    private float minMovement;
 
     private Text upgradeText;
     private Text dockText;
@@ -172,6 +173,7 @@ public class EngineerController : NetworkBehaviour
         upgradeMat = settings.EngineerUpgradeMat;
         maxInactivityTime = settings.EngineerMaxInactiveTime;
         collisionDistance = settings.EngineerCollisionDistance;
+        minMovement = settings.EngineerMinMovement;
 	}
 
     /// <summary>
@@ -738,6 +740,12 @@ public class EngineerController : NetworkBehaviour
         // Read input
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+
+        if (Math.Abs(horizontal) < minMovement)
+            horizontal = 0f;
+
+        if (Math.Abs(vertical) < minMovement)
+            vertical = 0f;
 
 #if !MOBILE_INPUT
         // On standalone builds, walk/run speed is modified by a key press.

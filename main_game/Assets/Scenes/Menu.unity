@@ -3944,6 +3944,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: EngineerMinMovement
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
   m_IsPrefabParent: 0

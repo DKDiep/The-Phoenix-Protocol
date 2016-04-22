@@ -157,7 +157,7 @@ MonoBehaviour:
   EnemySuicidalExtraSpeed: 5
   HackedEnemyBulletDamage: 15
   HackedEnemyMaxY: 12
-  EngineerWalkSpeed: 0.2
+  EngineerWalkSpeed: 1
   EngineerMouseLookXSensitivity: 0.4
   EngineerMouseLookYSensitivity: 0.4
   EngineerControllerLookXSensitivity: 5
@@ -171,6 +171,7 @@ MonoBehaviour:
   EngineerMaxInactiveTime: 30
   EngineerYawSpeed: 4
   EngineerCollisionDistance: 5
+  EngineerMinMovement: 0.03
   EmptyProgressBar: {fileID: 2800000, guid: 80f3b8ad4ff04464f8fc1e59dd7ca910, type: 3}
   FilledProgressBar: {fileID: 2800000, guid: ec0d07bccc24a46f39869c34312a35bc, type: 3}
   EngineerStartingWorkTime: 5

@@ -83,6 +83,7 @@ public class GameSettings : MonoBehaviour
     public float EngineerMaxInactiveTime;
     public float EngineerYawSpeed;
     public float EngineerCollisionDistance;
+    public float EngineerMinMovement;
     public Texture EmptyProgressBar;
     public Texture FilledProgressBar;
 	public float EngineerStartingWorkTime;
