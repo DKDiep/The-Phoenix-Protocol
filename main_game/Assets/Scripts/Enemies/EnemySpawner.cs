@@ -481,7 +481,7 @@ public class EnemySpawner : MonoBehaviour
 		EnemyLogic logic;
 		InstantiateEnemy(out enemy, out logic);
 
-		logic.SetGuarding(location, triggerDistance);
+		logic.SetGuarding(triggerDistance);
 	}
 
 	/// <summary>

@@ -127,7 +127,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     private ObjectPoolManager hornetManager;
     private ObjectPoolManager blackWidowManager;
 
-	private Vector3 guardLocation = Vector3.zero; // If this enemy is an outpost guard, this will be set to a non-zero value
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
 	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
@@ -217,8 +216,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			if (!obstacleInfo.IsNone())
 			{
 
-				// If already avoiding an obsctale or returning to an outpost, clear the previous waypoint before creating another one
-				if (state == EnemyAIState.AvoidObstacle || state == EnemyAIState.ReturnToGuardLocation)
+				// If already avoiding an obsctale, clear the previous waypoint before creating another one
+				if (state == EnemyAIState.AvoidObstacle)
 					Destroy(currentWaypoint);
 
 				// If about to collide with an enemy, go towards a different waypoint - it's very likely the other guy will not go the same way
@@ -336,15 +335,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 				return;
 			}
 
-			// If this enemy is a guard and is too far from its guarding location, turn back towards it
-			if (guardLocation != Vector3.zero && state != EnemyAIState.ReturnToGuardLocation &&
-				Vector3.Distance(controlObject.transform.position, guardLocation) >= AI_GUARD_TURN_BACK_DISTANCE)
-			{
-				state                             = EnemyAIState.ReturnToGuardLocation;
-				GameObject returnWaypoint         = new GameObject (GUARD_RETURN_WAYPOINT_NAME);
-				returnWaypoint.transform.position = guardLocation;
-				currentWaypoint                   = returnWaypoint;
-			}
 			// Engage player when close enough, otherwise catch up to them
 			else if ((state == EnemyAIState.SeekPlayer && distance <= engageDistance))
 			{
@@ -366,15 +356,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			{
 				angleGoodForShooting = false;
 				MoveTowardsPlayer();
-			}
-			else if (state == EnemyAIState.ReturnToGuardLocation)
-			{
-				MoveTowardsCurrentWaypoint();
-				if (Vector3.Distance(controlObject.transform.position, guardLocation) < AI_GUARD_PROTECT_DISTANCE)
-				{
-					state = EnemyAIState.Wait;
-					Destroy(currentWaypoint);
-				}
 			}
 		}
 	}
@@ -656,11 +637,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		currentTarget = targets[Random.Range(0, targets.Count)]; // For now, choose the target ship part at random
 	}
 
-	// Make this enemy guard location
-	public void SetGuarding(Vector3 location, int distance)
+	// Make this enemy guard his spawwn location
+	public void SetGuarding(int distance)
 	{
 		state         		 = EnemyAIState.Wait;
-		guardLocation 		 = location;
 		guardTriggerDistance = distance;
 	}
 
@@ -1129,6 +1109,5 @@ public enum EnemyAIState
 	AvoidObstacle,
 	EngagePlayer,
 	Wait,
-	ReturnToGuardLocation,
 	Hacked
 }
