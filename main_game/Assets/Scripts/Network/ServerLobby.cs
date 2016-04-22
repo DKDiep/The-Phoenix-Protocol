@@ -245,7 +245,7 @@ public class ServerLobby : MonoBehaviour {
         Vector3 ofr = of + (Vector3.right * frustumWidth / 2.0f);
         Vector3 ofl = of + (Vector3.left * frustumWidth / 2.0f);
         Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-        float borderRatio = 1.07f;
+        float borderRatio = 1.10f;
         // Multiple by size including border percentage
         float y = q.eulerAngles.y*borderRatio;
         float rotateAngle;
