@@ -52,8 +52,10 @@ public class PlayerController : NetworkBehaviour
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             playerCamera.transform.parent = shipTransform;
+            playerCamera.transform.localPosition = new Vector3(0.0f, -1.0f, -4.0f);
+
         }
-		else if (localController.role == RoleEnum.Engineer)
+        else if (localController.role == RoleEnum.Engineer)
         {
             // Reset the camera rotation which was set in the lobby
             playerCamera.transform.localRotation = Quaternion.identity;
@@ -120,7 +122,7 @@ public class PlayerController : NetworkBehaviour
         // Change only local camera
         if (isLocalPlayer && netId.Value == receivedId)
         {
-            Quaternion q = Quaternion.Euler(new Vector3(0, yRotate, 0));
+            Quaternion q = Quaternion.Euler(new Vector3(-5.0f, yRotate, 0.0f));
             playerCamera.transform.localRotation = q;
         }
     }
