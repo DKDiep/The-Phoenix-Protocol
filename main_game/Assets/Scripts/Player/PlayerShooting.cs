@@ -5,6 +5,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class PlayerShooting : MonoBehaviour 
 {
@@ -37,6 +38,7 @@ public class PlayerShooting : MonoBehaviour
 
     private GameState gameState;
     private ServerManager serverManager;
+	private Dictionary<uint, Officer> officerMap;
 
 	private bool ammoRecharging;
 	private Coroutine ammoRechargeCoroutine;
@@ -46,14 +48,15 @@ public class PlayerShooting : MonoBehaviour
 
     // Which player are we controlling via the mouse. (For debugging different players)
     private int currentPlayerId = 0;
-    public int playerId;
+	public int PlayerId { private get; set; }
 
 	void Start()
 	{
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         Reset();
         
-        gameState = GameObject.Find("GameManager").GetComponent<GameState>();
+        gameState  = GameObject.Find("GameManager").GetComponent<GameState>();
+		officerMap = gameState.GetOfficerMap();
 
 		mainCamera = Camera.main;
     }
@@ -86,13 +89,11 @@ public class PlayerShooting : MonoBehaviour
 		transform.localPosition = new Vector3(0,0,0);
 
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
-        // Get screen with index 0
+        
+		// Get screen with index 0
         crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
 
-        // Find crosshair
-
         bulletAnchor = new GameObject();
-      
 
         bulletManager      = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
@@ -105,30 +106,36 @@ public class PlayerShooting : MonoBehaviour
         if (gameState.Status != GameState.GameStatus.Started)
             return;
 
+		if (Input.GetMouseButton(0))
+			OnShootButtonPressed(currentPlayerId);
+
+		Debug.Log("Ammo: " + ammo);
        
-        TryShoot(currentPlayerId, true);
+        ShootUpdate(currentPlayerId);
 
         // Control alpha of hitmarker
 		if(alpha > 0)
-		{
 			alpha -= 5f * Time.deltaTime;
-		}
 	}
 
-
-    public void ShootOnce(int playerId)
+    /// <summary>
+    /// Registers that the shoot button has been pressed.
+    /// </summary>
+    /// <param name="playerId">The player ID.</param>
+	public void OnShootButtonPressed(int playerId)
     {
-        currentPlayerId = playerId;
+        currentPlayerId    = playerId;
         shootButtonPressed = true;
     }
 
 	/// <summary>
-	/// Shoots a bullet if enough ammo is available.
+	/// Updates the shooting status.
+	/// 
+	/// This shoots if the button is pressed and enough ammo is available, and updates the ammo.
 	/// </summary>
 	/// <param name="playerId">The shooter's ID.</param>
-	public void TryShoot(int playerId, bool remote)
+	private void ShootUpdate(int playerId)
 	{
-       
 		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
 		{
 			// Stop ammo recharging when the player fires
@@ -139,16 +146,19 @@ public class PlayerShooting : MonoBehaviour
 			}
 
 			ShootBullet(playerId);
-			ammo -= shootAmmoCost;
-            if (gameState.GetOfficerMap().ContainsKey((uint)playerId))  gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
-            shootButtonPressed = false;
+
+			Officer officer;
+			if (officerMap.TryGetValue((uint)playerId, out officer))
+				officer.Ammo = ammo;
         }
 		else if (!shootButtonPressed && !ammoRecharging)
 		{
 			// Wait for the player to release the fire button before startin to recharge ammo
 			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
-			ammoRecharging = true;
+			ammoRecharging        = true;
 		}
+
+		shootButtonPressed = false;
 	}
 
 	/// <summary>
@@ -164,8 +174,9 @@ public class PlayerShooting : MonoBehaviour
             autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
             // Find crosshair images
             bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
-        } else {
-            
+        } 
+		else
+		{    
             Vector3 crosshairPosition = crosshair.transform.position;
             
 			// Get correct crosshair object's ScreenToWorld results
@@ -205,7 +216,8 @@ public class PlayerShooting : MonoBehaviour
             muzzle.transform.rotation = bulletAnchor.transform.rotation;
             muzzle.transform.parent = bulletAnchor.transform.parent;
 
-            canShoot = false;
+            canShoot  = false;
+			ammo     -= shootAmmoCost;
             StartCoroutine(Delay());
         }
 	}
@@ -215,7 +227,6 @@ public class PlayerShooting : MonoBehaviour
         screenId = newScreenId;
     }
         
-
 	void OnGUI()
 	{
         if (crosshair != null)
@@ -230,7 +241,7 @@ public class PlayerShooting : MonoBehaviour
 	public void HitMarker()
 	{
 		showMarker = true;
-		alpha = 1f;
+		alpha      = 1f;
 		StartCoroutine(HideMarker());
 	}
 
@@ -273,9 +284,10 @@ public class PlayerShooting : MonoBehaviour
 		if (ammo > maxAmmo)
 			ammo = maxAmmo;
         
-        if(gameState.GetOfficerMap().ContainsKey((uint)playerId))
-            gameState.GetOfficerMap()[(uint)playerId].Ammo = (float)ammo;
-        
+		Officer officer;
+		if (officerMap.TryGetValue((uint)PlayerId, out officer))
+			officer.Ammo = ammo;
+
 		ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
 	}
 }

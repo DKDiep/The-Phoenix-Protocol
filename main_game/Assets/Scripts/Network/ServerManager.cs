@@ -368,7 +368,7 @@ public class ServerManager : NetworkBehaviour
         {
             GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
             playerShootLogic.transform.parent = playerShip.transform;  
-            playerShootLogic.GetComponent<PlayerShooting>().playerId = i;
+            playerShootLogic.GetComponent<PlayerShooting>().PlayerId = i;
             playerShootLogic.name = "PlayerShooting" + i;
         }
 
