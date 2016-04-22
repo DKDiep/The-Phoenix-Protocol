@@ -160,11 +160,7 @@ public class EnemySpawner : MonoBehaviour
             // First, spawn regular enemies.
 			// Then, spawn enemies around outposts, and single requested enemies, if needed
             if (numEnemies < maxEnemies)
-            {
                 SpawnEnemy();
-                numEnemies++;
-            }
-
             else if (outpostSpawnRequests.Count > 0)
             {
                 OutpostSpawnRequest req = outpostSpawnRequests.Dequeue();
@@ -426,6 +422,7 @@ public class EnemySpawner : MonoBehaviour
         else if(type == EnemyType.BlackWidow)
             blackWidowManager.EnableClientObject(enemyObject.name, enemyObject.transform.position, enemyObject.transform.rotation, enemyObject.transform.localScale);
 
+		numEnemies += 1;
 		state.AddToEnemyList(enemyObject);
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
@@ -668,9 +665,9 @@ public class EnemySpawner : MonoBehaviour
 		public Vector3 Location { get; private set; }
 		public int TriggerDistance { get; private set; }
 
-		public OutpostSpawnRequest(int num, Vector3 location, int triggerDistance)
+		public OutpostSpawnRequest(int numEnemies, Vector3 location, int triggerDistance)
 		{
-			this.NumEnemies 	 = num;
+			this.NumEnemies 	 = numEnemies;
 			this.Location   	 = location;
 			this.TriggerDistance = triggerDistance;
 		}

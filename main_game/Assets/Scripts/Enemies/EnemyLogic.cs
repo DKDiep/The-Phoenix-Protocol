@@ -848,9 +848,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
 
-        if (state != EnemyAIState.Wait)
-            EnemySpawner.DecrementNumEnemies();
-
 		if (enemyManager != null)
 		{
 			enemyManager.DisableClientObject(removeName);
