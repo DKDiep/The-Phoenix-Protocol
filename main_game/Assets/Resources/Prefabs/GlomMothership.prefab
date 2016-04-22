@@ -383,6 +383,7 @@ GameObject:
   - 114: {fileID: 11415460}
   - 114: {fileID: 11414192}
   - 114: {fileID: 11495378}
+  - 114: {fileID: 11460282}
   m_Layer: 10
   m_Name: GlomMothership
   m_TagString: GlomMothership
@@ -1995,6 +1996,17 @@ MonoBehaviour:
   - {fileID: 142954}
   - {fileID: 164460}
   - {fileID: 199072}
+--- !u!114 &11460282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a869cd2caf44e5fb8f477605ba1496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11495378
 MonoBehaviour:
   m_ObjectHideFlags: 1

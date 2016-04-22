@@ -14,6 +14,7 @@ public class MothershipLogic : MonoBehaviour {
     private int numExplosions = 0;
     private int maxExplosions = 50;
     private ObjectPoolManager effectsManager;
+    private Transform mesh;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +28,8 @@ public class MothershipLogic : MonoBehaviour {
 
         GameObject server = settings.GameManager;
         gameState         = server.GetComponent<GameState>();
+
+        mesh = transform.parent.Find("Mesh");
 
         StartCoroutine(SpawnExplosions());
         StartCoroutine(ReduceExplosions());
