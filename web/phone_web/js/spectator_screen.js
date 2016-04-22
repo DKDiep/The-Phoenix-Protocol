@@ -1,7 +1,9 @@
 // --Constants
 // zoom level as percent of display pixels per game unit
-var zoom = 0.003
-var frameRate = 30
+var zoom = 0.003;
+var frameRate = 30;
+var touchTargetSizeFactor = 0.16;
+var touchTargetAlpha = 0.9;
 
 // detail of provided textures: that is pixels per game unit of length
 var textureDetail = 528/49;
@@ -14,6 +16,7 @@ var renderer;
 var oldWidth;
 var oldHeight;
 var maxDim;
+var minDim;
 
 // You need to create a root container that will hold the scene you want to draw.
 var stage;
@@ -50,6 +53,7 @@ var controlledEnemySprite;
 var attackedEnemySprite;
 var enemies = new Array();
 var asteroids = new Array();
+var touchTargets = new Array();
 
 // Initiates the game
 function startSpectatorScreen() {
@@ -57,6 +61,7 @@ function startSpectatorScreen() {
     oldWidth = renderer.width;
     oldHeight = renderer.height;
     maxDim = Math.max(renderer.width, renderer.height);
+    minDim = Math.min(renderer.width, renderer.height);
 
     // The renderer will create a canvas element for you that you can then insert into the DOM.
     $("#spectatorScreen").append(renderer.view);
@@ -80,6 +85,7 @@ function startSpectatorScreen() {
     loader.add("controlled", "img/controlled_overlay.png");
     loader.add("tract_beam", "img/tractor_beam.png");
     loader.add("target_ray", "img/target_ray.png");
+    loader.add("finger_target", "img/finger_target.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -96,6 +102,7 @@ function finaliseSpectatorScreen() {
     oldWidth = undefined;
     oldHeight = undefined;
     maxDim = undefined;
+    minDim = undefined;
 
     stage = undefined;
     enemyLayer = undefined;
@@ -122,6 +129,7 @@ function finaliseSpectatorScreen() {
     attackedEnemySprite = undefined;
     enemies = new Array();
     asteroids = new Array();
+    touchTargets = new Array();
 
     controlledEnemyId = 0;
     isControllingEnemy = false;
@@ -155,7 +163,6 @@ function handleGeneralPress(eventData) {
         screenX = eventData.data.originalEvent.touches[0].pageX
         screenY = eventData.data.originalEvent.touches[0].pageY
     } else {
-
         screenX = eventData.data.originalEvent.pageX
         screenY = eventData.data.originalEvent.pageY
     }
@@ -345,6 +352,7 @@ function resize() {
     newWidth = $(window).width();
 
     maxDim = Math.max(newWidth, newHeight);
+    minDim = Math.min(newWidth, newHeight);
 
     oldHeight = renderer.height;
     oldWidth = renderer.width;
@@ -375,6 +383,10 @@ function resize() {
         var sprite = enemies[id];
         spriteReposition(sprite);
         spriteScale(sprite);
+    }
+    for (id in touchTargets) {
+        var sprite = touchTargets[id];
+        sprite.height = sprite.width = touchTargetSizeFactor*maxDim
     }
 }
 
@@ -540,6 +552,8 @@ function updateEnemies(enemyData) {
     // Remove those that didn't get an update
     for (id in enemies) {
         var enemy = enemies[id];
+        hackingGameLayer.removeChild(touchTargets[enemy.spaceGameId]);
+        delete touchTargets[enemy.spaceGameId];
         enemyLayer.removeChild(enemy);
         if(enemy == targetRay.target) { disableTargetRay()}
     }
@@ -570,21 +584,45 @@ function newEnemy(enmData) {
         overlay.anchor.y = 0.5
         newEnm.addChild(overlay)
     }
-    newEnm.interactive = newEnm.buttonMode = true;
-    newEnm.mousedown = newEnm.touchstart = function (eventData) {
-        actionOnEnemy(eventData.target)
+    newEnm.touchTarget = generateTouchTarget(newEnm);
+
+    return newEnm
+}
+
+// Generate a target for the specified enemy
+function generateTouchTarget(enemy) {
+    var target = new PIXI.Sprite(loadedResources.finger_target.texture);
+    target.anchor.x = 0.5;
+    target.anchor.y = 0.5;
+    target.position = enemy.position
+    target.alpha = 0;
+    target.width = target.height = touchTargetSizeFactor*maxDim;
+    target.interactive = target.buttonMode = true;
+    target.enemy = enemy;
+    target.mousedown = target.touchstart = function (eventData) {
+        actionOnEnemy(eventData.target.enemy)
         // Prevents the triggering of the move event
         eventData.stopPropagation()
     };
-    newEnm.mouseup = newEnm.touchend = handleMouseUp
-    newEnm.mouseout = function (eventData) { //TODO: Equivalent event for phones?
+    target.mouseup = target.touchend = handleMouseUp
+    target.mouseout = function (eventData) { //TODO: Equivalent event for phones?
         // The enemy is no longer held
         if (!isControllingEnemy) {
             setHeld(false)
         }
     };
+    hackingGameLayer.addChild(target);
+    touchTargets[enemy.spaceGameId] = target;
 
-    return newEnm
+    return target;
+}
+
+// Set interaction property for all touch targets, takes boolean
+function setTouchTargetsInteraction(booley) {
+    for (id in touchTargets) {
+        var target = touchTargets[id]
+        target.interactive = booley;
+    }
 }
 
 // Updates an enemy sprite based on data

@@ -24,14 +24,10 @@ function incrementHackProgress() {
     if (!finishedHack) {
         hackProgress += 2
 
-        // If the tractor beam hasn't been enabled yet
-        // we enable it.
-        if (!isTractorBeamEnabled()) {
-            displayEnemyHacking(currentTargetID)
-        }
-
         if (hackProgress >= REQ_HACK_PROGRESS) {
             sendControlEnemyRequest(currentTargetID)
+            targetEnemySprite.touchTarget.alpha = 0;
+            setTouchTargetsInteraction(true);
             finishedHack = true
         }
     }
@@ -43,6 +39,7 @@ function decrementHackProgress() {
     // Only decrement if the hack progress isn't zero
     if (hackProgress > 0) {
         hackProgress -= 2
+        targetEnemySprite.touchTarget.alpha = 0;
 
         if (hackProgress <= 0) {
             resetHackProgress()
@@ -56,9 +53,23 @@ function updateHacking() {
     if(finishedHack) {
         return
     }
+
+    // If the tractor beam hasn't been enabled yet
+    // we enable it.
+    if (!isTractorBeamEnabled()) {
+        displayEnemyHacking(currentTargetID)
+    }
+
     if (enemyHeld) {
+        if(targetEnemySprite != undefined) {
+            targetEnemySprite.touchTarget.alpha = touchTargetAlpha;
+            targetEnemySprite.touchTarget.interactive = true
+        }
         incrementHackProgress()
     } else {
+        if(targetEnemySprite != undefined) {
+            targetEnemySprite.touchTarget.alpha = 0;
+        }
         decrementHackProgress()
     }
 }
@@ -96,4 +107,5 @@ function resetHackTarget() {
 // Sets the enemyHeld attribute to val
 function setHeld(val) {
     enemyHeld = val
+    setTouchTargetsInteraction(!val);
 }
