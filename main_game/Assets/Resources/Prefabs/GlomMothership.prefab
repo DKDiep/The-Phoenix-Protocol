@@ -382,6 +382,7 @@ GameObject:
   - 54: {fileID: 5432434}
   - 114: {fileID: 11415460}
   - 114: {fileID: 11414192}
+  - 114: {fileID: 11495378}
   m_Layer: 10
   m_Name: GlomMothership
   m_TagString: GlomMothership
@@ -1994,6 +1995,18 @@ MonoBehaviour:
   - {fileID: 142954}
   - {fileID: 164460}
   - {fileID: 199072}
+--- !u!114 &11495378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5809508b990994f82aa7e01ec597d58c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 2800000, guid: 9fe3a511f97dc45329672ef9085c2453, type: 3}
 --- !u!136 &13683714
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2058,6 +2071,10 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0.25911742
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 2800000, guid: 9fe3a511f97dc45329672ef9085c2453, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 181252}
