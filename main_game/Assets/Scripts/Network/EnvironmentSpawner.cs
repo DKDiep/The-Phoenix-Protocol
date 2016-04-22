@@ -24,11 +24,12 @@ public class EnvironmentSpawner : MonoBehaviour
     {
         if (state.Status == GameState.GameStatus.Started)
         {
-
-
             // Add Earth Collision script
-            GameObject.Find("Ground").AddComponent<EarthCollision>();
-            GameObject.Find("Ground").AddComponent<EarthFX>();
+			GameObject earth  = GameObject.Find("Earth");
+			GameObject ground = earth.transform.Find("Ground").gameObject;
+
+			ground.AddComponent<EarthCollision>();
+            ground.AddComponent<EarthFX>();
 
             Destroy(this);
         }
