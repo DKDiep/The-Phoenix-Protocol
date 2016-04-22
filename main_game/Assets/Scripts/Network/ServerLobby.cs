@@ -245,10 +245,18 @@ public class ServerLobby : MonoBehaviour {
         Vector3 ofr = of + (Vector3.right * frustumWidth / 2.0f);
         Vector3 ofl = of + (Vector3.left * frustumWidth / 2.0f);
         Quaternion q = Quaternion.FromToRotation(ofl, ofr);
-        float borderRatio = 1.1f;
+        float borderRatio = 1.07f;
         // Multiple by size including border percentage
         float y = q.eulerAngles.y*borderRatio;
         float rotateAngle;
+
+        // Uncomment to instantiate test cameras locally
+        /*GameObject leftCam = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        Quaternion leftQ = Quaternion.Euler(new Vector3(0, -y, 0));
+        leftCam.transform.localRotation = leftQ;
+        GameObject rightCam = Instantiate(Resources.Load("Prefabs/CameraManager", typeof(GameObject))) as GameObject;
+        Quaternion rightQ = Quaternion.Euler(new Vector3(0, y, 0));
+        rightCam.transform.localRotation = rightQ;*/
 
         for (int i = 0; i < cameraPanel.transform.childCount; i++)
         {
