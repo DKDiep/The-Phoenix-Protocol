@@ -82,18 +82,16 @@ public class PlayerShooting : MonoBehaviour
     
 	public void Setup () 
 	{
-		fireSoundAudioSource = GetComponent<AudioSource>();
+		fireSoundAudioSource 	  = GetComponent<AudioSource>();
 		fireSoundAudioSource.clip = fireSound;
-		showMarker = false;
-		alpha = 0;
-		transform.localPosition = new Vector3(0,0,0);
+		showMarker 				  = false;
+		alpha 					  = 0;
+		transform.localPosition   = Vector3.zero;
 
         serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
         
 		// Get screen with index 0
         crosshairContainer = serverManager.GetCrosshairObject(0).transform.Find("Crosshairs").gameObject;
-
-        bulletAnchor = new GameObject();
 
         bulletManager      = GameObject.Find("PlayerBulletManager").GetComponent<ObjectPoolManager>();
         logicManager       = GameObject.Find("PlayerBulletLogicManager").GetComponent<ObjectPoolManager>();
@@ -108,13 +106,11 @@ public class PlayerShooting : MonoBehaviour
 
 		if (Input.GetMouseButton(0))
 			OnShootButtonPressed(currentPlayerId);
-
-		Debug.Log("Ammo: " + ammo);
        
         ShootUpdate(currentPlayerId);
 
         // Control alpha of hitmarker
-		if(alpha > 0)
+		if (alpha > 0)
 			alpha -= 5f * Time.deltaTime;
 	}
 
@@ -172,6 +168,7 @@ public class PlayerShooting : MonoBehaviour
         {
             crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
             autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
+
             // Find crosshair images
             bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
         } 
@@ -189,14 +186,14 @@ public class PlayerShooting : MonoBehaviour
             if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
 
-            GameObject obj = bulletManager.RequestObject();
+            GameObject obj 		   = bulletManager.RequestObject();
             obj.transform.position = bulletAnchor.transform.position;
 
 			BulletMove moveComponent = obj.GetComponent<BulletMove>();
-			moveComponent.Speed = speed;
+			moveComponent.Speed      = speed;
 			bulletManager.SetBulletSpeed(obj.name, speed);
 
-            GameObject logic = logicManager.RequestObject();
+            GameObject logic       = logicManager.RequestObject();
 			logic.transform.parent = obj.transform;
 
 			// Suggest add a BulletMove method for the speed and remove it from the logic
@@ -214,7 +211,7 @@ public class PlayerShooting : MonoBehaviour
             GameObject muzzle = muzzleFlashManager.RequestObject();
             muzzle.transform.position = bulletAnchor.transform.position;
             muzzle.transform.rotation = bulletAnchor.transform.rotation;
-            muzzle.transform.parent = bulletAnchor.transform.parent;
+            muzzle.transform.parent   = bulletAnchor.transform.parent;
 
             canShoot  = false;
 			ammo     -= shootAmmoCost;
