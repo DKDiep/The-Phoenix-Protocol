@@ -192,7 +192,7 @@ MonoBehaviour:
   UDPClientPort: 46578
   UDPMaxReceivedMessagesPerInterval: 100
   OutpostModel1Prefab: {fileID: 170194, guid: ef4b5a3de70a94bb7928fb04c4580275, type: 2}
-  OutpostResourceCollectionDistance: 400
+  OutpostResourceCollectionDistance: 120
   EasyOutposts: 3
   MediumOutposts: 3
   HardOutposts: 3
@@ -206,7 +206,7 @@ MonoBehaviour:
   HardMinEnemies: 20
   HardMaxEnemies: 30
   OutpostMinDistance: 800
-  OutpostGuardTriggerDistance: 600
+  OutpostGuardTriggerDistance: 1000
   OutpostMinAsteroidFieldSize: 1000
   OutpostMaxAsteroidFieldSize: 1500
   OutpostMinAsteroidFieldDensity: 0.6

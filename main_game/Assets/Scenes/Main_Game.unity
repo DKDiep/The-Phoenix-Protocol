@@ -382,6 +382,10 @@ Prefab:
     - {fileID: 11410394, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &547959171 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 156512, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
+  m_PrefabInternal: {fileID: 547959170}
 --- !u!1 &573003615
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,10 +639,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!1 &779143525 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 156512, guid: 283a8cdc71c027648a1e2f20be436ea0, type: 2}
-  m_PrefabInternal: {fileID: 547959170}
 --- !u!1 &842514789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,184 +1756,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!1001 &1717224013
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 897.245
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -188.29657
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 8.355331
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: GameManager
-      value: 
-      objectReference: {fileID: 779143525}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: PlayerShipStartingSpeed
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EnemyMinSpawnDistance
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EnemyMaxSpawnDistance
-      value: 750
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: shootCooldown
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: boostCooldown
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: boostDuration
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: boostSpeedMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: shieldOverdriveDuration
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: shieldOverdriveCooldown
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: smartBombCooldown
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: smartBombRadius
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: smartBombDamage
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: empRadius
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: empCooldown
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: empDuration
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: projectileCount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: maxTargetRadius
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: OutpostResourceCollectionDistance
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EasyOutposts
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: MediumOutposts
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: HardOutposts
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: easyMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: mediumMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: hardMultiplier
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EasyMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: MediumMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: HardMultiplier
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EasyMinEnemies
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: EasyMaxEnemies
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: MediumMinEnemies
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: MediumMaxEnemies
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: HardMinEnemies
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-      propertyPath: HardMaxEnemies
-      value: 30
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1807558951
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,6 +2180,52 @@ MonoBehaviour:
   enemyGlows: []
   isCommander: 0
   asteroidMaterials: []
+--- !u!1001 &2065317828
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 897.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -188.29657
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 8.355331
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 496586, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401182, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+      propertyPath: GameManager
+      value: 
+      objectReference: {fileID: 547959171}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: ee737a0583ea12f46a86911aea3bffa1, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2089329783
 GameObject:
   m_ObjectHideFlags: 0
