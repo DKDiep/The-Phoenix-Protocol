@@ -364,7 +364,7 @@ public class ServerManager : NetworkBehaviour
         playerShipLogic.transform.parent = playerShip.transform;
             
         //Instantiate ship shoot logic (one for each player) on server only
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 3; i++)
         {
             GameObject playerShootLogic = Instantiate(Resources.Load("Prefabs/PlayerShootLogic", typeof(GameObject))) as GameObject;
             playerShootLogic.transform.parent = playerShip.transform;  

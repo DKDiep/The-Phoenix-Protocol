@@ -19,8 +19,8 @@ public class LoadingText : NetworkBehaviour
     {
 		if(shooting == null)
         {
-            shooting = new PlayerShooting[4];
-            for(int i = 0; i < 4; i++)
+            shooting = new PlayerShooting[3];
+            for(int i = 0; i < 3; i++)
             {
                 shooting[i] = GameObject.Find("PlayerShooting"+i).GetComponent<PlayerShooting>();
             }
@@ -60,14 +60,14 @@ public class LoadingText : NetworkBehaviour
     IEnumerator Loaded()
     {
         gameStarted = true;
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 3; i++)
 		    shooting[i].SetShootingEnabled(false);
 
         yield return new WaitForSeconds(3f);
         
 		fadeSound = true;
         GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(1);
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < 3; i++)
 		    shooting[i].SetShootingEnabled(true);
 		missionManager.StartTimer();
         //Destroy(this, 3f);

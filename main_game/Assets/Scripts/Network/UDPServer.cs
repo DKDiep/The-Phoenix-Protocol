@@ -22,7 +22,7 @@ public class UDPServer : MonoBehaviour
     private int maxReceivedMessagesPerInterval;
 
     private GameState state;
-    private PlayerShooting[] playerShooting = new PlayerShooting[4];
+    private PlayerShooting[] playerShooting = new PlayerShooting[3];
     private ServerManager serverManager;
     public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
 
