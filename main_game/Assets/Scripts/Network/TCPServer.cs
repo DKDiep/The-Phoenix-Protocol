@@ -149,13 +149,17 @@ public class TCPServer : MonoBehaviour
             case "START":
                 Dictionary<uint, Officer> officerMap = gameState.GetOfficerMap();
                 Debug.Log("Received a Start Game signal with data:");
+
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
+                gameState.SetTeamName(fields[0]);
 
                 // Clear the officer dictionary to avoid having officers from last game in there
                 officerMap.Clear();
                 uint remoteId = 0;
-                foreach (String plr in fields)
+
+                for (int i = 1; i < fields.Length; i++)
                 {
+                    string plr = fields[i];
                     subFields = plr.Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
@@ -163,6 +167,7 @@ public class TCPServer : MonoBehaviour
                     Debug.Log("Username: " + userName + " id:" + userId);
                     remoteId++;
                 }
+
                 // Send the map of officers to clients that need it
                 serverManager.SendOfficers();
                 ReadyScreen readyScreen = GameObject.Find("ReadyCanvas(Clone)").GetComponent<ReadyScreen>();
