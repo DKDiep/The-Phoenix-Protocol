@@ -174,7 +174,9 @@ public class CommandConsoleState : MonoBehaviour {
         //pulsate UI elements
         Color lerpedColor = Color.white;
         lerpedColor = Color.Lerp(Color.white, Color.grey, Mathf.PingPong(Time.time, 1));
-        for(int i = 0; i < pulsateToggle.Length; i++)
+        float lerpedAlpha = 0.1f;
+        lerpedAlpha = Mathf.Lerp(0.1f, 1, Mathf.PingPong(Time.time, 1));
+        for (int i = 0; i < pulsateToggle.Length; i++)
         {
             if (pulsateToggle[i])
             {
@@ -188,9 +190,13 @@ public class CommandConsoleState : MonoBehaviour {
         {
             if (upgradeProgress[i] == 1)
             {
-                consoleUpgrades[i].setPendingColor(lerpedColor);
+                consoleUpgrades[i].setPendingUpgradeColor(lerpedColor);
             }
-            else consoleUpgrades[i].setPendingColor(transpBlack);
+            else consoleUpgrades[i].setPendingUpgradeColor(transpBlack);
+            if (repairProgress[i] == 1)
+            {
+                consoleUpgrades[i].setPendingRepairAlpha(lerpedAlpha);
+            }
         }
 
         // Cheat code! But seriously, this will ease development so much.

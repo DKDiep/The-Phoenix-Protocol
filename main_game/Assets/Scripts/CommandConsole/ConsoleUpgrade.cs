@@ -27,7 +27,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private GameObject repairButton ;
 
     private Image repairButtonImage;
-    private List<Color> YellowToRed = new List<Color>();
+    private List<Color> yellowToReds = new List<Color>();
     private bool upgradePending = false;
     private bool levelsInitialised = false;
     private bool maxLevel = false;
@@ -44,14 +44,13 @@ public class ConsoleUpgrade : MonoBehaviour
         gameState = GameObject.Find("GameManager").GetComponent<GameState>();
         for(int i = 0; i < 10; i++)
         {
-            YellowToRed.Add(new Color(1, (float)(((i * 25.6))/256), 0, 128));
+            yellowToReds.Add(new Color(1, (float)(((i * 25.6))/256), 0, 128));
         }
 
         // Hide the repair button from the start
-        repairButton = gameObject.transform.Find("RepairButton").gameObject;
+        repairButton = gameObject.transform.Find("RepairIcon").gameObject;
         repairButtonImage = repairButton.GetComponent<Image>();
         repairButton.SetActive(false);
-
         sideUpgradeButton = gameObject.transform.Find("SideUpgradeArea").GetChild(0).gameObject;
         sideUpgradeButtonText = sideUpgradeButton.GetComponentInChildren<Text>();
         sideUpgradeButtonImage = sideUpgradeButton.GetComponent<Image>();
@@ -88,7 +87,9 @@ public class ConsoleUpgrade : MonoBehaviour
                     index = Mathf.RoundToInt(componentHealth / 10);
                     if (index < 0) index = 0;
                     if (index > 9) index = 9;
-                    repairButtonImage.color = YellowToRed[index];
+                    Color yellowToRed = yellowToReds[index];
+                    yellowToRed.a = repairButtonImage.color.a;
+                    repairButtonImage.color = yellowToRed;
                     repairButton.SetActive(true);
                     fullHealth = false;
                 }
@@ -170,9 +171,16 @@ public class ConsoleUpgrade : MonoBehaviour
         }
     }
 
-    public void setPendingColor(Color color) //Used by command console to set pulsating color
+    public void setPendingUpgradeColor(Color color) //Used by command console to set pulsating color
     {
         if(properties.currentLevel < levelIndicators.Count)levelIndicators[properties.currentLevel-1].GetComponent<Image>().color = color;
+    }
+
+    public void setPendingRepairAlpha(float alpha)
+    {
+        Color yellowToRed = repairButtonImage.color;
+        yellowToRed.a = alpha;
+        repairButtonImage.color = yellowToRed;
     }
 
     public void UpdateLevelIndicator(int level)
