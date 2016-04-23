@@ -44,6 +44,7 @@ function displayNewControlledEnemy() {
     controlledEnemySprite = findControlledEnemy()
     if(controlledEnemySprite == undefined) { return }
     controlledEnemySprite.isHacked = true
+    controlledEnemySprite.touchTarget.interactive = false;
     if(!controlledEnemySprite.hasOverlay) {
         controlledEnemySprite.hasOverlay = true;
         var overlay = new PIXI.Sprite(loadedResources.controlled.texture);

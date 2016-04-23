@@ -630,6 +630,7 @@ function updateEnemy(enemy, enmData) {
     enemy.rotation = -enmData.rot
     enemy.isHacked = enmData.isHacked
     if(enemy.isHacked && enemy.spaceGameId != controlledEnemyId) {
+        enemy.touchTarget.interactive = false
         if(!enemy.hasOverlay) {
             enemy.hasOverlay = true
             var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
