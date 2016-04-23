@@ -217,7 +217,7 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
             "id": id,
             "x":  enemy.pos.x,
             "y":  enemy.pos.y,
-            "rot":      math.Atan2(enemy.right.y, enemy.right.x),
+            "rot":      math.Atan2(enemy.forward.y, enemy.forward.x) - math.Pi/2,
             "isHacked": enemy.isControlled,
         })
     }

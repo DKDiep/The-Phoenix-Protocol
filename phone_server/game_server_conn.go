@@ -257,10 +257,10 @@ func setEnemies(data []interface{}) {
                     y: enemy["y"].(float64),
                     z: enemy["z"].(float64),
                 },
-                right: Point{
-                    x: enemy["rX"].(float64),
-                    y: enemy["rY"].(float64),
-                    z: enemy["rZ"].(float64),
+                forward: Point{
+                    x: enemy["fX"].(float64),
+                    y: enemy["fY"].(float64),
+                    z: enemy["fZ"].(float64),
                 },
                 isControlled:      false,
                 controllingPlayer: nil,

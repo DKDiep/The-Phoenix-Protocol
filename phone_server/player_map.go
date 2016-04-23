@@ -394,19 +394,18 @@ func projectOnShipPlane(origin *PlayerShip, obj GeometricObject) {
 
 // Rotate enemy directions so that they are correct in
 // the space where the ship is facing upwards
-// TODO: Doesn't work
 func projectEnemyDirections(origin *PlayerShip, enm *Enemy) {
     // Project
-    newX := enm.right.x*origin.right.x + enm.right.y*origin.right.y + enm.right.z*origin.right.z
-    newY := enm.right.x*origin.forward.x + enm.right.y*origin.forward.y + enm.right.z*origin.forward.z
+    newX := enm.forward.x*origin.right.x + enm.forward.y*origin.right.y + enm.forward.z*origin.right.z
+    newY := enm.forward.x*origin.forward.x + enm.forward.y*origin.forward.y + enm.forward.z*origin.forward.z
 
     mag := math.Sqrt(newX*newX + newY*newY)
     if mag == 0 {
         mag = 1
     }
-    enm.right.x = newX / mag
-    enm.right.y = newY / mag
-    enm.right.z = 0
+    enm.forward.x = newX / mag
+    enm.forward.y = newY / mag
+    enm.forward.z = 0
 }
 
 // Calculate the asteroid alpha in range 0 - 1 based on max allowed
