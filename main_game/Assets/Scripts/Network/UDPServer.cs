@@ -23,6 +23,7 @@ public class UDPServer : MonoBehaviour
 
     private GameState state;
     private PlayerShooting[] playerShooting = new PlayerShooting[3];
+	private FollowReticule[,] turretMovement = new FollowReticule[3, 2];
     private ServerManager serverManager;
     public Dictionary<int, GameObject> InstanceIDToEnemy { get; private set; }
 
@@ -128,16 +129,17 @@ public class UDPServer : MonoBehaviour
                     float x = float.Parse(subFields[2]) * Screen.width;
                     float y = float.Parse(subFields[3]) * Screen.height;
                     serverManager.GetCrosshairObject(screenId).GetComponent<CrosshairMovement>().SetCrosshairPositionWiiRemote((int)controllerId, screenId, new Vector2(x, y));
-                    if (playerShooting[controllerId] == null)
-                        playerShooting[controllerId] = GameObject.Find("PlayerShooting" + controllerId).GetComponent<PlayerShooting>();
+					if (playerShooting[controllerId] == null)
+						GetObjectsForPlayer((int)controllerId);
                     playerShooting[controllerId].SetScreenId(screenId);
+					UpdatePlayerScreen((int)controllerId, screenId);
                 }
                 break;
             case "BP": // Wii remote button shoot press 
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 if(playerShooting[idOfPlayer] == null)
-                    playerShooting[idOfPlayer] = GameObject.Find("PlayerShooting"+idOfPlayer).GetComponent<PlayerShooting>();
+				GetObjectsForPlayer(idOfPlayer);
 				playerShooting[idOfPlayer].OnShootButtonPressed(idOfPlayer);
                 break;
             default:
@@ -145,6 +147,32 @@ public class UDPServer : MonoBehaviour
                 break;
         }
     }
+
+	/// <summary>
+	/// Gets the objects (shooting, turrets) controlled by a certain player.
+	/// </summary>
+	/// <param name="id">The player's ID.</param>
+	private void GetObjectsForPlayer(int id)
+	{
+		playerShooting[id] = GameObject.Find("PlayerShooting" + id).GetComponent<PlayerShooting>();
+
+		string turretName     = "Turret" + id;
+		turretMovement[id, 0] = GameObject.Find(turretName + "L").GetComponent<FollowReticule>();
+		turretMovement[id, 1] = GameObject.Find(turretName + "R").GetComponent<FollowReticule>();
+	}
+
+	/// <summary>
+	/// Updates the screen on which a player was last seen.
+	/// </summary>
+	/// <param name="player">The player ID.</param>
+	/// <param name="screen">The screen ID.</param>
+	private void UpdatePlayerScreen(int player, int screen)
+	{
+		playerShooting[player].SetScreenId(screen);
+
+		turretMovement[player, 0].ScreenId = screen;
+		turretMovement[player, 1].ScreenId = screen;
+	}
 
     IEnumerator SendUpdatedOjects()
     {

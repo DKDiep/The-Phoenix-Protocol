@@ -19,6 +19,8 @@ public class FollowReticule : MonoBehaviour
 	private GameObject playerShip;
 	private int side; // The side of the ship this turret is on
 
+	public int ScreenId { private get; set; } // The screen on which this player was last seen
+
     void Start()
     {
         targetPoint = new GameObject();
@@ -40,9 +42,7 @@ public class FollowReticule : MonoBehaviour
 		if (crosshair != null)
 		{
 			// Get the point the crosshair is pointing at
-			// TODO: this needs to be updated to work when pointing at other screens as well after 6 turrets are implemented
-			// Folliwing PlayerShooting should do the job
-			GameObject crosshairObject = serverManager.GetCrosshairObject(0);
+			GameObject crosshairObject = serverManager.GetCrosshairObject(ScreenId);
 			Vector3 playerTarget       = serverManager.GetTargetPositions(crosshairObject).targets[controlledByPlayerId];
 
 			// If the target is on the other side of the ship, do not rotate this turret
