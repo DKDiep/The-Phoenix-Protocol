@@ -14,6 +14,8 @@ var finishedHack = false;
 // the mouse down on an enemy
 var enemyHeld = false;
 
+var canCheckBounds = false;
+
 // Increments the hacking progress for the
 // current enemy. Also handles the case where
 // the user clicks a new enemy half way through
@@ -87,6 +89,7 @@ function resetHackingGame() {
     resetHackProgress()
     resetHackTarget()
     enemyHeld = false
+    canCheckBounds = false;
 }
 
 // Sets the hack target to the given id
@@ -108,4 +111,26 @@ function resetHackTarget() {
 function setHeld(val) {
     enemyHeld = val
     setTouchTargetsInteraction(!val);
+}
+
+// Check if touch is still in target
+function hackProgressCheck(x, y) {
+    if(canCheckBounds && targetEnemySprite != undefined) {
+        boundingBox = targetEnemySprite.touchTarget.getBounds()
+        console.log("x:" + x + " y:" + y)
+        console.log(boundingBox)
+        if(x < boundingBox.x || x > boundingBox.x + boundingBox.width ||
+            y < boundingBox.y || y > boundingBox.y + boundingBox.height) {
+                canCheckBounds = false;
+                targetEnemySprite.touchTarget.mouseout(); // should be equivalent to leftHackingTarget
+            }
+    }
+}
+
+// Function that is called when we have left the target
+function leftHackingTarget() {
+    // The enemy is no longer held
+    if (!isControllingEnemy) {
+        setHeld(false)
+    }
 }

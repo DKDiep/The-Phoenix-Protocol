@@ -175,13 +175,11 @@ function handleGeneralPress(eventData) {
     moveAction(gameX, gameY)
 }
 
-// Called from multiple places on a mouseup
-// or touchend event
-function handleMouseUp(eventData) {
-    // The enemy is no longer held
-    if (!isControllingEnemy) {
-        setHeld(false)
-    }
+// Event for doing an action on tand enemy
+function enemyActionEvent(eventData) {
+    actionOnEnemy(eventData.target.enemy)
+    // Prevents the triggering of the move event
+    eventData.stopPropagation()
 }
 
 // Place player ship in middle and add moving background
@@ -203,6 +201,11 @@ function init() {
     // kick off the animation loop (defined below)
     keepRendering = true
     resize();
+    // Use this event to check for if we have left a hacking target
+    $("#spectatorScreen").on("touchmove", function (event){
+        var touch = event.originalEvent.touches[0];
+        hackProgressCheck(touch.pageX, touch.pageY);
+    });
     renderUpdate();
 }
 
@@ -222,8 +225,7 @@ function initLayers() {
     stage = new PIXI.Container();
     stage.interactive = true
     stage.mousedown = stage.touchstart = handleGeneralPress
-    stage.mouseup = stage.touchend = handleMouseUp
-
+    stage.mouseup = stage.touchend = leftHackingTarget
     asteroidLayer = new PIXI.Container();
     enemyLayer = new PIXI.Container();
     hackingGameLayer = new PIXI.Container();
@@ -600,17 +602,14 @@ function generateTouchTarget(enemy) {
     target.interactive = target.buttonMode = true;
     target.enemy = enemy;
     target.mousedown = target.touchstart = function (eventData) {
+        canCheckBounds = false;
+        setTimeout(function() {canCheckBounds = true;}, 250); // Nasty hack
         actionOnEnemy(eventData.target.enemy)
         // Prevents the triggering of the move event
         eventData.stopPropagation()
     };
-    target.mouseup = target.touchend = handleMouseUp
-    target.mouseout = function (eventData) { //TODO: Equivalent event for phones?
-        // The enemy is no longer held
-        if (!isControllingEnemy) {
-            setHeld(false)
-        }
-    };
+    target.mouseup = target.touchend = leftHackingTarget
+    target.mouseout = leftHackingTarget;
     hackingGameLayer.addChild(target);
     touchTargets[enemy.spaceGameId] = target;
 
