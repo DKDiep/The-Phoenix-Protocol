@@ -16,6 +16,8 @@ public class FollowReticule : MonoBehaviour
     private GameObject crosshair;
 	private Camera mainCamera;
 	private ServerManager serverManager;
+	private GameObject playerShip;
+	private int side; // The side of the ship this turret is on
 
     void Start()
     {
@@ -29,6 +31,8 @@ public class FollowReticule : MonoBehaviour
 		serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
 
 		mainCamera = Camera.main;
+		playerShip = transform.parent.gameObject;
+		side 	   = transform.GetChild(0).name.EndsWith("L") ? -1 : 1;
     }
 
     void FixedUpdate()
@@ -40,6 +44,11 @@ public class FollowReticule : MonoBehaviour
 			// Folliwing PlayerShooting should do the job
 			GameObject crosshairObject = serverManager.GetCrosshairObject(0);
 			Vector3 playerTarget       = serverManager.GetTargetPositions(crosshairObject).targets[controlledByPlayerId];
+
+			// If the target is on the other side of the ship, do not rotate this turret
+			Vector3 targetRelativeToPlayer = playerShip.transform.InverseTransformPoint(playerTarget);
+			if (targetRelativeToPlayer.x * side <= 0)
+				return;
 
 			// Project the shooting direction on the ship's XZ plane (the turret only rotates around the ship's Y direction)
 			Vector3 turretToCrosshairDirection = playerTarget - transform.position;
