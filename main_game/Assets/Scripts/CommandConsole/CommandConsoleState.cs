@@ -176,14 +176,15 @@ public class CommandConsoleState : MonoBehaviour {
         lerpedColor = Color.Lerp(Color.white, Color.grey, Mathf.PingPong(Time.time, 1));
         float lerpedAlpha = 0.1f;
         lerpedAlpha = Mathf.Lerp(0.1f, 1, Mathf.PingPong(Time.time, 1));
-        for (int i = 0; i < pulsateToggle.Length; i++)
+        //commented for now because it's incompatible with button changes in it's current state. don't delete.
+        /*for (int i = 0; i < pulsateToggle.Length; i++)
         {
             if (pulsateToggle[i])
             {
                 pulsateableImages[i].color = lerpedColor;
             }
             else pulsateableImages[i].color = uiColor;
-        }
+        }*/
         lerpedColor = transpBlack;
         lerpedColor = Color.Lerp(transpBlack, transpWhite, Mathf.PingPong(Time.time, 1));
         for (int i = 0; i < upgradeProgress.Length; i++)
@@ -250,6 +251,7 @@ public class CommandConsoleState : MonoBehaviour {
             //upgradeBox.transform.Find("RepairButton").GetComponent<Button>().onClick.AddListener(delegate{OnClickRepair(component);});
             consoleUpgrades.Add(upgradeBox.GetComponent<ConsoleUpgrade>());
             pulsateableImages[component] = upgradeBox.transform.Find("UpgradePicture").GetComponent<Image>();
+            consoleUpgrades.Last<ConsoleUpgrade>().backGround = pulsateableImages[component];
         }
     }
 

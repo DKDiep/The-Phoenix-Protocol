@@ -19,6 +19,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Button sideRepairButton;
     private Text sideRepairButtonText;
     private Image sideRepairButtonImage;
+    public Image backGround;
 
     // Information about the upgrade
     public UpgradeProperties properties;
@@ -133,35 +134,6 @@ public class ConsoleUpgrade : MonoBehaviour
         upgradeCostTxt.text = properties.cost.ToString();
     }
 
-    public void showAffordable(bool affordable)
-    {
-        if (affordable)
-        {
-            upgradeCostTxt.color = offWhite;
-            if (!upgradePending)
-            {
-                sideUpgradeButtonImage.color = whiteA200;
-                sideUpgradeButtonText.color = whiteA200;
-                sideUpgradeButton.interactable = true;
-            }
-            else
-            {
-                sideUpgradeButtonImage.color = whiteA50;
-                sideUpgradeButtonText.color = whiteA50;
-                sideUpgradeButton.interactable = false;
-            }
-            this.affordable = affordable;
-        }
-        else
-        {
-            upgradeCostTxt.color = Color.red;
-            sideUpgradeButtonImage.color = whiteA50;
-            sideUpgradeButtonText.color = whiteA50;
-            sideUpgradeButton.interactable = false;
-            this.affordable = affordable;
-        }
-    }
-
     private void InitialiseLevels()
     {
         GameObject level;
@@ -247,17 +219,13 @@ public class ConsoleUpgrade : MonoBehaviour
         if (maxLevel)
         {
             //sideUpgradeButtonText.text = "Max Level";
-            sideUpgradeButtonImage.color = whiteA50;
-            sideUpgradeButtonText.color = whiteA50;
-            sideUpgradeButton.interactable = false;
+            setUpgradeButtonInteractable(false);
             return;
         }
         if (pending)
         {
             //sideUpgradeButtonText.text = "Waiting";
-            sideUpgradeButtonImage.color = whiteA50;
-            sideUpgradeButtonText.color = whiteA50;
-            sideUpgradeButton.interactable = false;
+            setUpgradeButtonInteractable(false);
         }
         else
         {
@@ -265,6 +233,46 @@ public class ConsoleUpgrade : MonoBehaviour
             showAffordable(affordable);
         }
     }
+
+    public void showAffordable(bool affordable)
+    {
+        if (affordable)
+        {
+            upgradeCostTxt.color = offWhite;
+            if (!upgradePending)
+                setUpgradeButtonInteractable(true);
+            else
+                setUpgradeButtonInteractable(false);
+        }
+        else
+        {
+            upgradeCostTxt.color = Color.red;
+            setUpgradeButtonInteractable(false);
+        }
+        this.affordable = affordable;
+    }
+
+    private void setUpgradeButtonInteractable(bool isInteractable)
+    {
+        Color backGroundColor = backGround.color;
+        if (isInteractable)
+        {
+            sideUpgradeButtonImage.color = whiteA200;
+            sideUpgradeButtonText.color = whiteA200;
+            sideUpgradeButton.interactable = true;
+            backGroundColor.a = 1;
+            backGround.color = backGroundColor;
+        }
+        else
+        {
+            sideUpgradeButtonImage.color = whiteA50;
+            sideUpgradeButtonText.color = whiteA50;
+            sideUpgradeButton.interactable = false;
+            backGroundColor.a = 0.4f;
+            backGround.color = backGroundColor;
+        }
+    }
+
 }
 
 
