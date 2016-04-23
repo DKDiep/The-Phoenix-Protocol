@@ -20,24 +20,18 @@ public class TCPServer : MonoBehaviour
     private int maxReceivedMessagesPerInterval;
     
     // Constants for splitting the received messages
-    private readonly String[] semiColon = {";"};
-    private readonly String[] colon = {":"};
-    private readonly String[] comma = {","};
-    private readonly String[] plus = {"+"};
+	private readonly String[] SEMICOLON = {";"};
+	private readonly String[] COLON 	= {":"};
+	private readonly String[] COMMA 	= {","};
+	private readonly String[] PLUS 		= {"+"};
 
     private GameState gameState;
     private UDPServer udpServer;
     private ServerManager serverManager;
     private TcpListener tcpServer = null;
-    private Socket client = null;
-    private bool connected = false; // no easy way to tell from library
-    private byte[] recvBuff = new byte[1024]; // allocate 1KB receive buffer
-    
-	// Use this for initialization
-	void Start ()
-    {
-        
-	}
+    private Socket client 		  = null;
+    private bool connected	      = false; 			// no easy way to tell from library
+    private byte[] recvBuff       = new byte[1024]; // allocate 1KB receive buffer
     
     public void Initialise()
     {
@@ -60,12 +54,6 @@ public class TCPServer : MonoBehaviour
 	{
 		listenPort 					   = settings.TCPListenPort;
 		maxReceivedMessagesPerInterval = settings.TCPMaxReceivedMessagesPerInterval;
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        
 	}
     
     // Handles incomming messages from the phone server
@@ -101,7 +89,7 @@ public class TCPServer : MonoBehaviour
                     numRead = client.Receive(recvBuff, recvBuff.Length, 0);
                     newData = Encoding.ASCII.GetString(recvBuff, 0, numRead);
                     // It is possible to get multiple messages in a single receive
-                    messages = newData.Split(semiColon, StringSplitOptions.RemoveEmptyEntries);
+                    messages = newData.Split(SEMICOLON, StringSplitOptions.RemoveEmptyEntries);
                     // bla
                     foreach (String msg in messages)
                     {
@@ -155,21 +143,21 @@ public class TCPServer : MonoBehaviour
     {
         String[] fields;
         String[] subFields;
-        String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
+        String[] parts = msg.Split(COLON, StringSplitOptions.RemoveEmptyEntries);
         switch(parts[0])
         {
             case "START":
                 Dictionary<uint, Officer> officerMap = gameState.GetOfficerMap();
                 // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal with data:");
-                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
 
                 // Clear the officer dictionary to avoid having officers from last game in there
                 officerMap.Clear();
                 uint remoteId = 0;
                 foreach (String plr in fields)
                 {
-                    subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                    subFields = plr.Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
                     String userName = subFields[0];
                     uint userId = UInt32.Parse(subFields[1]);
                     officerMap.Add(remoteId, new Officer(userId, userName, remoteId));
@@ -182,7 +170,7 @@ public class TCPServer : MonoBehaviour
                 readyScreen.InitialiseGame();
                 break;
             case "CTRL":
-                fields = parts[1].Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
                 Debug.Log(fields);
                 int idOfControlled = Int32.Parse(fields[0]);
                 uint idOfControllingPlayer = UInt32.Parse(fields[1]);

@@ -12,9 +12,9 @@ public class UDPServer : MonoBehaviour
 	private GameSettings settings;
 
     // Constants for splitting the received messages
-    private readonly String[] colon = {":"};
-    private readonly String[] comma = {","};
-    private readonly String[] plus = {"+"};
+	private readonly String[] COLON = {":"};
+	private readonly String[] COMMA = {","};
+	private readonly String[] PLUS  = {"+"};
 
 	// Configuration parameters loaded through GameSettings
     private int listenPort;
@@ -28,12 +28,7 @@ public class UDPServer : MonoBehaviour
 
     private UdpClient socket;
     private IPEndPoint clientEndPoint;
-    private byte[] receive_byte_array;
-
-    void Start()
-    {
-		
-    }
+	private byte[] receivedBytes;
     
     public void Initialise()
     {
@@ -74,9 +69,9 @@ public class UDPServer : MonoBehaviour
             int receivedMessages = 0;
             while (socket.Available > 0 && receivedMessages < maxReceivedMessagesPerInterval)
             {
-                receive_byte_array = socket.Receive(ref sender);
+                receivedBytes = socket.Receive(ref sender);
                 
-                string received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
+                string received_data = Encoding.ASCII.GetString(receivedBytes, 0, receivedBytes.Length);
                 try
                 { 
                     HandleMessage(received_data);
@@ -94,10 +89,10 @@ public class UDPServer : MonoBehaviour
     {
         String[] fields;
         String[] subFields;
-        String[] parts = msg.Split(colon, StringSplitOptions.RemoveEmptyEntries);
+        String[] parts = msg.Split(COLON, StringSplitOptions.RemoveEmptyEntries);
         switch(parts[0]) {
             case "MV":
-                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idToMove = Int32.Parse(fields[0]);
                 float posX = float.Parse(fields[1]);
                 float posZ = float.Parse(fields[2]);
@@ -111,7 +106,7 @@ public class UDPServer : MonoBehaviour
 
                 break;
             case "ATT":
-                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idOfAttacker = Int32.Parse(fields[0]);
                 int idOfAttacked = Int32.Parse(fields[1]);
                 Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
@@ -124,10 +119,10 @@ public class UDPServer : MonoBehaviour
 
                 break;
             case "CH": // Wii remote x,y data
-                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 foreach (String plr in fields)
                 {
-                    subFields = plr.Split(plus, StringSplitOptions.RemoveEmptyEntries);
+                    subFields = plr.Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
                     uint controllerId = UInt32.Parse(subFields[0]);
                     int screenId = Int32.Parse(subFields[1]);
                     float x = float.Parse(subFields[2]) * Screen.width;
@@ -139,7 +134,7 @@ public class UDPServer : MonoBehaviour
                 }
                 break;
             case "BP": // Wii remote button shoot press 
-                fields = parts[1].Split(comma, StringSplitOptions.RemoveEmptyEntries);
+                fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 if(playerShooting[idOfPlayer] == null)
                     playerShooting[idOfPlayer] = GameObject.Find("PlayerShooting"+idOfPlayer).GetComponent<PlayerShooting>();
