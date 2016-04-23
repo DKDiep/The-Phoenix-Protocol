@@ -187,6 +187,7 @@ MonoBehaviour:
   GlomMothershipDamageEffects3: 0
   GlomMothershipSpawnRate: 3
   MainMenuRotationSpeed: 2
+  ConfigFile: game.cfg
   TCPListenPort: 2346
   TCPMaxReceivedMessagesPerInterval: 100
   UDPListenPort: 2345

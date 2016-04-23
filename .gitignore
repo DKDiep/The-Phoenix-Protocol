@@ -12,8 +12,6 @@ Thumbs.db
 *~
 Thumbs.db.meta
 
-
-
 # Web symbolic links that we don't need in the repo.
 web/admin_web/fonts
 web/admin_web/include
@@ -21,3 +19,6 @@ web/phone_web/fonts
 web/phone_web/include
 web/stats_web/fonts
 web/stats_web/include
+
+# Game config file
+game.cfg

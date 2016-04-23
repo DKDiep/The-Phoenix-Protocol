@@ -105,6 +105,7 @@ public class GameSettings : MonoBehaviour
 
 	[Header("Main Menu")]
 	public float MainMenuRotationSpeed;
+	public string ConfigFile;
 
 	[Header("TCP Server")]
 	public int TCPListenPort;
