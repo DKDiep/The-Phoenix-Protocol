@@ -753,6 +753,7 @@ MonoBehaviour:
   popupWindow: {fileID: 157972}
   newsFeedBG: {fileID: 152994}
   upgradeInfoBG: {fileID: 117292}
+  upgradeInfoName: {fileID: 11406322}
   mapBG: {fileID: 164030}
   mapBGBG: {fileID: 103362}
   missionWindowBG: {fileID: 134816}
@@ -1919,6 +1920,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

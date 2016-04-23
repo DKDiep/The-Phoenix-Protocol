@@ -29,6 +29,7 @@ public class CommandConsoleState : MonoBehaviour {
 
     [SerializeField] private GameObject newsFeedBG;
     [SerializeField] private GameObject upgradeInfoBG;
+    [SerializeField] private Text upgradeInfoName;
     [SerializeField] private GameObject mapBG;
     [SerializeField] private GameObject mapBGBG;
     [SerializeField] private GameObject missionWindowBG;
@@ -387,6 +388,8 @@ public class CommandConsoleState : MonoBehaviour {
         HighlightComponent(component);
         // Upgrade description and cost labels
         upgradeDescription.text = upgradeProperties[component].description;
+        upgradeInfoName.text = upgradeProperties[component].name;
+
         //costLabel.text = GetUpgradeCost(upgradeProperties[component].cost, upgradeProperties[component].currentLevel).ToString();
         // Upgrade the cost text to display in red if the player does not have enough resources.
         //UpdateCostTextColor();

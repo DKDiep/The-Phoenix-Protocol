@@ -168,7 +168,6 @@ public class ConsoleUpgrade : MonoBehaviour
             level.GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
             levelIndicators.Add(level);
         }
-
     }
 
     public void setPendingColor(Color color) //Used by command console to set pulsating color
