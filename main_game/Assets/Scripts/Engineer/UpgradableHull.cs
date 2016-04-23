@@ -5,12 +5,12 @@
 /// </summary>
 public class UpgradableHull : UpgradableComponent
 {
-    private float MaxHealthUpgradeRate;
-    public UpgradableHull(float MaxHealthUpgradeRate) : base()
+    private float MaxHealthUpgradeValue;
+    public UpgradableHull(float MaxHealthUpgradeValue) : base()
 	{
 		this.Type = ComponentType.Hull;
 		this.MaxHealth = this.Health = 100; // TODO: read this from GameSettings
-        this.MaxHealthUpgradeRate = MaxHealthUpgradeRate;
+        this.MaxHealthUpgradeValue = MaxHealthUpgradeValue;
 	}
 
 	// TODO: balance values
@@ -32,7 +32,7 @@ public class UpgradableHull : UpgradableComponent
 	{
 		base.Upgrade();
 
-        MaxHealth += (int)MaxHealthUpgradeRate;
+        MaxHealth += (int)MaxHealthUpgradeValue;
 	}
 }
 
