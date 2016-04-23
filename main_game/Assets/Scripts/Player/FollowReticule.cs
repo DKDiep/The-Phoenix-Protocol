@@ -15,11 +15,8 @@ public class FollowReticule : MonoBehaviour
     private GameObject targetPoint;
     private GameObject crosshair;
 	private Camera mainCamera;
+	private ServerManager serverManager;
 
-    // Draws line between turret position and aim position if true
-    private bool debug = false;
-
-    // Initialise temporary object
     void Start()
     {
         targetPoint = new GameObject();
@@ -29,35 +26,36 @@ public class FollowReticule : MonoBehaviour
 		if (crosshairs != null)
 			crosshair = crosshairs.transform.GetChild(controlledByPlayerId).gameObject;
 
+		serverManager = GameObject.Find("GameManager").GetComponent<ServerManager>();
+
 		mainCamera = Camera.main;
     }
 
     void FixedUpdate()
     {
-		if (crosshair != null && crosshair.activeSelf)
-        {
+		if (crosshair != null)
+		{
 			// Get the point the crosshair is pointing at
-			targetPoint.transform.position = mainCamera.ScreenToWorldPoint(new Vector3(crosshair.transform.position.x,
-				crosshair.transform.position.y, mainCamera.farClipPlane));
+			// TODO: this needs to be updated to work when pointing at other screens as well after 6 turrets are implemented
+			// Folliwing PlayerShooting should do the job
+			GameObject crosshairObject = serverManager.GetCrosshairObject(0);
+			Vector3 playerTarget       = serverManager.GetTargetPositions(crosshairObject).targets[controlledByPlayerId];
 
 			// Project the shooting direction on the ship's XZ plane (the turret only rotates around the ship's Y direction)
-			Vector3 turretToCrosshairDirection = targetPoint.transform.position - transform.position;
-			Vector3 projectionOnNormal = Vector3.Project(turretToCrosshairDirection, transform.parent.transform.up);
-			Vector3 projectedAimingDirection = targetPoint.transform.position - projectionOnNormal;
+			Vector3 turretToCrosshairDirection = playerTarget - transform.position;
+			Vector3 projectionOnNormal 		   = Vector3.Project(turretToCrosshairDirection, transform.parent.transform.up);
+			Vector3 projectedAimingDirection   = (playerTarget - projectionOnNormal) - transform.position;
 
 			// Align the turret's X axis (the guns direction) with the (projected) shooting direction
 			transform.rotation = Quaternion.FromToRotation(Vector3.right, projectedAimingDirection);
 
-            // Keep the turret aligned horizontaly with the ship
+			// Keep the turret aligned horizontaly with the ship
 			transform.localEulerAngles = new Vector3(270f, transform.localEulerAngles.y, transform.localEulerAngles.z);
 
-            // Draw line between turret position and aim position. Gizmos needs to be enabled in Game View to see the line (click Gizmos in top right)
-			/*if (debug)
-			{
-				Debug.DrawRay(transform.position, targetPoint.transform.position - transform.position, Color.green);
-				Debug.DrawLine(transform.position, projectedAimingDirection, Color.red);
-			}*/
-        }
+			// Uncomment to draw line between turret position and aim position
+			/*Debug.DrawRay(transform.position, playerTarget - transform.position, Color.green);
+			Debug.DrawRay(transform.position, projectedAimingDirection, Color.red);*/
+		}
     }
 
 	private Vector3 GetWorldPositionOnPlane(Vector3 screenPosition, float z)
