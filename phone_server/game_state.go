@@ -30,7 +30,7 @@ func (gs *GameState) enterSetupState() {
     }
 
     // if we can't notify the Game Server do nothing
-    if !sendSignalToGameServer(RESET_GAME) {
+    if !sendSignalToGameServer(RESET_GAME, "") {
         return
     }
 
@@ -96,13 +96,13 @@ func (gs *GameState) inviteOfficers() {
 // Enters the game execution state
 // Puts all spectators in the spectator game
 // and starts the periodic updates of game data
-func (gs *GameState) startGame() {
+func (gs *GameState) startGame(teamName string) {
     if gs.status == RUNNING {
         return
     }
 
     // if we can't notify the Game Server do nothing
-    if !sendSignalToGameServer(START_GAME) {
+    if !sendSignalToGameServer(START_GAME, teamName) {
         return
     }
 
