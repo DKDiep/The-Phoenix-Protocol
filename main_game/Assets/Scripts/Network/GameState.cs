@@ -38,6 +38,8 @@ public class GameState : NetworkBehaviour {
 
     public ShieldEffects myShield = null;
 
+    private string teamName;
+
 	// Ship variables used for modifying the ships behaviour
 	private bool boostOn = false;
 	private float shipSpeed;
@@ -105,6 +107,7 @@ public class GameState : NetworkBehaviour {
     {
         StopAllCoroutines();
         totalKills = 0;
+        teamName = "";
         LoadSettings();
         InitialiseUpgradableComponents();
         StartCoroutine(ResourceInterest());
@@ -953,5 +956,15 @@ public class GameState : NetworkBehaviour {
     public Dictionary<uint, Officer> GetOfficerMap()
     {
         return currentOfficers;
+    }
+
+    public void SetTeamName(string name)
+    {
+        teamName = name;
+    }
+
+    public string GetTeamName()
+    {
+        return teamName;
     }
 }
