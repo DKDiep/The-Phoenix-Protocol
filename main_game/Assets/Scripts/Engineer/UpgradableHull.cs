@@ -32,7 +32,7 @@ public class UpgradableHull : UpgradableComponent
 	{
 		base.Upgrade();
 
-        MaxHealth *= (int)MaxHealthUpgradeRate;
+        MaxHealth += (int)MaxHealthUpgradeRate;
 	}
 }
 

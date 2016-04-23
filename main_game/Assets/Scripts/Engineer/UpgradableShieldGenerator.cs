@@ -81,7 +81,7 @@ public class UpgradableShieldGenerator : UpgradableComponent
 
 
 
-        MaxShield = Convert.ToInt32(MaxShield * MaxShieldUpgradeRate);
+        MaxShield = Convert.ToInt32(MaxShield + MaxShieldUpgradeRate);
         MaxRechargeRate = Convert.ToInt32(MaxRechargeRate * MaxRechargeRateUpgradeRate);
 	}
 }
