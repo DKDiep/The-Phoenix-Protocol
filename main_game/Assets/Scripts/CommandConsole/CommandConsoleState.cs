@@ -24,7 +24,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] Material defaultMat;
     [SerializeField] Material highlightMat;
 
-    [SerializeField] private GameObject newsFeed;
+    [SerializeField] private GameObject objectiveFeed;
     [SerializeField] private GameObject popupWindow;
 
     [SerializeField] private GameObject newsFeedBG;
@@ -111,7 +111,7 @@ public class CommandConsoleState : MonoBehaviour {
         ClosePopupWindow();
 
         upgradeArea.SetActive(false);
-        newsFeed.GetComponent<Text>().text = "";
+        objectiveFeed.GetComponent<Text>().text = "";
         AddUpgradeBoxes();
     }
 
@@ -148,8 +148,9 @@ public class CommandConsoleState : MonoBehaviour {
         UpdateAllText();
         ClosePopupWindow();
         upgradeArea.SetActive(false);
-        newsFeed.GetComponent<Text>().text = "";
+        objectiveFeed.GetComponent<Text>().text = "";
         stratMap.Reset();
+        currentObjectives.Clear();
         EventSystem.current.SetSelectedGameObject(null);    //deselect all the buttons
     }
 
@@ -618,10 +619,10 @@ public class CommandConsoleState : MonoBehaviour {
 
     private void UpdateObjectives()
     {
-        newsFeed.GetComponent<Text>().text = "";
+        objectiveFeed.GetComponent<Text>().text = "";
         foreach (string objective in currentObjectives)
         {
-            newsFeed.GetComponent<Text>().text = objective + "\n" + newsFeed.GetComponent<Text>().text;
+            objectiveFeed.GetComponent<Text>().text = objective + "\n" + objectiveFeed.GetComponent<Text>().text;
         }
     }
 
