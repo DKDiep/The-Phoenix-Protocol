@@ -21,7 +21,7 @@ public class PlayerShooting : MonoBehaviour
 	private float ammoRechargeDelay;
 
 	private AudioSource fireSoundAudioSource;
-	private GameObject bulletAnchor;
+	private GameObject bulletAnchorLeft, bulletAnchorRight;
 	private Vector3 targetPos;
 	private bool canShoot, showMarker;
 	private float alpha;
@@ -30,6 +30,7 @@ public class PlayerShooting : MonoBehaviour
     private GameObject crosshairContainer;
 	private CrosshairAutoaimAssist autoaimScript;
 	private Camera mainCamera;
+	private GameObject playerShip;
 
 	private ObjectPoolManager bulletManager;
 	private ObjectPoolManager logicManager;
@@ -59,6 +60,7 @@ public class PlayerShooting : MonoBehaviour
 		officerMap = gameState.GetOfficerMap();
 
 		mainCamera = Camera.main;
+		playerShip = transform.parent.gameObject;
     }
 
     public void Reset()
@@ -169,32 +171,37 @@ public class PlayerShooting : MonoBehaviour
             crosshair     = crosshairContainer.transform.GetChild(playerId).gameObject;
             autoaimScript = crosshair.GetComponent<CrosshairAutoaimAssist>();
 
-            // Find crosshair images
-            bulletAnchor = GameObject.Find("BulletAnchor" + (playerId+1).ToString());
+			// Find the tip of the turret (where bullets are shot from)
+			string anchorName = "BulletAnchor" + playerId;
+			bulletAnchorLeft  = GameObject.Find(anchorName + "L");
+			bulletAnchorRight = GameObject.Find(anchorName + "R");
         } 
 		else
 		{    
-            Vector3 crosshairPosition = crosshair.transform.position;
-            
-			// Get correct crosshair object's ScreenToWorld results
+			// Get the aiming position
             GameObject crosshairObject = serverManager.GetCrosshairObject(screenId);
             Vector3[] targets 		   = serverManager.GetTargetPositions(crosshairObject).targets;
             GameObject[] targetObjects = serverManager.GetTargetPositions(crosshairObject).targetObjects;
             targetPos				   = targets[playerId];
             autoaimScript.Target       = targetObjects[playerId];
 
-            if (randomPitch) fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
+			// Figure out which side of ship we need shoot from based on the target position
+			Vector3 targetRelativeToPlayer = playerShip.transform.InverseTransformPoint(targetPos);
+			GameObject bulletAnchor        = targetRelativeToPlayer.x <= 0 ? bulletAnchorLeft : bulletAnchorRight;
+
+            if (randomPitch)
+				fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
 
-            GameObject obj 		   = bulletManager.RequestObject();
-            obj.transform.position = bulletAnchor.transform.position;
+			GameObject bullet 		  = bulletManager.RequestObject();
+            bullet.transform.position = bulletAnchor.transform.position;
 
-			BulletMove moveComponent = obj.GetComponent<BulletMove>();
+			BulletMove moveComponent = bullet.GetComponent<BulletMove>();
 			moveComponent.Speed      = speed;
-			bulletManager.SetBulletSpeed(obj.name, speed);
+			bulletManager.SetBulletSpeed(bullet.name, speed);
 
             GameObject logic       = logicManager.RequestObject();
-			logic.transform.parent = obj.transform;
+			logic.transform.parent = bullet.transform;
 
 			// Suggest add a BulletMove method for the speed and remove it from the logic
 			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
@@ -206,7 +213,8 @@ public class PlayerShooting : MonoBehaviour
 			if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
 				moveComponent.SetTarget(autoaimScript.Target);
 
-            bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+            bulletManager.EnableClientObject(bullet.name, bullet.transform.position, bullet.transform.rotation,
+				bullet.transform.localScale);
 
             GameObject muzzle = muzzleFlashManager.RequestObject();
             muzzle.transform.position = bulletAnchor.transform.position;
