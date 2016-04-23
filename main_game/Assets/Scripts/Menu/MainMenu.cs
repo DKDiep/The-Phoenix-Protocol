@@ -26,6 +26,9 @@ public class MainMenu : NetworkBehaviour
     private PlayerController playerController;
 	private InputField networkAddressInputField;
 
+	private bool configDisabled = false;
+	private const string TEXT_CONFIG_DISABLED = "Disable";
+
     void Start()
     {
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
@@ -131,11 +134,16 @@ public class MainMenu : NetworkBehaviour
 		using (StreamWriter w = new StreamWriter(@configFile))
 		{
 			// Write a short help
-			w.WriteLine("# Lines starting with a # are ignored");
+			w.WriteLine("# Lines starting with a # are ignored, and if the first line is \"" + TEXT_CONFIG_DISABLED +
+				"\", then the config is ignored");
 			w.WriteLine("# The first line without a # is the server IP address, " +
 				"the second one is the role (camera, engineer, commander), " +
 				"the third one is \"True\" for the server");
 			w.WriteLine("# You can edit this file manually, but behaviour is undefined if the file structure is not respected.");
+
+			// Save the disabled state
+			if (configDisabled)
+				w.WriteLine(TEXT_CONFIG_DISABLED);
 
 			// Save the server data and the client role
 			w.WriteLine(ipAddress);
@@ -169,7 +177,20 @@ public class MainMenu : NetworkBehaviour
 			Debug.Log("Config file is empty");
 			return;
 		}
-			
+
+		// Check the disable flag
+		if (lines[i].StartsWith(TEXT_CONFIG_DISABLED, System.StringComparison.CurrentCultureIgnoreCase));
+		{
+			configDisabled = true;
+			Debug.Log("Config loading disabled");
+			return;
+		}
+		i++;
+		
+		// Skip comment lines
+		while (lines[i].StartsWith("#") && i < lines.Length)
+			i++;
+
 		// Get the IP address
 		networkAddressInputField.text = lines[i];
 		i++;
