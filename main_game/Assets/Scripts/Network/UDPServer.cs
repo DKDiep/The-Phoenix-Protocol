@@ -325,9 +325,9 @@ public class UDPServer : MonoBehaviour
                                     ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
                                     ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
                                     ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
-                                    ",\"rX\":" + enemy.transform.right.x.ToString("0.000") +
-                                    ",\"rY\":" + enemy.transform.right.z.ToString("0.000") +
-                                    ",\"rZ\":" + enemy.transform.right.y.ToString("0.000") +
+                                    ",\"fX\":" + enemy.transform.forward.x.ToString("0.000") +
+                                    ",\"fY\":" + enemy.transform.forward.z.ToString("0.000") +
+                                    ",\"fZ\":" + enemy.transform.forward.y.ToString("0.000") +
                                     "},";
                         i++;
                         j++;
