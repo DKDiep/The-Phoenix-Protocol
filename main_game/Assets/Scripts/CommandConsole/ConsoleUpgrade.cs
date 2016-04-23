@@ -11,10 +11,12 @@ public class ConsoleUpgrade : MonoBehaviour
     private Text upgradeNameTxt;
     private Text upgradeCostTxt;
 
-    private GameObject sideUpgradeButton;
+    private GameObject sideUpgradeButtonObject;
+    private Button sideUpgradeButton;
     private Text sideUpgradeButtonText;
     private Image sideUpgradeButtonImage;
-    private GameObject sideRepairButton;
+    private GameObject sideRepairButtonObject;
+    private Button sideRepairButton;
     private Text sideRepairButtonText;
     private Image sideRepairButtonImage;
 
@@ -24,9 +26,9 @@ public class ConsoleUpgrade : MonoBehaviour
     private Transform levelIndicator;
 
     private bool setupDone = false;
-    private GameObject repairButton ;
+    private GameObject repairIcon ;
 
-    private Image repairButtonImage;
+    private Image repairIconImage;
     private List<Color> yellowToReds = new List<Color>();
     private bool upgradePending = false;
     private bool levelsInitialised = false;
@@ -48,17 +50,19 @@ public class ConsoleUpgrade : MonoBehaviour
         }
 
         // Hide the repair button from the start
-        repairButton = gameObject.transform.Find("RepairIcon").gameObject;
-        repairButtonImage = repairButton.GetComponent<Image>();
-        repairButton.SetActive(false);
-        sideUpgradeButton = gameObject.transform.Find("SideUpgradeArea").GetChild(0).gameObject;
-        sideUpgradeButtonText = sideUpgradeButton.GetComponentInChildren<Text>();
-        sideUpgradeButtonImage = sideUpgradeButton.GetComponent<Image>();
-        sideUpgradeButton.SetActive(false);
-        sideRepairButton = gameObject.transform.Find("SideUpgradeArea").GetChild(1).gameObject;
-        sideRepairButtonText = sideRepairButton.GetComponentInChildren<Text>();
-        sideRepairButtonImage = sideRepairButton.GetComponent<Image>();
-        sideRepairButton.SetActive(false);
+        repairIcon = gameObject.transform.Find("RepairIcon").gameObject;
+        repairIconImage = repairIcon.GetComponent<Image>();
+        repairIcon.SetActive(false);
+        sideUpgradeButtonObject = gameObject.transform.Find("SideUpgradeArea").GetChild(0).gameObject;
+        sideUpgradeButtonText = sideUpgradeButtonObject.GetComponentInChildren<Text>();
+        sideUpgradeButtonImage = sideUpgradeButtonObject.GetComponent<Image>();
+        sideUpgradeButton = sideUpgradeButtonObject.GetComponent<Button>();
+        sideUpgradeButtonObject.SetActive(false);
+        sideRepairButtonObject = gameObject.transform.Find("SideUpgradeArea").GetChild(1).gameObject;
+        sideRepairButton = sideRepairButtonObject.GetComponent<Button>();
+        sideRepairButtonText = sideRepairButtonObject.GetComponentInChildren<Text>();
+        sideRepairButtonImage = sideRepairButtonObject.GetComponent<Image>();
+        sideRepairButtonObject.SetActive(false);
     }
 
     public void Reset()
@@ -68,7 +72,7 @@ public class ConsoleUpgrade : MonoBehaviour
             levelIndicators[i].GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
         }
         // Hide repair button
-        repairButton.SetActive(false);
+        repairIcon.SetActive(false);
         setRepairPending(false);
         setUpgradePending(false);
     }
@@ -88,14 +92,14 @@ public class ConsoleUpgrade : MonoBehaviour
                     if (index < 0) index = 0;
                     if (index > 9) index = 9;
                     Color yellowToRed = yellowToReds[index];
-                    yellowToRed.a = repairButtonImage.color.a;
-                    repairButtonImage.color = yellowToRed;
-                    repairButton.SetActive(true);
+                    yellowToRed.a = repairIconImage.color.a;
+                    repairIconImage.color = yellowToRed;
+                    repairIcon.SetActive(true);
                     fullHealth = false;
                 }
                 else
                 {
-                    repairButton.SetActive(false);
+                    repairIcon.SetActive(false);
                     fullHealth = true;
                 }
             }
@@ -138,11 +142,13 @@ public class ConsoleUpgrade : MonoBehaviour
             {
                 sideUpgradeButtonImage.color = whiteA200;
                 sideUpgradeButtonText.color = whiteA200;
+                sideUpgradeButton.interactable = true;
             }
             else
             {
                 sideUpgradeButtonImage.color = whiteA50;
                 sideUpgradeButtonText.color = whiteA50;
+                sideUpgradeButton.interactable = false;
             }
             this.affordable = affordable;
         }
@@ -151,6 +157,7 @@ public class ConsoleUpgrade : MonoBehaviour
             upgradeCostTxt.color = Color.red;
             sideUpgradeButtonImage.color = whiteA50;
             sideUpgradeButtonText.color = whiteA50;
+            sideUpgradeButton.interactable = false;
             this.affordable = affordable;
         }
     }
@@ -178,9 +185,9 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setPendingRepairAlpha(float alpha)
     {
-        Color yellowToRed = repairButtonImage.color;
+        Color yellowToRed = repairIconImage.color;
         yellowToRed.a = alpha;
-        repairButtonImage.color = yellowToRed;
+        repairIconImage.color = yellowToRed;
     }
 
     public void UpdateLevelIndicator(int level)
@@ -195,39 +202,42 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void HideRepairButton()
     {
-        repairButton.SetActive(false);
+        repairIcon.SetActive(false);
     }
 
     // For the side repair button, need to rename the other confusing gameObject name
     public void SetRepairButtonActive(bool active)
     {
-        sideRepairButton.SetActive(active);
+        sideRepairButtonObject.SetActive(active);
     }
     public void SetUpgradeButtonActive(bool active)
     {
-        sideUpgradeButton.SetActive(active);
+        sideUpgradeButtonObject.SetActive(active);
     }
 
     public void setRepairPending(bool pending)
     {
         if (fullHealth)
         {
-            sideRepairButtonText.text = "Undamaged";
+            //sideRepairButtonText.text = "Undamaged";
             sideRepairButtonImage.color = whiteA50;
             sideRepairButtonText.color = whiteA50;
+            sideRepairButton.interactable = false;
             return;
         }
         if (pending)
         {
-            sideRepairButtonText.text = "Waiting";
+            //sideRepairButtonText.text = "Waiting";
             sideRepairButtonImage.color = whiteA50;
             sideRepairButtonText.color = whiteA50;
+            sideRepairButton.interactable = false;
         }
         else
         {
-            sideRepairButtonText.text = "Repair";
+            //sideRepairButtonText.text = "Repair";
             sideRepairButtonImage.color = whiteA200;
             sideRepairButtonText.color = whiteA200;
+            sideRepairButton.interactable = true;
         }
     }
 
@@ -236,20 +246,22 @@ public class ConsoleUpgrade : MonoBehaviour
         upgradePending = pending;
         if (maxLevel)
         {
-            sideUpgradeButtonText.text = "Max Level";
+            //sideUpgradeButtonText.text = "Max Level";
             sideUpgradeButtonImage.color = whiteA50;
             sideUpgradeButtonText.color = whiteA50;
+            sideUpgradeButton.interactable = false;
             return;
         }
         if (pending)
         {
-            sideUpgradeButtonText.text = "Waiting";
+            //sideUpgradeButtonText.text = "Waiting";
             sideUpgradeButtonImage.color = whiteA50;
             sideUpgradeButtonText.color = whiteA50;
+            sideUpgradeButton.interactable = false;
         }
         else
         {
-            sideUpgradeButtonText.text = "Upgrade";
+            //sideUpgradeButtonText.text = "Upgrade";
             showAffordable(affordable);
         }
     }
