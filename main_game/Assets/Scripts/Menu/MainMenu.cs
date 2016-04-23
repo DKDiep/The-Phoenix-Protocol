@@ -54,34 +54,34 @@ public class MainMenu : NetworkBehaviour
 
     public void CreateGame()
     {
-        UpdateAddress();
         startServer = true;
         SetHandler(manager.StartHost());
         role = RoleEnum.Camera;
-}
+		UpdateAddress();
+	}
 
     public void JoinCamera()
     {
-        UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Camera;
+		UpdateAddress();
     }
 
     public void JoinEngineer()
     {
-        UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Engineer;
+		UpdateAddress();
     }
 
     public void JoinCommander()
     {
-        UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Commander;
+		UpdateAddress();
     }
 
     private void SetHandler(NetworkClient client)
@@ -114,7 +114,7 @@ public class MainMenu : NetworkBehaviour
 		manager.networkAddress = ipAddress;
 		Debug.Log("Address now set to " + ipAddress);
 
-		SaveConfigToFile(ipAddress);
+		SaveConfigToFile(ipAddress, role, startServer);
     }
 
     public void QuitGame()
@@ -126,17 +126,21 @@ public class MainMenu : NetworkBehaviour
 	/// Saves the server and role configuration to a file.
 	/// </summary>
 	/// <param name="ipAddress">The server IP address.</param>
-	private void SaveConfigToFile(string ipAddress)
+	private void SaveConfigToFile(string ipAddress, RoleEnum role, bool isServer)
 	{
 		using (StreamWriter w = new StreamWriter(@configFile))
 		{
 			// Write a short help
 			w.WriteLine("# Lines starting with a # are ignored");
-			w.WriteLine("# The first line without a # is the server IP address, the second one is the role (camera, engineer, commander)");
+			w.WriteLine("# The first line without a # is the server IP address, " +
+				"the second one is the role (camera, engineer, commander), " +
+				"the third one is \"True\" for the server");
 			w.WriteLine("# You can edit this file manually, but behaviour is undefined if the file structure is not respected.");
 
-			// Save the server data
+			// Save the server data and the client role
 			w.WriteLine(ipAddress);
+			w.WriteLine(role);
+			w.WriteLine(isServer);
 		}
 	}
 
@@ -144,6 +148,7 @@ public class MainMenu : NetworkBehaviour
 	{
 		string[] lines;
 
+		// Get all the lines in the file
 		try
 		{
 			lines = File.ReadAllLines(@configFile);
@@ -161,13 +166,52 @@ public class MainMenu : NetworkBehaviour
 
 		if (i >= lines.Length)
 		{
-			Debug.Log("Config file is empty.");
+			Debug.Log("Config file is empty");
 			return;
 		}
 			
 		// Get the IP address
 		networkAddressInputField.text = lines[i];
+		i++;
 
-		Debug.Log("Loaded IP address.");
+		// Skip comment lines
+		while (lines[i].StartsWith("#") && i < lines.Length)
+			i++;
+
+		// Get the role
+		try
+		{
+			role = (RoleEnum)System.Enum.Parse(typeof(RoleEnum), lines[i]);
+			i++;
+		}
+		catch(System.Exception)
+		{
+			Debug.Log("No valid role found in config");
+			return;
+		}
+
+		// Skip comment lines
+		while (lines[i].StartsWith("#") && i < lines.Length)
+			i++;
+
+		// Read if this client is a server
+		try
+		{
+			startServer = System.Boolean.Parse(lines[i]);
+		}
+		catch(System.Exception)
+		{
+			startServer = false;
+		}
+
+		// Log the loaded parameters
+		string debugPrompt = "Loaded config: " + networkAddressInputField.text + " as " + role;
+		if (startServer)
+			debugPrompt += " (server)";
+		Debug.Log(debugPrompt);
+
+		// If this is not a server, try to connect to the last server
+		if (!startServer)
+			manager.StartClient();
 	}
 }
