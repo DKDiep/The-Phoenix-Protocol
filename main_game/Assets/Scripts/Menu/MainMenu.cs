@@ -179,7 +179,7 @@ public class MainMenu : NetworkBehaviour
 		}
 
 		// Check the disable flag
-		if (lines[i].StartsWith(TEXT_CONFIG_DISABLED, System.StringComparison.CurrentCultureIgnoreCase));
+		if (lines[i].StartsWith(TEXT_CONFIG_DISABLED, System.StringComparison.CurrentCultureIgnoreCase))
 		{
 			configDisabled = true;
 			Debug.Log("Config loading disabled");
