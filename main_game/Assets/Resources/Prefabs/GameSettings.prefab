@@ -248,7 +248,7 @@ MonoBehaviour:
     hullMaxHealthUpgradeRate: 0
     storageCollectionBonusUpgradeRate: 0
     storageInterestRateUpgradeBonus: 0
-    shieldsMaxShieldUpgradeRate: 1.5
+    shieldsMaxShieldUpgradeRate: 50
     shieldsMaxRechargeRateUpgradeRate: 1.5
     turretsMaxDamageUpgradeRate: 1.5
     turretsMinFireDelayUpgradeRate: 1.5
@@ -300,7 +300,7 @@ MonoBehaviour:
     droneImprovementTimeUpgradeRate: 0
     engineMaxSpeedUpgradeRate: 0
     engineMaxTurningSpeedUpgradeRate: 0
-    hullMaxHealthUpgradeRate: 1.5
+    hullMaxHealthUpgradeRate: 50
     storageCollectionBonusUpgradeRate: 0
     storageInterestRateUpgradeBonus: 0
     shieldsMaxShieldUpgradeRate: 0
