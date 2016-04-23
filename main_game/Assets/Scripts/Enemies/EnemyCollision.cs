@@ -4,12 +4,15 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class EnemyCollision : MonoBehaviour 
 {
     public float collisionDamage;
     private EnemyLogic myLogic;
     private ShipMovement shipMovement;
+
+	private readonly Regex turretRegex = new Regex("Turret[012][LR]");
 
     void OnTriggerEnter (Collider col)
     {
@@ -20,20 +23,16 @@ public class EnemyCollision : MonoBehaviour
 			if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
 			{
 				GameObject hitObject = col.gameObject;
+
 				if (shipMovement == null)
 				{
-					try
-					{
+					if (turretRegex.IsMatch(hitObject.name))
+						shipMovement = hitObject.transform.parent.GetComponentInChildren<ShipMovement>();
+					else
 						shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
-					}
-					catch(System.NullReferenceException e)
-					{
-						Debug.LogError("Collision exception on " + hitObject.name);
-					}
 				}
-
-				if (shipMovement != null)
-					shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+					
+				shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
 			}
             
 			if(myLogic != null)
