@@ -22,6 +22,6 @@ public class MothershipPulse : MonoBehaviour {
         else
             input = 0;
         finalValue = Mathf.Sin(input);
-        material.SetFloat("_EmissionGain", (finalValue / 2f) + 0.05f);
+        material.SetFloat("_EmissionGain", (finalValue / 4f) + 0.05f);
 	}
 }
