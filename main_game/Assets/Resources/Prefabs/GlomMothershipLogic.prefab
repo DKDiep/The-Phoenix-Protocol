@@ -96,14 +96,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleSpawnLocations:
-  - {fileID: 143870}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  beamObject: {fileID: 131906, guid: 8b972593cfa1b4de5b7dce649acfe404, type: 2}
+  beamLogicObject: {fileID: 120696, guid: 91b393b172cfe403e9c8f1c6262062c0, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: particleSpawnLocations.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: beamLogicObject
+      value: 
+      objectReference: {fileID: 120696, guid: 91b393b172cfe403e9c8f1c6262062c0, type: 2}
+    - target: {fileID: 0}
+      propertyPath: beamObject
+      value: 
+      objectReference: {fileID: 131906, guid: 8b972593cfa1b4de5b7dce649acfe404, type: 2}
+    - target: {fileID: 0}
+      propertyPath: particleSpawnLocations.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108864}

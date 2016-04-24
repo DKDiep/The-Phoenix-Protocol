@@ -15,5 +15,12 @@ public class BulletCollision : MonoBehaviour
 		BulletLogic logicScript = GetComponentInChildren<BulletLogic>();
 		if(logicScript != null)
 			logicScript.collision (col, playerId);
+        else
+        {
+            MothershipBeamLogic beamScript = GetComponentInChildren<MothershipBeamLogic>();
+            if(beamScript != null)
+                beamScript.collision(col);
+        }
+
 	}
 }

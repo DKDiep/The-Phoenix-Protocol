@@ -15,6 +15,10 @@ public class MothershipLogic : MonoBehaviour {
     private int maxExplosions = 50;
     private ObjectPoolManager effectsManager;
     private Transform mesh;
+    private GameObject bulletSpawnLocation;
+    [SerializeField] GameObject beamObject;
+    [SerializeField] GameObject beamLogicObject;
+    GameObject player;
 
 	// Use this for initialization
 	void Start () {
@@ -26,14 +30,45 @@ public class MothershipLogic : MonoBehaviour {
             Destroy(this);
         LoadSettings();
 
+        bulletSpawnLocation = GameObject.Find("BulletSpawn").gameObject;
+
         GameObject server = settings.GameManager;
         gameState         = server.GetComponent<GameState>();
+        player = gameState.PlayerShip;
 
         mesh = transform.parent.Find("Mesh");
 
         StartCoroutine(SpawnExplosions());
         StartCoroutine(ReduceExplosions());
+        StartCoroutine(ShootBeam());
 	}
+
+    IEnumerator ShootBeam()
+    {
+        yield return new WaitForSeconds(Random.Range(10,20));
+
+        Vector3 targetPos = player.transform.position + (player.transform.forward * (Vector3.Distance(transform.position, player.transform.position) / Random.Range(10f,14f)));
+        int numberOfBeams = Random.Range(7,14);
+
+        for(int i = 0; i < numberOfBeams; i++)
+        {
+            GameObject beam = Instantiate(beamObject, bulletSpawnLocation.transform.position, Quaternion.identity) as GameObject;
+            beam.transform.LookAt(targetPos);
+            beam.GetComponent<BulletMove>().Speed = 250f;
+            ServerManager.NetworkSpawn(beam);
+            beam.GetComponent<Collider>().enabled = true;
+            GameObject beamLogic = Instantiate(beamLogicObject, bulletSpawnLocation.transform.position, Quaternion.identity) as GameObject;
+            beamLogic.transform.parent = beam.transform;
+            MothershipBeamLogic logicComp = beamLogic.GetComponent<MothershipBeamLogic>();
+            logicComp.player = player;
+            logicComp.Setup();
+            yield return new WaitForSeconds(0.1f);
+        }
+
+
+
+        StartCoroutine(ShootBeam());
+    }
 
     IEnumerator ReduceExplosions()
     {

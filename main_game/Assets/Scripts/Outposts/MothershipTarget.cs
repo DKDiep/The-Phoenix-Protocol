@@ -23,7 +23,7 @@ public class MothershipTarget : NetworkBehaviour
 
     void Start () 
     {
-        myRenderer = transform.parent.gameObject.GetComponent<Renderer>();
+        myRenderer = GetComponent<Renderer>();
         currentColour = Color.red;
         if(GameObject.Find("CameraManager(Clone)") != null)
         {

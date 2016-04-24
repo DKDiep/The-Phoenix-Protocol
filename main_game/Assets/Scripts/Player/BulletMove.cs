@@ -8,12 +8,14 @@ using System.Collections;
 public class BulletMove : MonoBehaviour, IDestructionListener
 {
 	private GameObject target = null;
+    [SerializeField] float forceSpeed;
 
 	public float Speed { get; set; }
 
 	void Start()
 	{
-		
+		if(forceSpeed != 0)
+            Speed = forceSpeed;
 	}
 
 	void Update () 

@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Trail
-  m_Shader: {fileID: 4800000, guid: 8ef4d5815d2bdca4ebddfd2ea1415ef8, type: 3}
+  m_Shader: {fileID: 4800000, guid: 31bfda934c27bd54a96d5f3f1ae1d398, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -29,12 +29,12 @@ Material:
         second: 3
       data:
         first:
-          name: _FPOW
-        second: 5
+          name: _EmissionGain
+        second: 0.5
       data:
         first:
-          name: _R0
-        second: 0.05
+          name: _ColorStrength
+        second: 1
       data:
         first:
           name: _TintStrength
@@ -47,6 +47,14 @@ Material:
         first:
           name: _CutOutLightCore
         second: 0.5
+      data:
+        first:
+          name: _FPOW
+        second: 5
+      data:
+        first:
+          name: _R0
+        second: 0.05
     m_Colors:
       data:
         first:
@@ -58,9 +66,9 @@ Material:
         second: {r: 1, g: 0.5760649, b: 0.19117647, a: 1}
       data:
         first:
-          name: _EmisColor
-        second: {r: 0.2, g: 0.2, b: 0.2, a: 0}
-      data:
-        first:
           name: _CoreColor
         second: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+      data:
+        first:
+          name: _EmisColor
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 0}
