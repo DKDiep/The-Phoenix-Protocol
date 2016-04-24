@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 487418}
   - 33: {fileID: 3326062}
   - 23: {fileID: 2372052}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 442056}
   - 33: {fileID: 3374478}
   - 23: {fileID: 2392266}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 422484}
   - 33: {fileID: 3371800}
   - 23: {fileID: 2359216}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 4: {fileID: 407950}
   - 33: {fileID: 3357782}
   - 23: {fileID: 2336262}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 4: {fileID: 448894}
   - 33: {fileID: 3349730}
   - 23: {fileID: 2333952}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: OuterRing 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - 4: {fileID: 475698}
   - 33: {fileID: 3379844}
   - 23: {fileID: 2367746}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: OuterRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - 4: {fileID: 413800}
   - 33: {fileID: 3306458}
   - 23: {fileID: 2343150}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409100}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - 4: {fileID: 413844}
   - 33: {fileID: 3374336}
   - 23: {fileID: 2337888}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - 4: {fileID: 415176}
   - 33: {fileID: 3367316}
   - 23: {fileID: 2392304}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellite1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 497374}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Capsules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +193,7 @@ GameObject:
   - 4: {fileID: 426066}
   - 33: {fileID: 3381396}
   - 23: {fileID: 2336174}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - 4: {fileID: 411260}
   - 33: {fileID: 3305930}
   - 23: {fileID: 2344818}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   - 4: {fileID: 452282}
   - 33: {fileID: 3364410}
   - 23: {fileID: 2376348}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 437556}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 445124}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connectors1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   - 4: {fileID: 412978}
   - 33: {fileID: 3373462}
   - 23: {fileID: 2311180}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellite3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - 4: {fileID: 469138}
   - 33: {fileID: 3337136}
   - 23: {fileID: 2388424}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 421386}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connectors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - 4: {fileID: 456050}
   - 33: {fileID: 3377474}
   - 23: {fileID: 2329844}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   - 4: {fileID: 486778}
   - 33: {fileID: 3341874}
   - 23: {fileID: 2360726}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: BottomTube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   - 4: {fileID: 443834}
   - 33: {fileID: 3313076}
   - 23: {fileID: 2333840}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ GameObject:
   - 4: {fileID: 403238}
   - 33: {fileID: 3372532}
   - 23: {fileID: 2363918}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector3 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   - 4: {fileID: 472956}
   - 33: {fileID: 3382016}
   - 23: {fileID: 2340330}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ GameObject:
   - 4: {fileID: 480864}
   - 33: {fileID: 3394286}
   - 23: {fileID: 2388706}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - 4: {fileID: 458376}
   - 33: {fileID: 3364626}
   - 23: {fileID: 2363200}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   - 4: {fileID: 434196}
   - 33: {fileID: 3313234}
   - 23: {fileID: 2318500}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: MiddleTube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,7 @@ GameObject:
   - 4: {fileID: 450858}
   - 33: {fileID: 3310760}
   - 23: {fileID: 2392546}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -476,7 +476,7 @@ GameObject:
   - 4: {fileID: 482414}
   - 33: {fileID: 3305994}
   - 23: {fileID: 2362976}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellite6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,7 +493,7 @@ GameObject:
   - 4: {fileID: 487450}
   - 33: {fileID: 3306758}
   - 23: {fileID: 2302220}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector7 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,7 @@ GameObject:
   - 4: {fileID: 424022}
   - 33: {fileID: 3312612}
   - 23: {fileID: 2393176}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   - 4: {fileID: 490780}
   - 33: {fileID: 3349712}
   - 23: {fileID: 2327134}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,7 +544,7 @@ GameObject:
   - 4: {fileID: 423148}
   - 33: {fileID: 3347088}
   - 23: {fileID: 2373454}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -559,7 +559,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409616}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: OutpostMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +576,7 @@ GameObject:
   - 4: {fileID: 440582}
   - 33: {fileID: 3385664}
   - 23: {fileID: 2359484}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - 4: {fileID: 477874}
   - 33: {fileID: 3369806}
   - 23: {fileID: 2391618}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Satellite5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -608,7 +608,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 454024}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Ring3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +625,7 @@ GameObject:
   - 4: {fileID: 474992}
   - 33: {fileID: 3318784}
   - 23: {fileID: 2316492}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   - 4: {fileID: 460334}
   - 33: {fileID: 3391204}
   - 23: {fileID: 2382088}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: TopCap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,7 +665,7 @@ GameObject:
   - 65: {fileID: 6500730}
   - 114: {fileID: 11455434}
   - 114: {fileID: 11411892}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Outpost1
   m_TagString: Outpost
   m_Icon: {fileID: 0}
@@ -682,7 +682,7 @@ GameObject:
   - 4: {fileID: 422494}
   - 33: {fileID: 3384192}
   - 23: {fileID: 2332550}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube1 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -699,7 +699,7 @@ GameObject:
   - 4: {fileID: 418500}
   - 33: {fileID: 3346014}
   - 23: {fileID: 2315892}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector6 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -716,7 +716,7 @@ GameObject:
   - 4: {fileID: 451184}
   - 33: {fileID: 3361086}
   - 23: {fileID: 2341220}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,7 +733,7 @@ GameObject:
   - 4: {fileID: 473572}
   - 33: {fileID: 3396930}
   - 23: {fileID: 2354936}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -750,7 +750,7 @@ GameObject:
   - 4: {fileID: 477046}
   - 33: {fileID: 3331536}
   - 23: {fileID: 2382202}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -765,7 +765,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 406836}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Ring1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 406588}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Ring2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,7 +797,7 @@ GameObject:
   - 4: {fileID: 488824}
   - 33: {fileID: 3385166}
   - 23: {fileID: 2381370}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +814,7 @@ GameObject:
   - 4: {fileID: 482822}
   - 33: {fileID: 3311376}
   - 23: {fileID: 2362792}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,7 +831,7 @@ GameObject:
   - 4: {fileID: 489306}
   - 33: {fileID: 3344148}
   - 23: {fileID: 2365398}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector5 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -848,7 +848,7 @@ GameObject:
   - 4: {fileID: 404938}
   - 33: {fileID: 3307348}
   - 23: {fileID: 2349342}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Connector4 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -865,7 +865,7 @@ GameObject:
   - 4: {fileID: 418964}
   - 33: {fileID: 3392816}
   - 23: {fileID: 2358140}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: BottomSpike1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +882,7 @@ GameObject:
   - 4: {fileID: 437534}
   - 33: {fileID: 3384724}
   - 23: {fileID: 2328848}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: Bottom_Cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -899,7 +899,7 @@ GameObject:
   - 4: {fileID: 425756}
   - 33: {fileID: 3366532}
   - 23: {fileID: 2384720}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -916,7 +916,7 @@ GameObject:
   - 4: {fileID: 492058}
   - 33: {fileID: 3315564}
   - 23: {fileID: 2345058}
-  m_Layer: 4
+  m_Layer: 8
   m_Name: InnerTube1 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3300,7 +3300,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Layer
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
