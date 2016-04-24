@@ -23,7 +23,7 @@ public class MothershipTarget : NetworkBehaviour
 
     void Start () 
     {
-        myRenderer = GetComponent<Renderer>();
+        myRenderer = transform.parent.gameObject.GetComponent<Renderer>();
         currentColour = Color.red;
         if(GameObject.Find("CameraManager(Clone)") != null)
         {
@@ -59,7 +59,7 @@ public class MothershipTarget : NetworkBehaviour
     {
         if(mainCam != null)
         {
-            if(distance > 400)
+            if(distance > 600)
             {    
                 if(renderTarget && showTarget && target != null)
                 {
