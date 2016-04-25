@@ -148,7 +148,6 @@ public class TCPServer : MonoBehaviour
         {
             case "START":
                 Dictionary<uint, Officer> officerMap = gameState.GetOfficerMap();
-                // TODO: implement the actions caused by this message
                 Debug.Log("Received a Start Game signal with data:");
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
 
@@ -174,7 +173,7 @@ public class TCPServer : MonoBehaviour
                 Debug.Log(fields);
                 int idOfControlled = Int32.Parse(fields[0]);
                 uint idOfControllingPlayer = UInt32.Parse(fields[1]);
-                Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
+                // Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
 
                 // Set enemy to controlled by spectator
                 if (udpServer.InstanceIDToEnemy.ContainsKey(idOfControlled))

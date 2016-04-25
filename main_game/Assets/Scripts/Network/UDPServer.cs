@@ -97,7 +97,7 @@ public class UDPServer : MonoBehaviour
                 int idToMove = Int32.Parse(fields[0]);
                 float posX = float.Parse(fields[1]);
                 float posZ = float.Parse(fields[2]);
-                Debug.Log("Received a Move Command: id: " + idToMove + " x: " + posX + " z: " + posZ);
+                // Debug.Log("Received a Move Command: id: " + idToMove + " x: " + posX + " z: " + posZ);
 
                 // Move specified enemy
                 if (InstanceIDToEnemy.ContainsKey(idToMove))
@@ -110,7 +110,7 @@ public class UDPServer : MonoBehaviour
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idOfAttacker = Int32.Parse(fields[0]);
                 int idOfAttacked = Int32.Parse(fields[1]);
-                Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
+                // Debug.Log("Received an Attack Command: attacker: " + idOfAttacker + " attacked: " + idOfAttacked);
 
                 // Give the order to attack
                 if (InstanceIDToEnemy.ContainsKey(idOfAttacker) && InstanceIDToEnemy.ContainsKey(idOfAttacked))
