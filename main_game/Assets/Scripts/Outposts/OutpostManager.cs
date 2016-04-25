@@ -138,7 +138,7 @@ public class OutpostManager : MonoBehaviour {
             for (int i = arrowsRequired; i < outpostList.Count; i++)
             {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
-                arrowList[i].GetComponent<Image>().color = darkRed;
+                arrowList[i].GetComponent<Image>().color = darkGreen;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
             }
             //this probably won't be needed but I'm keeping it here for now just in case this turns out to be an issue - luke 06/04
