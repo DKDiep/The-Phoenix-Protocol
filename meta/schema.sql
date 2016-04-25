@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `players`;
 CREATE TABLE `players` (
   `player_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,
-  `score` int(11) unsigned NOT NULL,
+  `score` int(11) unsigned NOT NULL DEFAULT '0',
   `registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `in_main_game` tinyint(1) NOT NULL DEFAULT '0',
