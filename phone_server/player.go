@@ -67,7 +67,7 @@ func (plr *Player) setControlledEnemy(enemyId int64) {
     }
 
     if !sendTCPMsgToGameServer("CTRL:" + strconv.FormatInt(enemyId, 10) + "+" +
-        strconv.FormatUint(plr.id, 10)) {
+        strconv.FormatUint(plr.id, 10) + "+" + plr.userName) {
         return
     }
 
