@@ -77,6 +77,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private Vector3 prevPos, currentPos;
 	private GameObject controlObject;
 	private Collider controlObjectCollider;
+	private EnemySyncParams controlObjectSyncParams;
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
 	private int droppedResources;
@@ -574,6 +575,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		controlObjectCollider = controlObject.GetComponent<Collider>();
 		aiObstacleRayFrontOffset = controlObjectCollider.bounds.extents.y / 2.0f;
 
+		controlObjectSyncParams = controlObject.GetComponent<EnemySyncParams>();
+
 		meshRenderer = controlObject.GetComponent<MeshRenderer>();
 		StartCoroutine(CheckRenderDistance());
 
@@ -890,6 +893,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         hacked 			    = val;
 		hackedAttackTraget  = null;
         controllingPlayerId = playerId;
+
+		controlObjectSyncParams.SetHacked(hacked);
 
 		if (hacked)
 		{

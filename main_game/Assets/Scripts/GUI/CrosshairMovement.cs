@@ -47,8 +47,9 @@ public class CrosshairMovement : NetworkBehaviour
     // Use this for initialization
     void Start ()
     {
-        playerShip = GameObject.Find("PlayerShip(Clone)");
+        playerShip  = GameObject.Find("PlayerShip(Clone)");
 		gameManager = GameObject.Find("GameManager");
+
 		serverManager = gameManager.GetComponent<ServerManager>();
         if (ClientScene.localPlayers[0].IsValid)
             localController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
@@ -119,7 +120,7 @@ public class CrosshairMovement : NetworkBehaviour
         Vector3[] rays = new Vector3[8];
 
         // Update position of crosshairs
-        for (int i = 0; i    < 4; i++)
+        for (int i = 0; i < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
 			selectedCrosshair.position = GetPosition(i);
@@ -237,11 +238,15 @@ public class CrosshairMovement : NetworkBehaviour
             // Find the enemy closest to the aiming direction and within the distance threshold from the aiming direction
             float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
 
-            // If we previously found an asteroid but there is also an enemy in range, prioritise the enemy
             if (aimDirectionDistance < minDistance)
             {
-                closestCol = col;
-                minDistance = aimDirectionDistance;
+				// Don't auto aim at hacked enemies
+				EnemySyncParams enemyParams = col.gameObject.GetComponent<EnemySyncParams>();
+				if (enemyParams == null || !enemyParams.GetHacked())
+				{
+					closestCol = col;
+					minDistance = aimDirectionDistance;
+				}
             }
         }
 
