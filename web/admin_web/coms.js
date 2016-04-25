@@ -98,7 +98,7 @@ function sendInviteOfficersSingnal() {
 
 function sendStartGameSignal() {
     // Get the team name from the textbox
-    team_name = $('#team-name').val()
+    var team_name = $('#team-name').val()
 
     // If the team name is invalid we show an error message
     // and return
