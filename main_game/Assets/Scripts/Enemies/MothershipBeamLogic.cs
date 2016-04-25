@@ -6,10 +6,6 @@ public class MothershipBeamLogic : MonoBehaviour {
     public GameObject player;
     private ShipMovement shipMovement;
 
-    public void Setup()
-    {
-        Destroy(transform.parent.gameObject, 6f);
-    }
 
     public void collision(Collider col)
     {

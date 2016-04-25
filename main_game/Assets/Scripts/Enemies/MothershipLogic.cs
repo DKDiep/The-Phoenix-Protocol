@@ -61,7 +61,6 @@ public class MothershipLogic : MonoBehaviour {
             beamLogic.transform.parent = beam.transform;
             MothershipBeamLogic logicComp = beamLogic.GetComponent<MothershipBeamLogic>();
             logicComp.player = player;
-            logicComp.Setup();
             yield return new WaitForSeconds(0.1f);
         }
 
