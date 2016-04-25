@@ -27,6 +27,11 @@ public abstract class CommanderAbility : MonoBehaviour {
         StartCoroutine(CoolDown());
     }
 
+    public void Reset()
+    {
+        ready = true;
+    }
+
     public void UseAbility()
     {
         // Do not fire an ability unless the game is still in progress

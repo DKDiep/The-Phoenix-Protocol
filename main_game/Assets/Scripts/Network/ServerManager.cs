@@ -428,6 +428,14 @@ public class ServerManager : NetworkBehaviour
         // Overlay ready screen
         readyScreen.GetComponent<ReadyScreen>().Reset();
 
+        GameObject abilities = GameObject.Find("CommanderAbilities(Clone)");
+        abilities.GetComponent<ShootingAbility>().Reset();
+        abilities.GetComponent<BoostAbility>().Reset();
+        abilities.GetComponent<EMPAbility>().Reset();
+        abilities.GetComponent<SmartBombAbility>().Reset();
+        abilities.GetComponent<ShieldOverdriveAbility>().Reset();
+
+
         Camera.main.gameObject.GetComponent<DamageEffects>().Reset();
             
         // Restart music - consider reset method for sound system
