@@ -812,8 +812,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
                 empEffect.SetActive(false);
 
             explosionManager.EnableClientObject(temp.name, temp.transform.position, temp.transform.rotation, temp.transform.localScale);
-            ResetGlowColour();
-            originalGlow = null;
 
             Despawn();
 		}
@@ -822,6 +820,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     public void Despawn()
     {
         NotifyDestructionListeners(); // Notify registered listeners that this object has been destroyed
+        ResetGlowColour();
+        originalGlow = null;
 
 		if (currentWaypoint != null && currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
@@ -910,7 +910,19 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			state = EnemyAIState.Hacked;
 			//ChangeGlowColour();
 			if (enemyManager != null)
-				enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
+            {
+                enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
+            }
+            else
+            {
+                enemyManager = FindManager();
+                if (enemyManager != null)
+                {
+                    enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
+                }
+                else
+                    Debug.LogWarning("Could not find manager for enemy " + transform.parent.gameObject.name + " type " + type);
+            }
 			//Debug.Log("Hacked: " + controlObject.name + " with logic " + this.gameObject.name);
 		}
 		else
@@ -931,7 +943,20 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
     private void ResetGlowColour()
     {
-		enemyManager.RpcResetHackedGlow(transform.parent.gameObject.name);
+        if (enemyManager != null)
+		{
+			enemyManager.RpcResetHackedGlow(transform.parent.gameObject.name);
+		}
+		else
+		{
+			enemyManager = FindManager();
+			if (enemyManager != null)
+			{
+				enemyManager.RpcResetHackedGlow(transform.parent.gameObject.name);
+			}
+			else
+				Debug.LogWarning("Could not find manager for enemy " + transform.parent.gameObject.name + " type " + type);
+		}
         GameObject lights = transform.parent.Find("pattern").gameObject;
         lights.GetComponent<Renderer>().material = originalGlow;
         transform.parent.Find("Target").GetComponent<Renderer>().material = targetMaterial;
