@@ -54,6 +54,7 @@ public class CommandConsoleState : MonoBehaviour {
     private List<GameObject> healthSegments = new List<GameObject>();
     private List<GameObject> shieldSegments = new List<GameObject>();
 
+    private List<MissionText> missionTexts = new List<MissionText>();
     private List<string> currentObjectives = new List<string>();
     private Image[] pulsateableImages;
     private Image[] abilityImages;
@@ -125,7 +126,7 @@ public class CommandConsoleState : MonoBehaviour {
 
         UpdateAllText();
 
-        ClosePopupWindow();
+        popupWindow.SetActive(false);
 
         upgradeArea.SetActive(false);
         objectiveFeed.GetComponent<Text>().text = "";
@@ -163,8 +164,8 @@ public class CommandConsoleState : MonoBehaviour {
             pulsateToggle[i] = false;
         }
         UpdateAllText();
-        ClosePopupWindow();
-        upgradeArea.SetActive(false);
+        popupWindow.SetActive(false);
+        missionTexts.Clear();
         objectiveFeed.GetComponent<Text>().text = "";
         stratMap.Reset();
         currentObjectives.Clear();
@@ -573,11 +574,25 @@ public class CommandConsoleState : MonoBehaviour {
         UpdateObjectives();
     }
 
-    public void ShowMissionPopup(string title, string descrption)
+    public void addMissionPopupToQueue(string title, string descrption)
     {
-        popupWindow.SetActive(true);
-        popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
-        popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = descrption;
+        MissionText missionText = new MissionText();
+        missionText.title = title;
+        missionText.description = descrption;
+        missionTexts.Add(missionText);
+        if (popupWindow.active == false) showMissionPopup();
+    }
+
+    public void showMissionPopup()
+    {
+        MissionText mission;
+        if (missionTexts.Count > 0)
+        {
+            mission = missionTexts[0];
+            popupWindow.SetActive(true);
+            popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = mission.title;
+            popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = mission.description;
+        }
     }
 
     public void ShowObjectiveOnMap(int id)
@@ -621,6 +636,8 @@ public class CommandConsoleState : MonoBehaviour {
     public void ClosePopupWindow()
     {
         popupWindow.SetActive(false);
+        missionTexts.RemoveAt(0);
+        showMissionPopup();
     }
 
     /// <summary>
@@ -655,5 +672,12 @@ public class CommandConsoleState : MonoBehaviour {
     {
         //I don't want to remove the NewsFeed functionality completely, in case we want it back. So I'm just making this do nothing for now.
         //newsFeed.GetComponent<Text>().text = message + "\n" + newsFeed.GetComponent<Text>().text;
+    }
+
+    public class MissionText
+    {
+        public string title;
+        public string description;
+        public List<string> objectives;
     }
 }

@@ -384,7 +384,7 @@ public class PlayerController : NetworkBehaviour
         print("Starting Mission: " + title);
         if (commandConsoleState != null)
         {
-            commandConsoleState.ShowMissionPopup(title, description);
+            commandConsoleState.addMissionPopupToQueue(title, description);
             if (objectives == null || objectives.Length == 0)
                 print("No objectives listed. Every mission should have an objective list.");
             else
@@ -407,7 +407,7 @@ public class PlayerController : NetworkBehaviour
                 print("No objectives listed. Every mission should have an objective list.");
             else
                 commandConsoleState.RemoveObjectives(objectives);
-            commandConsoleState.ShowMissionPopup("MISSION COMPLETE", description);
+            commandConsoleState.addMissionPopupToQueue("MISSION COMPLETE", description);
             for (int i = 0; i < missionCompletion.Length; i++)
             {
                 if ((CompletionType)missionCompletion[i] == CompletionType.Outpost)
