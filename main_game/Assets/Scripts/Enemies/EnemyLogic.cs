@@ -871,6 +871,15 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		return null;
 	}
 
+	/// <summary>
+	/// Determines whether this enemy is hacked.
+	/// </summary>
+	/// <returns><c>true</c> if the enemy is hacked; otherwise, <c>false</c>.</returns>
+	public bool IsHacked()
+	{
+		return hacked;
+	}
+
     /// <summary>
     /// Sets the hacked attribute of this object
     /// to val

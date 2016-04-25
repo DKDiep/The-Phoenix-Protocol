@@ -34,8 +34,13 @@ public class EnemyFinder : MonoBehaviour {
     {
         if(col.gameObject.tag.Equals ("EnemyShip") && enemiesFound < settings.projectileCount)
         {
-            enemyList[enemiesFound] = col.gameObject;
-            enemiesFound++;
+			// Only target enemies that aren't hacked
+			EnemyLogic logic = col.gameObject.GetComponentInChildren<EnemyLogic>();
+			if (logic == null || !logic.IsHacked())
+			{
+				enemyList[enemiesFound] = col.gameObject;
+				enemiesFound++;
+			}
         }
     }
    
