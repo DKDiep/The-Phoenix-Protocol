@@ -57,6 +57,7 @@ public class ReadyScreen : NetworkBehaviour
     public void Reset()
     {
         GameObject musicObect = GameObject.Find("MusicManager(Clone)");
+        Camera.main.fov = 45;
 		Cursor.visible = true; //leave as true for development, false for production
         if (musicObect != null)
         {
