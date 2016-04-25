@@ -285,6 +285,10 @@ public class EngineerController : NetworkBehaviour
 				break;
 			}
         }
+
+        // Reset the highlighting on all upgradeable components
+        foreach (EngineerInteraction interaction in interactionObjects)
+            Highlight(interaction.Type);
     }
 
     /// <summary>

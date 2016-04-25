@@ -71,6 +71,7 @@ public class PlayerController : NetworkBehaviour
 
             // Set values for the client side PlayerController
             localController.engController = localController.controlledObject.GetComponent<EngineerController>();
+            localController.engController.Setup();
             localController.engController.Initialize(playerCamera, localController);
         }
 		else if(localController.role == RoleEnum.Commander)
