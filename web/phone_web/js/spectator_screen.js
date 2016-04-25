@@ -76,7 +76,7 @@ function startSpectatorScreen() {
     // Texture loader
     loader = new PIXI.loaders.Loader();
     loader.add("ship", "img/ship.png");
-    loader.add("stars", "img/stars.png");
+    loader.add("stars", "img/stars2.jpg"); // http://s3.amazonaws.com/everystockphoto/fspid31/31/20/26/1/tileable-classic-nebula-3120261-o.jpg
     loader.add("ast1", "img/asteroid11.png");
     loader.add("ast2", "img/asteroid22.png");
     loader.add("ast3", "img/asteroid33.png");
@@ -194,7 +194,6 @@ function init() {
     initTargetRay(loadedResources);
     stage.addChild(enemyLayer);
     stage.addChild(asteroidLayer);
-    // TODO: Only placeholders for now
     stage.addChild(hackingGameLayer);
     stage.addChild(tutorialLayer);
 
@@ -206,6 +205,7 @@ function init() {
         var touch = event.originalEvent.touches[0];
         hackProgressCheck(touch.pageX, touch.pageY);
     });
+
     renderUpdate();
 }
 
