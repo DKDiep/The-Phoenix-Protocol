@@ -1,12 +1,16 @@
+body {
+  background-color: #121212;
+}
 .spectators {
     margin-top:50px;
     margin-left:100px;
 }
 
 .spectotor_box {
+    background-image: url("img/player_bg.png");
+    background-size: 100% 100%;
     width: 40%;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0.2);
     margin-bottom:20px;
     padding:10px;
 }
