@@ -1488,7 +1488,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 024cb03b6316f0d4a8085a37d988d6a4, type: 3}
     m_FontSize: 18
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
@@ -2175,6 +2175,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2645,8 +2646,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.62539244, y: 1}
-  m_AnchoredPosition: {x: 24.999546, y: -45.000095}
-  m_SizeDelta: {x: -23.856964, y: -201.99933}
+  m_AnchoredPosition: {x: 24.999546, y: -50.000095}
+  m_SizeDelta: {x: -23.856964, y: -200.00008}
   m_Pivot: {x: -0.0000000037252903, y: 1.0000005}
 --- !u!224 &22484640
 RectTransform:

@@ -667,7 +667,7 @@ public class CommandConsoleState : MonoBehaviour {
         objectiveFeed.GetComponent<Text>().text = "";
         foreach (string objective in currentObjectives)
         {
-            objectiveFeed.GetComponent<Text>().text = objective + "\n" + objectiveFeed.GetComponent<Text>().text;
+            objectiveFeed.GetComponent<Text>().text = objectiveFeed.GetComponent<Text>().text + "- " + objective + "\n";
         }
     }
 
