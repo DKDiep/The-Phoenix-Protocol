@@ -896,6 +896,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		hackedAttackTraget  = null;
         controllingPlayerId = playerId;
 
+        if(hackedName.Length > 7)
+        {
+            hackedName = hackedName.Substring(0, 7) + "...";
+        }
+
 		controlObjectSyncParams.SetHacked(hacked);
 
 		if (hacked)

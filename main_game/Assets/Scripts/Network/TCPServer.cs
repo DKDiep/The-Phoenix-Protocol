@@ -178,11 +178,12 @@ public class TCPServer : MonoBehaviour
                 Debug.Log(fields);
                 int idOfControlled = Int32.Parse(fields[0]);
                 uint idOfControllingPlayer = UInt32.Parse(fields[1]);
+                String nameOfControllingPlayer = fields[2];
                 // Debug.Log("Received an Enemy Controll signal: id: " + idOfControlled);
 
                 // Set enemy to controlled by spectator
                 if (udpServer.InstanceIDToEnemy.ContainsKey(idOfControlled))
-                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().SetHacked(true, idOfControllingPlayer, "playerName");
+                    udpServer.InstanceIDToEnemy[idOfControlled].GetComponentInChildren<EnemyLogic>().SetHacked(true, idOfControllingPlayer, nameOfControllingPlayer);
                 else
                     Debug.LogError("Tried to take control of invalid enemy");
                 break;
