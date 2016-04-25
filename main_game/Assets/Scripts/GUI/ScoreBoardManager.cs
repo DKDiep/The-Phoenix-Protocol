@@ -16,6 +16,11 @@ public class ScoreBoardManager : MonoBehaviour
         gameState = server.GetComponent<GameState>();
 
         for(int i = 0; i < 4; i++) {
+            if((i+1) > gameState.GetOfficerCount())
+                scoreBoardItems[i].SetActive(false);
+            else
+                scoreBoardItems[i].SetActive(true);
+
             scoreBoardItems[i].transform.FindChild("playerScore").GetComponent<Text>().text = gameState.GetPlayerScore(i).ToString();
         }
     }

@@ -954,4 +954,11 @@ public class GameState : NetworkBehaviour {
     {
         return currentOfficers;
     }
+
+    public int GetOfficerCount()
+    {
+        if(currentOfficers == null)
+            return 1;
+        return currentOfficers.Count;
+    }
 }
