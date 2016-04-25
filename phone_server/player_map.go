@@ -137,6 +137,15 @@ func (players *PlayerMap) setPlayerRole(player *Player, setRole PlayerState) {
     players.setRoleC <- SetPlr{plr: player, role: setRole}
 }
 
+// Send a state update to all spectators
+func (players *PlayerMap) sendStateUpdateToSpectators() {
+    players.plrC <- struct{}{}
+    for _, plr := range players.mSpec {
+        plr.sendStateUpdate()
+    }
+    players.plrC <- struct{}{}
+}
+
 // Wrapper used for retrieving a user
 func (players *PlayerMap) get(playerId uint64) *Player {
     players.plrC <- struct{}{}
@@ -259,18 +268,18 @@ func (players *PlayerMap) resetPlayersAsync() {
         players.mSpec[k] = v
         v.score = 0
         delete(players.mOfficers, k)
+        v.setState(SPECTATOR)
     }
     // Reset commander
     if players.commander != nil {
         players.mSpec[players.commander.id] = players.commander
+        players.commander.setState(SPECTATOR)
         players.commander = nil
     }
-    // Reset all spectator states, puts them on standby as well
+    // Remove offline players
     for id, v := range players.mSpec {
         if v.user == nil {
             delete(players.mSpec, id)
-        } else {
-            v.setState(SPECTATOR)
         }
     }
 }

@@ -138,9 +138,7 @@ func decodeGameServerMessage(rawData []byte) {
     case "RMV_AST":
         removeAsteroids(msg["data"].([]interface{}))
     case "GM_END":
-        fmt.Println("Game Server: Received Game Over Signal.")
-        gameState.canEnterNextState = true
-    // TODO: handle more message types
+        enterGameOver()
     default:
         fmt.Println("Received unexpected message from Game Server of type: ", msg["type"])
     }
@@ -349,4 +347,17 @@ func incrementPlayerScore(data map[string]interface{}) {
     } else {
         fmt.Println("Error: Player is nil when trying to update score.")
     }
+}
+
+// Set necessary stuff for when the game has ended
+func enterGameOver() {
+    // stop the periodic updates of game objects
+    if gameState.updateStopC != nil {
+        gameState.updateStopC <- struct{}{}
+        gameState.updateStopC = nil
+    }
+
+    fmt.Println("Game Server: Received Game Over Signal.")
+    gameState.canEnterNextState = true
+    playerMap.sendStateUpdateToSpectators()
 }

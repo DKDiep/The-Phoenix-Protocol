@@ -326,7 +326,7 @@ func (plr *Player) getStateString() (out string) {
     case REJECTED:
         fallthrough
     case SPECTATOR:
-        if gameState.status == RUNNING {
+        if gameState.status == RUNNING && !gameState.canEnterNextState {
             out = "SPECTATOR"
         } else {
             out = "STANDBY"

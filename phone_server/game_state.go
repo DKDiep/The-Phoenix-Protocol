@@ -37,12 +37,6 @@ func (gs *GameState) enterSetupState() {
     gs.status = SETUP
     gs.canEnterNextState = false
 
-    // stop the periodic updates of game objects
-    if gs.updateStopC != nil {
-        gs.updateStopC <- struct{}{}
-        gs.updateStopC = nil
-    }
-    // TODO: send last game stats where appropriate
     // clears data structures
     playerShip.reset()
     asteroidMap.reset()
