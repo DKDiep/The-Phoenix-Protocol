@@ -556,7 +556,7 @@ MonoBehaviour:
   distanceSpawn: 0.95
   minParticleSize: 0.5
   maxParticleSize: 1
-  sizeMultiplier: 1
+  sizeMultiplier: 0.4
   minParticleDriftSpeed: 0
   maxParticleDriftSpeed: 1
   driftSpeedMultiplier: 1
