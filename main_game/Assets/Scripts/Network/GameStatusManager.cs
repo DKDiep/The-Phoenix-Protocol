@@ -78,7 +78,7 @@ public class GameStatusManager : NetworkBehaviour
             gameOverCanvas = Instantiate(Resources.Load("Prefabs/GameOverCanvas", typeof(GameObject))) as GameObject;
 			if(gameState.Status == GameState.GameStatus.Died) 
             {
-                gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship and the crew were killed.";
+                gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship has been destroyed";
                 gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "GAME OVER";
             }
 			else
