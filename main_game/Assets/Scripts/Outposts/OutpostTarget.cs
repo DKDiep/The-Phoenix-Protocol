@@ -24,6 +24,10 @@ public class OutpostTarget : NetworkBehaviour
     bool showTarget = true;
     private Camera mainCam;
     private Color currentColour;
+    private bool animationPlaying;
+    float size;
+    float targetScale = 0f;
+    float xValue;
 
     void Start () 
     {
@@ -39,9 +43,6 @@ public class OutpostTarget : NetworkBehaviour
         {
             mainCam = GameObject.Find("CommanderCamera").GetComponent<Camera>();
         }
-
-
-
     }
 
    void Update()
@@ -49,6 +50,21 @@ public class OutpostTarget : NetworkBehaviour
         if(player == null)
             player = Camera.main.gameObject;
         distance = Vector3.Distance(transform.position, player.transform.position); 
+
+        if(animationPlaying)
+        {
+            if(xValue < 107.7f)
+            {
+                xValue += 80f * Time.deltaTime;
+                targetScale = Mathf.Sin(Mathf.Deg2Rad * xValue) * 1.05f;
+            }
+            else
+            {
+                animationPlaying = false;
+                targetScale = 1;
+            }
+
+        }
    }
 
    public void StartMission()
@@ -61,6 +77,7 @@ public class OutpostTarget : NetworkBehaviour
    {
         currentColour = Color.yellow;
         showTarget = true;
+
    }
 
    public void ShowTarget()
@@ -82,6 +99,8 @@ public class OutpostTarget : NetworkBehaviour
    [ClientRpc]
    public void RpcShowTarget()
    {
+        animationPlaying = true;
+        targetScale = 0;
         showTarget = true;
    }
 
@@ -123,7 +142,7 @@ public class OutpostTarget : NetworkBehaviour
                 {
                     Vector3 screenPos = mainCam.WorldToScreenPoint(transform.position); // Convert from 3d to screen position
                     GUI.color = currentColour;
-                    float size = Mathf.Clamp(440f / (distance / 440f),0,440f); // Set size of target based on distance
+                    size = Mathf.Clamp(440f / (distance / 440f),0,440f) * targetScale; // Set size of target based on distance
 
                     GUI.DrawTexture(new Rect(screenPos.x - (size/2), Screen.height - screenPos.y - (size/2), size, size), target, ScaleMode.ScaleToFit, true, 0);
                 }
