@@ -22,6 +22,12 @@ public class TargetScript : MonoBehaviour
             renderer = GetComponent<Renderer>();
         StartCoroutine(UpdateDistance()); 
     }
+
+    void Update()
+    {
+        Vector3 v3 = player.transform.position - transform.position;
+        transform.rotation = Quaternion.LookRotation(-v3);
+    }
         
 
     IEnumerator UpdateDistance()
@@ -33,8 +39,6 @@ public class TargetScript : MonoBehaviour
                 renderer.enabled = false;
             else
             {
-                Vector3 v3 = player.transform.position - transform.position;
-                transform.rotation = Quaternion.LookRotation(-v3);
                 renderer.enabled = true;
                 if(Random.Range(0,1000) == 0)
                     AIVoice.SendCommand(Random.Range(19,22));

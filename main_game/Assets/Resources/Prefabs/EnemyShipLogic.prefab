@@ -115,6 +115,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hackedMaterial: {fileID: 2100000, guid: 4e6fbd6f0d926478f9f3a015fc5196dd, type: 2}
+  hackedTargetMaterial: {fileID: 2100000, guid: 7cfd37287fe9f4782a067746b4b34ef7,
+    type: 2}
+  targetMaterial: {fileID: 2100000, guid: b19427a79f09d4bb2bac73bce0c67fc3, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -259,6 +262,14 @@ Prefab:
       propertyPath: hackedMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 4e6fbd6f0d926478f9f3a015fc5196dd, type: 2}
+    - target: {fileID: 0}
+      propertyPath: hackedTargetMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 7cfd37287fe9f4782a067746b4b34ef7, type: 2}
+    - target: {fileID: 0}
+      propertyPath: targetMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b19427a79f09d4bb2bac73bce0c67fc3, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 124810}

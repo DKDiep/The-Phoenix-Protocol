@@ -141,6 +141,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
     [SerializeField] Material hackedMaterial;
+    [SerializeField] Material hackedTargetMaterial;
+    [SerializeField] Material targetMaterial;
 	#pragma warning restore 0649
 
     Material originalGlow;
@@ -824,7 +826,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		if (currentWaypoint != null && currentWaypoint.name.Equals(AVOID_WAYPOINT_NAME))
 			Destroy(currentWaypoint);
 
-		SetHacked(false, 0);
+		SetHacked(false, 0, "");
         accumulatedPlayerScore = 0;
 		angleGoodForShooting = shoot = false;
 
@@ -888,7 +890,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     /// to val
     /// </summary>
     /// <param name="val">The boolean value that hacked should take</param>
-    public void SetHacked(bool val, uint playerId)
+    public void SetHacked(bool val, uint playerId, string hackedName)
     {
         hacked 			    = val;
 		hackedAttackTraget  = null;
@@ -901,9 +903,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When an enemy becomes hacked, it starts following the ship
 			FollowPlayer();
 			state = EnemyAIState.Hacked;
-			ChangeGlowColour();
+			//ChangeGlowColour();
 			if (enemyManager != null)
-				enemyManager.RpcSetHackedGlow(gameObject.name);
+				enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
 			//Debug.Log("Hacked: " + controlObject.name + " with logic " + this.gameObject.name);
 		}
 		else
@@ -919,6 +921,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         GameObject lights = transform.parent.Find("pattern").gameObject;
         lights.GetComponent<Renderer>().material = hackedMaterial;
+        transform.parent.Find("Target").GetComponent<Renderer>().material = hackedTargetMaterial;
     }
 
     private void ResetGlowColour()
@@ -926,6 +929,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		enemyManager.RpcResetHackedGlow(transform.parent.gameObject.name);
         GameObject lights = transform.parent.Find("pattern").gameObject;
         lights.GetComponent<Renderer>().material = originalGlow;
+        transform.parent.Find("Target").GetComponent<Renderer>().material = targetMaterial;
     }
 
     /// <summary>

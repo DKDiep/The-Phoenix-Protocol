@@ -16,6 +16,8 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] private bool serverOnly;
     [SerializeField] private bool useInterpolation;
     [SerializeField] Material hackedMaterial;
+    [SerializeField] Material targetMaterial;
+    [SerializeField] Material hackedTargetMaterial;
     [SerializeField] Material[] enemyGlows;
 	#pragma warning restore 0649
 
@@ -78,12 +80,14 @@ public class ObjectPoolManager : NetworkBehaviour
 	}
 
     [ClientRpc]
-    public void RpcSetHackedGlow(string name)
+    public void RpcSetHackedGlow(string name, string hackedName)
     {
         if(!isCommander)
         {
             int id = int.Parse(name);
             GameObject lights = pool[id].transform.Find("pattern").gameObject;
+            pool[id].transform.Find("Target").GetComponent<Renderer>().material = hackedTargetMaterial;
+            pool[id].transform.Find("Target").GetComponentInChildren<TextMesh>().text = hackedName;
             lights.GetComponent<Renderer>().material = hackedMaterial;
         }
 
@@ -97,7 +101,8 @@ public class ObjectPoolManager : NetworkBehaviour
         {
             int id = int.Parse(name);
             GameObject lights = pool[id].transform.Find("pattern").gameObject;
-
+            pool[id].transform.Find("Target").GetComponentInChildren<TextMesh>().text = "";
+            pool[id].transform.Find("Target").gameObject.GetComponent<Renderer>().material = targetMaterial;
             if(this.gameObject.name.Contains("Gnat"))
                 lights.GetComponent<Renderer>().material = enemyGlows[0];
             else if(this.gameObject.name.Contains("Firefly"))
