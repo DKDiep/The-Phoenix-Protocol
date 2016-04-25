@@ -170,6 +170,9 @@ public class CommandConsoleState : MonoBehaviour {
         stratMap.Reset();
         currentObjectives.Clear();
         EventSystem.current.SetSelectedGameObject(null);    //deselect all the buttons
+
+        // Reset all highlighting
+        shipControl.HighlightComponent(-1);
     }
 
     private void LoadSettings()
