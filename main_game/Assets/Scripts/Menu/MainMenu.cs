@@ -184,6 +184,8 @@ public class MainMenu : NetworkBehaviour
 			configDisabled = true;
 			Debug.Log("Config loading disabled");
 
+			i++;
+
 			// Skip comment lines
 			while (lines[i].StartsWith("#") && i < lines.Length)
 				i++;
@@ -199,7 +201,7 @@ public class MainMenu : NetworkBehaviour
 		}
 		else
 			networkAddressInputField.text = lines[i];
-			
+
 		i++;
 
 		// If the disable flag is set, only load the IP address
