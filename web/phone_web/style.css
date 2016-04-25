@@ -1,7 +1,12 @@
 body, html {
+    font-family: 'XoloniumBold';
     background-color: #030303;
-  margin: 0px;
-  color: #eee;
+    margin: 0px;
+    color: #eee;
+}
+@font-face{
+    font-family: 'XoloniumBold';
+    src: url('fonts/XoloniumBold.otf') format('opentype');
 }
 
 #screen {
