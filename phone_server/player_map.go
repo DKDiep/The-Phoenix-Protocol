@@ -280,6 +280,9 @@ func (players *PlayerMap) resetPlayersAsync() {
     for id, v := range players.mSpec {
         if v.user == nil {
             delete(players.mSpec, id)
+        } else {
+            v.isControllingEnemy = false
+            v.controlledEnemyId = 0
         }
     }
 }
