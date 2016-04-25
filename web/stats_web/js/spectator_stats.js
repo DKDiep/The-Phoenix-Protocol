@@ -6,7 +6,7 @@ $(document).ready(function(){
             } else {
                 $('#spectator_stats').html("");
                 $.each(result.spectators, function(index, player) {
-                    $('#spectator_stats').append('<div class="spectotor_box"><div class="name">'+player.name+'</div><div class="score">'+player.score+'</div></div>');
+                    $('#spectator_stats').append('<div class="spectotor_box" id="spec'+index+'"><div class="name">'+player.name+'</div><div class="score">'+player.score+'</div></div>');
                 });
             }
         });

@@ -1,18 +1,44 @@
 body {
+    font-family: 'XoloniumBold';
   background-color: #121212;
 }
 .spectators {
-    margin-top:50px;
+    width:500px;
+    margin-top:40px;
     margin-left:100px;
+    float:left;
 }
-
-.spectotor_box {
+.game {
+    width: 550px;
+    height: 600px;
+    margin-top:40px;
+    margin-right:100px;
+    float:right;
+}
+@font-face{
+    font-family: 'XoloniumBold';
+    src: url('fonts/XoloniumBold.otf') format('opentype');
+}
+.title {
+    margin-top:20px;
+    margin-left:100px;
+    font-size: 35px;
+}
+#spec0, #spec1, #spec2, #spec3 {
+    background-image: url("img/player_bg_highlight.png");
+}
+#spec4, #spec5, #spec6, #spec7, #spec8, #spec9 {
     background-image: url("img/player_bg.png");
+}
+.spectotor_box {
     background-size: 100% 100%;
-    width: 40%;
+    width: 100%;
     height: 50px;
     margin-bottom:20px;
-    padding:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right:20px;
 }
 
 .spectotor_box > .name {
