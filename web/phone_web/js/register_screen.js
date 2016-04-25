@@ -1,3 +1,12 @@
+
+$(document).ready(function() {
+    if(window.location.hash.substr(1) == "auto")
+    {
+        Cookies.set("seen_tutorial", true)
+        Cookies.set("user_id", 1)
+    }
+});
+
 // Intialisation fucntion for the screen
 function startRegisterScreen() {
     // Do initialisation
