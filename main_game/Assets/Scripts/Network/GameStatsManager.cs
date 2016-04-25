@@ -43,8 +43,7 @@ public class GameStatsManager : MonoBehaviour
         totalScore += gameState.GetUpgradableComponent(ComponentType.ShieldGenerator).Level * settings.shieldsWeighting;
         totalScore += gameState.GetUpgradableComponent(ComponentType.Turret).Level * settings.turretWeighting;
 
-        //this should be changed to take player input;
-        string teamName = "\"cockpit spacenauts\"";
+        string teamName = "\"" + gameState.GetTeamName() + "\"";
         string jsonMsg = "{\"team_name\":" + teamName + ",";
         jsonMsg += "\"score\":" + (int)totalScore;
         jsonMsg += "}";
