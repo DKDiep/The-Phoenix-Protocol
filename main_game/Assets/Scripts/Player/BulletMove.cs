@@ -4,13 +4,26 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class BulletMove : MonoBehaviour, IDestructionListener
+public class BulletMove : NetworkBehaviour, IDestructionListener
 {
 	private GameObject target = null;
     [SerializeField] float forceSpeed;
 
 	public float Speed { get; set; }
+
+
+    public void ForceRotation(Vector3 lookPos)
+    {
+        RpcForceRotation(lookPos);
+    }
+
+    [ClientRpc]
+    void RpcForceRotation(Vector3 lookPos)
+    {
+        transform.LookAt(lookPos);
+    }
 
 	void Start()
 	{

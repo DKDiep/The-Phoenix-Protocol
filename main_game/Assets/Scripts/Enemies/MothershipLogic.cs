@@ -54,8 +54,10 @@ public class MothershipLogic : MonoBehaviour {
         {
             GameObject beam = Instantiate(beamObject, bulletSpawnLocation.transform.position, Quaternion.identity) as GameObject;
             beam.transform.LookAt(targetPos);
-            beam.GetComponent<BulletMove>().Speed = 250f;
+            BulletMove move = beam.GetComponent<BulletMove>();
+            move.Speed = 250f;
             ServerManager.NetworkSpawn(beam);
+            move.ForceRotation(targetPos);
             beam.GetComponent<Collider>().enabled = true;
             GameObject beamLogic = Instantiate(beamLogicObject, bulletSpawnLocation.transform.position, Quaternion.identity) as GameObject;
             beamLogic.transform.parent = beam.transform;
