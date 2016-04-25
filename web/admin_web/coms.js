@@ -108,6 +108,7 @@ function sendStartGameSignal() {
         return
     } else {
         $('#team-name-error').html("")
+        $('#team-name').val("")
     }
 
     var msg = {
