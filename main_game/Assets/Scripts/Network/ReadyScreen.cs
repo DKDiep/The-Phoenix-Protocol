@@ -79,6 +79,7 @@ public class ReadyScreen : NetworkBehaviour
         serverManager.cutsceneManager.GetComponent<LoadingText>().Reset();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Reset();
         serverManager.cutsceneManager.GetComponent<LoadingText>().Play();
+        serverManager.cutsceneManager.GetComponent<LoadingText>().MuteAudio();
         serverManager.cutsceneManager.GetComponent<FadeTexture>().Play();
 		serverManager.spawner.GetComponent<EnemySpawner>().StartDifficultyTimer();
 
