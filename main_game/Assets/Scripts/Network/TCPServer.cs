@@ -175,7 +175,6 @@ public class TCPServer : MonoBehaviour
                 break;
             case "CTRL":
                 fields = parts[1].Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
-                Debug.Log(fields);
                 int idOfControlled = Int32.Parse(fields[0]);
                 uint idOfControllingPlayer = UInt32.Parse(fields[1]);
                 String nameOfControllingPlayer = fields[2];
