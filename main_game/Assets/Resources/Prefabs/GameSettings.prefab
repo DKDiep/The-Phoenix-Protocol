@@ -179,7 +179,7 @@ MonoBehaviour:
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
   EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   PortalPosition: {x: 2000, y: 500, z: 0}
-  GlomMothershipHealth: 4000
+  GlomMothershipHealth: 15000
   GlomMothershipSpawnDistance: 2000
   GlomMothershipSpawnPosition: {x: 1135, y: 375, z: -209}
   GlomMothershipDamageEffects1: 0
@@ -215,7 +215,8 @@ MonoBehaviour:
   OutpostMaxAsteroidFieldDensity: 0.8
   OutpostSpawnLocations:
   - {x: -1800, y: 100, z: -1000}
-  OutpostDifficulties: 00000000
+  - {x: 786, y: 107, z: -219}
+  OutpostDifficulties: 0000000002000000
   OutpostSpawnLocationsVariance: 10
   PlayerShipTurnSpeed: 5.5
   PlayerShipSlowDown: 1
@@ -497,6 +498,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostDifficulties.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostSpawnLocations.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[2].triggerConditions.Array.size
@@ -793,7 +802,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipHealth
-      value: 4000
+      value: 15000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipSpawnDistance
@@ -930,6 +939,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: OutpostResourceCollectionDistance
       value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostDifficulties.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostSpawnLocations.Array.data[1].x
+      value: 786
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostSpawnLocations.Array.data[1].z
+      value: -219
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: OutpostSpawnLocations.Array.data[1].y
+      value: 107
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
