@@ -9,7 +9,10 @@ $(document).ready(function() {
 });
 
 $(document).click(function(e) {
-    launchIntoFullscreen(document.documentElement);
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        launchIntoFullscreen(document.documentElement);
+    }
+
 });
 
 function launchIntoFullscreen(element) {
