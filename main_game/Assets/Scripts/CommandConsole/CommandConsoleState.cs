@@ -35,8 +35,7 @@ public class CommandConsoleState : MonoBehaviour {
     [SerializeField] private GameObject missionWindowBG;
     [SerializeField] private GameObject healthBarPanel;
     [SerializeField] private GameObject shieldBarPanel;
-
-
+    [SerializeField] private List<GameObject> abilityObjects;
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color highlightColor;
@@ -57,7 +56,11 @@ public class CommandConsoleState : MonoBehaviour {
 
     private List<string> currentObjectives = new List<string>();
     private Image[] pulsateableImages;
+    private Image[] abilityImages;
+    private Image[] abilityCooldownImages;
+    private Button[] abilityButtons;
     private bool[] pulsateToggle;
+    private float[] abilityCooldowns;
     private UpgradeProperties[] upgradeProperties;
 
     private Image newsFeedImage;
@@ -90,6 +93,20 @@ public class CommandConsoleState : MonoBehaviour {
         pulsateableImages[(int)UIElementEnum.MissionWindow] = missionWindowBG.GetComponent<Image>();
         pulsateableImages[(int)UIElementEnum.UpgradeInfo] = upgradeInfoBG.GetComponent<Image>();
         pulsateableImages[(int)UIElementEnum.NewsFeed] = newsFeedBG.GetComponent<Image>();
+
+        abilityCooldowns = new float[Enum.GetNames(typeof(AbilityEnum)).Length];
+        abilityButtons = new Button[Enum.GetNames(typeof(AbilityEnum)).Length];
+        abilityImages  = new Image[Enum.GetNames(typeof(AbilityEnum)).Length];
+        abilityCooldownImages = new Image[Enum.GetNames(typeof(AbilityEnum)).Length];
+
+
+        for (int i = 0; i < Enum.GetNames(typeof(AbilityEnum)).Length; i++)
+        {
+            abilityButtons[i] = abilityObjects[i].GetComponent<Button>();
+            abilityImages[i] = abilityObjects[i].GetComponent<Image>();
+            abilityCooldownImages[i] = abilityObjects[i].transform.GetChild(0).gameObject.GetComponent<Image>();
+            abilityCooldowns[i] = 60.0f;
+        }
 
         for (int i = 0; i < pulsateToggle.Length; i++)
         {
@@ -218,6 +235,12 @@ public class CommandConsoleState : MonoBehaviour {
             UpdateAllText();
             UpdateCostColors();
             UpdateHealthShieldBars();
+            for (int ability = 0; ability < Enum.GetNames(typeof(AbilityEnum)).Length; ability++)
+            {
+                abilityCooldownImages[(int)ability].fillAmount = Mathf.Max(0, 1 - abilityCooldowns[(int)ability]/60);
+                abilityCooldowns[(int)ability] += (float)second;
+                if (abilityCooldowns[(int)ability] > 60) abilityButtons[(int)ability].interactable = true;
+            }
             second = 0;
         }
     }
@@ -330,26 +353,28 @@ public class CommandConsoleState : MonoBehaviour {
         return false;
     }
 
-    public void UseOverdrive()
+    public void UseAbility(int ability)
     {
-        playerController.CmdUseOverdrive();
+        AbilityEnum abilityEnum = (AbilityEnum)ability;
+        abilityCooldowns[ability] = 0;
+        abilityButtons[ability].interactable = false;
+        switch (abilityEnum)
+        {
+            case AbilityEnum.OverDrive:
+                playerController.CmdUseOverdrive();
+                break;
+            case AbilityEnum.Boost:
+                playerController.CmdUseBoost();
+                break;
+            case AbilityEnum.EMP:
+                playerController.CmdUseEMP();
+                break;
+            case AbilityEnum.SmartBomb:
+                playerController.CmdUseSmartBomb();
+                break;
+        }
     }
-
-    public void UseBoost()
-    {
-        playerController.CmdUseBoost();
-    }
-
-    public void UseEMP()
-    {
-        playerController.CmdUseEMP();
-    }
-
-    public void UseSmartBomb()
-    {
-        playerController.CmdUseSmartBomb();
-    }
-
+      
     public void OutpostVisitNotify(int resources, int civilians, int id)
     {
         UpdateNewsFeed("[Outpost] Collected " + resources + " Resources");
