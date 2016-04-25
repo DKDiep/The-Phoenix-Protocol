@@ -102,6 +102,13 @@ public class ShieldEffects : NetworkBehaviour
 
     }
 
+    public void ActivateOverdrive()
+    {
+        if(shieldAlpha > 0.95f)
+            shieldAlpha = 0.95f;
+        overdriveEnabled = true;
+    }
+
     // When player is hit, initialise shield fade values
     public void Impact(float value)
     {
