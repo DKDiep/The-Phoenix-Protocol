@@ -14,6 +14,9 @@ public class StratMap : MonoBehaviour {
     private int objective;
     private int scaleFactor = 40;
     private Vector3 mapDisplacement = new Vector3(2000, 0, 0);         //Only edit the first two arguments (x and y). 
+    private Vector3 rotationVector = new Vector3(0, 0, 90);
+    private Quaternion rotation;
+
     Dictionary<int,GameObject> outpostIconDict;
     public GameObject Portal { get; set; }
     private Sprite savedOutpostSprite;
@@ -33,6 +36,7 @@ public class StratMap : MonoBehaviour {
         RectTransform panelRectTransform = (RectTransform)panel.transform;
         panelHeight = panelRectTransform.sizeDelta.y;
         panelWidth = panelRectTransform.sizeDelta.x;
+        rotation = Quaternion.Euler(rotationVector);
         PortalInit();
         outpostIconDict = new Dictionary<int,GameObject>();
         savedOutpostSprite = Resources.Load("Sprites/savedOutpost", typeof(Sprite)) as Sprite;
@@ -66,7 +70,7 @@ public class StratMap : MonoBehaviour {
             GameObject outpostIcon = Instantiate(Resources.Load("Prefabs/OutpostIcon", typeof(GameObject))) as GameObject;
             outpostIcon.transform.SetParent(panel.transform, false);
             RectTransform outpostRectTransform = (RectTransform)outpostIcon.transform;
-            Vector3 screenPos = new Vector3(outpost.transform.position.x/scaleFactor, outpost.transform.position.z/scaleFactor,0) + mapDisplacement/scaleFactor;
+            Vector3 screenPos = rotation * (new Vector3(outpost.transform.position.x/scaleFactor, outpost.transform.position.z/scaleFactor,0) + mapDisplacement/scaleFactor);
             outpostRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
                 outpostIcon.SetActive(true);
@@ -85,7 +89,7 @@ public class StratMap : MonoBehaviour {
             GameObject portalSymbol = Instantiate(Resources.Load("Prefabs/PortalIcon", typeof(GameObject))) as GameObject;
             portalSymbol.transform.SetParent(panel.transform, false);
             RectTransform portalRectTransform = (RectTransform)portalSymbol.transform;
-            Vector3 screenPos = new Vector3(Portal.transform.position.x / scaleFactor, Portal.transform.position.z / scaleFactor, 0) + mapDisplacement / scaleFactor;
+            Vector3 screenPos = rotation * (new Vector3(Portal.transform.position.x / scaleFactor, Portal.transform.position.z / scaleFactor, 0) + mapDisplacement / scaleFactor);
             portalRectTransform.anchoredPosition = screenPos;
             if (WithinBounds(screenPos))
                 portalSymbol.SetActive(true);
@@ -133,13 +137,14 @@ public class StratMap : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Vector3 screenPos = new Vector3(shipTransform.position.x / scaleFactor, shipTransform.position.z / scaleFactor, 0) + mapDisplacement / scaleFactor;
+        Vector3 screenPos = rotation * (new Vector3(shipTransform.position.x / scaleFactor, shipTransform.position.z / scaleFactor, 0) + mapDisplacement / scaleFactor);
         playerIconTransform.anchoredPosition = screenPos;
         Quaternion shipRotation = shipTransform.rotation;
         Vector3 eulerRotation = shipRotation.eulerAngles;
         Quaternion newRotation = Quaternion.identity;
         newRotation.eulerAngles = new Vector3(0, 0, -eulerRotation.y);
         playerIconTransform.localRotation = newRotation;
+        playerIconTransform.Rotate(rotationVector);
         if (WithinBounds(screenPos))
             playerIcon.SetActive(true);
         else playerIcon.SetActive(false);
