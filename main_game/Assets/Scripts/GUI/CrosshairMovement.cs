@@ -123,7 +123,13 @@ public class CrosshairMovement : NetworkBehaviour
         for (int i = 0; i < 4; i++)
 		{
 			selectedCrosshair = crosshairs[i].transform;
-			selectedCrosshair.position = GetPosition(i);
+
+			// Interpolate towards the current aiming position
+			Vector2 currentPosition = selectedCrosshair.position, newPosition = GetPosition(i);
+			//if (crosshairs[i].activeSelf == visibleCrosshairs[i])
+			selectedCrosshair.position = Vector2.Lerp(currentPosition, newPosition, Time.deltaTime * wiimoteInterpolationFactor);
+			/*else
+				selectedCrosshair.position = newPosition;*/
 
 			// Disable the crosshair on this screen if it's on another screen
 			crosshairs[i].SetActive(visibleCrosshairs[i]);
@@ -134,10 +140,8 @@ public class CrosshairMovement : NetworkBehaviour
             Target target = GetClosestTarget(ray);
 
             if (!target.IsNone())
-            {
-                targets[i] = target.GetAimPosition();
                 selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
-            }
+
             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
         
