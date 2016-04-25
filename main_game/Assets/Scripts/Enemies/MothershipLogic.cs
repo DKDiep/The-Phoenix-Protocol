@@ -46,7 +46,8 @@ public class MothershipLogic : MonoBehaviour {
     IEnumerator ShootBeam()
     {
         yield return new WaitForSeconds(Random.Range(10,20));
-
+        if(gameState.Status == GameState.GameStatus.Died)
+            yield break;
         Vector3 targetPos = player.transform.position + (player.transform.forward * (Vector3.Distance(transform.position, player.transform.position) / Random.Range(10f,14f)));
         int numberOfBeams = Random.Range(7,14);
 
@@ -95,6 +96,12 @@ public class MothershipLogic : MonoBehaviour {
         spawner = temp;
         spawner.mothershipEnemySpawner = transform.parent.Find("MothershipEnemySpawner").gameObject;
         StartCoroutine(SpawnEnemies());
+    }
+
+    private void Update()
+    {
+        if(gameState.Status == GameState.GameStatus.Won)
+            Destroy(transform.parent.gameObject);
     }
 
     IEnumerator SpawnEnemies()
