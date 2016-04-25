@@ -178,21 +178,21 @@ public class OutpostSpawner : MonoBehaviour
             int numGuards = Random.Range(settings.HardMinEnemies, settings.HardMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
 			SpawnAsteroidFieldAroundOutpost(outpostObject.transform.position);
-            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.HardMultiplier);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(0, settings.HardMultiplier);
             hardOutposts++;
         }
         else if(difficulty == DifficultyEnum.Medium)
         {
             int numGuards = Random.Range(settings.MediumMinEnemies, settings.MediumMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
-            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(2, settings.MediumMultiplier);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(1, settings.MediumMultiplier);
             mediumOutposts++;
         }
         else
         {
             int numGuards = Random.Range(settings.EasyMinEnemies, settings.EasyMaxEnemies);
 			enemySpawner.RequestSpawnForOutpost(numGuards, spawnLocation.transform.position, guardTriggerDistance);
-            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(3, settings.EasyMultiplier);
+            outpostLogic.GetComponent<OutpostLogic>().SetDifficulty(2, settings.EasyMultiplier);
             easyOutposts++;
         }
 	}
