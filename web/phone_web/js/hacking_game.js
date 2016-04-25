@@ -41,7 +41,9 @@ function decrementHackProgress() {
     // Only decrement if the hack progress isn't zero
     if (hackProgress > 0) {
         hackProgress -= 2
-        targetEnemySprite.touchTarget.alpha = 0;
+        if(targetEnemySprite != undefined) {
+            targetEnemySprite.touchTarget.alpha = 0;
+        }
 
         if (hackProgress <= 0) {
             resetHackProgress()

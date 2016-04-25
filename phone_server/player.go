@@ -213,12 +213,17 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
     enemies_data := make([]map[string]interface{}, 0)
     // Add enemies to the message
     for id, enemy := range enemies {
+        name := ""
+        if enemy.isControlled {
+            name = enemy.controllingPlayer.userName
+        }
         enemies_data = append(enemies_data, map[string]interface{}{
             "id": id,
             "x":  enemy.pos.x,
             "y":  enemy.pos.y,
             "rot":      math.Atan2(enemy.forward.y, enemy.forward.x) - math.Pi/2,
             "isHacked": enemy.isControlled,
+            "name": name,
         })
     }
 

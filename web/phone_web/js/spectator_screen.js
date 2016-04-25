@@ -22,6 +22,7 @@ var minDim;
 var stage;
 // Layers
 var enemyLayer;
+var enemyNamesLayer;
 var asteroidLayer;
 var hackingGameLayer;
 var tutorialLayer;
@@ -106,6 +107,7 @@ function finaliseSpectatorScreen() {
 
     stage = undefined;
     enemyLayer = undefined;
+    enemyNamesLayer = undefined;
     asteroidLayer = undefined;
     hackingGameLayer = undefined;
     tutorialLayer = undefined;
@@ -193,6 +195,7 @@ function init() {
     initPlayerShip(loadedResources);
     initTargetRay(loadedResources);
     stage.addChild(enemyLayer);
+    stage.addChild(enemyNamesLayer);
     stage.addChild(asteroidLayer);
     stage.addChild(hackingGameLayer);
     stage.addChild(tutorialLayer);
@@ -228,6 +231,7 @@ function initLayers() {
     stage.mouseup = stage.touchend = leftHackingTarget
     asteroidLayer = new PIXI.Container();
     enemyLayer = new PIXI.Container();
+    enemyNamesLayer = new PIXI.Container();
     hackingGameLayer = new PIXI.Container();
     tutorialLayer = new PIXI.Container();
 }
@@ -555,9 +559,10 @@ function updateEnemies(enemyData) {
     for (id in enemies) {
         var enemy = enemies[id];
         hackingGameLayer.removeChild(touchTargets[enemy.spaceGameId]);
+        enemyNamesLayer.removeChild(enemy.textObj);
         delete touchTargets[enemy.spaceGameId];
         enemyLayer.removeChild(enemy);
-        if(enemy == targetRay.target) { disableTargetRay()}
+        if(enemy == targetRay.target) {disableTargetRay()}
     }
     // Add new ones
     for (id in toAdd) {
@@ -579,8 +584,10 @@ function newEnemy(enmData) {
     spritePosition(newEnm, enmData.x, enmData.y);
     newEnm.rotation = -enmData.rot
     spriteScale(newEnm);
+    newEnm.textObj = generateTextBox(newEnm);
     newEnm.isHacked = enmData.isHacked
     if(newEnm.isHacked && newEnm.spaceGameId != controlledEnemyId) {
+        setName(newEnm.textObj, enmData.name);
         var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
         overlay.anchor.x = 0.5
         overlay.anchor.y = 0.5
@@ -589,6 +596,24 @@ function newEnemy(enmData) {
     newEnm.touchTarget = generateTouchTarget(newEnm);
 
     return newEnm
+}
+
+function generateTextBox(enemy) {
+    textBox = new PIXI.Text("",{font : '1.5em Arial', fill : 0x00ff00, align : 'center'});
+    textBox.position = enemy.position
+    textBox.anchor.x = 0.5
+    textBox.anchor.y = 1.7
+    enemyNamesLayer.addChild(textBox);
+    return textBox;
+}
+
+function setName(textObj, userName) {
+    if(userName.length > 7) {
+        name = userName.substring(0, 7) + "..."
+    } else {
+        name = userName
+    }
+    textObj.text = name
 }
 
 // Generate a target for the specified enemy
@@ -631,6 +656,7 @@ function updateEnemy(enemy, enmData) {
     enemy.isHacked = enmData.isHacked
     if(enemy.isHacked && enemy.spaceGameId != controlledEnemyId) {
         enemy.touchTarget.interactive = false
+        setName(enemy.textObj, enmData.name);
         if(!enemy.hasOverlay) {
             enemy.hasOverlay = true
             var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
