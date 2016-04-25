@@ -4,11 +4,15 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class AsteroidCollision : MonoBehaviour 
 {
 	private float collisionDamage;
     private AsteroidLogic myLogic;
+    private ShipMovement shipMovement;
+
+    private readonly Regex turretRegex = new Regex("Turret[012][LR]");
 
     void Start()
     {
@@ -26,10 +30,18 @@ public class AsteroidCollision : MonoBehaviour
 		if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
 			GameObject hitObject        = col.gameObject;
-			ShipMovement movementScript = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
 
-			if (movementScript != null)
-				movementScript.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+            if(shipMovement == null)
+            {
+                if (turretRegex.IsMatch(hitObject.name))
+                        shipMovement = hitObject.transform.parent.GetComponentInChildren<ShipMovement>();
+                else
+                        shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+            }
+
+
+			if (shipMovement != null)
+				shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
             if(myLogic != null)
 				myLogic.collision(1000f);
 		}
