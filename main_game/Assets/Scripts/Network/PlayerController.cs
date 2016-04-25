@@ -52,7 +52,7 @@ public class PlayerController : NetworkBehaviour
         {
             Transform shipTransform = GameObject.Find("PlayerShip(Clone)").transform;
             playerCamera.transform.parent = shipTransform;
-            playerCamera.transform.localPosition = new Vector3(0.0f, -0.72f, -4.2f);
+            playerCamera.transform.localPosition = new Vector3(0.0f, -0.72f, -4.16f);
 
         }
         else if (localController.role == RoleEnum.Engineer)
