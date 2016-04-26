@@ -28,6 +28,7 @@ public class TCPServer : MonoBehaviour
     private GameState gameState;
     private UDPServer udpServer;
     private ServerManager serverManager;
+    private GameStatsManager statsManager;
     private TcpListener tcpServer = null;
     private Socket client 		  = null;
     private bool connected	      = false; 			// no easy way to tell from library
@@ -42,7 +43,7 @@ public class TCPServer : MonoBehaviour
         gameState = this.gameObject.GetComponent<GameState>();
         udpServer = this.gameObject.GetComponent<UDPServer>();
         serverManager = this.gameObject.GetComponent<ServerManager>();
-
+        statsManager = this.gameObject.GetComponent<GameStatsManager>();
         // Start listening for client requests
         tcpServer.Start();
         
@@ -152,12 +153,12 @@ public class TCPServer : MonoBehaviour
 
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 gameState.SetTeamName(fields[0]);
-
+                statsManager.SetStatsIP(fields[1]);
                 // Clear the officer dictionary to avoid having officers from last game in there
                 officerMap.Clear();
                 uint remoteId = 0;
 
-                for (int i = 1; i < fields.Length; i++)
+                for (int i = 2; i < fields.Length; i++)
                 {
                     string plr = fields[i];
                     subFields = plr.Split(PLUS, StringSplitOptions.RemoveEmptyEntries);
@@ -170,6 +171,7 @@ public class TCPServer : MonoBehaviour
 
                 // Send the map of officers to clients that need it
                 serverManager.SendOfficers();
+
                 ReadyScreen readyScreen = GameObject.Find("ReadyCanvas(Clone)").GetComponent<ReadyScreen>();
                 readyScreen.InitialiseGame();
                 break;

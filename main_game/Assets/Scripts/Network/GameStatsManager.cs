@@ -6,6 +6,8 @@ public class GameStatsManager : MonoBehaviour
 {
     private GameState gameState;
     private GameSettings settings;
+    // The stats server Ip, defaults to localhost
+    private string serverIp = "localhost";
     // Use this for initialization
     void Start()
     {
@@ -15,6 +17,12 @@ public class GameStatsManager : MonoBehaviour
         {
             StartCoroutine(SendRequest());
         }
+    }
+
+    public void SetStatsIP(string ip)
+    {
+        Debug.Log("Setting Stats Ip Address to " + ip);
+        serverIp = ip;
     }
 
     public int CalculateAndSendGameScore()
@@ -74,7 +82,7 @@ public class GameStatsManager : MonoBehaviour
                 jsonMsg += "\"shipHealth\": " + (int)gameState.GetShipHealth();
                 jsonMsg += "}";
 
-                string url = "http://localhost:8081/game_data";
+                string url = "http://"+serverIp+":8081/game_data";
                 WWWForm form = new WWWForm();
                 form.AddField("JSON:", jsonMsg);
                 WWW www = new WWW(url, form);
@@ -88,7 +96,7 @@ public class GameStatsManager : MonoBehaviour
 
     IEnumerator SendFinalRequest(string jsonMsg)
     {
-        string url = "http://localhost:8081/save_game_data";
+        string url = "http://"+serverIp+":8081/save_game_data";
         WWWForm form = new WWWForm();
         form.AddField("JSON:", jsonMsg);
         WWW www = new WWW(url, form);

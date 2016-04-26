@@ -99,6 +99,7 @@ function sendInviteOfficersSingnal() {
 function sendStartGameSignal() {
     // Get the team name from the textbox
     var team_name = $('#team-name').val()
+    var stats_ip = $('#stats-ip').val()
 
     // If the team name is invalid we show an error message
     // and return
@@ -113,7 +114,7 @@ function sendStartGameSignal() {
 
     var msg = {
         type: "GM_STRT",
-        data: team_name
+        data: team_name + "," + stats_ip
     }
     serverSocket.send(JSON.stringify(msg));
 }
