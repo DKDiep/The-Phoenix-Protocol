@@ -351,11 +351,12 @@ MonoBehaviour:
   PlayerFireSoundRandomPitch: 1
   PlayerBulletAccuracy: 0.9
   PlayerBulletSpeed: 800
-  WiimoteInterpolationFactor: 5
+  WiimoteInterpolationFactor: 6
   PlayerMaxAmmo: 100
-  PlayerShootingAmmoCost: 5
-  PlayerAmmoRechargeValue: 20
-  PlayerAmmoRechargeInterval: 0.1
+  PlayerShootingAmmoCost: 3
+  PlayerAmmoRechargeValue: 40
+  PlayerAmmoRechargeInterval: 0.5
+  PlayerAmmoRehargeDelay: 0.5
   missionProperties:
   - active: 1
     name: Welcome Commander

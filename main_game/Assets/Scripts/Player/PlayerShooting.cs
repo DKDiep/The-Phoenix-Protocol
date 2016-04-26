@@ -18,7 +18,7 @@ public class PlayerShooting : MonoBehaviour
 	private float accuracy;
 	private float speed;
 	private int ammo, maxAmmo, shootAmmoCost, ammoRechargeValue;
-	private float ammoRechargeDelay;
+	private float ammoRechargeInterval, ammoRechargeDelay;
 
 	private AudioSource fireSoundAudioSource;
 	private GameObject bulletAnchorLeft, bulletAnchorRight;
@@ -29,7 +29,6 @@ public class PlayerShooting : MonoBehaviour
 	private GameObject crosshair;
     private GameObject crosshairContainer;
 	private CrosshairAutoaimAssist autoaimScript;
-	private Camera mainCamera;
 	private GameObject playerShip;
 
 	private ObjectPoolManager bulletManager;
@@ -44,6 +43,7 @@ public class PlayerShooting : MonoBehaviour
 	private bool ammoRecharging;
 	private Coroutine ammoRechargeCoroutine;
     private bool shootButtonPressed;
+	private float timeSinceLastShot;
 
     private int screenId;
 
@@ -53,13 +53,15 @@ public class PlayerShooting : MonoBehaviour
 
 	void Start()
 	{
+		string name = this.gameObject.name;
+		currentPlayerId = Int32.Parse(name.Substring(name.Length - 1));
+
 		settings = GameObject.Find("GameSettings").GetComponent<GameSettings>();
         Reset();
         
         gameState  = GameObject.Find("GameManager").GetComponent<GameState>();
 		officerMap = gameState.GetOfficerMap();
 
-		mainCamera = Camera.main;
 		playerShip = transform.parent.gameObject;
     }
 
@@ -67,19 +69,21 @@ public class PlayerShooting : MonoBehaviour
     {
         LoadSettings();
         shootButtonPressed = false;
+		timeSinceLastShot  = 0f;
     }
 
 	private void LoadSettings()
 	{
-		hitmarker   	  = settings.PlayerHitmarker;
-		fireSound   	  = settings.PlayerFireSound;
-		randomPitch 	  = settings.PlayerFireSoundRandomPitch;
-		accuracy    	  = settings.PlayerBulletAccuracy;
-		speed 			  = settings.PlayerBulletSpeed;
-		ammo = maxAmmo	  = settings.PlayerMaxAmmo;
-		shootAmmoCost     = settings.PlayerShootingAmmoCost;
-		ammoRechargeValue = settings.PlayerAmmoRechargeValue;
-		ammoRechargeDelay = settings.PlayerAmmoRechargeInterval;
+		hitmarker   	     = settings.PlayerHitmarker;
+		fireSound   	     = settings.PlayerFireSound;
+		randomPitch 	     = settings.PlayerFireSoundRandomPitch;
+		accuracy    	     = settings.PlayerBulletAccuracy;
+		speed 			     = settings.PlayerBulletSpeed;
+		ammo = maxAmmo	     = settings.PlayerMaxAmmo;
+		shootAmmoCost        = settings.PlayerShootingAmmoCost;
+		ammoRechargeValue    = settings.PlayerAmmoRechargeValue;
+		ammoRechargeInterval = settings.PlayerAmmoRechargeInterval;
+		ammoRechargeDelay    = settings.PlayerAmmoRehargeDelay;
 	}
     
 	public void Setup () 
@@ -106,7 +110,7 @@ public class PlayerShooting : MonoBehaviour
         if (gameState.Status != GameState.GameStatus.Started)
             return;
 
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0) && currentPlayerId == 0)
 			OnShootButtonPressed(currentPlayerId);
        
         ShootUpdate(currentPlayerId);
@@ -134,26 +138,41 @@ public class PlayerShooting : MonoBehaviour
 	/// <param name="playerId">The shooter's ID.</param>
 	private void ShootUpdate(int playerId)
 	{
-		if (shootButtonPressed && canShoot && ammo >= shootAmmoCost)
+		if (shootButtonPressed)
 		{
 			// Stop ammo recharging when the player fires
 			if (ammoRechargeCoroutine != null)
 			{
 				StopCoroutine(ammoRechargeCoroutine);
 				ammoRecharging = false;
+				// Debug.Log("Stop recharging");
 			}
 
-			ShootBullet(playerId);
+			if (canShoot && ammo >= shootAmmoCost)
+			{
+				ShootBullet(playerId);
 
-			Officer officer;
-			if (officerMap.TryGetValue((uint)playerId, out officer))
-				officer.Ammo = ammo;
-        }
-		else if (!shootButtonPressed && !ammoRecharging)
+				Officer officer;
+				if (officerMap.TryGetValue((uint)playerId, out officer))
+					officer.Ammo = ammo;
+			}
+
+			timeSinceLastShot = 0f;
+		}
+		else if (!ammoRecharging)
 		{
-			// Wait for the player to release the fire button before startin to recharge ammo
-			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
-			ammoRecharging        = true;
+			// Wait a while after the player releases the fire button before starting to recharge ammo
+			if(timeSinceLastShot >= ammoRechargeDelay)
+			{
+				ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
+				ammoRecharging = true;
+				// Debug.Log("Recharging");
+			}
+			else
+			{
+				timeSinceLastShot += Time.deltaTime;
+				// Debug.Log("Delay " + timeSinceLastShot);
+			}
 		}
 
 		shootButtonPressed = false;
@@ -283,16 +302,19 @@ public class PlayerShooting : MonoBehaviour
 	/// </summary>
 	IEnumerator RechargeAmmo()
 	{
-		yield return new WaitForSeconds(ammoRechargeDelay);
+		yield return new WaitForSeconds(ammoRechargeInterval);
 
 		ammo += ammoRechargeValue;
 		if (ammo > maxAmmo)
 			ammo = maxAmmo;
+
+		// Debug.Log("Recharged to " + ammo);
         
 		Officer officer;
 		if (officerMap.TryGetValue((uint)PlayerId, out officer))
 			officer.Ammo = ammo;
 
-		ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
+		if (ammo != maxAmmo)
+			ammoRechargeCoroutine = StartCoroutine(RechargeAmmo());
 	}
 }

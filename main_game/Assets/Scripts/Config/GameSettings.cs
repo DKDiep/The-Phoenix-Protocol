@@ -176,6 +176,7 @@ public class GameSettings : MonoBehaviour
 	public int PlayerShootingAmmoCost;       // The ammount of ammo needed to fire a bullet
 	public int PlayerAmmoRechargeValue;      // The ammount of ammo recharged per interval
 	public float PlayerAmmoRechargeInterval; // The interval at which ammo recharges.
+	public float PlayerAmmoRehargeDelay;     // The delay before ammo starts recharging
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;
