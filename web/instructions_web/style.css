@@ -1,7 +1,16 @@
 body {
     background-color: #111111;
     color: #eeeeee;
-    font-family: monospace;
+    font-family: 'XoloniumBold';
+    padding: 20px;
+}
+
+@font-face{
+    font-family: 'XoloniumBold';
+    src: url('fonts/XoloniumBold.otf') format('opentype');
+}
+a {
+    color: #aaa;
 }
 .title {
     font-size: 65px;
@@ -9,7 +18,7 @@ body {
 }
 .step {
     width: 100%;
-    height: 200px;
+    height: 250px;
     margin-top:50px;
 }
 
@@ -20,7 +29,7 @@ body {
 }
 
 .image {
-    width: 15%;
+    width: 30%;
     float: left;
     margin-left: 20px;
 }
