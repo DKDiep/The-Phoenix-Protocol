@@ -311,9 +311,9 @@ function initPlayerShip(resources) {
 }
 
 function initUi() {
-    var name = new PIXI.Text("User: " + playerName, {font : '3em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
+    var name = new PIXI.Text("User: " + playerName, {font : '2em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
     name.position.x = 5;
-    var score = new PIXI.Text("Score: " + playerScore, {font :'3em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
+    var score = new PIXI.Text("Score: " + playerScore, {font :'2em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
     score.position.x = 5;
     score.position.y = name.position.y + name.height;
     uiLayer.addChild(name);
