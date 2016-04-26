@@ -88,6 +88,10 @@ body, html {
   font-size: 18px;
 }
 
+.register-error {
+    margin-top: 0px;
+}
+
 .scoreBar {
   position:absolute;
   bottom:0px;

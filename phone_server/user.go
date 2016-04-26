@@ -106,6 +106,9 @@ func (usr *User) handleMessage(msg map[string]interface{}) bool {
 
 // Registers a new user and sends back user state data
 func (usr *User) registerNew(name string) {
+    if name == "" {
+        name = "_"
+    }
     // register user
     playerId := gameDatabase.registerPlayer(name)
 

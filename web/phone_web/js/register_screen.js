@@ -19,9 +19,21 @@ function finaliseRegisterScreen() {
 
 // Send off username for user creation and disables input to prevent fuckups
 function registerUser(elem) {
-    $(elem).prop("disabled", "true")
-    $("#usernameField").prop("disabled", "true")
     username = $("#usernameField").val()
+
+    // If the team name is invalid we show an error message
+    // and return
+    if (username == "") {
+        $('#usernameError').css("color", "red")
+        $('#usernameError').html("Please enter a valid user name!<br/><br/>")
+        $("#usernameField").val("")
+        return
+    } else {
+        $("#usernameError").html("")
+        $("#usernameField").val("")
+        $(elem).prop("disabled", "true")
+        $("#usernameField").prop("disabled", "true")
+    }
 
     // in coms.js
     requestUserCreation(username)
