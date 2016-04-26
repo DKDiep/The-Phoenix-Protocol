@@ -699,59 +699,62 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             yield break;
 		yield return new WaitForSeconds((1f/ shotsPerSec) + Random.Range (0.01f, 0.1f/shotsPerSec));
 
-        if(!empEnabled)
-        {
-            GameObject obj = bulletManager.RequestObject();
-            obj.transform.position = shootAnchor.transform.position;
+		if (empEnabled)
+			yield break;
 
-            GameObject logic = bulletLogicManager.RequestObject();
-    		logic.transform.parent = obj.transform;
-    		logic.transform.localPosition = Vector3.zero;
+        GameObject obj = bulletManager.RequestObject();
+		if (obj == null)
+			yield break;
 
-            BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
-    		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
+        obj.transform.position = shootAnchor.transform.position;
 
-    		bulletMove.Speed = bulletSpeed;
-    		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
+        GameObject logic = bulletLogicManager.RequestObject();
+		logic.transform.parent = obj.transform;
+		logic.transform.localPosition = Vector3.zero;
 
-    		Vector3 destination;
+        BulletLogic bulletLogic = logic.GetComponent<BulletLogic>();
+		BulletMove bulletMove   = obj.GetComponent<BulletMove>();
 
-    		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
-    		if (hacked && currentTarget == null)
-    			yield break;
+		bulletMove.Speed = bulletSpeed;
+		bulletManager.SetBulletSpeed(obj.name, bulletSpeed);
 
-    		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
-    		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
-			if (hackedAttackTraget != null)
-			{
-				if (Random.value > accuracy)
-                {
-                    accumulatedPlayerScore += 5; // It will hit. Right, guys?
-					bulletMove.SetTarget(currentTarget);
-                }
-                
-				bulletLogic.SetParameters(accuracy, hackedBulletDamage);
+		Vector3 destination;
 
-				destination = currentTarget.transform.position;
-				obj.layer   = LAYER_PLAYER_BULLET;
+		// Prevent an error when the target is destroyed just before it's time for this enemy to shoot
+		if (hacked && currentTarget == null)
+			yield break;
 
-			}
-			else
-			{
-				bulletLogic.SetParameters(accuracy, bulletDamage);
-				destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
-				obj.layer   = LAYER_ENEMY_BULLET;
-			}
+		// If the enemy is hacked, it should use targetted bullets, otherwise it's hard to hit its target
+		// The bullet also needs to collide with the (enemy) target, which enemy bullets don't do by default
+		if (hackedAttackTraget != null)
+		{
+			if (Random.value > accuracy)
+            {
+                accumulatedPlayerScore += 5; // It will hit. Right, guys?
+				bulletMove.SetTarget(currentTarget);
+            }
+            
+			bulletLogic.SetParameters(accuracy, hackedBulletDamage);
 
-    		bulletLogic.SetDestination(destination, false, player, bulletManager, bulletLogicManager, impactManager);
+			destination = currentTarget.transform.position;
+			obj.layer   = LAYER_PLAYER_BULLET;
 
-            bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+		}
+		else
+		{
+			bulletLogic.SetParameters(accuracy, bulletDamage);
+			destination = currentTarget.transform.position + ((currentPos - prevPos) * (distance / 10f));
+			obj.layer   = LAYER_ENEMY_BULLET;
+		}
 
-            if(randomPitch)
-                mySrc.pitch = Random.Range(0.7f, 1.3f);
-            if(distance < 250f)
-                mySrc.PlayOneShot(fireSnd);
-        }
+		bulletLogic.SetDestination(destination, false, player, bulletManager, bulletLogicManager, impactManager);
+
+        bulletManager.EnableClientObject(obj.name, obj.transform.position, obj.transform.rotation, obj.transform.localScale);
+
+        if(randomPitch)
+            mySrc.pitch = Random.Range(0.7f, 1.3f);
+        if(distance < 250f)
+            mySrc.PlayOneShot(fireSnd);
 
 		if(shoot)
             StartCoroutine(Shoot());
