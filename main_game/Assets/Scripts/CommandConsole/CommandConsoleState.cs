@@ -598,6 +598,8 @@ public class CommandConsoleState : MonoBehaviour {
             popupWindow.SetActive(true);
             popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = mission.title;
             popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = mission.description;
+            // Command for server
+            playerController.CmdShowMission(mission.title, mission.description);
         }
     }
 
@@ -643,6 +645,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         popupWindow.SetActive(false);
         missionTexts.RemoveAt(0);
+        playerController.CmdHideMission();
         showMissionPopup();
     }
 

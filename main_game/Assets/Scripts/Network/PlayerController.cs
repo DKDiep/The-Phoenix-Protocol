@@ -3,6 +3,7 @@
 */
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
@@ -30,6 +31,7 @@ public class PlayerController : NetworkBehaviour
     private BoostAbility boost;
     private EMPAbility emp;
     private SmartBombAbility smartBomb;
+    private GameObject popupWindow;
 
     public GameObject GetControlledObject()
     {
@@ -417,5 +419,28 @@ public class PlayerController : NetworkBehaviour
                     commandConsoleState.RemoveUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
             }
         }
+    }
+
+    [Command]
+    public void CmdShowMission(string title, string description)
+    {
+        if (popupWindow == null)
+        {
+            popupWindow = GameObject.Find("MissionWindow(Clone)");
+            GameObject crosshairCanvas = serverManager.GetCrosshairObject(0);
+            popupWindow.transform.SetParent(crosshairCanvas.transform, false);
+            // centre popup window
+            popupWindow.transform.position = new Vector3(Screen.width / 2.0f, Screen.height / 2.0f, 0.0f);
+        }
+        popupWindow.SetActive(true);
+        popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
+        popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = description;
+    }
+
+    [Command]
+    public void CmdHideMission()
+    {
+        if (popupWindow != null)
+            popupWindow.SetActive(false);
     }
 }
