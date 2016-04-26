@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 public class ReadyScreen : NetworkBehaviour
 {
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
-	[SerializeField] private Button goButton;
     [SerializeField] private Image backgroundImage;
     [SerializeField]
     private Sprite centre;
@@ -23,6 +22,8 @@ public class ReadyScreen : NetworkBehaviour
     private PlayerController playerController;
 	private GameObject crosshairCanvas;
 
+    private bool isReady = false;
+
     void Start()
     {
         GameObject server = GameObject.Find("GameManager");
@@ -31,14 +32,8 @@ public class ReadyScreen : NetworkBehaviour
         if (ClientScene.localPlayers[0].IsValid)
             playerController = ClientScene.localPlayers[0].gameObject.GetComponent<PlayerController>();
 
-        if (playerController.netId.Value != serverManager.GetServerId())
+        if (playerController.netId.Value == serverManager.GetServerId())
         {
-            goButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            goButton.onClick.AddListener(() => OnClickStartButton());
-            goButton.gameObject.SetActive(false);
             StartCoroutine(DelayButton());
             Reset();
         }
@@ -68,11 +63,11 @@ public class ReadyScreen : NetworkBehaviour
 
     void Update()
     {
-        if(goButton.gameObject.activeSelf)
+        if (isReady)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                OnClickStartButton();
+                OnStartEvent();
             }
         }
     }
@@ -80,13 +75,13 @@ public class ReadyScreen : NetworkBehaviour
     IEnumerator DelayButton()
     {
         yield return new WaitForSeconds(2f);
-        goButton.gameObject.SetActive(true);
+        isReady = true;
     }
 
     public void Reset()
     {
         GameObject musicObect = GameObject.Find("MusicManager(Clone)");
-        Camera.main.fov = 45;
+        Camera.main.fieldOfView = 45;
 		Cursor.visible = true; //leave as true for development, false for production
         if (musicObect != null)
         {
@@ -97,7 +92,7 @@ public class ReadyScreen : NetworkBehaviour
             RpcShow();  
     }
 
-    public void OnClickStartButton()
+    public void OnStartEvent()
     {
 		Cursor.visible = Debug.isDebugBuild; //leave as true for development, false for production
         InitialiseGame();
