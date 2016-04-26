@@ -76,7 +76,7 @@ public class StratMap : MonoBehaviour {
                 outpostIcon.SetActive(true);
             else outpostIcon.SetActive(false);
             Image outpostImage = outpostIcon.GetComponent<Image>();
-            outpostIconDict.Add(id, outpostIcon);
+            outpostIconDict[id] = outpostIcon;
             if (id == objective) startMission(id); //This should only happen if an objective is set before an outpost is found
         }
     }
