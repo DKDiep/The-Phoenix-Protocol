@@ -3,6 +3,7 @@
 */
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
@@ -30,6 +31,7 @@ public class PlayerController : NetworkBehaviour
     private BoostAbility boost;
     private EMPAbility emp;
     private SmartBombAbility smartBomb;
+    private GameObject popupWindow;
 
     public GameObject GetControlledObject()
     {
@@ -417,5 +419,31 @@ public class PlayerController : NetworkBehaviour
                     commandConsoleState.RemoveUpgradeObjective((UpgradableComponentIndex)missionValue[i]);
             }
         }
+    }
+
+    [Command]
+    public void CmdShowMission(string title, string description)
+    {
+        if (popupWindow == null)
+        {
+            popupWindow = GameObject.Find("MissionWindow(Clone)");
+            GameObject crosshairCanvas = serverManager.GetCrosshairObject(0);
+            popupWindow.transform.SetParent(crosshairCanvas.transform, false);
+            /*popupWindow.transform.position = new Vector3(50.0f, 100.0f, 0.0f);
+            popupWindow.transform.rotation = Quaternion.Euler( new Vector3(0.0f, 0.0f, 0.0f));
+            popupWindow.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            RectTransform rt = popupWindow.GetComponent(typeof(RectTransform)) as RectTransform;
+            rt.sizeDelta = new Vector2(541, 234);*/
+        }
+        popupWindow.SetActive(true);
+        popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
+        popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = description;
+    }
+
+    [Command]
+    public void CmdHideMission()
+    {
+        if (popupWindow != null)
+            popupWindow.SetActive(false);
     }
 }

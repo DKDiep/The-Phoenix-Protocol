@@ -377,6 +377,8 @@ public class ServerManager : NetworkBehaviour
         commander.transform.parent = playerShip.transform;
         commander.transform.localPosition = Vector3.zero;
 
+        GameObject serverPopupWindow = Instantiate(Resources.Load("Prefabs/MissionWindow", typeof(GameObject))) as GameObject;
+
         //Set up the game state
         playerController.SetControlledObject(playerShip);
 
