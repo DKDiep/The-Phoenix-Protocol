@@ -24,7 +24,7 @@ public class MissionManager : MonoBehaviour
         LoadSettings();
     }
 
-    public void ResetMissions() 
+    public void ResetMissions()
     {
         StopAllCoroutines();
 
@@ -33,9 +33,9 @@ public class MissionManager : MonoBehaviour
             activeList[i] = missions[i].active;
             missions[i].reset();
         }
-
-        StartCoroutine(WaitThenStartUpdateMissions());
+        missionInit = false;
     }
+
 
     private void LoadSettings()
     {
@@ -134,7 +134,7 @@ public class MissionManager : MonoBehaviour
     // missions were being triggered in the new game because trigger conditions were being met in the previous game
     IEnumerator WaitThenStartUpdateMissions() 
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(1.0f);
         InitialiseMissions();
         StartCoroutine(UpdateMissions());
     }
