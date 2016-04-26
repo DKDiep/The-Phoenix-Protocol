@@ -112,6 +112,14 @@ public class GameState : NetworkBehaviour {
         InitialiseUpgradableComponents();
         StartCoroutine(ResourceInterest());
         StartCoroutine(UpdateComponents());
+
+        // This is really stupid but it works. I think the problem is
+        // that Unity does not recognize the currentShipResources value being
+        // updated when it is assigned to in LoadSettings and hence the dirty bit is not
+        // set, and therefore it is not synced with clients. There may be a better way
+        // around this issue - Artur
+        currentShipResources += 1;
+        currentShipResources -= 1;
     }
         
     private void LoadSettings()
