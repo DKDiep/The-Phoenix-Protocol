@@ -8,7 +8,6 @@ public class ReadyScreen : NetworkBehaviour
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private Button goButton;
     [SerializeField] private Image backgroundImage;
-
     [SerializeField]
     private Sprite centre;
     [SerializeField]
@@ -63,7 +62,7 @@ public class ReadyScreen : NetworkBehaviour
         }
         else if (playerController.GetRole() == RoleEnum.Engineer)
         {
-           backgroundImage.sprite = engineer;
+            backgroundImage.sprite = engineer;
         }
     }
 
