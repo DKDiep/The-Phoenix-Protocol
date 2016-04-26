@@ -56,6 +56,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private const string HACK_WAYPOINT_NAME = "HackWaypoint";
 	private float hackedBulletDamage;
 	private float hackedFollowMaxY;
+	private bool wasSuicidalBeforeHack;
 
 	// These should be constants, but you can't know the value at compile time, and we can't use the constructor
 	// Please, treat them as constants
@@ -674,7 +675,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	IEnumerator ShootManager()
 	{
 		// Suicidal enemies don't shoot
-		if (isSuicidal)
+		if (isSuicidal && !hacked)
 			yield break; // this means "return" in coroutine speak
 
 		if(!shoot && angleGoodForShooting)
@@ -900,9 +901,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         controllingPlayerId = playerId;
 
         if(hackedName.Length > 7)
-        {
             hackedName = hackedName.Substring(0, 7) + "...";
-        }
 
 		controlObjectSyncParams.SetHacked(hacked);
 
@@ -911,27 +910,39 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			// When an enemy becomes hacked, it starts following the ship
 			FollowPlayer();
 			state = EnemyAIState.Hacked;
-			//ChangeGlowColour();
+
 			if (enemyManager != null)
-            {
                 enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
-            }
             else
             {
                 enemyManager = FindManager();
                 if (enemyManager != null)
-                {
                     enemyManager.RpcSetHackedGlow(transform.parent.gameObject.name, hackedName);
-                }
                 else
                     Debug.LogWarning("Could not find manager for enemy " + transform.parent.gameObject.name + " type " + type);
             }
+
+			// Give suicidals enemies a temporary bullet manager so they're not completely useless when hacked
+			if (isSuicidal)
+			{
+				wasSuicidalBeforeHack = true;
+				isSuicidal 			  = false;
+				bulletManager 		  = gnatBulletManager;
+				StartCoroutine(ShootManager());
+			}
+
 			//Debug.Log("Hacked: " + controlObject.name + " with logic " + this.gameObject.name);
 		}
 		else
 		{
 			if (hackedWaypoint != null)
 				Destroy(hackedWaypoint);
+
+			if (wasSuicidalBeforeHack)
+			{
+				isSuicidal = true;
+				bulletManager = null;
+			}
 
 			state = EnemyAIState.SeekPlayer;
 		}
