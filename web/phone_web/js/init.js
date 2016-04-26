@@ -34,14 +34,14 @@ function initScreen() {
         initUnregistered()
     }
     else {
-        // Display tutorial if not seen before
-        seenTutorial = Cookies.get("seen_tutorial")
-        if(seenTutorial == undefined || !seenTutorial) {
-            changeScreen("tutorial", startSpectatorTutorialScreen,
-                finaliseSpectatorTutorialScreen)
-        } else {
+        // // Display tutorial if not seen before
+        // seenTutorial = Cookies.get("seen_tutorial")
+        // if(seenTutorial == undefined || !seenTutorial) {
+        //     changeScreen("tutorial", startSpectatorTutorialScreen,
+        //         finaliseSpectatorTutorialScreen)
+        // } else {
             requestUserUpdate()
-        }
+        // }
     }
 }
 
