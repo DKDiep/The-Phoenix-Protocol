@@ -109,10 +109,10 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 0
+  Priority: 53
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 250
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -4594,7 +4594,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MaxDistance
-      value: 250
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rolloffMode
@@ -4642,7 +4642,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Priority
-      value: 0
+      value: 53
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

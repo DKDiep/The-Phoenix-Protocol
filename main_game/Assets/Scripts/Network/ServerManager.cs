@@ -341,6 +341,7 @@ public class ServerManager : NetworkBehaviour
 
         // Spawn music controller only on server
         musicManager = Instantiate(Resources.Load("Prefabs/MusicManager", typeof(GameObject))) as GameObject;
+        musicManager.transform.parent = playerShip.transform;
 
         // Spawn mission manager only on server
         missionManager = Instantiate(Resources.Load("Prefabs/MissionManager", typeof(GameObject))) as GameObject;

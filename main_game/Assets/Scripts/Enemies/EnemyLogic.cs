@@ -749,7 +749,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
             if(randomPitch)
                 mySrc.pitch = Random.Range(0.7f, 1.3f);
-            if(distance < 300f)
+            if(distance < 250f)
                 mySrc.PlayOneShot(fireSnd);
         }
 

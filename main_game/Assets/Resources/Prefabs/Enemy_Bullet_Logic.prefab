@@ -45,7 +45,7 @@ AudioSource:
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 256
   DopplerLevel: 5
   MinDistance: 1
   MaxDistance: 400
@@ -114,9 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0219db45a99614e56af96480e105ccd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 600
-  accuracy: 0.1
-  damage: 1
   bulletColor: {r: 1, g: 0.35294116, b: 0.35294116, a: 0}
   impact: {fileID: 108576, guid: 276aa3e32389d4659ad7d965e79dccdf, type: 2}
   xScale: 1
@@ -197,6 +194,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: DopplerLevel
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Priority
+      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

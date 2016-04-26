@@ -39,7 +39,7 @@ public class BulletLogic : MonoBehaviour
         if(enableSound && !playerShooting)
         {
             distance = Vector3.Distance(transform.position, destination);
-            if(distance < 150)
+            if(distance < 100)
             {
                 mySrc.PlayOneShot(sound);
                 enableSound = false;
