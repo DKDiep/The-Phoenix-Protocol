@@ -26,6 +26,7 @@ type Player struct {
     ammo               float64
     isControllingEnemy bool
     controlledEnemyId  int64
+    targetId          int64
     user               *User
     inviteAnswerAction func(bool)
 }
@@ -214,8 +215,10 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
     // Add enemies to the message
     for id, enemy := range enemies {
         name := ""
+        tarId := id
         if enemy.isControlled {
             name = enemy.controllingPlayer.userName
+            tarId = enemy.controllingPlayer.targetId
         }
         enemies_data = append(enemies_data, map[string]interface{}{
             "id": id,
@@ -224,6 +227,7 @@ func (plr *Player) sendSpectatorDataUpdate(enemies map[int64]*Enemy,
             "rot":      math.Atan2(enemy.forward.y, enemy.forward.x) - math.Pi/2,
             "isHacked": enemy.isControlled,
             "name": name,
+            "targetId": tarId,
         })
     }
 
@@ -282,6 +286,8 @@ func (plr *Player) sendAttackCommandToGameServer(enemyId int64) {
     if !plr.isControllingEnemy {
         return
     }
+
+    plr.targetId = enemyId
 
     msg := "ATT:"
     msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","

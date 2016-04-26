@@ -9,7 +9,6 @@ function actionOnEnemy(target) {
         setHeld(true)
     } else if (target.spaceGameId != controlledEnemyId && !target.isHacked) {
         sendEnemyAttackRequest(target.spaceGameId)
-        enableTargetRay(controlledEnemySprite, target)
     }
 }
 
@@ -65,6 +64,5 @@ function clearDisplayingOfControlledEnemy() {
     controlledEnemySprite = undefined
     // Disabling tractor beam as example of usage
     disableTractorBeam()
-    disableTargetRay()
     enemyControllUpdate = undefined
 }

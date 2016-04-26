@@ -21,6 +21,7 @@ var minDim;
 // You need to create a root container that will hold the scene you want to draw.
 var stage;
 // Layers
+var beamLayer;
 var enemyLayer;
 var enemyNamesLayer;
 var asteroidLayer;
@@ -39,7 +40,6 @@ var bg;
 
 // Tractor beam sprite
 var tractorBeam;
-var targetRay;
 
 // Used to interrupt the rendering
 var keepRendering = false;
@@ -106,6 +106,7 @@ function finaliseSpectatorScreen() {
     minDim = undefined;
 
     stage = undefined;
+    beamLayer = undefined;
     enemyLayer = undefined;
     enemyNamesLayer = undefined;
     asteroidLayer = undefined;
@@ -120,7 +121,6 @@ function finaliseSpectatorScreen() {
     bg = undefined;
 
     tractorBeam = undefined;
-    targetRay = undefined;
 
     keepRendering = false;
 
@@ -193,7 +193,7 @@ function init() {
     initTractorBeam(loadedResources);
     // Add player ship
     initPlayerShip(loadedResources);
-    initTargetRay(loadedResources);
+    stage.addChild(beamLayer);
     stage.addChild(enemyLayer);
     stage.addChild(enemyNamesLayer);
     stage.addChild(asteroidLayer);
@@ -229,6 +229,7 @@ function initLayers() {
     stage.interactive = true
     stage.mousedown = stage.touchstart = handleGeneralPress
     stage.mouseup = stage.touchend = leftHackingTarget
+    beamLayer = new PIXI.Container();
     asteroidLayer = new PIXI.Container();
     enemyLayer = new PIXI.Container();
     enemyNamesLayer = new PIXI.Container();
@@ -260,21 +261,6 @@ function initTractorBeam(resources) {
     disableTractorBeam();
 
     stage.addChild(tractorBeam);
-}
-
-function initTargetRay(resources) {
-    targetRay = new PIXI.extras.TilingSprite(resources.target_ray.texture, 1, 1);
-    targetRay.anchor.y = 0.5;
-
-    targetRay.position.x = 0.5*renderer.width;
-    targetRay.position.y = 0.5*renderer.height;
-
-    targetRay.tilePosition.x = 0;
-    targetRay.tilePosition.y = 0;
-
-    disableTargetRay();
-
-    stage.addChild(targetRay);
 }
 
 function initPlayerShip(resources) {
@@ -309,7 +295,8 @@ function renderUpdate() {
 
     // Animate tracktor beam
     updateTractorBeam();
-    updateTargetRay();
+
+    updateTargetRays();
 
     // move background
     updateBackground();
@@ -334,13 +321,19 @@ function updateTractorBeam() {
     }
 }
 
-function updateTargetRay() {
-    if(targetRay.target != undefined) {
-        distance = distanceOfTwoSprites(targetRay, targetRay.target);
-        angle = angleOfLine(targetRay, targetRay.target);
-        targetRay.rotation = angle;
-        targetRay.width = distance;
-        targetRay.tilePosition.x += 2;
+function updateTargetRays() {
+    for (id in enemies) {
+        var enemy = enemies[id];
+        var targetSprite = enemies[enemy.targetId]
+        if(targetSprite != undefined) {
+            distance = distanceOfTwoSprites(enemy.targetRay, targetSprite);
+            angle = angleOfLine(enemy.targetRay, targetSprite);
+            enemy.targetRay.rotation = angle;
+            enemy.targetRay.width = distance;
+            enemy.targetRay.tilePosition.x += 2;
+        } else {
+            enemy.targetRay.width = 0;
+        }
     }
 }
 
@@ -374,9 +367,6 @@ function resize() {
     var beamThickness = 5;
     tractorBeam.height = beamThickness*zoom*maxDim;
 
-    var rayThickness = 3;
-    targetRay.height = rayThickness*zoom*maxDim;
-
     // Reposition and rescale game objects
     spriteReposition(playerShip);
     spriteScale(playerShip);
@@ -387,6 +377,8 @@ function resize() {
     }
     for (id in enemies) {
         var sprite = enemies[id];
+        var rayThickness = 3;
+        sprite.targetRay.height = rayThickness*zoom*maxDim;
         spriteReposition(sprite);
         spriteScale(sprite);
     }
@@ -433,23 +425,10 @@ function enableTractorBeam(target) {
     tractorBeam.target = target;
 }
 
-function enableTargetRay(origin, target) {
-    targetRay.position = origin.position;
-    targetRay.target = target;
-}
-
 function disableTractorBeam() {
     if(tractorBeam != undefined) {
         tractorBeam.target = undefined;
         tractorBeam.width = 0;
-    }
-}
-
-function disableTargetRay() {
-    if(targetRay != undefined) {
-        targetRay.position = new PIXI.Point(0,0);
-        targetRay.target = undefined;
-        targetRay.width = 0;
     }
 }
 
@@ -548,7 +527,7 @@ function updateEnemies(enemyData) {
         var enm = enemyData[id]
         var sprite = enemies[enm.id]
         if(sprite == undefined) {
-        toAdd.push(enm)
+            toAdd.push(enm)
         } else {
             updateEnemy(sprite, enm)
             newTmp[enm.id] = sprite;
@@ -558,11 +537,11 @@ function updateEnemies(enemyData) {
     // Remove those that didn't get an update
     for (id in enemies) {
         var enemy = enemies[id];
+        beamLayer.removeChild(enemy.targetRay);
         hackingGameLayer.removeChild(touchTargets[enemy.spaceGameId]);
         enemyNamesLayer.removeChild(enemy.textObj);
         delete touchTargets[enemy.spaceGameId];
         enemyLayer.removeChild(enemy);
-        if(enemy == targetRay.target) {disableTargetRay()}
     }
     // Add new ones
     for (id in toAdd) {
@@ -577,7 +556,7 @@ function updateEnemies(enemyData) {
 
 // Creates an enemy sprite based on received data
 function newEnemy(enmData) {
-    newEnm = new PIXI.Sprite(loadedResources.enm.texture);
+    var newEnm = new PIXI.Sprite(loadedResources.enm.texture);
     newEnm.spaceGameId = enmData.id
     newEnm.anchor.x = 0.5
     newEnm.anchor.y = 0.5
@@ -585,17 +564,38 @@ function newEnemy(enmData) {
     newEnm.rotation = -enmData.rot
     spriteScale(newEnm);
     newEnm.textObj = generateTextBox(newEnm);
+    newEnm.targetRay = generateTargetRay(newEnm);
     newEnm.isHacked = enmData.isHacked
-    if(newEnm.isHacked && newEnm.spaceGameId != controlledEnemyId) {
-        setName(newEnm.textObj, enmData.name);
-        var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
-        overlay.anchor.x = 0.5
-        overlay.anchor.y = 0.5
-        newEnm.addChild(overlay)
+    if(newEnm.isHacked) {
+        newEnm.targetId = enmData.targetId;
+        if(newEnm.spaceGameId != controlledEnemyId) {
+            setName(newEnm.textObj, enmData.name);
+            var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
+            overlay.anchor.x = 0.5
+            overlay.anchor.y = 0.5
+            newEnm.addChild(overlay)
+        }
     }
     newEnm.touchTarget = generateTouchTarget(newEnm);
 
     return newEnm
+}
+
+function generateTargetRay(enemy) {
+    var targetRay = new PIXI.extras.TilingSprite(loadedResources.target_ray.texture, 1, 1);
+    targetRay.anchor.y = 0.5;
+
+    targetRay.tilePosition.x = 0;
+    targetRay.tilePosition.y = 0;
+
+    var rayThickness = 3;
+    targetRay.height = rayThickness*zoom*maxDim;
+
+    targetRay.position = enemy.position;
+    targetRay.width = 0;
+    beamLayer.addChild(targetRay);
+
+    return targetRay;
 }
 
 function generateTextBox(enemy) {
@@ -654,15 +654,18 @@ function updateEnemy(enemy, enmData) {
     spritePosition(enemy, enmData.x, enmData.y);
     enemy.rotation = -enmData.rot
     enemy.isHacked = enmData.isHacked
-    if(enemy.isHacked && enemy.spaceGameId != controlledEnemyId) {
+    if(enemy.isHacked) {
+        enemy.targetId = enmData.targetId;
         enemy.touchTarget.interactive = false
-        setName(enemy.textObj, enmData.name);
-        if(!enemy.hasOverlay) {
-            enemy.hasOverlay = true
-            var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
-            overlay.anchor.x = 0.5
-            overlay.anchor.y = 0.5
-            enemy.addChild(overlay)
+        if(enemy.spaceGameId != controlledEnemyId) {
+            setName(enemy.textObj, enmData.name);
+            if(!enemy.hasOverlay) {
+                enemy.hasOverlay = true
+                var overlay = new PIXI.Sprite(loadedResources.hacked.texture);
+                overlay.anchor.x = 0.5
+                overlay.anchor.y = 0.5
+                enemy.addChild(overlay)
+            }
         }
     }
 }
