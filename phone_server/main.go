@@ -20,7 +20,7 @@ const (
     ADMIN_PORT              string        = "52932"
     ADMIN_UPDATE_INTERVAL   time.Duration = 3 * time.Second
     USERS_WEB_DIR           string        = "../web/phone_web"
-    USERS_PORT              string        = "8080"
+    USERS_PORT              string        = "80"
     LOCAL_UDP_PORT          string        = "46578"
     GAME_SERVER_UDP_PORT    string        = "2345"
     GAME_SERVER_TCP_PORT    string        = "2346"
