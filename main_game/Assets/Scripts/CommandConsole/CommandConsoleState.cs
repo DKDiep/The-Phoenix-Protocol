@@ -163,6 +163,10 @@ public class CommandConsoleState : MonoBehaviour {
         {
             pulsateToggle[i] = false;
         }
+        for (int i = 0; i < Enum.GetNames(typeof(AbilityEnum)).Length; i++)
+        {
+            abilityCooldowns[i] = 60.0f;
+        }
         UpdateAllText();
         popupWindow.SetActive(false);
         missionTexts.Clear();
@@ -170,7 +174,6 @@ public class CommandConsoleState : MonoBehaviour {
         stratMap.Reset();
         currentObjectives.Clear();
         EventSystem.current.SetSelectedGameObject(null);    //deselect all the buttons
-
         // Reset all highlighting
         shipControl.HighlightComponent(-1);
     }
