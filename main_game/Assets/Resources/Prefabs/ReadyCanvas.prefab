@@ -105,6 +105,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goButton: {fileID: 11452660}
+  backgroundImage: {fileID: 11437000}
+  centre: {fileID: 21300000, guid: 2292ed0c58fd64e45baca22357948f62, type: 3}
+  left: {fileID: 21300000, guid: b84ef2e2cb3059346a3feff64b90c0b8, type: 3}
+  right: {fileID: 21300000, guid: 7e9832f1faad967438f6330f27f2f209, type: 3}
+  engineer: {fileID: 21300000, guid: 382f7617ea382d94aa85587df4b6c91f, type: 3}
 --- !u!114 &11437000
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -7,7 +7,17 @@ public class ReadyScreen : NetworkBehaviour
 {
 	#pragma warning disable 0649 // Disable warnings about unset private SerializeFields
 	[SerializeField] private Button goButton;
-	#pragma warning restore 0649
+    [SerializeField] private Image backgroundImage;
+
+    [SerializeField]
+    private Sprite centre;
+    [SerializeField]
+    private Sprite left;
+    [SerializeField]
+    private Sprite right;
+    [SerializeField]
+    private Sprite engineer;
+#pragma warning restore 0649
 
     private ServerManager serverManager;
     private MusicManager musicManager;
@@ -34,7 +44,27 @@ public class ReadyScreen : NetworkBehaviour
             Reset();
         }
 
-
+        if (playerController.GetRole() == RoleEnum.Camera)
+        {
+            switch (playerController.GetScreenIndex())
+            {
+                case -1:
+                    backgroundImage.sprite = left;
+                    break;
+                case 0:
+                    backgroundImage.sprite = centre;
+                    break;
+                case 1:
+                    backgroundImage.sprite = right;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if (playerController.GetRole() == RoleEnum.Engineer)
+        {
+           backgroundImage.sprite = engineer;
+        }
     }
 
     void Update()
