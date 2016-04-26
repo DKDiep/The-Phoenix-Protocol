@@ -128,3 +128,15 @@
 .game-state-value {
     font-weight: bold;
 }
+
+.team-name-section {
+    margin-bottom: 10px
+}
+
+.stats-ip-section {
+    margin-bottom: 10px
+}
+
+.fit-in-parent {
+    width: 100%
+}

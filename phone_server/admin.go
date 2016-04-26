@@ -6,7 +6,6 @@ import (
     "golang.org/x/net/websocket"
     // "strconv"
     "time"
-    "strings"
 )
 
 // Encodes the update message to the Admin console
@@ -107,8 +106,8 @@ func handleAdminMessage(msg map[string]interface{}) {
     switch msg["type"].(string) {
     case "GM_STRT":
         fmt.Println("Admin: Received Start Game signal.")
-        data := strings.Split(msg["data"].(string), ",")
-        gameState.startGame(data[0], data[1])
+        data := msg["data"].(map[string]interface{})
+        gameState.startGame(data["name"].(string), data["stats"].(string))
     case "GM_STP":
         fmt.Println("Admin: Received Enter Setup signal.")
         gameState.enterSetupState()

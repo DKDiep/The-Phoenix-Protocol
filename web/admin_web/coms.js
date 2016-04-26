@@ -114,7 +114,10 @@ function sendStartGameSignal() {
 
     var msg = {
         type: "GM_STRT",
-        data: team_name + "," + stats_ip
+        data: {
+            name: team_name,
+            stats: stats_ip
+        }
     }
     serverSocket.send(JSON.stringify(msg));
 }
