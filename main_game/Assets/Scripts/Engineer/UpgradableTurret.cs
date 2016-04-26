@@ -17,22 +17,22 @@ public class UpgradableTurret : UpgradableComponent
 	/// <value>The firing delay.</value>
 	public float MinFireDelay { get; private set; }
 
-    private float MaxDamageUpgradeRate;
-    private float MinFireDelayUpgradeRate;
+	private float maxDamageUpgradeRate;
+	private float minFireDelayUpgradeRate;
 
 	/// <summary>
 	/// Initializes a new <see cref="UpgradableTurret"/>.
 	/// </summary>
 	/// <param name="initialDelay">The initial firing delay.</param>
-    public UpgradableTurret(float initialDelay, int initialDamage, float MaxDamageUpgradeRate, float MinFireDelayUpgradeRate) : base()
+    public UpgradableTurret(float initialDelay, int initialDamage, float maxDamageUpgradeRate, float minFireDelayUpgradeRate) : base()
 	{
 		this.Type         = ComponentType.Turret;
 		this.MaxHealth    = this.Health = 100; // TODO: read this from GameSettings
 		this.MinFireDelay = initialDelay;
 		this.MaxDamage    = initialDamage;
 
-        this.MaxDamageUpgradeRate = MaxDamageUpgradeRate;
-        this.MinFireDelayUpgradeRate = MinFireDelayUpgradeRate;
+        this.maxDamageUpgradeRate    = maxDamageUpgradeRate;
+        this.minFireDelayUpgradeRate = minFireDelayUpgradeRate;
 	}
 
 	// TODO: balance values
@@ -44,6 +44,7 @@ public class UpgradableTurret : UpgradableComponent
 	public override float GetEfficiency()
 	{
 		float damage = MaxHealth - Health;
+
 		return (MaxHealth - (damage / 2)) / MaxHealth;
 	}
 
@@ -74,9 +75,9 @@ public class UpgradableTurret : UpgradableComponent
 		base.Upgrade();
 
 		if (Level % 2 == 0)
-            MaxDamage *= (int)MaxDamageUpgradeRate;
+            MaxDamage *= (int)maxDamageUpgradeRate;
 		else
-            MinFireDelay = MinFireDelay / MinFireDelayUpgradeRate;
+            MinFireDelay = MinFireDelay / minFireDelayUpgradeRate;
 	}
 }
 

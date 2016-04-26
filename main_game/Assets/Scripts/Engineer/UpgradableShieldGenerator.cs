@@ -18,24 +18,23 @@ public class UpgradableShieldGenerator : UpgradableComponent
 	/// <value>The recharge rate.</value>
 	public float MaxRechargeRate { get; private set; }
 
-
-    private float MaxShieldUpgradeValue;
-    private float MaxRechargeRateUpgradeRate;
+	private float maxShieldUpgradeValue;
+	private float maxRechargeRateUpgradeRate;
 
 	/// <summary>
 	/// Initializes a new <see cref="UpgradableShieldGenerator"/>.
 	/// </summary>
 	/// <param name="initialShield">The initial value for the maximum shield.</param>
 	/// <param name="initialRechargeRate">The initial valuie for the maximum recharge rate.</param>
-    public UpgradableShieldGenerator(float initialShield, float initialRechargeRate, float MaxShieldUpgradeValue, float MaxRechargeRateUpgradeRate) : base()
+    public UpgradableShieldGenerator(float initialShield, float initialRechargeRate, float maxShieldUpgradeValue, float maxRechargeRateUpgradeRate) : base()
 	{
 		this.Type 			 = ComponentType.ShieldGenerator;
 		this.MaxHealth 		 = this.Health = 100; // TODO: read this from GameSettings
 		this.MaxShield 		 = initialShield;
 		this.MaxRechargeRate = initialRechargeRate;
 
-        this.MaxShieldUpgradeValue       = MaxShieldUpgradeValue;
-        this.MaxRechargeRateUpgradeRate = MaxRechargeRateUpgradeRate;
+        this.maxShieldUpgradeValue       = maxShieldUpgradeValue;
+        this.maxRechargeRateUpgradeRate  = maxRechargeRateUpgradeRate;
 	}
 
 	// TODO: balance values
@@ -81,8 +80,8 @@ public class UpgradableShieldGenerator : UpgradableComponent
 
 
 
-        MaxShield = Convert.ToInt32(MaxShield + MaxShieldUpgradeValue);
-        MaxRechargeRate = Convert.ToInt32(MaxRechargeRate * MaxRechargeRateUpgradeRate);
+        MaxShield = Convert.ToInt32(MaxShield + maxShieldUpgradeValue);
+        MaxRechargeRate = Convert.ToInt32(MaxRechargeRate * maxRechargeRateUpgradeRate);
 	}
 }
 
