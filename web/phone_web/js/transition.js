@@ -1,8 +1,10 @@
 var finalisePrevious = undefined;
 var currState = "NONE"
+var playerName = "";
 
 // Display the page as per the current user state
 function updateScreen(userData) {
+    playerName = userData.name;
     switch (userData.state) {
         case "SPECTATOR":
             changeScreen("spectator", startSpectatorScreen, finaliseSpectatorScreen)

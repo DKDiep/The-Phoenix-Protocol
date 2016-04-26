@@ -128,6 +128,7 @@ func (plr *Player) sendStateUpdate() {
     msg := map[string]interface{}{
         "type": "USER_UPDATE",
         "data": map[string]interface{}{
+            "name": plr.userName,
             "state": plr.getStateString(),
         },
     }
@@ -139,6 +140,7 @@ func (plr *Player) sendStateUpdate() {
 func (plr *Player) sendCurrentData() {
     switch plr.state {
     case SPECTATOR:
+        plr.sendCurrentScore()
         plr.sendControlledEnemyInfo()
     case OFFICER:
         plr.sendActiveNotifications()

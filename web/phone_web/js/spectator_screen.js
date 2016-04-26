@@ -26,6 +26,7 @@ var enemyLayer;
 var enemyNamesLayer;
 var asteroidLayer;
 var hackingGameLayer;
+var uiLayer;
 var tutorialLayer;
 
 // Texture loader
@@ -57,6 +58,8 @@ var asteroids = new Array();
 var touchTargets = new Array();
 
 var tutorialPrompts = new Array();
+
+var playerScore = 0;
 
 // Initiates the game
 function startSpectatorScreen() {
@@ -114,6 +117,7 @@ function finaliseSpectatorScreen() {
     enemyNamesLayer = undefined;
     asteroidLayer = undefined;
     hackingGameLayer = undefined;
+    uiLayer = undefined;
     tutorialLayer = undefined;
 
     loader = undefined;
@@ -139,13 +143,18 @@ function finaliseSpectatorScreen() {
 
     controlledEnemyId = 0;
     isControllingEnemy = false;
+
+    playerScore = 0;
 }
 
 // Handle specific updates
 function updateSpectator(msg) {
     switch(msg.type) {
         case "SCORE":
-            console.log("score, " + msg.data);
+            playerScore = msg.data
+            if(uiLayer != undefined && uiLayer.children[1] != undefined) {
+                uiLayer.children[1].text = "Score: " + playerScore;
+            }
             break;
         case "OBJ":
             updateSprites(msg.data);
@@ -199,11 +208,14 @@ function init() {
     initPlayerShip(loadedResources);
     // Add tutorial prompts
     initTutorialPrompts(loadedResources);
+    // Init User interface
+    initUi();
     stage.addChild(beamLayer);
     stage.addChild(enemyLayer);
     stage.addChild(enemyNamesLayer);
     stage.addChild(asteroidLayer);
     stage.addChild(hackingGameLayer);
+    stage.addChild(uiLayer);
     stage.addChild(tutorialLayer);
 
     // kick off the animation loop (defined below)
@@ -254,6 +266,7 @@ function initLayers() {
     enemyLayer = new PIXI.Container();
     enemyNamesLayer = new PIXI.Container();
     hackingGameLayer = new PIXI.Container();
+    uiLayer = new PIXI.Container();
     tutorialLayer = new PIXI.Container();
 }
 
@@ -295,6 +308,16 @@ function initPlayerShip(resources) {
     playerShip.position.y = 0.5*renderer.height;
 
     stage.addChild(playerShip);
+}
+
+function initUi() {
+    var name = new PIXI.Text("User: " + playerName, {font : '3em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
+    name.position.x = 5;
+    var score = new PIXI.Text("Score: " + playerScore, {font :'3em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
+    score.position.x = 5;
+    score.position.y = name.position.y + name.height;
+    uiLayer.addChild(name);
+    uiLayer.addChild(score);
 }
 
 // Render function
@@ -622,7 +645,7 @@ function generateTargetRay(enemy) {
 }
 
 function generateTextBox(enemy) {
-    textBox = new PIXI.Text("",{font : '1.5em Arial', fill : 0x00ff00, align : 'center'});
+    textBox = new PIXI.Text("",{font : '1.5em XoloniumBold', fill : 0x00ff00, align : 'center'});
     textBox.position = enemy.position
     textBox.anchor.x = 0.5
     textBox.anchor.y = 1.7
