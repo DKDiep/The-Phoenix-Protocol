@@ -56,6 +56,8 @@ var enemies = new Array();
 var asteroids = new Array();
 var touchTargets = new Array();
 
+var tutorialPrompts = new Array();
+
 // Initiates the game
 function startSpectatorScreen() {
     renderer = new PIXI.CanvasRenderer(10, 10);
@@ -87,6 +89,7 @@ function startSpectatorScreen() {
     loader.add("tract_beam", "img/tractor_beam.png");
     loader.add("target_ray", "img/target_ray.png");
     loader.add("finger_target", "img/finger_target.png");
+    loader.add("tutorial_1", "img/tutorial1.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -132,6 +135,7 @@ function finaliseSpectatorScreen() {
     enemies = new Array();
     asteroids = new Array();
     touchTargets = new Array();
+    tutorialPrompts = new Array();
 
     controlledEnemyId = 0;
     isControllingEnemy = false;
@@ -193,6 +197,8 @@ function init() {
     initTractorBeam(loadedResources);
     // Add player ship
     initPlayerShip(loadedResources);
+    // Add tutorial prompts
+    initTutorialPrompts(loadedResources);
     stage.addChild(beamLayer);
     stage.addChild(enemyLayer);
     stage.addChild(enemyNamesLayer);
@@ -220,6 +226,20 @@ function initTextureObject(resources) {
     textures.asteroids.push(resources.ast1.texture)
     textures.asteroids.push(resources.ast2.texture)
     textures.asteroids.push(resources.ast3.texture)
+}
+
+function initTutorialPrompts(resources) {
+    tutorialPrompts[0] = new PIXI.Sprite(resources.tutorial_1.texture);
+    tutorialPrompts[0].anchor.x = 1;
+    resizeTutorialPrompt(tutorialPrompts[0]);
+    tutorialLayer.addChild(tutorialPrompts[0]);
+}
+
+function resizeTutorialPrompt(prompt) {
+    prompt.height = 0.15*Math.sqrt(maxDim*minDim);
+    prompt.x = renderer.width;
+    var mul = prompt.height/prompt.texture.height
+    prompt.width = mul*prompt.texture.width;
 }
 
 // Initialises the grouping layers
@@ -385,6 +405,9 @@ function resize() {
     for (id in touchTargets) {
         var sprite = touchTargets[id];
         sprite.height = sprite.width = touchTargetSizeFactor*maxDim
+    }
+    for (id in tutorialPrompts) {
+        resizeTutorialPrompt(tutorialPrompts[id]);
     }
 }
 
