@@ -48,7 +48,7 @@ func main() {
 	}
 
     // Prepare query for getting spectator
-    spectatorStmt, err := db.Prepare("SELECT username, score FROM players WHERE player_id > 1 ORDER BY score DESC LIMIT 10")
+    spectatorStmt, err := db.Prepare("SELECT username, score FROM players WHERE player_id > 1 AND in_main_game = 0 ORDER BY score DESC LIMIT 10")
     defer spectatorStmt.Close()
     if err != nil {
         panic(err.Error())
