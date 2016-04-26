@@ -208,7 +208,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		}
 
 		// Suicidal and hacked enemies don't go through the regular states, so handle the collider chages here
-		if (hacked || isSuicidal)
+		if (hacked || (isSuicidal && !reachedFrontOfPlayer))
 			controlObjectCollider.enabled = collisionsEnabled = (distance < engageDistance);
 
 		if (collisionsEnabled)
@@ -312,6 +312,11 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 						currentWaypoint = GetNextWaypoint();
 
 					reachedFrontOfPlayer = MoveTowardsCurrentWaypoint();
+					if (reachedFrontOfPlayer)
+					{
+						collisionsEnabled = false;
+						state 		  	  = EnemyAIState.SeekPlayer;
+					}
 				}
 				else
 					MoveTowardsPlayer();
@@ -368,7 +373,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private void MoveTowardsPlayer()
 	{
 		controlObject.transform.LookAt(playerShip.transform.position);
-		controlObject.transform.Translate (controlObject.transform.forward * Time.deltaTime * speed);
+		controlObject.transform.Translate(Vector3.forward * Time.deltaTime * speed);
 	}
 
 	// Get the next engagement waypoint to follow, which should be different from the previous one
@@ -549,22 +554,22 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
     {
         // Decide the resource drop for this ship to be within DROP_RESOURCE_RANGE range of its max health + shield
         if(gnatManager == null)
-            gnatManager      = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
+            gnatManager = GameObject.Find("GnatManager").GetComponent<ObjectPoolManager>();
 
         if(fireflyManager == null)
-            fireflyManager      = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
+            fireflyManager = GameObject.Find("FireflyManager").GetComponent<ObjectPoolManager>();
 
         if(termiteManager == null)
-            termiteManager      = GameObject.Find("TermiteManager").GetComponent<ObjectPoolManager>();
+            termiteManager = GameObject.Find("TermiteManager").GetComponent<ObjectPoolManager>();
 
         if(lightningBugManager == null)
-            lightningBugManager      = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
+            lightningBugManager = GameObject.Find("LightningBugManager").GetComponent<ObjectPoolManager>();
 
          if(hornetManager == null)
-            hornetManager      = GameObject.Find("HornetManager").GetComponent<ObjectPoolManager>();
+            hornetManager = GameObject.Find("HornetManager").GetComponent<ObjectPoolManager>();
 
         if(blackWidowManager == null)
-            blackWidowManager      = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
+            blackWidowManager = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
 
         StartCoroutine(UpdateDelay());
         droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
@@ -600,7 +605,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		playerShip = player.transform.FindChild("Model").gameObject;
 
 		Transform playerCommanderShootAnchor = player.transform.Find("CommanderShootAnchor"); // The CommanderShootAnchor is basically the front point of the ship
-		suicidalMinFrontDist 				 = playerCommanderShootAnchor.transform.localPosition.z;
+		suicidalMinFrontDist 				 = playerCommanderShootAnchor.transform.localPosition.z * 1.5f;
 
 		// Enemies have collisions disabled until they come close to the player
 		state = EnemyAIState.SeekPlayer;
@@ -833,6 +838,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		SetHacked(false, 0, "");
         accumulatedPlayerScore = 0;
 		angleGoodForShooting = shoot = false;
+
+		reachedFrontOfPlayer = false;
 
         string removeName = transform.parent.gameObject.name;
         gameState.RemoveEnemy(controlObject.gameObject);
