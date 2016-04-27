@@ -45,10 +45,10 @@ public class MothershipLogic : MonoBehaviour {
 
     IEnumerator ShootBeam()
     {
-        yield return new WaitForSeconds(Random.Range(10,20));
+        yield return new WaitForSeconds(Random.Range(7,16));
         if(gameState.Status == GameState.GameStatus.Died)
             yield break;
-        Vector3 targetPos = player.transform.position + (player.transform.forward * (Vector3.Distance(transform.position, player.transform.position) / Random.Range(10f,14f)));
+        Vector3 targetPos = player.transform.position + (player.transform.forward * (Vector3.Distance(transform.position, player.transform.position) / Random.Range(10.5f,13.5f)));
         int numberOfBeams = Random.Range(7,14);
 
         for(int i = 0; i < numberOfBeams; i++)
