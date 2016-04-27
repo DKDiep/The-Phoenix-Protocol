@@ -52,9 +52,9 @@ MonoBehaviour:
   shootCooldown: 60
   projectileCount: 8
   maxTargetRadius: 600
-  boostDuration: 8
+  boostDuration: 6
   boostCooldown: 60
-  boostSpeedMultiplier: 2
+  boostSpeedMultiplier: 2.5
   shieldOverdriveDuration: 8
   shieldOverdriveCooldown: 60
   empCooldown: 60
@@ -850,7 +850,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostDuration
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostCooldown
@@ -959,6 +959,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: OutpostSpawnLocations.Array.data[1].y
       value: 107
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: boostSpeedMultiplier
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
