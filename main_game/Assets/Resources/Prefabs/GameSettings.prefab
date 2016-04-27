@@ -82,7 +82,7 @@ MonoBehaviour:
     shotsPerSec: 4
     engageDistance: 300
     accuracy: 0.3
-    bulletDamage: 1
+    bulletDamage: 0.1
     bulletSpeed: 600
   - type: 1
     maxHealth: 125
@@ -94,7 +94,7 @@ MonoBehaviour:
     shotsPerSec: 7
     engageDistance: 350
     accuracy: 0.15
-    bulletDamage: 2
+    bulletDamage: 0.4
     bulletSpeed: 600
   - type: 2
     maxHealth: 30
@@ -130,7 +130,7 @@ MonoBehaviour:
     shotsPerSec: 4
     engageDistance: 350
     accuracy: 0.05
-    bulletDamage: 5
+    bulletDamage: 1
     bulletSpeed: 800
   - type: 5
     maxHealth: 350
@@ -142,7 +142,7 @@ MonoBehaviour:
     shotsPerSec: 6
     engageDistance: 350
     accuracy: 0.05
-    bulletDamage: 10
+    bulletDamage: 2
     bulletSpeed: 800
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
@@ -355,8 +355,8 @@ MonoBehaviour:
   PlayerMaxAmmo: 100
   PlayerShootingAmmoCost: 3
   PlayerAmmoRechargeValue: 40
-  PlayerAmmoRechargeInterval: 0.5
-  PlayerAmmoRehargeDelay: 0.5
+  PlayerAmmoRechargeInterval: 0.25
+  PlayerAmmoRehargeDelay: 0.2
   missionProperties:
   - active: 1
     name: Welcome Commander
