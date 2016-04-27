@@ -157,7 +157,7 @@ public class EngineerController : NetworkBehaviour
         if (shipArrow == null && playerController != null && playerController.isLocalPlayer)
         {
             shipArrow = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
-            shipArrow.GetComponent<Image>().color = new Color(0, 142f / 255f, 234f / 255f, 0.4f);
+            shipArrow.GetComponent<Image>().color = new Color(1f, 1f, 0f, 0.6f);
             shipArrow.transform.SetParent(engineerCanvas.transform);
             shipArrow.transform.localScale = new Vector3(1, 1, 1);
         }
