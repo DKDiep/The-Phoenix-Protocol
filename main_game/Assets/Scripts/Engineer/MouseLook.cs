@@ -53,12 +53,9 @@ public class MouseLook : MonoBehaviour
     {
         float yRot = Input.GetAxis("Mouse X") * xSensitivity;
         float xRot = Input.GetAxis("Mouse Y") * ySensitivity;
-
-        // Old Xbox yaw controls
-        //float yawLeft = Input.GetButton("YawLeft") ? yawSpeed : 0;
-        //float yawRight = Input.GetButton("YawRight") ? -yawSpeed : 0;
-        //float zRot = yawLeft + yawRight;
-        float zRot = Input.GetAxis("Yaw") * yawSpeed;
+        float yawLeft = Input.GetButton("YawLeft") ? yawSpeed : 0;
+        float yawRight = Input.GetButton("YawRight") ? -yawSpeed : 0;
+        float zRot = yawLeft + yawRight;
 
         // Check if the engineer has rotated
         bool rotated = yRot != 0 || xRot != 0 || zRot != 0;
