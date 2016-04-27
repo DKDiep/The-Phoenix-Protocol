@@ -333,25 +333,28 @@ public class UDPServer : MonoBehaviour
                     int j = 0;
                     while(i < enemies.Count && j < 10) {
                         GameObject enemy = enemies[i];
+
                         if (enemy == null)
                         {
                             Debug.LogWarning("There is a null enemy in the enemy list.");
                             foundNullEnemy = true;
-                            continue;
                         }
+						else
+						{
+							// Add the enemy to the dictionary if it isn't already in there
+	                        if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
+	                            InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
 
-                        // Add the enemy to the dictionary if it isn't already in there
-                        if (!InstanceIDToEnemy.ContainsKey((enemy.GetInstanceID())))
-                            InstanceIDToEnemy[enemy.GetInstanceID()] = enemy;
+	                        jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
+	                                    ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
+	                                    ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
+	                                    ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
+	                                    ",\"fX\":" + enemy.transform.forward.x.ToString("0.000") +
+	                                    ",\"fY\":" + enemy.transform.forward.z.ToString("0.000") +
+	                                    ",\"fZ\":" + enemy.transform.forward.y.ToString("0.000") +
+	                                    "},";
+						}
 
-                        jsonMsg += "{\"id\":" + enemy.GetInstanceID() +
-                                    ",\"x\":" + enemy.transform.position.x.ToString("0.000") +
-                                    ",\"y\":" + enemy.transform.position.z.ToString("0.000") +
-                                    ",\"z\":" + enemy.transform.position.y.ToString("0.000") +
-                                    ",\"fX\":" + enemy.transform.forward.x.ToString("0.000") +
-                                    ",\"fY\":" + enemy.transform.forward.z.ToString("0.000") +
-                                    ",\"fZ\":" + enemy.transform.forward.y.ToString("0.000") +
-                                    "},";
                         i++;
                         j++;
                     }
