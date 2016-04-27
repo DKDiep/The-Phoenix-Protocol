@@ -115,6 +115,9 @@ public class PlayerShooting : MonoBehaviour
        
         ShootUpdate(currentPlayerId);
 
+		/*if (currentPlayerId == 0)
+			Debug.Log("Ammo: " + ammo);*/
+
         // Control alpha of hitmarker
 		if (alpha > 0)
 			alpha -= 5f * Time.deltaTime;
