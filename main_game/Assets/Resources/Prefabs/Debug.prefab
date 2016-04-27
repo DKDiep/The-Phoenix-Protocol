@@ -84,7 +84,7 @@ MonoBehaviour:
     screenData: 1
   hotKey: 9
   keepAlive: 1
-  operationMode: 2
+  operationMode: 0
   forceFrameRate: 0
   forcedFrameRate: -1
   anchorsOffset: {x: 5, y: 5}
