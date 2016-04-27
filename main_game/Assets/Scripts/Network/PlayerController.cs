@@ -426,7 +426,7 @@ public class PlayerController : NetworkBehaviour
     {
         if (popupWindow == null)
         {
-            popupWindow = GameObject.Find("MissionWindow(Clone)");
+            popupWindow = GameObject.Find("MainScreenMissionWindow(Clone)");
             GameObject crosshairCanvas = serverManager.GetCrosshairObject(0);
             popupWindow.transform.SetParent(crosshairCanvas.transform, false);
             // centre popup window
