@@ -41,7 +41,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameManager: {fileID: 0}
   AsteroidMaxDroppedResources: 20
-  MaxAsteroids: 1300
+  MaxAsteroids: 2000
   AsteroidMaxVariation: 35
   AsteroidMinDistance: 300
   AsteroidMaxDistance: 3000
@@ -52,17 +52,17 @@ MonoBehaviour:
   shootCooldown: 60
   projectileCount: 8
   maxTargetRadius: 600
-  boostDuration: 6
+  boostDuration: 7
   boostCooldown: 60
   boostSpeedMultiplier: 2.5
-  shieldOverdriveDuration: 8
+  shieldOverdriveDuration: 7
   shieldOverdriveCooldown: 60
   empCooldown: 60
-  empRadius: 500
+  empRadius: 450
   empDuration: 8
   smartBombCooldown: 60
   smartBombRadius: 300
-  EnemyMinSpawnDistance: 500
+  EnemyMinSpawnDistance: 650
   EnemyMaxSpawnDistance: 900
   AIWaypointsPerEnemy: 10
   AIWaypointGenerationFactor: 8
@@ -73,34 +73,34 @@ MonoBehaviour:
   EnemyOutpostSpawnRadius: 200
   enemyProperties:
   - type: 0
-    maxHealth: 50
+    maxHealth: 60
+    maxShield: 0
+    collisionDamage: 15
+    speed: 36
+    isSuicidal: 0
+    shootPeriod: 3
+    shotsPerSec: 2
+    engageDistance: 250
+    accuracy: 0.3
+    bulletDamage: 0.5
+    bulletSpeed: 600
+  - type: 1
+    maxHealth: 120
     maxShield: 0
     collisionDamage: 20
     speed: 36
     isSuicidal: 0
     shootPeriod: 3
-    shotsPerSec: 4
-    engageDistance: 300
-    accuracy: 0.3
-    bulletDamage: 0.1
-    bulletSpeed: 600
-  - type: 1
-    maxHealth: 125
-    maxShield: 0
-    collisionDamage: 35
-    speed: 40
-    isSuicidal: 0
-    shootPeriod: 3
     shotsPerSec: 7
-    engageDistance: 350
+    engageDistance: 300
     accuracy: 0.15
-    bulletDamage: 0.4
+    bulletDamage: 0.8
     bulletSpeed: 600
   - type: 2
-    maxHealth: 30
+    maxHealth: 50
     maxShield: 0
     collisionDamage: 10
-    speed: 50
+    speed: 40
     isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
@@ -109,10 +109,10 @@ MonoBehaviour:
     bulletDamage: 0
     bulletSpeed: 0
   - type: 3
-    maxHealth: 30
+    maxHealth: 50
     maxShield: 0
     collisionDamage: 10
-    speed: 50
+    speed: 40
     isSuicidal: 0
     shootPeriod: 0
     shotsPerSec: 0
@@ -121,10 +121,10 @@ MonoBehaviour:
     bulletDamage: 0
     bulletSpeed: 0
   - type: 4
-    maxHealth: 200
+    maxHealth: 250
     maxShield: 0
-    collisionDamage: 60
-    speed: 40
+    collisionDamage: 30
+    speed: 30
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -135,14 +135,14 @@ MonoBehaviour:
   - type: 5
     maxHealth: 350
     maxShield: 0
-    collisionDamage: 75
-    speed: 30
+    collisionDamage: 30
+    speed: 33
     isSuicidal: 0
     shootPeriod: 4
     shotsPerSec: 6
     engageDistance: 350
     accuracy: 0.05
-    bulletDamage: 2
+    bulletDamage: 1.2
     bulletSpeed: 800
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
@@ -842,7 +842,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: EnemyMinSpawnDistance
-      value: 500
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shootCooldown
@@ -850,7 +850,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostDuration
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: boostCooldown
@@ -858,7 +858,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldOverdriveDuration
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shieldOverdriveCooldown
@@ -882,19 +882,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[0].engageDistance
-      value: 300
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[1].engageDistance
-      value: 350
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[2].speed
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[3].speed
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[3].collisionDamage
@@ -930,15 +930,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[1].speed
-      value: 40
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[4].speed
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[5].speed
-      value: 30
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: OutpostResourceCollectionDistance
@@ -967,6 +967,66 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: PortalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].shotsPerSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].bulletDamage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[1].bulletDamage
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MaxAsteroids
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].maxHealth
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[1].maxHealth
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[2].maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[3].maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[4].maxHealth
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[5].collisionDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[4].collisionDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[1].collisionDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[0].collisionDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: empRadius
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemyProperties.Array.data[5].bulletDamage
+      value: 1.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

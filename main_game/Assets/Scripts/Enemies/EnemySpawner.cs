@@ -267,7 +267,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator TimedDifficulty()
     {
         IncreaseDifficulty();
-        yield return new WaitForSeconds(60f);
+        yield return new WaitForSeconds(30f);
         StartCoroutine(TimedDifficulty());
     }
 
@@ -282,8 +282,8 @@ public class EnemySpawner : MonoBehaviour
         switch(difficulty) 
         {
             case 1 :
-                maxEnemies = 35;
-                gnatLimit = 80;
+                maxEnemies = 15;
+                gnatLimit = 90;
                 fireflyLimit = 100;
                 termiteLimit = 101;
                 lightningBugLimit = 101;
@@ -292,7 +292,7 @@ public class EnemySpawner : MonoBehaviour
                 break;
 
         case 2 :
-                maxEnemies = 40;
+                maxEnemies = 30;
                 gnatLimit = 60;
                 fireflyLimit = 100;
                 termiteLimit = 101;
@@ -301,52 +301,52 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 3 :
-                maxEnemies = 45;
-                gnatLimit = 20;
-                fireflyLimit = 70;
+                maxEnemies = 35;
+                gnatLimit = 50;
+                fireflyLimit = 80;
                 termiteLimit = 100;
                 lightningBugLimit = 101;
                 hornetLimit = 101;
                 blackWidowLimit = 101;
                 break;
         case 4 :
-                maxEnemies = 50;
-                gnatLimit = 20;
+                maxEnemies = 40;
+                gnatLimit = 30;
                 fireflyLimit = 60;
-                termiteLimit = 90;
+                termiteLimit = 80;
                 lightningBugLimit = 100;
                 hornetLimit = 101;
                 blackWidowLimit = 101;
                 break;
         case 5 :
-                maxEnemies = 55;
+                maxEnemies = 40;
                 gnatLimit = 20;
-                fireflyLimit = 50;
+                fireflyLimit = 60;
                 termiteLimit = 70;
-                lightningBugLimit = 90;
-                hornetLimit = 100;
-                blackWidowLimit = 101;
-                break;
-        case 6 :
-                maxEnemies = 60;
-                gnatLimit = 20;
-                fireflyLimit = 40;
-                termiteLimit = 60;
                 lightningBugLimit = 80;
                 hornetLimit = 100;
                 blackWidowLimit = 101;
                 break;
-        case 7 :
-                maxEnemies = 70;
-                gnatLimit = 10;
-                fireflyLimit = 30;
-                termiteLimit = 50;
-                lightningBugLimit = 60;
+        case 6 :
+                maxEnemies = 45;
+                gnatLimit = 20;
+                fireflyLimit = 40;
+                termiteLimit = 60;
+                lightningBugLimit = 70;
                 hornetLimit = 100;
                 blackWidowLimit = 101;
                 break;
+        case 7 :
+                maxEnemies = 50;
+                gnatLimit = 20;
+                fireflyLimit = 40;
+                termiteLimit = 50;
+                lightningBugLimit = 60;
+                hornetLimit = 90;
+                blackWidowLimit = 100;
+                break;
         case 8 :
-                maxEnemies = 70;
+                maxEnemies = 50;
                 gnatLimit = 10;
                 fireflyLimit = 25;
                 termiteLimit = 40;
@@ -355,7 +355,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 100;
                 break;
         case 9 :
-                maxEnemies = 80;
+                maxEnemies = 50;
                 gnatLimit = 10;
                 fireflyLimit = 20;
                 termiteLimit = 35;
@@ -366,7 +366,7 @@ public class EnemySpawner : MonoBehaviour
             // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
             default :
                 if(maxEnemies < 100)
-                    maxEnemies += 5;
+                    maxEnemies += 10;
                 break;
         }
 
