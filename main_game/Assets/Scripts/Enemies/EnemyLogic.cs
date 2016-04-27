@@ -715,6 +715,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
         obj.transform.position = shootAnchor.transform.position;
 
         GameObject logic = bulletLogicManager.RequestObject();
+		if (logic == null)
+		{
+			bulletManager.RemoveObject(obj.name);
+			yield break;
+		}
+
 		logic.transform.parent = obj.transform;
 		logic.transform.localPosition = Vector3.zero;
 
