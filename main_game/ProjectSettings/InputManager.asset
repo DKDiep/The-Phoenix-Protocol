@@ -158,44 +158,12 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3
-    dead: 0.5
-    sensitivity: 3
+    dead: 0
+    sensitivity: 0.1
     snap: 0
     invert: 1
     type: 2
-    axis: 1
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Mouse X
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 3
-    dead: 0.5
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 3
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Mouse Y
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 3
-    dead: 0.5
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 4
+    axis: 2
     joyNum: 0
   - serializedVersion: 3
     m_Name: Action
@@ -218,7 +186,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: joystick button 2
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -230,36 +198,52 @@ InputManager:
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: YawLeft
+    m_Name: Mouse X
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 4
+    positiveButton: joystick button 2
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 1000
+    gravity: 1
     dead: 0.001
-    sensitivity: 1000
+    sensitivity: 1
     snap: 0
     invert: 0
-    type: 0
+    type: 2
     axis: 0
     joyNum: 0
   - serializedVersion: 3
-    m_Name: YawRight
+    m_Name: Mouse Y
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 5
+    positiveButton: joystick button 2
     altNegativeButton: 
     altPositiveButton: 
-    gravity: 1000
+    gravity: 1
     dead: 0.001
-    sensitivity: 1000
+    sensitivity: 1
     snap: 0
     invert: 0
-    type: 0
-    axis: 0
+    type: 2
+    axis: 1
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: Yaw
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1
+    dead: 0.001
+    sensitivity: 1
+    snap: 0
+    invert: 1
+    type: 2
+    axis: 5
     joyNum: 0
   - serializedVersion: 3
     m_Name: Horizontal
@@ -272,22 +256,6 @@ InputManager:
     gravity: 0
     dead: 0.19
     sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 2
-    axis: 0
-    joyNum: 0
-  - serializedVersion: 3
-    m_Name: Horizontal
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: 
-    altNegativeButton: 
-    altPositiveButton: 
-    gravity: 3
-    dead: 0.5
-    sensitivity: 3
     snap: 0
     invert: 0
     type: 2
