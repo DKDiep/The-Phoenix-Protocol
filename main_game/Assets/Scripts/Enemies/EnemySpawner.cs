@@ -282,7 +282,7 @@ public class EnemySpawner : MonoBehaviour
         switch(difficulty) 
         {
             case 1 :
-                maxEnemies = 45;
+                maxEnemies = 35;
                 gnatLimit = 80;
                 fireflyLimit = 100;
                 termiteLimit = 101;
@@ -292,7 +292,7 @@ public class EnemySpawner : MonoBehaviour
                 break;
 
         case 2 :
-                maxEnemies = 50;
+                maxEnemies = 40;
                 gnatLimit = 60;
                 fireflyLimit = 100;
                 termiteLimit = 101;
@@ -301,7 +301,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 3 :
-                maxEnemies = 55;
+                maxEnemies = 45;
                 gnatLimit = 20;
                 fireflyLimit = 70;
                 termiteLimit = 100;
@@ -310,7 +310,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 4 :
-                maxEnemies = 60;
+                maxEnemies = 50;
                 gnatLimit = 20;
                 fireflyLimit = 60;
                 termiteLimit = 90;
@@ -319,7 +319,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 5 :
-                maxEnemies = 65;
+                maxEnemies = 55;
                 gnatLimit = 20;
                 fireflyLimit = 50;
                 termiteLimit = 70;
@@ -328,7 +328,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 6 :
-                maxEnemies = 70;
+                maxEnemies = 60;
                 gnatLimit = 20;
                 fireflyLimit = 40;
                 termiteLimit = 60;
@@ -337,7 +337,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 7 :
-                maxEnemies = 80;
+                maxEnemies = 70;
                 gnatLimit = 10;
                 fireflyLimit = 30;
                 termiteLimit = 50;
@@ -346,7 +346,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 101;
                 break;
         case 8 :
-                maxEnemies = 90;
+                maxEnemies = 70;
                 gnatLimit = 10;
                 fireflyLimit = 25;
                 termiteLimit = 40;
@@ -355,7 +355,7 @@ public class EnemySpawner : MonoBehaviour
                 blackWidowLimit = 100;
                 break;
         case 9 :
-                maxEnemies = 100;
+                maxEnemies = 80;
                 gnatLimit = 10;
                 fireflyLimit = 20;
                 termiteLimit = 35;
@@ -365,8 +365,8 @@ public class EnemySpawner : MonoBehaviour
                 break;
             // The default case will run when the difficulty exceeds the number set by us. In this case, the number of enemies will increase until 120
             default :
-                if(maxEnemies < 150)
-                    maxEnemies += 50;
+                if(maxEnemies < 100)
+                    maxEnemies += 5;
                 break;
         }
 
