@@ -4,11 +4,14 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class MothershipCollision : MonoBehaviour 
 {
     private MothershipLogic myLogic;
     private ShipMovement shipMovement;
+
+    private readonly Regex turretRegex = new Regex("Turret[012][LR]");
 
     void OnTriggerEnter (Collider col)
     {
@@ -18,7 +21,12 @@ public class MothershipCollision : MonoBehaviour
     	{
             GameObject hitObject = col.gameObject;
             if(shipMovement == null)
-			    shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+            {
+                if (turretRegex.IsMatch(hitObject.name))
+                        shipMovement = hitObject.transform.parent.GetComponentInChildren<ShipMovement>();
+                else
+                        shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
+            }
 
             if (shipMovement != null)
                 shipMovement.collision(float.MaxValue, 0f, hitObject.name.GetComponentType());
