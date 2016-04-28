@@ -70,6 +70,8 @@ public class LoadingText : NetworkBehaviour
         for(int i = 0; i < 3; i++)
 		    shooting[i].SetShootingEnabled(true);
 		missionManager.StartTimer();
+        yield return new WaitForSeconds(2f);
+        CommanderVoice.SendCommand(0);
         //Destroy(this, 3f);
     }
 

@@ -138,6 +138,8 @@ public class EnemySpawner : MonoBehaviour
         logic.GetComponent<MothershipLogic>().SetSpawner(this);
         yield return new WaitForSeconds(1f);
         spawnEffect.GetComponent<DisableSpawnEffect>().DisableParticles();
+        yield return new WaitForSeconds(1f);
+        CommanderVoice.SendCommand(5);
 
 
     }

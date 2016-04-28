@@ -385,6 +385,7 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+    soundOnStart: 1
   - active: 0
     name: Enemy Fire
     description: Looks like collecting those resources attracted the attention of
@@ -410,6 +411,7 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+    soundOnStart: 2
   - active: 1
     name: Taking Damage!
     description: Your shields have been breached and your hull is taking damage, Get
@@ -448,6 +450,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+    soundOnStart: 3
   - active: 0
     name: Upgrade Shields
     description: "Upgrade your shields to protect your hull from damage.\t"
@@ -483,6 +486,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
+    soundOnStart: 4
   civilianWeighting: 100
   resourcesWeighting: 50
   playerScoreWeighting: 100
@@ -1027,6 +1031,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: enemyProperties.Array.data[5].bulletDamage
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[0].soundOnStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[2].soundOnStart
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[3].soundOnStart
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[1].soundOnStart
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

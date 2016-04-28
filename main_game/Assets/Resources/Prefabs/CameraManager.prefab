@@ -63,6 +63,7 @@ GameObject:
   - 114: {fileID: 11466130}
   - 82: {fileID: 8264342}
   - 114: {fileID: 11472356}
+  - 114: {fileID: 11405100}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -290,6 +291,26 @@ MonoBehaviour:
   strength: 0.13
   colorNoise: 0.6
   noiseColor: {r: 0, g: 0.030324461, b: 0.33823532, a: 1}
+--- !u!114 &11405100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 926f115212a5240308c903b73d8e1b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiClips:
+  - {fileID: 8300000, guid: 34bb9f9d336b04a8fbfff4cdd86b7da9, type: 3}
+  - {fileID: 8300000, guid: 5a93f669aefe54c318dabcef355c9aec, type: 3}
+  - {fileID: 8300000, guid: c6ec6be50f96b42deb9ed042274d08c6, type: 3}
+  - {fileID: 8300000, guid: 053221d87c9e34a1aa531da48fb2fc3e, type: 3}
+  - {fileID: 8300000, guid: aea6eb088244244d293b06f986323e6d, type: 3}
+  - {fileID: 8300000, guid: 9adefc1bcb4f344a799a356d15bc5211, type: 3}
+  - {fileID: 8300000, guid: 24b35c2f795c94bef993bb285b3deab5, type: 3}
+  - {fileID: 8300000, guid: af46cd7ff15434a63a754c2ae06302a6, type: 3}
 --- !u!114 &11406702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2172,7 +2193,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: aiClips.Array.size
-      value: 22
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: MotionScale
@@ -2513,19 +2534,19 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[0]
       value: 
-      objectReference: {fileID: 8300000, guid: b6ac356884e194b6abc1c968192e2484, type: 3}
+      objectReference: {fileID: 8300000, guid: 34bb9f9d336b04a8fbfff4cdd86b7da9, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[2]
       value: 
-      objectReference: {fileID: 8300000, guid: 33f9dad0d1630469a8174b4127f75f5b, type: 3}
+      objectReference: {fileID: 8300000, guid: c6ec6be50f96b42deb9ed042274d08c6, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[1]
       value: 
-      objectReference: {fileID: 8300000, guid: 110d5735c0dff40e48dfa054103f2625, type: 3}
+      objectReference: {fileID: 8300000, guid: 5a93f669aefe54c318dabcef355c9aec, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[3]
       value: 
-      objectReference: {fileID: 8300000, guid: e315d8612c73f40659e76f5fd048d7de, type: 3}
+      objectReference: {fileID: 8300000, guid: 053221d87c9e34a1aa531da48fb2fc3e, type: 3}
     - target: {fileID: 0}
       propertyPath: panLevelCustomCurve.m_RotationOrder
       value: 0
@@ -2549,19 +2570,19 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[4]
       value: 
-      objectReference: {fileID: 8300000, guid: dfe5097c4c17b493eb43765aa3d9e98e, type: 3}
+      objectReference: {fileID: 8300000, guid: aea6eb088244244d293b06f986323e6d, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[5]
       value: 
-      objectReference: {fileID: 8300000, guid: bf03e8b9e5a684bcfa0d4fca19b685ec, type: 3}
+      objectReference: {fileID: 8300000, guid: 9adefc1bcb4f344a799a356d15bc5211, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[6]
       value: 
-      objectReference: {fileID: 8300000, guid: 4a088172680df4571ab35b9bb0857bba, type: 3}
+      objectReference: {fileID: 8300000, guid: 24b35c2f795c94bef993bb285b3deab5, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[7]
       value: 
-      objectReference: {fileID: 8300000, guid: 387e0b435dc6b4e5b9cff71954c9dfdd, type: 3}
+      objectReference: {fileID: 8300000, guid: af46cd7ff15434a63a754c2ae06302a6, type: 3}
     - target: {fileID: 0}
       propertyPath: aiClips.Array.data[8]
       value: 

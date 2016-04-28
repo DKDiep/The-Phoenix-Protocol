@@ -173,6 +173,8 @@ public class MissionManager : MonoBehaviour
     private void StartMission(int missionId)
     {
         missions[missionId].start();
+        if(missions[missionId].soundOnStart != 0)
+            CommanderVoice.SendCommand(missions[missionId].soundOnStart);
         int i = 0;
         int[] missionCompletions = new int[missions[missionId].completionConditions.Length];
         int[] ids = new int[missions[missionId].completionConditions.Length]; //ids can be the id of the outpost, or the id of the upgradable component
@@ -382,6 +384,8 @@ public class MissionManager : MonoBehaviour
 
         private bool started = false;
         private bool complete = false;
+
+        public int soundOnStart;
 
         //index of a mission 
 

@@ -15,10 +15,12 @@ public class GameStatusManager : NetworkBehaviour
     private TCPServer tcpServer;
     private MusicManager musicManager;
     private GameObject localPortal;
+    private bool endSoundPlayed;
 
 	// Use this for initialization
 	void Start () {
 		server = GameObject.Find("GameManager");
+        endSoundPlayed = false;
 
 		gameState = server.GetComponent<GameState>();
         tcpServer = this.gameObject.GetComponent<TCPServer>();
@@ -29,6 +31,7 @@ public class GameStatusManager : NetworkBehaviour
 
     public void Reset()
     {
+        endSoundPlayed = false;
         RpcReset();
     }
 
@@ -80,9 +83,19 @@ public class GameStatusManager : NetworkBehaviour
             {
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "Your ship has been destroyed";
                 gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "GAME OVER";
+                if(!endSoundPlayed)
+                {
+                    endSoundPlayed = true;
+                    CommanderVoice.SendCommand(6);
+                }
             }
 			else
             {
+                if(!endSoundPlayed)
+                {
+                    endSoundPlayed = true;
+                    CommanderVoice.SendCommand(7);
+                }
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
                 gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "YOU SURVIVED";
             }

@@ -50,7 +50,7 @@ public class AIVoice : MonoBehaviour {
         if (state.Status != GameState.GameStatus.Started)
             return;
 
-        if(!mySource.isPlaying && id != lastCommand && !minDelay)
+        if(!mySource.isPlaying && id != lastCommand && !minDelay && !CommanderVoice.IsPlaying())
         {
             mySource.clip = aiClips[id];
             mySource.Play();
