@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityStandardAssets.ImageEffects;
+using UnityStandardAssets.CinematicEffects;
 
 public class EngineerController : NetworkBehaviour
 {
@@ -475,7 +476,7 @@ public class EngineerController : NetworkBehaviour
         if(!runOnce)
         {
             Camera.main.gameObject.GetComponent<VideoGlitches.VideoGlitchVHSPause>().enabled = true;
-            Camera.main.gameObject.GetComponent<VignetteAndChromaticAberration>().enabled = true;
+            Camera.main.gameObject.GetComponent<LensAberrations>().enabled = true;
             runOnce = true;
         }
 
