@@ -214,7 +214,7 @@ MonoBehaviour:
   OutpostMinAsteroidFieldDensity: 0.6
   OutpostMaxAsteroidFieldDensity: 0.8
   OutpostSpawnLocations:
-  - {x: -1800, y: 100, z: -1000}
+  - {x: -1800, y: 100, z: -600}
   - {x: 786, y: 107, z: -219}
   OutpostDifficulties: 0000000002000000
   OutpostSpawnLocationsVariance: 10
@@ -368,7 +368,7 @@ MonoBehaviour:
     triggerOnAny: 1
     triggerConditions:
     - triggerType: 0
-      triggerValue: 5
+      triggerValue: 22
     completeOnAny: 0
     completionConditions:
     - completionType: 1
