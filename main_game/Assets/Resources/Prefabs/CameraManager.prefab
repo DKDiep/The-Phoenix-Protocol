@@ -47,8 +47,9 @@ GameObject:
   - 114: {fileID: 11406702}
   - 114: {fileID: 11416962}
   - 114: {fileID: 11487436}
-  - 114: {fileID: 11457318}
   - 114: {fileID: 11483508}
+  - 114: {fileID: 11497154}
+  - 114: {fileID: 11408440}
   - 114: {fileID: 11444728}
   - 114: {fileID: 11426972}
   - 124: {fileID: 12422896}
@@ -57,15 +58,13 @@ GameObject:
   - 114: {fileID: 11465172}
   - 45: {fileID: 4507344}
   - 164: {fileID: 16460914}
-  - 114: {fileID: 11420058}
   - 114: {fileID: 11400542}
   - 114: {fileID: 11427500}
   - 114: {fileID: 11466130}
   - 82: {fileID: 8264342}
   - 114: {fileID: 11472356}
   - 114: {fileID: 11405100}
-  - 114: {fileID: 11415854}
-  - 114: {fileID: 11422894}
+  - 114: {fileID: 11490908}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -324,38 +323,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a802a02f197647fcbbfda5e40c83481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11415854
+--- !u!114 &11408440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185312}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97e9b95cf609d96409b6c40519432957, type: 3}
+  m_Script: {fileID: 11500000, guid: fdc35e0180670ab4e8d2f9439137791f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filterType: 2
-  preview: 0
-  previewScale: {x: 1, y: 1, z: 1}
-  movementScale: 0
-  rotationScale: 1
-  maxVelocity: 8
-  minVelocity: 0.1
-  velocityScale: 0.375
-  softZDistance: 0.005
-  velocityDownsample: 1
-  excludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  shader: {fileID: 4800000, guid: 85a88efa8c871af4a9d17c64791b6f4f, type: 3}
-  dx11MotionBlurShader: {fileID: 4800000, guid: f1b13d7a80660504a858ea24cfa418c6,
-    type: 3}
-  replacementClear: {fileID: 4800000, guid: 7699c5fbfa27745a1abe111ab7bf9785, type: 3}
-  noiseTexture: {fileID: 2800000, guid: 31f5a8611c4ed1245b18456206e798dc, type: 3}
-  jitter: 0.05
-  showVelocity: 0
-  showVelocityScale: 1
+  m_SMAA:
+    settings:
+      debugPass: 0
+      quality: 3
+      edgeDetectionMethod: 2
+    quality:
+      diagonalDetection: 1
+      cornerDetection: 1
+      threshold: 0.1
+      depthThreshold: 0.01
+      maxSearchSteps: 16
+      maxDiagonalSearchSteps: 8
+      cornerRounding: 25
+      localContrastAdaptationFactor: 2
+    predication:
+      enabled: 1
+      threshold: 0.01
+      scale: 2
+      strength: 0.4
+    temporal:
+      enabled: 0
+      fuzzSize: 0.5
+  m_FXAA:
+    preset:
+      qualitySettings:
+        subpixelAliasingRemovalAmount: 0.75
+        edgeDetectionThreshold: 0.166
+        minimumRequiredLuminance: 0.0833
+      consoleSettings:
+        subpixelSpreadAmount: 0.5
+        edgeSharpnessAmount: 8
+        edgeDetectionThreshold: 0.125
+        minimumRequiredLuminance: 0.05
+  m_Method: 0
 --- !u!114 &11416962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -383,43 +395,6 @@ MonoBehaviour:
   halfSampling: 1
   preserveDetails: 1
   attachedCamera: {fileID: 2005218}
---- !u!114 &11420058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 0
-  intensity: 0.36
-  chromaticAberration: 2.5
-  axialAberration: 0.5
-  blur: 0.27
-  blurSpread: 0.75
-  luminanceDependency: 0.25
-  blurDistance: 2.5
-  vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
-  separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
-  chromAberrationShader: {fileID: 4800000, guid: 2b4f29398d9484ccfa9fd220449f5eee,
-    type: 3}
---- !u!114 &11422894
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 478a2083ad114a07d000fbfb8d76c639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: e9ba2083ad114a07d000fbfb8d76c639, type: 3}
-  blurAmount: 0.92
-  extraBlur: 1
 --- !u!114 &11426972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,38 +468,6 @@ MonoBehaviour:
   EffectFlags:
     components: []
   sharedInstanceID: da54bdca-0536-4224-9b89-ffef63de851a
---- !u!114 &11457318
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ec5688dc97c94c41a2bf37f0a513c2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hdr: 0
-  DebugPass: 0
-  Quality: 3
-  DetectionMethod: 2
-  UsePredication: 0
-  CustomPreset:
-    DiagDetection: 1
-    CornerDetection: 1
-    Threshold: 0.1
-    DepthThreshold: 0.01
-    MaxSearchSteps: 16
-    MaxSearchStepsDiag: 8
-    CornerRounding: 25
-    LocalContrastAdaptationFactor: 2
-  CustomPredicationPreset:
-    Threshold: 0.01
-    Scale: 2
-    Strength: 0.4
-  Shader: {fileID: 4800000, guid: 461ad39340fd1bf4e8d9fe310c58be95, type: 3}
-  AreaTex: {fileID: 2800000, guid: 7a7a7bb321416fa4d8ba53a700ae8140, type: 3}
-  SearchTex: {fileID: 2800000, guid: 3e01b396685ee1f48ac664c99ac95201, type: 3}
 --- !u!114 &11465172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -692,6 +635,88 @@ MonoBehaviour:
   m_LowResolution: 0
   m_ShowHistogram: 0
   m_HistogramSize: 0.3
+--- !u!114 &11490908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185312}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff5335a7357baa3489a469d0ca0f40f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distortion:
+    enabled: 1
+    amount: -40
+    centerX: 0.5
+    centerY: 0.5
+    amountX: 1
+    amountY: 1
+    scale: 1
+  vignette:
+    enabled: 1
+    mode: 1
+    color: {r: 0, g: 0, b: 0, a: 1}
+    intensity: 1.67
+    smoothness: 1.5
+    radius: 0.87
+    spread: 0.4
+    falloff: 0.63
+    roundness: 1
+    blur: 0.103
+    desaturate: 0
+  chromaticAberration:
+    enabled: 1
+    mode: 0
+    tangential: 0.95
+    axial: 0
+    contrastDependency: 0
+  m_Shader: {fileID: 4800000, guid: 136ab50fe2b9ad64d9c22adc3668abb7, type: 3}
+--- !u!114 &11497154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3ff4a1bef2e8d47a1dfb734aa54de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    basicSettings:
+      reflectionMultiplier: 1
+      maxDistance: 200
+      fadeDistance: 200
+      screenEdgeFading: 0.03
+      enableHDR: 1
+      additiveReflection: 1
+    reflectionSettings:
+      maxSteps: 256
+      rayStepSize: 3
+      widthModifier: 0.5
+      smoothFallbackThreshold: 0.2
+      smoothFallbackDistance: 0.05
+      fresnelFade: 0.41
+      fresnelFadePower: 1.6
+      distanceBlur: 0.59
+    advancedSettings:
+      temporalFilterStrength: 0.7
+      useTemporalConfidence: 1
+      traceBehindObjects: 1
+      highQualitySharpReflections: 1
+      traceEverywhere: 1
+      treatBackfaceHitAsMiss: 0
+      allowBackwardsRays: 0
+      improveCorners: 1
+      resolution: 0
+      bilateralUpsample: 1
+      reduceBanding: 1
+      highlightSuppression: 1
+    debugSettings:
+      debugMode: 0
+  m_Shader: {fileID: 4800000, guid: 7e2fcc83af19e744787647ec0ac5d42c, type: 3}
 --- !u!124 &12422896
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2718,6 +2743,106 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: blurAmount
       value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distortion.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distortion.amount
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.intensity
+      value: 1.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.radius
+      value: 0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.falloff
+      value: 0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: vignette.blur
+      value: 0.103
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: chromaticAberration.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: chromaticAberration.tangential
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SMAA.settings.quality
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SMAA.predication.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SMAA.temporal.fuzzSize
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SMAA.temporal.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.basicSettings.maxDistance
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.basicSettings.fadeDistance
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.basicSettings.additiveReflection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.reflectionSettings.maxSteps
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.reflectionSettings.fresnelFade
+      value: 0.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.reflectionSettings.fresnelFadePower
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.reflectionSettings.distanceBlur
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.advancedSettings.resolution
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.advancedSettings.highlightSuppression
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Shader
+      value: 
+      objectReference: {fileID: 4800000, guid: 7e2fcc83af19e744787647ec0ac5d42c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: settings.advancedSettings.temporalFilterStrength
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

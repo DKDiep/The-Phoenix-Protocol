@@ -12,7 +12,6 @@ public class ToggleGraphics : MonoBehaviour
 	private SESSAO sessao;
 	private SENaturalBloomAndDirtyLens bloom;
 	private AmplifyColorEffect color;
-	private Smaa.SMAA smaa;
 	private LightShafts volumetricLighting;
     private bool foundLight = false;
     private EyeAdaptation eyeAdaptation;
@@ -24,7 +23,6 @@ public class ToggleGraphics : MonoBehaviour
 		sessao         = GetComponent<SESSAO>();
 		bloom          = GetComponent<SENaturalBloomAndDirtyLens>();
 		color          = GetComponent<AmplifyColorEffect>();
-		smaa           = GetComponent<Smaa.SMAA>();
         eyeAdaptation = GetComponent<EyeAdaptation>();
 		
 		UpdateGraphics ();
@@ -37,7 +35,6 @@ public class ToggleGraphics : MonoBehaviour
 		sessao.enabled = enableGraphics;
 		bloom.enabled  = enableGraphics;
 		color.enabled  = enableGraphics;
-		smaa.enabled   = enableGraphics;
         if(volumetricLighting != null)
 			volumetricLighting.enabled = enableGraphics;
         else
@@ -49,7 +46,6 @@ public class ToggleGraphics : MonoBehaviour
     public void SetCommandGraphics()
     {
         sessao.enabled = true;
-        smaa.enabled   = true;
         bloom.enabled = true;
         eyeAdaptation.enabled = false;
 
