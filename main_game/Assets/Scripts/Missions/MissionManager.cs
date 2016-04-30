@@ -344,6 +344,8 @@ public class MissionManager : MonoBehaviour
                         if (!missions[missionId].completeOnAny) return false;
                     }
                     break;
+                case CompletionType.Portal:
+                    return false;
             }
         }
         //If completeOnAny is true then this section is only reached if none of the complete conditions are met.
