@@ -47,7 +47,7 @@ GameObject:
   - 114: {fileID: 11406702}
   - 114: {fileID: 11416962}
   - 114: {fileID: 11487436}
-  - 114: {fileID: 11483508}
+  - 114: {fileID: 11448170}
   - 114: {fileID: 11497154}
   - 114: {fileID: 11408440}
   - 114: {fileID: 11444728}
@@ -468,6 +468,162 @@ MonoBehaviour:
   EffectFlags:
     components: []
   sharedInstanceID: da54bdca-0536-4224-9b89-ffef63de851a
+--- !u!114 &11448170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c248faf0e10cd5a4cb2ca648c286bfa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SamplingMinHeight: 400
+  m_ResSamplingPixelCount:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  m_SamplingMode: 0
+  m_BlendMode: 0
+  m_ScreenMaxIntensity: 0
+  m_QualityPreset: 0
+  m_HDR: 0
+  m_ScreenBlendMode: 1
+  m_BloomIntensity: 0.05
+  m_BloomThreshhold: 4.087786
+  m_BloomThreshholdColor: {r: 1, g: 1, b: 1, a: 1}
+  m_DownscaleCount: 6
+  m_IntensityManagement: 0
+  m_BloomIntensities:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  m_BloomColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  m_BloomUsages: 0101010101010101
+  m_BloomCurve:
+    m_BlackPoint: 0
+    m_WhitePoint: 1
+    m_CrossOverPoint: 0.3
+    m_ToeStrength: 0.98
+    m_ShoulderStrength: 0
+    m_Highlights: 0.4
+    m_k: 0.0084985765
+    m_ToeCoef: {x: 0.00016997136, y: -0.98, z: -0, w: 0.3}
+    m_ShoulderCoef: {x: 0.99150145, y: 0, z: -0.29745045, w: 0.7}
+  m_UseLensFlare: 0
+  m_FlareTreshold: 0.8
+  m_FlareIntensity: 1
+  m_FlareTint0: {r: 0.5372549, g: 0.32156864, b: 0, a: 1}
+  m_FlareTint1: {r: 0, g: 0.24705882, b: 0.49411765, a: 1}
+  m_FlareTint2: {r: 0.28235295, g: 0.5921569, b: 0, a: 1}
+  m_FlareTint3: {r: 0.44705883, g: 0.13725491, b: 0, a: 1}
+  m_FlareTint4: {r: 0.47843137, g: 0.34509805, b: 0, a: 1}
+  m_FlareTint5: {r: 0.5372549, g: 0.2784314, b: 0, a: 1}
+  m_FlareTint6: {r: 0.38039216, g: 0.54509807, b: 0, a: 1}
+  m_FlareTint7: {r: 0.15686275, g: 0.5568628, b: 0, a: 1}
+  m_FlareGlobalScale: 1
+  m_FlareScales: {x: 1, y: 0.6, z: 0.5, w: 0.4}
+  m_FlareScalesNear: {x: 1, y: 0.8, z: 0.6, w: 0.5}
+  m_FlareMask: {fileID: 0}
+  m_FlareRendering: 1
+  m_FlareType: 1
+  m_FlareShape: {fileID: 0}
+  m_FlareBlurQuality: 2
+  m_UseBokehFlare: 0
+  m_BokehScale: 0.4
+  m_BokehFlareQuality: 1
+  m_UseAnamorphicFlare: 0
+  m_AnamorphicFlareTreshold: 0.8
+  m_AnamorphicFlareIntensity: 0.6698113
+  m_AnamorphicDownscaleCount: 3
+  m_AnamorphicBlurPass: 2
+  m_AnamorphicBloomIntensities:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  m_AnamorphicBloomColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  m_AnamorphicBloomUsages: 0101010101010101
+  m_AnamorphicSmallVerticalBlur: 1
+  m_AnamorphicDirection: 0
+  m_AnamorphicScale: 3
+  m_UseStarFlare: 1
+  m_StarFlareTreshol: 0.8
+  m_StarFlareIntensity: 0.692136
+  m_StarScale: 2.3841999
+  m_StarDownscaleCount: 6
+  m_StarBlurPass: 2
+  m_StarBloomIntensities:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  m_StarBloomColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  m_StarBloomUsages: 0101010101010101
+  m_UseLensDust: 1
+  m_DustIntensity: 2.6074731
+  m_DustTexture: {fileID: 2800000, guid: 8279120499888f0459f22a619fc51ab6, type: 3}
+  m_DirtLightIntensity: 5
+  m_DownsamplingQuality: 0
+  m_UpsamplingQuality: 0
+  m_TemporalStableDownsampling: 1
+  m_InvertImage: 0
+  m_DirectDownSample: 0
+  m_DirectUpsample: 0
+  m_UiShowBloomScales: 0
+  m_UiShowAnamorphicBloomScales: 0
+  m_UiShowStarBloomScales: 0
+  m_UiShowHeightSampling: 0
+  m_UiShowBloomSettings: 1
+  m_UiShowSampling: 1
+  m_UiShowIntensity: 1
+  m_UiShowOptimizations: 0
+  m_UiShowLensDirt: 1
+  m_UiShowLensFlare: 0
+  m_UiShowAnamorphic: 1
+  m_UiShowStar: 1
+  m_UiInitialized: 0
 --- !u!114 &11465172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -586,22 +742,6 @@ MonoBehaviour:
   driftSpeedMultiplier: 1
   fadeParticles: 1
   distanceFade: 0.5
---- !u!114 &11483508
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c12500f3afdeb24d9444042960a4cb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloomIntensity: 0.05
-  shader: {fileID: 4800000, guid: 6581f8d2f208b8340b8d59c7bf38cc9a, type: 3}
-  lensDirtTexture: {fileID: 2800000, guid: 12fdc1c5bcb9daa489dcc466a896db81, type: 3}
-  lensDirtIntensity: 0.15
-  inputIsHDR: 1
 --- !u!114 &11487436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2269,6 +2409,42 @@ Prefab:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: m_BloomColors.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomUsages.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarBloomColors.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarBloomUsages.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomIntensities.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarBloomIntensities.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AnamorphicBloomColors.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AnamorphicBloomUsages.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AnamorphicBloomIntensities.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: MotionScale
       value: 2
       objectReference: {fileID: 0}
@@ -2278,7 +2454,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
@@ -2843,6 +3019,158 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: settings.advancedSettings.temporalFilterStrength
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.tweakMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.quality
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.apertureShape
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: settings.apertureOrientation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: focus.plane
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: focus.fStops
+      value: 7.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: focus.rangeAdjustment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: blur.nearRadius
+      value: 4.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomIntensity
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DownscaleCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_CrossOverPoint
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ToeStrength
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_Highlights
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_k
+      value: 0.0084985765
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ToeCoef.x
+      value: 0.00016997136
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ToeCoef.y
+      value: -0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ToeCoef.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ToeCoef.w
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ShoulderCoef.x
+      value: 0.99150145
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ShoulderCoef.z
+      value: -0.29745045
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomCurve.m_ShoulderCoef.w
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_FlareIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AnamorphicFlareIntensity
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseStarFlare
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarFlareIntensity
+      value: 0.692136
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarScale
+      value: 2.3841999
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StarDownscaleCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseLensDust
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DustIntensity
+      value: 2.6074731
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DustTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 8279120499888f0459f22a619fc51ab6, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowBloomSettings
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowAnamorphic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowStar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_BloomThreshhold
+      value: 4.087786
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TemporalStableDownsampling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowSampling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowLensDirt
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

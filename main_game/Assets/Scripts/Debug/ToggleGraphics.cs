@@ -10,7 +10,7 @@ public class ToggleGraphics : MonoBehaviour
 	private bool enableGraphics, swap;
     
 	private SESSAO sessao;
-	private SENaturalBloomAndDirtyLens bloom;
+    private UltimateBloom bloom;
 	private AmplifyColorEffect color;
 	private LightShafts volumetricLighting;
     private bool foundLight = false;
@@ -21,7 +21,7 @@ public class ToggleGraphics : MonoBehaviour
 		enableGraphics = false;
         swap           = false;
 		sessao         = GetComponent<SESSAO>();
-		bloom          = GetComponent<SENaturalBloomAndDirtyLens>();
+		bloom          = GetComponent<UltimateBloom>();
 		color          = GetComponent<AmplifyColorEffect>();
         eyeAdaptation = GetComponent<EyeAdaptation>();
 		
