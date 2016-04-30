@@ -40,7 +40,7 @@ public class TargetScript : MonoBehaviour
             else
             {
                 renderer.enabled = true;
-                if(Random.Range(0,1000) == 0)
+                if(Random.Range(0,2500) == 0)
                     AIVoice.SendCommand(Random.Range(19,22));
             }
             yield return new WaitForSeconds(Mathf.Clamp(distance / 750f, 0.1f, 1f));
