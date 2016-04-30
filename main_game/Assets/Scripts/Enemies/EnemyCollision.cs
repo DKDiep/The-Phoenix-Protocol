@@ -32,7 +32,8 @@ public class EnemyCollision : MonoBehaviour
 						shipMovement = hitObject.transform.parent.transform.parent.transform.parent.GetComponentInChildren<ShipMovement>();
 				}
 					
-				shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
+				if (shipMovement != null)
+					shipMovement.collision(collisionDamage, 0f, hitObject.name.GetComponentType());
 			}
             
 			if(myLogic != null)
