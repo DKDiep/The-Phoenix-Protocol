@@ -8,5 +8,6 @@ public class EngineerRendering : MonoBehaviour
     {
         GameObject.Find("TargetCamera").SetActive(false);
         Camera.main.gameObject.name = "CommanderCamera";
+        Camera.main.fov = 60;
 	}
 }
