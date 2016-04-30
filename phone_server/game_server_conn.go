@@ -1,6 +1,7 @@
 package main
 
 import (
+    "bytes"
     "encoding/json"
     "fmt"
     "net"
@@ -98,7 +99,13 @@ func gameServerTCPConnectionHandler() {
                 gameServerTCPConn.Close()
                 gameServerTCPConn = nil
             } else {
-                decodeGameServerMessage(receivedMsg[:n])
+                data := receivedMsg[:n]
+                messages := bytes.Split(data, []byte(";"))
+                for _, msg := range messages {
+                    if len(msg) > 0 {
+                        decodeGameServerMessage(msg)
+                    }
+                }
             }
         }
     }
@@ -114,7 +121,8 @@ func decodeGameServerMessage(rawData []byte) {
 
     var msg map[string]interface{}
     if err := json.Unmarshal(rawData, &msg); err != nil {
-        fmt.Println(err)
+        fmt.Println("Game Server Connection: Error Unmarshalling JSON:", err,
+            string(rawData))
         return
     }
 
