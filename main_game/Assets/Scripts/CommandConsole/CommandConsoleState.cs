@@ -645,7 +645,7 @@ public class CommandConsoleState : MonoBehaviour {
     {
         popupWindow.SetActive(false);
         missionTexts.RemoveAt(0);
-        playerController.CmdHideMission();
+        //playerController.CmdHideMission();
         showMissionPopup();
     }
 

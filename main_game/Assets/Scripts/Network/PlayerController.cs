@@ -421,6 +421,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+
     [Command]
     public void CmdShowMission(string title, string description)
     {
@@ -435,6 +436,14 @@ public class PlayerController : NetworkBehaviour
         popupWindow.SetActive(true);
         popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = title;
         popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = description;
+        StopCoroutine("HideMission");
+        StartCoroutine("HideMission");
+    }
+
+    IEnumerator HideMission()
+    {
+        yield return new WaitForSeconds(10f);
+        CmdHideMission();
     }
 
     [Command]
