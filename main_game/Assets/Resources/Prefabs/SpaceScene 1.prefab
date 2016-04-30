@@ -913,7 +913,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112826}
-  m_LocalRotation: {x: 0.5842604, y: 0.14289314, z: 0.11199597, w: -0.79099816}
+  m_LocalRotation: {x: 0.58426046, y: 0.14289315, z: 0.11199599, w: -0.7909983}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -941,7 +941,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.18, z: 6.4500003}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
@@ -6605,10 +6605,10 @@ ReflectionProbe:
   m_Resolution: 512
   m_UpdateFrequency: 0
   m_Importance: 1
-  m_BoxSize: {x: 2000, y: 2000, z: 2000}
+  m_BoxSize: {x: 20000, y: 20000, z: 20000}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
-  m_FarClip: 5000
+  m_FarClip: 50000
   m_ShadowDistance: 100
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
