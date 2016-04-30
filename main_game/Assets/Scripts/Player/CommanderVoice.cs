@@ -40,6 +40,8 @@ public class CommanderVoice : MonoBehaviour {
         if(mySource == null)
             mySource = GetComponent<AudioSource>(); 
 
+            Debug.Log("Commander voice command received: " + id);
+
         if(state == null)
         {
             state = GameObject.Find("GameManager").GetComponent<GameState>();
