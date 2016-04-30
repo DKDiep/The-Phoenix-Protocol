@@ -239,7 +239,7 @@ public class TCPServer : MonoBehaviour
                     }
                 }
                 jsonMsg = jsonMsg.Remove(jsonMsg.Length - 1);
-                jsonMsg += "]}";
+                jsonMsg += "]};";
                 bool success = SendMsg(jsonMsg);
                 if (success) {
                     gameState.ClearNewNotifications();
@@ -257,7 +257,7 @@ public class TCPServer : MonoBehaviour
             string jsonMsg = "{\"type\":\"SCR_INC\",\"data\":{" +
                              "\"id\":" + playerId +
                              ",\"scr\":" + scoreIncrement +
-                             "}}";
+                             "}};";
             return SendMsg(jsonMsg);
         } catch(Exception e) {
             Debug.LogError(e);
