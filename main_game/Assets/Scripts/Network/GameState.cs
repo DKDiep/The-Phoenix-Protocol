@@ -362,18 +362,32 @@ public class GameState : NetworkBehaviour {
         enemyList.Add(enemyObject);
     }
 
-    public void RemoveEnemyAt(int i)
+	/// <summary>
+	/// Removes the specified enemy from the enemy list.
+	/// </summary>
+	/// <param name="i">The index of the enemy in the list.</param>
+	/// <param name="isGuard">If set to <c>true</c>, the enemy was a guard.</param>
+	public void RemoveEnemyAt(int i, bool isGuard)
     {
         removedEnemies.Add(enemyList[i].GetInstanceID());
         enemyList.RemoveAt(i);
-        EnemySpawner.DecrementNumEnemies();
+
+		if (!isGuard)
+        	EnemySpawner.DecrementNumEnemies();
     }
 
-	public void RemoveEnemy(GameObject enemy)
+	/// <summary>
+	/// Removes the given enemy from the enemy list.
+	/// </summary>
+	/// <param name="enemy">The enemy object.</param>
+	/// <param name="isGuard">If set to <c>true</c>, the enemy was a guard.</param>
+	public void RemoveEnemy(GameObject enemy, bool isGuard)
 	{
         removedEnemies.Add(enemy.GetInstanceID());
 		enemyList.Remove(enemy);
-		EnemySpawner.DecrementNumEnemies();
+
+		if (!isGuard)
+			EnemySpawner.DecrementNumEnemies();
 	}
 
 	/// <summary>

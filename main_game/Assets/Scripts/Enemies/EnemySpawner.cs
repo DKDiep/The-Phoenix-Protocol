@@ -150,6 +150,8 @@ public class EnemySpawner : MonoBehaviour
     {
         if (state.Status == GameState.GameStatus.Started)
         {
+			Debug.Log("Num enemies: " + numEnemies);
+
             if(player == null)
             {
                 player = state.PlayerShip;
@@ -218,7 +220,7 @@ public class EnemySpawner : MonoBehaviour
 				if (manager != null)
 				{
 					string name = enemyList[i].name;
-					state.RemoveEnemy(enemyList[i]);
+					state.RemoveEnemy(enemyList[i], false);
 					manager.DisableClientObject(name);
 					manager.RemoveObject(name);
 				}
@@ -234,6 +236,8 @@ public class EnemySpawner : MonoBehaviour
 
         state.SetDifficulty(0);
 		outpostSpawnRequests.Clear();
+		singleSpawnRequests.Clear();
+		numEnemies = 0;
     }
 
 	/// <summary>

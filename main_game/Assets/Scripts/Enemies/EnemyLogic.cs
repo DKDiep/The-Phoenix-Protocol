@@ -130,8 +130,10 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	private const int AI_GUARD_TURN_BACK_DISTANCE = 500; // The distance at which guards stop engaging the player and turn back to the outpost
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
-	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
 	private const string GUARD_RETURN_WAYPOINT_NAME = "GuardReturnWaypoint";
+
+	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
+	public bool IsGuard { get; private set; }
 
     private Renderer meshRenderer;
 
@@ -653,6 +655,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	{
 		state         		 = EnemyAIState.Wait;
 		guardTriggerDistance = distance;
+		IsGuard 			 = true;
 	}
 
     // Send a periodic update of the accumulated score
@@ -843,12 +846,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 		SetHacked(false, 0, "");
         accumulatedPlayerScore = 0;
-		angleGoodForShooting = shoot = false;
+		angleGoodForShooting   = shoot = false;
+		IsGuard 			   = false;
 
 		reachedFrontOfPlayer = false;
 
         string removeName = transform.parent.gameObject.name;
-        gameState.RemoveEnemy(controlObject.gameObject);
+		gameState.RemoveEnemy(controlObject.gameObject, guardTriggerDistance != 0);
 
 		if (enemyManager != null)
 		{
