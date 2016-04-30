@@ -339,7 +339,7 @@ MonoBehaviour:
   m_SMAA:
     settings:
       debugPass: 0
-      quality: 3
+      quality: 2
       edgeDetectionMethod: 2
     quality:
       diagonalDetection: 1
@@ -407,11 +407,11 @@ MonoBehaviour:
     preset:
       qualitySettings:
         subpixelAliasingRemovalAmount: 1
-        edgeDetectionThreshold: 0.063
-        minimumRequiredLuminance: 0.0312
+        edgeDetectionThreshold: 0.125
+        minimumRequiredLuminance: 0.0625
       consoleSettings:
         subpixelSpreadAmount: 0.5
-        edgeSharpnessAmount: 2
+        edgeSharpnessAmount: 4
         edgeDetectionThreshold: 0.125
         minimumRequiredLuminance: 0.04
   m_Method: 1
@@ -3036,7 +3036,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SMAA.settings.quality
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SMAA.predication.enabled

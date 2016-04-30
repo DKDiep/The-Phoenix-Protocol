@@ -8894,7 +8894,7 @@ ReflectionProbe:
   m_Mode: 1
   m_RefreshMode: 0
   m_TimeSlicingMode: 0
-  m_Resolution: 2048
+  m_Resolution: 1024
   m_UpdateFrequency: 0
   m_Importance: 1
   m_BoxSize: {x: 20000, y: 20000, z: 20000}
@@ -9239,7 +9239,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Resolution
-      value: 2048
+      value: 1024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
