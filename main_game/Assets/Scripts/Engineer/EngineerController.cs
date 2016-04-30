@@ -743,7 +743,7 @@ public class EngineerController : NetworkBehaviour
     private void GetInput(out float speed)
     {
         // Read input
-        float horizontal = Input.GetAxis("Horizontal");
+        float horizontal = Input.GetAxis("EngHorizontal");
         float vertical = Input.GetAxis("EngVertical");
 
         if (Math.Abs(horizontal) < minMovement)
