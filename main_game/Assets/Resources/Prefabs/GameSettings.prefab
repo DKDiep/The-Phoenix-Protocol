@@ -76,7 +76,6 @@ MonoBehaviour:
     maxHealth: 60
     maxShield: 0
     collisionDamage: 15
-    speed: 36
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 2
@@ -89,7 +88,6 @@ MonoBehaviour:
     maxHealth: 120
     maxShield: 0
     collisionDamage: 20
-    speed: 36
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 7
@@ -102,7 +100,6 @@ MonoBehaviour:
     maxHealth: 50
     maxShield: 0
     collisionDamage: 10
-    speed: 40
     isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
@@ -115,7 +112,6 @@ MonoBehaviour:
     maxHealth: 50
     maxShield: 0
     collisionDamage: 10
-    speed: 40
     isSuicidal: 0
     shootPeriod: 0
     shotsPerSec: 0
@@ -128,7 +124,6 @@ MonoBehaviour:
     maxHealth: 250
     maxShield: 0
     collisionDamage: 30
-    speed: 30
     isSuicidal: 0
     shootPeriod: 3
     shotsPerSec: 4
@@ -141,7 +136,6 @@ MonoBehaviour:
     maxHealth: 350
     maxShield: 0
     collisionDamage: 30
-    speed: 33
     isSuicidal: 0
     shootPeriod: 4
     shotsPerSec: 6
@@ -159,8 +153,7 @@ MonoBehaviour:
     type: 3}
   EnemyFireSoundRandomPitch: 1
   EnemyTurningSpeed: 1.9
-  EnemySuicidalSpeedUpdateInterval: 5
-  EnemySuicidalExtraSpeed: 5
+  EnemySpeedUpdateInterval: 0
   HackedEnemyBulletDamage: 15
   HackedEnemyMaxY: 12
   EngineerWalkSpeed: 1
@@ -231,7 +224,7 @@ MonoBehaviour:
   PlayerShipStartingHealth: 100
   PlayerShipStartingShields: 100
   PlayerShipStartingRechargeRate: 10
-  PlayerShipStartingSpeed: 18
+  PlayerShipStartingSpeed: 24
   PlayerShipStartingMaxTurnSpeed: 3.5
   PlayerShipStartingResources: 100
   PlayerShipStartingCivilians: 10000
