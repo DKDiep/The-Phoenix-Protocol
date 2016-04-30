@@ -148,11 +148,7 @@ public class CrosshairMovement : NetworkBehaviour
 
 			// Aim at a new target only if the player is not shooting at the current one or has move the crosshair far enough from the previous point
 			if (Time.time - lastShootTime[i] > autoaimHoldDelay || Vector2.Distance(newPosition, currentPosition) > autoaimHoldMaxDistance)
-			{
-				if (i == 0 && Vector2.Distance(newPosition, currentPosition) > autoaimHoldMaxDistance)
-					Debug.Log("Switching on distance " + Vector2.Distance(newPosition, currentPosition));
 				target = lastTargets[i] = GetClosestTarget(ray);
-			}
 			else
 				target = lastTargets[i];
 			
