@@ -142,11 +142,13 @@ func (usr *User) sendMsg(msg map[string]interface{}) {
 
     //fmt.Println("Sent: ", string(toSend))
 
-    _, err = usr.ws.Write(toSend)
-    if err != nil {
-        fmt.Println("Error sendMsg(): Failed to send to client: ", err)
-        // close connection
-        usr.player.unsetUserIfEquals(usr)
-        usr.ws.Close()
-    }
+    go func() {
+        _, err = usr.ws.Write(toSend)
+        if err != nil {
+            fmt.Println("Error sendMsg(): Failed to send to client: ", err)
+            // close connection
+            usr.player.unsetUserIfEquals(usr)
+            usr.ws.Close()
+        }
+    }()
 }
