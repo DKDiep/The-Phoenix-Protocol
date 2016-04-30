@@ -24,17 +24,17 @@ const (
     LOCAL_UDP_PORT          string        = "46578"
     GAME_SERVER_UDP_PORT    string        = "2345"
     GAME_SERVER_TCP_PORT    string        = "2346"
-    DATA_UPDATE_INTERVAL    time.Duration = 33 * time.Millisecond
+    DATA_UPDATE_INTERVAL    time.Duration = 40 * time.Millisecond
     NUM_OFFICERS            int           = 1
     OFFER_VALIDITY_DURATION time.Duration = 20 * time.Second
 
     MAX_AMMO              float64 = 100
-    ASTEROID_DRAW_RANGE_X float64 = 500
-    ASTEROID_DRAW_RANGE_Y float64 = 500
+    ASTEROID_DRAW_RANGE_X float64 = 160
+    ASTEROID_DRAW_RANGE_Y float64 = 160
     ASTEROID_DRAW_RANGE_Z float64 = 100
-    ENEMY_DRAW_RANGE_X    float64 = 500
-    ENEMY_DRAW_RANGE_Y    float64 = 500
-    ENEMY_DRAW_RANGE_Z    float64 = 300
+    ENEMY_DRAW_RANGE_X    float64 = 160
+    ENEMY_DRAW_RANGE_Y    float64 = 160
+    ENEMY_DRAW_RANGE_Z    float64 = 160
 )
 
 // Flag variables

@@ -1,7 +1,7 @@
 // --Constants
 // zoom level as percent of display pixels per game unit
 var zoom = 0.003;
-var frameRate = 30;
+var frameRate = 25;
 var touchTargetSizeFactor = 0.16;
 var touchTargetAlpha = 0.9;
 
