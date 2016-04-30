@@ -82,7 +82,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	// This is the amount of resources dropped by the enemy when killed. It is calculated based on the enemy's max health and shield
 	private int droppedResources;
-	private const int DROP_RESOURCE_RANGE = 100;
 
 	// The current state of the ship's AI
 	internal EnemyAIState state;
@@ -460,6 +459,8 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		// Wait a moment to ensure the type is set
         yield return new WaitForSeconds(1f);
 
+		droppedResources = System.Convert.ToInt32(Random.Range(0, maxHealth + maxShield) / 5);
+
         if(type == EnemyType.Gnat )
         {
             enemyManager = gnatManager;
@@ -572,7 +573,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             blackWidowManager = GameObject.Find("BlackWidowManager").GetComponent<ObjectPoolManager>();
 
         StartCoroutine(UpdateDelay());
-        droppedResources = System.Convert.ToInt32(maxHealth + maxShield + Random.Range (0, DROP_RESOURCE_RANGE));
     }
 
     public void SetControlObject(GameObject newControlObject)
