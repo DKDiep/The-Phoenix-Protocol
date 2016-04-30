@@ -528,4 +528,15 @@ public class ServerManager : NetworkBehaviour
 		foreach (int screen in screenIdToCrosshairMovement.Keys)
 			screenIdToCrosshairMovement[screen].SetPosition(crosshairId, screenId == screen, position);
     }
+
+	/// <summary>
+	/// Updates the time a specified player last took a shot.
+	/// </summary>
+	/// <param name="playerId">The player's ID.</param>
+	/// <param name="time">The last shot timestamp.</param>
+	public void UpdateLastShotTime(int playerId, float time)
+	{
+		foreach (int screen in screenIdToCrosshairMovement.Keys)
+			screenIdToCrosshairMovement[screen].UpdateLastShotTime(playerId, time);
+	}
 }

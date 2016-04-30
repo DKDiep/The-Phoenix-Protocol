@@ -11,6 +11,8 @@ public class CrosshairMovement : NetworkBehaviour
 
 	// Configuration parameters loaded through GameSettings
 	private float wiimoteInterpolationFactor;
+	private float autoaimHoldDelay;
+	private float autoaimHoldMaxDistance;
 
 	private int controlling = 0;
 	private int numberOfCrossHairs;
@@ -21,7 +23,6 @@ public class CrosshairMovement : NetworkBehaviour
 	public Vector3[] crosshairPosition;
 	private float oldAccel, newAccel;
     private GameObject[] crosshairs;
-	//private WiiRemoteManager wii;
 
 	private int screenControlling = 0;
     private bool usingMouse = false;
@@ -43,6 +44,9 @@ public class CrosshairMovement : NetworkBehaviour
     //8 floats for 4 2D positions
     public SyncListFloat position = new SyncListFloat();
 	private SyncListBool visibleCrosshairs = new SyncListBool();
+	private SyncListFloat lastShootTime = new SyncListFloat();
+
+	private Target[] lastTargets = new Target[4];
 
     // Use this for initialization
     void Start ()
@@ -62,7 +66,11 @@ public class CrosshairMovement : NetworkBehaviour
             position.Add(0.0f);
 
 		for (int i = 0; i < 4; i++)
+		{
 			visibleCrosshairs.Add(false);
+			lastShootTime.Add(0f);
+			lastTargets[i] = Target.None;
+		}
                     
 		// If there are no wii remotes connected, set the default to 2
 		// Um... Why? Let's set it to 1 instead (to help fix turret drift)
@@ -94,6 +102,8 @@ public class CrosshairMovement : NetworkBehaviour
 	private void LoadSettings()
 	{
 		wiimoteInterpolationFactor = settings.WiimoteInterpolationFactor;
+		autoaimHoldDelay 		   = settings.PlayerAutoaimSwitchDelay;
+		autoaimHoldMaxDistance     = settings.PlayerAutoaimHoldDistance;
 	}
 
     
@@ -126,10 +136,7 @@ public class CrosshairMovement : NetworkBehaviour
 
 			// Interpolate towards the current aiming position
 			Vector2 currentPosition = selectedCrosshair.position, newPosition = GetPosition(i);
-			//if (crosshairs[i].activeSelf == visibleCrosshairs[i])
 			selectedCrosshair.position = Vector2.Lerp(currentPosition, newPosition, Time.deltaTime * wiimoteInterpolationFactor);
-			/*else
-				selectedCrosshair.position = newPosition;*/
 
 			// Disable the crosshair on this screen if it's on another screen
 			crosshairs[i].SetActive(visibleCrosshairs[i]);
@@ -137,10 +144,20 @@ public class CrosshairMovement : NetworkBehaviour
             Ray ray = GetAimRay(selectedCrosshair.position);
             rays[i * 2] = ray.origin;
             rays[i * 2 + 1] = ray.direction;
-            Target target = GetClosestTarget(ray);
+			Target target;
 
-            if (!target.IsNone())
-                selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
+			// Aim at a new target only if the player is not shooting at the current one or has move the crosshair far enough from the previous point
+			if (Time.time - lastShootTime[i] > autoaimHoldDelay || Vector2.Distance(newPosition, currentPosition) > autoaimHoldMaxDistance)
+			{
+				if (i == 0 && Vector2.Distance(newPosition, currentPosition) > autoaimHoldMaxDistance)
+					Debug.Log("Switching on distance " + Vector2.Distance(newPosition, currentPosition));
+				target = lastTargets[i] = GetClosestTarget(ray);
+			}
+			else
+				target = lastTargets[i];
+			
+			if (!target.IsNone())
+				selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
 
             targets[i] = mainCamera.ScreenToWorldPoint(new Vector3(selectedCrosshair.position.x, selectedCrosshair.position.y, 1000));
         }
@@ -265,41 +282,15 @@ public class CrosshairMovement : NetworkBehaviour
         return Target.None;
     }
         
-	// Get the target closest to where the player is aiming (within bounds)
-	/*public Target GetClosestTarget(Vector3 aimPosition)
+	/// <summary>
+	/// Updates the time a specified player last took a shot.
+	/// </summary>
+	/// <param name="playerId">The player's ID.</param>
+	/// <param name="time">The last shot timestamp on the server.</param>
+	public void UpdateLastShotTime(int playerId, float time)
 	{
-        // Cast a ray from the crosshair
-        //Ray ray = mainCamera.ScreenPointToRay(aimPosition);
-        Ray ray = new Ray(playerShip.transform.position, aimPosition);
-
-        // Find the objects in a sphere in front of the player
-        int layerColMask    = LayerMask.GetMask("Enemy");
-		Collider[] cols     = Physics.OverlapSphere(ray.origin + ray.direction * AUTOAIM_OFFSET, AUTOAIM_RADIUS, layerColMask);
-		Collider closestCol = null;
-		float minDistance   = AUTOAIM_DISTANCE_THRESHOLD;
-		foreach (Collider col in cols)
-		{
-			// Find the enemy closest to the aiming direction and within the distance threshold from the aiming direction
-			float aimDirectionDistance = Vector3.Cross(ray.direction, col.transform.position - ray.origin).magnitude;
-
-			// If we previously found an asteroid but there is also an enemy in range, prioritise the enemy
-			if (aimDirectionDistance < minDistance)
-			{
-				closestCol   = col;
-				minDistance  = aimDirectionDistance;
-			}
-		}
-		
-		// If a target is found, return it 
-		if (closestCol != null)
-		{
-			// targetGizmoLoc = closestCol.transform.position; // Uncomment this to use with target gizmos
-			return new Target(closestCol.gameObject, minDistance);
-		}
-
-		// targetGizmoLoc = Vector3.zero; // Uncomment this to use with target gizmos
-		return Target.None;
-	}*/
+		lastShootTime[playerId] = Time.time;
+	}
 
     public int GetControlling()
     {
@@ -360,8 +351,9 @@ public class CrosshairMovement : NetworkBehaviour
 		// Get the aim position of this object. For ships, this will be a little in front of their current position to account for their movement
 		public Vector3 GetAimPosition()
 		{
+			this.Position = this.Object.transform.position;
+
 			if (this.Object.CompareTag("EnemyShip"))
-				// TODO: We might need to aim a bit more in front
 				return this.Position + this.Object.transform.forward * AUTOAIM_ADVANCE_OFFSET;
 			else
 				return this.Position;

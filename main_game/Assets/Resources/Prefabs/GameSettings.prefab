@@ -357,6 +357,8 @@ MonoBehaviour:
   PlayerAmmoRechargeValue: 10
   PlayerAmmoRechargeInterval: 0.1
   PlayerAmmoRehargeDelay: 0.1
+  PlayerAutoaimSwitchDelay: 0.15
+  PlayerAutoaimHoldDistance: 450
   missionProperties:
   - active: 1
     name: Welcome Commander

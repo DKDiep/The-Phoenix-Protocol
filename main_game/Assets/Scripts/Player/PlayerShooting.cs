@@ -243,7 +243,9 @@ public class PlayerShooting : MonoBehaviour
             muzzle.transform.rotation = bulletAnchor.transform.rotation;
             muzzle.transform.parent   = bulletAnchor.transform.parent;
 
-            canShoot  = false;
+			serverManager.UpdateLastShotTime(playerId, Time.time);
+
+			canShoot  = false;
 			ammo     -= shootAmmoCost;
             StartCoroutine(Delay());
         }

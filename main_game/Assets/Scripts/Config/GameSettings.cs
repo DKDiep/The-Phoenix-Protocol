@@ -177,6 +177,8 @@ public class GameSettings : MonoBehaviour
 	public int PlayerAmmoRechargeValue;      // The ammount of ammo recharged per interval
 	public float PlayerAmmoRechargeInterval; // The interval at which ammo recharges.
 	public float PlayerAmmoRehargeDelay;     // The delay before ammo starts recharging
+	public float PlayerAutoaimSwitchDelay;   // The minimum delay after last shooting a bullet after which the auto aiming is allowed to switch targets
+	public float PlayerAutoaimHoldDistance;  // The maximum distance the player can move their gun while firing at which the autoaim will not switch targets
 
     [Header("Mission Settings")]
     public MissionManager.Mission[] missionProperties;
