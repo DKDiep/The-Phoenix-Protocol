@@ -298,6 +298,7 @@ func (players *PlayerMap) startPlayersAsync() {
     // }
     for _, v := range players.mSpec {
         v.setState(SPECTATOR)
+        v.sendCurrentData()
     }
 }
 
