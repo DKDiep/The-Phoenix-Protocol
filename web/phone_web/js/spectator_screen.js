@@ -208,6 +208,7 @@ function init() {
     initPlayerShip(loadedResources);
     // Add tutorial prompts
     initTutorialPrompts(loadedResources);
+
     // Init User interface
     initUi();
     stage.addChild(beamLayer);
@@ -215,8 +216,14 @@ function init() {
     stage.addChild(enemyNamesLayer);
     stage.addChild(asteroidLayer);
     stage.addChild(hackingGameLayer);
-    stage.addChild(uiLayer);
-    stage.addChild(tutorialLayer);
+
+    // Only add the tutorial layer and ui layer if we are not connecting automatically,
+    // i.e. on the stats screen
+    if(window.location.hash.substr(1) != "auto") {
+        stage.addChild(uiLayer);
+        stage.addChild(tutorialLayer);
+    }
+
 
     // kick off the animation loop (defined below)
     keepRendering = true
