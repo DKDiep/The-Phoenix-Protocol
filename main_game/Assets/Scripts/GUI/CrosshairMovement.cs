@@ -245,8 +245,12 @@ public class CrosshairMovement : NetworkBehaviour
             if (aimDirectionDistance < minDistance)
             {
 				// Don't auto aim at hacked enemies
-				closestCol = col;
-				minDistance = aimDirectionDistance;
+				EnemySyncParams enemyParams = col.gameObject.GetComponent<EnemySyncParams>();
+				if (enemyParams == null || !enemyParams.GetHacked())
+				{
+					closestCol = col;
+					minDistance = aimDirectionDistance;
+				}
             }
         }
 
