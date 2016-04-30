@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &101896
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 461106}
-  - 215: {fileID: 21543280}
-  m_Layer: 0
-  m_Name: Reflection Probe
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &105802
 GameObject:
   m_ObjectHideFlags: 1
@@ -611,7 +595,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 7
+  m_RootOrder: 6
 --- !u!4 &401290
 Transform:
   m_ObjectHideFlags: 1
@@ -635,7 +619,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 11
+  m_RootOrder: 10
 --- !u!4 &404666
 Transform:
   m_ObjectHideFlags: 1
@@ -647,7 +631,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!4 &406680
 Transform:
   m_ObjectHideFlags: 1
@@ -660,7 +644,7 @@ Transform:
   m_Children:
   - {fileID: 435014}
   m_Father: {fileID: 446230}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!4 &408282
 Transform:
   m_ObjectHideFlags: 1
@@ -696,7 +680,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 12
+  m_RootOrder: 11
 --- !u!4 &412426
 Transform:
   m_ObjectHideFlags: 1
@@ -708,7 +692,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 10
+  m_RootOrder: 9
 --- !u!4 &412548
 Transform:
   m_ObjectHideFlags: 1
@@ -746,7 +730,7 @@ Transform:
   - {fileID: 447658}
   - {fileID: 408970}
   m_Father: {fileID: 446230}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &421120
 Transform:
   m_ObjectHideFlags: 1
@@ -758,7 +742,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!4 &426846
 Transform:
   m_ObjectHideFlags: 1
@@ -770,7 +754,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!4 &431864
 Transform:
   m_ObjectHideFlags: 1
@@ -783,7 +767,7 @@ Transform:
   m_Children:
   - {fileID: 417552}
   m_Father: {fileID: 446230}
-  m_RootOrder: 20
+  m_RootOrder: 19
 --- !u!4 &432468
 Transform:
   m_ObjectHideFlags: 1
@@ -807,7 +791,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 13
+  m_RootOrder: 12
 --- !u!4 &435014
 Transform:
   m_ObjectHideFlags: 1
@@ -848,7 +832,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 19
+  m_RootOrder: 18
 --- !u!4 &446230
 Transform:
   m_ObjectHideFlags: 1
@@ -859,7 +843,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children:
-  - {fileID: 461106}
   - {fileID: 467996}
   - {fileID: 418410}
   - {fileID: 406680}
@@ -906,7 +889,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 17
+  m_RootOrder: 16
 --- !u!4 &454804
 Transform:
   m_ObjectHideFlags: 1
@@ -918,7 +901,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 15
+  m_RootOrder: 14
 --- !u!4 &458692
 Transform:
   m_ObjectHideFlags: 1
@@ -933,19 +916,7 @@ Transform:
   - {fileID: 466644}
   - {fileID: 473602}
   m_Father: {fileID: 446230}
-  m_RootOrder: 21
---- !u!4 &461106
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101896}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 446230}
-  m_RootOrder: 0
+  m_RootOrder: 20
 --- !u!4 &466644
 Transform:
   m_ObjectHideFlags: 1
@@ -970,7 +941,7 @@ Transform:
   m_Children:
   - {fileID: 490552}
   m_Father: {fileID: 446230}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &473602
 Transform:
   m_ObjectHideFlags: 1
@@ -994,7 +965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 18
+  m_RootOrder: 17
 --- !u!4 &477392
 Transform:
   m_ObjectHideFlags: 1
@@ -1006,7 +977,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!4 &482006
 Transform:
   m_ObjectHideFlags: 1
@@ -1018,7 +989,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!4 &483166
 Transform:
   m_ObjectHideFlags: 1
@@ -1030,7 +1001,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 14
+  m_RootOrder: 13
 --- !u!4 &486944
 Transform:
   m_ObjectHideFlags: 1
@@ -1042,7 +1013,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 446230}
-  m_RootOrder: 16
+  m_RootOrder: 15
 --- !u!4 &488188
 Transform:
   m_ObjectHideFlags: 1
@@ -6590,38 +6561,6 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
---- !u!215 &21543280
-ReflectionProbe:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101896}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Type: 0
-  m_Mode: 1
-  m_RefreshMode: 0
-  m_TimeSlicingMode: 0
-  m_Resolution: 512
-  m_UpdateFrequency: 0
-  m_Importance: 1
-  m_BoxSize: {x: 20000, y: 20000, z: 20000}
-  m_BoxOffset: {x: 0, y: 0, z: 0}
-  m_NearClip: 0.3
-  m_FarClip: 50000
-  m_ShadowDistance: 100
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IntensityMultiplier: 0.4
-  m_BlendDistance: 1
-  m_HDR: 1
-  m_BoxProjection: 0
-  m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
-  m_CustomBakedTexture: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
