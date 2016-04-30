@@ -72,8 +72,12 @@ public class ObjectPoolManager : NetworkBehaviour
             spawn.SetActive(false);
             spawn.name = i.ToString();
 
-            if(spawn.GetComponent<Collider>() != null)
-				spawn.GetComponent<Collider>().enabled = true;
+            if(amServer)
+            {
+                if(spawn.GetComponent<Collider>() != null)
+                spawn.GetComponent<Collider>().enabled = true;
+            }
+
             pool[i] = spawn;
         }
         spawned = true;
