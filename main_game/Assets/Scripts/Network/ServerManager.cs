@@ -36,6 +36,7 @@ public class ServerManager : NetworkBehaviour
     public GameObject gameTimer;
     private GameObject portal;
     private GameObject readyScreen;
+    private GameObject serverPopupWindow;
 
     private uint serverId;
     public int clientIdCount()
@@ -377,7 +378,7 @@ public class ServerManager : NetworkBehaviour
         commander.transform.parent = playerShip.transform;
         commander.transform.localPosition = Vector3.zero;
 
-        GameObject serverPopupWindow = Instantiate(Resources.Load("Prefabs/MainScreenMissionWindow", typeof(GameObject))) as GameObject;
+        serverPopupWindow = Instantiate(Resources.Load("Prefabs/MainScreenMissionWindow", typeof(GameObject))) as GameObject;
 
         //Set up the game state
         playerController.SetControlledObject(playerShip);
@@ -438,6 +439,9 @@ public class ServerManager : NetworkBehaviour
         abilities.GetComponent<SmartBombAbility>().Reset();
         abilities.GetComponent<ShieldOverdriveAbility>().Reset();
 
+        // Disable popup if not null
+        if (serverPopupWindow != null)
+            serverPopupWindow.SetActive(false);
 
         Camera.main.gameObject.GetComponent<DamageEffects>().Reset();
             
