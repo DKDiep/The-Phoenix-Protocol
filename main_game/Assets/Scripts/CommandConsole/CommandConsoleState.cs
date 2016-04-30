@@ -182,7 +182,6 @@ public class CommandConsoleState : MonoBehaviour {
         {
             GameObject.Destroy(arrow);
         }
-        currentObjectives = new List<string>();
     }
 
     private void LoadSettings()
@@ -239,8 +238,8 @@ public class CommandConsoleState : MonoBehaviour {
         {
             EngineerUpgradeAllCheat();
         }
-        if(Input.GetKeyDown("a")) DrawArrow(new Vector2(322.5f, 180), mapPosition + stratMap.objectiveIconRectTransform.anchoredPosition + new Vector2(-16,-16));
-        if(Input.GetKeyDown("b")) DrawArrow(new Vector2(322.5f, 180), mapPosition + stratMap.portalRectTransform.anchoredPosition + new Vector2(-16, -16));
+        if(Input.GetKeyDown("a")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.objectiveIconRectTransform.anchoredPosition + new Vector2(-16,-16));
+        if(Input.GetKeyDown("b")) DrawArrow(new Vector2(0, 0), mapPosition + stratMap.portalRectTransform.anchoredPosition + new Vector2(-16, -16));
         if (Input.GetKeyDown("c")) DrawArrow(new Vector2(0, 0), stratMap.portalRectTransform.position);
     }
 
@@ -275,6 +274,7 @@ public class CommandConsoleState : MonoBehaviour {
     private void AddUpgradeBoxes()
     {
         Transform canvas = gameObject.transform.Find("Canvas");
+        int i = 0;
         foreach(ComponentType type in Enum.GetValues(typeof(ComponentType)))
         {
             if(type == ComponentType.None)
@@ -284,7 +284,9 @@ public class CommandConsoleState : MonoBehaviour {
             GameObject upgradeBox = Instantiate(Resources.Load("Prefabs/UpgradeBox", typeof(GameObject))) as GameObject;
             upgradeBox.transform.SetParent(canvas);
             upgradeBox.transform.localScale = new Vector3(1,1,1);
-            upgradeBox.transform.localPosition = new Vector3(-513, 180 - (component*80), 0);
+            if(type == ComponentType.Drone)
+                upgradeBox.transform.localPosition = new Vector3(-5000, 180 - (component * 80), 0);
+            else upgradeBox.transform.localPosition = new Vector3(-513, 180 - (i++*80), 0);
             upgradeBox.GetComponent<ConsoleUpgrade>().SetUpgradeInfo(upgradeProperties[component]);
             upgradeBox.transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(delegate{OnClickUpgrade(component);});
             upgradeBox.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Button>().onClick.AddListener(delegate{UpgradeShip();});
