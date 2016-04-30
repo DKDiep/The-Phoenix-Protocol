@@ -160,8 +160,8 @@ MonoBehaviour:
   EngineerWalkSpeed: 1
   EngineerMouseLookXSensitivity: 0.4
   EngineerMouseLookYSensitivity: 0.4
-  EngineerControllerLookXSensitivity: 5
-  EngineerControllerLookYSensitivity: 5
+  EngineerControllerLookXSensitivity: 2
+  EngineerControllerLookYSensitivity: 2
   EngineerMouseLookClampVerticalRotation: 1
   EngineerMouseLookMinimumX: -90
   EngineerMouseLookMaximumX: 90
