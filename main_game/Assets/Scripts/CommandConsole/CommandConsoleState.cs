@@ -623,6 +623,12 @@ public class CommandConsoleState : MonoBehaviour {
         StartCoroutine(WaitThenStopPulsate(UIElementEnums,10.0f));
     }
 
+    public void ShowPortalObjectiveOnMap()
+    {
+        if (stratMap == null) print("stratmap == null");
+        else stratMap.StartPortalMission();
+    }
+
     IEnumerator WaitThenStopPulsate(List<UIElementEnum> elements, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);

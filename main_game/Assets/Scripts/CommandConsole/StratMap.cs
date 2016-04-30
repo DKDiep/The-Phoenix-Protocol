@@ -41,6 +41,7 @@ public class StratMap : MonoBehaviour {
         PortalInit();
         outpostIconDict = new Dictionary<int,GameObject>();
         savedOutpostSprite = Resources.Load("Sprites/savedOutpost", typeof(Sprite)) as Sprite;
+        objective = -2;
     }
 
     public void Reset()
@@ -78,7 +79,11 @@ public class StratMap : MonoBehaviour {
             else outpostIcon.SetActive(false);
             Image outpostImage = outpostIcon.GetComponent<Image>();
             outpostIconDict[id] = outpostIcon;
-            if (id == objective) startMission(id); //This should only happen if an objective is set before an outpost is found
+            if (id == objective)
+            {
+                print("id = " + id  + ", objective = " + objective);
+                startMission(id); //This should only happen if an objective is set before an outpost is found
+            }
         }
     }
 
@@ -128,6 +133,16 @@ public class StratMap : MonoBehaviour {
                     objectiveIcon.SetActive(false);
             }
         }
+    }
+
+    public void StartPortalMission()
+    {
+        objectiveIconRectTransform.anchoredPosition = portalRectTransform.anchoredPosition;
+        objectiveIconRectTransform.sizeDelta = portalRectTransform.sizeDelta;
+        if (WithinBounds(objectiveIconRectTransform.position))
+            objectiveIcon.SetActive(true);
+        else
+            objectiveIcon.SetActive(false);
     }
 
     public void endMission(int id)

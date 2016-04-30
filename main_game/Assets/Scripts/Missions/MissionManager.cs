@@ -75,6 +75,7 @@ public class MissionManager : MonoBehaviour
             if(!missionInit)
             {
                 InitialiseMissions();
+                StartTimer();
                 StartCoroutine(UpdateMissions());
             }
         }
@@ -110,7 +111,8 @@ public class MissionManager : MonoBehaviour
 	public void StartTimer()
 	{
 		startTime    = Time.time;
-		timerStarted = true;
+        print("startTime: " + startTime);
+        timerStarted = true;
 	}
 
     private IEnumerator UpdateMissions()
@@ -454,5 +456,6 @@ public enum CompletionType
     Enemies,                // Complete mission if x enemies are destroyed
     Outpost,                 // Complete mission if outpost is visited
     Upgrade,
-    Repair
+    Repair,
+    Portal
 }

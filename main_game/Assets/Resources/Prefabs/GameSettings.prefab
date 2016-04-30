@@ -374,7 +374,7 @@ MonoBehaviour:
     - completionType: 1
       completionValue: 0
       componentIndex: 0
-    activates: 01000000
+    activates: 04000000
     onStart:
       m_PersistentCalls:
         m_Calls: []
@@ -462,6 +462,42 @@ MonoBehaviour:
     completeOnAny: 0
     completionConditions:
     - completionType: 2
+      completionValue: 2
+      componentIndex: 0
+    activates: 
+    onStart:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onCompletion:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    soundOnStart: 4
+  - active: 0
+    name: Get to the Portal
+    description: "Reach the portal and save your passengers\t"
+    completedDescription: You got to the portal
+    objectiveList:
+    - Get to the portal
+    triggerOnAny: 0
+    triggerConditions: []
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 4
       completionValue: 2
       componentIndex: 0
     activates: 
