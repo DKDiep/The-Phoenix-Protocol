@@ -150,8 +150,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (state.Status == GameState.GameStatus.Started)
         {
-			Debug.Log("Num enemies: " + numEnemies);
-
             if(player == null)
             {
                 player = state.PlayerShip;
