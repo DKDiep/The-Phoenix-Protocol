@@ -84,6 +84,7 @@ MonoBehaviour:
     accuracy: 0.3
     bulletDamage: 0.5
     bulletSpeed: 600
+    extraSpeed: 18
   - type: 1
     maxHealth: 120
     maxShield: 0
@@ -96,6 +97,7 @@ MonoBehaviour:
     accuracy: 0.15
     bulletDamage: 0.8
     bulletSpeed: 600
+    extraSpeed: 18
   - type: 2
     maxHealth: 50
     maxShield: 0
@@ -108,6 +110,7 @@ MonoBehaviour:
     accuracy: 0
     bulletDamage: 0
     bulletSpeed: 0
+    extraSpeed: 22
   - type: 3
     maxHealth: 50
     maxShield: 0
@@ -120,6 +123,7 @@ MonoBehaviour:
     accuracy: 0
     bulletDamage: 0
     bulletSpeed: 0
+    extraSpeed: 22
   - type: 4
     maxHealth: 250
     maxShield: 0
@@ -132,6 +136,7 @@ MonoBehaviour:
     accuracy: 0.05
     bulletDamage: 1
     bulletSpeed: 800
+    extraSpeed: 12
   - type: 5
     maxHealth: 350
     maxShield: 0
@@ -144,6 +149,7 @@ MonoBehaviour:
     accuracy: 0.05
     bulletDamage: 1.2
     bulletSpeed: 800
+    extraSpeed: 15
   EnemyShotsPerSec: 6
   EnemyShootPeriod: 0.5
   EnemyShootPeriodPercentageVariation: 0

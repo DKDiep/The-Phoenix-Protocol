@@ -406,7 +406,7 @@ public class EnemySpawner : MonoBehaviour
 		// Set up enemy with components, spawn on network      
 		enemyLogic = enemyLogicObject.GetComponent<EnemyLogic> ();
 
-		ApplyEnemyType (enemyLogic, type); 
+		ApplyEnemyType (enemyLogic, type, state.GetShipBaseSpeed()); 
         enemyLogicObject.transform.parent = enemyObject.transform;
         enemyLogicObject.transform.localPosition = Vector3.zero;
 		enemyLogic.SetControlObject(enemyObject);
@@ -614,30 +614,32 @@ public class EnemySpawner : MonoBehaviour
 	public class EnemyProperties
 	{
         public EnemyType type;
-		public int maxHealth, maxShield, collisionDamage, speed;
+		public int maxHealth, maxShield, collisionDamage;
         public bool isSuicidal;
         public float shootPeriod, shotsPerSec, engageDistance;
 		public float accuracy, bulletDamage, bulletSpeed;
+		public float extraSpeed; // The enemy's speed will be equal to the player's speed + extraSpeed
 	}
 
 	// Apply properties to an enemy object, i.e. make it be of certain type
-	private static void ApplyEnemyType (EnemyLogic enemy, EnemyType type)
+	private static void ApplyEnemyType (EnemyLogic enemy, EnemyType type, float playerSpeed)
 	{
 		EnemyProperties props = GetPropertiesOfType (type);
-		ApplyEnemyType (enemy, props);
+		ApplyEnemyType (enemy, props, playerSpeed);
 	}
 
-	private static void ApplyEnemyType (EnemyLogic enemy, int index)
+	private static void ApplyEnemyType (EnemyLogic enemy, int index, float playerSpeed)
 	{
-		ApplyEnemyType (enemy, enemyTypeList[index]);
+		ApplyEnemyType (enemy, enemyTypeList[index], playerSpeed);
 	}
 
-	private static void ApplyEnemyType (EnemyLogic enemy, EnemyProperties props)
+	private static void ApplyEnemyType (EnemyLogic enemy, EnemyProperties props, float playerSpeed)
 	{
 		enemy.maxHealth       = props.maxHealth;
 		enemy.health          = props.maxHealth;
 		enemy.maxShield       = props.maxShield;
-		enemy.speed           = props.speed;
+		enemy.speed           = playerSpeed + props.extraSpeed;
+		enemy.extraSpeed 	  = props.extraSpeed;
 		enemy.collisionDamage = props.collisionDamage;
         enemy.isSuicidal      = props.isSuicidal;
         enemy.shootPeriod     = props.shootPeriod;

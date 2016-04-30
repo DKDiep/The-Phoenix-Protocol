@@ -27,12 +27,13 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	 * Please use the internal modifier for all of them to make it clear that they are set somewhere else in code,
 	 * and to prevent them from showing up in the Unity Editor, which would cause confusion. */
 	internal float speed;
+	internal float extraSpeed;		 // The enemy's speed will be equal to the player's speed + extraSpeed
 	internal float maxHealth;
-	internal float maxShield; // Max recharging shield level. Set to 0 to disable shields
+	internal float maxShield; 		 // Max recharging shield level. Set to 0 to disable shields
 	internal float collisionDamage;
     internal bool isSuicidal;
     internal float shotsPerSec;
-    internal float shootPeriod;                  // How long in seconds the enemy should shoot for when it fires
+    internal float shootPeriod;      // How long in seconds the enemy should shoot for when it fires
     internal float engageDistance;
 	internal float accuracy;
 	internal float bulletDamage;
@@ -71,7 +72,6 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private float randomZ;         // A random Z angle to give the enemies some uniqueness
 
 	private float speedUpdateDelay;
-	private float suicidalExtraSpeed;
 	private float suicidalMinFrontDist; // The minimum distance in front of the ship a suicidal enemy has to reach before going for the player
 
 	private GameObject shootAnchor;
@@ -184,8 +184,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		fireSnd						   = settings.EnemyFireSoundPrefab;
 		randomPitch					   = settings.EnemyFireSoundRandomPitch;
 		aiWaypointRotationSpeed 	   = settings.EnemyTurningSpeed;
-		speedUpdateDelay		   	   = settings.EnemySuicidalSpeedUpdateInterval;
-		suicidalExtraSpeed 			   = settings.EnemySuicidalExtraSpeed;
+		speedUpdateDelay		   	   = settings.EnemySpeedUpdateInterval;
 		hackedBulletDamage 			   = settings.HackedEnemyBulletDamage;
 		hackedFollowMaxY 			   = settings.HackedEnemyMaxY;
 	}
@@ -493,13 +492,12 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
             enemyManager = blackWidowManager;
             bulletManager = blackWidowBulletManager;
         }
-
-		if (isSuicidal)
-			StartCoroutine(MatchPlayerSpeed());
-		else
-			StartCoroutine(ShootManager());
-
+			
+		StartCoroutine(MatchPlayerSpeed());
         StartCoroutine(UpdateTransform());
+
+		if (!isSuicidal)
+			StartCoroutine(ShootManager());
     }
 
     IEnumerator UpdateTransform()
@@ -527,14 +525,15 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 
 	/// <summary>
 	/// Keeps the enemy always moving faster than the player.
-	///
-	/// This should only be used on suicidal enemies.
 	/// </summary>
 	IEnumerator MatchPlayerSpeed()
 	{
-		float playerSpeed = gameState.GetShipBaseSpeed();
-		if (speed < playerSpeed + suicidalExtraSpeed)
-			speed = playerSpeed + suicidalExtraSpeed;
+		if (!empEnabled)
+		{
+			float playerSpeed = gameState.GetShipBaseSpeed();
+			if (speed < playerSpeed + extraSpeed)
+				speed = playerSpeed + extraSpeed;
+		}
 
 		yield return new WaitForSeconds(speedUpdateDelay);
 		StartCoroutine(MatchPlayerSpeed());

@@ -42,7 +42,6 @@ public class GameSettings : MonoBehaviour
 	[Header("Enemy Spawner")]
 	public float EnemyMinSpawnDistance;
 	public float EnemyMaxSpawnDistance;
-	//public int MaxEnemies;
 	public int AIWaypointsPerEnemy;
 	public int AIWaypointGenerationFactor;
 	public int AIWaypointRadius;
@@ -63,8 +62,7 @@ public class GameSettings : MonoBehaviour
 	public AudioClip EnemyFireSoundPrefab;
 	public bool EnemyFireSoundRandomPitch;
 	public float EnemyTurningSpeed;
-	public float EnemySuicidalSpeedUpdateInterval; // The interval (seconds) at which suicidal enemies update their speed to match the player
-	public float EnemySuicidalExtraSpeed; // The amount by which a suicidal enemy always goes faster than the player ship
+	public float EnemySpeedUpdateInterval; // The interval (seconds) at which suicidal enemies update their speed to match the player
 	public float HackedEnemyBulletDamage;
 	public float HackedEnemyMaxY; // The max relative Y at which a hacked enemy will follow the player
 
