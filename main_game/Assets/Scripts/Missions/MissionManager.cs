@@ -111,7 +111,6 @@ public class MissionManager : MonoBehaviour
 	public void StartTimer()
 	{
 		startTime    = Time.time;
-        print("startTime: " + startTime);
         timerStarted = true;
 	}
 
