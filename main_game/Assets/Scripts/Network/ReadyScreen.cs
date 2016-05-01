@@ -15,6 +15,8 @@ public class ReadyScreen : NetworkBehaviour
     private Sprite right;
     [SerializeField]
     private Sprite engineer;
+    [SerializeField]
+    private Sprite commander;
 #pragma warning restore 0649
 
     private ServerManager serverManager;
@@ -58,6 +60,10 @@ public class ReadyScreen : NetworkBehaviour
         else if (playerController.GetRole() == RoleEnum.Engineer)
         {
             backgroundImage.sprite = engineer;
+        }
+        else if (playerController.GetRole() == RoleEnum.Commander)
+        {
+            backgroundImage.sprite = commander;
         }
     }
 
