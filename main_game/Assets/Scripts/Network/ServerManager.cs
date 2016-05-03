@@ -429,8 +429,10 @@ public class ServerManager : NetworkBehaviour
         gameState.Status = GameState.GameStatus.Setup;
         Debug.Log("Resetting values");
 
-        if(GameObject.Find("MothershipSpawnEffect(Clone)") != null)
-            GameObject.Find("MothershipSpawnEffect(Clone)").GetComponent<DisableSpawnEffect>().DisableParticles();
+        GameObject spawnEffect = GameObject.Find("MothershipSpawnEffect(Clone)");
+
+        if(spawnEffect != null)
+            spawnEffect.GetComponent<DisableSpawnEffect>().DisableParticles();
 
         // Overlay ready screen
         readyScreen.GetComponent<ReadyScreen>().Reset();
