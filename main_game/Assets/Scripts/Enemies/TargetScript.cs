@@ -25,8 +25,8 @@ public class TargetScript : MonoBehaviour
 
     void Update()
     {
-        Vector3 v3 = player.transform.position - transform.position;
-        transform.rotation = Quaternion.LookRotation(-v3);
+        transform.LookAt(transform.position + player.transform.rotation * Vector3.forward,
+            player.transform.rotation * Vector3.up);
     }
         
 
