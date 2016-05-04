@@ -160,6 +160,10 @@ public class CrosshairMovement : NetworkBehaviour
         }
         
         localController.CmdUpdateTargets(gameObject, targets, rays);
+
+        // Hit marker fade
+        if (alpha > 0)
+            alpha -= 5f * Time.deltaTime;
     }
 
     /// <summary>
@@ -325,6 +329,12 @@ public class CrosshairMovement : NetworkBehaviour
                 if (showMarker) GUI.DrawTexture(new Rect(pos.x - 32, Screen.height - pos.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
             }
         }
+    }
+
+    public void SetMarker(bool isShowing, float newAlpha)
+    {
+        showMarker = isShowing;
+        alpha      = newAlpha;
     }
 
     public class Target

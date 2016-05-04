@@ -51,6 +51,8 @@ public class PlayerShooting : MonoBehaviour
     private int currentPlayerId = 0;
 	public int PlayerId { private get; set; }
 
+    private PlayerController playerController;
+
 	void Start()
 	{
 		string name = this.gameObject.name;
@@ -63,6 +65,9 @@ public class PlayerShooting : MonoBehaviour
 		officerMap = gameState.GetOfficerMap();
 
 		playerShip = transform.parent.gameObject;
+
+        // Pick a random controller for RPC
+        playerController = GameObject.Find("PlayerController(Clone)").GetComponent<PlayerController>();
     }
 
     public void Reset()
@@ -117,10 +122,6 @@ public class PlayerShooting : MonoBehaviour
 
 		/*if (currentPlayerId == 0)
 			Debug.Log("Ammo: " + ammo);*/
-
-        // Control alpha of hitmarker
-		if (alpha > 0)
-			alpha -= 5f * Time.deltaTime;
 	}
 
     /// <summary>
@@ -255,30 +256,12 @@ public class PlayerShooting : MonoBehaviour
     {
         screenId = newScreenId;
     }
-        
-	void OnGUI()
-	{
-        if (crosshair != null)
-        {
-            GUI.color = new Color(1, 1, 1, alpha);
-            crosshairPosition = crosshair.transform.position;
-            if (showMarker) GUI.DrawTexture(new Rect(crosshairPosition.x - 32, Screen.height - crosshairPosition.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
-        }
-	}
 
     // Show hitmarker when an enemy is hit
 	public void HitMarker()
 	{
-		showMarker = true;
-		alpha      = 1f;
-		StartCoroutine(HideMarker());
-	}
-
-    // Stop drawing hitmarker after certain time limit
-	IEnumerator HideMarker()
-	{
-		yield return new WaitForSeconds(2f);
-		showMarker = false;
+        // Get crosshair movement of each camera client
+        playerController.RpcHitMarker();
 	}
 
     // Delay before player can shoot again

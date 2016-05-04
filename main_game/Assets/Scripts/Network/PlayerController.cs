@@ -454,4 +454,13 @@ public class PlayerController : NetworkBehaviour
         if (popupWindow != null)
             popupWindow.SetActive(false);
     }
+
+    [ClientRpc]
+    public void RpcHitMarker()
+    {
+        if (role == RoleEnum.Camera)
+        {
+            serverManager.GetCrosshairObject(localController.GetScreenIndex()).GetComponent<CrosshairMovement>().SetMarker(true, 1.0f);
+        }
+    }
 }
