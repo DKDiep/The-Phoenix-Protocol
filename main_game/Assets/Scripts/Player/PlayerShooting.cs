@@ -70,7 +70,6 @@ public class PlayerShooting : MonoBehaviour
         LoadSettings();
         shootButtonPressed = false;
 		timeSinceLastShot  = 0f;
-        SetShootingEnabled(true);
     }
 
 	private void LoadSettings()
