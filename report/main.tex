@@ -2,23 +2,29 @@
 
 \usepackage[top=.8in, bottom=.9in, left=.85in, right=.85in]{geometry} % Don't lower margins more than this, or we might not be able to print it properly
 
+% Input and dimensions
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[all]{nowidow}
 \setlength{\parskip}{2pt plus 1pt}
 
+% Maths
 \usepackage{amsmath,amsfonts,amsthm}
 
+% Figures
 \usepackage{graphicx}
 \graphicspath{ {images/} {logos/} {signatures/} }
+\setlength{\abovecaptionskip}{5pt plus 1pt}
 
-\usepackage[justification=centering,width=.85\textwidth]{caption} %format=hang
+\usepackage[justification=centering,width=.85\textwidth]{caption}
 \usepackage{subcaption}
 
+% Tables
 \usepackage{array}
-\newcolumntype{M}{>{\centering\arraybackslash}m{1.5in}}
+\newcolumntype{M}{>{\centering\arraybackslash}m{2in}}
 \renewcommand{\arraystretch}{1.5}
 
+% Other packages
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{hyperref}
 \usepackage{verbatim}
@@ -26,24 +32,26 @@
 \usepackage{indentfirst}
 \usepackage{enumitem}
 
+% Custom commands
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
 
 \title{
 	\includegraphics[scale=0.4]{logos/bristollogo_colour}\\
-	\horrule{0.4pt} \\[0.2cm] % Top horizontal rule
-	COMS30400 Report\\
-    \Huge The Phoenix Protocol\\
-    \horrule{0.4pt} \\[-0.5cm] % Top horizontal rule
-    \vspace{1cm}
+	\horrule{0.4pt} \\[0.2cm]
+	COMS30400 Report \\
+    \Huge The Phoenix Protocol \\
+    \horrule{0.4pt} \\[-0.5cm]
+    \vspace{1.5cm}
     % \includegraphics[scale=0.4]{logos/bristollogo_colour}\\
-    %\includegraphics[scale=1.0]{bristolcrest_colour}\\
-\includegraphics[scale=0.35]{images/pyrolite}\\
+    % \includegraphics[scale=1.0]{bristolcrest_colour}\\
+	\includegraphics[scale=0.35]{images/pyrolite}
+    \vspace{-.5cm}
 }
 
-\author{Dillon Keith Diep, Frank Hemsworth, Marc Steene,\\ 
-		Andrei Poenaru, Luke Bryant, Stoil Ganev, Artur Gemes}
+\author{\Large Dillon Keith Diep, Frank Hemsworth, Marc Steene, \\ 
+		\Large Andrei Poenaru, Luke Bryant, Stoil Ganev, Artur Gemes}
 
-\date{9 May 2016}
+\date{\Large 9 May 2016}
 
 \begin{document}
 
@@ -53,9 +61,11 @@
 
 \section{Signed Assessment}
 
+\vspace{2em}
+
 \begin{table}[ht]
   \centering
-  \large
+  \Large
   \begin{tabular}{|M|M|M|}
       \hline
       Member			  & Weighting & Signature \\
@@ -89,7 +99,7 @@
   \item Custom built guns with IR cameras, integrated phone mount and custom triggering mechanism
   \item Development following the Agile methodology, including Agile software (JIRA, git), weekly sprints, epics, stories, and continuous integration following OOP best practices
   \item Infrastructure which allows an unlimited number of spectators to join the game at any point via a web interface which runs on any modern platform, including mobile devices
-  \item Different game mechanics and input methods for each role, including a touch screen, infrared controllers, and two different joysticks \todo{change this}
+  \item Intuitive input methods including a touch screen, infrared controllers, and two different joysticks, catered specifically for each role to give the best feedback possible and maximise immersion \todo{change this. Good enough?}
   \item Cutting edge graphics features including physically based rendering and a post-processing pipeline
   \item Custom artwork including 3D models (Maya 2016) and 2D graphics (Photoshop CS6)
   \item Heavily optimised graphics and code, with our target hardware running the game at 60+ frames per second across three game instances at 1024x768 resolution
@@ -102,7 +112,7 @@
 The Phoenix Protocol is an epic space-fantasy video game where players form a team to survive an onslaught of hostile alien ships as they escape from the fallen Earth. It is an cooperative action-strategy hybrid that encourage players to communicate with one another to decide how best to make use of their abilities and aid their survival. The game is set in a room which forms the bridge of a spaceship with three large back projected screens that surround the players and immerse them into the universe. 
 Players take the role of the crew of Phoenix-9, the last remaining human ship capable of intergalactic travel. With Earth on the brink of destruction under the assault of the alien race Glom, humanity faces extinction unless the crew can guide the ship through the portal and reach safety.
 
-There are several roles aboard the Phoenix-9, each playing a unique role in the game:\todo{role repeated twice}
+There are several roles aboard the Phoenix-9, each of them having its own unique objectives and game play:
 
 \begin{itemize}[noitemsep,topsep=.5ex]
   \item The \textbf{Commander} is responsible for piloting the ship, which includes dodging asteroids and swarms of enemies. They also have the strategic role of managing upgrades and repairs through the command console interface. This shows useful statistics such as current health and number of resources, and allows the commander to purchase upgrades and repairs for the ship. On top of this, the Commander also has control of a number of powerful abilities, such as engine boosters to quickly escape enemies and rockets to defend the ship if it is in imminent danger. 
@@ -115,14 +125,14 @@ There are several roles aboard the Phoenix-9, each playing a unique role in the 
 
 \begin{figure}[h!]
 	\centering
-    \includegraphics[width=0.\textwidth]{images/roomCropped}
+    \includegraphics[width=0.95\textwidth]{images/roomCropped}
     \caption{The bridge, room layout of of 1.06.}
     \label{fig:room_layout}
 \end{figure}
 
-The primary mission is to reach a portal which will transport the ship to safety, away from the alien fleet. Outposts, which house civilians and resources will be encountered on the way. The ship is able to save the civilians stranded on the outpost and collect any resources stored inside. Enemy ships blockade outposts in the hope to foil rescue missions. The players must get past these enemies to save the civilians and collect resources which are vital to upgrading the ship and to be able to reach the portal. 
+The primary mission is to reach a portal which will transport the ship to safety, away from the alien fleet. Outposts, which house civilians and resources will be encountered on the way. The ship is able to save the civilians stranded on the outpost and collect any resources stored inside. Enemy ships blockade outposts in the hope to foil rescue missions. The players must get past these enemies to save the civilians and collect resources which are vital to upgrading the ship and to be able to reach the portal.
 
-Spectators waiting to try the game are able to jump into the action and interact directly with the main game through a web page on their mobile device. The mobile game allows them to hack nearby enemies by touching and holding onto enemy sprites in a top-down view of the main game. Hacked enemies can then be controlled, moving to designated locations or attacking other enemies on command. Enemies that have been hacked are visible on the main game and are marked with the spectator’s username to show the players the impact they are having on the game. Spectators compete with each other by gaining points for each enemy their hacked ship kills. A leaderboard is shown on a monitor in front of the players for spectators to see, which encourages competitiveness. The players of the main game are decided by the top ranking spectators after each round. When the current game has finished the top ranking spectators are promoted to the main game and a new team is formed to save humanity.
+Spectators waiting to try the game are able to jump into the action and interact directly with the main game through a web page on their mobile device. The mobile game allows them to hack nearby enemies by touching and holding onto enemy sprites in a top-down view of the main game. Hacked enemies can then be controlled, moving to designated locations or attacking other enemies on command. Enemies that have been hacked are visible on the main game and are marked with the spectator’s username to show the players the impact they are having on the game. Spectators compete with each other by gaining points for each enemy their hacked ship kills. A leaderboard is shown on a monitor in front of the players for spectators to see, which encourages competitiveness. The players of the main game are decided by the top ranking spectators after each round. When the current game has finished, the top ranking spectators are promoted to the main game and a new team is formed to save humanity.
 
 An immersive environment is constructed by incorporating the physical area into the game. For this project the designated area of demonstration is room 1.06 of Merchant Venturers Building, which was transformed into the interior of the space ship. Multiple screens are utilised to surround the player in the space environment. In addition the use of lights and surround sound are utilised to reinforce the immersive experience for the players and spectators. 
 
@@ -134,26 +144,26 @@ An immersive environment is constructed by incorporating the physical area into 
 
 From the beginning it was expected of the team to operate in a professional manner. This led to the team mutually agreeing to a number of terms which are detailed in the team contract.
 
-The team followed the Agile development methodology. As such, work was divided in week-long sprints, and regular meetings were held at the start of every sprint to review work, allocate tasks, discuss design and potential issues. During holidays group calls were used in place of physical meetings. This was agreed on the contract and upheld by every member throughout the project.
+The team followed the Agile development methodology. As such, work was divided in week-long sprints, and regular meetings were held at the start of every sprint to review work, allocate tasks, discuss design and highlight potential issues. During holidays, group calls were used in place of physical meetings. This was agreed on the contract and upheld by every member throughout the project.
 
-Initial meetings were largely focused towards the design of the system. After the main components were decided, each team member started working on the one of their choice, according to their interests and prior experience. Subsequent meetings started with a review of each person’s work in the previous sprint and an outlook towards the next one. This was done so that everyone is up to date with all parts of the project, not just the one they were currently working on. The reviews also contained brief demonstrations of the work achieved, so there was constant feedback from the other team members, which helped identify any issues as early as possible. Notes were taken during every meeting to record the progress of the project and to make it easy to review previous meetings, should the need arise to do so. Each member also maintained their own timesheet documenting the tasks completed each day and the time spent on them to ensure a fair evaluation of weightings at the end of the project.
+Initial meetings were largely focused towards the design and mechanics of the game. After the main components were decided, each team member started working on the one of their choice, according to their interests and prior experience. Subsequent meetings started with a review of each person’s work in the previous sprint and an outlook towards the next one. This was done so that everyone is up to date with all parts of the project, not just the one they were currently working on. The reviews also contained brief demonstrations of the work achieved, so there was constant feedback from the other team members, which helped identify any issues as early as possible. Notes were taken during every meeting to record the progress of the project and to make it easy to review previous meetings, should the need arise to do so. Each member also maintained their own timesheet documenting the tasks completed each day and the time spent on them to ensure a fair evaluation of weightings at the end of the project.
 
-Due to the size of the project, new tasks constantly appeared, and it was likely that cooperation with those working on other parts of the game was needed to solve them. This is because interoperation between components, e.g. protocols, interfaces and REST APIs, had to be agreed on and then tested together. This naturally led to task reallocation and balancing of workload on every meeting, thus allowing everyone to have enough open tasks so there is always something to do, while not blocking other people from their work. This was also a good opportunity for those struggling with their current tasks to ask for help, or request that they work on a different part.
+Due to the size of the project, new tasks were constantly  added, and it was likely that cooperation with those working on other parts of the game was needed to solve them. This is because interoperation between components, e.g. protocols, interfaces and REST APIs, had to be agreed on and then tested together. This naturally led to task reallocation and balancing of workload on every meeting, thus allowing everyone to have enough open tasks so there is always work to be done, while not blocking other people from their work. This was also a good opportunity for those struggling with their current tasks to ask for help, or request that they work on a different part of the project.
 
 \subsection{Tools}
 
-To track tasks and bugs we used Jira, a well-known and feature-rich issue tracker which provides free community licenses for self-hosting. We were able to host our instance on Digital Ocean, a Virtual Private Server provider, through the free credit from the GitHub Student Pack. Jira acted as the main dashboard where tasks are created, assigned and marked as done, and where possible implications of adding new features or changing existing ones were discussed. It also integrates with Bitbucket, so it can be easily seen which issue a specific change is meant to address. Through using Jira’s issue organisation features, such as task priority and epic links, workload was more easily managed, team members with less to do could be easily assigned new tasks, and the sprint’s features directly guided weekly reviews.
+To track tasks and bugs we used Jira \cite{jira}, a well-known and feature-rich issue tracker which provides free community licenses when self-hosting. Jira acted as the main dashboard where tasks were created, assigned and marked as complete, and where possible implications of adding new features or changing existing ones were discussed. Integration with our Git Repository enabled enabled us to easily see which issue a specific change is meant to address. Through using Jira’s issue organisation features, such as task priority and epic links, workload was more easily managed, team members with less to do could be easily assigned new tasks, and the sprint’s features directly guided weekly reviews.
 
-The main communication channel was the cloud-based service Slack. This allowed having a chat environment dedicated to the project, as it was vital that the team kept in touch over the duration of the project. In addition to the messaging, Slack integrates centralised notifications from other services we used, including JIRA, BitBucket, Google Drive, and Google Calendar.
+The main communication channel was the cloud-based service Slack \cite{slack}. This allowed having a chat environment dedicated to the project, as it was vital that the team kept in touch during development. In addition to the messaging, Slack integrates centralised notifications from other services we used, including JIRA, BitBucket, Google Drive, and Google Calendar.
 
-Google Apps provided the main administrative tools we used, including Calendar, Docs for the design specification and notes, Sheets for timesheets, and Drive for file sharing and collaboration with the musicians. The Google suite provides easy sharing with others, which allowed all members’ calendars to always be up-to-date and enable simultaneous editing of files. Google Forms was also used during test sessions for guests to input feedback in a structured manner.
+Google Apps \cite{google_apps} provided the main administrative tools we used, including Calendar, Docs for the design specification and notes, Sheets for timesheets, and Drive for file sharing and collaboration with the musicians. The Google suite provides easy sharing with others, which allowed all members’ calendars to always be up-to-date and enable simultaneous editing of files. Google Forms was also used during test sessions for guests to input feedback in a structured manner.
 
-For source control, we used Git. We used BitBucket as the central place to store our repository, from which team members cloned on their development machines. Git allows multiple users to work on the project at the same time, and provides a full revision history of the code, meaning it is easy to see when each change was made, who authored it, and even revert it if necessary. It also allows tagging stable versions, or milestone points, so that there is always a working game available. Using a hosted git repository enabled other team members to review or test code before it was merged into the main release branch.
+For source control, we used Git \cite{git}. We used BitBucket \cite{bitbucket} as the central place to store our repository, from which team members cloned on their development machines. Git allows multiple users to work on the project at the same time, and provides a full revision history of the code, meaning it is easy to see when each change was made, who authored it, and even revert it if necessary. It also allows tagging stable versions, or milestone points, so that there is always a working game available. Using a hosted git repository enabled other team members to review or test code before it was merged into the main release branch.
 
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=.75\textwidth]{jira_open_vs_closed}
-    \captionof{figure}{Plot of open (red) and closed (green) issues for Jira. A spike in open issues can be observed once all components are put together after Christmas, and again after user testing. The curve tails off with only balance left for the last weeks.}
+    \captionof{figure}{Plot of open (red) and closed (green) issues for Jira. A spike in open issues can be observed once all components are put together after Christmas, and again after user testing. The curve tails off with only balancing tasks left for the last weeks.}
 \end{figure}
 
 \section{Project Planning}
@@ -163,37 +173,34 @@ The initial schedule was developed around the main components of the game. The t
 
 We organised the project into epics, such that each component formed a separate epic. Within each epic, we started with stories that described the expected behaviour of that component. Based on these stories, we produced small-sized tasks.
 
-We set internal deadlines to make sure no component becomes a bottleneck for the whole game, and then development started on most components simultaneously. The spectator game was deemed lower priority, as it was block by the main game. At the highest level, we aimed to have the core gameplay implemented by Christmas, and all the features in the game by Easter.
+We set internal deadlines to make sure no component becomes a bottleneck for the whole game, and then development started on most components simultaneously. The spectator game was deemed lower priority, as it was blocked by the main game. At the highest level, we aimed to have the core gameplay implemented by Christmas, and all the features in the game by Easter.
 
 The first big change to this schedule was caused by switching from a 3-screen game to a scalable network architecture. Initially, the game was specifically designed to take advantage of the three big screens in MVB 1.06, but it became clear around November that it might not be possible to get a powerful enough machine to run the game - there were also concerns regarding the camera distortion of a wide viewing plane due to the non-linear positioning of each projector screen in MVB 1.06. At the same time, due to issues with the projectors and the lack of response from IT Services, we decided to take a new approach which allowed us to use any number of screens, as well as split the rendering load across multiple machines. This took the form of the networked-multi-screen architecture which is present in the final game, and the deadline for which was Christmas.
 
 Partly due to our regular meetings and use of sprints to measure progress, we mostly followed the initial schedule. The networking was done before Christmas, and the game was playable, although almost all assets were placeholders and only the mouse and keyboard controls could be used. However, because more than half of our team had 70 CP of units in the first term, not as much was accomplished as initially planned. At that point, the command console was underdeveloped, and gun shooting was not implemented.
 
-Fortunately, after the exam period we made steady progress, and more gameplay features were added. We also began replacing the placeholder graphics and assets with the final versions. The engineer was also in a near-final state soon after. We were now in a position to start focusing on the spectator game and integrating more gameplay elements with the different player roles.
+Fortunately, after the exam period we made steady progress, and more gameplay features were added. We also began replacing the placeholder graphics and assets with the final versions. The engineer game was also in a near-final state soon after. We were now in a position to start focusing on the spectator game and integrating more gameplay elements with the different player roles.
 
 This advanced neatly, and around Easter we had a feature-rich game that was not missing any vital part, but lacked polish. It was also not very user friendly, with little to explain the aiming and mechanics of the game, which would become the focus for the last part of the project.
 
 After Easter, significant improvements were made to the command console and the gun shooting. The spectator game was also finalised, and by the time we got users in for a proper testing session, the game was in good shape.
 
-However, as expected, the testing session, which involved several members of the Department, brought several issues to our attention regarding the game’s atmosphere and general user-friendliness. We aimed to address these issues before the Games Preview Day, which required constant play-testing and balancing. After this point, everything was in place with only a handful of bugs to fix.
+During the last part of the project, obtaining as much feedback as possible was one of the top priorities for the team. While the Preview Day was very useful in this sense, we wanted opinions from as large a variety of people as possible. This led to our self-organised testing day, which had several members of the Department of Computer Science come to test and comment on our game, together with our mentor and other students from the Faculty. This took place a week and a half before the Preview Day and allowed us to get good insight into what a more mature audience expected from a game like ours, and how our product met their expectations. We spent time with each participant individually and took notes on all their thoughts, including what they liked and what they thought could be improved. Before leaving, we also asked everyone to complete a quick feedback form to make sure that no vital questions was overlooked in individual discussions. Generally, we received very good feedback, with most issues centred around game balance and small adjustments to the input methods, which was in line with our expectations and meant we were on schedule.
 
-\todo[inline]{Mention internal testing day and show some results of feedback form (they were all very positive, ref difficulty users praised ease)}
+However, as expected, the testing session, brought several issues to our attention regarding the game’s atmosphere and general user-friendliness. We aimed to address these issues before the Games Preview Day, which required constant play-testing and balancing. After this point, everything was in place with only a handful of bugs to fix.
 
 No major feature was developed in the last two weeks of the project. We had aimed to use this time just to fix bugs and test the game extensively, which in doing so we gained confidence that our game would perform well on Games Day and that it was unlikely to encounter bugs. Most remaining bugs after the Preview Day were fixed within three days, and the rest of the time consisted mainly of testing and small balance tweaks.
 
 \todo[inline]{Add more about actual deadlines and milestones}
 
 \subsection{Collaborators}
-\todo[inline]{Full names of Musicians?}
-We worked with students from the Music department (Lefteris, George and Tom) who composed the music for our game. We first met them during the initial composers meeting before Christmas, when we explained to them the main idea of our game. After the holidays, we met and decided what type of music we wanted, and how many tracks. They then composed and produced our music, giving us various opportunity to give feedback on their work, which meant we could make sure we obtained exactly the kind of music that we had envisioned for the game. Although initially they said they were able to help with sound effects as well, due to time constraints on their part, we did not use sound effects created by them in the project. 
+We worked with students from the Music department (Lefteris Chrysanthou, George Gaitanos, and Tom Vos) who composed the music for our game. We first met them during the initial composers meeting before Christmas, when we explained to them the main idea of our game. After the holidays, we met and decided what type of music we wanted, and how many tracks. They then composed and produced our music, giving us various opportunity to give feedback on their work, which meant we could make sure we obtained exactly the kind of music that we had envisioned for the game. Although initially they said they were able to help with sound effects as well, due to time constraints on their part, we did not use sound effects created by them in the project. However, their music played a big part in creating an immersive atmosphere with our game and added a yet another unique touch to the project.
 
 Our mentor, Andrew Stubbs, was also a part of our development process. We met with him several times over the course of the year to keep him up-to-date on our progress and obtain feedback. In our first meeting in autumn, he told us about his experience with the Games Project from when he was an undergraduate several years ago. Most of his advice was centred around time management and task distribution, which again showed how serious we would need to be about these issues. In the following meetings, we continued to show him our progress and ask for his opinion the current state of the game, as well as any outstanding design decision. We invited the mentor to our self-organised testing day, where he spent a lot of time playing the various parts of the game and giving us in-depth feedback. Working with him has been a great experience for us, and his advice has been invaluable to our good progress.
 
-We also worked with the voice actor Jordan Woollen who provided the voice of the Admiral. We made a post on a forum where voice actors provide free work and were lucky enough to receive several auditions from voice actors enthusiastic about our game.
+We also worked with the voice actor Jordan Woollen who provided the voice of the Admiral. We made a post on a forum where voice actors provide free work and were lucky enough to receive several auditions from voice actors who were enthusiastic to work with us.
 
-\section{Documentation}
-
-\todo[inline]{Decide if we're including this here: Show how you maintained your software during its development.}
+\section{Software}
 
 \subsection{Running the game}
 
@@ -231,10 +238,9 @@ While the infrared aiming is tuned for three screens, it would not be difficult 
 
 The graphics is completely modular as well, so a visual makeover would not need to change any of the existing code. This includes 3D models, 2D UI components and tutorial graphics.
 
-Because the project was developed under a git repository from the very first line of code, it is possible to revert to any previous version. It is also possible to find exactly which team member implemented a particular feature, or made a change to specific file.
+Because the project was developed under a git repository from the very first line of code, it is possible to revert to any previous version. It is also possible to find exactly which team member implemented a particular feature, or made a change to specific file. Furthermore, git asks that developers keep a local copy on their machines while a central server is used for synchronisation, which makes it easy for a new contributor to join the team, if needed. All they need to do is \emph{clone} the repository, add changes into the game, then submit a \emph{pull request} for their changes to be merged into the game.
 
 \todo[inline]{-Good ideas that we wanted to do but no time: ??}
-\todo[inline]{There is some overlap here with the Team section}
 
 \clearpage
 
@@ -273,31 +279,39 @@ Networking is a central part of The Phoenix Protocol, being at the core of both 
   
 \end{itemize}
 
-From the above, it is clear that the game needs access to a fast network with low noise. To implement this, a separate LAN was set up just for the game.
-
-\todo[inline]{Maybe add more details?}
+From the above, it is clear that the game needs access to a fast network with low noise. To implement this, a separate LAN was set up just for the game using a WiFi access point.
 
 \subsection{Player Shooting}
-This section describes how the player shooting was implemented. It was decided that a ‘point and shoot’ mechanism for the players would be best. Several solutions to the problem were proposed, the first was to use a camera on the end of the guns with coloured points around the screens that the camera could detect and then determine the position the gun was pointing at on screen. The second, an improvement on the first, was to mount an infrared (IR) camera on the front of the gun and use IR LEDs to determine the pointing position. 
-The second solution seemed like the option that would be less susceptible to error, dealing with only blobs rather than having to do image processing greatly simplified the task. Initially a small IR camera was thought to be the solution, but it became immediately obvious that a cheaper alternative would need to be found. The Nintendo Wii Remote\cite{wiibrew_wiimote} has an IR camera on the end and has a large open source community that has reverse-engineered the commands sent over bluetooth. This seemed like an affordable solution to our problem, with the added bonus of the Wii remotes buttons and internal accelerometer. 
+
+This section describes how the player shooting was implemented. It was decided that a \emph{point and shoot} mechanism for the players would be best. Several solutions to the problem were proposed, the first was to use a camera on the end of the guns with coloured points around the screens that the camera could detect and then determine the position the gun was pointing at on screen. The second, an improvement on the first, was to mount an infrared (IR) camera on the front of the gun and use IR LEDs to determine the pointing position. 
+
+The second solution seemed like the option that would be less susceptible to error, dealing with only blobs rather than having to do image processing greatly simplified the task. Initially a small IR camera was thought to be the solution, but it became immediately obvious that a cheaper alternative would need to be found. The Nintendo Wii Remote \cite{wiibrew_wiimote} has an IR camera on the end and has a large open source community that has reverse-engineered the commands sent over Bluetooth. This seemed like an affordable solution to our problem, with the added bonus of the Wii remotes buttons and internal accelerometer. 
 
 \subsubsection{Pointing Position}
 The first problem to solve was how to determine where the gun was pointing on the screen. The solution the Nintendo Wii uses is to mount a pair of IR LEDs to the top of the screen. These LED Bars that come with the Nintendo Wii proved to not be suitable for our target setup. The original LED bars are designed for small screens in small rooms. The target room is large and uses very big back projected screens. Custom LED bars were made for each screen with brighter LEDs placed further apart to compensate for the screen size. The pointing position is then calculated by finding the midpoint of the two LEDs and reflecting the point about the middle of the image. For example a point in the bottom right would correspond to a pointing position of the top left on the screen. 
 
 \subsubsection{Field of View}
-\todo[inline]{Format equations}
-The IR camera that the Wii remote provides has a vertical field of view of 23 degrees, this was a problem for the room, the max distance from the screens is around 350 cm. With this field of view that gives us a vertical view distance of around 148 cm (2*350*tan(11.5)), with a screen height of 180 cm. The field of view was not quite wide enough to see the LEDs at the top of the screens when the player aims to the center of the screen. This issue was solved by mounting the IR camera at an angle on the gun (see right diagram in the figure below).
 
-\includegraphics[scale=0.5]{ir}
+The IR camera that the Wii remote provides has a vertical field of view of 23 degrees, this was a problem for the room, the maximum distance from the screens is around 350 cm. With this field of view that gives us a vertical view distance of around 148 cm ($2 \times 350 \times \tan(11.5)$), with a screen height of 180 cm. The field of view was not quite wide enough to see the LEDs at the top of the screens when the player aims to the centre of the screen. This issue was solved by mounting the IR camera at an angle on the gun (Figure \ref{fig:ir_mounting}, right).
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{ir}
+    \caption{Infrared camera mounting}
+    \label{fig:ir_mounting}
+\end{figure}
 
 \subsubsection{Shooting at Multiple Screens}
-To successfully create a point and shoot experience on multiple screens, a method of differentiating the screens was needed. The first solution was to create a third IR LED for each screen that flashes at different frequencies for each screen. This was quickly proved to be impossible due to the refresh rate of the IR camera in the Wii Remote. The Wii Remote can detect up to 4 IR LEDs in a single frame, each screen uses two LEDs to determine the pointing position. This leaves 2 LEDs for each screen to differentiate them. The method that was used was to use three LEDs on the left and right screens and two LEDs on the middle as shown in the diagram below. 
+To successfully create a point and shoot experience on multiple screens, a method of differentiating the screens was needed. The first solution was to create a third IR LED for each screen that flashes at different frequencies for each screen. This was quickly proved to be impossible due to the refresh rate of the IR camera in the Wii Remote. The Wii Remote can detect up to 4 IR LEDs in a single frame, each screen uses two LEDs to determine the pointing position. This leaves 2 LEDs for each screen to differentiate them. The method that was used was to use three LEDs on the left and right screens and two LEDs on the middle as shown in Figure \ref{fig:led_pos}. 
 
-\includegraphics[scale=0.5]{led_pos}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.5]{led_pos}
+    \caption{Infrared LED positioning}
+    \label{fig:led_pos}
+\end{figure}
 
 Various challenges were involved when trying to calculate which screen the player is aiming towards. Mainly issues arose around the transitions between screens, for example if the IR camera detected LEDs from different screens the simple rule set would fail and return an erroneous result. 
-
 
 \subsubsection{Physical Guns}
 \todo[inline]{Show how guns were created, feedback from testing…}
@@ -305,7 +319,7 @@ Various challenges were involved when trying to calculate which screen the playe
 \subsection{Multiple Camera System}
 A defining feature The Phoenix Protocol is the usage of multiple screens. The simplest solution other games adopt is to use a very wide window that stretches across connected monitors. It became evident that we required a more sophisticated solution as a single large window is expensive to render and inflexible for future consideration, neither is it possible to have the view wrap around by simply increasing the field of view. After the prototyping stage, it was clear that a networked solution of aligned cameras fit the requirement better.
 
-The Unity camera component\cite{unity_camera} uses a set of parameters, most notably the field of view, to define its view of the game world. A view frustum\cite{unity_frustum} is the truncated pyramid that contains the area observable by the camera. The height at a given point is given by Equation \ref{eq:frustum_height}.
+The Unity camera component\cite{unity_camera} uses a set of parameters, most notably the field of view, to define its view of the game world. A view frustum \cite{unity_frustum} is the truncated pyramid that contains the area observable by the camera. The height at a given point is given by Equation \ref{eq:frustum_height}.
 
 \todo[inline]{Add missing pictures}
 
@@ -322,6 +336,8 @@ Using the frustum height, the width is retrieved by Equation \ref{eq:frustum_wid
 \end{align}
 
 Since the desired alignment only requires horizontal rotation, vectors representing the left and right edge of the frustum can be defined using the frustum height.
+
+% TODO: might want to change the labels below
 
 \begin{equation}
 	OF = f
@@ -636,7 +652,29 @@ As the engineer was designed to be a remote client I was involved in the network
 
 I had a small involvement in developing the phone game. I implemented some of the enemy hacking logic, and also some of the back end processing for the officer screen using Javascript. I also made small extensions to the admin panel, and the communication between the phone server and the main game server.
 
+\clearpage
+
 \begin{thebibliography}{9}
+
+\bibitem{jira}
+	Jira,
+    \url{https://www.atlassian.com/software/jira}
+    
+\bibitem{slack}
+	Slack,
+    \url{https://slack.com/}
+    
+\bibitem{google_apps}
+	Google Apps,
+    \url{https://apps.google.com/products/}
+    
+\bibitem{git}
+	Git,
+    \url{https://git-scm.com/}
+    
+\bibitem{bitbucket}
+	Bitbucket,
+    \url{https://bitbucket.org/}
 
 \bibitem{wiibrew_wiimote}
   Wii Remote,
