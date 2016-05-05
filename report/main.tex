@@ -2,14 +2,12 @@
 
 \usepackage[top=.8in, bottom=.9in, left=.85in, right=.85in]{geometry} % Don't lower margins more than this, or we might not be able to print it properly
 
-%\usepackage{titling}
-%\setlength{\droptitle}{-2cm}
-
 % Input and dimensions
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[all]{nowidow}
 \setlength{\parskip}{2pt plus 1pt}
+\usepackage{subcaption}
 
 % Maths
 \usepackage{amsmath,amsfonts,amsthm}
@@ -21,6 +19,7 @@
 
 \usepackage[justification=centering,width=.85\textwidth]{caption}
 \usepackage{subcaption}
+\usepackage{wrapfig}
 
 % Tables
 \usepackage{array}
@@ -76,7 +75,7 @@
       \hline
       Member			  & Weighting & Signature \\
       \hline\hline
-      Dillon Keith Diep & 1 & \\
+      Dillon Keith Diep & 1 & \vspace{0.1cm} \includegraphics[width=.15\textwidth]{signatures/dillon_sig}\\
       \hline
       Frank Hemsworth   & 1 & \\
       \hline
@@ -98,7 +97,7 @@
 \section{Top Ten Contributions}
 
 \begin{itemize}
-	\large
+  \large
 
   \item Main game networking allowing an arbitrary number of clients and additional networked screens
   \item Infrared motion tracking, enabling pointing and shooting on multiple large screens
@@ -107,15 +106,13 @@
   \item Intuitive input methods including a touch screen, infrared controllers, and two different joysticks, catered specifically for each role to give the best feedback possible and maximise immersion 
   \item Takes advantage of cutting edge graphical features including physically based rendering and post processing
   \item Custom artwork including 3D models created in Maya 2016 and 2D graphics created in Photoshop CS6
-  \item Heavily optimised graphics and code, with our target hardware running the game at 60+ frames per second across three game instances at 1024x768 resolution
-      \item Development following the Agile methodology, including Agile software (JIRA, git), weekly sprints, epics, stories, and continuous integration following OOP best practices
-  \item Self-organised testing and feedback session with CS Department members 
+  \item Heavily optimised graphics and code, with our target hardware running the game at 60+ frames per second across three game instances at $1024 \times 768$ resolution
+    \item Modular design allows the game to be easily extended with new missions, enemy types, 
+  \item Development following the Agile methodology, including Agile software (JIRA, git), weekly sprints, epics, stories, and continuous integration following OOP best practices and design patterns
 \end{itemize}
 
-\clearpage
-
 \section{Abstract}
-The Phoenix Protocol is an epic space-fantasy video game where players form a team to survive an onslaught of hostile alien ships as they escape from the fallen Earth. It is a cooperative action-strategy hybrid that encourage players to communicate with one another to decide how best to make use of their abilities and aid their survival. The game is set in a room which forms the bridge of a spaceship with three large back projected screens that surround the players and immerse them into the universe. 
+The Phoenix Protocol is an epic space-fantasy video game where players form a team to survive an onslaught of hostile alien ships as they escape from the fallen Earth. It is a cooperative action-strategy hybrid that encourages players to communicate with one another to decide how best to make use of their abilities and aid their survival. The game is set in a room which forms the bridge of a spaceship with three large back projected screens that surround the players and immerse them into the universe. 
 Players take the role of the crew of Phoenix-9, the last remaining human ship capable of intergalactic travel. With Earth on the brink of destruction under the assault of the alien race Glom, humanity faces extinction unless the crew can guide the ship through the portal and reach safety.
 
 There are several roles aboard the Phoenix-9, each of them having its own unique objectives and gameplay:
@@ -136,15 +133,15 @@ There are several roles aboard the Phoenix-9, each of them having its own unique
     \label{fig:room_layout}
 \end{figure}
 
-The primary mission is to reach a portal which will transport the ship to safety, away from the alien fleet. Outposts, which house civilians and resources will be encountered on the way. The ship is able to save the civilians stranded on the outpost and collect any resources stored inside. Enemy ships blockade outposts in the hope to foil rescue missions. The players must get past these enemies to save the civilians and collect resources which are vital to upgrading the ship and to be able to reach the portal.
+The primary mission is to reach a portal which will transport the ship to safety, away from the alien fleet. Outposts, which house civilians and resources will be encountered on the way. The ship is able to save the civilians stranded on the outpost and collect any resources stored inside. Enemy ships blockade outposts in the hope of foiling rescue missions. The players must get past these enemies to save the civilians and collect resources, which are vital to upgrading the ship and to be able to reach the portal.
 
-As time passes, more and more alien forces are able to reach the player, increasing the challenge of survival. If the player's escape cannot be stopped by the Gnats who first engage them, the significantly more advanced Hornets and Black Widows will move in to finish the job. Thus, with every outpost they visit, the player has to prepare for an even heavier assault by the aliens.
+As time passes, a greater number of alien forces are able to reach the player, increasing the challenge of survival. If the player's escape cannot be stopped by the Gnats, the weaker enemies who first engage them, the significantly more advanced Hornets and Black Widows will move in to finish the job. Thus, with every outpost they visit, the player has to prepare for an even heavier assault by the aliens.
 
+Just before reaching the portal, the player's way will be blocked by a Glom \emph{mothership}. Its sudden spawning contributes to the pressure the players constantly feel as they try to escape the onslaught. The mothership carries a large number of alien fighters, which it will continue to launch until destroyed. It also has a high-powered, targeted laser beam which can quickly shred through any ship's hull. This final challenge comes as a complete surprise to the player crew, since there is no mention of or hint to it before it teleports in.
 
+Spectators waiting to try the game are able to jump into the action and interact directly with the main game through a web page on their mobile device. The mobile game allows them to hack nearby enemies by touching and holding onto enemy sprites in a top-down view of the main game. Hacked enemies can then be controlled, moving to designated locations or attacking other enemies on command. Enemies that have been hacked are visible on the main game and are marked with the spectator’s username to show the players the impact they are having on the game. Spectators compete with each other by gaining points for each enemy their hacked ship kills. A leaderboard is shown on a monitor in front of the players for spectators to see, which encourages competition. The players of the main game are decided by the top ranking spectators after each round. When the current game has finished, the top ranking spectators are promoted to the main game and a new team is formed to save humanity.
 
-Spectators waiting to try the game are able to jump into the action and interact directly with the main game through a web page on their mobile device. The mobile game allows them to hack nearby enemies by touching and holding onto enemy sprites in a top-down view of the main game. Hacked enemies can then be controlled, moving to designated locations or attacking other enemies on command. Enemies that have been hacked are visible on the main game and are marked with the spectator’s username to show the players the impact they are having on the game. Spectators compete with each other by gaining points for each enemy their hacked ship kills. A leaderboard is shown on a monitor in front of the players for spectators to see, which encourages competitiveness. The players of the main game are decided by the top ranking spectators after each round. When the current game has finished, the top ranking spectators are promoted to the main game and a new team is formed to save humanity.
-
-An immersive environment is constructed by incorporating the physical area into the game. For this project the designated area of demonstration is room 1.06 of Merchant Venturers Building, which was transformed into the interior of the space ship. This can be seen in Figure 1 above. Multiple screens are utilised to surround the player in the space environment. In addition the use of lights and surround sound are utilised to reinforce the immersive experience for the players and spectators. 
+An immersive environment is constructed by incorporating the physical area into the game. For this project the designated area of demonstration is room 1.06 of Merchant Venturers Building, which was transformed into the interior of the space ship. This can be seen in Figure 1 above. Multiple screens are utilised to surround the player in the space environment. In addition, lights and surround sound are utilised to reinforce the immersive experience for the players and spectators. 
 
 \section{The Team Process}
 
@@ -152,19 +149,19 @@ From the beginning it was expected of the team to operate in a professional mann
 
 The team followed the Agile development methodology. As such, work was divided in week-long sprints, and regular meetings were held at the start of every sprint to review work, allocate tasks, discuss design and highlight potential issues. During holidays, group calls were used in place of physical meetings. This was agreed on the contract and upheld by every member throughout the project.
 
-Initial meetings were largely focused towards the design and mechanics of the game. After the main components were decided, each team member started working on the one of their choice, according to their interests and prior experience. Subsequent meetings started with a review of each person’s work in the previous sprint and an outlook towards the next one. This was done so that everyone is up to date with all parts of the project, not just the one they were currently working on. The reviews also contained brief demonstrations of the work achieved, so there was constant feedback from the other team members, which helped identify any issues as early as possible. Notes were taken during every meeting to record the progress of the project and to make it easy to review previous meetings, should the need arise to do so. Each member also maintained their own timesheet documenting the tasks completed each day and the time spent on them to ensure a fair evaluation of weightings at the end of the project.
+Initial meetings were largely focused towards the design and mechanics of the game. After the main components were decided, each team member started working on the one of their choice, according to their interests and prior experience. Subsequent meetings started with a review of each person’s work in the previous sprint and an outlook towards the next one. This was done so that everyone is up to date with all parts of the project, not just the one they were currently working on. The reviews also contained brief demonstrations of the work achieved, so there was constant feedback from the other team members, which helped identify any issues as early as possible. Notes were taken during every meeting to record the progress of the project and to make it easy to review previous meetings, should the need arise to do so. Each member also maintained their own timesheet documenting the tasks completed each day and the time spent on them to help ensure a fair evaluation of weightings at the end of the project.
 
-Due to the size of the project, new tasks were constantly  added, and it was likely that cooperation with those working on other parts of the game was needed to solve them. This is because interoperation between components, e.g. protocols, interfaces and REST APIs, had to be agreed on and then tested together. This naturally led to task reallocation and balancing of workload on every meeting, thus allowing everyone to have enough open tasks so there was always work to be done, while not blocking other people from their work. This was also a good opportunity for those struggling with their current tasks to ask for help, or request that they work on a different part of the project.
+Due to the size of the project, new tasks were constantly added, and often cooperation with those working on other parts of the game was needed to complete them. This is because interoperation between components, e.g. protocols, interfaces and REST APIs, had to be agreed on and then tested together. This naturally led to task reallocation and balancing of workload on every meeting, thus allowing everyone to have enough open tasks to ensure that there was always work to be done, while not blocking other people from their work. This was also a good opportunity for those struggling with their current tasks to ask for help, or request that they work on a different part of the project.
 
 \subsection{Tools}
 
 To track tasks and bugs we used Jira \cite{jira}, a well-known and feature-rich issue tracker which provides free community licenses when self-hosting. Jira acted as the main dashboard where tasks were created, assigned and marked as complete, and where possible implications of adding new features or changing existing ones were discussed. Integration with our Git Repository enabled us to easily see which issue a specific change addresses. Through using Jira’s issue organisation features, such as task priority and epic links, workload was more easily managed, team members with less to do could be easily assigned new tasks, and the sprint’s features directly guided weekly reviews.
 
-The main communication channel was the cloud-based service Slack \cite{slack}. This allowed having a chat environment dedicated to the project, as it was vital that the team kept in touch during development. In addition to the messaging, Slack integrates centralised notifications from other services we used, including JIRA, BitBucket, Google Drive, and Google Calendar. Slack was used on a daily basis for discussing the project details and solving any issues.
+The main communication channel was the cloud-based service Slack \cite{slack}. This allowed having a instant messaging environment dedicated to the project, as it was vital that the team kept in touch during development. In addition to the messaging, Slack integrates centralised notifications from other services we used, including JIRA, BitBucket, Google Drive, and Google Calendar. Slack was used on a daily basis for discussing the project details and solving any issues.
 
 Google Apps \cite{google_apps} provided the main administrative tools we used, including Calendar, Docs for the design specification and notes, Sheets for timesheets, and Drive for file sharing and collaboration with the musicians. The Google suite provides easy sharing with others, which allowed all members’ calendars to always be up-to-date and enable simultaneous editing of files. Google Forms was also used during test sessions for guests to input feedback in a structured manner.
 
-For source control, we used Git \cite{git}. We used BitBucket \cite{bitbucket} as the central place to store our repository, from which team members cloned on their development machines. Git allows multiple users to work on the project at the same time, and provides a full revision history of the code, meaning it is easy to see when each change was made, who authored it, and even revert it if necessary. It also allows tagging stable versions, or milestone points, so that there is always a working version of the game available. Using a hosted git repository enabled other team members to review or test code before it was merged into the main release branch.
+For source control, we used Git \cite{git}. We used BitBucket \cite{bitbucket} as the central place to store our repository. Git allows multiple users to work on the project at the same time, and provides a full revision history of the code, meaning it is easy to see when each change was made, who authored it, and even revert it if necessary. It also allows tagging stable versions, or milestone points, so that there is always a working version of the game available. Using a hosted git repository enabled other team members to review or test code before it was merged into the main release branch.
 
 \begin{figure}[ht]
 	\centering
@@ -181,25 +178,40 @@ We organised the project into epics, such that each component formed a separate 
 
 We set internal deadlines to make sure no component became a bottleneck for the whole game, and then development started on most components simultaneously. The spectator game was deemed lower priority, as it was blocked by the main game. At the highest level, we aimed to have the core gameplay implemented by Christmas, and all the features in the game by Easter.
 
-The first big change to this schedule was caused by switching from a 3-screen game to a scalable network architecture. Initially, the game was specifically designed to take advantage of the three big screens in MVB 1.06, but it became clear around November that it might not be possible to get a powerful enough machine to run the game - there were also concerns regarding the camera distortion of a wide viewing plane due to the non-linear positioning of each projector screen in MVB 1.06. At the same time, due to issues with the projectors, we decided to take a new approach which allowed us to use any number of screens, as well as split the rendering load across multiple machines. This took the form of the networked-multi-screen architecture which is present in the final game.
+The first big change to this schedule was caused by switching from a 3-screen game to a scalable network architecture. Initially, the game was specifically designed to take advantage of the three big screens in MVB 1.06, but it became clear around November that it might not be possible to get a powerful enough machine to run the game - there were also concerns regarding the camera distortion of a wide viewing plane due to the projector screens in MVB 1.06 being at angles to each other. At the same time, due to issues with the projectors, we decided to take a new approach which allowed us to use any number of screens, as well as split the rendering load across multiple machines. This took the form of the networked multi-screen architecture which is present in the final game.
 
 Partly due to our regular meetings and use of sprints to measure progress, we mostly followed the initial schedule. The networking was done before Christmas, and the game was playable, although almost all assets were placeholders and only the mouse and keyboard controls could be used. However, because more than half of our team had a larger workload from other units in the first term, not as much was accomplished as initially planned. At that point, the command console was underdeveloped, and gun shooting was not implemented.
 
-Fortunately, after the exam period we made steady progress, and more gameplay features were added. We also began replacing the placeholder graphics and assets with the final versions. The engineer game was also in a near-final state soon after. We were now in a position to start focusing on the spectator game and integrating more gameplay elements with the different player roles.
+Fortunately, after the exam period we made steady progress, and more gameplay features were added. We also began replacing the placeholder graphics and assets with the final versions. The engineer game was also in a near-final state soon after. We were then in a position to start focusing on the spectator game and integrate more gameplay elements with the different player roles.
 
 This advanced neatly, and around Easter we had a feature-rich game that was not missing any vital part, but required polishing. It was also not very user friendly, with little to explain the aiming and mechanics of the game, which would become the focus for the last part of the project.
 
 After Easter, significant improvements were made to the command console and the gun shooting. The spectator game was also finalised, and by the time we got users in for a proper testing session, the game was in good shape.
 
 During the last part of the project, obtaining as much feedback as possible was one of the top priorities for the team. While the Preview Day was very useful in this sense, we wanted opinions from as large a variety of people as possible. This led to our self-organised testing day, which had several members of the Department of Computer Science come to test and comment on our game, together with our mentor and other students from the Faculty. This took place a week and a half before the Preview Day and allowed us to get good insight into what a more mature audience expected from a game like ours, and how our product met their expectations. We spent time with each participant individually and took notes on all their thoughts, including what they liked and what they thought could be improved. Before leaving, we also asked everyone to complete a quick feedback form to make sure that no vital questions were overlooked in individual discussions. Generally, we received very good feedback, with most issues centred around game balance and small adjustments to the input methods, which was in line with our expectations and meant we were on schedule.
-\todo[inline]{ google form diagrams}
+% working on this, excuse weird formatting for now (13:44)
+\begin{figure}[ht]
+	\centering
+    \caption{Two results from internal test session}
+    \begin{subfigure}[b]{0.45\textwidth}
+    	\centering
+    	\includegraphics[scale=0.45]{control_feedback}
+    	\caption{One of our primary concerns was the ease of learning the controls, the feedback reassured us that we were heading the right direction}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+    	\centering
+    	\includegraphics[scale=0.45]{goal_feedback}
+    	\caption{Following the feedback regarding unclear goals we implemented a tutorial screen and recorded voice-overs that cover objectives}
+    \end{subfigure}
+\end{figure}
+
 However, as expected, the testing session, brought several issues to our attention regarding the game’s atmosphere and general user-friendliness. We aimed to address these issues before the Games Preview Day, which required constant play-testing and balancing. After this point, everything was in place with only a handful of bugs to fix.
 
 No major feature was developed in the last two weeks of the project. We had aimed to use this time just to fix bugs and test the game extensively. In doing so we gained confidence that our game would perform well on Games Day and that it was unlikely to encounter bugs. Most remaining bugs after the Preview Day were fixed within three days, and the rest of the time consisted mainly of testing and small balance tweaks.
 
 
 \subsection{Collaborators}
-We worked with students from the Music department (Lefteris Chrysanthou, George Gaitanos, and Tom Vos) who composed the music for our game. We first met them during the initial composers meeting before Christmas, when we explained to them the main idea of our game. After the holidays, we met and decided what type of music we wanted, and how many tracks. They then composed and produced our music, giving us various opportunity to give feedback on their work, which meant we could make sure we obtained exactly the kind of music that we had envisioned for the game. Although initially they said they were able to help with sound effects as well, due to time constraints on their part, we did not use sound effects created by them in the project. However, their music played a big part in creating an immersive atmosphere with our game and added a yet another unique touch to the project.
+We worked with students from the Music department (Lefteris Chrysanthou, George Gaitanos, and Tom Vos) who composed the music for our game. We first met them during the initial composers meeting before Christmas, when we explained to them the main idea of our game. After the holidays, we met and decided what type of music we wanted, and how many tracks. They then composed and produced our music, giving us various opportunities to give feedback on their work, which meant we could make sure we obtained exactly the kind of music that we had envisioned for the game. The final product played a big part in creating an immersive atmosphere with our game and added yet another unique touch to the project.
 
 Our mentor, Andrew Stubbs, was also a part of our development process. We met with him several times over the course of the year to keep him up-to-date on our progress and obtain feedback. In our first meeting in autumn, he told us about his experience with the Games Project from when he was an undergraduate several years ago. Most of his advice was centred around time management and task distribution, which again showed how serious we would need to be about these issues. In the following meetings, we continued to show him our progress and ask for his opinion the current state of the game, as well as any outstanding design decision. We invited the mentor to our self-organised testing day, where he spent a lot of time playing the various parts of the game and giving us in-depth feedback. Working with him has been a great experience for us, and his advice has been invaluable to our good progress.
 
@@ -208,28 +220,31 @@ We also worked with the voice actor Jordan Woollen who provided the voice of the
 \section{Software}
 
 \subsection{Running the game}
-
-First, the screens need to be set up. For each screen, one instance of the game needs to be run. Then, the commander and engineer consoles each need a separate client as well. The default option is to have the server run the middle screen, then join with the side screens as clients, but this can be easily changed after the clients have been connected. The IP address of the server needs to be entered in the text field in the top right-hand corner of the main screen. When the server has been started, the IP address is displayed in the lower right-hand corner of the screen. Once all the clients are connected, press \texttt{Start}. Figures \ref{fig:first_screen} and \ref{fig:lobby_screen} show screen shots of the setup screens.
-
-\begin{figure}[ht]
-	\centering
-    \includegraphics[width=.7\textwidth]{game_first_screen}
-    \caption{The main screen of the game. The IP address of the server is entered in the the text field at the top, and client roles are selected using the buttons.}
-    \label{fig:first_screen}
-\end{figure}
+After setting up the appropriate hardware, which includes the screens, engineer console, and command console, run one instance of the game on each. Click Create Game on the instance you wish to be the server (which will also act as the central game camera). The IP address of the server needs to be entered in the text field in the top right-hand corner of the main screen. When the server has been started, the IP address is displayed in the lower right-hand corner of the screen. Join Game can then be clicked to connect the clients to the server. Once all the clients are connected, press \texttt{Start}. Figures \ref{fig:first_screen} and \ref{fig:lobby_screen} show screen shots of the setup screens.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=.7\textwidth]{game_lobby_screen}
-  \captionof{figure}{The game lobby screen with all clients joined in their specific roles, as seen from the server. The IP address is shown in the bottom right.}
-  \label{fig:lobby_screen}
+  \captionsetup{width=.45\textwidth}
+  
+  \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{game_first_screen}
+      \caption{The main screen of the game. The IP address of the server is entered in the text field at the top, and client roles are selected using the buttons.}
+      \label{fig:first_screen}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includegraphics[width=.9\textwidth]{game_lobby_screen}
+    \captionof{figure}{The game lobby screen with all clients joined in their specific roles, as seen from the server. The IP address is shown in the bottom right.}
+    \label{fig:lobby_screen}
+  \end{minipage}
 \end{figure}
 
 Next, start the phone server by providing it with the game server IP using the \texttt{-ip} flag. This will also allow you to open the admin panel. By default the admin panel can be accessed through a browser on port \texttt{52932} at the address of the phone server. At this point, players can join the game with their phones. When everyone has joined, use the admin panel to assign roles to the players, then start the game when ready. This will start all components of the game. Figure \ref{fig:admin_panel} shows a screen shot of the admin panel.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\textwidth]{images/admin_panel}
+	\includegraphics[width=\textwidth]{admin_panel_cropped}
     \captionof{figure}{The admin panel. The user can set player roles and specify a team name during the setup stage of the game.}
     \label{fig:admin_panel}
 \end{figure}
@@ -237,13 +252,28 @@ Next, start the phone server by providing it with the game server IP using the \
 \subsection{Extending the game}
 One of the strong points of our design is its modularity. In this sense, the main interaction components, such as the gun controllers or the networked multi-screen architecture, are almost completely independent. It would be easy to extract these components and plug them into a new, completely different game.
 
-The screen positioning and camera angles and field of view can also be changed by simply altering a set of parameters. Thus, it is easy to obtain the desired configuration of number of screens and field of view, without having to change any of the code. The existing system also accounts for a user-defined size of dead space between the screens, which again helps with positioning in a new environment.
+The screen positioning, camera angles and field of view can also be changed by simply altering a set of parameters. Thus, it is easy to obtain the desired configuration of number of screens and field of view, without having to change any of the code. The existing system also accounts for a user-defined size of dead space between the screens, which again helps with positioning in a new environment.
 
-While the infrared aiming is tuned for three screens, it would not be difficult to introduce more screens. The same algorithm used in our game could be applied to any number of distinct patterns, and as long as there is one pattern per screen, the system would work without any changes in logic.
+While the infrared aiming is tuned for three screens, it would not be difficult to introduce more screens. The same algorithm used in our game could be applied to any number of distinct LED patterns, and as long as there is one pattern per screen, the system would work without any changes in logic.
 
-The graphics is completely modular as well, so a visual makeover would not need to change any of the existing code. This includes 3D models, 2D UI components and tutorial graphics.
+As part of the tutorial system, we implemented a \emph{missions framework}. This framework allows us to introduce new objectives that are required for the completion of the game and also specify the order of the objectives. Due to this it would be easy to diversify the gameplay and add branching progression to the flow of the game. This also allows for the easy introduction of more game events similar to the spawning of the Glom Mothership.
 
-Because the project was developed under a git repository from the very first line of code, it is possible to revert to any previous version. It is also possible to find exactly which team member implemented a particular feature, or made a change to specific file. Furthermore, git asks that developers keep a local copy on their machines while a central server is used for synchronisation, which makes it easy for a new contributor to join the team, if needed. All they need to do is \emph{clone} the repository, add changes into the game, then submit a \emph{pull request} for their changes to be merged into the game.
+\begin{wrapfigure}[13]{R}{.33\textwidth}
+	\centering
+	\includegraphics[width=.32\textwidth]{modular_missions}
+    \captionof{figure}{Modular mission system integrating with the Unity Editor as part of \emph{Game Settings}}
+    \label{fig:modular_missions}
+    \vspace{-2em}
+\end{wrapfigure}
+
+The \emph{enemy type system} was also implemented with extensibility in mind. This makes adding a new enemy type as easy as specifying a ship model and a set of parameters. It is also possible to specify the conditions under which an enemy can appear in the game.
+
+The graphics are completely modular as well, so a visual makeover would not need to change any of the existing code. This includes 3D models, 2D UI components and tutorial graphics.
+
+One of the things we found inconvenient about using the Unity Engine was that all of the game parameters were spread across the project. We implemented a central \emph{game settings} module that contains all of the game's parameters, including the missions and enemy type description, as mentioned above, and integrated natively with the Unity Editor. This module can be easily referenced and extended on demand, allowing quick adding of new gameplay elements and balancing of existing ones. An example of this integration can be seen in Figure \ref{fig:modular_missions}.
+
+
+Because the project was developed under a git repository from the very first line of code, it is possible to revert to any previous version. It is also possible to find exactly which team member implemented a particular feature, or made a change to a specific file. Furthermore, git asks that developers keep a local copy on their machines while a central server is used for synchronisation, which makes it easy for a new contributor to join the team, if needed. All they need to do is \emph{clone} the repository, add changes into the game, then submit a \emph{pull request} for their changes to be merged into the game.
 
 \subsubsection{Further work}
 
@@ -253,8 +283,6 @@ Because the project was developed under a git repository from the very first lin
 A natural next step in the development of the game, if given more time, would be the addition of new maps. This would allow a campaign to be built, where the player progresses from one level to another. In these new levels, different types of enemies could be added, or more complex missions that require more collaboration and time to complete. Eventually, there could be several game modes that players can choose from based on how much time they have available, and whether they want to collaborate or compete against each-other.
 
 The procedural generation model could also be overhauled to allow for more dynamic map configurations. This would need to include some kind of \emph{level editor} which allows describing a template of how a map should look, based on which the level is generated every time the game is run.
- 
-\clearpage
 
 \section{Technical Content}
 \subsection{Networking}
@@ -295,14 +323,14 @@ From the above, it is clear that the game needs access to a fast network with lo
 
 \subsection{Player Shooting}
 
-This section describes how the player shooting was implemented. It was decided that a \emph{point and shoot} mechanism for the players would be best. Several solutions to the problem were proposed, the first was to use a camera on the end of the guns with coloured points around the screens that the camera could detect and then determine the position the gun was pointing at on screen. The second, an improvement on the first, was to mount an infrared (IR) camera on the front of the gun and use IR LEDs to determine the pointing position. 
+This section describes how the player shooting was implemented. It was decided that a \emph{point and shoot} mechanism for the players would be best. Several solutions to the problem were proposed, with the first being to use a camera on the end of the guns with coloured points around the screens that the camera could detect and then determine the position the gun was pointing at on screen. The second, an improvement on the first, was to mount an infrared (IR) camera on the front of the gun and use IR LEDs to determine the pointing position. 
 
-The second solution seemed like the option that would be less susceptible to error, dealing with only blobs rather than having to do image processing greatly simplified the task. Initially a small IR camera was thought to be the solution, but it became immediately obvious that a cheaper alternative would need to be found. The Nintendo Wii Remote has an IR camera on the end and has a large open source community that has reverse-engineered the commands sent over Bluetooth\cite{wiibrew_wiimote}. This seemed like an affordable solution to our problem, with the added bonus of the Wii Remotes buttons and internal accelerometer. 
+The second solution seemed like the option that would be less susceptible to error, dealing with only blobs rather than having to do image processing greatly simplified the task. Initially, a small IR camera was thought to be the solution, but it became immediately obvious that a cheaper alternative would need to be found. The Nintendo Wii Remote has an IR camera on the end and has a large open source community that has reverse-engineered the commands sent over Bluetooth\cite{wiibrew_wiimote}. This seemed like an affordable solution to our problem, with the added bonus of having access to the Wii Remote's buttons and internal accelerometer. 
 
 \subsubsection{Pointing Position}
-The first problem to solve was how to determine where the gun was pointing on the screen. The solution the Nintendo Wii uses is to mount a pair of IR LEDs to the top of the screen. These LED Bars that come with the Nintendo Wii proved to not be suitable for our target setup. The original LED bars are designed for small screens in small rooms. The target room is large and uses very big back projected screens. Custom LED bars were made for each screen with brighter LEDs placed further apart to compensate for the screen size. The pointing position is then calculated by finding the midpoint of the two LEDs and reflecting the point about the middle of the image. For example a point in the bottom right would correspond to a pointing position of the top left on the screen. Additional smoothing was achieved using the accelerometer to compensate for the angle the player was holding the gun. 
+The first problem to solve was how to determine where the gun was pointing on the screen. The solution the Nintendo Wii uses is to mount a pair of IR LEDs to the top of the screen. These LED Bars that come with the Nintendo Wii proved to not be suitable for our target setup because they are designed for small screens in small rooms. The target room is large and uses very big back-projected screens. Custom LED bars were made for each screen with brighter LEDs placed further apart to compensate for the screen size. The pointing position is then calculated by finding the midpoint of the two LEDs and reflecting the point about the middle of the image. For example, a point in the bottom right would correspond to a pointing position of the top left on the screen.
 
-
+This method of calculating the position on the screen that the player is pointing at worked well, but the crosshairs had significant jitter. Due to a combination of the Wii remotes having a refresh rate lower than 60 Hz (corresponding to the game running at 60 fps), slight inaccuracy of the built-in IR cameras and natural hand unsteadiness, it was hard to keep crosshair pointing at the same position even for short amounts of time. This gave the impression that the crosshair moved around on its own even when the player did not intend to move their hand. To solve this, a combination of \emph{smoothing} methods was applied. The first one was achieved using the accelerometer to compensate for the angle the player was holding the gun, and to steady the position data when little movement was detected. The other technique was to apply interpolation when moving the crosshair on the screen, such that movements seemed less sudden and more contiguous, effectively smoothing the movement of the crosshair. The latter method had the downside of inducing some \emph{input lag}, since it now took longer between the player moving their hand and the crosshair reaching the target position, but this was solved by play-testing and carefully tuning the interpolation parameters to achieve a good balance between low latency and smooth crosshair movement.
 
 \subsubsection{Field of View}
 The IR camera that the Wii remote provides has a vertical field of view of 23 degrees, this was a problem for the room, the maximum distance from the screens is around 350 cm. With this field of view that gives us a vertical view distance of around 148 cm ($2 \times 350 \times \tan(11.5)$), with a screen height of 180 cm. The field of view was not quite wide enough to see the LEDs at the top of the screens when the player aims to the centre of the screen. This issue was solved by mounting the IR camera at an angle on the gun (Figure \ref{fig:ir_mounting}).
@@ -315,7 +343,7 @@ The IR camera that the Wii remote provides has a vertical field of view of 23 de
 \end{figure}
 
 \subsubsection{Shooting at Multiple Screens}
-To successfully create a point and shoot experience on multiple screens, a method of differentiating the screens was needed. The first solution was to create a third IR LED for each screen that flashes at different frequencies for each screen. This was quickly proved to be impossible due to the refresh rate of the IR camera in the Wii Remote. The Wii Remote can detect up to 4 IR LEDs in a single frame, each screen uses two LEDs to determine the pointing position. This leaves 2 LEDs for each screen to differentiate them. The method that was used was to use three LEDs on the left and right screens and two LEDs on the middle as shown in Figure \ref{fig:led_pos}. 
+To successfully create a point-and-shoot experience across multiple screens, a method of differentiating the screens was needed. The first solution was to create a third IR LED for each screen that flashes at different frequencies for each screen. This was quickly proved to be impossible due to the refresh rate of the IR camera in the Wii Remote. The Wii Remote can detect up to 4 IR LEDs in a single frame, each screen uses two LEDs to determine the pointing position. This leaves 2 LEDs for each screen to differentiate them. The method that was used was to use three LEDs on the left and right screens and two LEDs on the middle as shown in Figure \ref{fig:led_pos}. 
 
 \begin{figure}
 	\centering
@@ -324,21 +352,40 @@ To successfully create a point and shoot experience on multiple screens, a metho
     \label{fig:led_pos}
 \end{figure}
 
-Various challenges were involved when trying to calculate which screen the player is aiming towards. Mainly issues arose around the transitions between screens, for example if the IR camera detected LEDs from different screens the simple rule set would fail and return an erroneous result. 
-A set of changes were made to reduce the chance of error when transitioning from screens. Initially the distance between the IR LEDs was larger, as the hypothesis was that the distance between the LEDs would allow the user to use it from further away. This became an issue when transitioning between screens as multiple LEDs could be seen in the transitions between screens. This distance was reduced to prevent this and it was found that it did not effect the playability distance due to the increased brightness of the LEDs. The horizontal field of view was also reduced to avoid seeing multiple sets of LEDs. More changes were made to avoid incorrect screens such as a rule-set for impossible journeys and using the accelerometer to determine the direction of movement. For example, this prevented the player from moving to the left screen from the middle if they were moving the gun right. 
+Various challenges were involved when trying to calculate which screen the player is aiming towards. Issues mainly arose around the transitions between screens, for example if the IR camera detected LEDs from different screens, then the simple rule set would fail and return an erroneous result. A set of changes were made to reduce the chance of error when transitioning from screens. Initially, the distance between the IR LEDs was larger, as the hypothesis was that the distance between the LEDs would allow the user to use it from further away. This became an issue when transitioning between screens as multiple LEDs could be seen in the transitions between screens. This distance was reduced to prevent this, and it was found that it did not effect the playability distance due to the increased brightness of the LEDs. The horizontal field of view was also reduced to avoid seeing multiple sets of LEDs. More changes were made to avoid incorrect screens such as a rule-set for impossible journeys and using the accelerometer to determine the direction of movement. For example, this prevented the player from moving to the left screen from the middle if they were moving the gun right. 
 
 \subsubsection{Physical Guns}
-\todo[inline]{Show how guns were created, feedback from testing…}
+Physical guns needed to be constructed for the players to be able to shoot in an intuitive way. The guns were made out of plastic, cardboard and then covered in black tape. Initially they were simple and used the Wii Remote on the end of the gun as a trigger. However, after user feedback from our user testing it  became clear that a solution that was more intuitive would need to be devised.
+
+
+\begin{figure}[ht]
+  \centering
+  \captionsetup{width=.45\textwidth}
+  
+  \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=.9\textwidth]{gun}
+      \caption{Gun showing Wii Remote mounting position and triggering mechanism.}
+      \label{fig:gun1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includegraphics[width=.9\textwidth]{gun2}
+    \captionof{figure}{One of the finished guns with the phone holder on the top.}
+    \label{fig:gun2}
+  \end{minipage}
+\end{figure}
+
+A mechanism was created using a clothes peg and cable ties to release the button on the Wii Remote when the trigger was pulled. This can be seen in \ref{fig:gun1}. Multiple iterations of the gun design were made to include the phone holder, different Wii remote angle and the triggering mechanism. It was also clear after the school children testing day that some reinforcements to the structure of the gun would need to be made. 
+
 
 \subsection{Multiple Camera System}
-A defining feature The Phoenix Protocol is the use of multiple screens. The simplest solution other games adopt is to use a very wide window that stretches across connected monitors. It became evident that we required a more sophisticated solution as a single large window is expensive to render and inflexible for future consideration. Furthermore, is it not possible to have the view wrap around by simply increasing the field of view. After the prototyping stage, it was clear that a networked solution of aligned cameras was a more elegant soltion fit the requirement better.
+A defining feature The Phoenix Protocol is the use of multiple screens. The simplest solution other games adopt is to use a very wide window that stretches across connected monitors. This was not an appropriate solution for us as we had no guarantee that the provided hardware would be able to render across three screens simultaneously, and we didn't want the number of screens to be limited by the GPU. Thus, we made the decision early on to create a scalable network architecture that allows an arbitrary number of additional screens. 
 
 The Unity camera component\cite{unity_camera} uses a set of parameters, most notably the field of view, to define its view of the game world. A view frustum \cite{unity_frustum} is the truncated pyramid that contains the area observable by the camera. The height at a given point is given by Equation \ref{eq:frustum_height}.
 
-\todo[inline]{Add missing pictures}
-
 \begin{align}
-	Frustum Height\cite{frustum_equations} = 2 \times Distance \times \tan(Field Of View \times 0.5 \times (\frac{\pi}{180}))
+	Frustum Height\cite{frustum_equations} = 2 \times Distance \times \tan \left( Field Of View \times 0.5 \times \left( \frac{\pi}{180} \right)\right)
     \label{eq:frustum_height}
 \end{align}
 
@@ -380,11 +427,16 @@ Using the symmetrical properties of the camera we can derive the right side by E
     \label{fig:frustum}
 \end{figure}
 
-The rotation that aligns the left vector to the right is the angle required for aligning cameras. In addition to this, a gap may be included by multiplying the rotated angle by a percentage to accommodate borders between screens in the real world. As the frustum is also affected by the aspect ratio of the program window, camera alignment is performed in setup phase during runtime. A client that is given the role of a camera will then apply the rotation, multiplied by the client camera index for correct positioning.
+The rotation that aligns the left vector to the right is the angle required for aligning cameras. In addition to this, a gap may be included by multiplying the rotated angle by a percentage to accommodate for  borders between screens in the real world. As the frustum is also affected by the aspect ratio of the program window, camera alignment is performed in setup phase during runtime. A client that is given the role of a camera will then apply the rotation, multiplied by the client camera index for correct positioning.
 
 The solution was extremely well received by testers. The virtue of this scalable solution simplified development as extra screens can be added flexibly. It is possible to use this system to display a 360 view around (and more), or even extend the view vertically.
 
-\todo[inline]{screenshot of 5 cameras}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/cameras}
+    \captionof{figure}{Five aligned camera clients in the lobby without a border offset.}
+    \label{fig:cameras}
+\end{figure}
 
 \subsection{Enemy AI}
 The enemy ships use an efficient behaviour control system. Because of the large number of enemies, together with the need for them to be synchronised over the network, a strategy that makes good use of resources was needed. The solution adopted is a swarm-based system that uses randomness and a sequence of state transitions to give the impression of the player being constantly assaulted by fighter-type crafts. 
@@ -435,7 +487,7 @@ Unity comes with several built in profilers for the CPU, GPU, memory, physics, a
 \end{figure}
 
 \subsubsection{Networked Object Pooling}
-During the game, multiple objects need to be spawned at run time, including asteroids, enemies, bullets and explosions. Initially, these objects were created at the time of request via instantiation. Instantiation creates a new object in memory and adds it to the scene. This is not an issue when spawning only a few objects. However, it was apparent that this would not suffice our game requirements. Furthermore, each object was destroyed via a Destroy call. When a Destroy call is made on an object it is sent to the garbage collector which releases memory at regular intervals. Due to the volume of objects and memory that needed to be removed, there were regular spikes seen in the profiler that caused reductions in frame rate which appeared as jarring on screen.
+During the game, multiple objects need to be spawned at run time, including asteroids, enemies, bullets and explosions. Initially, these objects were created at the time of request via instantiation. Instantiation creates a new object in memory and adds it to the scene. Furthermore, each object was destroyed via a Destroy call. When a Destroy call is made on an object it is sent to the garbage collector which releases memory at regular intervals. Due to the volume of objects and memory that constantly needed to be created and removed, there were regular spikes seen in the profiler that caused the frame rate to periodically stutter.
 
 To solve this an object pooling system was created. During the loading period at the start of the game, a predefined number of objects are instantiated, for example, 500 bullets. When a script requests a bullet, rather than instantiating a new bullet, an inactive bullet in the object pool is returned for the script to use. Then, rather than destroying the bullet at the end of its life, it is disabled and returned to the object pool for re-use. This eliminated the CPU spikes caused by allocating and freeing memory, resulting in a much smoother experience. Although this was a relatively straightforward implementation on the server, getting it working correctly over the network was more difficult. 
 
@@ -444,7 +496,7 @@ Previously, when an object was instantiated on the server, a function could be c
 To solve this, we created our own implementation of network object spawning to allow networked object pooling while avoiding Unity’s synchronisation. Our implementation removes the direct relationship between server and client objects and allows one object in the server pool to be coupled with an arbitrary object in the client pool, so long as it is available. We then use Remote Procedure Calls and a custom interpolation implementation to synchronise the transform of each object across the network. By doing this, only active objects are synchronised across the network, and due to the object pool implementation, there are very few memory and garbage collection slow downs giving the best of both worlds.
 
 \subsubsection{Network Optimisation}
-Synchronising the thousands of objects in our game each frame across the network is not feasible, so we have implemented some optimisations to reduce the load on the network. One example of this is the client predication. A bullet on the client only needs two messages to synchronise correctly with the server - the starting position, orientation, and speed, and another when it is destroyed. As the bullet travels in a straight line, the position doesn’t need to be constantly synchronised and can be calculated on the client. This is also used for the asteroid rotations. To maintain server authority, no collision or logic is performed on the clients.
+Synchronising the thousands of objects in our game each frame across the network is not feasible, so we have implemented some optimisations to reduce the load on the network. One example of this is client-side prediction. A bullet on the client only needs two messages to synchronise correctly with the server - the starting position, orientation, and speed, and another when it is destroyed. As the bullet travels in a straight line, the position doesn’t need to be constantly synchronised and can be calculated on the client. This is also used for the asteroid rotations. To maintain server authority, no collision or logic is performed on the clients.
 
 \subsubsection{Graphics Optimisation}
 With thousands of objects within the camera frustum at any time, the GPU was having to draw up to five million polygons at a time, resulting in a low frame rate on our target hardware. Unity comes with frustum culling which removes objects outside the camera view and far plane culling, which removes objects beyond a certain distance. On top of this, we implemented a custom level of detail system for the asteroids. Each asteroid has three different models with varying amounts of detail. Each asteroid calculates the distance to the camera position and swaps out the model accordingly, with lower detail models being used for more distant asteroids. This can potentially reduce the polygon count by 93\% for 2,000 asteroids.
@@ -452,7 +504,7 @@ With thousands of objects within the camera frustum at any time, the GPU was hav
 \subsubsection{Script Optimisation}
 We have implemented many optimisations across our codebase to reduce computation time as much as possible. One example of this is the targets drawn over enemies - rather than using Unity’s built-in GUI system to render the targets which can be slow, we instead apply the target to a transparent 3D plane that faces the camera, allowing them to be rendered much quicker. We also update the rotation of the plane less as the distance to the player increases as the difference in rotation will be less noticeable. On top of this, we split up large operations across several frames to reduce sharp decreases in the frame rate, for example, when spawning an asteroid field.
 
-Our optimisation effort was very successful, and we can render three 1024 * 768 games instances at several frames higher than our target frame rate.
+Our optimisation effort was very successful, and we can render three 1024 * 768 games instances on our target hardware at several frames higher than 60 FPS.
 
 \subsection{Graphics}
 
@@ -464,13 +516,13 @@ All 3D models in our game use an advanced lighting model called Physically Based
 	\includegraphics[width=\textwidth]{images/3DArt}
 \end{figure}
 
-The Earth object is composed of three layers. The ground and cloud layers use 8192 * 8192 diffuse and normal map textures downsampled to 4096 * 4096. The atmospheric effect is generated from an open source shader that takes into account the direction of the sunlight. The Earth textures have been obtained from NASA’s open source BlueMarble project.
+The Earth object is composed of three layers. The ground and cloud layers use 8192 * 8192 diffuse and normal map textures downsampled to 4096 * 4096. The atmospheric effect is generated from an open source shader\cite{atmospheric_shader} that takes into account the direction of the sunlight. The Earth textures have been obtained from NASA’s open source BlueMarble\cite{blue_marble} project.
 
 \subsubsection{Rendering Path}
-We decided to switch to the deferred rendering mode rather than Unity’s default forward rendering mode. In forward rendering, the computation time is bound to the scene geometry and number of lights - in Big-O notation, the complexity is given by: $O(num\_geometry\_fragments \times num\_lights)$. Our game contains many lights and complex geometry (almost 1.4 million polygons at times) meaning this was not a performant enough solution for our game. On the other hand, deferred rendering has a complexity given as follows: $O(screen\_resolution \times num\_lights)$. By decoupling the amount of geometry from the computational complexity, we are able to render our scene much faster. On top of this, deferred rendering gives us a whole host of other graphical advantages, including HDR enabled cameras, dynamic shadow support for multiple lights, and more complex post processing effects.
+We decided to switch to the deferred rendering mode rather than Unity’s default forward rendering mode. In forward rendering, the computation time is bound to the scene geometry and number of lights - in Big-O notation, the complexity is given by: $O(num\_geometry\_fragments \times num\_lights)$. Our game contains many lights and complex geometry (almost 1.4 million polygons at times) meaning this was not a performant enough solution for our game. On the other hand, deferred rendering has a complexity given as follows\cite{unity_deferred}: $O(screen\_resolution \times num\_lights)$. By decoupling the amount of geometry from the computational complexity, we are able to render our scene much faster. On top of this, deferred rendering gives us a whole host of other graphical advantages, including HDR enabled cameras, dynamic shadow support for multiple lights, and more complex post processing effects.
 
 \subsubsection{Post Processing}
-One of the biggest downsides to using deferred rendering is the loss of support for multisample antialiasing (MSAA). Currently, there is no perfect solution for antialiasing in deferred rendering and it is the subject of ongoing research. Supersampling, where the image is rendered at a higher resolution then downsampled, does remove aliasing but is too computationally expensive for most real time graphics. Thus, we are limited to screen space anti-aliasing methods. SMAA is one of the best available antialiasing methods to date, and we use it in our game to reduce jagged edges. It is more computationally expensive than a simpler solution such as FXAA, but results in less texture blurring.
+One of the biggest downsides to using deferred rendering is the loss of support for multisample antialiasing (MSAA). Currently, there is no perfect solution for antialiasing in deferred rendering and it is the subject of ongoing research. Supersampling, where the image is rendered at a higher resolution then downsampled, does remove aliasing but is too computationally expensive for most real time graphics. Thus, we are limited to screen space anti-aliasing methods. Subpixel morphological anti-aliasing (SMAA) is one of the best available spatial methods to date, and we use it in our game to reduce jagged edges.
 
 Bloom is an effect that simulates the bleeding of light when a camera is exposed to a bright light source. Switching to the deferred renderer allows us access to HDR cameras, meaning it is possible to render physically correct bloom. The effect is noticeable on bright elements in the game, such as the sun and glow on enemies.
 
@@ -479,13 +531,13 @@ Bloom is an effect that simulates the bleeding of light when a camera is exposed
     
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=0.9\textwidth]{bloomOff}
+      \includegraphics[width=0.97\textwidth]{bloomOff}
       \caption{Bloom disabled}
       \label{fig:bloomOff}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
     	\centering
-		\includegraphics[width=.9\textwidth]{bloomOn}
+		\includegraphics[width=.97\textwidth]{bloomOn}
         \captionof{figure}{Bloom enabled}
         \label{fig:bloomOn}
 	\end{subfigure}
@@ -493,20 +545,20 @@ Bloom is an effect that simulates the bleeding of light when a camera is exposed
 	\label{fig:bloom}
 \end{figure}
 
-One of the most important visual effects in our game is the addition of real time volumetric lighting cast by the sun’s directional light. It is a very expensive effect and has only become feasible in real time graphics in the last couple of years. Without the effect applied, the scene is very bland and lacks depth. With the effect, objects such as the asteroids and enemies cast beautiful 3D shadows and it becomes easier to judge the distance of objects based on how \emph{foggy} they are. The effect parameters needed a lot of tweaking to get working in a space environment as it is typically used for sunlight rather than a completely open environment.
+One of the most important visual effects in our game is the addition of real time volumetric lighting cast by the sun’s directional light\cite{volumetric_lighting}. It is a very expensive effect and has only become feasible in real time graphics in the last couple of years. Without the effect applied, the scene is very bland and lacks depth. With the effect, objects such as the asteroids and enemies cast beautiful 3D shadows and it becomes easier to judge the distance of objects based on how \emph{foggy} they are. The effect parameters needed a lot of tweaking to get working in a space environment as it is typically used for sunlight rather than a completely open environment.
 
 \begin{figure}[ht]
 	\centering
     
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=.9\textwidth]{volumetricOff}
+      \includegraphics[width=.97\textwidth]{volumetricOff}
       \caption{Volumetric Lighting Disabled}
       \label{fig:volumetricOff}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
     	\centering
-		\includegraphics[width=.9\textwidth]{volumetricOn}
+		\includegraphics[width=.97\textwidth]{volumetricOn}
         \captionof{figure}{Volumetric Lighting Enabled}
         \label{fig:volumetricOn}
 	\end{subfigure}
@@ -547,20 +599,25 @@ My role as the project manager required little effort as each member of the team
 \clearpage
 
 \subsection{Frank Hemsworth}
+Throughout the course of the project I managed to contribute on nearly all parts of the game. My main contributions were based around the player shooting, game missions and command console functionality. The following sections outline the contributions that I made in the project.
 
-IR Shooting Controller + IR LEDs
-Physical Guns with mechanism for the trigger.
-Initial Missions Functionality
-Command Console Layout + Functionality
-Room layout and design
-Physical Networking
-DNS Server
-Stats Server
-Player Scoring
-Spectator Screen
-Phone Game
+\subsubsection{Player Shooting}
+I investigated and implemented the IR shooting mechanism for the game as described in the technical section above. This included retrieving data from the Wii Remotes via Bluetooth, soldering IR LEDs and positioning them within the room and investigating and implementing a method to differentiate between the 3 screens. Along with this I constructed physical guns with a mechanism for the trigger to allow a player an intuitive shooting experience. 
 
-Team management, task organisation and managing git repository
+\subsubsection{Missions Functionality}
+I created the missions functionality in the game. This enabled us to easily create and modify missions in the game with custom triggers. 
+
+\subsubsection{Networking Infrastructure}
+I managed the physical networking of the game. This included how everything was physically connected and how spectators would easily drop into the game. For this I created a DNS Server which allowed us to use a customer local domain name for users to enter into their browser on the local Network. 
+ 
+\subsubsection{Other}
+My other contributions to the game included the Command Console Layout and Functionality, Room layout and design, the Stats Server, the Player Scoring, the Spectator Screen and fixing any bugs that needed doing. 
+
+
+\subsubsection{Lead Programmer}
+In the project I was the lead programmer, I managed the Git repository and JIRA. I ensured that the repository was clean and tasks on JIRA were properly assigned to members of the team who had time and the knowledge to work on them. Along with trying to minimise the time people were waiting on other people to complete tasks. I think overall the team worked really well together and we were very efficient with our time.
+Along with managing tasks, one of my main concerns within the project was coding standards. This meant that I code reviewed nearly all commits that members of the team had made and encouraged others to do the same for others. This meant that our code base was neat 
+
 
 \clearpage
 
@@ -651,7 +708,7 @@ Another aspect of the Phone Server was the proper handling of user connections a
 
 Due to the nature of the phone clients, some amount of preprocessing of the game data has to be done on the Phone Server before it can be sent to them. The positional data of the game objects received from the Game Server is based in the 3D view of the game engine. However, the phone clients need a 2D projection of this world that is easily understandable by users. To construct this view I made use of an orthogonal projection of the game objects onto a plane that is parallel to the player ships forward and right directions. This allowed me to achieve a top-down \emph{minimap} view of the world around the ship.
 
-In order to run game smoothly in any scenario we decided to implement an administrative tool that allowed us to controll the game state transitions and player roles manually. This is why I implemented an extension of the Phone server that we named the \emph{admin console} which can be seen in Figure \ref{fig:admin_panel}. It is relatively simple in funtionality but it required some of the commands to be propagated through the different components and that reqired some extensive testing of the whole system in order to get right.
+In order to run game smoothly in any scenario we decided to implement an administrative tool that allowed us to control the game state transitions and player roles manually. This is why I implemented an extension of the Phone server that we named the \emph{admin console} which can be seen in Figure \ref{fig:admin_panel}. It is relatively simple in functionality but it required some of the commands to be propagated through the different components and that required some extensive testing of the whole system in order to get right.
 
 \subsubsection{Spectator Game}
 
@@ -724,6 +781,22 @@ I had a small involvement in developing the phone game. I implemented some of th
 \bibitem{pixi_js}
   Pixi.js,
   \url{http://www.pixijs.com/}
+  
+   \bibitem{atmospheric_shader}
+  Atmospheric Shader,
+ \url{http://wiki.unity3d.com/index.php/Earth/Planet}
+  
+  \bibitem{blue_marble}
+  NASA Blue Marble,
+ \url{http://visibleearth.nasa.gov/view_cat.php?categoryID=1484}
+ 
+  \bibitem{unity_deferred}
+  Deferred Rendering,
+ \url{http://docs.unity3d.com/Manual/RenderTech-DeferredShading.html}
+ 
+   \bibitem{volumetric_lighting}
+  Volumetric Lighting,
+ \url{http://docs.unity3d.com/Manual/RenderTech-DeferredShading.html}
 
 \end{thebibliography}
 
