@@ -6,13 +6,22 @@ $(document).ready(function() {
     window.onbeforeunload = function(event) {
         event.returnValue = "Leaving Crew App.";
     };
+
+
+
+
 });
+
+function enableNoSleep() {
+    var noSleep = new NoSleep();
+    noSleep.enable();
+}
 
 $(document).click(function(e) {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         launchIntoFullscreen(document.documentElement);
     }
-
+    enableNoSleep();
 });
 
 function launchIntoFullscreen(element) {
