@@ -32,6 +32,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private Image repairIconImage;
     private List<Color> yellowToReds = new List<Color>();
     private bool upgradePending = false;
+    private bool repairPending = false;
     private bool levelsInitialised = false;
     private bool maxLevel = false;
     private bool damaged = false;
@@ -100,6 +101,7 @@ public class ConsoleUpgrade : MonoBehaviour
                     repairIconImage.color = yellowToRed;
                     repairIcon.SetActive(true);
                     fullHealth = false;
+                    if (!repairPending) setRepairPending(false);
                 }
                 else
                 {
@@ -192,6 +194,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setRepairPending(bool pending)
     {
+        repairPending = pending;
         if (fullHealth)
         {
             //sideRepairButtonText.text = "Undamaged";
