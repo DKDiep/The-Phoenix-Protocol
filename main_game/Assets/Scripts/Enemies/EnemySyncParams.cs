@@ -2,10 +2,10 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class EnemySyncParams : NetworkBehaviour
+public class EnemySyncParams : MonoBehaviour
 {
 
-	[SyncVar] private bool isHacked;
+	private bool isHacked;
 
 	/// <summary>
 	/// Sets whether this enemy is hacked.

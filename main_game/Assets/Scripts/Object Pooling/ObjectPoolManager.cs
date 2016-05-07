@@ -21,10 +21,14 @@ public class ObjectPoolManager : NetworkBehaviour
     [SerializeField] Material[] enemyGlows;
 	#pragma warning restore 0649
 
+	private EnemySyncParams[] enemySyncParams;
+
     private Vector3[] newPositions;
+	private Quaternion[] newRotations;
+	private bool[] hackedStatus;
+
     private bool spawned = false;
     public bool isCommander = false;
-    private Quaternion[] newRotations;
     private bool amServer = false;
     [SerializeField] Material[] asteroidMaterials;
 
@@ -44,7 +48,9 @@ public class ObjectPoolManager : NetworkBehaviour
                 {
                     pool[i].transform.position = Vector3.Lerp(pool[i].transform.position, newPositions[i], Time.fixedDeltaTime * 10f);
                     pool[i].transform.rotation = Quaternion.Lerp(pool[i].transform.rotation, newRotations[i], Time.fixedDeltaTime * 10f);
-                }
+					if (useInterpolation && !amServer)
+						enemySyncParams[i].SetHacked(hackedStatus[i]);
+				}
             }
         }
     }
@@ -61,8 +67,10 @@ public class ObjectPoolManager : NetworkBehaviour
 
         if(useInterpolation && !amServer)
         {
-            newPositions = new Vector3[size];
-            newRotations = new Quaternion[size];
+            newPositions    = new Vector3[size];
+            newRotations    = new Quaternion[size];
+			hackedStatus    = new bool[size];
+			enemySyncParams = new EnemySyncParams[size];
         }
 
 	    for(int i = 0; i < size; ++i)
@@ -84,6 +92,9 @@ public class ObjectPoolManager : NetworkBehaviour
 
 		if(spawn.GetComponent<Collider>() != null)
 			spawn.GetComponent<Collider>().enabled = true;
+
+		if (useInterpolation && !amServer)
+			enemySyncParams[index] = spawn.GetComponent<EnemySyncParams>();
 
 		pool[index] = spawn;
 	}
@@ -168,9 +179,9 @@ public class ObjectPoolManager : NetworkBehaviour
             RpcDisableObject(id);
     }
 
-    public void UpdateTransform(Vector3 position, Quaternion rotation, string name)
+	public void UpdateTransform(Vector3 position, Quaternion rotation, string name, bool hacked)
     {
-        RpcUpdateTransform(position, rotation, int.Parse(name));
+        RpcUpdateTransform(position, rotation, int.Parse(name), hacked);
     }
 
     public void SetAsteroidTexture(string name, int material)
@@ -200,12 +211,13 @@ public class ObjectPoolManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id)
+	void RpcUpdateTransform(Vector3 position, Quaternion rotation, int id, bool hacked)
     {
         if(!isCommander && !amServer)
         {
             newPositions[id] = position;
             newRotations[id] = rotation;
+			hackedStatus[id] = hacked;
         }
     }
 
