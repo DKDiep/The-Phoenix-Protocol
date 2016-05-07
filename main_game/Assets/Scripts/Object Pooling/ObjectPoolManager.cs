@@ -66,17 +66,26 @@ public class ObjectPoolManager : NetworkBehaviour
         }
 
 	    for(int i = 0; i < size; ++i)
-        {
-            int rnd = Random.Range(0,obj.Length);
-            GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
-            spawn.SetActive(false);
-            spawn.name = i.ToString();
+			SpawnObject(i);
 
-            if(spawn.GetComponent<Collider>() != null)
-				spawn.GetComponent<Collider>().enabled = true;
-            pool[i] = spawn;
-        }
         spawned = true;
+	}
+
+	/// <summary>
+	/// Spawns an object on the specified pool position.
+	/// </summary>
+	/// <param name="name">The object's name.</param>
+	private void SpawnObject(int index)
+	{
+		int rnd = Random.Range(0,obj.Length);
+		GameObject spawn = Instantiate (obj[rnd], Vector3.zero, Quaternion.identity) as GameObject;
+		spawn.SetActive(false);
+		spawn.name = index.ToString();
+
+		if(spawn.GetComponent<Collider>() != null)
+			spawn.GetComponent<Collider>().enabled = true;
+
+		pool[index] = spawn;
 	}
 
     [ClientRpc]
@@ -121,6 +130,9 @@ public class ObjectPoolManager : NetworkBehaviour
     {
         for(int i = 0; i < size; ++i)
         {
+			if (pool[i] == null)
+				SpawnObject(i);
+			
             if(!pool[i].activeInHierarchy) 
             {
                 pool[i].SetActive(true);
