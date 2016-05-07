@@ -68,7 +68,7 @@ public class ServerLobby : MonoBehaviour {
 
         // Get cameras
         PlayerTokenController[] cameraTokens = cameraPanel.transform.GetComponentsInChildren<PlayerTokenController>();
-        uint[] cameraControllerIds = new uint[cameraTokens.Length];
+        uint[] cameraControllerIds = new uint[cameraTokens.Length - 1];
 
         i = 0;
         foreach (PlayerTokenController cameraToken in cameraTokens)
@@ -79,9 +79,10 @@ public class ServerLobby : MonoBehaviour {
             // This is because the server implicitly knows that it is a camera
             // And it should not treat itself as a client
             if (currControllerId != serverId)
+            {
                 cameraControllerIds[i] = currControllerId;
-
-            i++;
+                i++;
+            }
         }
 
         // Tell the server manager which clients will be cameras
