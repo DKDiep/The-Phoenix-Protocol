@@ -118,7 +118,10 @@ public class EnemySpawner : MonoBehaviour
 
         music.PlayMusic(2);
         GameObject spawnEffect = Instantiate(Resources.Load("Prefabs/MothershipSpawnEffect", typeof(GameObject))) as GameObject;
-        spawnEffect.transform.position = settings.GlomMothershipSpawnPosition;	
+        //spawnEffect.transform.position = settings.GlomMothershipSpawnPosition;
+        Vector3 direction = player.transform.position - settings.PortalPosition;
+        direction.Normalize();
+        spawnEffect.transform.position = settings.PortalPosition + (direction * (settings.GlomMothershipSpawnDistance / 2));
         ServerManager.NetworkSpawn(spawnEffect);
         StartCoroutine(SetupMothership(spawnEffect));
 
@@ -131,7 +134,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject logic = Instantiate(Resources.Load("Prefabs/GlomMothershipLogic", typeof(GameObject))) as GameObject;
         logic.transform.parent = mothership.transform;
         logic.transform.localPosition = Vector3.zero;
-        mothership.transform.position = settings.GlomMothershipSpawnPosition;
+        mothership.transform.position = spawnEffect.transform.position;
         ServerManager.NetworkSpawn(mothership);
 
         mothership.GetComponent<Collider>().enabled = true;
