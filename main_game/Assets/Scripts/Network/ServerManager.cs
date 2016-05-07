@@ -173,7 +173,23 @@ public class ServerManager : NetworkBehaviour
             if (id != 0)
 				netIdToRole.Add(id, RoleEnum.Engineer);
             else
-                Debug.LogError("The host cannot be an engineer!");
+                Debug.LogError("ERROR: ServerManager failed during association of engineer clients to roles");
+        }
+    }
+
+    /// <summary>
+    /// Associates each player controller in the list of player controller IDs
+    /// with the Camera role
+    /// </summary>
+    /// <param name="playerControllerIds">IDs of the player controllers to be associated as Camera</param>
+    public void SetCameras(uint[] cameraControllerIds)
+    {
+        foreach (uint id in cameraControllerIds)
+        {
+            if (id != 0)
+                netIdToRole.Add(id, RoleEnum.Camera);
+            else
+                Debug.LogError("ERROR: ServerManager failed during association of camera clients to roles");
         }
     }
 
@@ -238,8 +254,7 @@ public class ServerManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Returns the list of officers as a string in the following format
-    /// officer_name:officer_id,other_officer_name:other_officer_id,
+    /// Sends a list of officers to camera and commander clients
     /// </summary>
     public void SendOfficers()
     {
@@ -254,10 +269,10 @@ public class ServerManager : NetworkBehaviour
             data += officerData.Value.SerializeToString() + ";";
         }
 
-        // Send the data to the commander
+        // Send the data to the commander and cameras
         foreach (KeyValuePair<uint, RoleEnum> client in netIdToRole)
         {
-            if (client.Value == RoleEnum.Commander)
+            if (client.Value == RoleEnum.Commander || client.Value == RoleEnum.Camera)
             {
                 // Create the message to send
                 OfficerListMessage msg = new OfficerListMessage();

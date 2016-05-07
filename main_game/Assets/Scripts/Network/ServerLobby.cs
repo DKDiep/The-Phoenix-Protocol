@@ -66,8 +66,28 @@ public class ServerLobby : MonoBehaviour {
         // Tell the server which clients will be engineers
         serverManager.SetEngineers(engControllerIds);
 
-        PlayerTokenController commandConsole = commandPanel.transform.GetComponentInChildren<PlayerTokenController>();
+        // Get cameras
+        PlayerTokenController[] cameraTokens = cameraPanel.transform.GetComponentsInChildren<PlayerTokenController>();
+        uint[] cameraControllerIds = new uint[cameraTokens.Length];
 
+        i = 0;
+        foreach (PlayerTokenController cameraToken in cameraTokens)
+        {
+            uint currControllerId = cameraToken.GetPlayerController().netId.Value;
+
+            // Make sure we don't send the server's ID to be associated as a camera
+            // This is because the server implicitly knows that it is a camera
+            // And it should not treat itself as a client
+            if (currControllerId != serverId)
+                cameraControllerIds[i] = currControllerId;
+
+            i++;
+        }
+
+        // Tell the server manager which clients will be cameras
+        serverManager.SetCameras(cameraControllerIds);
+
+        PlayerTokenController commandConsole = commandPanel.transform.GetComponentInChildren<PlayerTokenController>();
         if (commandConsole != null) 
         {
             // Tell the server which client will be the commander

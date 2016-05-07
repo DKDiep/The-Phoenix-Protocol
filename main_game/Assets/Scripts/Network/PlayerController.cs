@@ -379,6 +379,8 @@ public class PlayerController : NetworkBehaviour
     {
         if (this.role == RoleEnum.Commander)
             gameState.UpdateOfficerList(officerData);
+        else if (this.role == RoleEnum.Camera)
+            gameState.UpdateOfficerList(officerData);
     }
 
     [ClientRpc]
