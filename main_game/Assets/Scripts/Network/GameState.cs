@@ -38,6 +38,9 @@ public class GameState : NetworkBehaviour {
 
     public ShieldEffects myShield = null;
 
+    public bool motherShipSpawned = false;
+    public bool motherShipestroyed = false;
+
     private string teamName;
 
 	// Ship variables used for modifying the ships behaviour
@@ -77,7 +80,7 @@ public class GameState : NetworkBehaviour {
 	private bool nosMode = false;
 	private const int NOS_SPEED = 400;
 
-	void Start()
+    void Start()
 	{
 		asteroidSpawner = GetComponentInChildren<AsteroidSpawner>(true); // For some reason, the spawner is disabled, so need to pass true here
 
