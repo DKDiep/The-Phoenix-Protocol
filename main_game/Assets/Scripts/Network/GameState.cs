@@ -39,7 +39,7 @@ public class GameState : NetworkBehaviour {
     public ShieldEffects myShield = null;
 
     public bool motherShipSpawned = false;
-    public bool motherShipestroyed = false;
+    public bool motherShipDestroyed = false;
 
     private string teamName;
 
