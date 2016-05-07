@@ -107,6 +107,14 @@ private void LoadSettings()
 		float maxTurnSpeed = gameState.GetShipMaxTurnSpeed();
 
         float joyH = Input.GetAxis("Horizontal"), joyV = Input.GetAxis("Vertical");
+        float speedMultiplier = Input.GetAxis("ShipSpeed");
+
+        // We need to map the speed multiplier from -1 to 1, into the range 0 to 1
+        speedMultiplier += 1;
+        speedMultiplier /= 2;
+
+        // Make sure the ship doesn't stop by making the minimum multiplier 0.1
+        speedMultiplier = speedMultiplier == 0 ? 0.1f : speedMultiplier;
 
         // Detect key presses, ensure velocity is less than some maximum, ensure the angle is constrained between some limits to avoid the player flying backwards
 		bool canPitchUp = pitchVelocity < maxTurnSpeed;
@@ -196,7 +204,7 @@ private void LoadSettings()
         {
             controlObject.transform.Rotate(Vector3.right * pitchVelocity * Time.deltaTime * turnSpeed);
             controlObject.transform.Rotate(Vector3.up * rollVelocity * Time.deltaTime * turnSpeed);
-			controlObject.transform.Translate(Vector3.forward * gameState.GetShipSpeed() * Time.deltaTime);
+			controlObject.transform.Translate(Vector3.forward * gameState.GetShipSpeed() * speedMultiplier * Time.deltaTime);
         }
 
             //Debug.Log(sideRoll);
