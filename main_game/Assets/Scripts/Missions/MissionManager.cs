@@ -283,6 +283,16 @@ public class MissionManager : MonoBehaviour
                         if(!missions[missionId].triggerOnAny) return false;
                     }
                     break;
+                case TriggerType.MotherShip:
+                    if(gameState.motherShipSpawned)
+                    {
+                        if(missions[missionId].triggerOnAny) return true;
+                    }
+                    else
+                    {
+                        if(!missions[missionId].triggerOnAny) return false;
+                    }
+                    break;
             }
         }
 
@@ -335,6 +345,16 @@ public class MissionManager : MonoBehaviour
                     break;
                 case CompletionType.Repair:
                     if (gameState.GetComponentHealth((ComponentType)(int)(completeCondition.componentIndex)) == completeCondition.completionValue)
+                    {
+                        if (missions[missionId].completeOnAny) return true;
+                    }
+                    else
+                    {
+                        if (!missions[missionId].completeOnAny) return false;
+                    }
+                    break;
+                case CompletionType.MotherShip:
+                    if (gameState.motherShipDestroyed)
                     {
                         if (missions[missionId].completeOnAny) return true;
                     }
@@ -449,7 +469,8 @@ public enum TriggerType
     Health,                 // Trigger if the ships health is below a specific value
     Shields,                // Trigger if the ships shields are below a specific value
     Resources,              // Trigger if the player has collected a certain amount of resources.
-    OutpostDistance         // Trigger if the player is a certain distence from any outpost
+    OutpostDistance,         // Trigger if the player is a certain distence from any outpost
+    MotherShip
 }
 
 public enum CompletionType
@@ -458,5 +479,6 @@ public enum CompletionType
     Outpost,                 // Complete mission if outpost is visited
     Upgrade,
     Repair,
-    Portal
+    Portal,
+    MotherShip
 }

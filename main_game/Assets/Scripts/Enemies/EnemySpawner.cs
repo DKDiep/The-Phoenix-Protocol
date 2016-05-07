@@ -100,6 +100,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 SpawnGlomMothership();
                 mothershipSpawned = true;
+                state.motherShipSpawned = true;
             }
 
         }

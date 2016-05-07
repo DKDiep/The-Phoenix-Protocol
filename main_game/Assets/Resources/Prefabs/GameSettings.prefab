@@ -529,6 +529,46 @@ MonoBehaviour:
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
     soundOnStart: 4
+  - active: 1
+    name: Destroy the Glom Mothership!
+    description: The glom mother ship is equipped with devastating lasers. Destroy
+      it before it destroys you.
+    completedDescription: Congratulations, you destroyed the glom mothership!
+    showMissionComplete: 0
+    objectiveList:
+    - Destroy the glom mothership
+    triggerOnAny: 0
+    triggerConditions:
+    - triggerType: 5
+      triggerValue: 0
+    completeOnAny: 0
+    completionConditions:
+    - completionType: 5
+      completionValue: 2
+      componentIndex: 0
+    activates: 
+    onStart:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onCompletion:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    soundOnStart: 4
   civilianWeighting: 100
   resourcesWeighting: 50
   playerScoreWeighting: 100
