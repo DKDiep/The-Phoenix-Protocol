@@ -393,7 +393,7 @@ MonoBehaviour:
     description: Looks like collecting those resources attracted the attention of
       some alian fighters. Instruct your crew to get ready for battle!
     completedDescription: Enemies killed!
-    showMissionComplete: 1
+    showMissionComplete: 0
     objectiveList:
     - Kill 10 enemies
     triggerOnAny: 0
