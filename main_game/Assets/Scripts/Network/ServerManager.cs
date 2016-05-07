@@ -173,7 +173,7 @@ public class ServerManager : NetworkBehaviour
             if (id != 0)
 				netIdToRole.Add(id, RoleEnum.Engineer);
             else
-                Debug.LogError("ERROR: ServerManager failed during association of engineer clients to roles");
+                Debug.LogError("WARNING ServerManager: Host cannot be associated as an engineer!");
         }
     }
 
@@ -189,7 +189,7 @@ public class ServerManager : NetworkBehaviour
             if (id != 0)
                 netIdToRole.Add(id, RoleEnum.Camera);
             else
-                Debug.LogError("ERROR: ServerManager failed during association of camera clients to roles");
+                Debug.LogError("WARNING ServerManager: Received netId 0 in SetCameras");
         }
     }
 
