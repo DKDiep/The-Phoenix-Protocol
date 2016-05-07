@@ -103,7 +103,7 @@ public class TCPServer : MonoBehaviour
                     }
                 }
                 // check if the connection is closed
-                if ((client.Available == 0) && client.Poll(1000, SelectMode.SelectRead))
+                if (((client.Available == 0) && client.Poll(1000, SelectMode.SelectRead)) || Input.GetKeyDown(KeyCode.P))
                 {
                     Debug.Log("TCP Connection Closed! " + ((IPEndPoint)client.RemoteEndPoint).ToString());
                     connected = false;
