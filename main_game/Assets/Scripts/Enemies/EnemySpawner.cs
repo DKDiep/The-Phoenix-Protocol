@@ -122,7 +122,7 @@ public class EnemySpawner : MonoBehaviour
         //spawnEffect.transform.position = settings.GlomMothershipSpawnPosition;
         Vector3 direction = player.transform.position - settings.PortalPosition;
         direction.Normalize();
-        spawnEffect.transform.position = settings.PortalPosition + (direction * (settings.GlomMothershipSpawnDistance / 2));
+        spawnEffect.transform.position = settings.PortalPosition + (direction * (settings.GlomMothershipSpawnDistance / 3));
         ServerManager.NetworkSpawn(spawnEffect);
         StartCoroutine(SetupMothership(spawnEffect));
 
