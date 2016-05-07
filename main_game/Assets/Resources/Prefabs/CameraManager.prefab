@@ -48,7 +48,6 @@ GameObject:
   - 114: {fileID: 11416962}
   - 114: {fileID: 11487436}
   - 114: {fileID: 11448170}
-  - 114: {fileID: 11497154}
   - 114: {fileID: 11461306}
   - 114: {fileID: 11408440}
   - 114: {fileID: 11444728}
@@ -687,8 +686,8 @@ MonoBehaviour:
   OverlayCameras: []
   CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  QualitySteps: 2
+    m_Bits: 4294966783
+  QualitySteps: 1
   MotionScale: 5
   CameraMotionMult: 0.4
   MinVelocity: 1
@@ -887,50 +886,6 @@ MonoBehaviour:
     axial: 0
     contrastDependency: 0
   m_Shader: {fileID: 4800000, guid: 136ab50fe2b9ad64d9c22adc3668abb7, type: 3}
---- !u!114 &11497154
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da3ff4a1bef2e8d47a1dfb734aa54de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    basicSettings:
-      reflectionMultiplier: 1
-      maxDistance: 200
-      fadeDistance: 200
-      screenEdgeFading: 0.03
-      enableHDR: 1
-      additiveReflection: 1
-    reflectionSettings:
-      maxSteps: 256
-      rayStepSize: 3
-      widthModifier: 0.5
-      smoothFallbackThreshold: 0.2
-      smoothFallbackDistance: 0.05
-      fresnelFade: 0.41
-      fresnelFadePower: 1.6
-      distanceBlur: 0.59
-    advancedSettings:
-      temporalFilterStrength: 0.7
-      useTemporalConfidence: 1
-      traceBehindObjects: 1
-      highQualitySharpReflections: 1
-      traceEverywhere: 1
-      treatBackfaceHitAsMiss: 0
-      allowBackwardsRays: 0
-      improveCorners: 1
-      resolution: 0
-      bilateralUpsample: 1
-      reduceBanding: 1
-      highlightSuppression: 1
-    debugSettings:
-      debugMode: 0
-  m_Shader: {fileID: 4800000, guid: 7e2fcc83af19e744787647ec0ac5d42c, type: 3}
 --- !u!124 &12422896
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2644,7 +2599,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CullingMask.m_Bits
-      value: 4294966271
+      value: 4294966783
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Logic.m_AdaptationSpeedUp
@@ -3248,7 +3203,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: QualitySteps
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CameraMotionMult
@@ -3257,6 +3212,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: WorkerThreads
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: QualityLevel
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
