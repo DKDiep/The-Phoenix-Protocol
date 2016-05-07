@@ -478,7 +478,7 @@ public class CommandConsoleState : MonoBehaviour {
 
     public void OnClickRepair(int component)
     {
-        if (repairProgress[componentToUpgrade] == 1 || gameState.GetComponentHealth((ComponentType)component) > 80 || component > 3) //components 4 and 5 can't be repaired
+        if (repairProgress[componentToUpgrade] == 1 || gameState.GetComponentHealth((ComponentType)component) > consoleUpgrades[component].maxHealth * 0.8 || component > 3) //components 4 and 5 can't be repaired
             return;
         playerController.CmdAddRepair((ComponentType)component);
         repairProgress[componentToUpgrade] = 1;

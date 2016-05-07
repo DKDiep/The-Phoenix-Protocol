@@ -37,6 +37,7 @@ public class ConsoleUpgrade : MonoBehaviour
     private bool damaged = false;
     private bool fullHealth = true;
     private bool affordable = false;
+    public float maxHealth = 100;
     private List<GameObject> levelIndicators = new List<GameObject>();
     static private Color offWhite = new Color(176f / 255f, 176f / 255f, 176f / 255f, 1);
     static private Color whiteA200 = new Color(1, 1, 1, 200f / 255f);
@@ -87,9 +88,11 @@ public class ConsoleUpgrade : MonoBehaviour
             if(properties.repairable)
             {
                 float componentHealth = gameState.GetComponentHealth(properties.type);
-                if (componentHealth < 80)
+                if (properties.type == ComponentType.Hull) maxHealth = 50 + 50 * properties.currentLevel;
+                else maxHealth = 100;
+                if (componentHealth < maxHealth * 0.8)
                 {
-                    index = Mathf.RoundToInt(componentHealth / 10);
+                    index = Mathf.RoundToInt((componentHealth/maxHealth) * 10);
                     if (index < 0) index = 0;
                     if (index > 9) index = 9;
                     Color yellowToRed = yellowToReds[index];
