@@ -1,1 +1,1 @@
-﻿public enum AbilityEnum {EMP,OverDrive,Boost,SmartBomb}
+﻿public enum AbilityEnum {EMP,OverDrive,Boost,SmartBomb,Shooting}

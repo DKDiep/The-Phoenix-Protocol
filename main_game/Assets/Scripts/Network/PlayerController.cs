@@ -31,6 +31,7 @@ public class PlayerController : NetworkBehaviour
     private BoostAbility boost;
     private EMPAbility emp;
     private SmartBombAbility smartBomb;
+    private ShootingAbility shooting;
     private GameObject popupWindow;
 
     public GameObject GetControlledObject()
@@ -293,6 +294,13 @@ public class PlayerController : NetworkBehaviour
         smartBomb.UseAbility();
     }
 
+    [Command]
+    public void CmdUseShooting()
+    {
+        if (shooting == null)
+            shooting = GameObject.Find("CommanderAbilities(Clone)").GetComponent<ShootingAbility>();
+        shooting.UseAbility();
+    }
     /// <summary>
     /// Call from the Command Console to add a component
     /// for repair

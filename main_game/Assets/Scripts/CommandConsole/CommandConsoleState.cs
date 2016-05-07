@@ -394,6 +394,9 @@ public class CommandConsoleState : MonoBehaviour {
             case AbilityEnum.SmartBomb:
                 playerController.CmdUseSmartBomb();
                 break;
+            case AbilityEnum.Shooting:
+                playerController.CmdUseShooting();
+                break;
         }
     }
       

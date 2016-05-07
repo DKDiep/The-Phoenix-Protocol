@@ -15,6 +15,7 @@ public class MissionManager : MonoBehaviour
     private float startTime;
 	private bool timerStarted;
     private bool missionInit = false;
+    private int killsAtMissionStart = 0;
 
     void Start () 
     {
