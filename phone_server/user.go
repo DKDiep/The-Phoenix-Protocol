@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "golang.org/x/net/websocket"
+    "runtime/debug"
     "strconv"
 )
 
@@ -40,6 +41,7 @@ func (usr *User) handleUser() {
                     usr.player.userName + "}"
             }
             fmt.Println(printStr + ":", r)
+            debug.PrintStack()
         }
     }()
 
@@ -60,7 +62,7 @@ func (usr *User) handleUser() {
         }
 
         //TODO: remove when no longer needed
-        fmt.Println("Received: ", string(receivedtext[:n]))
+        // fmt.Println("Received: ", string(receivedtext[:n]))
 
         // decode JSON
         var msg interface{}

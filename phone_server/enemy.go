@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "runtime/debug"
 )
 
 // Holds enemy data
@@ -58,6 +59,7 @@ func (enemies *EnemyMap) handleAccess() {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Enemy Map: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 

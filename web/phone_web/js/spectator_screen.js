@@ -3,7 +3,9 @@
 var zoom = 0.003;
 var frameRate = 25;
 var touchTargetSizeFactor = 0.16;
+var moveTargetSizeFactor = 0.08;
 var touchTargetAlpha = 0.9;
+var moveTargetAlpha = 0.6;
 
 // detail of provided textures: that is pixels per game unit of length
 var textureDetail = 528/49;
@@ -41,6 +43,7 @@ var bg;
 
 // Tractor beam sprite
 var tractorBeam;
+var moveTarget;
 
 // Used to interrupt the rendering
 var keepRendering = false;
@@ -93,6 +96,9 @@ function startSpectatorScreen() {
     loader.add("target_ray", "img/target_ray.png");
     loader.add("finger_target", "img/finger_target.png");
     loader.add("tutorial_1", "img/tutorial1.png");
+    loader.add("tutorial_2", "img/tutorial2.png");
+    loader.add("tutorial_3", "img/tutorial3.png");
+    loader.add("move_target", "img/move_target.png");
 
     // load the textures we need and initiate the rendering
     loader.load(function (loader, resources) {
@@ -128,6 +134,7 @@ function finaliseSpectatorScreen() {
     bg = undefined;
 
     tractorBeam = undefined;
+    moveTarget = undefined;
 
     keepRendering = false;
 
@@ -208,6 +215,8 @@ function init() {
     initPlayerShip(loadedResources);
     // Add tutorial prompts
     initTutorialPrompts(loadedResources);
+    // Add move target
+    initMoveTarget(loadedResources);
 
     // Init User interface
     initUi();
@@ -247,18 +256,48 @@ function initTextureObject(resources) {
     textures.asteroids.push(resources.ast3.texture)
 }
 
+function initMoveTarget(resources) {
+    moveTarget = new PIXI.Sprite(resources.move_target.texture);
+    moveTarget.anchor.x = moveTarget.anchor.y = 0.5
+    moveTarget.width = moveTarget.height = moveTargetSizeFactor*maxDim;
+    moveTarget.alpha = 0;
+    beamLayer.addChild(moveTarget);
+}
+
 function initTutorialPrompts(resources) {
     tutorialPrompts[0] = new PIXI.Sprite(resources.tutorial_1.texture);
-    tutorialPrompts[0].anchor.x = 1;
+    tutorialPrompts[0].position.x = 5;
+    tutorialPrompts[0].position.y = 5;
+    tutorialPrompts[0].alpha = 0;
     resizeTutorialPrompt(tutorialPrompts[0]);
+    tutorialPrompts[1] = new PIXI.Sprite(resources.tutorial_2.texture);
+    tutorialPrompts[1].position.x = 5;
+    tutorialPrompts[1].position.y = 5;
+    tutorialPrompts[1].alpha = 0;
+    resizeTutorialPrompt(tutorialPrompts[1]);
+    tutorialPrompts[2] = new PIXI.Sprite(resources.tutorial_3.texture);
+    tutorialPrompts[2].position.x = 5;
+    tutorialPrompts[2].position.y = 5;
+    tutorialPrompts[2].alpha = 0;
+    resizeTutorialPrompt(tutorialPrompts[2]);
     tutorialLayer.addChild(tutorialPrompts[0]);
+    tutorialLayer.addChild(tutorialPrompts[1]);
+    tutorialLayer.addChild(tutorialPrompts[2]);
+    displayTutorialPrompt(0);
 }
 
 function resizeTutorialPrompt(prompt) {
     prompt.height = 0.15*Math.sqrt(maxDim*minDim);
-    prompt.x = renderer.width;
+    // prompt.x = renderer.width;
     var mul = prompt.height/prompt.texture.height
     prompt.width = mul*prompt.texture.width;
+}
+
+function displayTutorialPrompt(prompt) {
+    for (id in tutorialPrompts) {
+        tutorialPrompts[id].alpha = 0;
+    }
+    tutorialPrompts[prompt].alpha = 1
 }
 
 // Initialises the grouping layers
@@ -318,13 +357,26 @@ function initPlayerShip(resources) {
 }
 
 function initUi() {
-    var name = new PIXI.Text("User: " + playerName, {font : '2em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
+    var pName = ""
+    if(playerName.length > 7) {
+        pName = playerName.substring(0, 7) + "..."
+    } else {
+        pName = playerName
+    }
+    var name = new PIXI.Text("User: " + pName, {font : '2em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
     name.position.x = 5;
     var score = new PIXI.Text("Score: " + playerScore, {font :'2em XoloniumBold', fill : 0xd7e2ed, align : 'left'});
     score.position.x = 5;
-    score.position.y = name.position.y + name.height;
     uiLayer.addChild(name);
     uiLayer.addChild(score);
+}
+
+function resizeUi() {
+    var uiElems = uiLayer.children;
+    var tutorialElem = tutorialLayer.children[0]
+    var yOffset = tutorialElem.position.y + tutorialElem.height
+    uiElems[0].position.y = yOffset;
+    uiElems[1].position.y = uiElems[0].position.y + uiElems[0].height
 }
 
 // Render function
@@ -436,9 +488,12 @@ function resize() {
         var sprite = touchTargets[id];
         sprite.height = sprite.width = touchTargetSizeFactor*maxDim
     }
+    // Resize move target
+    moveTarget.width = moveTarget.height = moveTargetSizeFactor*maxDim;
     for (id in tutorialPrompts) {
         resizeTutorialPrompt(tutorialPrompts[id]);
     }
+    resizeUi();
 }
 
 // Sets the scale of the sprite based on a number of factors

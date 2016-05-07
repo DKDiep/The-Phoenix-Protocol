@@ -3,7 +3,7 @@ var isControllingEnemy = false;
 
 // Action related to an enemy object
 function actionOnEnemy(target) {
-    console.log("enemy action ", target.spaceGameId)
+    moveTarget.alpha = 0;
     if(!isControllingEnemy) {
         setHackTarget(target.spaceGameId)
         setHeld(true)
@@ -14,8 +14,10 @@ function actionOnEnemy(target) {
 
 // Action related to movement
 function moveAction(x, y) {
-    console.log("move action ", x, y)
     if(isControllingEnemy) {
+        moveTarget.alpha = moveTargetAlpha;
+        moveTarget.position.x = (0.5*renderer.width) + (x*zoom*maxDim);
+        moveTarget.position.y = (0.5*renderer.height) + ((-y)*zoom*maxDim);
         sendMoveEnemyRequest(x, y)
     } else {
         decrementHackProgress()
@@ -53,6 +55,7 @@ function displayNewControlledEnemy() {
     }
     // Enabling tractor beam as example of usage
     enableTractorBeam(controlledEnemySprite)
+    displayTutorialPrompt(2);
     // Hack to make the hacking game finished
     finishedHack = true;
     hackProgress = REQ_HACK_PROGRESS;
@@ -62,7 +65,9 @@ function displayNewControlledEnemy() {
 // Clear controll enemy visualisations and data
 function clearDisplayingOfControlledEnemy() {
     controlledEnemySprite = undefined
+    moveTarget.alpha = 0;
     // Disabling tractor beam as example of usage
     disableTractorBeam()
     enemyControllUpdate = undefined
+    displayTutorialPrompt(0);
 }

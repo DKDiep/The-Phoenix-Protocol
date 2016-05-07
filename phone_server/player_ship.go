@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "math"
+    "runtime/debug"
 )
 
 type Point struct {
@@ -45,6 +46,7 @@ func (plrShip *PlayerShipController) handleAccess() {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Player Ship: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 

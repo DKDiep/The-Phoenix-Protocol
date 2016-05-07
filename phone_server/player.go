@@ -26,7 +26,7 @@ type Player struct {
     ammo               float64
     isControllingEnemy bool
     controlledEnemyId  int64
-    targetId          int64
+    targetId           int64
     user               *User
     inviteAnswerAction func(bool)
 }
@@ -85,6 +85,7 @@ func (plr *Player) setControlledEnemy(enemyId int64) {
 func (plr *Player) unsetControlledEnemy() {
     plr.isControllingEnemy = false
     plr.controlledEnemyId = 0
+    plr.targetId = 0
     plr.sendControlledEnemyInfo()
 }
 
@@ -274,6 +275,8 @@ func (plr *Player) sendMoveCommandToGameServer(data map[string]interface{}) {
     if !plr.isControllingEnemy {
         return
     }
+
+    plr.targetId = 0
 
     msg := "MV:"
     msg += strconv.FormatInt(plr.controlledEnemyId, 10) + ","

@@ -5,6 +5,7 @@ import (
     "fmt"
     "golang.org/x/net/websocket"
     // "strconv"
+    "runtime/debug"
     "time"
 )
 
@@ -70,6 +71,7 @@ func handleReceivedData(ws *websocket.Conn) {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Admin: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 

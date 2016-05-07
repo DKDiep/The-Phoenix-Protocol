@@ -70,11 +70,13 @@ function updateHacking() {
             targetEnemySprite.touchTarget.interactive = true
         }
         incrementHackProgress()
+        displayTutorialPrompt(1)
     } else {
         if(targetEnemySprite != undefined) {
             targetEnemySprite.touchTarget.alpha = 0;
         }
         decrementHackProgress()
+        displayTutorialPrompt(0)
     }
 }
 

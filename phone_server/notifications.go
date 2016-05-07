@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "runtime/debug"
 )
 
 type ComponentType int
@@ -55,6 +56,7 @@ func (notifications *NotificationMap) handleAccess() {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Notification Map: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 

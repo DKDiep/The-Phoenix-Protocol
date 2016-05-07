@@ -5,6 +5,7 @@ import (
     "encoding/json"
     "fmt"
     "net"
+    "runtime/debug"
     "strconv"
     "time"
 )
@@ -116,6 +117,7 @@ func decodeGameServerMessage(rawData []byte) {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Game Server Connection: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 

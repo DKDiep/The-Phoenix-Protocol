@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "math"
+    "runtime/debug"
     "sort"
 )
 
@@ -68,6 +69,7 @@ func (players *PlayerMap) handleAccess() {
     defer func() {
         if r := recover(); r != nil {
             fmt.Println("Player Map: Runtime panic:", r)
+            debug.PrintStack()
         }
     }()
 
