@@ -534,7 +534,7 @@ MonoBehaviour:
     description: The glom mother ship is equipped with devastating lasers. Destroy
       it before it destroys you.
     completedDescription: Congratulations, you destroyed the glom mothership!
-    showMissionComplete: 0
+    showMissionComplete: 1
     objectiveList:
     - Destroy the glom mothership
     triggerOnAny: 0
