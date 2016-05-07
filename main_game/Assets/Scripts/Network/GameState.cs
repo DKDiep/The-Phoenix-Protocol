@@ -123,6 +123,8 @@ public class GameState : NetworkBehaviour {
         // around this issue - Artur
         currentShipResources += 1;
         currentShipResources -= 1;
+        motherShipDestroyed = false;
+        motherShipSpawned = false;
     }
         
     private void LoadSettings()
