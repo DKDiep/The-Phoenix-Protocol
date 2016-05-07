@@ -198,7 +198,7 @@ public class GameState : NetworkBehaviour {
 	IEnumerator ResourceInterest()
 	{
 		float rate = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).InterestRate;
-		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate));
+		currentShipResources = Convert.ToInt32(currentShipResources * (1 + rate/100));
 
 		yield return new WaitForSeconds(10f);
 		StartCoroutine(ResourceInterest());
