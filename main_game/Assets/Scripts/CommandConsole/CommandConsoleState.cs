@@ -71,6 +71,7 @@ public class CommandConsoleState : MonoBehaviour {
     private Image mapBGImage;     //this is the blue background behind the minimap
     private Image missionWindowImage;
 
+    private double popupCloseCountDown;
     private int componentToUpgrade = 0;
     private double second = 0;
     private static Color uiColor = new Color(0.75f, 0.75f, 0.75f, 1);
@@ -248,6 +249,8 @@ public class CommandConsoleState : MonoBehaviour {
         second += Time.deltaTime;
         if(second >= 0.2)
         {
+            popupCloseCountDown -= second;
+            if (popupCloseCountDown < 0 && popupWindow.active) ClosePopupWindow();
             UpdateAllText();
             UpdateCostColors();
             UpdateHealthShieldBars();
@@ -610,6 +613,7 @@ public class CommandConsoleState : MonoBehaviour {
             popupWindow.SetActive(true);
             popupWindow.transform.Find("MissionTitle").GetComponent<Text>().text = mission.title;
             popupWindow.transform.Find("MissionDescription").GetComponent<Text>().text = mission.description;
+            popupCloseCountDown = 5.0;
             // Command for server
             playerController.CmdShowMission(mission.title, mission.description);
         }
@@ -661,10 +665,13 @@ public class CommandConsoleState : MonoBehaviour {
 
     public void ClosePopupWindow()
     {
-        popupWindow.SetActive(false);
-        missionTexts.RemoveAt(0);
-        //playerController.CmdHideMission();
-        showMissionPopup();
+        if (popupWindow.active)
+        {
+            popupWindow.SetActive(false);
+            missionTexts.RemoveAt(0);
+            playerController.CmdHideMission();
+            showMissionPopup();
+        }
     }
 
     /// <summary>
