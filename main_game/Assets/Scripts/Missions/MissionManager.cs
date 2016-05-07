@@ -216,7 +216,7 @@ public class MissionManager : MonoBehaviour
             missionCompletions[i] = (int)completeCondition.completionType;
             i++;
         }
-        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, missions[missionId].objectiveList, ids);
+        playerController.RpcCompleteMission(missions[missionId].completedDescription, missionCompletions, missions[missionId].objectiveList, ids, missions[missionId].showMissionComplete);
         StartCoroutine(WaitThenSetActive(missions[missionId].activates));
     }
 
@@ -365,7 +365,7 @@ public class MissionManager : MonoBehaviour
         public string description;
         [Multiline]
         public string completedDescription;
-
+        public bool showMissionComplete;
         public String[] objectiveList;
 
         // If true then any trigger condiiton will trigger this mission;
