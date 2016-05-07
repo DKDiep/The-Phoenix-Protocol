@@ -65,7 +65,6 @@ GameObject:
   - 114: {fileID: 11472356}
   - 114: {fileID: 11405100}
   - 114: {fileID: 11490908}
-  - 114: {fileID: 11409128}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: MainCamera
@@ -369,51 +368,6 @@ MonoBehaviour:
         edgeDetectionThreshold: 0.125
         minimumRequiredLuminance: 0.05
   m_Method: 0
---- !u!114 &11409128
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdc35e0180670ab4e8d2f9439137791f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SMAA:
-    settings:
-      debugPass: 0
-      quality: 2
-      edgeDetectionMethod: 2
-    quality:
-      diagonalDetection: 1
-      cornerDetection: 1
-      threshold: 0.1
-      depthThreshold: 0.01
-      maxSearchSteps: 16
-      maxDiagonalSearchSteps: 8
-      cornerRounding: 25
-      localContrastAdaptationFactor: 2
-    predication:
-      enabled: 0
-      threshold: 0.01
-      scale: 2
-      strength: 0.4
-    temporal:
-      enabled: 0
-      fuzzSize: 2
-  m_FXAA:
-    preset:
-      qualitySettings:
-        subpixelAliasingRemovalAmount: 1
-        edgeDetectionThreshold: 0.125
-        minimumRequiredLuminance: 0.0625
-      consoleSettings:
-        subpixelSpreadAmount: 0.5
-        edgeSharpnessAmount: 4
-        edgeDetectionThreshold: 0.125
-        minimumRequiredLuminance: 0.04
-  m_Method: 1
 --- !u!114 &11416962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -656,7 +610,7 @@ MonoBehaviour:
   m_TemporalStableDownsampling: 1
   m_InvertImage: 0
   m_DirectDownSample: 0
-  m_DirectUpsample: 0
+  m_DirectUpsample: 1
   m_UiShowBloomScales: 0
   m_UiShowAnamorphicBloomScales: 0
   m_UiShowStarBloomScales: 0
@@ -664,9 +618,9 @@ MonoBehaviour:
   m_UiShowBloomSettings: 1
   m_UiShowSampling: 1
   m_UiShowIntensity: 1
-  m_UiShowOptimizations: 0
+  m_UiShowOptimizations: 1
   m_UiShowLensDirt: 1
-  m_UiShowLensFlare: 0
+  m_UiShowLensFlare: 1
   m_UiShowAnamorphic: 1
   m_UiShowStar: 1
   m_UiInitialized: 0
@@ -681,7 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390397f02bff7644ab045efd81d0d720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QualityLevel: 1
+  QualityLevel: 0
   AutoRegisterObjs: 1
   OverlayCameras: []
   CullingMask:
@@ -2483,7 +2437,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
@@ -3215,6 +3169,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: QualityLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowOptimizations
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UiShowLensFlare
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DirectDownSample
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DirectUpsample
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
