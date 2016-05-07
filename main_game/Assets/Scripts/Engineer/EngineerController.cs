@@ -197,9 +197,9 @@ public class EngineerController : NetworkBehaviour
         if (Input.GetJoystickNames().Length > 0)
         {
             mouseLook.Init(transform, camera.transform, true);
-            upgradeString = "Hold A to upgrade";
-            repairString = "Hold A to repair";
-            dockString = "Press B to dock";
+            upgradeString = "Hold the trigger to upgrade";
+            repairString = "Hold the trigger to repair";
+            dockString = "Press A to dock";
             popupString = "Job finished. " + dockString + ", or continue doing jobs";
         }
         else
