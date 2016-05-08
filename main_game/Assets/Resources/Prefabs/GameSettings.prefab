@@ -340,7 +340,7 @@ MonoBehaviour:
     engineMaxTurningSpeedUpgradeRate: 0
     hullMaxHealthUpgradeRate: 0
     storageCollectionBonusUpgradeRate: 15
-    storageInterestRateUpgradeBonus: 1.75
+    storageInterestRateUpgradeBonus: 2
     shieldsMaxShieldUpgradeRate: 0
     shieldsMaxRechargeRateUpgradeRate: 0
     turretsMaxDamageUpgradeRate: 0
@@ -568,7 +568,7 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
-    soundOnStart: 4
+    soundOnStart: 0
   civilianWeighting: 100
   resourcesWeighting: 50
   playerScoreWeighting: 100
@@ -1177,7 +1177,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradeProperties.Array.data[5].storageInterestRateUpgradeBonus
-      value: 1.75
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: missionProperties.Array.data[5].soundOnStart
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
