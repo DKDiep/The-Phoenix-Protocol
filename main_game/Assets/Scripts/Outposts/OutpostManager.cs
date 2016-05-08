@@ -33,11 +33,11 @@ public class OutpostManager : MonoBehaviour {
         GameObject playerControllerObject = GameObject.Find("PlayerController(Clone)");
         playerController = playerControllerObject.GetComponent<PlayerController>();
         canvas = GameObject.Find("CrosshairCanvas(Clone)");
-        screenBounds = screenCenter * 0.9f;
-        darkRed = new Color(0.62f,0,0,0.4f);
-        darkYellow = new Color(0.62f,0.57f,0,0.4f);
-        darkGreen = new Color(0,0.62f,0,0.4f);
-        darkPurple = new Color(0.62f, 0, 0.62f, 0.4f);
+        screenBounds = screenCenter * 0.88f;
+        darkRed = new Color(0.62f,0,0,0.6f);
+        darkYellow = new Color(0.62f,0.57f,0,0.6f);
+        darkGreen = new Color(0,0.62f,0,0.6f);
+        darkPurple = new Color(0.62f, 0, 0.62f, 0.6f);
 		mainCamera = Camera.main;
     }
 
@@ -139,6 +139,7 @@ public class OutpostManager : MonoBehaviour {
             {
                 arrowList.Add(Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject);
                 arrowList[i].GetComponent<Image>().color = darkGreen;
+                arrowList[i].transform.localScale = arrowList[i].transform.localScale * 1.2f;
                 outpostLogic.Add(outpostList[i].GetComponentInChildren<OutpostLogic>());
             }
             //this probably won't be needed but I'm keeping it here for now just in case this turns out to be an issue - luke 06/04
@@ -162,6 +163,7 @@ public class OutpostManager : MonoBehaviour {
                 portal = gameState.Portal;
                 portalArrow = Instantiate(Resources.Load("Prefabs/IndicatorArrow", typeof(GameObject))) as GameObject;
                 portalArrow.GetComponent<Image>().color = darkPurple;
+                portalArrow.transform.localScale = portalArrow.transform.localScale * 1.2f;
                 portalArrowSpawned = true;
             }
             arrowsRequired = outpostList.Count;
