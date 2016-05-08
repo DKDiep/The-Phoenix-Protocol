@@ -112,7 +112,7 @@ MonoBehaviour:
     maxHealth: 50
     maxShield: 0
     collisionDamage: 10
-    isSuicidal: 0
+    isSuicidal: 1
     shootPeriod: 0
     shotsPerSec: 0
     engageDistance: 1000
