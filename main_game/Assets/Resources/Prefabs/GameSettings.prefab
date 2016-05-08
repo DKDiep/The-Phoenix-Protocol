@@ -353,7 +353,7 @@ MonoBehaviour:
   WiimoteInterpolationFactor: 6
   PlayerMaxAmmo: 1000
   PlayerShootingAmmoCost: 5
-  PlayerAmmoRechargeValue: 10
+  PlayerAmmoRechargeValue: 25
   PlayerAmmoRechargeInterval: 0.1
   PlayerAmmoRehargeDelay: 0.1
   PlayerAutoaimSwitchDelay: 0.15
