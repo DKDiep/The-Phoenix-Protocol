@@ -495,7 +495,7 @@ MonoBehaviour:
   m_BloomIntensity: 0.05
   m_BloomThreshhold: 4.087786
   m_BloomThreshholdColor: {r: 1, g: 1, b: 1, a: 1}
-  m_DownscaleCount: 6
+  m_DownscaleCount: 1
   m_IntensityManagement: 0
   m_BloomIntensities:
   - 1
@@ -577,9 +577,9 @@ MonoBehaviour:
   m_AnamorphicScale: 3
   m_UseStarFlare: 1
   m_StarFlareTreshol: 0.8
-  m_StarFlareIntensity: 0.692136
-  m_StarScale: 2.3841999
-  m_StarDownscaleCount: 6
+  m_StarFlareIntensity: 0.93073165
+  m_StarScale: 1.9436585
+  m_StarDownscaleCount: 2
   m_StarBlurPass: 2
   m_StarBloomIntensities:
   - 1
@@ -601,9 +601,9 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 1, a: 1}
   m_StarBloomUsages: 0101010101010101
   m_UseLensDust: 1
-  m_DustIntensity: 2.6074731
+  m_DustIntensity: 2.5586927
   m_DustTexture: {fileID: 2800000, guid: 8279120499888f0459f22a619fc51ab6, type: 3}
-  m_DirtLightIntensity: 5
+  m_DirtLightIntensity: 1.7804878
   m_DownsamplingQuality: 0
   m_UpsamplingQuality: 0
   m_TemporalStableDownsampling: 1
@@ -3013,7 +3013,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_DownscaleCount
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_BloomCurve.m_CrossOverPoint
@@ -3073,15 +3073,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_StarFlareIntensity
-      value: 0.692136
+      value: 0.93073165
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_StarScale
-      value: 2.3841999
+      value: 1.9436585
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_StarDownscaleCount
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_UseLensDust
@@ -3089,7 +3089,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_DustIntensity
-      value: 2.6074731
+      value: 2.5586927
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_DustTexture
@@ -3162,6 +3162,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LowResolution
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_DirtLightIntensity
+      value: 1.7804878
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
