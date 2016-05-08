@@ -157,7 +157,7 @@ public class ConsoleUpgrade : MonoBehaviour
 
     public void setPendingUpgradeColor(Color color) //Used by command console to set pulsating color
     {
-        if(properties.currentLevel < levelIndicators.Count)levelIndicators[properties.currentLevel-1].GetComponent<Image>().color = color;
+        if(properties.currentLevel <= levelIndicators.Count)levelIndicators[properties.currentLevel-1].GetComponent<Image>().color = color;
     }
 
     public void setPendingRepairAlpha(float alpha)
