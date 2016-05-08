@@ -48,6 +48,11 @@ public class MouseLook : MonoBehaviour
         smoothTime = settings.EngineerMouseLookSmoothTime;
         yawSpeed = settings.EngineerYawSpeed;
     }
+
+    public void ResetTargetRotation(Transform character)
+    {
+        characterTargetRot = character.localRotation;
+    }
 		
     public bool LookRotation(Transform character, Transform camera)
     {

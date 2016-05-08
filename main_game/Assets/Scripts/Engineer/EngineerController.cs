@@ -721,9 +721,9 @@ public class EngineerController : NetworkBehaviour
         isDocked = true;
         dockCanvas.SetActive(isDocked);
         engineerCanvas.SetActive(!isDocked);
-        //gameObject.transform.parent = startPosition.transform;
         gameObject.transform.position = startPosition.transform.position;
-        gameObject.transform.rotation = startPosition.transform.rotation;
+        gameObject.transform.localRotation = startPosition.transform.localRotation;
+        mouseLook.ResetTargetRotation(transform);
     }
 
     /// <summary>
@@ -737,7 +737,6 @@ public class EngineerController : NetworkBehaviour
         isDocked = false;
         dockCanvas.SetActive(isDocked);
         engineerCanvas.SetActive(!isDocked);
-        gameObject.transform.parent = playerShip.transform;
     }
 
     private void GetInput(out float speed)
@@ -773,7 +772,10 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private bool RotateView()
     {
-        return mouseLook.LookRotation(transform, camera.transform);
+        if (!isDocked)
+            return mouseLook.LookRotation(transform, camera.transform);
+        else
+            return false;
     }
 
     private void ResetUpgradeText()
