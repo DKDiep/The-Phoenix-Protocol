@@ -348,7 +348,7 @@ MonoBehaviour:
       cornerRounding: 25
       localContrastAdaptationFactor: 2
     predication:
-      enabled: 1
+      enabled: 0
       threshold: 0.01
       scale: 2
       strength: 0.4
@@ -771,7 +771,7 @@ MonoBehaviour:
     - {fileID: 0}
     m_BrightnessRT: {fileID: 0}
     m_SetTargetExposure: 0
-  m_LowResolution: 0
+  m_LowResolution: 1
   m_ShowHistogram: 0
   m_HistogramSize: 0.3
 --- !u!114 &11490908
@@ -2921,7 +2921,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SMAA.predication.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SMAA.temporal.fuzzSize
@@ -3157,6 +3157,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_DirectUpsample
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LowResolution
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
