@@ -94,7 +94,7 @@ public class OutpostCollision : NetworkBehaviour
             {
                 // Resources are now collected through the separate OutpostResources object
                 // If the player crashes into the outpost, the outpost is destroyed and the player takes massive damage
-                Debug.Log("Outpost destroyed");
+                // Debug.Log("Outpost destroyed");
 
                 outpostLogic.PlayerCollision(PLAYER_COLLISION_DAMAGE);
                 

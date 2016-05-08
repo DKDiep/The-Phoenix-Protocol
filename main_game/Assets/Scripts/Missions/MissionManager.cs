@@ -419,7 +419,7 @@ public class MissionManager : MonoBehaviour
         }
         public void completeMission()
         {
-            Debug.Log("Completed Mission " + name);
+            // Debug.Log("Completed Mission " + name);
             if(onCompletion != null)
                 onCompletion.Invoke();
 
@@ -436,7 +436,7 @@ public class MissionManager : MonoBehaviour
         }
         public void start()
         {
-            Debug.Log("Starting Mission " + name);
+            // Debug.Log("Starting Mission " + name);
             if(onStart != null)
                 onStart.Invoke();
             started = true;

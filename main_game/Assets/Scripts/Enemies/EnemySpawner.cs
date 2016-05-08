@@ -113,7 +113,7 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnGlomMothership()
     {
-        Debug.Log("Glom mothership spawned");
+        // Debug.Log("Glom mothership spawned");
         if(music == null)
             music = GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>();
 
@@ -281,7 +281,7 @@ public class EnemySpawner : MonoBehaviour
         state.IncreaseDifficulty(1);
         int difficulty = state.GetDifficulty();
 
-        Debug.Log("Difficulty is " + difficulty);
+        // Debug.Log("Difficulty is " + difficulty);
 
         // Random number is picked between 0-100, so 101 means the enemy type will never spawn at this difficulty level
         switch(difficulty) 

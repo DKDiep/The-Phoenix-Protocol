@@ -143,7 +143,7 @@ public class MothershipLogic : MonoBehaviour {
             }
             else if (transform.parent != null) // The null check prevents trying to destroy an object again while it's already being destroyed
             {
-                Debug.Log("Glom mothership destroyed");
+                // Debug.Log("Glom mothership destroyed");
                 gameState.motherShipDestroyed = true;
                 GameObject.Find("MusicManager(Clone)").GetComponent<MusicManager>().PlayMusic(1);
 
@@ -156,7 +156,7 @@ public class MothershipLogic : MonoBehaviour {
 
             if(health < maxHealth * 0.4f && !destroyEffects)
             {
-                Debug.Log("Damage effects enabled");
+                // Debug.Log("Damage effects enabled");
                 destroyEffects = true;
             }
     }

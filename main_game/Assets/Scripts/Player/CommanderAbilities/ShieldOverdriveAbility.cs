@@ -29,7 +29,7 @@ public class ShieldOverdriveAbility : CommanderAbility {
         if(shieldEffects == null)
                 shieldEffects = state.PlayerShip.GetComponentInChildren<ShieldEffects>();
 
-        Debug.Log("Shield ability enabled");
+        // Debug.Log("Shield ability enabled");
         AIVoice.SendCommand(6);
         shieldEffects.ActivateOverdrive();
         originalShield = state.GetShipShield();
@@ -38,7 +38,7 @@ public class ShieldOverdriveAbility : CommanderAbility {
 
     internal override void DeactivateAbility()
     {
-        Debug.Log("Shield ability disabled");
+        // Debug.Log("Shield ability disabled");
         shieldEffects.overdriveEnabled = false;
         abilityActive = false;
         state.SetShipShield(originalShield);

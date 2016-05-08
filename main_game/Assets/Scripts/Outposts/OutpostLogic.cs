@@ -89,14 +89,14 @@ public class OutpostLogic : MonoBehaviour {
     {
 		// Add ship resources to the game state
 		gameState.AddShipResources(numberOfResources);
-		Debug.Log("Collected " + numberOfResources + " Resources from outpost with difficulty " + difficulty);
+		// Debug.Log("Collected " + numberOfResources + " Resources from outpost with difficulty " + difficulty);
 	}
 		
 	public void CollectCivilians() 
     {
 		// Add ship resources to the game state
 		gameState.AddCivilians(numberOfCivilians);
-		Debug.Log("Collected " + numberOfCivilians + " Civilians from outpost");
+		// Debug.Log("Collected " + numberOfCivilians + " Civilians from outpost");
 	}
 		
 }
