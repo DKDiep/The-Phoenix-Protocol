@@ -73,10 +73,8 @@ public class UpgradableTurret : UpgradableComponent
 	public override void Upgrade()
 	{
 		base.Upgrade();
-
-		if (Level % 2 == 0)
+        
             MaxDamage *= (int)maxDamageUpgradeRate;
-		else
             MinFireDelay = MinFireDelay / minFireDelayUpgradeRate;
 	}
 }

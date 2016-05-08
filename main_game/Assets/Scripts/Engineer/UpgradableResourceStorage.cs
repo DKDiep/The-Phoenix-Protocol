@@ -56,9 +56,7 @@ public class UpgradableResourceStorage : UpgradableComponent
 		base.Upgrade();
 
 		// TODO: maybe move these to GameSettings?
-		if (Level % 2 == 0)
             CollectionBonus += collectionBonusUpgradeRate;
-		else
             InterestRate += interestRateUpgradeBonus;
 	}
 }

@@ -627,7 +627,7 @@ public class GameState : NetworkBehaviour {
 	public void AddShipResources(int resources) 
 	{
 		float bonus = ((UpgradableResourceStorage)upgradableComponents[(int)UpgradableComponentIndex.ResourceStorage]).CollectionBonus;
-		resources   = Convert.ToInt32(resources * (1 + bonus));
+		resources   = Convert.ToInt32(resources * (1 + (bonus / 100f)));
 
 		currentShipResources += resources;
 		totalShipResources   += resources;

@@ -238,7 +238,7 @@ MonoBehaviour:
     type: 0
     description: Shields cover the ship in a force field absorbing enemy fire and
       protecting the ships hull.
-    cost: 100
+    cost: 150
     numberOfLevels: 3
     repairable: 1
     currentLevel: 1
@@ -249,15 +249,15 @@ MonoBehaviour:
     hullMaxHealthUpgradeRate: 0
     storageCollectionBonusUpgradeRate: 0
     storageInterestRateUpgradeBonus: 0
-    shieldsMaxShieldUpgradeRate: 50
-    shieldsMaxRechargeRateUpgradeRate: 1.5
+    shieldsMaxShieldUpgradeRate: 33
+    shieldsMaxRechargeRateUpgradeRate: 1.25
     turretsMaxDamageUpgradeRate: 1.5
     turretsMinFireDelayUpgradeRate: 1.5
   - name: TURRETS
     type: 1
     description: 'The turrets help officers defend the ship against attacking enemies. '
     cost: 200
-    numberOfLevels: 5
+    numberOfLevels: 3
     repairable: 1
     currentLevel: 1
     droneMovementSpeedUpgradeRate: 0
@@ -270,7 +270,7 @@ MonoBehaviour:
     shieldsMaxShieldUpgradeRate: 0
     shieldsMaxRechargeRateUpgradeRate: 0
     turretsMaxDamageUpgradeRate: 1.5
-    turretsMinFireDelayUpgradeRate: 1.5
+    turretsMinFireDelayUpgradeRate: 1.25
   - name: ENGINES
     type: 2
     description: Engines allow the ship to move faster.
@@ -280,8 +280,8 @@ MonoBehaviour:
     currentLevel: 1
     droneMovementSpeedUpgradeRate: 0
     droneImprovementTimeUpgradeRate: 0
-    engineMaxSpeedUpgradeRate: 1.5
-    engineMaxTurningSpeedUpgradeRate: 1.5
+    engineMaxSpeedUpgradeRate: 1.2
+    engineMaxTurningSpeedUpgradeRate: 1.2
     hullMaxHealthUpgradeRate: 0
     storageCollectionBonusUpgradeRate: 0
     storageInterestRateUpgradeBonus: 0
@@ -326,9 +326,9 @@ MonoBehaviour:
     shieldsMaxRechargeRateUpgradeRate: 0
     turretsMaxDamageUpgradeRate: 0
     turretsMinFireDelayUpgradeRate: 0
-  - name: RECYCLER
+  - name: COLLECTOR
     type: 5
-    description: The Recycler enables the ship to collect resources from outposts
+    description: The Collector enables the ship to collect resources from outposts
       and enemies.
     cost: 200
     numberOfLevels: 3
@@ -339,7 +339,7 @@ MonoBehaviour:
     engineMaxSpeedUpgradeRate: 0
     engineMaxTurningSpeedUpgradeRate: 0
     hullMaxHealthUpgradeRate: 0
-    storageCollectionBonusUpgradeRate: 1.5
+    storageCollectionBonusUpgradeRate: 10
     storageInterestRateUpgradeBonus: 1.5
     shieldsMaxShieldUpgradeRate: 0
     shieldsMaxRechargeRateUpgradeRate: 0
@@ -1129,6 +1129,47 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: missionProperties.Array.data[1].soundOnStart
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[2].engineMaxSpeedUpgradeRate
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[2].engineMaxTurningSpeedUpgradeRate
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[1].numberOfLevels
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[0].shieldsMaxRechargeRateUpgradeRate
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[0].shieldsMaxShieldUpgradeRate
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[1].turretsMinFireDelayUpgradeRate
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[0].cost
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[5].name
+      value: COLLECTOR
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[5].description
+      value: The Collector enables the ship to collect resources from outposts and
+        enemies.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[5].storageCollectionBonusUpgradeRate
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

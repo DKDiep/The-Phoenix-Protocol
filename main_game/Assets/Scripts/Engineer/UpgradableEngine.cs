@@ -73,10 +73,8 @@ public class UpgradableEngine : UpgradableComponent
 	public override void Upgrade()
 	{
 		base.Upgrade();
-
-		if (Level % 2 == 0)
+        
             MaxSpeed = MaxSpeed * maxSpeedUpgradeRate;
-		else
             MaxTurningSpeed = MaxTurningSpeed * maxTurningSpeedUpgradeRate;
 	}
 }
