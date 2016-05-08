@@ -291,7 +291,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 		// Avoid obsctales if needed
 		if (state == EnemyAIState.AvoidObstacle)
 		{
-			bool finishedAvoiding = MoveTowardsCurrentWaypoint();
+			bool finishedAvoiding = (currentWaypoint == null) ? true : MoveTowardsCurrentWaypoint();
 
 			// When the temporary avoid waypoint is reached, return to seeking the player
 			if (finishedAvoiding)
@@ -1004,6 +1004,9 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 			currentWaypoint = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 			currentWaypoint.GetComponent<Renderer>().material.color = Color.blue;
 	    }*/
+
+		if (hackedWaypoint == null)
+			FollowPlayer();
 
 		float currentY 							= hackedWaypoint.transform.localPosition.y;
 		currentWaypoint.transform.localPosition = new Vector3(posX, currentY, posZ);
