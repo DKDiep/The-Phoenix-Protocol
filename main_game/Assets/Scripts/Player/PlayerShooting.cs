@@ -216,38 +216,42 @@ public class PlayerShooting : MonoBehaviour
 				fireSoundAudioSource.pitch = UnityEngine.Random.Range(0.7f, 1.3f);
             fireSoundAudioSource.PlayOneShot(fireSound);
 
-			GameObject bullet 		  = bulletManager.RequestObject();
-            bullet.transform.position = bulletAnchor.transform.position;
+			GameObject bullet = bulletManager.RequestObject();
+			GameObject logic  = logicManager.RequestObject();
+			if (bullet != null && logic != null)
+			{
+				bullet.transform.position = bulletAnchor.transform.position;
 
-			BulletMove moveComponent = bullet.GetComponent<BulletMove>();
-			moveComponent.Speed      = speed;
-			bulletManager.SetBulletSpeed(bullet.name, speed);
+				BulletMove moveComponent = bullet.GetComponent<BulletMove>();
+				moveComponent.Speed      = speed;
+				bulletManager.SetBulletSpeed(bullet.name, speed);
 
-            GameObject logic       = logicManager.RequestObject();
-			logic.transform.parent = bullet.transform;
+				logic.transform.parent = bullet.transform;
 
-			// Suggest add a BulletMove method for the speed and remove it from the logic
-			BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
-			logicComponent.SetParameters(1-accuracy, gameState.GetBulletDamage());
-            logicComponent.SetID(this, playerId);
-            logicComponent.SetDestination(targetPos, true, this.gameObject, bulletManager, logicManager, impactManager);
+				// Suggest add a BulletMove method for the speed and remove it from the logic
+				BulletLogic logicComponent = logic.GetComponent<BulletLogic>();
+				logicComponent.SetParameters(1 - accuracy, gameState.GetBulletDamage());
+				logicComponent.SetID(this, playerId);
+				logicComponent.SetDestination(targetPos, true, this.gameObject, bulletManager, logicManager, impactManager);
 
-			// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
-			if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
-				moveComponent.SetTarget(autoaimScript.Target);
+				// If this bullet was shot at a target, make it follow that target if it passes an accuracy check
+				if (autoaimScript.Target != null && UnityEngine.Random.value < accuracy)
+					moveComponent.SetTarget(autoaimScript.Target);
 
-            bulletManager.EnableClientObject(bullet.name, bullet.transform.position, bullet.transform.rotation,
-				bullet.transform.localScale);
+				bulletManager.EnableClientObject(bullet.name, bullet.transform.position, bullet.transform.rotation,
+					bullet.transform.localScale);
 
-            GameObject muzzle = muzzleFlashManager.RequestObject();
-            muzzle.transform.position = bulletAnchor.transform.position;
-            muzzle.transform.rotation = bulletAnchor.transform.rotation;
-            muzzle.transform.parent   = bulletAnchor.transform.parent;
+				GameObject muzzle = muzzleFlashManager.RequestObject();
+				muzzle.transform.position = bulletAnchor.transform.position;
+				muzzle.transform.rotation = bulletAnchor.transform.rotation;
+				muzzle.transform.parent = bulletAnchor.transform.parent;
 
-			serverManager.UpdateLastShotTime(playerId, Time.time);
+				serverManager.UpdateLastShotTime(playerId, Time.time);
+
+				ammo     -= shootAmmoCost;
+			}
 
 			canShoot  = false;
-			ammo     -= shootAmmoCost;
             StartCoroutine(Delay());
         }
 	}

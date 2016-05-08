@@ -1074,7 +1074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 136190, guid: 963cc59b6ac094abd9bd7a70ab1fd92e, type: 2}
-  size: 200
+  size: 500
   serverOnly: 1
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj:
   - {fileID: 193600, guid: ea8a6e9c746094a1faed4d3ead540d51, type: 2}
-  size: 200
+  size: 500
   serverOnly: 0
   useInterpolation: 0
   hackedMaterial: {fileID: 0}
