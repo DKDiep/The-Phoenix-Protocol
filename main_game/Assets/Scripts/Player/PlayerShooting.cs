@@ -75,6 +75,12 @@ public class PlayerShooting : MonoBehaviour
         LoadSettings();
         shootButtonPressed = false;
 		timeSinceLastShot  = 0f;
+
+		// Disable any active bullets, but not the first time when starting the game
+		if (bulletManager != null)
+			bulletManager.DisableAll();
+		if (logicManager != null)
+			logicManager.DisableAll();
     }
 
 	private void LoadSettings()
