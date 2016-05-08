@@ -8,8 +8,8 @@ public class ToggleMouse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-    cursorEnabled = true;
-    Cursor.visible = true;
+    cursorEnabled = false;
+    Cursor.visible = false;
 	
 	}
 	
