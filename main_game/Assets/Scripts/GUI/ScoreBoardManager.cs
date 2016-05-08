@@ -27,7 +27,8 @@ public class ScoreBoardManager : MonoBehaviour
             else
             {
                 scoreBoardItems[i].SetActive(true);
-                scoreBoardItems[i].transform.FindChild("PlayerLabel").GetComponent<Text>().text = officerMap[(uint)i].Name;
+                if(officerMap != null)
+                    scoreBoardItems[i].transform.FindChild("PlayerLabel").GetComponent<Text>().text = officerMap[(uint)i].Name;
             }
 
 
