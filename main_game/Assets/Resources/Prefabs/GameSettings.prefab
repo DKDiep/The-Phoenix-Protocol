@@ -257,7 +257,7 @@ MonoBehaviour:
     type: 1
     description: 'The turrets help officers defend the ship against attacking enemies. '
     cost: 200
-    numberOfLevels: 3
+    numberOfLevels: 5
     repairable: 1
     currentLevel: 1
     droneMovementSpeedUpgradeRate: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
     description: The Collector enables the ship to collect resources from outposts
       and enemies.
     cost: 200
-    numberOfLevels: 3
+    numberOfLevels: 2
     repairable: 0
     currentLevel: 1
     droneMovementSpeedUpgradeRate: 0
@@ -339,8 +339,8 @@ MonoBehaviour:
     engineMaxSpeedUpgradeRate: 0
     engineMaxTurningSpeedUpgradeRate: 0
     hullMaxHealthUpgradeRate: 0
-    storageCollectionBonusUpgradeRate: 10
-    storageInterestRateUpgradeBonus: 1.5
+    storageCollectionBonusUpgradeRate: 15
+    storageInterestRateUpgradeBonus: 1.75
     shieldsMaxShieldUpgradeRate: 0
     shieldsMaxRechargeRateUpgradeRate: 0
     turretsMaxDamageUpgradeRate: 0
@@ -1140,7 +1140,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradeProperties.Array.data[1].numberOfLevels
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradeProperties.Array.data[0].shieldsMaxRechargeRateUpgradeRate
@@ -1169,7 +1169,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: upgradeProperties.Array.data[5].storageCollectionBonusUpgradeRate
-      value: 10
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[5].numberOfLevels
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: upgradeProperties.Array.data[5].storageInterestRateUpgradeBonus
+      value: 1.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
