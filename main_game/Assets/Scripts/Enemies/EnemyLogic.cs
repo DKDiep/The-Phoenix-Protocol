@@ -132,7 +132,7 @@ public class EnemyLogic : MonoBehaviour, IDestructibleObject, IDestructionListen
 	private const int AI_GUARD_PROTECT_DISTANCE   = 100; // The distance from the outpost at which to stop and wait when returning to guard
 	private const string GUARD_RETURN_WAYPOINT_NAME = "GuardReturnWaypoint";
 
-	private int guardTriggerDistance = 100; // The distance at which a player triggers the guard to attack
+	private int guardTriggerDistance; // The distance at which a player triggers the guard to attack
 	public bool IsGuard { get; private set; }
 
     private Renderer meshRenderer;

@@ -144,10 +144,7 @@ public class EnemySpawner : MonoBehaviour
         spawnEffect.GetComponent<DisableSpawnEffect>().DisableParticles();
         yield return new WaitForSeconds(1f);
         CommanderVoice.SendCommand(5);
-
-
     }
-
 
     // Spawn a new enemy in a random position if less than specified by maxEnemies
     void Update ()
