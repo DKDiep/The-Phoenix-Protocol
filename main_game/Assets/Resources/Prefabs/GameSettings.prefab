@@ -178,7 +178,7 @@ MonoBehaviour:
   EngineerRepairMat: {fileID: 2100000, guid: 79dc8341f94944bd88d2c173669c4afc, type: 2}
   EngineerUpgradeMat: {fileID: 2100000, guid: 710784d4d7e224ca2af6cea4775a2707, type: 2}
   PortalPosition: {x: 2000, y: 500, z: 0}
-  GlomMothershipHealth: 6000
+  GlomMothershipHealth: 9000
   GlomMothershipSpawnDistance: 2250
   GlomMothershipSpawnPosition: {x: 1135, y: 375, z: -300}
   GlomMothershipDamageEffects1: 0
@@ -892,7 +892,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipHealth
-      value: 6000
+      value: 9000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: GlomMothershipSpawnDistance
