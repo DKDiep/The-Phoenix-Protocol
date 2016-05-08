@@ -72,6 +72,7 @@ public class GameState : NetworkBehaviour {
 
 	[SyncVar] private float droneSpeed;
 	[SyncVar] private float droneWorkTime;
+    [SyncVar] public bool shootingUsed = false;
 
 	// Upgradable components
 	public UpgradableComponent[] upgradableComponents { get; set; }
@@ -115,6 +116,7 @@ public class GameState : NetworkBehaviour {
         InitialiseUpgradableComponents();
         StartCoroutine(ResourceInterest());
         StartCoroutine(UpdateComponents());
+        shootingUsed = false;
 
         // This is really stupid but it works. I think the problem is
         // that Unity does not recognize the currentShipResources value being

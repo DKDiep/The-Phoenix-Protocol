@@ -232,6 +232,13 @@ public class CommandConsoleState : MonoBehaviour {
             }
         }
 
+        if (gameState.shootingUsed)
+        {
+            gameState.shootingUsed = false;
+            abilityCooldowns[(int)AbilityEnum.Shooting] = 0;
+            abilityButtons[(int)AbilityEnum.Shooting].interactable = false;
+        }
+
         // Cheat code! But seriously, this will ease development so much.
         // Upgrades all in progress upgrade requests, basically makes it so you don't need to run the engineer. 
 
