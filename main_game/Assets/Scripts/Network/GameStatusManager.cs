@@ -64,6 +64,12 @@ public class GameStatusManager : NetworkBehaviour
 
 		SetShipVisible(true);
     }
+
+    IEnumerator PlayCommanderVoice(int sound)
+    {
+        yield return new WaitForSeconds(2f);
+        CommanderVoice.SendCommand(sound);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -86,7 +92,8 @@ public class GameStatusManager : NetworkBehaviour
                 if(!endSoundPlayed)
                 {
                     endSoundPlayed = true;
-                    CommanderVoice.SendCommand(6);
+                    StartCoroutine(PlayCommanderVoice(6));
+
                 }
             }
 			else
@@ -94,7 +101,7 @@ public class GameStatusManager : NetworkBehaviour
                 if(!endSoundPlayed)
                 {
                     endSoundPlayed = true;
-                    CommanderVoice.SendCommand(7);
+                    StartCoroutine(PlayCommanderVoice(7));
                 }
                 gameOverCanvas.transform.Find("StatusText").gameObject.GetComponent<Text>().text = "You reached the portal!";
                 gameOverCanvas.transform.Find("GameOverText").gameObject.GetComponent<Text>().text = "YOU SURVIVED";
