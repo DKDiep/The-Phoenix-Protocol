@@ -112,7 +112,7 @@ public class MothershipLogic : MonoBehaviour {
 		else if (gameState.Status != GameState.GameStatus.Started)
 			yield break;
 		
-        if(spawnedEnemies < 30)
+        if(spawnedEnemies < 20)
         {
             spawner.SpawnEnemyFromMothership();
             spawnedEnemies++;
@@ -122,7 +122,7 @@ public class MothershipLogic : MonoBehaviour {
         else
         {
             // Take a little break
-            yield return new WaitForSeconds(15f);
+            yield return new WaitForSeconds(45f);
             spawnedEnemies = 0;
             StartCoroutine(SpawnEnemies());
         }
