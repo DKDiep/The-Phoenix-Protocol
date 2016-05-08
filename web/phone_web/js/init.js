@@ -6,10 +6,6 @@ $(document).ready(function() {
     window.onbeforeunload = function(event) {
         event.returnValue = "Leaving Crew App.";
     };
-
-
-
-
 });
 
 function enableNoSleep() {
@@ -62,5 +58,6 @@ function initUnregistered() {
 // Save user identification information as a cookie
 function saveUserAndUpdate(user) {
     Cookies.set("user_id", user.id)
+    // Cookies.set("user_id", user.id, { expires: 7 }) // set the cookie to expire in 7 days
     initScreen()
 }

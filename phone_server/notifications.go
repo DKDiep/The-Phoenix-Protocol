@@ -101,10 +101,15 @@ func (notifications *NotificationMap) reset() {
 func (notifications *NotificationMap) setNotificationAsync(comp ComponentType,
     isUpgrade bool, toSet bool) {
 
+    component := notifications.m[comp]
+    if component == nil {
+        return
+    }
+
     if isUpgrade {
-        notifications.m[comp].needsUpgrade = toSet
+        component.needsUpgrade = toSet
     } else {
-        notifications.m[comp].needsRepair = toSet
+        component.needsRepair = toSet
     }
 }
 

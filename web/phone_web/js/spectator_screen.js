@@ -174,6 +174,11 @@ function handleGeneralPress(eventData) {
     // If we click somewhere that is not an enemy
     // then we are no longer holding an enemy
     // so our hack progress will decrement
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        launchIntoFullscreen(document.documentElement);
+    }
+    enableNoSleep();
+
     if (!isControllingEnemy) {
         setHeld(false)
     }
@@ -735,6 +740,10 @@ function generateTouchTarget(enemy) {
     target.interactive = target.buttonMode = true;
     target.enemy = enemy;
     target.mousedown = target.touchstart = function (eventData) {
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            launchIntoFullscreen(document.documentElement);
+        }
+        enableNoSleep();
         canCheckBounds = false;
         setTimeout(function() {canCheckBounds = true;}, 250); // Nasty hack
         actionOnEnemy(eventData.target.enemy)
