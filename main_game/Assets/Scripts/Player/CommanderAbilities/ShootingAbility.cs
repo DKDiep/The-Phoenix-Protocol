@@ -84,6 +84,7 @@ public class ShootingAbility : CommanderAbility {
 
         GameObject temp = Instantiate(enemyFinderObject, state.PlayerShip.transform.position, Quaternion.identity) as GameObject;
         EnemyFinder enemyFinder = temp.GetComponent<EnemyFinder>();
+        state.shootingUsed = false;
         state.shootingUsed = true;
         StartCoroutine(FireMissiles(enemyFinder));
      }
