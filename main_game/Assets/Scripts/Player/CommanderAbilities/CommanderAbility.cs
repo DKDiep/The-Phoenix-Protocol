@@ -40,6 +40,7 @@ public abstract class CommanderAbility : MonoBehaviour {
 
         if(ready)
         {
+            state.shootingUsed = true;
             if(audioSource == null)
                 audioSource = GetComponent<AudioSource>();
             if(soundEffect != null)
