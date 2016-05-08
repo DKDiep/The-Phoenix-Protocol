@@ -48,7 +48,6 @@ GameObject:
   - 114: {fileID: 11416962}
   - 114: {fileID: 11487436}
   - 114: {fileID: 11448170}
-  - 114: {fileID: 11461306}
   - 114: {fileID: 11408440}
   - 114: {fileID: 11444728}
   - 114: {fileID: 11426972}
@@ -624,33 +623,6 @@ MonoBehaviour:
   m_UiShowAnamorphic: 1
   m_UiShowStar: 1
   m_UiInitialized: 0
---- !u!114 &11461306
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 390397f02bff7644ab045efd81d0d720, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  QualityLevel: 0
-  AutoRegisterObjs: 1
-  OverlayCameras: []
-  CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294966783
-  QualitySteps: 1
-  MotionScale: 5
-  CameraMotionMult: 0.4
-  MinVelocity: 1
-  MaxVelocity: 10
-  DepthThreshold: 0.001
-  WorkerThreads: 2
-  SystemThreadPool: 0
-  ForceCPUOnly: 0
-  DebugMode: 0
 --- !u!114 &11465172
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,7 +16,6 @@ public class ToggleGraphics : MonoBehaviour
 	private LightShafts volumetricLighting;
     private bool foundLight = false;
     private EyeAdaptation eyeAdaptation;
-    private AmplifyMotionEffect motionBlur;
 	
 	void Start () 
 	{
@@ -26,7 +25,6 @@ public class ToggleGraphics : MonoBehaviour
 		bloom          = GetComponent<UltimateBloom>();
 		color          = GetComponent<AmplifyColorEffect>();
         eyeAdaptation = GetComponent<EyeAdaptation>();
-        motionBlur = GetComponent<AmplifyMotionEffect>();
 		
 		UpdateGraphics ();
 	}
@@ -38,7 +36,6 @@ public class ToggleGraphics : MonoBehaviour
 		sessao.enabled = enableGraphics;
 		bloom.enabled  = enableGraphics;
 		color.enabled  = enableGraphics;
-        motionBlur.enabled = enableGraphics;
         if(volumetricLighting != null)
 			volumetricLighting.enabled = enableGraphics;
         else
@@ -52,7 +49,6 @@ public class ToggleGraphics : MonoBehaviour
         sessao.enabled = true;
         bloom.enabled = true;
         eyeAdaptation.enabled = false;
-        motionBlur.enabled = false;
 
 
     }
