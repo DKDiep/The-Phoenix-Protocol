@@ -961,7 +961,7 @@ public class GameState : NetworkBehaviour {
         foreach (string officer in officerObjects)
         {
             Officer newOfficer = Officer.DeserializeFromString(officer);
-            currentOfficers.Add(newOfficer.PlayerId, newOfficer);
+            currentOfficers.Add(newOfficer.RemoteId, newOfficer);
         }
     }
 
