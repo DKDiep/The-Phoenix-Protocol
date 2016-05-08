@@ -786,7 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distortion:
-    enabled: 1
+    enabled: 0
     amount: -40
     centerX: 0.5
     centerY: 0.5
@@ -2877,7 +2877,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distortion.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distortion.amount
