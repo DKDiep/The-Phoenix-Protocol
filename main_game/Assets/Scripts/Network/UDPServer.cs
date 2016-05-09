@@ -139,7 +139,7 @@ public class UDPServer : MonoBehaviour
                 fields = parts[1].Split(COMMA, StringSplitOptions.RemoveEmptyEntries);
                 int idOfPlayer = Int32.Parse(fields[0]);
                 if(playerShooting[idOfPlayer] == null)
-				GetObjectsForPlayer(idOfPlayer);
+					GetObjectsForPlayer(idOfPlayer);
 				playerShooting[idOfPlayer].OnShootButtonPressed(idOfPlayer);
                 break;
             default:
@@ -156,9 +156,17 @@ public class UDPServer : MonoBehaviour
 	{
 		playerShooting[id] = GameObject.Find("PlayerShooting" + id).GetComponent<PlayerShooting>();
 
-		string turretName     = "Turret" + id;
-		turretMovement[id, 0] = GameObject.Find(turretName + "L").GetComponent<FollowReticule>();
-		turretMovement[id, 1] = GameObject.Find(turretName + "R").GetComponent<FollowReticule>();
+		try
+		{
+			string turretName     = "Turret" + id;
+			turretMovement[id, 0] = GameObject.Find(turretName + "L").GetComponent<FollowReticule>();
+			turretMovement[id, 1] = GameObject.Find(turretName + "R").GetComponent<FollowReticule>();
+		}
+		catch(System.NullReferenceException)
+		{
+			// This happens when the player moves the crosshair while the game is over. 
+			// Nothing needs to be done because things will be back to normal once the game restarts
+		}
 	}
 
 	/// <summary>
@@ -170,8 +178,15 @@ public class UDPServer : MonoBehaviour
 	{
 		playerShooting[player].SetScreenId(screen);
 
-		turretMovement[player, 0].ScreenId = screen;
-		turretMovement[player, 1].ScreenId = screen;
+		try
+		{
+			turretMovement[player, 0].ScreenId = screen;
+			turretMovement[player, 1].ScreenId = screen;
+		}
+		catch(System.NullReferenceException)
+		{
+			GetObjectsForPlayer(player);
+		}
 	}
 
     IEnumerator SendUpdatedOjects()
