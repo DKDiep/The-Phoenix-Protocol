@@ -503,7 +503,13 @@ public class EngineerController : NetworkBehaviour
         // Deal with how long the action button has been pressed
         if (pressedAction && interactiveObject != null)
         {
-            keyPressTime[InteractionKey.Action] += Time.deltaTime;
+            // Check that the interactive object is upgradeable or repairable before increasing
+            // the time for the button held. This stops engineer hacks where jobs get instantly finished
+            if (interactiveObject.Upgradeable || interactiveObject.Repairable)
+                keyPressTime[InteractionKey.Action] += Time.deltaTime;
+            else
+                keyPressTime[InteractionKey.Action] = 0f;
+
             isPressingButon = true;
         }
         else
