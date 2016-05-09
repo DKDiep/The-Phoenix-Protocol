@@ -104,7 +104,6 @@ public class CrosshairMovement : NetworkBehaviour
 		wiimoteInterpolationFactor = settings.WiimoteInterpolationFactor;
 		autoaimHoldDelay 		   = settings.PlayerAutoaimSwitchDelay;
 		autoaimHoldMaxDistance     = settings.PlayerAutoaimHoldDistance;
-        hitmarker                  = settings.PlayerHitmarker;
     }
 
     
@@ -160,10 +159,6 @@ public class CrosshairMovement : NetworkBehaviour
         }
         
         localController.CmdUpdateTargets(gameObject, targets, rays);
-
-        // Hit marker fade
-        if (alpha > 0)
-            alpha -= 5f * Time.deltaTime;
     }
 
     /// <summary>
@@ -312,30 +307,6 @@ public class CrosshairMovement : NetworkBehaviour
 		if (targetGizmoLoc != Vector3.zero)
 			Gizmos.DrawSphere(targetGizmoLoc, 20);*/
 	}
-
-    private Texture2D hitmarker; // Hitmarker texture
-    bool showMarker = true;
-    float alpha = 1f;
-    // Draw a hitmarker for each crosshair
-    void OnGUI()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject crosshair = crosshairs[i];
-            if (crosshair != null)
-            {
-                GUI.color = new Color(1, 1, 1, alpha);
-                Vector3 pos = crosshair.transform.position;
-                if (showMarker) GUI.DrawTexture(new Rect(pos.x - 32, Screen.height - pos.y - 32, 64, 64), hitmarker, ScaleMode.ScaleToFit, true, 0);
-            }
-        }
-    }
-
-    public void SetMarker(bool isShowing, float newAlpha)
-    {
-        showMarker = isShowing;
-        alpha      = newAlpha;
-    }
 
     public class Target
 	{

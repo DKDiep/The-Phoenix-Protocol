@@ -93,10 +93,6 @@ public class BulletLogic : MonoBehaviour
 		// Despawn the bulllet
 		Despawn();
 
-		// If it's a player bullet, show a hit marker
-		if (playerShooting && playerId >= 0)
-			player.HitMarker();
-
 		// Apply the collision logic
 		if (hitObjectTag.Equals("Debris"))
 			col.gameObject.GetComponentInChildren<AsteroidLogic>().collision(damage);

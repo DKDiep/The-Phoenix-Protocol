@@ -267,13 +267,6 @@ public class PlayerShooting : MonoBehaviour
         screenId = newScreenId;
     }
 
-    // Show hitmarker when an enemy is hit
-	public void HitMarker()
-	{
-        // Get crosshair movement of each camera client
-        playerController.RpcHitMarker();
-	}
-
     // Delay before player can shoot again
 	IEnumerator Delay()
 	{
