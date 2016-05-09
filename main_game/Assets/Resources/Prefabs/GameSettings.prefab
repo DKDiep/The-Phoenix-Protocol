@@ -356,7 +356,7 @@ MonoBehaviour:
   PlayerAmmoRechargeValue: 25
   PlayerAmmoRechargeInterval: 0.1
   PlayerAmmoRehargeDelay: 0.1
-  PlayerAutoaimSwitchDelay: 0.15
+  PlayerAutoaimSwitchDelay: 0.1
   PlayerAutoaimHoldDistance: 450
   missionProperties:
   - active: 1

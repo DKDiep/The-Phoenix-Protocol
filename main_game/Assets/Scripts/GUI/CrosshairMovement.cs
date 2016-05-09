@@ -144,13 +144,14 @@ public class CrosshairMovement : NetworkBehaviour
             Ray ray = GetAimRay(selectedCrosshair.position);
             rays[i * 2] = ray.origin;
             rays[i * 2 + 1] = ray.direction;
-			Target target;
+			Target target = GetClosestTarget(ray);
 
 			// Aim at a new target only if the player is not shooting at the current one or has move the crosshair far enough from the previous point
-			if (Time.time - lastShootTime[i] > autoaimHoldDelay || Vector2.Distance(newPosition, currentPosition) > autoaimHoldMaxDistance)
+			// This causes slightly weird behaviour, including auto-snapping not working properly, and we've decided to remove it
+			/*if (Time.time - lastShootTime[i] > autoaimHoldDelay || lastTargets[i].IsNone())
 				target = lastTargets[i] = GetClosestTarget(ray);
 			else
-				target = lastTargets[i];
+				target = lastTargets[i];*/
 			
 			if (!target.IsNone())
 				selectedCrosshair.position = mainCamera.WorldToScreenPoint(target.GetAimPosition());
