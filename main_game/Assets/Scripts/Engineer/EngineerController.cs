@@ -909,6 +909,10 @@ public class EngineerController : NetworkBehaviour
     /// </summary>
     private void OnGUI()
     {
+		// Don't show the progress bar after dying
+		if (gameState.Status != GameState.GameStatus.Started)
+			return;
+		
         if (canRepair && keyPressTime[InteractionKey.Action] > 0)
         {
 			float progress = keyPressTime[InteractionKey.Action] / workTime;
