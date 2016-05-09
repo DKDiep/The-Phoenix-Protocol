@@ -456,8 +456,16 @@ public class EngineerController : NetworkBehaviour
             SetGameState();
 
         // Make sure this only runs on the client
-        if (playerController == null || !playerController.isLocalPlayer || gameState.Status != GameState.GameStatus.Started)
+        if (playerController == null || !playerController.isLocalPlayer)
             return;
+
+		// Remove the upgrade and popup text when the game is over
+		if (gameState.Status != GameState.GameStatus.Started)
+		{
+			ResetUpgradeText();
+			popupText.text = "";
+			return;
+		}
 
         if(!updateRotation)
         {
