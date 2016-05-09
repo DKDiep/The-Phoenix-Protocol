@@ -57,34 +57,34 @@ public class MainMenu : NetworkBehaviour
 
     public void CreateGame()
     {
+		UpdateAddress();
         startServer = true;
         SetHandler(manager.StartHost());
         role = RoleEnum.Camera;
-		UpdateAddress();
 	}
 
     public void JoinCamera()
     {
+		UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Camera;
-		UpdateAddress();
     }
 
     public void JoinEngineer()
     {
+		UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Engineer;
-		UpdateAddress();
     }
 
     public void JoinCommander()
     {
+		UpdateAddress();
         startServer = false;
         SetHandler(manager.StartClient());
         role = RoleEnum.Commander;
-		UpdateAddress();
     }
 
     private void SetHandler(NetworkClient client)
