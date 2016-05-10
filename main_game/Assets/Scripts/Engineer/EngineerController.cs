@@ -910,7 +910,7 @@ public class EngineerController : NetworkBehaviour
     private void OnGUI()
     {
 		// Don't show the progress bar after dying
-		if (gameState.Status != GameState.GameStatus.Started)
+		if (gameState != null && gameState.Status != GameState.GameStatus.Started)
 			return;
 		
         if (canRepair && keyPressTime[InteractionKey.Action] > 0)
