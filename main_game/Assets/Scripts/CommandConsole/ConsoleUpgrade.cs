@@ -74,10 +74,12 @@ public class ConsoleUpgrade : MonoBehaviour
         {
             levelIndicators[i].GetComponent<Image>().color = new Color(0, 0, 0, 86f/255f);
         }
+
         // Hide repair button
         repairIcon.SetActive(false);
         setRepairPending(false);
         setUpgradePending(false);
+		maxLevel = false;
     }
 
     void Update()
@@ -172,6 +174,7 @@ public class ConsoleUpgrade : MonoBehaviour
         levelIndicators[level-1].GetComponent<Image>().color = new Vector4(1, 1, 1, 86f/255f);
         if (properties.currentLevel == properties.numberOfLevels)
         {
+			Debug.Log("Reached max level");
             maxLevel = true;
             setUpgradePending(false);
         }
@@ -245,7 +248,7 @@ public class ConsoleUpgrade : MonoBehaviour
         if (affordable)
         {
             upgradeCostTxt.color = offWhite;
-            if (!upgradePending)
+			if (!upgradePending && !maxLevel)
                 setUpgradeButtonInteractable(true);
             else
                 setUpgradeButtonInteractable(false);
