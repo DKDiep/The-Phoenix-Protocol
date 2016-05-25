@@ -6,7 +6,7 @@
 
 The Phoenix Protocol is an epic space-fantasy video game where players form a team to survive an onslaught of hostile alien ships as they escape from the fallen Earth. It is a cooperative action-strategy hybrid that encourages players to communicate with one another to decide how best to make use of their abilities and aid their survival. The game is set in a room which forms the bridge of a spaceship with three large back projected screens that surround the players and immerse them into the universe.
 
-The project began as a third year computer science group module, with significant focus on solving technical challenges and delivering an immersive experience. The team consisted of 7 developers.
+The project began as a third year computer science group module, with significant focus on solving technical challenges and delivering an immersive experience. The team consisted of 7 developers (Dillon Diep, Marc Steene, Artur Gemes, Andrei Poenaru, Stoil Ganev, Frank Hemsworth, and Luke Bryant). The project was mentored by Andrew Stubbs, and music composition was completed by Tom Vos, Eleftherios Chrysanthou, and George R. Gaitanos.
 
 [![ScreenShot](http://www.allprodad.com/wp-content/uploads/2014/06/video_default.png)](https://www.facebook.com/ArchDD/videos/10154133445978537/?l=9199677331005507184)
 
