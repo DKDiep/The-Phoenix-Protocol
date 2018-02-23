@@ -8,7 +8,7 @@ The Phoenix Protocol is an epic space-fantasy video game where players form a te
 
 The project began as a third year computer science group module, with significant focus on solving technical challenges and delivering an immersive experience. The team consisted of 7 developers (Dillon Diep, Marc Steene, Artur Gemes, Andrei Poenaru, Stoil Ganev, Frank Hemsworth, and Luke Bryant). The project was mentored by Andrew Stubbs, and music composition was completed by Tom Vos, Eleftherios Chrysanthou, and George R. Gaitanos.
 
-[![ScreenShot](http://www.allprodad.com/wp-content/uploads/2014/06/video_default.png)](https://www.facebook.com/ArchDD/videos/10154133445978537/)
+[![ScreenShot](http://www.allprodad.com/wp-content/uploads/2014/06/video_default.png)](https://www.youtube.com/watch?v=-V_SQkg5PTA&feature=youtu.be)
 
 #### Local Testing
 
